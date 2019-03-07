@@ -1,0 +1,17 @@
+
+node_modules
+
+/.nyc_output
+/coverage
+/playground
+/.idea
+/.cache
+build
+/src/**/*.js
+/test/**/*.js
+/example/**/*.js
+*.map
+*.jsx
+/dist/*.*.*
+/tool/**/*.js
+/temp

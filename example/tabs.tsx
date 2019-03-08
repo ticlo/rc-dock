@@ -105,6 +105,7 @@ class Demo extends React.Component {
         <h2>Addable Tabs</h2>
         <div style={tabStyle}>
           <Tabs
+            prefixCls='ant'
             renderTabBar={() => (
               <ScrollableInkTabBar
                 extraContent={

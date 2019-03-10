@@ -1,4 +1,3 @@
-import 'rc-tabs/assets/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, {TabPane} from 'rc-tabs';
@@ -96,33 +95,110 @@ class Demo extends React.Component {
   };
 
   render() {
-    const tabStyle = {
-      width: 500,
-    };
 
     return (
       <div style={{margin: 20}}>
         <h2>Addable Tabs</h2>
-        <div style={tabStyle}>
-          <Tabs
-            prefixCls='ant'
-            renderTabBar={() => (
-              <ScrollableInkTabBar
-                extraContent={
-                  <button onClick={this.add}>+添加</button>
-                }
-              />
-            )}
-            renderTabContent={() => <TabContent/>}
-            activeKey={this.state.activeKey}
-            onChange={this.onTabChange}
-          >
-            {this.construct()}
-          </Tabs>
+        <div className='dock-root'>
+          <div className='dock-panel'
+               style={{position: 'absolute', left: 100, top: 100, width: 300, height: 300}}>
+            <Tabs prefixCls='dock-tabs'
+                  renderTabBar={() => (
+                    <ScrollableInkTabBar
+                      extraContent={
+                        <button onClick={this.add}>+添加</button>
+                      }
+                    />
+                  )}
+                  renderTabContent={() => <TabContent/>}
+                  activeKey={this.state.activeKey}
+                  onChange={this.onTabChange}
+            >
+              {this.construct()}
+            </Tabs>
+          </div>
         </div>
       </div>
     );
   }
 }
+
+
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+//
+// import {Tabs} from 'antd';
+//
+// const TabPane = Tabs.TabPane;
+//
+// class Demo extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.newTabIndex = 0;
+//     const panes = [
+//       {title: 'Tab 1', content: 'Content of Tab 1', key: '1'},
+//       {title: 'Tab 2', content: 'Content of Tab 2', key: '2'},
+//       {
+//         title: 'Tab 3', content: 'Content of Tab 3', key: '3', closable: false,
+//       },
+//     ];
+//     this.state = {
+//       activeKey: panes[0].key,
+//       panes,
+//     };
+//   }
+//
+//   onChange = (activeKey) => {
+//     this.setState({activeKey});
+//   };
+//
+//   onEdit = (targetKey, action) => {
+//     this[action](targetKey);
+//   };
+//
+//   add = () => {
+//     const panes = this.state.panes;
+//     const activeKey = `newTab${this.newTabIndex++}`;
+//     panes.push({title: 'New Tab', content: 'Content of new Tab', key: activeKey});
+//     this.setState({panes, activeKey});
+//   };
+//
+//   remove = (targetKey) => {
+//     let activeKey = this.state.activeKey;
+//     let lastIndex;
+//     this.state.panes.forEach((pane, i) => {
+//       if (pane.key === targetKey) {
+//         lastIndex = i - 1;
+//       }
+//     });
+//     const panes = this.state.panes.filter(pane => pane.key !== targetKey);
+//     if (panes.length && activeKey === targetKey) {
+//       if (lastIndex >= 0) {
+//         activeKey = panes[lastIndex].key;
+//       } else {
+//         activeKey = panes[0].key;
+//       }
+//     }
+//     this.setState({panes, activeKey});
+//   };
+//
+//   render() {
+//     return (
+//       <div className='ticlo-dock'>
+//         <div className='ticlo-dock-panel' style={{position: 'absolute', left: 100, top: 100, width: 300, height: 300}}>
+//           <Tabs
+//             onChange={this.onChange}
+//             activeKey={this.state.activeKey}
+//             onEdit={this.onEdit}
+//           >
+//             {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key}
+//                                                    closable={pane.closable}>{pane.content}</TabPane>)}
+//           </Tabs>
+//         </div>
+//
+//       </div>
+//     );
+//   }
+// }
 
 ReactDOM.render(<Demo/>, document.getElementById('app'));

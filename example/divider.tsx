@@ -13,12 +13,15 @@ class Demo extends React.Component<any, State> {
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
-  state = {sizes: [200, 200, 200]};
+  state = {sizes: [200, 200, 30]};
   getBoxData = (idx: number) => {
     let children: any[] = [];
     this._ref.childNodes.forEach((child: HTMLDivElement) => {
       if (!child.classList.contains('dock-divider')) {
-        children.push({size: child.offsetWidth, minSize: 20});
+        children.push({
+          size: child.offsetWidth,
+          minSize: 20 // give them 20px min width
+        });
       }
     });
     return {
@@ -35,11 +38,11 @@ class Demo extends React.Component<any, State> {
     let {sizes} = this.state;
     return (
       <div ref={this.getRef} className='box'>
-        <div style={{background: 'blue', width: sizes[0]}}/>
+        <div style={{width: sizes[0]}}/>
         <Divider idx={1} getBoxData={this.getBoxData} changeSizes={this.changeSizes}/>
-        <div style={{background: 'red', width: sizes[1]}}/>
+        <div style={{width: sizes[1]}}/>
         <Divider idx={2} getBoxData={this.getBoxData} changeSizes={this.changeSizes}/>
-        <div style={{background: 'green', width: sizes[2]}}/>
+        <div style={{width: sizes[2]}}/>
       </div>
     );
   }

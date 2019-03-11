@@ -51,21 +51,78 @@ class BoxDataCache implements BoxData {
   }
 }
 
+// split size among children
+function spiltSize(newSize: number, oldSize: number, children: BoxChild[]): number[] {
+  let reservedSize = -1;
+  let sizes: number[] = [];
+  let requiredMinSize = 0;
+  while (requiredMinSize !== reservedSize) {
+    reservedSize = requiredMinSize;
+    requiredMinSize = 0;
+    let ratio = (newSize - reservedSize) / (oldSize - reservedSize);
+    if (!(ratio >= 0)) {
+      // invalid input
+      break;
+    }
+    for (let i = 0; i < children.length; ++i) {
+      let size = children[i].size * ratio;
+      if (size < children[i].minSize) {
+        size = children[i].minSize;
+        requiredMinSize += size;
+      }
+      sizes[i] = size;
+    }
+  }
+  return sizes;
+}
+
 export class Divider extends React.PureComponent<DividerProps, any> {
 
   boxData: BoxDataCache;
 
   startDrag = (e: PointerEvent, initFunction: DragInitFunction) => {
     this.boxData = new BoxDataCache(this.props.getBoxData(this.props.idx));
-    initFunction(this.boxData.element, this.dragMove, this.dragEnd);
-  };
+    if (e.shiftKey || e.ctrlKey) {
+      initFunction(this.boxData.element, this.dragMoveAll, this.dragEnd);
+    } else {
+      initFunction(this.boxData.element, this.dragMove2, this.dragEnd);
+    }
 
-  dragMove = (e: AbstractPointerEvent, dx: number, dy: number) => {
+  };
+  dragMove2 = (e: AbstractPointerEvent, dx: number, dy: number) => {
+    let {isVertical, changeSizes} = this.props;
+    let {beforeDivider, afterDivider} = this.boxData;
+    if (!(beforeDivider.length && afterDivider.length)) {
+      // invalid input
+      return;
+    }
+    let d = isVertical ? dy : dx;
+    let leftChild = beforeDivider[beforeDivider.length - 1];
+    let rightCild = afterDivider[0];
+    let leftSize = leftChild.size + d;
+    let rightSize = rightCild.size - d;
+    // check min size
+    if (d > 0) {
+      if (rightSize < rightCild.minSize) {
+        rightSize = rightCild.minSize;
+        leftSize = leftChild.size + rightCild.size - rightSize;
+      }
+    } else if (leftSize < leftChild.minSize) {
+      leftSize = leftChild.minSize;
+      rightSize = leftChild.size + rightCild.size - leftSize;
+    }
+    let sizes = beforeDivider.concat(afterDivider).map((child) => child.size);
+    sizes[beforeDivider.length - 1] = leftSize;
+    sizes[beforeDivider.length] = rightSize;
+    changeSizes(sizes);
+  };
+  dragMoveAll = (e: AbstractPointerEvent, dx: number, dy: number) => {
     let {isVertical, changeSizes} = this.props;
     let {beforeSize, beforeMinSize, afterSize, afterMinSize, beforeDivider, afterDivider} = this.boxData;
     let d = isVertical ? dy : dx;
     let newBeforeSize = beforeSize + d;
     let newAfterSize = afterSize - d;
+    // check total min size
     if (d > 0) {
       if (newAfterSize < afterMinSize) {
         newAfterSize = afterMinSize;
@@ -75,16 +132,8 @@ export class Divider extends React.PureComponent<DividerProps, any> {
       newBeforeSize = beforeMinSize;
       newAfterSize = beforeSize + afterSize - beforeMinSize;
     }
-    let beforeRatio = newBeforeSize / beforeSize;
-    let afterRatio = newAfterSize / afterSize;
-    let result: number[] = [];
-    for (let child of beforeDivider) {
-      result.push(child.size * beforeRatio);
-    }
-    for (let child of afterDivider) {
-      result.push(child.size * afterRatio);
-    }
-    changeSizes(result);
+
+    changeSizes(spiltSize(newBeforeSize, beforeSize, beforeDivider).concat(spiltSize(newAfterSize, afterSize, afterDivider)));
   };
 
   dragEnd = (e: AbstractPointerEvent, dx: number, dy: number) => {

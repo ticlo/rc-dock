@@ -43,12 +43,12 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
           this.endListener = endListener;
           if (e.pointerType === 'touch') {
             this.isTouch = true;
-            document.body.addEventListener('touchmove', this.onTouchMove);
-            document.body.addEventListener('touchend', this.onTouchEnd);
+            document.addEventListener('touchmove', this.onTouchMove);
+            document.addEventListener('touchend', this.onTouchEnd);
           } else {
             this.isTouch = false;
-            document.body.addEventListener('mousemove', this.onMouseMove);
-            document.body.addEventListener('mouseup', this.onMouseEnd);
+            document.addEventListener('mousemove', this.onMouseMove);
+            document.addEventListener('mouseup', this.onMouseEnd);
           }
 
           this.dragging = true;
@@ -68,8 +68,8 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
       this.endListener(e, (e.pageX - this.baseX) * this.scaleX, (e.pageY - this.baseY) * this.scaleY);
     }
 
-    document.body.removeEventListener('mousemove', this.onMouseMove);
-    document.body.removeEventListener('mouseup', this.onMouseEnd);
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseEnd);
     this.dragging = false;
   };
 
@@ -90,8 +90,8 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
         this.endListener(null, 0, 0);
       }
     }
-    document.body.removeEventListener('touchmove', this.onTouchMove);
-    document.body.removeEventListener('touchend', this.onTouchEnd);
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
     this.dragging = false;
   };
 

@@ -60,6 +60,7 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
     if (e && this.moveListener) {
       this.moveListener(e, (e.pageX - this.baseX) * this.scaleX, (e.pageY - this.baseY) * this.scaleY);
     }
+    e.preventDefault();
   };
 
   onMouseEnd = (e?: MouseEvent) => {
@@ -78,6 +79,7 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
     } else if (this.moveListener) {
       this.moveListener(e, (e.touches[0].pageX - this.baseX) * this.scaleX, (e.touches[0].pageY - this.baseY) * this.scaleY);
     }
+    e.preventDefault();
   };
   onTouchEnd = (e?: TouchEvent) => {
     if (this.endListener) {

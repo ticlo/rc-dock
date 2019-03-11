@@ -24,28 +24,32 @@ class Demo extends React.Component {
   construct() {
     const disabled = true;
     return this.state.tabs.map((t) => {
-      return (<TabPane
-        tab={<span>{t.title}
-          <a
-            style={{
-              position: 'absolute',
-              cursor: 'pointer',
-              color: 'red',
-              right: 5,
-              top: 0,
-            }}
-            onClick={(e) => {
-              this.remove(t.title, e);
-            }}
-          >x</a>
+      return (
+        <TabPane
+          tab={<span>{t.title}
+            <a
+              style={{
+                position: 'absolute',
+                cursor: 'pointer',
+                fontFamily: 'Fredoka One',
+                color: 'red',
+                right: 0,
+                top: 4,
+              }}
+              onClick={(e) => {
+                this.remove(t.title, e);
+              }}
+            >x</a>
       </span>}
-        key={t.title}
-      >
-        <div style={{padding: 100}}>
-          {t.content}
-        </div>
-      </TabPane>);
-    });
+          key={t.title}
+        >
+          <div style={{padding: 100}}>
+            {t.content}
+          </div>
+        </TabPane>
+      );
+    })
+      ;
   }
 
   remove = (title, e) => {

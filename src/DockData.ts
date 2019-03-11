@@ -1,19 +1,24 @@
 import React from 'react';
 
+interface MinSize {
+  minWidth?: number;
+  minHeight?: number;
+}
 
-export interface Box {
+export interface Box extends MinSize {
   key: string;
   size: number;
   children: (Box | Panel)[];
 }
 
 
-interface TabFeature {
+interface TabFeature extends MinSize {
   group?: string;
   floatable?: boolean;
   closable?: boolean;
-  multiple?: boolean;
-  tabClass?: string;
+  multiTabs?: boolean;
+  // when tabs are locked, you can only drag the whole panel
+  tabLocked?: boolean;
   panelClass?: string;
 }
 

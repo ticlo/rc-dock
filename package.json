@@ -43,7 +43,7 @@
     "typescript": "^3.3.3333"
   },
   "scripts": {
-    "example": "parcel example/tabs.html --open --out-dir temp --no-source-maps",
+    "example": "parcel example/divider.html --open --out-dir temp --no-source-maps",
     "build-dock-less": "lessc --js style/index.less dist/ticlo-dock.css"
   }
 }

@@ -53,7 +53,6 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
 
           this.dragging = true;
           e.stopPropagation();
-          e.preventDefault();
         });
     }
   };

@@ -5,14 +5,14 @@ interface MinSize {
   minHeight?: number;
 }
 
-export interface Box extends MinSize {
+export interface BoxProps extends MinSize {
   key: string;
   size: number;
-  children: (Box | Panel)[];
+  children: (BoxProps | PanelProps)[];
 }
 
 
-interface TabFeature extends MinSize {
+export interface TabFeature extends MinSize {
   group?: string;
   floatable?: boolean;
   closable?: boolean;
@@ -22,14 +22,14 @@ interface TabFeature extends MinSize {
   panelClass?: string;
 }
 
-export interface Tab extends TabFeature {
+export interface TabProps extends TabFeature {
   key: string;
-  render: React.ReactNode | (() => React.ReactNode);
+  content: React.ReactNode | (() => React.ReactNode);
 }
 
-export interface Panel {
+export interface PanelProps {
   key: string;
   size: number;
-  tabs: Tab[];
+  tabs: TabProps[];
   default?: TabFeature;
 }

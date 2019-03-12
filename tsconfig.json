@@ -9,10 +9,6 @@
       "es2017",
       "dom"
     ],
-    "typeRoots": [
-      "./typings",
-      "./node_modules/@types"
-    ],
     "alwaysStrict": true,
     "noImplicitAny": true,
     "sourceMap": true,
@@ -21,6 +17,9 @@
     "outDir": "./lib"
   },
   "compileOnSave": true,
+  "files": [
+    "typings/rc-tabs.d.ts"
+  ],
   "include": [
     "src/**/*"
   ],

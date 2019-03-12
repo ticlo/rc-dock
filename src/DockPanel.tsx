@@ -1,9 +1,8 @@
 import React from "react";
 import {DockTabProps} from "./DockTab";
+import {TabFeature} from "./DockData";
 
-interface DockPanelProps extends DockTabProps {
-  minWidth?: number;
-  minHeight?: number;
+interface DockPanelProps extends TabFeature {
   width?: number;
   height?: number;
 }

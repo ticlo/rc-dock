@@ -33,7 +33,9 @@ class Demo extends React.Component {
                 cursor: 'pointer',
                 fontFamily: 'Fredoka One',
                 color: 'red',
-                right: 0,
+                right: -4,
+                width: 16,
+                textAlign: 'center',
                 top: 4,
               }}
               onClick={(e) => {

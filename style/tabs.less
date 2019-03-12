@@ -40,9 +40,6 @@
   &-tab-prev,
   &-tab-next {
     color: #888;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     z-index: 1;
     line-height: 30px;
@@ -154,7 +151,6 @@
   }
 
   &-content-animated &-tabpane {
-    -ms-flex-negative: 0;
     flex-shrink: 0;
   }
 
@@ -167,10 +163,6 @@
   .no-flexbox &-tabpane-inactive,
   &-content-no-animated &-tabpane-inactive {
     display: none;
-  }
-
-  &-left {
-    border-right: 2px solid #f3f3f3;
   }
 
   &-left &-bar {
@@ -224,7 +216,6 @@
   &-left &-nav-swipe &-nav &-tab {
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     -ms-flex-pack: center;
     justify-content: center;
@@ -287,10 +278,6 @@
     padding: 16px 24px;
   }
 
-  &-right {
-    border-left: 2px solid #f3f3f3;
-  }
-
   &-right &-bar {
     float: right;
     height: 100%;
@@ -330,9 +317,7 @@
   }
 
   &-right &-nav-swipe &-nav &-tab {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     -ms-flex-pack: center;
     justify-content: center;
@@ -401,10 +386,6 @@
     padding: 16px 24px;
   }
 
-  &-bottom {
-    border-top: 2px solid #f3f3f3;
-  }
-
   &-bottom &-content {
     width: 100%;
   }
@@ -428,7 +409,6 @@
   }
 
   &-bottom &-nav-swipe &-nav {
-    display: -ms-flexbox;
     display: flex;
     -ms-flex: 1;
     flex: 1;
@@ -436,9 +416,7 @@
   }
 
   &-bottom &-nav-swipe &-nav &-tab {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     margin-right: 0;
     padding: 8px 0;
@@ -501,15 +479,12 @@
     overflow: visible;
   }
 
-  &-top {
-    border-bottom: 2px solid #f3f3f3;
-  }
-
   &-top &-content {
     width: 100%;
   }
 
   &-top &-bar {
+    background: #fafafd;
     border-bottom: 1px solid #f3f3f3;
   }
 
@@ -528,7 +503,6 @@
   }
 
   &-top &-nav-swipe &-nav {
-    display: -ms-flexbox;
     display: flex;
     -ms-flex: 1;
     flex: 1;
@@ -536,9 +510,7 @@
   }
 
   &-top &-nav-swipe &-nav &-tab {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     margin-right: 0;
     padding: 8px 0;

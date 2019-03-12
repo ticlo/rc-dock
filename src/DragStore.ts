@@ -5,10 +5,10 @@ let _data: {[key: string]: any};
 let _dragEndListened = false;
 
 export class DragStore {
-  static dragStart(scope: any, data: {[key: string]: any}, element?: HTMLElement) {
+  static dragStart(scope: any, data: {[key: string]: any}, element?: any) {
     _scope = scope;
     _data = data;
-    if (element) {
+    if (element instanceof HTMLElement) {
       element.classList.add('dragging');
       _draggingElement = element;
     }

@@ -2,12 +2,21 @@ let _scope: any;
 let _draggingElement: HTMLElement;
 let _data: {[key: string]: any};
 
+let _dragEndListened = false;
+
 export class DragStore {
-  static dragStart(scope: any, element: HTMLElement, data: {[key: string]: any}) {
+  static dragStart(scope: any, data: {[key: string]: any}, element?: HTMLElement) {
     _scope = scope;
     _data = data;
-    element.classList.add('dragging');
-    document.addEventListener('dragend', DragStore.dragEnd);
+    if (element) {
+      element.classList.add('dragging');
+      _draggingElement = element;
+    }
+
+    if (!_dragEndListened) {
+      document.addEventListener('dragend', DragStore.dragEnd);
+      _dragEndListened = true;
+    }
   }
 
   static getData(scope: any, field: string) {
@@ -20,6 +29,9 @@ export class DragStore {
   static dragEnd() {
     _scope = null;
     _data = null;
-    _draggingElement.classList.remove('dragging');
+    if (_draggingElement) {
+      _draggingElement.classList.remove('dragging');
+      _draggingElement = null;
+    }
   }
 }

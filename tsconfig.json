@@ -15,14 +15,14 @@
     ],
     "alwaysStrict": true,
     "noImplicitAny": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "declaration": true,
+    "newLine": "lf",
+    "outDir": "./lib"
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*",
-    "tool/**/*",
-    "example/**/*",
-    "playground/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules"

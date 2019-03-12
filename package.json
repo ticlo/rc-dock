@@ -1,10 +1,10 @@
 {
-  "name": "ticlo-dock",
+  "name": "rc-dock",
   "version": "0.0.1",
   "description": "ticlo dock panels",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ticlo/ticlo-dock.git"
+    "url": "https://github.com/ticlo/rc-dock.git"
   },
   "author": {
     "name": "Rick Zhou",
@@ -44,6 +44,6 @@
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps",
-    "build-dock-less": "lessc --js style/index.less dist/ticlo-dock.css"
+    "build-dock-less": "lessc --js style/index.less dist/rc-dock.css"
   }
 }

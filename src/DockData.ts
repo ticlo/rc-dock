@@ -32,3 +32,11 @@ export interface PanelData extends DockDataBase {
   tabs: TabData[];
   group: TabGroup;
 }
+
+export interface DockContext {
+
+}
+
+const Context = React.createContext<DockContext>(null);
+export const DockContextProvider = Context.Provider;
+export const DockContextConsumer = Context.Consumer;

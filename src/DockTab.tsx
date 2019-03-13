@@ -1,36 +1,52 @@
 import React from "react";
 import {TabPane} from 'rc-tabs';
-
-export interface DockTabFeatures {
-  title: string;
-  group?: string;
-  floatable?: boolean;
-  closable?: boolean;
-  multiTabs?: boolean;
-  // when tabs are locked, you can only drag the whole panel
-  tabLocked?: boolean;
-  panelClass?: string;
-}
+import {TabData, TabGroup} from "./DockData";
 
 
 export interface DockTabProps {
   title: string;
-  group?: string;
-  floatable?: boolean;
-  closable?: boolean;
-  multiTabs?: boolean;
-  // when tabs are locked, you can only drag the whole panel
-  tabLocked?: boolean;
-  panelClass?: string;
+  content: React.ReactNode | (() => React.ReactNode);
+  group: TabGroup;
 }
 
-export class DockTab extends React.PureComponent<DockTabProps, any> {
-  
+export class DockTab {
+
+  data: TabData;
+
+  constructor(context) {
+
+  }
+
+  onCloseClick = (e: React.MouseEvent) => {
+
+  };
+  onDragStart = (e: React.DragEvent) => {
+
+  };
+  onDragOver = (e: React.DragEvent) => {
+
+  };
+  onDrop = (e: React.DragEvent) => {
+
+  };
 
   render(): React.ReactNode {
+    let {title, group, content} = this.props;
+    let {closable, tabLocked} = group;
+    if (typeof content === 'function') {
+      content = content();
+    }
     return (
-      <TabPane tab=''>
+      <TabPane tab={
+        <span draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver} onDrop={this.onDrop}>
+          {title}
+          {closable ?
+            <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
+            : null}
 
+        </span>
+      }>
+        ${content}
       </TabPane>
     );
   }

@@ -1,19 +1,18 @@
 import React from 'react';
 
-interface MinSize {
+interface DockDataBase {
+  id: string;
   minWidth?: number;
   minHeight?: number;
 }
 
-export interface BoxProps extends MinSize {
-  key: string;
+export interface BoxData extends DockDataBase {
   size: number;
-  children: (BoxProps | PanelProps)[];
+  children: (BoxData | PanelData)[];
 }
 
 
-export interface TabFeature extends MinSize {
-  group?: string;
+export interface TabGroup {
   floatable?: boolean;
   closable?: boolean;
   multiTabs?: boolean;
@@ -22,14 +21,14 @@ export interface TabFeature extends MinSize {
   panelClass?: string;
 }
 
-export interface TabProps extends TabFeature {
-  key: string;
+export interface TabData extends DockDataBase {
+  title: string;
   content: React.ReactNode | (() => React.ReactNode);
+  group: TabGroup;
 }
 
-export interface PanelProps {
-  key: string;
+export interface PanelData extends DockDataBase {
   size: number;
-  tabs: TabProps[];
-  default?: TabFeature;
+  tabs: TabData[];
+  group: TabGroup;
 }

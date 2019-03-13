@@ -582,4 +582,22 @@
     height: 0;
     overflow: visible;
   }
+
+  &-tab-close-btn {
+    position: absolute;
+    cursor: pointer;
+    font-family: Fredoka One;
+    color: red;
+    right: -4px;
+    width: 16px;
+    text-align: center;
+    top: 4px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  &-tab:hover &-tab-close-btn {
+      opacity: 1;
+  }
 }
+

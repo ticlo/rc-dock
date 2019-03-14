@@ -2,6 +2,7 @@ declare module 'rc-tabs' {
   import React from 'react';
 
   interface TabsProps {
+    style?: React.CSSProperties;
     prefixCls?: string;
     renderTabBar?: () => React.ReactNode;
     renderTabContent?: () => React.ReactNode;

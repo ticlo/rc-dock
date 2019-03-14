@@ -2,8 +2,11 @@
 
 .@{tab-prefix-cls} {
   box-sizing: border-box;
+  width: 100%;
+  height: 100%;
   position: relative;
   overflow: hidden;
+  border: 1px solid #ddd;
 
   &-bar,
   &-nav-container {
@@ -597,7 +600,7 @@
   }
 
   &-tab:hover &-tab-close-btn {
-      opacity: 1;
+    opacity: 1;
   }
 }
 

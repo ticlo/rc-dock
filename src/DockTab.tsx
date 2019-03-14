@@ -1,5 +1,5 @@
 import React from "react";
-import {DockContext, TabData, TabGroup} from "./DockData";
+import {DockContext, PanelData, TabData, TabGroup} from "./DockData";
 import {compareChildKeys, compareKeys} from "./util/Compare";
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
@@ -26,6 +26,7 @@ export class DockTab {
   }
 
   onCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
 
   };
   onDragStart = (e: React.DragEvent) => {
@@ -65,10 +66,7 @@ export class DockTab {
 }
 
 interface DockTabsProps {
-  tabs: TabData[];
-  group: TabGroup;
-  activeId: string;
-  onTabChange: (id: string) => void;
+  panelData: PanelData;
 }
 
 export class DockTabs extends React.Component<DockTabsProps, any> {
@@ -79,7 +77,7 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
 
   constructor(props: DockTabsProps) {
     super(props);
-    this.updateTabs(props.tabs);
+    this.updateTabs(props.panelData.tabs);
   }
 
   updateTabs(tabs: TabData[]) {
@@ -109,10 +107,10 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
   }
 
   shouldComponentUpdate(nextProps: Readonly<DockTabsProps>, nextState: Readonly<any>, nextContext: any): boolean {
-    let {tabs, group} = nextProps;
+    let {tabs} = nextProps.panelData;
 
     // update tab cache
-    if (!compareChildKeys(tabs, this.props.tabs, DockTab.usedDataKeys)) {
+    if (!compareChildKeys(tabs, this.props.panelData.tabs, DockTab.usedDataKeys)) {
       this.updateTabs(tabs);
       return true;
     }
@@ -128,8 +126,13 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
   );
   renderTabContent = () => <TabContent/>;
 
+  onTabChange = (activeId: string) => {
+    this.props.panelData.activeId = activeId;
+    this.forceUpdate();
+  };
+
   render(): React.ReactNode {
-    let {group, activeId, onTabChange} = this.props;
+    let {group, activeId, minWidth, minHeight, size} = this.props.panelData;
     let {closable, tabLocked} = group;
 
     let children: React.ReactNode[] = [];
@@ -138,11 +141,11 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
     }
 
     return (
-      <Tabs prefixCls='dock-tabs'
+      <Tabs prefixCls='dock-tabs' style={{minWidth, minHeight, flex: `1 1 ${size}px`}}
             renderTabBar={this.renderTabBar}
             renderTabContent={this.renderTabContent}
             activeKey={activeId}
-            onChange={onTabChange}
+            onChange={this.onTabChange}
       >
         {children}
       </Tabs>

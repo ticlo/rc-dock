@@ -7,6 +7,7 @@ interface DockDataBase {
 }
 
 export interface BoxData extends DockDataBase {
+  parent?: BoxData;
   size: number;
   children: (BoxData | PanelData)[];
 }
@@ -22,13 +23,16 @@ export interface TabGroup {
 }
 
 export interface TabData extends DockDataBase {
+  parent?: PanelData;
   title: string;
   content: React.ReactNode | (() => React.ReactNode);
   group: TabGroup;
 }
 
 export interface PanelData extends DockDataBase {
+  parent?: BoxData;
   size: number;
+  activeId: string;
   tabs: TabData[];
   group: TabGroup;
 }

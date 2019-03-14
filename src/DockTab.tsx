@@ -1,11 +1,13 @@
 import React from "react";
-import {TabPane} from 'rc-tabs';
 import {DockContext, TabData, TabGroup} from "./DockData";
-import {compareKeys} from "./util/Compare";
-
+import {compareChildKeys, compareKeys} from "./util/Compare";
+import Tabs, {TabPane} from 'rc-tabs';
+import TabContent from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
 export class DockTab {
 
+  static readonly usedDataKeys = ['id', 'title', 'group', 'content'];
   data: TabData;
   context: DockContext;
   content: React.ReactNode;
@@ -15,10 +17,12 @@ export class DockTab {
   }
 
   setData(data: TabData) {
-    if (!compareKeys(data, this.data, ['id', 'title', 'group', 'content'])) {
+    if (!compareKeys(data, this.data, DockTab.usedDataKeys)) {
       this.data = data;
       this.content = this.render();
+      return true;
     }
+    return false;
   }
 
   onCloseClick = (e: React.MouseEvent) => {
@@ -50,36 +54,98 @@ export class DockTab {
 
         </span>
       }>
-        ${content}
+        {content}
       </TabPane>
     );
   }
+
+  destroy() {
+
+  }
 }
 
-export interface DockTabsProps {
+interface DockTabsProps {
   tabs: TabData[];
   group: TabGroup;
+  activeId: string;
+  onTabChange: (id: string) => void;
 }
 
-export class DockTabs extends React.PureComponent<DockTabsProps, any> {
-  render(): React.ReactNode {
-    let {tabs, group} = this.data;
-    let {closable, tabLocked} = group;
-    if (typeof content === 'function') {
-      content = content();
-    }
-    return (
-      <TabPane tab={
-        <span draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver} onDrop={this.onDrop}>
-          {title}
-          {closable ?
-            <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
-            : null}
+export class DockTabs extends React.Component<DockTabsProps, any> {
+  static readonly propKeys = ['group', 'activeId', 'onTabChange'];
 
-        </span>
-      }>
-        ${content}
-      </TabPane>
+  context!: DockContext;
+  _cache: Map<string, DockTab> = new Map();
+
+  constructor(props: DockTabsProps) {
+    super(props);
+    this.updateTabs(props.tabs);
+  }
+
+  updateTabs(tabs: TabData[]) {
+    let newCache = new Map<string, DockTab>();
+    let reused = 0;
+    for (let tabData of tabs) {
+      let {id} = tabData;
+      if (this._cache.has(id)) {
+        let tab = this._cache.get(id);
+        newCache.set(id, tab);
+        tab.setData(tabData);
+        ++reused;
+      } else {
+        let tab = new DockTab(this.context);
+        newCache.set(id, tab);
+        tab.setData(tabData);
+      }
+    }
+    if (reused !== this._cache.size) {
+      for (let [id, tab] of this._cache) {
+        if (!newCache.has(id)) {
+          tab.destroy();
+        }
+      }
+    }
+    this._cache = newCache;
+  }
+
+  shouldComponentUpdate(nextProps: Readonly<DockTabsProps>, nextState: Readonly<any>, nextContext: any): boolean {
+    let {tabs, group} = nextProps;
+
+    // update tab cache
+    if (!compareChildKeys(tabs, this.props.tabs, DockTab.usedDataKeys)) {
+      this.updateTabs(tabs);
+      return true;
+    }
+    return !compareKeys(this.props, nextProps, DockTabs.propKeys);
+  }
+
+  renderTabBar = () => (
+    <ScrollableInkTabBar
+      // extraContent={
+      //   <button onClick={this.add}>+添加</button>
+      // }
+    />
+  );
+  renderTabContent = () => <TabContent/>;
+
+  render(): React.ReactNode {
+    let {group, activeId, onTabChange} = this.props;
+    let {closable, tabLocked} = group;
+
+    let children: React.ReactNode[] = [];
+    for (let [id, tab] of this._cache) {
+      children.push(tab.content);
+    }
+
+    return (
+      <Tabs prefixCls='dock-tabs'
+            renderTabBar={this.renderTabBar}
+            renderTabContent={this.renderTabContent}
+            activeKey={activeId}
+            onChange={onTabChange}
+      >
+        {children}
+      </Tabs>
     );
   }
 }

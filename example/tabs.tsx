@@ -2,28 +2,52 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {DockTabs} from "../src/DockTabs";
-import {PanelData, TabData, TabGroup} from "../src/DockData";
+import {BoxData, PanelData, TabData, TabGroup} from "../src/DockData";
 import {DockPanel} from "../src/DockPanel";
+import {DockBox} from "../src/DockBox";
 
 let group: TabGroup = {
   closable: true
 };
-let panel: PanelData = {
-  tabs: [{
-    id: 'hello',
-    title: 'hello',
-    content: <span style={{margin: 50}}>hello</span>,
-    group
-  }, {
-    id: 'world',
-    title: 'world',
-    content: <span style={{margin: 50}}>world</span>,
-    group
-  }],
-  group,
-  activeId: 'world',
+let box: BoxData = {
+  id: 1,
   size: 1,
-  id: 'hello world',
+  children: [
+    {
+      tabs: [{
+        id: 'hello',
+        title: 'hello',
+        content: <span style={{margin: 50}}>hello</span>,
+        group
+      }, {
+        id: 'world',
+        title: 'world',
+        content: <span style={{margin: 50}}>world</span>,
+        group
+      }],
+      group,
+      activeId: 'world',
+      size: 1,
+      id: 'panel1',
+    },
+    {
+      tabs: [{
+        id: 'hello',
+        title: 'hello',
+        content: <span style={{margin: 50}}>hello</span>,
+        group
+      }, {
+        id: 'world',
+        title: 'world',
+        content: <span style={{margin: 50}}>world</span>,
+        group
+      }],
+      group,
+      activeId: 'world',
+      size: 1,
+      id: 'panel2',
+    }
+  ]
 };
 
 interface State {
@@ -41,9 +65,9 @@ class Demo extends React.Component<any, State> {
     return (
       <div style={{margin: 20}}>
         <h2>Addable Tabs</h2>
-        <div className='dock-root'>
-          <div style={{position: 'absolute', left: 100, top: 100, width: 300, height: 300}}>
-            <DockPanel size={1} panelData={panel}/>
+        <div className='dock-layout'>
+          <div className='dock-box dock-vbox' style={{position: 'absolute', left: 100, top: 100, width: 600, height: 300}}>
+            <DockBox size={1} boxData={box}/>
           </div>
         </div>
       </div>

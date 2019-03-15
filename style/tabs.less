@@ -4,7 +4,7 @@
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
   overflow: hidden;
 
   &-bar,
@@ -147,7 +147,6 @@
 
   &-content-animated {
     transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-left 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-top 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-    display: -ms-flexbox;
     display: flex;
     will-change: transform;
   }
@@ -167,320 +166,6 @@
     display: none;
   }
 
-  &-left &-bar {
-    float: left;
-    height: 100%;
-    margin-right: 10px;
-    border-right: 1px solid #f3f3f3;
-  }
-
-  &-left &-nav-container {
-    height: 100%;
-  }
-
-  &-left &-nav-container-scrolling {
-    padding-top: 32px;
-    padding-bottom: 32px;
-  }
-
-  &-left &-nav-wrap {
-    height: 100%;
-  }
-
-  &-left &-content-animated {
-    -ms-flex-direction: column;
-    flex-direction: column;
-  }
-
-  &-left &-content-animated &-tabpane {
-    height: 100%;
-  }
-
-  &-left &-nav-scroll {
-    height: 99999px;
-  }
-
-  &-left &-nav-swipe {
-    position: relative;
-    top: 0;
-  }
-
-  &-left &-nav-swipe &-nav {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex: 1;
-    flex: 1;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  &-left &-nav-swipe &-nav &-tab {
-    display: -ms-flexbox;
-    display: flex;
-    flex-shrink: 0;
-    -ms-flex-pack: center;
-    justify-content: center;
-  }
-
-  &-left &-tab-prev,
-  &-left &-tab-next {
-    margin-top: -2px;
-    height: 0;
-    line-height: 32px;
-    width: 0;
-    display: block;
-    text-align: center;
-    opacity: 0;
-    transition: width .3s, height .3s, opacity .3s;
-  }
-
-  &-top &-tab-arrow-show,
-  &-left &-tab-arrow-show,
-  &-bottom &-tab-arrow-show,
-  &-right &-tab-arrow-show {
-    opacity: 1;
-    width: 100%;
-    height: 32px;
-  }
-
-  &-left &-tab-next {
-    bottom: 0;
-  }
-
-  &-left &-tab-next-icon {
-    transform: rotate(90deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-  }
-
-  &-left &-tab-next-icon:before {
-    content: ">";
-  }
-
-  &-left &-tab-prev {
-    top: 2px;
-  }
-
-  &-left &-tab-prev-icon {
-    transform: rotate(270deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  }
-
-  &-left &-tab-prev-icon:before {
-    content: ">";
-  }
-
-  &-left &-ink-bar {
-    width: 2px;
-    right: 0;
-    top: 0;
-  }
-
-  &-left &-tab {
-    padding: 16px 24px;
-  }
-
-  &-right &-bar {
-    float: right;
-    height: 100%;
-    margin-left: 10px;
-    border-left: 1px solid #f3f3f3;
-  }
-
-  &-right &-nav-container {
-    height: 100%;
-  }
-
-  &-right &-nav-container-scrolling {
-    padding-top: 32px;
-    padding-bottom: 32px;
-  }
-
-  &-right &-nav-wrap {
-    height: 100%;
-  }
-
-  &-right &-nav-scroll {
-    height: 99999px;
-  }
-
-  &-right &-nav-swipe {
-    position: relative;
-  }
-
-  &-right &-nav-swipe &-nav {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex: 1;
-    flex: 1;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  &-right &-nav-swipe &-nav &-tab {
-    display: flex;
-    flex-shrink: 0;
-    -ms-flex-pack: center;
-    justify-content: center;
-  }
-
-  &-right &-tab-prev,
-  &-right &-tab-next {
-    margin-top: -2px;
-    height: 0;
-    width: 0;
-    display: block;
-    text-align: center;
-    line-height: 32px;
-    opacity: 0;
-    transition: width .3s, height .3s, opacity .3s;
-  }
-
-  &-top &-tab-arrow-show {
-    opacity: 1;
-    width: 100%;
-    height: 32px;
-  }
-
-  &-right &-tab-next {
-    bottom: 0;
-  }
-
-  &-right &-tab-next-icon {
-    transform: rotate(90deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-  }
-
-  &-right &-tab-next-icon:before {
-    content: ">";
-  }
-
-  &-right &-tab-prev {
-    top: 2px;
-  }
-
-  &-right &-tab-prev-icon {
-    transform: rotate(270deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  }
-
-  &-right &-tab-prev-icon:before {
-    content: ">";
-  }
-
-  &-right &-content-animated {
-    -ms-flex-direction: column;
-    flex-direction: column;
-  }
-
-  &-right &-content-animated &-tabpane {
-    height: 100%;
-  }
-
-  &-right &-ink-bar {
-    width: 2px;
-    left: 0;
-    top: 0;
-  }
-
-  &-right &-tab {
-    padding: 16px 24px;
-  }
-
-  &-bottom &-content {
-    width: 100%;
-  }
-
-  &-bottom &-bar {
-    border-top: 1px solid #f3f3f3;
-  }
-
-  &-bottom &-nav-container-scrolling {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-
-  &-bottom &-nav-scroll {
-    width: 99999px;
-  }
-
-  &-bottom &-nav-swipe {
-    position: relative;
-    left: 0;
-  }
-
-  &-bottom &-nav-swipe &-nav {
-    display: flex;
-    -ms-flex: 1;
-    flex: 1;
-    width: 100%;
-  }
-
-  &-bottom &-nav-swipe &-nav &-tab {
-    display: flex;
-    flex-shrink: 0;
-    margin-right: 0;
-    padding: 8px 0;
-    -ms-flex-pack: center;
-    justify-content: center;
-  }
-
-  &-bottom &-nav-wrap {
-    width: 100%;
-  }
-
-  &-bottom &-content-animated {
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
-
-  &-bottom &-content-animated &-tabpane {
-    width: 100%;
-  }
-
-  &-bottom &-tab-next {
-    right: 2px;
-  }
-
-  &-bottom &-tab-next-icon:before {
-    content: ">";
-  }
-
-  &-bottom &-tab-prev {
-    left: 0;
-  }
-
-  &-bottom &-tab-prev-icon:before {
-    content: "<";
-  }
-
-  &-bottom &-tab-prev,
-  &-bottom &-tab-next {
-    margin-right: -2px;
-    width: 32px;
-    height: 100%;
-    top: 0;
-    text-align: center;
-  }
-
-  &-bottom &-ink-bar {
-    height: 2px;
-    top: 3px;
-    left: 0;
-  }
-
-  &-bottom &-tab {
-    float: left;
-    height: 100%;
-    margin-right: 30px;
-  }
-
-  &-bottom &-tabpane-inactive {
-    height: 0;
-    overflow: visible;
-  }
-
   &-top &-content {
     width: 100%;
   }
@@ -496,7 +181,11 @@
   }
 
   &-top &-nav-scroll {
-    width: 99999px;
+    display: flex;
+
+    & > * {
+      flex: 0 0 auto;
+    }
   }
 
   &-top &-nav-swipe {
@@ -506,7 +195,6 @@
 
   &-top &-nav-swipe &-nav {
     display: flex;
-    -ms-flex: 1;
     flex: 1;
     width: 100%;
   }
@@ -516,7 +204,6 @@
     flex-shrink: 0;
     margin-right: 0;
     padding: 8px 0;
-    -ms-flex-pack: center;
     justify-content: center;
   }
 
@@ -525,7 +212,6 @@
   }
 
   &-top &-content-animated {
-    -ms-flex-direction: row;
     flex-direction: row;
   }
 

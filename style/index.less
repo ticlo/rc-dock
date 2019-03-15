@@ -2,16 +2,33 @@
 
 @dock-prefix: dock;
 
-.@{dock-prefix} {
-  &-panel {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border: 1px solid #ddd;
+.dock-panel {
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid #ddd;
+}
+
+.dock-box {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+}
+
+.dock-divider {
+  flex: 0 0 4px;
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.dock-hbox {
+  & > .dock-divider {
+    cursor: ew-resize;
   }
+}
 
-  &-box {
+.dock-vbox {
+  flex-direction: column;
 
+  & > .dock-divider {
+    cursor: ns-resize;
   }
 }

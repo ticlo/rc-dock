@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface DockDataBase {
-  id: string;
+  id: string | number;
   minWidth?: number;
   minHeight?: number;
 }

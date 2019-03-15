@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {DockTabs} from "../src/DockTab";
+import {DockTabs} from "../src/DockTabs";
 import {PanelData, TabData, TabGroup} from "../src/DockData";
+import {DockPanel} from "../src/DockPanel";
 
 let group: TabGroup = {
   closable: true
@@ -42,7 +43,7 @@ class Demo extends React.Component<any, State> {
         <h2>Addable Tabs</h2>
         <div className='dock-root'>
           <div style={{position: 'absolute', left: 100, top: 100, width: 300, height: 300}}>
-            <DockTabs panelData={panel}/>
+            <DockPanel size={1} panelData={panel}/>
           </div>
         </div>
       </div>

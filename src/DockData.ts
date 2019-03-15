@@ -9,6 +9,7 @@ interface DockDataBase {
 export interface BoxData extends DockDataBase {
   parent?: BoxData;
   size: number;
+  isVertical?: boolean;
   children: (BoxData | PanelData)[];
 }
 

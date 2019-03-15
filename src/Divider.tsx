@@ -1,15 +1,15 @@
 import React from 'react';
 import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
 
-export interface BoxChild {
+export interface DividerChild {
   size: number;
   minSize?: number;
 }
 
-export interface BoxData {
+export interface DividerData {
   element: HTMLElement;
-  beforeDivider: BoxChild[];
-  afterDivider: BoxChild[];
+  beforeDivider: DividerChild[];
+  afterDivider: DividerChild[];
 }
 
 interface DividerProps {
@@ -17,22 +17,22 @@ interface DividerProps {
   className?: string;
   isVertical?: boolean;
 
-  getBoxData(idx: number): BoxData;
+  getDividerData(idx: number): DividerData;
 
   changeSizes(sizes: number[]): void;
 }
 
-class BoxDataCache implements BoxData {
+class BoxDataCache implements DividerData {
   element: HTMLElement;
-  beforeDivider: BoxChild[];
-  afterDivider: BoxChild[];
+  beforeDivider: DividerChild[];
+  afterDivider: DividerChild[];
 
   beforeSize = 0;
   beforeMinSize = 0;
   afterSize = 0;
   afterMinSize = 0;
 
-  constructor(data: BoxData) {
+  constructor(data: DividerData) {
     this.element = data.element;
     this.beforeDivider = data.beforeDivider;
     this.afterDivider = data.afterDivider;
@@ -52,7 +52,7 @@ class BoxDataCache implements BoxData {
 }
 
 // split size among children
-function spiltSize(newSize: number, oldSize: number, children: BoxChild[]): number[] {
+function spiltSize(newSize: number, oldSize: number, children: DividerChild[]): number[] {
   let reservedSize = -1;
   let sizes: number[] = [];
   let requiredMinSize = 0;
@@ -81,7 +81,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
   boxData: BoxDataCache;
 
   startDrag = (e: PointerEvent, initFunction: DragInitFunction) => {
-    this.boxData = new BoxDataCache(this.props.getBoxData(this.props.idx));
+    this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
     if (e.shiftKey || e.ctrlKey) {
       initFunction(this.boxData.element, this.dragMoveAll, this.dragEnd);
     } else {

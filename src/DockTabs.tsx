@@ -5,7 +5,7 @@ import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
-export class DockTab {
+export class TabCache {
 
   static readonly usedDataKeys = ['id', 'title', 'group', 'content'];
   data: TabData;
@@ -17,7 +17,7 @@ export class DockTab {
   }
 
   setData(data: TabData) {
-    if (!compareKeys(data, this.data, DockTab.usedDataKeys)) {
+    if (!compareKeys(data, this.data, TabCache.usedDataKeys)) {
       this.data = data;
       this.content = this.render();
       return true;
@@ -65,23 +65,23 @@ export class DockTab {
   }
 }
 
-interface DockTabsProps {
+interface Props {
   panelData: PanelData;
 }
 
-export class DockTabs extends React.Component<DockTabsProps, any> {
+export class DockTabs extends React.Component<Props, any> {
   static readonly propKeys = ['group', 'activeId', 'onTabChange'];
 
   context!: DockContext;
-  _cache: Map<string, DockTab> = new Map();
+  _cache: Map<string, TabCache> = new Map();
 
-  constructor(props: DockTabsProps) {
+  constructor(props: Props) {
     super(props);
     this.updateTabs(props.panelData.tabs);
   }
 
   updateTabs(tabs: TabData[]) {
-    let newCache = new Map<string, DockTab>();
+    let newCache = new Map<string, TabCache>();
     let reused = 0;
     for (let tabData of tabs) {
       let {id} = tabData;
@@ -91,7 +91,7 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
         tab.setData(tabData);
         ++reused;
       } else {
-        let tab = new DockTab(this.context);
+        let tab = new TabCache(this.context);
         newCache.set(id, tab);
         tab.setData(tabData);
       }
@@ -106,11 +106,11 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
     this._cache = newCache;
   }
 
-  shouldComponentUpdate(nextProps: Readonly<DockTabsProps>, nextState: Readonly<any>, nextContext: any): boolean {
+  shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<any>, nextContext: any): boolean {
     let {tabs} = nextProps.panelData;
 
     // update tab cache
-    if (!compareChildKeys(tabs, this.props.panelData.tabs, DockTab.usedDataKeys)) {
+    if (!compareChildKeys(tabs, this.props.panelData.tabs, TabCache.usedDataKeys)) {
       this.updateTabs(tabs);
       return true;
     }
@@ -132,7 +132,7 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
   };
 
   render(): React.ReactNode {
-    let {group, activeId, minWidth, minHeight, size} = this.props.panelData;
+    let {group, activeId} = this.props.panelData;
     let {closable, tabLocked} = group;
 
     let children: React.ReactNode[] = [];
@@ -141,7 +141,7 @@ export class DockTabs extends React.Component<DockTabsProps, any> {
     }
 
     return (
-      <Tabs prefixCls='dock-tabs' style={{minWidth, minHeight, flex: `1 1 ${size}px`}}
+      <Tabs prefixCls='dock-tabs'
             renderTabBar={this.renderTabBar}
             renderTabContent={this.renderTabContent}
             activeKey={activeId}

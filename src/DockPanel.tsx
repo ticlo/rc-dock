@@ -24,6 +24,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   }
 
+  state: State = {dropping: null};
+
   onDragOver = () => {
     DockPanel.droppingPanel = this;
     this.setState({dropping: null});

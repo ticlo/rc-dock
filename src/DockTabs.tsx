@@ -4,10 +4,12 @@ import {compareChildKeys, compareKeys} from "./util/Compare";
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import {DragStore} from "./DragStore";
 
 export class TabCache {
 
   static readonly usedDataKeys = ['id', 'title', 'group', 'content'];
+
   data: TabData;
   context: DockContext;
   content: React.ReactNode;
@@ -30,7 +32,7 @@ export class TabCache {
 
   };
   onDragStart = (e: React.DragEvent) => {
-
+    DragStore.dragStart(this.context, {})
   };
   onDragOver = (e: React.DragEvent) => {
 

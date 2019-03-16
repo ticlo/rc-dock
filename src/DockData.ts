@@ -1,15 +1,15 @@
 import React from 'react';
 
 interface DockDataBase {
-  id: string | number;
   minWidth?: number;
   minHeight?: number;
 }
 
 export interface BoxData extends DockDataBase {
+  id?: string | number;
   parent?: BoxData;
   size: number;
-  isVertical?: boolean;
+  mode?: 'horizontal' | 'vertical' | 'float';
   children: (BoxData | PanelData)[];
 }
 
@@ -24,6 +24,7 @@ export interface TabGroup {
 }
 
 export interface TabData extends DockDataBase {
+  id?: string;
   parent?: PanelData;
   title: string;
   content: React.ReactNode | (() => React.ReactNode);
@@ -31,16 +32,32 @@ export interface TabData extends DockDataBase {
 }
 
 export interface PanelData extends DockDataBase {
+  id?: string | number;
   parent?: BoxData;
-  size: number;
   activeId: string;
   tabs: TabData[];
   group: TabGroup;
+
+  // docked only
+  size: number;
+  panelLocked?: boolean; // panel won't disappear even when all children are gone
+
+  // float mode only
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
+}
+
+export interface LayoutData {
+  dockbox?: BoxData;
+  floatbox?: BoxData;
 }
 
 export interface DockContext {
-
+  nextId(): number;
 }
+
 
 const Context = React.createContext<DockContext>(null);
 export const DockContextProvider = Context.Provider;

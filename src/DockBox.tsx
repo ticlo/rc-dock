@@ -17,12 +17,12 @@ export class DockBox extends React.PureComponent<Props, any> {
 
   getDividerData = (idx: number) => {
     if (this._ref) {
-      let {children, isVertical} = this.props.boxData;
+      let {children, mode} = this.props.boxData;
       let nodes = this._ref.childNodes;
       if (nodes.length === children.length * 2 - 1) {
         let dividerChildren: DividerChild[] = [];
         for (let i = 0; i < children.length; ++i) {
-          if (isVertical) {
+          if (mode === 'vertical') {
             dividerChildren.push({size: (nodes[i * 2] as HTMLElement).offsetHeight, minSize: children[i].minHeight});
           } else {
             dividerChildren.push({size: (nodes[i * 2] as HTMLElement).offsetWidth, minSize: children[i].minWidth});
@@ -38,7 +38,7 @@ export class DockBox extends React.PureComponent<Props, any> {
     return null;
   };
   changeSizes = (sizes: number[]) => {
-    let {children, isVertical} = this.props.boxData;
+    let {children} = this.props.boxData;
     if (children.length === sizes.length) {
       for (let i = 0; i < children.length; ++i) {
         children[i].size = sizes[i];
@@ -49,13 +49,13 @@ export class DockBox extends React.PureComponent<Props, any> {
 
   render(): React.ReactNode {
     let {boxData} = this.props;
-    let {minWidth, minHeight, size, children, isVertical} = boxData;
+    let {minWidth, minHeight, size, children, mode} = boxData;
 
     let childrenRender: React.ReactNode[] = [];
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
         childrenRender.push(
-          <Divider idx={i} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
+          <Divider idx={i} key={i} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
         );
       }
       let child = children[i];
@@ -67,7 +67,7 @@ export class DockBox extends React.PureComponent<Props, any> {
       }
     }
     let cls: string;
-    if (isVertical) {
+    if (mode === 'vertical') {
       cls = 'dock-box dock-vbox';
     } else {
       cls = 'dock-box dock-hbox';

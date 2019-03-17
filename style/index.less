@@ -5,6 +5,7 @@
 .dock-panel {
   box-sizing: border-box;
   position: relative;
+  background: #fff;
   border: 1px solid #ddd;
 }
 
@@ -17,11 +18,24 @@
 .dock-divider {
   flex: 0 0 4px;
   background: rgba(0, 0, 0, 0.01);
+  z-index: 1;
 }
 
 .dock-hbox {
   & > .dock-divider {
+    // extend it to 6px, overlap the panel borders
+    transform: scaleX(1.5);
     cursor: ew-resize;
+  }
+}
+
+.dock-fbox {
+  pointer-events: none;
+
+  & > .dock-panel {
+    position: absolute;
+    pointer-events: visible;
+    box-shadow: 0 0 8px 2px #aaaaaa;
   }
 }
 
@@ -29,6 +43,8 @@
   flex-direction: column;
 
   & > .dock-divider {
+    // extend it to 6px, overlap the panel borders
+    transform: scaleY(1.5);
     cursor: ns-resize;
   }
 }

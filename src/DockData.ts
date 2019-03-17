@@ -8,7 +8,7 @@ interface DockDataBase {
 export interface BoxData extends DockDataBase {
   id?: string | number;
   parent?: BoxData;
-  size: number;
+  size?: number;
   mode?: 'horizontal' | 'vertical' | 'float';
   children: (BoxData | PanelData)[];
 }
@@ -39,7 +39,7 @@ export interface PanelData extends DockDataBase {
   group: TabGroup;
 
   // docked only
-  size: number;
+  size?: number;
   panelLocked?: boolean; // panel won't disappear even when all children are gone
 
   // float mode only
@@ -55,7 +55,16 @@ export interface LayoutData {
 }
 
 export interface DockContext {
-  nextId(): number;
+}
+
+let _idCount = 0;
+
+export function nextId() {
+  ++_idCount;
+  if (_idCount >= Number.MAX_SAFE_INTEGER) {
+    _idCount = -Number.MAX_SAFE_INTEGER;
+  }
+  return _idCount;
 }
 
 

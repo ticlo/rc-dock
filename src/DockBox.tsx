@@ -49,7 +49,7 @@ export class DockBox extends React.PureComponent<Props, any> {
 
   render(): React.ReactNode {
     let {boxData} = this.props;
-    let {minWidth, minHeight, size, children, mode} = boxData;
+    let {minWidth, minHeight, size, children, mode, id} = boxData;
 
     let childrenRender: React.ReactNode[] = [];
     for (let i = 0; i < children.length; ++i) {
@@ -73,7 +73,8 @@ export class DockBox extends React.PureComponent<Props, any> {
       cls = 'dock-box dock-hbox';
     }
     return (
-      <div ref={this.getRef} className={cls} style={{minWidth, minHeight, flex: `1 1 ${size}px`}}>
+      <div ref={this.getRef} className={cls} data-dockid={id}
+           style={{minWidth, minHeight, flex: `1 1 ${size}px`}}>
         {childrenRender}
       </div>
     );

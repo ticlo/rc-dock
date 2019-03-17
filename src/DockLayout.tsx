@@ -1,9 +1,11 @@
-import React from "react";
-import {BoxData, LayoutData, PanelData} from "./DockData";
+import React, {CSSProperties} from "react";
+import {BoxData, LayoutData, PanelData, DockContextProvider, nextId} from "./DockData";
 import {DockBox} from "./DockBox";
+import {FloatBox} from "./FloatBox";
 
 interface Props {
-  defaultLayout: LayoutData;
+  defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
+  style?: CSSProperties;
 }
 
 interface State {
@@ -12,25 +14,30 @@ interface State {
 
 export class DockLayout extends React.PureComponent<Props, State> {
 
-  _idCount = 0;
-
-  nextId() {
-    ++this._idCount;
-    if (this._idCount >= Number.MAX_SAFE_INTEGER) {
-      this._idCount = -Number.MAX_SAFE_INTEGER;
+  fixPanelData(panel: PanelData) {
+    panel.id = nextId();
+    if (!(panel.size > 0)) {
+      panel.size = 200;
     }
-    return this._idCount;
+    for (let child of panel.tabs) {
+      child.parent = panel;
+    }
   }
 
-  addInitDataId(box: BoxData) {
-    box.id = this.nextId();
+  fixBoxData(box: BoxData) {
+    box.id = nextId();
+    if (!(box.size > 0)) {
+      box.size = 200;
+    }
     for (let child of box.children) {
+      child.parent = box;
       if ('children' in child) {
         // add box id
-        this.addInitDataId(child);
-      } else {
+        this.fixBoxData(child);
+      } else if ('tabs' in child) {
         // add panel id
-        child.id = this.nextId();
+        this.fixPanelData(child);
+
       }
     }
   }
@@ -56,8 +63,9 @@ export class DockLayout extends React.PureComponent<Props, State> {
     } else {
       layout.floatbox.mode = 'float';
     }
-    this.addInitDataId(layout.dockbox);
-    this.addInitDataId(layout.floatbox);
+    this.fixBoxData(layout.dockbox);
+    this.fixBoxData(layout.floatbox);
+    console.log(layout);
     return layout;
   }
 
@@ -67,10 +75,14 @@ export class DockLayout extends React.PureComponent<Props, State> {
   }
 
   render(): React.ReactNode {
+    let {style} = this.props;
     let {layout} = this.state;
     return (
-      <div className='dock-layout'>
-        <DockBox size={1} boxData={layout.dockbox}/>
+      <div className='dock-layout' style={style}>
+        <DockContextProvider value={this}>
+          <DockBox size={1} boxData={layout.dockbox}/>
+          <FloatBox boxData={layout.floatbox}/>
+        </DockContextProvider>
       </div>
     );
   }

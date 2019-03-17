@@ -34,3 +34,25 @@ declare module 'rc-tabs/lib/ScrollableInkTabBar' {
   export default class ScrollableInkTabBar extends React.Component <any, any> {
   }
 }
+
+declare module 'rc-tabs/lib/SaveRef' {
+  import React from 'react';
+  export default class SaveRef extends React.Component <any, any> {
+  }
+}
+
+declare module 'rc-tabs/lib/ScrollableTabBarNode' {
+  import React from 'react';
+  export default class ScrollableTabBarNode extends React.Component <any, any> {
+  }
+}
+declare module 'rc-tabs/lib/TabBarTabsNode' {
+  import React from 'react';
+  export default class TabBarTabsNode extends React.Component <any, any> {
+  }
+}
+declare module 'rc-tabs/lib/InkTabBarNode' {
+  import React from 'react';
+  export default class InkTabBarNode extends React.Component <any, any> {
+  }
+}

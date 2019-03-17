@@ -5,6 +5,8 @@ import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import {DragStore} from "./DragStore";
+import {DragInitiator} from "./DragInitiator";
+import {DockTabBar} from "./DockTabBar";
 
 export class TabCache {
 
@@ -32,7 +34,7 @@ export class TabCache {
 
   };
   onDragStart = (e: React.DragEvent) => {
-    DragStore.dragStart(this.context, {})
+    DragStore.dragStart(this.context, {});
   };
   onDragOver = (e: React.DragEvent) => {
 
@@ -120,11 +122,7 @@ export class DockTabs extends React.Component<Props, any> {
   }
 
   renderTabBar = () => (
-    <ScrollableInkTabBar
-      // extraContent={
-      //   <button onClick={this.add}>+添加</button>
-      // }
-    />
+    <DockTabBar/>
   );
   renderTabContent = () => <TabContent/>;
 

@@ -3,6 +3,8 @@ import { DockContext, PanelData, TabData } from "./DockData";
 import { DragInitHandler } from "./DragInitiator";
 export declare class TabCache {
     static readonly usedDataKeys: string[];
+    _ref: HTMLSpanElement;
+    getRef: (r: HTMLSpanElement) => void;
     data: TabData;
     context: DockContext;
     content: React.ReactNode;

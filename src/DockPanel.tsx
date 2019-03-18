@@ -20,7 +20,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this._ref = r;
   };
 
-
   static _droppingPanel: DockPanel;
   static set droppingPanel(panel: DockPanel) {
     if (DockPanel._droppingPanel === panel) {
@@ -46,7 +45,10 @@ export class DockPanel extends React.PureComponent<Props, State> {
   _movingY: number;
   onPanelHeaderDrag = (event: PointerEvent, initFunction: DragInitFunction) => {
     let {parent, x, y} = this.props.panelData;
-    if (parent && parent.mode === 'float') {
+    if (
+      parent && parent.mode === 'float'
+      && !(event.target as HTMLElement).draggable // dragging tab instead of panel
+    ) {
       this._movingX = x;
       this._movingY = y;
       initFunction(this._ref.parentElement, this.onPanelHeaderDragMove);

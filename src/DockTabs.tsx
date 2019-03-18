@@ -12,6 +12,11 @@ export class TabCache {
 
   static readonly usedDataKeys = ['id', 'title', 'group', 'content'];
 
+  _ref: HTMLSpanElement;
+  getRef = (r: HTMLSpanElement) => {
+    this._ref = r;
+  };
+
   data: TabData;
   context: DockContext;
   content: React.ReactNode;
@@ -34,10 +39,14 @@ export class TabCache {
 
   };
   onDragStart = (e: React.DragEvent) => {
-    DragStore.dragStart(this.context, {});
+    DragStore.dragStart(this.context, {tab: this.data}, this._ref);
   };
   onDragOver = (e: React.DragEvent) => {
-
+    let tab: TabData = DragStore.getData(this.context, 'tab');
+    if (tab && tab !== this.data && tab.group === this.data.group) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   };
   onDrop = (e: React.DragEvent) => {
 
@@ -51,7 +60,8 @@ export class TabCache {
     }
     return (
       <TabPane key={id} tab={
-        <span draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver} onDrop={this.onDrop}>
+        <span ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
+              onDrop={this.onDrop}>
           {title}
           {closable ?
             <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>

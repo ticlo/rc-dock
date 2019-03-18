@@ -2,9 +2,10 @@ import React from "react";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
 declare type PointerEventHandler = (e: AbstractPointerEvent, dx: number, dy: number) => void;
 export declare type DragInitFunction = (referenceElement: HTMLElement, moveListener?: PointerEventHandler, endListener?: PointerEventHandler) => void;
+export declare type DragInitHandler = (event: PointerEvent, initFunction: DragInitFunction) => void;
 interface DragInitiatorProps extends React.HTMLAttributes<HTMLDivElement> {
     getRef?: React.Ref<HTMLDivElement>;
-    onDragInit?: (event: PointerEvent, initFunction: DragInitFunction) => void;
+    onDragInit?: DragInitHandler;
 }
 export declare class DragInitiator extends React.Component<DragInitiatorProps, any> {
     moveListener?: PointerEventHandler;

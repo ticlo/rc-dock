@@ -3,7 +3,7 @@ import SaveRef from 'rc-tabs/lib/SaveRef';
 import ScrollableTabBarNode from 'rc-tabs/lib/ScrollableTabBarNode';
 import TabBarTabsNode from 'rc-tabs/lib/TabBarTabsNode';
 import InkTabBarNode from 'rc-tabs/lib/InkTabBarNode';
-import {DragInitiator} from "./DragInitiator";
+import {DragInitHandler, DragInitiator} from "./DragInitiator";
 
 
 interface TabBarRootNodeProps {
@@ -12,12 +12,13 @@ interface TabBarRootNodeProps {
   extraContent?: React.ReactElement;
   onKeyDown?: React.KeyboardEventHandler;
   saveRef: Function;
+  onDragInit: DragInitHandler;
 }
 
 export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
   render() {
     const {
-      onKeyDown, extraContent, style, children,
+      onKeyDown, extraContent, style, children, onDragInit,
       ...restProps
     } = this.props;
 
@@ -39,13 +40,13 @@ export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps,
 
     }
     return (
-      <DragInitiator
-        role="tablist"
-        className='dock-tabs-bar'
-        tabIndex={0}
-        ref={this.props.saveRef('root')}
-        onKeyDown={onKeyDown}
-        style={style}
+      <DragInitiator onDragInit={onDragInit}
+                     role="tablist"
+                     className='dock-tabs-bar'
+                     tabIndex={0}
+                     ref={this.props.saveRef('root')}
+                     onKeyDown={onKeyDown}
+                     style={style}
       >
         {newChildren}
       </DragInitiator>
@@ -53,14 +54,18 @@ export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps,
   }
 }
 
-export class DockTabBar extends React.PureComponent<any, any> {
+interface DockTabBarProps {
+  onDragInit: DragInitHandler;
+}
+
+export class DockTabBar extends React.PureComponent<DockTabBarProps, any> {
   render() {
-    const {children: renderTabBarNode, ...restProps} = this.props;
+    const {children: renderTabBarNode, onDragInit, ...restProps} = this.props;
 
     return (
       <SaveRef>
         {(saveRef: Function, getRef: Function) => (
-          <DockTabBarRootNode saveRef={saveRef} {...restProps}>
+          <DockTabBarRootNode saveRef={saveRef} onDragInit={onDragInit} {...restProps}>
             <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...restProps}>
               <TabBarTabsNode saveRef={saveRef} renderTabBarNode={renderTabBarNode} {...restProps} />
               <InkTabBarNode saveRef={saveRef} getRef={getRef} {...restProps} />

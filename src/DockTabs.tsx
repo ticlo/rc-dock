@@ -5,7 +5,7 @@ import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import {DragStore} from "./DragStore";
-import {DragInitiator} from "./DragInitiator";
+import {DragInitFunction, DragInitHandler, DragInitiator} from "./DragInitiator";
 import {DockTabBar} from "./DockTabBar";
 
 export class TabCache {
@@ -71,6 +71,7 @@ export class TabCache {
 
 interface Props {
   panelData: PanelData;
+  onPanelHeaderDrag: DragInitHandler;
 }
 
 export class DockTabs extends React.Component<Props, any> {
@@ -122,7 +123,7 @@ export class DockTabs extends React.Component<Props, any> {
   }
 
   renderTabBar = () => (
-    <DockTabBar/>
+    <DockTabBar onDragInit={this.props.onPanelHeaderDrag}/>
   );
   renderTabContent = () => <TabContent/>;
 

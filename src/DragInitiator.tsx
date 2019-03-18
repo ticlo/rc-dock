@@ -1,14 +1,15 @@
 import React from "react";
+import HTML = Mocha.reporters.HTML;
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 type PointerEventHandler = (e: AbstractPointerEvent, dx: number, dy: number) => void;
 
 export type DragInitFunction = (referenceElement: HTMLElement, moveListener?: PointerEventHandler, endListener?: PointerEventHandler) => void;
-
+export type DragInitHandler = (event: PointerEvent, initFunction: DragInitFunction) => void;
 
 interface DragInitiatorProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: React.Ref<HTMLDivElement>;
-  onDragInit?: (event: PointerEvent, initFunction: DragInitFunction) => void;
+  onDragInit?: DragInitHandler;
 }
 
 export class DragInitiator extends React.Component<DragInitiatorProps, any> {
@@ -31,14 +32,13 @@ export class DragInitiator extends React.Component<DragInitiatorProps, any> {
           }
           this.baseX = e.pageX;
           this.baseY = e.pageY;
-          if (referenceElement) {
-            let rect = referenceElement.getBoundingClientRect();
-            this.scaleX = referenceElement.offsetWidth / rect.width;
-            this.scaleY = referenceElement.offsetHeight / rect.height;
-          } else {
-            this.scaleX = 1;
-            this.scaleY = -1;
+          if (!referenceElement) {
+            referenceElement = (e.nativeEvent.target as HTMLElement).parentElement;
           }
+          let rect = referenceElement.getBoundingClientRect();
+          this.scaleX = referenceElement.offsetWidth / rect.width;
+          this.scaleY = referenceElement.offsetHeight / rect.height;
+
           this.moveListener = moveListener;
           this.endListener = endListener;
           if (e.pointerType === 'touch') {

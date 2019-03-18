@@ -1,5 +1,6 @@
 import React from "react";
 import { DockContext, PanelData, TabData } from "./DockData";
+import { DragInitHandler } from "./DragInitiator";
 export declare class TabCache {
     static readonly usedDataKeys: string[];
     data: TabData;
@@ -16,6 +17,7 @@ export declare class TabCache {
 }
 interface Props {
     panelData: PanelData;
+    onPanelHeaderDrag: DragInitHandler;
 }
 export declare class DockTabs extends React.Component<Props, any> {
     static readonly propKeys: string[];

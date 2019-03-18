@@ -1,7 +1,7 @@
 import React, {CSSProperties} from "react";
 import {PanelData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
-import {AbstractPointerEvent, DragInitFunction} from "./DragInitiator";
+import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
 
 interface Props {
   panelData: PanelData;
@@ -59,11 +59,30 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.forceUpdate();
   };
 
+  _movingW: number;
+  _movingH: number;
+  onPanelCornerDrag = (event: PointerEvent, initFunction: DragInitFunction) => {
+    let {parent, w, h} = this.props.panelData;
+    if (parent && parent.mode === 'float') {
+      this._movingW = w;
+      this._movingH = h;
+      initFunction(this._ref, this.onPanelCornerDragMove);
+    }
+  };
+  onPanelCornerDragMove = (e: AbstractPointerEvent, dx: number, dy: number) => {
+    let {panelData} = this.props;
+    panelData.w = this._movingW + dx;
+    panelData.h = this._movingH + dy;
+    this.forceUpdate();
+  };
+
+
   render(): React.ReactNode {
     let {dropping} = this.state;
     let {panelData, size} = this.props;
-    let {minWidth, minHeight, group, id} = panelData;
+    let {minWidth, minHeight, group, id, parent} = panelData;
     let {panelClass} = group;
+    let isFloat = parent && parent.mode === 'float';
 
     let cls = `dock-panel ${panelClass ? panelClass : ''} ${dropping ? 'dock-panel-dropping' : ''}`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `1 1 ${size}px`};
@@ -81,6 +100,10 @@ export class DockPanel extends React.PureComponent<Props, State> {
     return (
       <div ref={this.getRef} className={cls} style={style} data-dockid={id} onDragOver={this.onDragOver}>
         <DockTabs panelData={panelData} onPanelHeaderDrag={this.onPanelHeaderDrag}/>
+        {isFloat ?
+          <DragInitiator className='dock-panel-drag-size' onDragInit={this.onPanelCornerDrag}/>
+          : null
+        }
       </div>
     );
   }

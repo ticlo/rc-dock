@@ -44,6 +44,7 @@ export interface LayoutData {
 export interface DockContext {
 }
 export declare function nextId(): number;
+export declare const DockContextType: React.Context<DockContext>;
 export declare const DockContextProvider: React.ProviderExoticComponent<React.ProviderProps<DockContext>>;
 export declare const DockContextConsumer: React.ExoticComponent<React.ConsumerProps<DockContext>>;
 export {};

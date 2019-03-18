@@ -86,7 +86,7 @@ class Demo extends React.Component<any, State> {
     return (
       <div style={{margin: 20}}>
         <h2>Addable Tabs</h2>
-        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 100, top: 100, width: 600, height: 300}}/>
+        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
       </div>
     );
   }

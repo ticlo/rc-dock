@@ -65,7 +65,6 @@ export class DockLayout extends React.PureComponent<Props, State> {
     }
     this.fixBoxData(layout.dockbox);
     this.fixBoxData(layout.floatbox);
-    console.log(layout);
     return layout;
   }
 

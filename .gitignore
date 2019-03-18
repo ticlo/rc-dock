@@ -10,6 +10,8 @@ build
 /src/**/*.js
 /test/**/*.js
 /example/**/*.js
+/lib/example
+/lib/src
 *.map
 *.jsx
 /dist/*.*.*

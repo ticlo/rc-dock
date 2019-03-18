@@ -68,6 +68,6 @@ export function nextId() {
 }
 
 
-const Context = React.createContext<DockContext>(null);
-export const DockContextProvider = Context.Provider;
-export const DockContextConsumer = Context.Consumer;
+export const DockContextType = React.createContext<DockContext>(null);
+export const DockContextProvider = DockContextType.Provider;
+export const DockContextConsumer = DockContextType.Consumer;

@@ -1,5 +1,5 @@
 import React from "react";
-import {DockContext, PanelData, TabData, TabGroup} from "./DockData";
+import {DockContext, DockContextType, PanelData, TabData, TabGroup} from "./DockData";
 import {compareChildKeys, compareKeys} from "./util/Compare";
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
@@ -75,13 +75,15 @@ interface Props {
 }
 
 export class DockTabs extends React.Component<Props, any> {
+  static contextType = DockContextType;
+
   static readonly propKeys = ['group', 'activeId', 'onTabChange'];
 
   context!: DockContext;
   _cache: Map<string, TabCache> = new Map();
 
-  constructor(props: Props) {
-    super(props);
+  constructor(props: Props, context: any) {
+    super(props, context);
     this.updateTabs(props.panelData.tabs);
   }
 

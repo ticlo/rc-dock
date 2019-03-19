@@ -95,10 +95,20 @@
     pointer-events: visible;
     width: 32px;
     height: 32px;
+    font-family: Fredoka One;
+    color: #ccc;
     background: white;
     border: 1px solid #ccc;
     left: calc(50% - 16px);
     top: calc(50% - 16px);
+
+    &::before {
+      width: 30px;
+      height: 30px;
+      display: block;
+      line-height: 30px;
+      text-align: center;
+    }
   }
 
   .dock-drop-middle {
@@ -106,22 +116,42 @@
 
   .dock-drop-left {
     left: calc(50% - 49px);
+
+    &::before {
+      content: '>';
+      transform: rotate(180deg);
+    }
   }
 
   .dock-drop-right {
     left: calc(50% + 17px);
+
+    &::before {
+      content: '>';
+    }
   }
 
   .dock-drop-top {
     top: calc(50% - 49px);
+
+    &::before {
+      content: '>';
+      transform: rotate(270deg);
+    }
   }
 
   .dock-drop-bottom {
     top: calc(50% + 17px);
+
+    &::before {
+      content: '>';
+      transform: rotate(90deg);
+    }
   }
 
   .dock-drop-square-dropping {
     background: #91d5ff;
+    color:white;
   }
 
 }

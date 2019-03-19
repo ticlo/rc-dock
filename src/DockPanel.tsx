@@ -11,7 +11,7 @@ interface Props {
 }
 
 interface State {
-  dropping: TabGroup;
+  dropGroup: TabGroup;
 
 }
 
@@ -33,7 +33,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     DockPanel._droppingPanel = panel;
   }
 
-  state: State = {dropping: null};
+  state: State = {dropGroup: null};
 
   onDragOver = () => {
     let {panelData} = this.props;
@@ -41,13 +41,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     let panel: PanelData = DragStore.getData(DockContextType, 'panel');
     if (tab && !tab.group.tabLocked) {
-      this.setState({dropping: tab.group});
+      this.setState({dropGroup: tab.group});
     }
   };
 
   onDragLeave() {
-    if (this.state.dropping) {
-      this.setState({dropping: null});
+    if (this.state.dropGroup) {
+      this.setState({dropGroup: null});
     }
   }
 
@@ -90,13 +90,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
 
   render(): React.ReactNode {
-    let {dropping} = this.state;
+    let {dropGroup} = this.state;
     let {panelData, size} = this.props;
     let {minWidth, minHeight, group, id, parent} = panelData;
     let {panelClass} = group;
     let isFloat = parent && parent.mode === 'float';
 
-    let cls = `dock-panel ${panelClass ? panelClass : ''} ${dropping ? 'dock-panel-dropping' : ''}`;
+    let cls = `dock-panel ${panelClass ? panelClass : ''} ${dropGroup ? 'dock-panel-dropping' : ''}`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `1 1 ${size}px`};
     if (panelData.parent.mode === 'float') {
       style.left = panelData.x;
@@ -105,8 +105,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
       style.height = panelData.h;
     }
     let droppingLayer: React.ReactNode;
-    if (dropping) {
-      droppingLayer = <DockDropLayer panelData={panelData}/>;
+    if (dropGroup) {
+      droppingLayer = <DockDropLayer panelData={panelData} panelElement={this._ref} dropGroup={dropGroup}/>;
     }
 
     return (

@@ -1,17 +1,28 @@
 import React from "react";
-import { DropDirection, PanelData } from "./DockData";
+import { DockContext, DropDirection, PanelData, TabGroup } from "./DockData";
 interface DockDropSquareProps {
     direction: DropDirection;
     panelData: PanelData;
+    panelElement: HTMLElement;
 }
-export declare class DockDropSquare extends React.PureComponent<DockDropSquareProps, any> {
-    onDragOver: () => void;
-    onDragLeave(): void;
-    onDrop(): void;
+interface DockDropSquareState {
+    dropping: boolean;
+}
+export declare class DockDropSquare extends React.PureComponent<DockDropSquareProps, DockDropSquareState> {
+    static contextType: React.Context<DockContext>;
+    context: DockContext;
+    state: {
+        dropping: boolean;
+    };
+    onDragOver: (e: React.DragEvent<Element>) => void;
+    onDragLeave: (e: React.DragEvent<Element>) => void;
+    onDrop: (e: React.DragEvent<Element>) => void;
     render(): React.ReactNode;
 }
 interface DockDropLayerProps {
     panelData: PanelData;
+    panelElement: HTMLElement;
+    dropGroup: TabGroup;
 }
 export declare class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
     render(): React.ReactNode;

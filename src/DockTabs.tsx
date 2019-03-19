@@ -48,7 +48,7 @@ export class TabCache {
       let midx = rect.left + rect.width * 0.5;
       let direction: DropDirection = e.clientX > midx ? 'after-tab' : 'before-tab';
       this.context.setDropRect(this._ref, direction);
-      e.dataTransfer.dropEffect = 'link';
+      e.dataTransfer.dropEffect = 'move';
       e.preventDefault();
       e.stopPropagation();
     }

@@ -6,7 +6,7 @@ interface Props {
     size: number;
 }
 interface State {
-    dropping: TabGroup;
+    dropGroup: TabGroup;
 }
 export declare class DockPanel extends React.PureComponent<Props, State> {
     _ref: HTMLDivElement;

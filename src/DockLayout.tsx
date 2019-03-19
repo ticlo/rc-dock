@@ -4,6 +4,7 @@ import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
 import {Simulate} from "react-dom/test-utils";
 import drop = Simulate.drop;
+import {DockPanel} from "./DockPanel";
 
 interface Props {
   defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
@@ -87,6 +88,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
   }
 
   dragEnd = () => {
+    DockPanel.droppingPanel = null;
     if (this.state.dropRect) {
       this.setState({dropRect: null});
     }
@@ -108,23 +110,23 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     let height = elemRect.height * scaleY;
 
     switch (direction) {
-      case 'R':
-        left += width * 0.7;
-      case 'L': // tslint:disable-line no-switch-case-fall-through
-        width *= 0.3;
+      case 'right':
+        left += width * 0.5;
+      case 'left': // tslint:disable-line no-switch-case-fall-through
+        width *= 0.5;
         break;
-      case 'B':
-        top += height * 0.7;
-      case 'T': // tslint:disable-line no-switch-case-fall-through
-        height *= 0.3;
+      case 'bottom':
+        top += height * 0.5;
+      case 'top': // tslint:disable-line no-switch-case-fall-through
+        height *= 0.5;
         break;
-      case 'AfterTab':
-        left += width - 8;
-        width = 40;
+      case 'after-tab':
+        left += width - 10;
+        width = 30;
         break;
-      case 'BeforeTab':
-        left -= 40 - 8;
-        width = 40;
+      case 'before-tab':
+        left -= 30 - 10;
+        width = 30;
         break;
     }
 

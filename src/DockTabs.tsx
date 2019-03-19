@@ -12,8 +12,8 @@ export class TabCache {
 
   static readonly usedDataKeys = ['id', 'title', 'group', 'content'];
 
-  _ref: HTMLSpanElement;
-  getRef = (r: HTMLSpanElement) => {
+  _ref: HTMLDivElement;
+  getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
 
@@ -46,7 +46,7 @@ export class TabCache {
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let rect = this._ref.getBoundingClientRect();
       let midx = rect.left + rect.width * 0.5;
-      let direction: DropDirection = e.clientX > midx ? 'AfterTab' : 'BeforeTab';
+      let direction: DropDirection = e.clientX > midx ? 'after-tab' : 'before-tab';
       this.context.setDropRect(this._ref, direction);
       e.dataTransfer.dropEffect = 'link';
       e.preventDefault();
@@ -65,14 +65,14 @@ export class TabCache {
     }
     return (
       <TabPane key={id} tab={
-        <span ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
+        <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
               onDrop={this.onDrop}>
           {title}
           {closable ?
             <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
             : null}
 
-        </span>
+        </div>
       }>
         {content}
       </TabPane>

@@ -60,6 +60,8 @@
 }
 
 .dock-layout {
+  overflow: hidden;
+
   & > .dock-box {
     position: absolute;
     width: 100%;
@@ -70,10 +72,56 @@
     position: absolute;
     box-sizing: border-box;
     pointer-events: none;
-    z-index: 200;
+    z-index: 300;
     border: solid 1px white;
     background: #91d5ff;
     opacity: 0.5;
     display: none;
   }
+}
+
+.dock-drop-layer {
+  position: absolute;
+  pointer-events: none;
+  z-index: 200;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .dock-drop-square {
+    position: absolute;
+    box-sizing: border-box;
+    pointer-events: visible;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border: 1px solid #ccc;
+    left: calc(50% - 16px);
+    top: calc(50% - 16px);
+  }
+
+  .dock-drop-middle {
+  }
+
+  .dock-drop-left {
+    left: calc(50% - 49px);
+  }
+
+  .dock-drop-right {
+    left: calc(50% + 17px);
+  }
+
+  .dock-drop-top {
+    top: calc(50% - 49px);
+  }
+
+  .dock-drop-bottom {
+    top: calc(50% + 17px);
+  }
+
+  .dock-drop-square-dropping {
+    background: #91d5ff;
+  }
+
 }

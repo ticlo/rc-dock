@@ -109,13 +109,17 @@
     position: relative;
     display: block;
     transition: color 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-    padding: 4px 10px;
+    padding: 0;
     font-weight: 500;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
 
     & > .dragging {
       opacity: 0.3;
+    }
+
+    & > div {
+      padding: 4px 10px;
     }
   }
 

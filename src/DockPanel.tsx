@@ -1,7 +1,9 @@
 import React, {CSSProperties} from "react";
-import {PanelData, TabGroup} from "./DockData";
+import {DockContextType, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
+import {DragStore} from "./DragStore";
+import {DockDropLayer} from "./DockDropLayer";
 
 interface Props {
   panelData: PanelData;
@@ -28,17 +30,25 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (DockPanel._droppingPanel) {
       DockPanel._droppingPanel.onDragLeave();
     }
+    DockPanel._droppingPanel = panel;
   }
 
   state: State = {dropping: null};
 
   onDragOver = () => {
+    let {panelData} = this.props;
     DockPanel.droppingPanel = this;
-    this.setState({dropping: null});
+    let tab: TabData = DragStore.getData(DockContextType, 'tab');
+    let panel: PanelData = DragStore.getData(DockContextType, 'panel');
+    if (tab && !tab.group.tabLocked) {
+      this.setState({dropping: tab.group});
+    }
   };
 
   onDragLeave() {
-    this.setState({dropping: null});
+    if (this.state.dropping) {
+      this.setState({dropping: null});
+    }
   }
 
   _movingX: number;
@@ -96,16 +106,18 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     let droppingLayer: React.ReactNode;
     if (dropping) {
-
+      droppingLayer = <DockDropLayer panelData={panelData}/>;
     }
 
     return (
-      <div ref={this.getRef} className={cls} style={style} data-dockid={id} onDragOver={this.onDragOver}>
+      <div ref={this.getRef} className={cls} style={style} data-dockid={id}
+           onDragOver={isFloat ? null : this.onDragOver}>
         <DockTabs panelData={panelData} onPanelHeaderDrag={this.onPanelHeaderDrag}/>
         {isFloat ?
           <DragInitiator className='dock-panel-drag-size' onDragInit={this.onPanelCornerDrag}/>
           : null
         }
+        {droppingLayer}
       </div>
     );
   }

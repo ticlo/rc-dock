@@ -41,7 +41,7 @@ export interface LayoutData {
     dockbox?: BoxData;
     floatbox?: BoxData;
 }
-export declare type DropDirection = 'L' | 'R' | 'B' | 'T' | 'BeforeTab' | 'AfterTab';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'before-tab' | 'after-tab';
 export interface DockContext {
     setDropRect(element: HTMLElement, direction?: DropDirection): void;
 }

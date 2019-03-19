@@ -1,7 +1,9 @@
 import React, {CSSProperties} from "react";
-import {BoxData, LayoutData, PanelData, DockContextProvider, nextId} from "./DockData";
+import {BoxData, LayoutData, PanelData, DockContextProvider, nextId, DockContext, DropDirection} from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
+import {Simulate} from "react-dom/test-utils";
+import drop = Simulate.drop;
 
 interface Props {
   defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
@@ -10,9 +12,16 @@ interface Props {
 
 interface State {
   layout: LayoutData;
+  dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, direction?: DropDirection};
 }
 
-export class DockLayout extends React.PureComponent<Props, State> {
+export class DockLayout extends React.PureComponent<Props, State> implements DockContext {
+
+  _ref: HTMLDivElement;
+  getRef = (r: HTMLDivElement) => {
+    this._ref = r;
+  };
+
 
   fixPanelData(panel: PanelData) {
     panel.id = nextId();
@@ -70,19 +79,78 @@ export class DockLayout extends React.PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = {layout: this.prepareInitData(props.defaultLayout)};
+    this.state = {
+      layout: this.prepareInitData(props.defaultLayout),
+      dropRect: null
+    };
+    document.addEventListener('dragend', this.dragEnd);
+  }
+
+  dragEnd = () => {
+    if (this.state.dropRect) {
+      this.setState({dropRect: null});
+    }
+  };
+
+  setDropRect(element: HTMLElement, direction?: DropDirection) {
+    let {dropRect} = this.state;
+    if (dropRect && dropRect.element === element && dropRect.direction === direction) {
+      return;
+    }
+    let layoutRect = this._ref.getBoundingClientRect();
+    let scaleX = this._ref.offsetWidth / layoutRect.width;
+    let scaleY = this._ref.offsetHeight / layoutRect.height;
+
+    let elemRect = element.getBoundingClientRect();
+    let left = (elemRect.left - layoutRect.left) * scaleX;
+    let top = (elemRect.top - layoutRect.top) * scaleY;
+    let width = elemRect.width * scaleX;
+    let height = elemRect.height * scaleY;
+
+    switch (direction) {
+      case 'R':
+        left += width * 0.7;
+      case 'L': // tslint:disable-line no-switch-case-fall-through
+        width *= 0.3;
+        break;
+      case 'B':
+        top += height * 0.7;
+      case 'T': // tslint:disable-line no-switch-case-fall-through
+        height *= 0.3;
+        break;
+      case 'AfterTab':
+        left += width - 8;
+        width = 40;
+        break;
+      case 'BeforeTab':
+        left -= 40 - 8;
+        width = 40;
+        break;
+    }
+
+    this.setState({dropRect: {left, top, width, height, element, direction}});
   }
 
   render(): React.ReactNode {
     let {style} = this.props;
-    let {layout} = this.state;
+    let {layout, dropRect} = this.state;
+    let dropRectStyle: CSSProperties;
+    if (dropRect) {
+      let {element, direction, ...rect} = dropRect;
+      dropRectStyle = {...rect, display: 'block'};
+    }
     return (
-      <div className='dock-layout' style={style}>
+      <div ref={this.getRef} className='dock-layout' style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
         </DockContextProvider>
+        <div className='dock-drop-indicator' style={dropRectStyle}/>
       </div>
     );
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('dragend', this.dragEnd);
   }
 }

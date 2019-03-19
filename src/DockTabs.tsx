@@ -1,5 +1,5 @@
 import React from "react";
-import {DockContext, DockContextType, PanelData, TabData, TabGroup} from "./DockData";
+import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
 import {compareChildKeys, compareKeys} from "./util/Compare";
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
@@ -39,11 +39,16 @@ export class TabCache {
 
   };
   onDragStart = (e: React.DragEvent) => {
-    DragStore.dragStart(this.context, {tab: this.data}, this._ref);
+    DragStore.dragStart(DockContextType, {tab: this.data}, this._ref);
   };
   onDragOver = (e: React.DragEvent) => {
-    let tab: TabData = DragStore.getData(this.context, 'tab');
+    let tab: TabData = DragStore.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
+      let rect = this._ref.getBoundingClientRect();
+      let midx = rect.left + rect.width * 0.5;
+      let direction: DropDirection = e.clientX > midx ? 'AfterTab' : 'BeforeTab';
+      this.context.setDropRect(this._ref, direction);
+      e.dataTransfer.dropEffect = 'link';
       e.preventDefault();
       e.stopPropagation();
     }
@@ -82,6 +87,10 @@ export class TabCache {
 interface Props {
   panelData: PanelData;
   onPanelHeaderDrag: DragInitHandler;
+}
+
+interface State {
+
 }
 
 export class DockTabs extends React.Component<Props, any> {

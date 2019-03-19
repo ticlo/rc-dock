@@ -41,7 +41,9 @@ export interface LayoutData {
     dockbox?: BoxData;
     floatbox?: BoxData;
 }
+export declare type DropDirection = 'L' | 'R' | 'B' | 'T' | 'BeforeTab' | 'AfterTab';
 export interface DockContext {
+    setDropRect(element: HTMLElement, direction?: DropDirection): void;
 }
 export declare function nextId(): number;
 export declare const DockContextType: React.Context<DockContext>;

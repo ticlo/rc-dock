@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {DockTabs} from "../src/DockTabs";
-import {BoxData, LayoutData, PanelData, TabData, TabGroup} from "../src/DockData";
+import {BoxData, DockContextType, LayoutData, PanelData, TabData, TabGroup} from "../src/DockData";
 import {DockPanel} from "../src/DockPanel";
 import {DockBox} from "../src/DockBox";
 import {DockLayout} from "../src/DockLayout";
+import {DragStore} from "../src/DragStore";
 
 let group: TabGroup = {
   closable: true
@@ -18,12 +19,12 @@ let box: LayoutData = {
         tabs: [{
           id: 'hello1',
           title: 'hello',
-          content: <span style={{margin: 50}}>hello</span>,
+          content: <div style={{padding: 20}}>hello</div>,
           group
         }, {
           id: 'world2',
           title: 'world',
-          content: <span style={{margin: 50}}>world</span>,
+          content: <div style={{padding: 20}}>world</div>,
           group
         }],
         group,
@@ -34,12 +35,12 @@ let box: LayoutData = {
         tabs: [{
           id: 'hello3',
           title: 'hello',
-          content: <span style={{margin: 50}}>hello</span>,
+          content: <div style={{padding: 20}}>hello</div>,
           group
         }, {
           id: 'world4',
           title: 'world',
-          content: <span style={{margin: 50}}>world</span>,
+          content: <div style={{padding: 20}}>world</div>,
           group
         }],
         group,
@@ -54,12 +55,12 @@ let box: LayoutData = {
         tabs: [{
           id: 'hello5',
           title: 'hello',
-          content: <span style={{margin: 50}}>hello</span>,
+          content: <span style={{padding: 20}}>hello</span>,
           group
         }, {
           id: 'world6',
           title: 'world',
-          content: <span style={{margin: 50}}>world</span>,
+          content: <span style={{padding: 20}}>world</span>,
           group
         }],
         group,
@@ -75,6 +76,8 @@ interface State {
   activeId: string;
 }
 
+let count = 0;
+
 class Demo extends React.Component<any, State> {
   state = {activeId: 'world'};
 
@@ -85,8 +88,20 @@ class Demo extends React.Component<any, State> {
   render() {
     return (
       <div style={{margin: 20}}>
-        <h2>Addable Tabs</h2>
-        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
+        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 200, bottom: 10}}/>
+
+        <div className='dragMe' draggable={true} onDragStart={(e) => {
+          let content = `New Tab ${count++}`;
+          DragStore.dragStart(DockContextType, {
+            tab: {
+              id: content,
+              content: <div style={{padding: 20}}>{content}</div>,
+              title: content,
+              group
+            }
+          });
+        }} style={{}}>New Tab
+        </div>
       </div>
     );
   }

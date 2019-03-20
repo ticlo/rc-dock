@@ -129,13 +129,23 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   return layout;
 }
 
+function fixpanelOrBox(d: PanelData | BoxData) {
+  if (d.id == null) {
+    d.id = nextId();
+  }
+  if (!(d.size >= 0)) {
+    d.size = 200;
+  }
+  if (!(d.minWidth >= 0)) {
+    d.minWidth = 0;
+  }
+  if (!(d.minHeight >= 0)) {
+    d.minHeight = 0;
+  }
+}
+
 function fixPanelData(panel: PanelData): PanelData {
-  if (panel.id == null) {
-    panel.id = nextId();
-  }
-  if (!(panel.size >= 0)) {
-    panel.size = 200;
-  }
+  fixpanelOrBox(panel);
   for (let child of panel.tabs) {
     child.parent = panel;
   }
@@ -143,13 +153,7 @@ function fixPanelData(panel: PanelData): PanelData {
 }
 
 function fixBoxData(box: BoxData): BoxData {
-  if (box.id == null) {
-    box.id = nextId();
-  }
-
-  if (!(box.size >= 0)) {
-    box.size = 200;
-  }
+  fixpanelOrBox(box);
   for (let i = 0; i < box.children.length; ++i) {
     let child = box.children[i];
     child.parent = box;

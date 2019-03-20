@@ -53,19 +53,21 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
 
   moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection) {
     let {layout} = this.state;
-    Algorithm.setWatchObject(target);
+
     layout = Algorithm.removeTab(layout, tab);
+
+    target = Algorithm.getUpdatedObject(target); // target might change during removeTab
+
     if (target) {
       if ('tabs' in target) {
-        // is panel
+        layout = Algorithm.dockTabToPanel(layout, tab, target, direction);
       } else {
-        layout = Algorithm.addTabToTab(layout, tab, Algorithm.getWatchObject(target), direction);
+        layout = Algorithm.addTabToTab(layout, tab, target, direction);
       }
     }
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});
     this.dragEnd();
-    Algorithm.clearWatchObj();
   }
 
   movePanel(panel: PanelData, target: PanelData, direction: DropDirection) {

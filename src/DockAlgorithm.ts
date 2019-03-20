@@ -2,28 +2,19 @@ import {BoxData, DropDirection, LayoutData, nextId, PanelData, TabData} from "./
 
 let _watchObjectChange: Map<any, any> = new Map();
 
-export function setWatchObject(obj: any) {
-  _watchObjectChange.set(obj, obj);
-}
 
-export function getWatchObject(obj: any): any {
+export function getUpdatedObject(obj: any): any {
   let result = _watchObjectChange.get(obj);
-  if (result === obj) {
-    return result;
+  if (result) {
+    return getUpdatedObject(result);
   }
-  return getWatchObject(result);
-}
-
-export function clearWatchObj() {
   _watchObjectChange.clear();
+  return obj;
 }
 
 function clone<T>(value: T): T {
   let newValue = {...value};
-  if (_watchObjectChange.has(value)) {
-    _watchObjectChange.set(value, newValue);
-    _watchObjectChange.set(newValue, newValue);
-  }
+  _watchObjectChange.set(value, newValue);
   return newValue;
 }
 
@@ -52,6 +43,18 @@ export function addTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData
   return layout;
 }
 
+export function dockTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData, direction: DropDirection): LayoutData {
+  if (direction === 'middle') {
+    return addTabToPanel(layout, tab, panel);
+  }
+  let newPanel: PanelData = {id: nextId(), tabs: [tab], group: tab.group, activeId: tab.id};
+  tab.parent = newPanel;
+  return dockPanelToPanel(layout, newPanel, panel, direction);
+}
+
+export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel: PanelData, direction: DropDirection): LayoutData {
+
+}
 
 export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
   if (tab.parent) {

@@ -11,6 +11,17 @@ export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
       let newPanel = {...tab.parent};
       newPanel.tabs = newPanel.tabs.concat();
       newPanel.tabs.splice(pos, 1);
+      if (newPanel.activeId === tab.id) {
+        // update selection id
+        if (newPanel.tabs.length > pos) {
+          newPanel.activeId = newPanel.tabs[pos].id;
+        } else if (newPanel.tabs.length) {
+          newPanel.activeId = newPanel.tabs[0].id;
+        }
+      }
+      for (let tab of newPanel.tabs) {
+        tab.parent = newPanel;
+      }
       return invalidatePanel(layout, tab.parent, newPanel);
     }
   }
@@ -29,6 +40,9 @@ function invalidatePanel(layout: LayoutData, panel: PanelData, newPanel: PanelDa
       let newBox = {...box};
       newBox.children = newBox.children.concat();
       newBox.children[pos] = newPanel;
+      for (let child of newBox.children) {
+        child.parent = newBox;
+      }
       return invalidateBox(layout, box, newBox);
     }
   }
@@ -43,6 +57,9 @@ function invalidateBox(layout: LayoutData, box: BoxData, newBox: BoxData): Layou
       let newParentBox = {...parentBox};
       newParentBox.children = newBox.children.concat();
       newParentBox.children[pos] = newBox;
+      for (let child of newParentBox.children) {
+        child.parent = newParentBox;
+      }
       return invalidateBox(layout, parentBox, newParentBox);
     }
   } else {

@@ -50,7 +50,7 @@ export class DockBox extends React.PureComponent<Props, any> {
   render(): React.ReactNode {
     let {boxData} = this.props;
     let {minWidth, minHeight, size, children, mode, id} = boxData;
-
+    console.log(`box render ${id}`);
     let childrenRender: React.ReactNode[] = [];
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {

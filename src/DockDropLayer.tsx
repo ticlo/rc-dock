@@ -36,7 +36,11 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDrop = (e: React.DragEvent) => {
-
+    let tab: TabData = DragStore.getData(DockContextType, 'tab');
+    if (tab) {
+      let {panelData, direction} = this.props;
+      this.context.moveTab(tab, panelData, direction);
+    }
   };
 
   render(): React.ReactNode {

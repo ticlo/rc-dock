@@ -35,8 +35,8 @@ export class TabCache {
   }
 
   onCloseClick = (e: React.MouseEvent) => {
+    this.context.moveTab(this.data, null, 'remove');
     e.stopPropagation();
-
   };
   onDragStart = (e: React.DragEvent) => {
     DragStore.dragStart(DockContextType, {tab: this.data}, this._ref);
@@ -44,9 +44,7 @@ export class TabCache {
   onDragOver = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
-      let rect = this._ref.getBoundingClientRect();
-      let midx = rect.left + rect.width * 0.5;
-      let direction: DropDirection = e.clientX > midx ? 'after-tab' : 'before-tab';
+      let direction = this.getDropDirection(e);
       this.context.setDropRect(this._ref, direction);
       e.dataTransfer.dropEffect = 'move';
       e.preventDefault();
@@ -54,8 +52,18 @@ export class TabCache {
     }
   };
   onDrop = (e: React.DragEvent) => {
-
+    let tab: TabData = DragStore.getData(DockContextType, 'tab');
+    if (tab && tab !== this.data && tab.group === this.data.group) {
+      let direction = this.getDropDirection(e);
+      this.context.moveTab(tab, this.data, direction);
+    }
   };
+
+  getDropDirection(e: React.DragEvent): DropDirection {
+    let rect = this._ref.getBoundingClientRect();
+    let midx = rect.left + rect.width * 0.5;
+    return e.clientX > midx ? 'after-tab' : 'before-tab';
+  }
 
   render(): React.ReactNode {
     let {id, title, group, content} = this.data;
@@ -66,7 +74,7 @@ export class TabCache {
     return (
       <TabPane key={id} tab={
         <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
-              onDrop={this.onDrop}>
+             onDrop={this.onDrop}>
           {title}
           {closable ?
             <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
@@ -96,7 +104,7 @@ interface State {
 export class DockTabs extends React.Component<Props, any> {
   static contextType = DockContextType;
 
-  static readonly propKeys = ['group', 'activeId', 'onTabChange'];
+  static readonly propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
 
   context!: DockContext;
   _cache: Map<string, TabCache> = new Map();

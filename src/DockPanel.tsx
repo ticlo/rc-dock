@@ -40,7 +40,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     DockPanel.droppingPanel = this;
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     let panel: PanelData = DragStore.getData(DockContextType, 'panel');
-    if (tab && !tab.group.tabLocked) {
+    if (tab) {
       this.setState({dropGroup: tab.group});
     }
   };
@@ -95,7 +95,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let {minWidth, minHeight, group, id, parent} = panelData;
     let {panelClass} = group;
     let isFloat = parent && parent.mode === 'float';
-
+    console.log(`panel render ${id}`);
     let cls = `dock-panel ${panelClass ? panelClass : ''} ${dropGroup ? 'dock-panel-dropping' : ''}`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `1 1 ${size}px`};
     if (panelData.parent.mode === 'float') {

@@ -1,10 +1,20 @@
 import React, {CSSProperties} from "react";
-import {BoxData, LayoutData, PanelData, DockContextProvider, nextId, DockContext, DropDirection} from "./DockData";
+import {
+  BoxData,
+  LayoutData,
+  PanelData,
+  DockContextProvider,
+  nextId,
+  DockContext,
+  DropDirection,
+  TabData
+} from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
 import {Simulate} from "react-dom/test-utils";
 import drop = Simulate.drop;
 import {DockPanel} from "./DockPanel";
+import {addTabToTab, fixLayout, removeTab} from "./DockAlgorithm";
 
 interface Props {
   defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
@@ -78,6 +88,24 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     return layout;
   }
 
+  moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection) {
+    let {layout} = this.state;
+    layout = removeTab(layout, tab);
+    if (target) {
+      if ('tabs' in target) {
+        // is panel
+      } else {
+        layout = addTabToTab(layout, tab, target, direction);
+      }
+    }
+    layout = fixLayout(layout);
+    this.setState({layout});
+  }
+
+  movePanel(panel: PanelData, target: PanelData, direction: DropDirection) {
+
+  }
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -136,6 +164,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
   render(): React.ReactNode {
     let {style} = this.props;
     let {layout, dropRect} = this.state;
+    console.log(`layout render `);
     let dropRectStyle: CSSProperties;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;

@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection } from "./DockData";
+import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData } from "./DockData";
 interface Props {
     defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
     style?: CSSProperties;
@@ -21,6 +21,8 @@ export declare class DockLayout extends React.PureComponent<Props, State> implem
     fixPanelData(panel: PanelData): void;
     fixBoxData(box: BoxData): void;
     prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData;
+    moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
+    movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
     constructor(props: Props);
     dragEnd: () => void;
     setDropRect(element: HTMLElement, direction?: DropDirection): void;

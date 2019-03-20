@@ -1,5 +1,5 @@
 import React from "react";
-import { DockContext, PanelData, TabData } from "./DockData";
+import { DockContext, DropDirection, PanelData, TabData } from "./DockData";
 import { DragInitHandler } from "./DragInitiator";
 export declare class TabCache {
     static readonly usedDataKeys: string[];
@@ -14,6 +14,7 @@ export declare class TabCache {
     onDragStart: (e: React.DragEvent<Element>) => void;
     onDragOver: (e: React.DragEvent<Element>) => void;
     onDrop: (e: React.DragEvent<Element>) => void;
+    getDropDirection(e: React.DragEvent): DropDirection;
     render(): React.ReactNode;
     destroy(): void;
 }

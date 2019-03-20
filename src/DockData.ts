@@ -54,10 +54,14 @@ export interface LayoutData {
   floatbox?: BoxData;
 }
 
-export type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'before-tab' | 'after-tab';
+export type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab';
 
 export interface DockContext {
   setDropRect(element: HTMLElement, direction?: DropDirection): void;
+
+  moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
+
+  movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
 }
 
 let _idCount = 0;

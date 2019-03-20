@@ -74,13 +74,16 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
       newBox.children.splice(pos, 0, newPanel);
     } else {
       let newChildBox: BoxData = {mode: dockMode, children: []};
+      newChildBox.size = panel.size;
       if (afterPanel) {
         newChildBox.children = [panel, newPanel];
       } else {
         newChildBox.children = [newPanel, panel];
       }
       panel.parent = newChildBox;
+      panel.size = 200;
       newPanel.parent = newChildBox;
+      newPanel.size = 200;
       newBox.children[pos] = newChildBox;
       newChildBox.parent = newBox;
     }

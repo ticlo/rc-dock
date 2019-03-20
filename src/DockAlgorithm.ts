@@ -1,14 +1,12 @@
 import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData} from "./DockData";
 
-let _watchObjectChange: Map<any, any> = new Map();
-
+let _watchObjectChange: WeakMap<any, any> = new WeakMap();
 
 export function getUpdatedObject(obj: any): any {
   let result = _watchObjectChange.get(obj);
   if (result) {
     return getUpdatedObject(result);
   }
-  _watchObjectChange.clear();
   return obj;
 }
 

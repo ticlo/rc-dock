@@ -133,7 +133,7 @@ function fixPanelData(panel: PanelData): PanelData {
   if (panel.id == null) {
     panel.id = nextId();
   }
-  if (!(panel.size > 0)) {
+  if (!(panel.size >= 0)) {
     panel.size = 200;
   }
   for (let child of panel.tabs) {
@@ -147,15 +147,47 @@ function fixBoxData(box: BoxData): BoxData {
     box.id = nextId();
   }
 
-  if (!(box.size > 0)) {
+  if (!(box.size >= 0)) {
     box.size = 200;
   }
-  for (let child of box.children) {
+  for (let i = 0; i < box.children.length; ++i) {
+    let child = box.children[i];
     child.parent = box;
     if ('children' in child) {
       fixBoxData(child);
+      if (child.children.length === 0) {
+        // remove box with no child
+        box.children.splice(i, 1);
+        --i;
+      } else if (child.children.length === 1) {
+        // box with one child should be merged back to parent box
+        let subChild = child.children[0];
+        if ((subChild as BoxData).mode === box.mode) {
+          // sub child is another box that can be merged into current box
+          let totalSubSize = 0;
+          for (let subsubChild of (subChild as BoxData).children) {
+            totalSubSize += subsubChild.size;
+          }
+          let sizeScale = child.size / totalSubSize;
+          for (let subsubChild of (subChild as BoxData).children) {
+            subsubChild.size *= sizeScale;
+          }
+          // merge children up
+          box.children.splice(i, 1, ...(subChild as BoxData).children);
+        } else {
+          // sub child can be moved up one layer
+          subChild.size = child.size;
+          box.children[i] = subChild;
+        }
+        --i;
+      }
     } else if ('tabs' in child) {
       fixPanelData(child);
+      if (child.tabs.length === 0 && !child.panelLocked) {
+        // remove panel with no tab
+        box.children.splice(i, 1);
+        --i;
+      }
     }
   }
   return box;

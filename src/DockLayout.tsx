@@ -14,7 +14,7 @@ import {FloatBox} from "./FloatBox";
 import {Simulate} from "react-dom/test-utils";
 import drop = Simulate.drop;
 import {DockPanel} from "./DockPanel";
-import {addTabToTab, fixLayout, removeTab} from "./DockAlgorithm";
+import * as Algorithm from "./DockAlgorithm";
 
 interface Props {
   defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
@@ -34,34 +34,6 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
   };
 
 
-  fixPanelData(panel: PanelData) {
-    panel.id = nextId();
-    if (!(panel.size > 0)) {
-      panel.size = 200;
-    }
-    for (let child of panel.tabs) {
-      child.parent = panel;
-    }
-  }
-
-  fixBoxData(box: BoxData) {
-    box.id = nextId();
-    if (!(box.size > 0)) {
-      box.size = 200;
-    }
-    for (let child of box.children) {
-      child.parent = box;
-      if ('children' in child) {
-        // add box id
-        this.fixBoxData(child);
-      } else if ('tabs' in child) {
-        // add panel id
-        this.fixPanelData(child);
-
-      }
-    }
-  }
-
   prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData {
     let layout: LayoutData;
     if (Array.isArray(data)) {
@@ -75,32 +47,25 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
         dockbox: data
       };
     }
-    if (!('dockbox' in layout)) {
-      layout.dockbox = {mode: 'horizontal', children: [], size: 1};
-    }
-    if (!('floatbox' in layout)) {
-      layout.floatbox = {mode: 'float', children: [], size: 1};
-    } else {
-      layout.floatbox.mode = 'float';
-    }
-    this.fixBoxData(layout.dockbox);
-    this.fixBoxData(layout.floatbox);
+    Algorithm.fixLayoutData(layout);
     return layout;
   }
 
   moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection) {
     let {layout} = this.state;
-    layout = removeTab(layout, tab);
+    Algorithm.setWatchObject(target);
+    layout = Algorithm.removeTab(layout, tab);
     if (target) {
       if ('tabs' in target) {
         // is panel
       } else {
-        layout = addTabToTab(layout, tab, target, direction);
+        layout = Algorithm.addTabToTab(layout, tab, Algorithm.getWatchObject(target), direction);
       }
     }
-    layout = fixLayout(layout);
+    layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});
     this.dragEnd();
+    Algorithm.clearWatchObj();
   }
 
   movePanel(panel: PanelData, target: PanelData, direction: DropDirection) {

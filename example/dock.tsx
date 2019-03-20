@@ -16,34 +16,34 @@ let box: LayoutData = {
     children: [
       {
         tabs: [{
-          id: 'hello',
+          id: 'hello1',
           title: 'hello',
           content: <span style={{margin: 50}}>hello</span>,
           group
         }, {
-          id: 'world',
+          id: 'world2',
           title: 'world',
           content: <span style={{margin: 50}}>world</span>,
           group
         }],
         group,
-        activeId: 'world',
+        activeId: 'world2',
         id: 'panel1',
       },
       {
         tabs: [{
-          id: 'hello',
+          id: 'hello3',
           title: 'hello',
           content: <span style={{margin: 50}}>hello</span>,
           group
         }, {
-          id: 'world',
+          id: 'world4',
           title: 'world',
           content: <span style={{margin: 50}}>world</span>,
           group
         }],
         group,
-        activeId: 'world',
+        activeId: 'world4',
         id: 'panel2',
       }
     ]
@@ -52,18 +52,18 @@ let box: LayoutData = {
     children: [
       {
         tabs: [{
-          id: 'hello',
+          id: 'hello5',
           title: 'hello',
           content: <span style={{margin: 50}}>hello</span>,
           group
         }, {
-          id: 'world',
+          id: 'world6',
           title: 'world',
           content: <span style={{margin: 50}}>world</span>,
           group
         }],
         group,
-        activeId: 'world',
+        activeId: 'world6',
         id: 'panel2',
         x: 20, y: 30, w: 200, h: 200
       }

@@ -18,8 +18,6 @@ interface State {
 export declare class DockLayout extends React.PureComponent<Props, State> implements DockContext {
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
-    fixPanelData(panel: PanelData): void;
-    fixBoxData(box: BoxData): void;
     prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData;
     moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;

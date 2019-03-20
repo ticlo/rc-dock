@@ -50,12 +50,14 @@ export class DockBox extends React.PureComponent<Props, any> {
   render(): React.ReactNode {
     let {boxData} = this.props;
     let {minWidth, minHeight, size, children, mode, id} = boxData;
+    let isVertical = mode === 'vertical';
     console.log(`box render ${id}`);
     let childrenRender: React.ReactNode[] = [];
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
         childrenRender.push(
-          <Divider idx={i} key={i} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
+          <Divider idx={i} key={i} isVertical={isVertical}
+                   getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
         );
       }
       let child = children[i];

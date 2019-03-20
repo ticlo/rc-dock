@@ -3,11 +3,12 @@ interface DockDataBase {
     minWidth?: number;
     minHeight?: number;
 }
+export declare type DockMode = 'horizontal' | 'vertical' | 'float';
 export interface BoxData extends DockDataBase {
     id?: string | number;
     parent?: BoxData;
     size?: number;
-    mode?: 'horizontal' | 'vertical' | 'float';
+    mode?: DockMode;
     children: (BoxData | PanelData)[];
 }
 export interface TabGroup {

@@ -1,4 +1,4 @@
-import {BoxData, DropDirection, LayoutData, nextId, PanelData, TabData} from "./DockData";
+import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData} from "./DockData";
 
 let _watchObjectChange: Map<any, any> = new Map();
 
@@ -13,7 +13,13 @@ export function getUpdatedObject(obj: any): any {
 }
 
 function clone<T>(value: T): T {
-  let newValue = {...value};
+  let newValue: any = {...value};
+  if (Array.isArray(newValue.tabs)) {
+    newValue.tabs = newValue.tabs.concat();
+  }
+  if (Array.isArray(newValue.children)) {
+    newValue.children = newValue.children.concat();
+  }
   _watchObjectChange.set(value, newValue);
   return newValue;
 }
@@ -34,7 +40,6 @@ export function addTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData
     idx = panel.tabs.length;
   }
   let newPanel = clone(panel);
-  newPanel.tabs = newPanel.tabs.concat();
   newPanel.tabs.splice(idx, 0, tab);
   newPanel.activeId = tab.id;
   tab.parent = newPanel;
@@ -47,13 +52,41 @@ export function dockTabToPanel(layout: LayoutData, tab: TabData, panel: PanelDat
   if (direction === 'middle') {
     return addTabToPanel(layout, tab, panel);
   }
-  let newPanel: PanelData = {id: nextId(), tabs: [tab], group: tab.group, activeId: tab.id};
+  let newPanel: PanelData = {tabs: [tab], group: tab.group, activeId: tab.id};
   tab.parent = newPanel;
   return dockPanelToPanel(layout, newPanel, panel, direction);
 }
 
 export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel: PanelData, direction: DropDirection): LayoutData {
+  let box = panel.parent;
+  let dockMode: DockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
+  let afterPanel = (direction === 'bottom' || direction === 'right');
 
+  let pos = box.children.indexOf(panel);
+  if (pos >= 0) {
+    let newBox = clone(box);
+    if (dockMode === box.mode) {
+      if (afterPanel) {
+        ++pos;
+      }
+      panel.size *= 0.5;
+      newPanel.size = panel.size;
+      newBox.children.splice(pos, 0, newPanel);
+    } else {
+      let newChildBox: BoxData = {mode: dockMode, children: []};
+      if (afterPanel) {
+        newChildBox.children = [panel, newPanel];
+      } else {
+        newChildBox.children = [newPanel, panel];
+      }
+      panel.parent = newChildBox;
+      newPanel.parent = newChildBox;
+      newBox.children[pos] = newChildBox;
+      newChildBox.parent = newBox;
+    }
+    return invalidateBox(layout, box, newBox);
+  }
+  return layout;
 }
 
 export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
@@ -61,7 +94,6 @@ export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
     let pos = tab.parent.tabs.indexOf(tab);
     if (pos >= 0) {
       let newPanel = clone(tab.parent);
-      newPanel.tabs = newPanel.tabs.concat();
       newPanel.tabs.splice(pos, 1);
       if (newPanel.activeId === tab.id) {
         // update selection id
@@ -132,7 +164,6 @@ function invalidatePanel(layout: LayoutData, panel: PanelData, newPanel: PanelDa
     let pos = box.children.indexOf(panel);
     if (pos >= 0) {
       let newBox = clone(box);
-      newBox.children = newBox.children.concat();
       newBox.children[pos] = newPanel;
       for (let child of newBox.children) {
         child.parent = newBox;
@@ -149,7 +180,6 @@ function invalidateBox(layout: LayoutData, box: BoxData, newBox: BoxData): Layou
     let pos = parentBox.children.indexOf(box);
     if (pos >= 0) {
       let newParentBox = clone(parentBox);
-      newParentBox.children = newBox.children.concat();
       newParentBox.children[pos] = newBox;
       for (let child of newParentBox.children) {
         child.parent = newParentBox;

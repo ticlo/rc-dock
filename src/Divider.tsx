@@ -82,14 +82,17 @@ export class Divider extends React.PureComponent<DividerProps, any> {
 
   startDrag = (e: PointerEvent, initFunction: DragInitFunction) => {
     this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
-    if (e.shiftKey || e.ctrlKey) {
-      initFunction(this.boxData.element, this.dragMoveAll, this.dragEnd);
-    } else {
-      initFunction(this.boxData.element, this.dragMove2, this.dragEnd);
-    }
-
+    initFunction(this.boxData.element, this.dragMove, this.dragEnd);
   };
-  dragMove2 = (e: AbstractPointerEvent, dx: number, dy: number) => {
+  dragMove = (e: AbstractPointerEvent, dx: number, dy: number) => {
+    if (e.shiftKey || e.ctrlKey) {
+      this.dragMoveAll(e, dx, dy);
+    } else {
+      this.dragMove2(e, dx, dy);
+    }
+  };
+
+  dragMove2(e: AbstractPointerEvent, dx: number, dy: number) {
     let {isVertical, changeSizes} = this.props;
     let {beforeDivider, afterDivider} = this.boxData;
     if (!(beforeDivider.length && afterDivider.length)) {
@@ -99,6 +102,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     let d = isVertical ? dy : dx;
     let leftChild = beforeDivider[beforeDivider.length - 1];
     let rightCild = afterDivider[0];
+
     let leftSize = leftChild.size + d;
     let rightSize = rightCild.size - d;
     // check min size
@@ -115,8 +119,9 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     sizes[beforeDivider.length - 1] = leftSize;
     sizes[beforeDivider.length] = rightSize;
     changeSizes(sizes);
-  };
-  dragMoveAll = (e: AbstractPointerEvent, dx: number, dy: number) => {
+  }
+
+  dragMoveAll(e: AbstractPointerEvent, dx: number, dy: number) {
     let {isVertical, changeSizes} = this.props;
     let {beforeSize, beforeMinSize, afterSize, afterMinSize, beforeDivider, afterDivider} = this.boxData;
     let d = isVertical ? dy : dx;
@@ -134,7 +139,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     }
 
     changeSizes(spiltSize(newBeforeSize, beforeSize, beforeDivider).concat(spiltSize(newAfterSize, afterSize, afterDivider)));
-  };
+  }
 
   dragEnd = (e: AbstractPointerEvent, dx: number, dy: number) => {
     this.boxData = null;

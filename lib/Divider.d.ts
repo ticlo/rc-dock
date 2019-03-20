@@ -29,8 +29,9 @@ declare class BoxDataCache implements DividerData {
 export declare class Divider extends React.PureComponent<DividerProps, any> {
     boxData: BoxDataCache;
     startDrag: (e: PointerEvent, initFunction: DragInitFunction) => void;
-    dragMove2: (e: AbstractPointerEvent, dx: number, dy: number) => void;
-    dragMoveAll: (e: AbstractPointerEvent, dx: number, dy: number) => void;
+    dragMove: (e: AbstractPointerEvent, dx: number, dy: number) => void;
+    dragMove2(e: AbstractPointerEvent, dx: number, dy: number): void;
+    dragMoveAll(e: AbstractPointerEvent, dx: number, dy: number): void;
     dragEnd: (e: AbstractPointerEvent, dx: number, dy: number) => void;
     render(): React.ReactNode;
 }

@@ -100,10 +100,11 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     }
     layout = fixLayout(layout);
     this.setState({layout});
+    this.dragEnd();
   }
 
   movePanel(panel: PanelData, target: PanelData, direction: DropDirection) {
-
+    this.dragEnd();
   }
 
   constructor(props: Props) {

@@ -1,8 +1,24 @@
 import {BoxData, DropDirection, LayoutData, PanelData, TabData} from "./DockData";
 
 export function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, direction: DropDirection): LayoutData {
-
+  let pos = target.parent.tabs.indexOf(target);
+  if (pos >= 0) {
+    if (direction === 'after-tab') {
+      ++pos;
+    }
+    return addTabToPanel(layout, tab, target.parent, pos);
+  }
+  return layout;
 }
+
+export function addTabToPanel(layout: LayoutData, tab: TabData, target: PanelData, idx = -1): LayoutData {
+  if (idx === -1) {
+    idx = target.tabs.length;
+  }
+
+  return layout;
+}
+
 
 export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
   if (tab.parent) {

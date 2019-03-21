@@ -93,10 +93,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let {dropGroup} = this.state;
     let {panelData, size} = this.props;
     let {minWidth, minHeight, group, id, parent} = panelData;
-    let {panelClass} = group;
+    let {panelClass, headless} = group;
     let isFloat = parent && parent.mode === 'float';
+    if (isFloat) {
+      headless = false;
+    }
     console.log(`panel render ${id}`);
-    let cls = `dock-panel ${panelClass ? panelClass : ''} ${dropGroup ? 'dock-panel-dropping' : ''}`;
+    let cls = `dock-panel${headless ? ' dock-headless-panel' : ''} ${panelClass ? panelClass : ''}${dropGroup ? ' dock-panel-dropping' : ''}`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `1 1 ${size}px`};
     if (panelData.parent.mode === 'float') {
       style.left = panelData.x;

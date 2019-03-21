@@ -39,7 +39,7 @@
 
 .dock-fbox {
   pointer-events: none;
-  z-index: 100;
+  z-index: 200;
 
   & > .dock-panel {
     position: absolute;
@@ -71,7 +71,7 @@
     position: absolute;
     box-sizing: border-box;
     pointer-events: none;
-    z-index: 300;
+    z-index: 400;
     border: solid 1px white;
     background: #91d5ff;
     opacity: 0.5;
@@ -87,11 +87,16 @@
   right: 0;
   bottom: 0;
 
+  &.dock-drop-float {
+    pointer-events: all;
+    z-index: 100;
+  }
+
   .dock-drop-square {
     position: absolute;
     box-sizing: border-box;
     pointer-events: visible;
-    z-index: 200;
+    z-index: 300;
     width: 32px;
     height: 32px;
     font-family: Fredoka One;

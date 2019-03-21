@@ -10,7 +10,6 @@ import {DragStore} from "../src/DragStore";
 
 let group: TabGroup = {
   closable: true,
-  headless: true,
 };
 let box: LayoutData = {
   dockbox: {

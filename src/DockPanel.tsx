@@ -11,7 +11,7 @@ interface Props {
 }
 
 interface State {
-  dropGroup: TabGroup;
+  dropFromPanel: PanelData;
 
 }
 
@@ -33,7 +33,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     DockPanel._droppingPanel = panel;
   }
 
-  state: State = {dropGroup: null};
+  state: State = {dropFromPanel: null};
 
   onDragOver = () => {
     let {panelData} = this.props;
@@ -41,13 +41,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     let panel: PanelData = DragStore.getData(DockContextType, 'panel');
     if (tab) {
-      this.setState({dropGroup: tab.group});
+      this.setState({dropFromPanel: tab.parent});
     }
   };
 
   onDragLeave() {
-    if (this.state.dropGroup) {
-      this.setState({dropGroup: null});
+    if (this.state.dropFromPanel) {
+      this.setState({dropFromPanel: null});
     }
   }
 
@@ -90,7 +90,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
 
   render(): React.ReactNode {
-    let {dropGroup} = this.state;
+    let {dropFromPanel} = this.state;
     let {panelData, size} = this.props;
     let {minWidth, minHeight, group, id, parent} = panelData;
     let {panelClass, headless} = group;
@@ -99,7 +99,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       headless = false;
     }
     console.log(`panel render ${id}`);
-    let cls = `dock-panel${headless ? ' dock-headless-panel' : ''} ${panelClass ? panelClass : ''}${dropGroup ? ' dock-panel-dropping' : ''}`;
+    let cls = `dock-panel${headless ? ' dock-headless-panel' : ''} ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `1 1 ${size}px`};
     if (panelData.parent.mode === 'float') {
       style.left = panelData.x;
@@ -108,8 +108,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
       style.height = panelData.h;
     }
     let droppingLayer: React.ReactNode;
-    if (dropGroup) {
-      droppingLayer = <DockDropLayer panelData={panelData} panelElement={this._ref} dropGroup={dropGroup}/>;
+    if (dropFromPanel) {
+      droppingLayer = <DockDropLayer panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
     }
 
     return (

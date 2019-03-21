@@ -91,6 +91,10 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
   };
 
   setDropRect(element: HTMLElement, direction?: DropDirection) {
+    if (!element) {
+      this.setState({dropRect: null});
+      return;
+    }
     let {dropRect} = this.state;
     if (dropRect && dropRect.element === element && dropRect.direction === direction) {
       return;

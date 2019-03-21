@@ -1,5 +1,5 @@
 import React from "react";
-import { DockContext, DropDirection, PanelData, TabGroup } from "./DockData";
+import { DockContext, DropDirection, PanelData } from "./DockData";
 interface DockDropSquareProps {
     direction: DropDirection;
     panelData: PanelData;
@@ -22,9 +22,13 @@ export declare class DockDropSquare extends React.PureComponent<DockDropSquarePr
 interface DockDropLayerProps {
     panelData: PanelData;
     panelElement: HTMLElement;
-    dropGroup: TabGroup;
+    dropFromPanel: PanelData;
 }
 export declare class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
+    static contextType: React.Context<DockContext>;
+    context: DockContext;
+    onDragOver: (e: React.DragEvent<Element>) => void;
+    onDrop: (e: React.DragEvent<Element>) => void;
     render(): React.ReactNode;
 }
 export {};

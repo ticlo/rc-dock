@@ -1,12 +1,12 @@
 import React from "react";
-import { PanelData, TabGroup } from "./DockData";
+import { PanelData } from "./DockData";
 import { AbstractPointerEvent, DragInitFunction } from "./DragInitiator";
 interface Props {
     panelData: PanelData;
     size: number;
 }
 interface State {
-    dropGroup: TabGroup;
+    dropFromPanel: PanelData;
 }
 export declare class DockPanel extends React.PureComponent<Props, State> {
     _ref: HTMLDivElement;

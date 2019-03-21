@@ -57,7 +57,6 @@ interface DockDropLayerProps {
   panelData: PanelData;
   panelElement: HTMLElement;
   dropFromPanel: PanelData;
-
 }
 
 export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {

@@ -41,7 +41,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     let panel: PanelData = DragStore.getData(DockContextType, 'panel');
     if (tab) {
-      this.setState({dropFromPanel: tab.parent});
+      if (tab.parent) {
+        this.setState({dropFromPanel: tab.parent});
+      } else {
+        // add a fake panel
+        this.setState({dropFromPanel: {activeId: '', tabs: [], group: tab.group}});
+      }
+
     }
   };
 

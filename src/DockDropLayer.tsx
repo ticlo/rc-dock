@@ -67,7 +67,6 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
 
   onDragOver = (e: React.DragEvent) => {
     let {panelElement} = this.props;
-    this.context.setDropRect(null);
     this.context.setDropRect(panelElement, 'float');
     e.dataTransfer.dropEffect = 'link';
     e.preventDefault();
@@ -76,7 +75,11 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
 
 
   onDrop = (e: React.DragEvent) => {
-
+    let tab: TabData = DragStore.getData(DockContextType, 'tab');
+    if (tab) {
+      let {panelData} = this.props;
+      this.context.moveTab(tab, panelData, 'float');
+    }
   };
 
   render(): React.ReactNode {

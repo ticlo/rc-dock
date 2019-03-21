@@ -60,7 +60,17 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
 
     if (target) {
       if ('tabs' in target) {
-        layout = Algorithm.dockTabToPanel(layout, tab, target, direction);
+        if (direction === 'middle') {
+          layout = Algorithm.addTabToPanel(layout, tab, target);
+        } else {
+          let newPanel = Algorithm.newPanelFromTab(tab);
+          if (direction === 'float') {
+            layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+          } else {
+            layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
+          }
+        }
+
       } else {
         layout = Algorithm.addTabToTab(layout, tab, target, direction);
       }
@@ -128,6 +138,11 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
         left -= 30 - 10;
         width = 30;
         break;
+      case 'float':
+        left += width * 0.1;
+        width *= 0.8;
+        top += height * 0.1;
+        height *= 0.8;
     }
 
     this.setState({dropRect: {left, top, width, height, element, direction}});

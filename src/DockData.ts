@@ -57,7 +57,8 @@ export interface LayoutData {
   floatbox?: BoxData;
 }
 
-export type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab';
+export type DropDirection =
+  'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 
 export interface DockContext {
   setDropRect(element: HTMLElement, direction?: DropDirection): void;

@@ -46,13 +46,10 @@ export function addTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData
   return layout;
 }
 
-export function dockTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData, direction: DropDirection): LayoutData {
-  if (direction === 'middle') {
-    return addTabToPanel(layout, tab, panel);
-  }
+export function newPanelFromTab(tab: TabData) {
   let newPanel: PanelData = {tabs: [tab], group: tab.group, activeId: tab.id};
   tab.parent = newPanel;
-  return dockPanelToPanel(layout, newPanel, panel, direction);
+  return newPanel;
 }
 
 export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel: PanelData, direction: DropDirection): LayoutData {
@@ -88,6 +85,28 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
     return invalidateBox(layout, box, newBox);
   }
   return layout;
+}
+
+export function floatPanel(
+  layout: LayoutData, newPanel: PanelData,
+  rect: {left: number, top: number, width: number, height: number}
+): LayoutData {
+  console.log(123);
+  let newBox = clone(layout.floatbox);
+  newPanel.x = rect.left;
+  newPanel.y = rect.top;
+  newPanel.w = rect.width;
+  newPanel.h = rect.height;
+  if (newPanel.h < 200) {
+    newPanel.h = 200;
+  }
+  if (newPanel.w < 200) {
+    newPanel.x -= (200 - newPanel.w) * 0.5;
+    newPanel.w = 200;
+  }
+  newBox.children.push(newPanel);
+  newPanel.parent = newBox;
+  return invalidateBox(layout, layout.floatbox, newBox);
 }
 
 export function removeTab(layout: LayoutData, tab: TabData): LayoutData {

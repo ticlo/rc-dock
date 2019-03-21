@@ -13,7 +13,6 @@
     width: 14px;
     height: 14px;
     cursor: nwse-resize;
-    z-index: 100;
   }
 }
 
@@ -39,7 +38,7 @@
 
 .dock-fbox {
   pointer-events: none;
-  z-index: 200;
+  z-index: 100;
 
   & > .dock-panel {
     position: absolute;
@@ -87,11 +86,6 @@
   right: 0;
   bottom: 0;
 
-  &.dock-drop-float {
-    pointer-events: all;
-    z-index: 100;
-  }
-
   .dock-drop-square {
     position: absolute;
     box-sizing: border-box;
@@ -116,6 +110,12 @@
   }
 
   .dock-drop-middle {
+  }
+
+  .dock-drop-float {
+    &::before {
+      content: 'O';
+    }
   }
 
   .dock-drop-left {
@@ -164,7 +164,7 @@
 
   & .dock-tabs-bar {
     position: absolute;
-    z-index: 100;
+    z-index: 1;
     opacity: 0;
     height: 16px;
     width: 100%;

@@ -25,10 +25,6 @@ interface DockDropLayerProps {
     dropFromPanel: PanelData;
 }
 export declare class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
-    static contextType: React.Context<DockContext>;
-    context: DockContext;
-    onDragOver: (e: React.DragEvent<Element>) => void;
-    onDrop: (e: React.DragEvent<Element>) => void;
     render(): React.ReactNode;
 }
 export {};

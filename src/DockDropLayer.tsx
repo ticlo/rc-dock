@@ -61,26 +61,6 @@ interface DockDropLayerProps {
 }
 
 export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
-  static contextType = DockContextType;
-
-  context!: DockContext;
-
-  onDragOver = (e: React.DragEvent) => {
-    let {panelElement} = this.props;
-    this.context.setDropRect(panelElement, 'float');
-    e.dataTransfer.dropEffect = 'link';
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-
-  onDrop = (e: React.DragEvent) => {
-    let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    if (tab) {
-      let {panelData} = this.props;
-      this.context.moveTab(tab, panelData, 'float');
-    }
-  };
 
   render(): React.ReactNode {
     let {panelData, panelElement, dropFromPanel} = this.props;
@@ -92,16 +72,21 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       <DockDropSquare key='bottom' direction='bottom' panelData={panelData} panelElement={panelElement}/>
     ];
     if (panelData.group === dropFromPanel.group) {
-      children.push(
-        <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>
-      );
+      if (panelData === dropFromPanel) {
+        // float panel
+        children.push(
+          <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
+        );
+      } else {
+        // dock to tabs
+        children.push(
+          <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>
+        );
+      }
     }
 
-    let samePanel = panelData === dropFromPanel;
-
     return (
-      <div className={`dock-drop-layer${samePanel ? ' dock-drop-float' : ''}`}
-           onDragOver={this.onDragOver} onDrop={this.onDrop}>
+      <div className='dock-drop-layer'>
         {children}
       </div>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import {BoxData, DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
+import {BoxData, DockContext, DockContextType, DockMode, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
@@ -7,6 +7,7 @@ import {DragStore} from "./DragStore";
 
 interface DockDropSquareProps {
   direction: DropDirection;
+  depth?: number;
   panelData: PanelData;
   panelElement: HTMLElement;
 }
@@ -46,11 +47,22 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   render(): React.ReactNode {
-    let {direction} = this.props;
+    let {direction, depth} = this.props;
     let {dropping} = this.state;
 
-    let cls = `dock-drop-square dock-drop-${direction}${dropping ? ' dock-drop-square-dropping' : ''}`;
-    return <div className={cls} onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}/>;
+    let classes = ['dock-drop-square'];
+    classes.push(`dock-drop-${direction}`);
+    if (depth) {
+      classes.push(`dock-drop-deep`);
+    }
+    if (dropping) {
+      classes.push('dock-drop-square-dropping');
+    }
+
+    return (
+      <div className={classes.join(' ')}
+           onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}/>
+    );
   }
 
   componentWillUnmount(): void {
@@ -66,15 +78,32 @@ interface DockDropLayerProps {
 
 export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
 
+  static addDepthSquare(children: React.ReactNode[], mode: DockMode, panelData: PanelData, panelElement: HTMLElement, depth?: number) {
+    if (mode === 'horizontal') {
+      children.push(
+        <DockDropSquare key={`top${depth}`} direction='top' depth={depth} panelData={panelData}
+                        panelElement={panelElement}/>);
+      children.push(
+        <DockDropSquare key={`bottom${depth}`} direction='bottom' depth={depth} panelData={panelData}
+                        panelElement={panelElement}/>
+      );
+    } else {
+      children.push(
+        <DockDropSquare key={`left${depth}`} direction='left' depth={depth} panelData={panelData}
+                        panelElement={panelElement}/>);
+      children.push(
+        <DockDropSquare key={`right${depth}`} direction='right' depth={depth} panelData={panelData}
+                        panelElement={panelElement}/>
+      );
+    }
+  }
+
   render(): React.ReactNode {
     let {panelData, panelElement, dropFromPanel} = this.props;
 
-    let children = [
-      <DockDropSquare key='left' direction='left' panelData={panelData} panelElement={panelElement}/>,
-      <DockDropSquare key='right' direction='right' panelData={panelData} panelElement={panelElement}/>,
-      <DockDropSquare key='top' direction='top' panelData={panelData} panelElement={panelElement}/>,
-      <DockDropSquare key='bottom' direction='bottom' panelData={panelData} panelElement={panelElement}/>
-    ];
+    let children: React.ReactNode[] = [];
+    DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
+    DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
 
     if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
       // dock to tabs
@@ -87,6 +116,13 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       children.push(
         <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
       );
+    }
+    let box = panelData.parent;
+    if (box && box.children.length > 1) {
+      DockDropLayer.addDepthSquare(children, box.mode, panelData, panelElement, 1);
+      if (box.parent) {
+        DockDropLayer.addDepthSquare(children, box.parent.mode, panelData, panelElement, 2);
+      }
     }
 
     return (

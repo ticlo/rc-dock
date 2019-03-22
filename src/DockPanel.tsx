@@ -1,5 +1,5 @@
 import React, {CSSProperties, PointerEventHandler} from "react";
-import {DockContext, DockContextType, PanelData, TabData, TabGroup} from "./DockData";
+import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
 import {DragStore} from "./DragStore";
@@ -56,7 +56,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   onDragLeave() {
     if (this.state.dropFromPanel) {
-      this.setState({dropFromPanel: null});
+     // this.setState({dropFromPanel: null});
     }
   }
 

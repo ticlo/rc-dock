@@ -1,7 +1,8 @@
 import React from "react";
-import { DockContext, DropDirection, PanelData } from "./DockData";
+import { DockContext, DockMode, DropDirection, PanelData } from "./DockData";
 interface DockDropSquareProps {
     direction: DropDirection;
+    depth?: number;
     panelData: PanelData;
     panelElement: HTMLElement;
 }
@@ -26,6 +27,7 @@ interface DockDropLayerProps {
     dropFromPanel: PanelData;
 }
 export declare class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
+    static addDepthSquare(children: React.ReactNode[], mode: DockMode, panelData: PanelData, panelElement: HTMLElement, depth?: number): void;
     render(): React.ReactNode;
 }
 export {};

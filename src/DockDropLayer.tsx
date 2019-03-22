@@ -75,18 +75,18 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       <DockDropSquare key='top' direction='top' panelData={panelData} panelElement={panelElement}/>,
       <DockDropSquare key='bottom' direction='bottom' panelData={panelData} panelElement={panelElement}/>
     ];
-    if (panelData.group === dropFromPanel.group) {
-      if (panelData === dropFromPanel) {
-        // float panel
-        children.push(
-          <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
-        );
-      } else {
-        // dock to tabs
-        children.push(
-          <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>
-        );
-      }
+
+    if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
+      // dock to tabs
+      children.push(
+        <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>
+      );
+    }
+
+    if (dropFromPanel.group.floatable) {
+      children.push(
+        <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
+      );
     }
 
     return (

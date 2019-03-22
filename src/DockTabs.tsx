@@ -78,6 +78,7 @@ export class TabCache {
       <TabPane key={id} tab={
         <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
              onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
+          <div className='dock-tabs-tab-overflow'/>
           {title}
           {closable ?
             <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>

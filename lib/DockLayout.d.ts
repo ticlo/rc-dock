@@ -20,7 +20,7 @@ export declare class DockLayout extends React.PureComponent<Props, State> implem
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
     prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData;
-    moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
+    moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
     constructor(props: Props);
     dragEnd: () => void;

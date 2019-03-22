@@ -51,7 +51,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     return layout;
   }
 
-  moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection) {
+  moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection) {
     let {layout} = this.state;
 
     layout = Algorithm.removeTab(layout, tab);
@@ -60,6 +60,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
 
     if (target) {
       if ('tabs' in target) {
+        // pandel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, tab, target);
         } else {
@@ -72,6 +73,10 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
           }
         }
 
+      } else if ('children' in target) {
+        // box target
+        let newPanel = Algorithm.newPanelFromTab(tab);
+        layout = Algorithm.dockPanelToBox(layout, newPanel, target, direction);
       } else {
         layout = Algorithm.addTabToTab(layout, tab, target, direction);
       }

@@ -47,7 +47,7 @@ export interface LayoutData {
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 export interface DockContext {
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
-    moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
+    moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
     nextFloatZIndex(current: number): number;
 }

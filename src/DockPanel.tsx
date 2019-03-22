@@ -56,7 +56,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   onDragLeave() {
     if (this.state.dropFromPanel) {
-     // this.setState({dropFromPanel: null});
+      this.setState({dropFromPanel: null});
     }
   }
 

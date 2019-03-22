@@ -87,6 +87,59 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
   return layout;
 }
 
+export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: BoxData, direction: DropDirection): LayoutData {
+  let parentBox = box.parent;
+  let dockMode: DockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
+  let afterPanel = (direction === 'bottom' || direction === 'right');
+
+  if (parentBox) {
+    let pos = parentBox.children.indexOf(box);
+    if (pos >= 0) {
+      let newParentBox = clone(parentBox);
+      if (dockMode === parentBox.mode) {
+        if (afterPanel) {
+          ++pos;
+        }
+        box.size *= 0.5;
+        newPanel.size = box.size;
+        newParentBox.children.splice(pos, 0, newPanel);
+      } else {
+        let newChildBox: BoxData = {mode: dockMode, children: []};
+        newChildBox.size = box.size;
+        if (afterPanel) {
+          newChildBox.children = [box, newPanel];
+        } else {
+          newChildBox.children = [newPanel, box];
+        }
+        box.parent = newChildBox;
+        box.size = 200;
+        newPanel.parent = newChildBox;
+        newPanel.size = 200;
+        newParentBox.children[pos] = newChildBox;
+        newChildBox.parent = newParentBox;
+      }
+      return invalidateBox(layout, parentBox, newParentBox);
+    }
+  } else if (box === layout.dockbox) {
+    // replace root dockbox
+    let newBox = clone(box);
+    let newDockBox: BoxData = {mode: dockMode, children: []};
+    newDockBox.size = box.size;
+    if (afterPanel) {
+      newDockBox.children = [newBox, newPanel];
+    } else {
+      newDockBox.children = [newPanel, newBox];
+    }
+    newBox.parent = newDockBox;
+    newBox.size = 200;
+    newPanel.parent = newDockBox;
+    newPanel.size = 200;
+    return invalidateBox(layout, box, newDockBox);
+  }
+
+  return layout;
+}
+
 export function floatPanel(
   layout: LayoutData, newPanel: PanelData,
   rect: {left: number, top: number, width: number, height: number}
@@ -243,9 +296,9 @@ function invalidateBox(layout: LayoutData, box: BoxData, newBox: BoxData): Layou
       return invalidateBox(layout, parentBox, newParentBox);
     }
   } else {
-    if (box.id === layout.dockbox.id) {
+    if (box.id === layout.dockbox.id || box === layout.dockbox) {
       return {...layout, dockbox: newBox};
-    } else if (box.id === layout.floatbox.id) {
+    } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
       return {...layout, floatbox: newBox};
     }
   }

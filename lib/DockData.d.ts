@@ -13,7 +13,6 @@ export interface BoxData extends DockDataBase {
 }
 export interface TabGroup {
     floatable?: boolean;
-    closable?: boolean;
     multiTabs?: boolean;
     tabLocked?: boolean;
     headless?: boolean;
@@ -24,6 +23,7 @@ export interface TabData extends DockDataBase {
     parent?: PanelData;
     title: string;
     content: React.ReactNode | (() => React.ReactNode);
+    closable?: boolean;
     group: TabGroup;
 }
 export interface PanelData extends DockDataBase {

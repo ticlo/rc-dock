@@ -69,8 +69,8 @@ export class TabCache {
   }
 
   render(): React.ReactNode {
-    let {id, title, group, content} = this.data;
-    let {closable, tabLocked} = group;
+    let {id, title, group, content, closable} = this.data;
+    let {tabLocked} = group;
     if (typeof content === 'function') {
       content = content();
     }
@@ -167,7 +167,6 @@ export class DockTabs extends React.Component<Props, any> {
 
   render(): React.ReactNode {
     let {group, activeId} = this.props.panelData;
-    let {closable, tabLocked} = group;
 
     let children: React.ReactNode[] = [];
     for (let [id, tab] of this._cache) {

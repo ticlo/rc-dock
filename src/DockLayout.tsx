@@ -65,6 +65,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
         } else {
           let newPanel = Algorithm.newPanelFromTab(tab);
           if (direction === 'float') {
+            newPanel.z = this.nextFloatZIndex(null);
             layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
           } else {
             layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
@@ -158,6 +159,20 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     }
 
     this.setState({dropRect: {left, top, width, height, element, source, direction}});
+  }
+
+  _zCount = 0;
+
+  nextFloatZIndex(current?: number): number {
+    if (current === this._zCount) {
+      // already the top
+      return current;
+    }
+    // if (this._zCount >= Number.MAX_SAFE_INTEGER) {
+    //   is it a bug here when this is commented out?
+    //   No !!
+    // }
+    return ++this._zCount;
   }
 
   render(): React.ReactNode {

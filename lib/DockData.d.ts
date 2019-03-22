@@ -36,6 +36,7 @@ export interface PanelData extends DockDataBase {
     panelLocked?: boolean;
     x?: number;
     y?: number;
+    z?: number;
     w?: number;
     h?: number;
 }
@@ -48,6 +49,7 @@ export interface DockContext {
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
     moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
+    nextFloatZIndex(current: number): number;
 }
 export declare function nextId(): number;
 export declare const DockContextType: React.Context<DockContext>;

@@ -48,6 +48,7 @@ export interface PanelData extends DockDataBase {
   // float mode only
   x?: number;
   y?: number;
+  z?: number;
   w?: number;
   h?: number;
 }
@@ -66,6 +67,8 @@ export interface DockContext {
   moveTab(tab: TabData, target: TabData | PanelData, direction: DropDirection): void;
 
   movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
+
+  nextFloatZIndex(current: number): number;
 }
 
 let _idCount = 0;

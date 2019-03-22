@@ -25,6 +25,8 @@ export declare class DockLayout extends React.PureComponent<Props, State> implem
     constructor(props: Props);
     dragEnd: () => void;
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
+    _zCount: number;
+    nextFloatZIndex(current?: number): number;
     render(): React.ReactNode;
     componentWillUnmount(): void;
 }

@@ -133,6 +133,10 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     let width = elemRect.width * scaleX;
     let height = elemRect.height * scaleY;
 
+    let ratio = 0.5;
+    if (element.classList.contains('dock-box')) {
+      ratio = 0.3;
+    }
     switch (direction) {
       case 'float': {
         let x = (event.clientX - layoutRect.left) * scaleX;
@@ -144,14 +148,14 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
         break;
       }
       case 'right':
-        left += width * 0.5;
+        left += width * (1 - ratio);
       case 'left': // tslint:disable-line no-switch-case-fall-through
-        width *= 0.5;
+        width *= ratio;
         break;
       case 'bottom':
-        top += height * 0.5;
+        top += height * (1 - ratio);
       case 'top': // tslint:disable-line no-switch-case-fall-through
-        height *= 0.5;
+        height *= ratio;
         break;
       case 'after-tab':
         left += width - 10;

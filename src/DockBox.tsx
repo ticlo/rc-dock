@@ -76,7 +76,7 @@ export class DockBox extends React.PureComponent<Props, any> {
     }
     return (
       <div ref={this.getRef} className={cls} data-dockid={id}
-           style={{minWidth, minHeight, flex: `1 1 ${size}px`}}>
+           style={{minWidth, minHeight, flex: `${size} 1 ${size}px`}}>
         {childrenRender}
       </div>
     );

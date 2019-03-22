@@ -100,8 +100,9 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
         if (afterPanel) {
           ++pos;
         }
-        box.size *= 0.5;
-        newPanel.size = box.size;
+        newPanel.size = box.size * 0.3;
+        box.size *= 0.7;
+
         newParentBox.children.splice(pos, 0, newPanel);
       } else {
         let newChildBox: BoxData = {mode: dockMode, children: []};
@@ -112,9 +113,9 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
           newChildBox.children = [newPanel, box];
         }
         box.parent = newChildBox;
-        box.size = 200;
+        box.size = 280;
         newPanel.parent = newChildBox;
-        newPanel.size = 200;
+        newPanel.size = 120;
         newParentBox.children[pos] = newChildBox;
         newChildBox.parent = newParentBox;
       }
@@ -131,9 +132,9 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       newDockBox.children = [newPanel, newBox];
     }
     newBox.parent = newDockBox;
-    newBox.size = 200;
+    newBox.size = 280;
     newPanel.parent = newDockBox;
-    newPanel.size = 200;
+    newPanel.size = 120;
     return invalidateBox(layout, box, newDockBox);
   }
 

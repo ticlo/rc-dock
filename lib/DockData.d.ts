@@ -51,7 +51,7 @@ export interface DockContext {
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
     nextFloatZIndex(current: number): number;
 }
-export declare function nextId(): number;
+export declare function nextId(): string;
 export declare const DockContextType: React.Context<DockContext>;
 export declare const DockContextProvider: React.ProviderExoticComponent<React.ProviderProps<DockContext>>;
 export declare const DockContextConsumer: React.ExoticComponent<React.ConsumerProps<DockContext>>;

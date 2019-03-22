@@ -78,7 +78,7 @@ export function nextId() {
   if (_idCount >= Number.MAX_SAFE_INTEGER) {
     _idCount = -Number.MAX_SAFE_INTEGER;
   }
-  return _idCount;
+  return `+${_idCount}`;
 }
 
 

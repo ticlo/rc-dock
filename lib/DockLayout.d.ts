@@ -12,6 +12,7 @@ interface State {
         top: number;
         height: number;
         element: HTMLElement;
+        source?: any;
         direction?: DropDirection;
     };
 }
@@ -23,7 +24,7 @@ export declare class DockLayout extends React.PureComponent<Props, State> implem
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
     constructor(props: Props);
     dragEnd: () => void;
-    setDropRect(element: HTMLElement, direction?: DropDirection): void;
+    setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
     render(): React.ReactNode;
     componentWillUnmount(): void;
 }

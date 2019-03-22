@@ -23,7 +23,7 @@ interface Props {
 
 interface State {
   layout: LayoutData;
-  dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, direction?: DropDirection};
+  dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
 }
 
 export class DockLayout extends React.PureComponent<Props, State> implements DockContext {
@@ -100,13 +100,21 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     }
   };
 
-  setDropRect(element: HTMLElement, direction?: DropDirection) {
+  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent) {
+    let {dropRect} = this.state;
+    if (dropRect) {
+      if (direction === 'remove') {
+        if (dropRect.source === source) {
+          this.setState({dropRect: null});
+        }
+        return;
+      } else if (dropRect.element === element && dropRect.direction === direction && direction !== 'float') {
+        // skip duplicated update except for float dragging
+        return;
+      }
+    }
     if (!element) {
       this.setState({dropRect: null});
-      return;
-    }
-    let {dropRect} = this.state;
-    if (dropRect && dropRect.element === element && dropRect.direction === direction) {
       return;
     }
     let layoutRect = this._ref.getBoundingClientRect();
@@ -120,6 +128,15 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     let height = elemRect.height * scaleY;
 
     switch (direction) {
+      case 'float': {
+        let x = (event.clientX - layoutRect.left) * scaleX;
+        let y = (event.clientY - layoutRect.top) * scaleY;
+        left = x - 150;
+        top = y - 15;
+        width = 300;
+        height = 300;
+        break;
+      }
       case 'right':
         left += width * 0.5;
       case 'left': // tslint:disable-line no-switch-case-fall-through
@@ -138,14 +155,9 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
         left -= 30 - 10;
         width = 30;
         break;
-      case 'float':
-        left += width * 0.1;
-        width *= 0.8;
-        top += height * 0.1;
-        height *= 0.8;
     }
 
-    this.setState({dropRect: {left, top, width, height, element, direction}});
+    this.setState({dropRect: {left, top, width, height, element, source, direction}});
   }
 
   render(): React.ReactNode {

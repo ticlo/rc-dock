@@ -18,6 +18,7 @@ export declare class DockDropSquare extends React.PureComponent<DockDropSquarePr
     onDragLeave: (e: React.DragEvent<Element>) => void;
     onDrop: (e: React.DragEvent<Element>) => void;
     render(): React.ReactNode;
+    componentWillUnmount(): void;
 }
 interface DockDropLayerProps {
     panelData: PanelData;

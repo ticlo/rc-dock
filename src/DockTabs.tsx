@@ -45,11 +45,14 @@ export class TabCache {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
-      this.context.setDropRect(this._ref, direction);
+      this.context.setDropRect(this._ref, direction, this);
       e.dataTransfer.dropEffect = 'move';
       e.preventDefault();
       e.stopPropagation();
     }
+  };
+  onDragLeave = (e: React.DragEvent) => {
+    this.context.setDropRect(null, 'remove', this);
   };
   onDrop = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
@@ -74,7 +77,7 @@ export class TabCache {
     return (
       <TabPane key={id} tab={
         <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
-             onDrop={this.onDrop}>
+             onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
           {title}
           {closable ?
             <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>

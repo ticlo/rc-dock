@@ -14,7 +14,7 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     static _droppingPanel: DockPanel;
     static droppingPanel: DockPanel;
     state: State;
-    onDragOver: () => void;
+    onDragEnter: () => void;
     onDragLeave(): void;
     _movingX: number;
     _movingY: number;

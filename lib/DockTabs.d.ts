@@ -13,6 +13,7 @@ export declare class TabCache {
     onCloseClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
     onDragStart: (e: React.DragEvent<Element>) => void;
     onDragOver: (e: React.DragEvent<Element>) => void;
+    onDragLeave: (e: React.DragEvent<Element>) => void;
     onDrop: (e: React.DragEvent<Element>) => void;
     getDropDirection(e: React.DragEvent): DropDirection;
     render(): React.ReactNode;

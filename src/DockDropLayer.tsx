@@ -25,14 +25,16 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   onDragOver = (e: React.DragEvent) => {
     let {panelElement, direction} = this.props;
     this.setState({dropping: true});
-    this.context.setDropRect(panelElement, direction);
+    this.context.setDropRect(panelElement, direction, this, e.nativeEvent);
     e.dataTransfer.dropEffect = 'move';
     e.preventDefault();
     e.stopPropagation();
   };
 
   onDragLeave = (e: React.DragEvent) => {
+    let {panelElement, direction} = this.props;
     this.setState({dropping: false});
+    this.context.setDropRect(null, 'remove', this);
   };
 
   onDrop = (e: React.DragEvent) => {
@@ -50,8 +52,11 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
     let cls = `dock-drop-square dock-drop-${direction}${dropping ? ' dock-drop-square-dropping' : ''}`;
     return <div className={cls} onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}/>;
   }
-}
 
+  componentWillUnmount(): void {
+    this.context.setDropRect(null, 'remove', this);
+  }
+}
 
 interface DockDropLayerProps {
   panelData: PanelData;

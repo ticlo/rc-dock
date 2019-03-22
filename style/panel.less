@@ -38,7 +38,7 @@
 
 .dock-fbox {
   pointer-events: none;
-  z-index: 100;
+  z-index: 200;
 
   & > .dock-panel {
     position: absolute;
@@ -113,9 +113,13 @@
   }
 
   .dock-drop-float {
-    &::before {
-      content: 'O';
-    }
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width:100%;
+    height: 100%;
+    border: none;
+    opacity: 0.01;
   }
 
   .dock-drop-left {
@@ -175,4 +179,8 @@
     opacity: 1;
     height: 31px;
   }
+}
+
+.dock-panel.dock-panel-dropping .dock-tabs-tab-close-btn {
+  pointer-events: none;
 }

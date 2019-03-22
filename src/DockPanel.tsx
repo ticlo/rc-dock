@@ -35,7 +35,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   state: State = {dropFromPanel: null};
 
-  onDragOver = () => {
+  onDragEnter = () => {
     let {panelData} = this.props;
     DockPanel.droppingPanel = this;
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
@@ -120,7 +120,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     return (
       <div ref={this.getRef} className={cls} style={style} data-dockid={id}
-           onDragOver={isFloat ? null : this.onDragOver}>
+           onDragEnter={isFloat ? null : this.onDragEnter}>
         <DockTabs panelData={panelData} onPanelHeaderDrag={this.onPanelHeaderDrag}/>
         {isFloat ?
           <DragInitiator className='dock-panel-drag-size' onDragInit={this.onPanelCornerDrag}/>

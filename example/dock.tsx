@@ -1,14 +1,11 @@
 (async function () {
 
-  let {React, ReactDOM, DockLayout, DockContextType, LayoutData, TabGroup, DragStore} = await import('./shared-import');
+  let {React, ReactDOM, DockLayout, DockContextType, DragStore} = await import('./shared-import');
 
-
-  console.log(LayoutData);
-  let group: TabGroup = {
-    closable: true,
+  let group = {
     floatable: true,
   };
-  let box: LayoutData = {
+  let box: any = {
     dockbox: {
       mode: 'horizontal',
       children: [
@@ -34,12 +31,14 @@
             title: 'hello',
             content: <div style={{padding: 20}}>hello</div>,
             group
-          }, {
-            id: 'world4',
-            title: 'world',
-            content: <div style={{padding: 20}}>world</div>,
-            group
-          }],
+          }
+          // , {
+          //   id: 'world4',
+          //   title: 'world',
+          //   content: <div style={{padding: 20}}>world</div>,
+          //   group
+          // }
+          ],
           group,
           activeId: 'world4',
           id: 'panel2',
@@ -47,6 +46,7 @@
       ]
     },
     floatbox: {
+      mode: 'float',
       children: [
         {
           tabs: [{
@@ -94,6 +94,7 @@
                 id: content,
                 content: <div style={{padding: 20}}>{content}</div>,
                 title: content,
+                closable: true,
                 group
               }
             });

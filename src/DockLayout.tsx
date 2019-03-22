@@ -187,7 +187,6 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
   render(): React.ReactNode {
     let {style} = this.props;
     let {layout, dropRect} = this.state;
-    console.log(`layout render `);
     let dropRectStyle: CSSProperties;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;

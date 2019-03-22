@@ -122,20 +122,33 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       return invalidateBox(layout, parentBox, newParentBox);
     }
   } else if (box === layout.dockbox) {
-    // replace root dockbox
     let newBox = clone(box);
-    let newDockBox: BoxData = {mode: dockMode, children: []};
-    newDockBox.size = box.size;
-    if (afterPanel) {
-      newDockBox.children = [newBox, newPanel];
+    if (dockMode === box.mode) {
+      let pos = 0;
+      if (afterPanel) {
+        pos = newBox.children.length;
+      }
+      newPanel.size = box.size * 0.3;
+      box.size *= 0.7;
+
+      newBox.children.splice(pos, 0, newPanel);
+      return invalidateBox(layout, box, newBox);
     } else {
-      newDockBox.children = [newPanel, newBox];
+      // replace root dockbox
+
+      let newDockBox: BoxData = {mode: dockMode, children: []};
+      newDockBox.size = box.size;
+      if (afterPanel) {
+        newDockBox.children = [newBox, newPanel];
+      } else {
+        newDockBox.children = [newPanel, newBox];
+      }
+      newBox.parent = newDockBox;
+      newBox.size = 280;
+      newPanel.parent = newDockBox;
+      newPanel.size = 120;
+      return invalidateBox(layout, box, newDockBox);
     }
-    newBox.parent = newDockBox;
-    newBox.size = 280;
-    newPanel.parent = newDockBox;
-    newPanel.size = 120;
-    return invalidateBox(layout, box, newDockBox);
   }
 
   return layout;
@@ -145,19 +158,12 @@ export function floatPanel(
   layout: LayoutData, newPanel: PanelData,
   rect: {left: number, top: number, width: number, height: number}
 ): LayoutData {
-  console.log(123);
   let newBox = clone(layout.floatbox);
   newPanel.x = rect.left;
   newPanel.y = rect.top;
   newPanel.w = rect.width;
   newPanel.h = rect.height;
-  if (newPanel.h < 200) {
-    newPanel.h = 200;
-  }
-  if (newPanel.w < 200) {
-    newPanel.x -= (200 - newPanel.w) * 0.5;
-    newPanel.w = 200;
-  }
+
   newBox.children.push(newPanel);
   newPanel.parent = newBox;
   return invalidateBox(layout, layout.floatbox, newBox);
@@ -195,8 +201,18 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   } else {
     layout.floatbox.mode = 'float';
   }
+
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
+  while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
+    let newDockBox = clone(layout.dockbox.children[0] as BoxData);
+    layout.dockbox = newDockBox;
+    for (let child of newDockBox.children) {
+      child.parent = newDockBox;
+    }
+  }
+  layout.dockbox.parent = null;
+  layout.floatbox.parent = null;
   return layout;
 }
 

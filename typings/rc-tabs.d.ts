@@ -7,18 +7,11 @@ declare module 'rc-tabs' {
     renderTabBar?: () => React.ReactNode;
     renderTabContent?: () => React.ReactNode;
     activeKey?: string;
+    destroyInactiveTabPane?: boolean;
     onChange: (key: string) => void;
   }
 
   export default class Tabs extends React.Component<TabsProps, any> {
-
-  }
-
-  interface TabsPaneProps extends React.HTMLAttributes<HTMLDivElement> {
-    tab: React.ReactNode;
-  }
-
-  export class TabPane extends React.Component<TabsPaneProps, any> {
 
   }
 }

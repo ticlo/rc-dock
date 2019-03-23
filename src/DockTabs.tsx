@@ -1,12 +1,13 @@
 import React from "react";
 import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
 import {compareChildKeys, compareKeys} from "./util/Compare";
-import Tabs, {TabPane} from 'rc-tabs';
+import Tabs from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import {DragStore} from "./DragStore";
 import {DragInitFunction, DragInitHandler, DragInitiator} from "./DragInitiator";
 import {DockTabBar} from "./DockTabBar";
+import DockTabPane from "./DockTabPane";
 
 export class TabCache {
 
@@ -75,7 +76,7 @@ export class TabCache {
       content = content();
     }
     return (
-      <TabPane key={id} tab={
+      <DockTabPane key={id} tab={
         <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
              onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
           <div className='dock-tabs-tab-overflow'/>
@@ -87,7 +88,7 @@ export class TabCache {
         </div>
       }>
         {content}
-      </TabPane>
+      </DockTabPane>
     );
   }
 
@@ -158,7 +159,14 @@ export class DockTabs extends React.Component<Props, any> {
   renderTabBar = () => (
     <DockTabBar onDragInit={this.props.onPanelHeaderDrag}/>
   );
-  renderTabContent = () => <TabContent/>;
+  renderTabContent = () => {
+    let {group} = this.props.panelData;
+    let {cache, animated} = group;
+    if (cache === false) {
+      animated = false;
+    }
+    return <TabContent animated={animated}/>;
+  };
 
   onTabChange = (activeId: string) => {
     this.props.panelData.activeId = activeId;
@@ -167,6 +175,7 @@ export class DockTabs extends React.Component<Props, any> {
 
   render(): React.ReactNode {
     let {group, activeId} = this.props.panelData;
+    let {cache} = group;
 
     let children: React.ReactNode[] = [];
     for (let [id, tab] of this._cache) {
@@ -174,7 +183,7 @@ export class DockTabs extends React.Component<Props, any> {
     }
 
     return (
-      <Tabs prefixCls='dock-tabs'
+      <Tabs prefixCls='dock-tabs' destroyInactiveTabPane={cache === false}
             renderTabBar={this.renderTabBar}
             renderTabContent={this.renderTabContent}
             activeKey={activeId}

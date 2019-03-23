@@ -17,6 +17,8 @@ export interface TabGroup {
     tabLocked?: boolean;
     headless?: boolean;
     panelClass?: string;
+    cache?: boolean;
+    animated?: boolean;
 }
 export interface TabData extends DockDataBase {
     id?: string;

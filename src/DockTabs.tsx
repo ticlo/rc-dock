@@ -20,7 +20,7 @@ export class TabCache {
 
   data: TabData;
   context: DockContext;
-  content: React.ReactNode;
+  content: React.ReactElement;
 
   constructor(context: DockContext) {
     this.context = context;
@@ -69,14 +69,14 @@ export class TabCache {
     return e.clientX > midx ? 'after-tab' : 'before-tab';
   }
 
-  render(): React.ReactNode {
+  render(): React.ReactElement {
     let {id, title, group, content, closable} = this.data;
-    let {tabLocked} = group;
+    let {tabLocked, cached} = group;
     if (typeof content === 'function') {
       content = content();
     }
     return (
-      <DockTabPane key={id} tab={
+      <DockTabPane key={id} id={id} cached={cached} tab={
         <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
              onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
           <div className='dock-tabs-tab-overflow'/>

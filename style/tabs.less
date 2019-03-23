@@ -149,7 +149,7 @@
   }
 
   &-content &-tabpane {
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
     height: 100%;
   }
@@ -272,10 +272,6 @@
     margin-right: 10px;
   }
 
-  &-top &-tabpane-inactive {
-    overflow: hidden;
-  }
-
   &-tab-close-btn {
     position: absolute;
     cursor: pointer;
@@ -300,6 +296,11 @@
     bottom: 0;
     left: -5px;
     right: -5px;
+  }
+
+  &-tabpane-cache {
+    width: 100%;
+    height: 100%;
   }
 }
 

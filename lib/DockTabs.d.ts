@@ -7,7 +7,7 @@ export declare class TabCache {
     getRef: (r: HTMLDivElement) => void;
     data: TabData;
     context: DockContext;
-    content: React.ReactNode;
+    content: React.ReactElement;
     constructor(context: DockContext);
     setData(data: TabData): boolean;
     onCloseClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
@@ -16,7 +16,7 @@ export declare class TabCache {
     onDragLeave: (e: React.DragEvent<Element>) => void;
     onDrop: (e: React.DragEvent<Element>) => void;
     getDropDirection(e: React.DragEvent): DropDirection;
-    render(): React.ReactNode;
+    render(): React.ReactElement;
     destroy(): void;
 }
 interface Props {

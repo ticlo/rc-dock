@@ -31,14 +31,12 @@
             title: 'hello',
             content: <div style={{padding: 20}}>hello</div>,
             group
-          }
-          // , {
-          //   id: 'world4',
-          //   title: 'world',
-          //   content: <div style={{padding: 20}}>world</div>,
-          //   group
-          // }
-          ],
+          }, {
+            id: 'world4',
+            title: 'world',
+            content: <div style={{padding: 20}}>world</div>,
+            group
+          }],
           group,
           activeId: 'world4',
           id: 'panel2',

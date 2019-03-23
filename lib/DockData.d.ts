@@ -24,7 +24,7 @@ export interface TabData extends DockDataBase {
     id?: string;
     parent?: PanelData;
     title: string;
-    content: React.ReactNode | (() => React.ReactNode);
+    content: React.ReactElement | (() => React.ReactElement);
     closable?: boolean;
     group: TabGroup;
 }

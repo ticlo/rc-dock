@@ -1,4 +1,4 @@
-import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData} from "./DockData";
+import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData, TabGroup} from "./DockData";
 
 let _watchObjectChange: WeakMap<any, any> = new WeakMap();
 
@@ -21,6 +21,11 @@ function clone<T>(value: T): T {
   _watchObjectChange.set(value, newValue);
   return newValue;
 }
+
+const placeHolderGroup: TabGroup = {
+  panelClass: 'dock-placeholder-panel',
+  floatable: false,
+};
 
 export function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, direction: DropDirection): LayoutData {
   let pos = target.parent.tabs.indexOf(target);

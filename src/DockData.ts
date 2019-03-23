@@ -21,7 +21,6 @@ export interface TabGroup {
   multiTabs?: boolean;
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
-  headless?: boolean;
   panelClass?: string;
   cache?: boolean;
   animated?: boolean;

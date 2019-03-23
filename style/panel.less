@@ -191,6 +191,19 @@
   }
 }
 
+.dock-panel.dock-panel-dropping .dock-tabs-tab-close-btn {
+  pointer-events: none;
+}
+
+
+.dock-panel.dock-placeholder-panel {
+  border: none;
+
+  & .dock-tabs-bar {
+    display: none;
+  }
+}
+
 .dock-panel.dock-headless-panel {
   border: none;
 
@@ -209,6 +222,3 @@
   }
 }
 
-.dock-panel.dock-panel-dropping .dock-tabs-tab-close-btn {
-  pointer-events: none;
-}

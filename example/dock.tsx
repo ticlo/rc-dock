@@ -12,7 +12,7 @@
         {
           tabs: [{
             id: 'hello1',
-            title: 'hello',
+            title: 'locked',
             content: <div style={{padding: 20}}>hello</div>,
             group
           }, {

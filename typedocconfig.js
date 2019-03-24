@@ -1,6 +1,7 @@
 module.exports = {
   src: [
-    './src'
+    './src/DockLayout.tsx',
+    './src/DockData.ts',
   ],
   mode: 'file',
   tsconfig: 'tsconfig.json',
@@ -8,7 +9,7 @@ module.exports = {
   excludePrivate: true,
   excludeProtected: true,
   excludeExternals: true,
-  readme: 'README.md',
+  readme: 'dockIndex.md',
   name: 'RC Dock',
   ignoreCompilerErrors: true,
   plugin: 'none'

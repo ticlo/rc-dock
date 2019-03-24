@@ -11,29 +11,29 @@ import {
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
-import {Simulate} from "react-dom/test-utils";
-import drop = Simulate.drop;
 import {DockPanel} from "./DockPanel";
 import * as Algorithm from "./DockAlgorithm";
 
-interface Props {
+interface LayoutProps {
   defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
   style?: CSSProperties;
 }
 
-interface State {
+interface LayoutState {
   layout: LayoutData;
+  /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
 }
 
-export class DockLayout extends React.PureComponent<Props, State> implements DockContext {
-
+export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> implements DockContext {
+  /** @ignore */
   _ref: HTMLDivElement;
+  /** @ignore */
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
 
-
+  /** @ignore */
   prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData {
     let layout: LayoutData;
     if (Array.isArray(data)) {
@@ -90,7 +90,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     this.dragEnd();
   }
 
-  constructor(props: Props) {
+  constructor(props: LayoutProps) {
     super(props);
     this.state = {
       layout: this.prepareInitData(props.defaultLayout),
@@ -99,6 +99,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     document.addEventListener('dragend', this.dragEnd);
   }
 
+  /** @ignore */
   dragEnd = () => {
     DockPanel.droppingPanel = null;
     if (this.state.dropRect) {
@@ -106,6 +107,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     }
   };
 
+  /** @ignore */
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent) {
     let {dropRect} = this.state;
     if (dropRect) {
@@ -170,8 +172,10 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     this.setState({dropRect: {left, top, width, height, element, source, direction}});
   }
 
+  /** @ignore */
   _zCount = 0;
 
+  /** @ignore */
   nextFloatZIndex(current?: number): number {
     if (current === this._zCount) {
       // already the top
@@ -184,6 +188,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     return ++this._zCount;
   }
 
+  /** @ignore */
   render(): React.ReactNode {
     let {style} = this.props;
     let {layout, dropRect} = this.state;
@@ -203,6 +208,7 @@ export class DockLayout extends React.PureComponent<Props, State> implements Doc
     );
   }
 
+  /** @ignore */
   componentWillUnmount(): void {
     document.removeEventListener('dragend', this.dragEnd);
   }

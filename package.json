@@ -49,6 +49,6 @@
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
     "build-dock-less": "lessc --js style/index.less dist/rc-dock.css",
-    "build-doc": "typedoc --options ./typedocconfig.ts"
+    "build-doc": "typedoc --options ./typedocconfig.js"
   }
 }

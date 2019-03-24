@@ -63,17 +63,21 @@ export type DropDirection =
   'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 
 export interface DockContext {
+  /** @ignore */
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
 
   moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
 
   movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
 
+  /** @ignore */
   nextFloatZIndex(current: number): number;
 }
 
+/** @ignore */
 let _idCount = 0;
 
+/** @ignore */
 export function nextId() {
   ++_idCount;
   // if (_idCount >= Number.MAX_SAFE_INTEGER) {
@@ -81,7 +85,9 @@ export function nextId() {
   return `+${_idCount}`;
 }
 
-
+/** @ignore */
 export const DockContextType = React.createContext<DockContext>(null);
+/** @ignore */
 export const DockContextProvider = DockContextType.Provider;
+/** @ignore */
 export const DockContextConsumer = DockContextType.Consumer;

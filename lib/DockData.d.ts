@@ -47,13 +47,19 @@ export interface LayoutData {
 }
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 export interface DockContext {
+    /** @ignore */
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
     moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
+    /** @ignore */
     nextFloatZIndex(current: number): number;
 }
+/** @ignore */
 export declare function nextId(): string;
+/** @ignore */
 export declare const DockContextType: React.Context<DockContext>;
+/** @ignore */
 export declare const DockContextProvider: React.ProviderExoticComponent<React.ProviderProps<DockContext>>;
+/** @ignore */
 export declare const DockContextConsumer: React.ExoticComponent<React.ConsumerProps<DockContext>>;
 export {};

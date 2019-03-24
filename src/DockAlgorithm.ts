@@ -95,12 +95,7 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
 
 export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: BoxData, direction: DropDirection): LayoutData {
   let parentBox = box.parent;
-  let dockMode: DockMode;
-  if (direction === 'root') {
-    dockMode = box.mode;
-  } else {
-    dockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
-  }
+  let dockMode: DockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
 
   let afterPanel = (direction === 'bottom' || direction === 'right');
 

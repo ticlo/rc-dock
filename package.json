@@ -43,10 +43,12 @@
     "ts-node": "^8.0.2",
     "tslint": "^5.13.1",
     "tslint-react": "^3.6.0",
+    "typedoc": "^0.14.2",
     "typescript": "^3.3.3333"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
-    "build-dock-less": "lessc --js style/index.less dist/rc-dock.css"
+    "build-dock-less": "lessc --js style/index.less dist/rc-dock.css",
+    "build-doc": "typedoc --options ./typedocconfig.ts"
   }
 }

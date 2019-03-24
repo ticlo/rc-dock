@@ -12,7 +12,7 @@ build
 /lib/example
 /lib/src
 *.map
-*.jsx
 /dist/*.*.*
 /tool/**/*.js
 /temp
+/www

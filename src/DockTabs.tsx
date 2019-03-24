@@ -70,8 +70,8 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable} = this.data;
-    let {tabLocked, cached} = group;
+    let {id, title, group, content, closable, cached} = this.data;
+    let {tabLocked} = group;
     if (typeof content === 'function') {
       content = content();
     }
@@ -161,10 +161,7 @@ export class DockTabs extends React.Component<Props, any> {
   );
   renderTabContent = () => {
     let {group} = this.props.panelData;
-    let {cache, animated} = group;
-    if (cache === false) {
-      animated = false;
-    }
+    let {animated} = group;
     return <TabContent animated={animated}/>;
   };
 
@@ -175,7 +172,6 @@ export class DockTabs extends React.Component<Props, any> {
 
   render(): React.ReactNode {
     let {group, activeId} = this.props.panelData;
-    let {cache} = group;
 
     let children: React.ReactNode[] = [];
     for (let [id, tab] of this._cache) {
@@ -183,7 +179,7 @@ export class DockTabs extends React.Component<Props, any> {
     }
 
     return (
-      <Tabs prefixCls='dock-tabs' destroyInactiveTabPane={cache === false}
+      <Tabs prefixCls='dock-tabs'
             renderTabBar={this.renderTabBar}
             renderTabContent={this.renderTabContent}
             activeKey={activeId}

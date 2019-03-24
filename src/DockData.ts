@@ -22,7 +22,6 @@ export interface TabGroup {
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
   panelClass?: string;
-  cache?: boolean;
   animated?: boolean;
 }
 
@@ -32,6 +31,7 @@ export interface TabData extends DockDataBase {
   title: string;
   content: React.ReactElement | (() => React.ReactElement);
   closable?: boolean;
+  cached?: boolean;
   group: TabGroup;
 }
 

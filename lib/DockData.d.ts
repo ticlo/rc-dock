@@ -16,7 +16,6 @@ export interface TabGroup {
     multiTabs?: boolean;
     tabLocked?: boolean;
     panelClass?: string;
-    cache?: boolean;
     animated?: boolean;
 }
 export interface TabData extends DockDataBase {
@@ -25,6 +24,7 @@ export interface TabData extends DockDataBase {
     title: string;
     content: React.ReactElement | (() => React.ReactElement);
     closable?: boolean;
+    cached?: boolean;
     group: TabGroup;
 }
 export interface PanelData extends DockDataBase {

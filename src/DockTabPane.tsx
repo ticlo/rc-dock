@@ -44,9 +44,8 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
 
   render() {
     const {
-      id, className, destroyInactiveTabPane, active, forceRender,
-      rootPrefixCls, style, children, placeholder, cached,
-      ...restProps
+      id, className, active, forceRender,
+      rootPrefixCls, style, children, placeholder, cached
     } = this.props;
     this._isActived = this._isActived || active;
     const prefixCls = `${rootPrefixCls}-tabpane`;
@@ -56,7 +55,10 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
       [`${prefixCls}-active`]: active,
       [className]: className,
     });
-    const isRender = destroyInactiveTabPane ? active : this._isActived;
+    // when cached == undefined, it will still cache the children inside tabs component, but not across whole dock layout
+    // when cached == false, children are destroyed when not active
+    const isRender = cached === false ? active : this._isActived;
+
     let renderChildren = placeholder;
     if (cached) {
       renderChildren = null;

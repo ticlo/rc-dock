@@ -1,11 +1,11 @@
 (async function () {
-
+  // use async import so compiled examples can share the same js lib file
   let {React, ReactDOM, DockLayout, DockContextType, DragStore} = await import('./shared-import');
 
   let group = {
     floatable: true,
   };
-  let box: any = {
+  let box = {
     dockbox: {
       mode: 'horizontal',
       children: [
@@ -67,18 +67,9 @@
     }
   };
 
-  interface State {
-    activeId: string;
-  }
-
   let count = 0;
 
-  class Demo extends React.Component<any, State> {
-    state = {activeId: 'world'};
-
-    onTabChange = (activeId: string) => {
-      this.setState({activeId});
-    };
+  class Demo extends React.Component {
 
     render() {
       return (

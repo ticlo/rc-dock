@@ -3,19 +3,14 @@
 
   let index = 1;
 
-  interface State {
-    sizes: number[];
-  }
-
-  class Demo extends React.Component<any, State> {
-    _ref: HTMLDivElement;
-    getRef = (r: HTMLDivElement) => {
+  class Demo extends React.Component {
+    getRef = (r) => {
       this._ref = r;
     };
     state = {sizes: [200, 200, 30]};
-    getDividerData = (idx: number) => {
-      let children: any[] = [];
-      this._ref.childNodes.forEach((child: HTMLDivElement) => {
+    getDividerData = (idx) => {
+      let children = [];
+      this._ref.childNodes.forEach((child) => {
         if (!child.classList.contains('dock-divider')) {
           children.push({
             size: child.offsetWidth,
@@ -29,7 +24,7 @@
         afterDivider: children.slice(idx)
       };
     };
-    changeSizes = (sizes: number[]) => {
+    changeSizes = (sizes) => {
       this.setState({sizes});
     };
 

@@ -1,4 +1,4 @@
-export * from '../src';
+export * from '../lib';
 
 import React1 from 'react';
 import ReactDom1 from 'react-dom';

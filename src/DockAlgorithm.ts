@@ -144,7 +144,6 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
         newPanel.parent = newChildBox;
         newPanel.size = 120;
         newParentBox.children[pos] = newChildBox;
-        newChildBox.parent = newParentBox;
       }
       return replaceBox(layout, parentBox, newParentBox);
     }
@@ -170,9 +169,7 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       } else {
         newDockBox.children = [newPanel, newBox];
       }
-      newBox.parent = newDockBox;
       newBox.size = 280;
-      newPanel.parent = newDockBox;
       newPanel.size = 120;
       return replaceBox(layout, box, newDockBox);
     }
@@ -192,7 +189,6 @@ export function floatPanel(
   newPanel.h = rect.height;
 
   newBox.children.push(newPanel);
-  newPanel.parent = newBox;
   return replaceBox(layout, layout.floatbox, newBox);
 }
 
@@ -211,9 +207,6 @@ function removePanel(layout: LayoutData, panel: PanelData): LayoutData {
     if (pos >= 0) {
       let newBox = clone(box);
       newBox.children.splice(pos, 1);
-      for (let child of newBox.children) {
-        child.parent = newBox;
-      }
       return replaceBox(layout, box, newBox);
     }
   }
@@ -234,9 +227,6 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
         } else if (newPanel.tabs.length) {
           newPanel.activeId = newPanel.tabs[0].id;
         }
-      }
-      for (let tab of newPanel.tabs) {
-        tab.parent = newPanel;
       }
       return replacePanel(layout, panel, newPanel);
     }
@@ -281,18 +271,22 @@ function fixpanelOrBox(d: PanelData | BoxData) {
   if (!(d.size >= 0)) {
     d.size = 200;
   }
-  if (!(d.minWidth >= 0)) {
-    d.minWidth = 0;
-  }
-  if (!(d.minHeight >= 0)) {
-    d.minHeight = 0;
-  }
+  d.minWidth = 0;
+  d.minHeight = 0;
 }
 
 function fixPanelData(panel: PanelData): PanelData {
   fixpanelOrBox(panel);
   for (let child of panel.tabs) {
     child.parent = panel;
+    if (child.minWidth > 0) panel.minWidth += child.minWidth;
+    if (child.minHeight > 0) panel.minHeight += child.minHeight;
+  }
+  if (panel.minWidth <= 0) {
+    panel.minWidth = 1;
+  }
+  if (panel.minHeight <= 0) {
+    panel.minHeight = 1;
   }
   return panel;
 }
@@ -344,20 +338,34 @@ function fixBoxData(box: BoxData): BoxData {
         }
       }
     }
+    if (child.minWidth > 0) box.minWidth += child.minWidth;
+    if (child.minHeight > 0) box.minHeight += child.minHeight;
   }
+  if (box.children.length > 1) {
+    switch (box.mode) {
+      case 'horizontal':
+        box.minWidth += (box.children.length - 1) * 4;
+        break;
+      case 'vertical':
+        box.minHeight += (box.children.length - 1) * 4;
+        break;
+    }
+  }
+
   return box;
 }
 
 function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData {
+  for (let tab of newPanel.tabs) {
+    tab.parent = newPanel;
+  }
+
   let box = panel.parent;
   if (box) {
     let pos = box.children.indexOf(panel);
     if (pos >= 0) {
       let newBox = clone(box);
       newBox.children[pos] = newPanel;
-      for (let child of newBox.children) {
-        child.parent = newBox;
-      }
       return replaceBox(layout, box, newBox);
     }
   }
@@ -365,15 +373,16 @@ function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData)
 }
 
 function replaceBox(layout: LayoutData, box: BoxData, newBox: BoxData): LayoutData {
+  for (let child of newBox.children) {
+    child.parent = newBox;
+  }
+
   let parentBox = box.parent;
   if (parentBox) {
     let pos = parentBox.children.indexOf(box);
     if (pos >= 0) {
       let newParentBox = clone(parentBox);
       newParentBox.children[pos] = newBox;
-      for (let child of newParentBox.children) {
-        child.parent = newParentBox;
-      }
       return replaceBox(layout, parentBox, newParentBox);
     }
   } else {

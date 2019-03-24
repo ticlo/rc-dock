@@ -6433,10 +6433,10 @@ rc-hammerjs@~0.6.0:
     hammerjs "^2.0.8"
     prop-types "^15.5.9"
 
-rc-tabs@^9.6.1:
-  version "9.6.1"
-  resolved "https://registry.yarnpkg.com/rc-tabs/-/rc-tabs-9.6.1.tgz#e9426927d3f197003e3ca8e5eba5cd33b8b099db"
-  integrity sha512-3/Ip9yCEERFFvCjU0ZoQqvn6unMo0XOQESygNLq1DyOAYRcukpq8Q28awpXWqh8l8NBcyw1sVfrs6SZN/zmAKg==
+rc-tabs@^9.6.2:
+  version "9.6.2"
+  resolved "https://registry.yarnpkg.com/rc-tabs/-/rc-tabs-9.6.2.tgz#a33652e252ff335874ad3d0c81cb598cbae5f881"
+  integrity sha512-yYyL/94ZW+C2RxIaY85fiNQi7NJ+y2aDpy4A/yr7IWOdgKspgF0G8JPDFf9SS2vlEdeZFL+y+kDFRjxkZuP6UA==
   dependencies:
     babel-runtime "6.x"
     classnames "2.x"
@@ -6479,9 +6479,9 @@ react-dom@^16.8.3:
     scheduler "^0.13.4"
 
 react-is@^16.8.1:
-  version "16.8.4"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.4.tgz#90f336a68c3a29a096a3d648ab80e87ec61482a2"
-  integrity sha512-PVadd+WaUDOAciICm/J1waJaSvgq+4rHE/K70j0PFqKhkTBsPv/82UGQJNXAngz1fOQLLxI6z1sEDmJDQhCTAA==
+  version "16.8.5"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.5.tgz#c54ac229dd66b5afe0de5acbe47647c3da692ff8"
+  integrity sha512-sudt2uq5P/2TznPV4Wtdi+Lnq3yaYW8LfvPKLM9BKD8jJNBkxMVyB0C9/GmVhLw7Jbdmndk/73n7XQGeN9A3QQ==
 
 react@^16.8.3:
   version "16.8.4"

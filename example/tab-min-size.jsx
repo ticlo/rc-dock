@@ -6,24 +6,21 @@ let group = {
   floatable: true
 };
 
-let cachedTab = {
-  title: 'cached',
-  cached: true,  // cached = true allows the component to keep its internal state when dragged around
+let minSizeTab = {
+  title: 'min size',
+  minWidth: 300,
+  minHeight: 300,
   content: (
     <div>
-      This input will keep its state when dragged around<br/>
-      <input/>
+      This tab has a minimal size.
     </div>
   ),
   group
 };
-let nocachedTab = {
-  title: 'lose state',
+let tab = {
+  title: 'normal',
   content: (
-    <div>
-      This input might lose its state when dragged around<br/>
-      <input/>
-    </div>
+    <div/>
   ),
   group
 };
@@ -32,14 +29,14 @@ let box = {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{...cachedTab, id: 'cache1'}, {...cachedTab, id: 'cache2'}],
+        tabs: [{...minSizeTab, id: 'id1'}, {...tab, id: 'id2'}],
         group,
-        activeId: 'cache1',
+        activeId: 'id1',
       },
       {
-        tabs: [{...nocachedTab, id: 'nocache1'}, {...nocachedTab, id: 'nocache2'}],
+        tabs: [{...tab, id: 'id3'}, {...tab, id: 'id4'}],
         group,
-        activeId: 'nocache1',
+        activeId: 'id3',
       },
     ]
   }

@@ -49,14 +49,17 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDrop = (e: React.DragEvent) => {
-    let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    if (tab) {
+    let source: TabData | PanelData = DragStore.getData(DockContextType, 'tab');
+    if (!source) {
+      source = DragStore.getData(DockContextType, 'panel');
+    }
+    if (source) {
       let {panelData, direction, depth} = this.props;
       let target: PanelData | BoxData = panelData;
       for (let i = 0; i < depth; ++i) {
         target = target.parent;
       }
-      this.context.moveTab(tab, target, direction);
+      this.context.dockMove(source, target, direction);
     }
   };
 
@@ -117,26 +120,33 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
 
     let children: React.ReactNode[] = [];
 
-    DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
-    DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
-
-    if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
-      // dock to tabs
-      children.push(
-        <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>
-      );
-    }
-
     if (dropFromPanel.group.floatable) {
       children.push(
         <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
       );
     }
-    let box = panelData.parent;
-    if (box && box.children.length > 1) {
-      DockDropLayer.addDepthSquare(children, box.mode, panelData, panelElement, 1);
-      if (box.parent) {
-        DockDropLayer.addDepthSquare(children, box.parent.mode, panelData, panelElement, 2);
+
+    if (DragStore.getData(DockContextType, 'panel') !== panelData) { // don't drop panel to itself
+
+      // 4 direction base drag square
+      DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
+      DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
+
+      if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
+        // dock to tabs
+        children.push(
+          <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>
+        );
+      }
+
+
+      let box = panelData.parent;
+      if (box && box.children.length > 1) {
+        // deeper drop
+        DockDropLayer.addDepthSquare(children, box.mode, panelData, panelElement, 1);
+        if (box.parent) {
+          DockDropLayer.addDepthSquare(children, box.parent.mode, panelData, panelElement, 2);
+        }
       }
     }
 

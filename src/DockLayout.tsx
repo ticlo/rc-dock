@@ -51,10 +51,10 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return layout;
   }
 
-  moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection) {
+  dockMove(source: TabData, target: TabData | PanelData | BoxData, direction: DropDirection) {
     let {layout} = this.state;
 
-    layout = Algorithm.removeTab(layout, tab);
+    layout = Algorithm.removeFromLayout(layout, source);
 
     target = Algorithm.getUpdatedObject(target); // target might change during removeTab
 
@@ -62,9 +62,9 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       if ('tabs' in target) {
         // pandel target
         if (direction === 'middle') {
-          layout = Algorithm.addTabToPanel(layout, tab, target);
+          layout = Algorithm.addTabToPanel(layout, source, target);
         } else {
-          let newPanel = Algorithm.newPanelFromTab(tab);
+          let newPanel = Algorithm.converToPanel(source);
           if (direction === 'float') {
             newPanel.z = this.nextFloatZIndex(null);
             layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
@@ -75,18 +75,14 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
       } else if ('children' in target) {
         // box target
-        let newPanel = Algorithm.newPanelFromTab(tab);
+        let newPanel = Algorithm.converToPanel(source);
         layout = Algorithm.dockPanelToBox(layout, newPanel, target, direction);
       } else {
-        layout = Algorithm.addTabToTab(layout, tab, target, direction);
+        layout = Algorithm.addTabToTab(layout, source, target, direction);
       }
     }
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});
-    this.dragEnd();
-  }
-
-  movePanel(panel: PanelData, target: PanelData, direction: DropDirection) {
     this.dragEnd();
   }
 

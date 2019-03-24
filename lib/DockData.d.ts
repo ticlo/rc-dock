@@ -49,8 +49,7 @@ export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middl
 export interface DockContext {
     /** @ignore */
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
-    moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
-    movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
+    dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     /** @ignore */
     nextFloatZIndex(current: number): number;
 }

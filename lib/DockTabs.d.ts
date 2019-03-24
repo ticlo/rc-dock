@@ -21,7 +21,8 @@ export declare class TabCache {
 }
 interface Props {
     panelData: PanelData;
-    onPanelHeaderDrag: DragInitHandler;
+    onPanelHeaderDragInit: DragInitHandler;
+    onPanelHeaderHtmlDrag: React.DragEventHandler;
 }
 export declare class DockTabs extends React.Component<Props, any> {
     static contextType: React.Context<DockContext>;

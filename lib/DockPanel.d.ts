@@ -20,8 +20,9 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     onDragLeave(): void;
     _movingX: number;
     _movingY: number;
-    onPanelHeaderDrag: (event: PointerEvent, initFunction: DragInitFunction) => void;
+    onPanelHeaderDragInit: (event: PointerEvent, initFunction: DragInitFunction) => void;
     onPanelHeaderDragMove: (e: AbstractPointerEvent, dx: number, dy: number) => void;
+    onPanelHeaderHtmlDrag: (event: React.DragEvent<Element>) => void;
     _movingW: number;
     _movingH: number;
     onPanelCornerDrag: (event: PointerEvent, initFunction: DragInitFunction) => void;

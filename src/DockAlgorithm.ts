@@ -39,23 +39,43 @@ export function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, d
   return layout;
 }
 
-export function addTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData, idx = -1): LayoutData {
+export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, panel: PanelData, idx = -1): LayoutData {
   if (idx === -1) {
     idx = panel.tabs.length;
   }
-  let newPanel = clone(panel);
-  newPanel.tabs.splice(idx, 0, tab);
-  newPanel.activeId = tab.id;
-  tab.parent = newPanel;
 
-  layout = invalidatePanel(layout, panel, newPanel);
+  let tabs: TabData[];
+  if ('tabs' in source) {
+    // source is PanelData
+    tabs = source.tabs;
+  } else {
+    // source is TabData
+    tabs = [source];
+  }
+
+  if (tabs.length) {
+    let newPanel = clone(panel);
+    newPanel.tabs.splice(idx, 0, ...tabs);
+    newPanel.activeId = tabs[tabs.length - 1].id;
+    for (let tab of tabs) {
+      tab.parent = newPanel;
+
+    }
+    layout = replacePanel(layout, panel, newPanel);
+  }
+
   return layout;
 }
 
-export function newPanelFromTab(tab: TabData) {
-  let newPanel: PanelData = {tabs: [tab], group: tab.group, activeId: tab.id};
-  tab.parent = newPanel;
-  return newPanel;
+export function converToPanel(source: TabData | PanelData): PanelData {
+  if ('tabs' in source) {
+    // source is already PanelData
+    return source;
+  } else {
+    let newPanel: PanelData = {tabs: [source], group: source.group, activeId: source.id};
+    source.parent = newPanel;
+    return newPanel;
+  }
 }
 
 export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel: PanelData, direction: DropDirection): LayoutData {
@@ -88,7 +108,7 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
       newBox.children[pos] = newChildBox;
       newChildBox.parent = newBox;
     }
-    return invalidateBox(layout, box, newBox);
+    return replaceBox(layout, box, newBox);
   }
   return layout;
 }
@@ -126,7 +146,7 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
         newParentBox.children[pos] = newChildBox;
         newChildBox.parent = newParentBox;
       }
-      return invalidateBox(layout, parentBox, newParentBox);
+      return replaceBox(layout, parentBox, newParentBox);
     }
   } else if (box === layout.dockbox) {
     let newBox = clone(box);
@@ -139,7 +159,7 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       box.size *= 0.7;
 
       newBox.children.splice(pos, 0, newPanel);
-      return invalidateBox(layout, box, newBox);
+      return replaceBox(layout, box, newBox);
     } else {
       // replace root dockbox
 
@@ -154,7 +174,7 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       newBox.size = 280;
       newPanel.parent = newDockBox;
       newPanel.size = 120;
-      return invalidateBox(layout, box, newDockBox);
+      return replaceBox(layout, box, newDockBox);
     }
   }
 
@@ -173,14 +193,39 @@ export function floatPanel(
 
   newBox.children.push(newPanel);
   newPanel.parent = newBox;
-  return invalidateBox(layout, layout.floatbox, newBox);
+  return replaceBox(layout, layout.floatbox, newBox);
 }
 
-export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
-  if (tab.parent) {
-    let pos = tab.parent.tabs.indexOf(tab);
+export function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData {
+  if ('tabs' in source) {
+    return removePanel(layout, source);
+  } else {
+    return removeTab(layout, source);
+  }
+}
+
+function removePanel(layout: LayoutData, panel: PanelData): LayoutData {
+  let box = panel.parent;
+  if (box) {
+    let pos = box.children.indexOf(panel);
     if (pos >= 0) {
-      let newPanel = clone(tab.parent);
+      let newBox = clone(box);
+      newBox.children.splice(pos, 1);
+      for (let child of newBox.children) {
+        child.parent = newBox;
+      }
+      return replaceBox(layout, box, newBox);
+    }
+  }
+  return layout;
+}
+
+function removeTab(layout: LayoutData, tab: TabData): LayoutData {
+  let panel = tab.parent;
+  if (panel) {
+    let pos = panel.tabs.indexOf(tab);
+    if (pos >= 0) {
+      let newPanel = clone(panel);
       newPanel.tabs.splice(pos, 1);
       if (newPanel.activeId === tab.id) {
         // update selection id
@@ -193,7 +238,7 @@ export function removeTab(layout: LayoutData, tab: TabData): LayoutData {
       for (let tab of newPanel.tabs) {
         tab.parent = newPanel;
       }
-      return invalidatePanel(layout, tab.parent, newPanel);
+      return replacePanel(layout, panel, newPanel);
     }
   }
   return layout;
@@ -303,7 +348,7 @@ function fixBoxData(box: BoxData): BoxData {
   return box;
 }
 
-function invalidatePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData {
+function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData {
   let box = panel.parent;
   if (box) {
     let pos = box.children.indexOf(panel);
@@ -313,13 +358,13 @@ function invalidatePanel(layout: LayoutData, panel: PanelData, newPanel: PanelDa
       for (let child of newBox.children) {
         child.parent = newBox;
       }
-      return invalidateBox(layout, box, newBox);
+      return replaceBox(layout, box, newBox);
     }
   }
   return layout;
 }
 
-function invalidateBox(layout: LayoutData, box: BoxData, newBox: BoxData): LayoutData {
+function replaceBox(layout: LayoutData, box: BoxData, newBox: BoxData): LayoutData {
   let parentBox = box.parent;
   if (parentBox) {
     let pos = parentBox.children.indexOf(box);
@@ -329,7 +374,7 @@ function invalidateBox(layout: LayoutData, box: BoxData, newBox: BoxData): Layou
       for (let child of newParentBox.children) {
         child.parent = newParentBox;
       }
-      return invalidateBox(layout, parentBox, newParentBox);
+      return replaceBox(layout, parentBox, newParentBox);
     }
   } else {
     if (box.id === layout.dockbox.id || box === layout.dockbox) {

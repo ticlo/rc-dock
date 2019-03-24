@@ -12,13 +12,14 @@ interface TabBarRootNodeProps {
   extraContent?: React.ReactElement;
   onKeyDown?: React.KeyboardEventHandler;
   saveRef: Function;
-  onDragInit: DragInitHandler;
+  onDragMoveInit?: DragInitHandler;
+  onHtmlDrag?: React.DragEventHandler;
 }
 
 export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
   render() {
     const {
-      onKeyDown, extraContent, style, children, onDragInit,
+      onKeyDown, extraContent, style, children, onDragMoveInit, onHtmlDrag,
       ...restProps
     } = this.props;
 
@@ -40,7 +41,8 @@ export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps,
 
     }
     return (
-      <DragInitiator onDragInit={onDragInit}
+      <DragInitiator onDragInit={onDragMoveInit}
+                     onDrag={onHtmlDrag} draggable={onHtmlDrag != null}
                      role="tablist"
                      className='dock-tabs-bar'
                      tabIndex={0}
@@ -55,17 +57,18 @@ export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps,
 }
 
 interface DockTabBarProps {
-  onDragInit: DragInitHandler;
+  onDragMoveInit?: DragInitHandler;
+  onHtmlDrag?: React.DragEventHandler;
 }
 
 export class DockTabBar extends React.PureComponent<DockTabBarProps, any> {
   render() {
-    const {children: renderTabBarNode, onDragInit, ...restProps} = this.props;
+    const {children: renderTabBarNode, onDragMoveInit, onHtmlDrag, ...restProps} = this.props;
 
     return (
       <SaveRef>
         {(saveRef: Function, getRef: Function) => (
-          <DockTabBarRootNode saveRef={saveRef} onDragInit={onDragInit} {...restProps}>
+          <DockTabBarRootNode saveRef={saveRef} onDragMoveInit={onDragMoveInit} onHtmlDrag={onHtmlDrag} {...restProps}>
             <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...restProps}>
               <TabBarTabsNode saveRef={saveRef} renderTabBarNode={renderTabBarNode} {...restProps} />
               <InkTabBarNode saveRef={saveRef} getRef={getRef} {...restProps} />

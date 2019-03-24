@@ -36,11 +36,12 @@ export class TabCache {
   }
 
   onCloseClick = (e: React.MouseEvent) => {
-    this.context.moveTab(this.data, null, 'remove');
+    this.context.dockMove(this.data, null, 'remove');
     e.stopPropagation();
   };
   onDragStart = (e: React.DragEvent) => {
     DragStore.dragStart(DockContextType, {tab: this.data}, this._ref);
+    e.stopPropagation();
   };
   onDragOver = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
@@ -59,7 +60,7 @@ export class TabCache {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
-      this.context.moveTab(tab, this.data, direction);
+      this.context.dockMove(tab, this.data, direction);
     }
   };
 
@@ -99,7 +100,8 @@ export class TabCache {
 
 interface Props {
   panelData: PanelData;
-  onPanelHeaderDrag: DragInitHandler;
+  onPanelHeaderDragInit: DragInitHandler;
+  onPanelHeaderHtmlDrag: React.DragEventHandler;
 }
 
 interface State {
@@ -157,7 +159,7 @@ export class DockTabs extends React.Component<Props, any> {
   }
 
   renderTabBar = () => (
-    <DockTabBar onDragInit={this.props.onPanelHeaderDrag}/>
+    <DockTabBar onDragMoveInit={this.props.onPanelHeaderDragInit} onHtmlDrag={this.props.onPanelHeaderHtmlDrag}/>
   );
   renderTabContent = () => {
     let {group} = this.props.panelData;

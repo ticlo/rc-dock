@@ -6,13 +6,15 @@ interface TabBarRootNodeProps {
     extraContent?: React.ReactElement;
     onKeyDown?: React.KeyboardEventHandler;
     saveRef: Function;
-    onDragInit: DragInitHandler;
+    onDragMoveInit?: DragInitHandler;
+    onHtmlDrag?: React.DragEventHandler;
 }
 export declare class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
     render(): JSX.Element;
 }
 interface DockTabBarProps {
-    onDragInit: DragInitHandler;
+    onDragMoveInit?: DragInitHandler;
+    onHtmlDrag?: React.DragEventHandler;
 }
 export declare class DockTabBar extends React.PureComponent<DockTabBarProps, any> {
     render(): JSX.Element;

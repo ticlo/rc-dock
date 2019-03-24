@@ -50,7 +50,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
         // add a fake panel
         this.setState({dropFromPanel: {activeId: '', tabs: [], group: tab.group}});
       }
-
+    } else if (panel) {
+      this.setState({dropFromPanel: panel});
     }
   };
 
@@ -62,7 +63,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   _movingX: number;
   _movingY: number;
-  onPanelHeaderDrag = (event: PointerEvent, initFunction: DragInitFunction) => {
+  // drop to move in float mode
+  onPanelHeaderDragInit = (event: PointerEvent, initFunction: DragInitFunction) => {
     let {panelData} = this.props;
     let {parent, x, y, z} = panelData;
     if (
@@ -80,6 +82,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     panelData.x = this._movingX + dx;
     panelData.y = this._movingY + dy;
     this.forceUpdate();
+  };
+
+  // drag in dock mode
+  onPanelHeaderHtmlDrag = (event: React.DragEvent) => {
+    DragStore.dragStart(DockContextType, {panel: this.props.panelData}, this._ref);
+    event.stopPropagation();
   };
 
   _movingW: number;
@@ -135,10 +143,19 @@ export class DockPanel extends React.PureComponent<Props, State> {
       droppingLayer = <DockDropLayer panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
     }
 
+    let onPanelHeaderDragInit = this.onPanelHeaderDragInit;
+    let onPanelHeaderHtmlDrag = this.onPanelHeaderHtmlDrag;
+    if (isFloat) {
+      onPanelHeaderHtmlDrag = null;
+    } else {
+      onPanelHeaderDragInit = null;
+    }
+
     return (
       <div ref={this.getRef} className={cls} style={style} data-dockid={id}
            onPointerDown={pointerDownCallback} onDragEnter={isFloat ? null : this.onDragEnter}>
-        <DockTabs panelData={panelData} onPanelHeaderDrag={this.onPanelHeaderDrag}/>
+        <DockTabs panelData={panelData} onPanelHeaderDragInit={onPanelHeaderDragInit}
+                  onPanelHeaderHtmlDrag={onPanelHeaderHtmlDrag}/>
         {isFloat ?
           <DragInitiator className='dock-panel-drag-size' onDragInit={this.onPanelCornerDrag}/>
           : null

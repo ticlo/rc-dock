@@ -24,8 +24,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     getRef: (r: HTMLDivElement) => void;
     /** @ignore */
     prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData;
-    moveTab(tab: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
-    movePanel(panel: PanelData, target: PanelData, direction: DropDirection): void;
+    dockMove(source: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     constructor(props: LayoutProps);
     /** @ignore */
     dragEnd: () => void;

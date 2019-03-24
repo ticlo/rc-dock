@@ -30,7 +30,7 @@ export interface TabData extends DockDataBase {
 export interface PanelData extends DockDataBase {
     id?: string | number;
     parent?: BoxData;
-    activeId: string;
+    activeId?: string;
     tabs: TabData[];
     group: TabGroup;
     size?: number;

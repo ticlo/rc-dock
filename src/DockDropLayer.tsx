@@ -4,6 +4,7 @@ import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
 import {DragStore} from "./DragStore";
+import {placeHolderGroup} from "./DockAlgorithm";
 
 interface DockDropSquareProps {
   direction: DropDirection;
@@ -24,12 +25,18 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   state = {dropping: false};
 
   onDragOver = (e: React.DragEvent) => {
-    let {panelElement: targetElement, direction, depth} = this.props;
+    let {panelElement: targetElement, direction, depth, panelData} = this.props;
     this.setState({dropping: true});
     for (let i = 0; i < depth; ++i) {
       targetElement = targetElement.parentElement;
     }
-    this.context.setDropRect(targetElement, direction, this, e.nativeEvent);
+    if (panelData.group === placeHolderGroup && direction !== 'float') {
+      // place holder panel should always have full size drop rect
+      this.context.setDropRect(targetElement, 'middle', this, e.nativeEvent);
+    } else {
+      this.context.setDropRect(targetElement, direction, this, e.nativeEvent);
+    }
+
     e.dataTransfer.dropEffect = 'move';
     e.preventDefault();
     e.stopPropagation();
@@ -109,6 +116,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     let {panelData, panelElement, dropFromPanel} = this.props;
 
     let children: React.ReactNode[] = [];
+
     DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
     DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
 

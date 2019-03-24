@@ -1,5 +1,11 @@
 import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData, TabGroup} from "./DockData";
 
+
+export const placeHolderGroup: TabGroup = {
+  panelClass: 'dock-placeholder-panel',
+  floatable: false,
+};
+
 let _watchObjectChange: WeakMap<any, any> = new WeakMap();
 
 export function getUpdatedObject(obj: any): any {
@@ -21,11 +27,6 @@ function clone<T>(value: T): T {
   _watchObjectChange.set(value, newValue);
   return newValue;
 }
-
-const placeHolderGroup: TabGroup = {
-  panelClass: 'dock-placeholder-panel',
-  floatable: false,
-};
 
 export function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, direction: DropDirection): LayoutData {
   let pos = target.parent.tabs.indexOf(target);
@@ -94,7 +95,13 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
 
 export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: BoxData, direction: DropDirection): LayoutData {
   let parentBox = box.parent;
-  let dockMode: DockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
+  let dockMode: DockMode;
+  if (direction === 'root') {
+    dockMode = box.mode;
+  } else {
+    dockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
+  }
+
   let afterPanel = (direction === 'bottom' || direction === 'right');
 
   if (parentBox) {
@@ -209,11 +216,17 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
 
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
-  while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
-    let newDockBox = clone(layout.dockbox.children[0] as BoxData);
-    layout.dockbox = newDockBox;
-    for (let child of newDockBox.children) {
-      child.parent = newDockBox;
+  if (layout.dockbox.children.length === 0) {
+    let newPanel: PanelData = {id: '+0', group: placeHolderGroup, panelLocked: true, size: 200, tabs: []};
+    newPanel.parent = layout.dockbox;
+    layout.dockbox.children.push(newPanel);
+  } else {
+    while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
+      let newDockBox = clone(layout.dockbox.children[0] as BoxData);
+      layout.dockbox = newDockBox;
+      for (let child of newDockBox.children) {
+        child.parent = newDockBox;
+      }
     }
   }
   layout.dockbox.parent = null;
@@ -279,10 +292,16 @@ function fixBoxData(box: BoxData): BoxData {
       }
     } else if ('tabs' in child) {
       fixPanelData(child);
-      if (child.tabs.length === 0 && !child.panelLocked) {
+      if (child.tabs.length === 0) {
         // remove panel with no tab
-        box.children.splice(i, 1);
-        --i;
+        if (!child.panelLocked) {
+          box.children.splice(i, 1);
+          --i;
+        } else if (child.group === placeHolderGroup && (box.children.length > 1 || box.parent)) {
+          // remove placeHolder Group
+          box.children.splice(i, 1);
+          --i;
+        }
       }
     }
   }

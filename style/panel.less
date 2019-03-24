@@ -109,7 +109,8 @@
     }
   }
 
-  .dock-drop-middle {
+  .dock-drop-tabs {
+
   }
 
   .dock-drop-float {
@@ -203,22 +204,3 @@
     display: none;
   }
 }
-
-.dock-panel.dock-headless-panel {
-  border: none;
-
-  & .dock-tabs-bar {
-    position: absolute;
-    z-index: 1;
-    opacity: 0;
-    height: 16px;
-    width: 100%;
-    transition: all 0.15s ease-in-out;
-  }
-
-  & .dock-tabs-bar:hover, &.dock-panel-dropping .dock-tabs-bar {
-    opacity: 1;
-    height: 31px;
-  }
-}
-

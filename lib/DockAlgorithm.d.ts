@@ -1,4 +1,5 @@
-import { BoxData, DropDirection, LayoutData, PanelData, TabData } from "./DockData";
+import { BoxData, DropDirection, LayoutData, PanelData, TabData, TabGroup } from "./DockData";
+export declare const placeHolderGroup: TabGroup;
 export declare function getUpdatedObject(obj: any): any;
 export declare function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, direction: DropDirection): LayoutData;
 export declare function addTabToPanel(layout: LayoutData, tab: TabData, panel: PanelData, idx?: number): LayoutData;

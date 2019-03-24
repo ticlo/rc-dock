@@ -38,7 +38,7 @@ export interface TabData extends DockDataBase {
 export interface PanelData extends DockDataBase {
   id?: string | number;
   parent?: BoxData;
-  activeId: string;
+  activeId?: string;
   tabs: TabData[];
   group: TabGroup;
 
@@ -76,9 +76,8 @@ let _idCount = 0;
 
 export function nextId() {
   ++_idCount;
-  if (_idCount >= Number.MAX_SAFE_INTEGER) {
-    _idCount = -Number.MAX_SAFE_INTEGER;
-  }
+  // if (_idCount >= Number.MAX_SAFE_INTEGER) {
+  // }
   return `+${_idCount}`;
 }
 

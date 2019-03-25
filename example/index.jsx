@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import {Divider} from '../lib';
 
 let demos = ['basic', 'panel-style', 'tab-cache', 'tab-min-size', 'divider'];
 

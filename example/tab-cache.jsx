@@ -11,7 +11,7 @@ let cachedTab = {
   cached: true,  // cached = true allows the component to keep its internal state when dragged around
   content: (
     <div>
-      This input will keep its state when dragged around<br/>
+      <p>cached = true<br/>this input will keep its state when dragged around</p>
       <input/>
     </div>
   ),
@@ -21,7 +21,7 @@ let nocachedTab = {
   title: 'lose state',
   content: (
     <div>
-      This input might lose its state when dragged around<br/>
+      <p style={{color: 'red'}}>This input might lose its state when dragged around</p>
       <input/>
     </div>
   ),

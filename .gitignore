@@ -14,5 +14,5 @@ build
 *.map
 /dist/*.*.*
 /tool/**/*.js
-/temp
+/temp*
 /www

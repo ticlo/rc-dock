@@ -33,9 +33,8 @@ let defaultTab = {
 let headlessTab = {
   title: 'headless',
   content: (
-    <div style={{background: '#eeeeff', height: '100%', margin: 0, padding: 30}}>
-      Hide border and header in dock mode.<br/>
-      But still show header when you drat them to float panel
+    <div style={{background: '#f6f6f6', height: '100%', margin: 0, padding: 30}}>
+      Hide border and header.
     </div>
   ),
   group: headlessGroup

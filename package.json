@@ -28,6 +28,7 @@
     "@types/node": "^11.11.6",
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
+    "@types/shelljs": "^0.8.3",
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
     "cross-env": "^5.2.0",
@@ -39,6 +40,7 @@
     "mocha": "^6.0.2",
     "nyc": "^13.1.0",
     "parcel-bundler": "^1.12.3",
+    "shelljs": "^0.8.3",
     "simulate-event": "git+https://github.com/ticlo/simulate-event.git",
     "ts-node": "^8.0.2",
     "tslint": "^5.14.0",
@@ -48,7 +50,8 @@
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
-    "build-dock-less": "lessc --js style/index.less dist/rc-dock.css",
+    "build-less": "lessc style/index.less dist/rc-dock.css",
+    "build-example": "ts-node tool/build-examples",
     "build-doc": "typedoc --options ./typedocconfig.js"
   }
 }

@@ -8,11 +8,14 @@ let defaultGroup = {
 
 let headlessGroup = {
   floatable: true,
-  // this is a pre defined panel style
+
+  // this is a pre-defined style, defined here:
+  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
   panelClass: 'dock-headless-panel'
 };
 
 let customStyleGroup = {
+  closable: true,
   floatable: true,
   // this is a custom panel style defined in panel-style.html
   panelClass: 'my-panel'
@@ -60,7 +63,10 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...customTab, id: 't4'}, {...customTab, id: 't6'}, {...customTab, id: 't6'}],
+            tabs: [{...customTab, id: 't4'}, {...customTab, id: 't6'}, {...customTab, id: 't6'}, {
+              ...customTab,
+              id: 't10'
+            }],
             group: customStyleGroup,
             activeId: 't4',
           },

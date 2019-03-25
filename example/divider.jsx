@@ -9,6 +9,8 @@ class Demo extends React.Component {
 
   // default sizes
   state = {sizes: [200, 200, 30]};
+
+  // when divider is dragged, this function will be called to measure the elements' size
   getDividerData = (idx) => {
     let children = [];
     this._ref.childNodes.forEach((child) => {
@@ -25,6 +27,8 @@ class Demo extends React.Component {
       afterDivider: children.slice(idx)
     };
   };
+
+  // callback from the dragging
   changeSizes = (sizes) => {
     this.setState({sizes});
   };
@@ -32,12 +36,16 @@ class Demo extends React.Component {
   render() {
     let {sizes} = this.state;
     return (
-      <div ref={this.getRef} className='box'>
-        <div style={{width: sizes[0]}}/>
-        <Divider idx={1} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
-        <div style={{width: sizes[1]}}/>
-        <Divider idx={2} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
-        <div style={{width: sizes[2]}}/>
+      <div>
+      Divider can be used separately, this doesn't require anything else from the dock layout
+        <div ref={this.getRef} className='box'>
+          <div style={{width: sizes[0]}}/>
+          <Divider idx={1} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
+          <div style={{width: sizes[1]}}/>
+          <Divider idx={2} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
+          <div style={{width: sizes[2]}}/>
+        </div>
+        Dragging with shift key to resize all children, otherwise only 2 children are affected
       </div>
     );
   }

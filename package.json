@@ -13,9 +13,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "classnames": "^2.2.6",
-    "rc-tabs": "^9.6.2",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3"
+    "rc-tabs": "^9.6.3",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -25,9 +25,9 @@
     "@types/classnames": "^2.2.7",
     "@types/karma": "^3.0.2",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^11.10.4",
-    "@types/react": "^16.8.6",
-    "@types/react-dom": "^16.8.2",
+    "@types/node": "^11.11.6",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.3",
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
     "cross-env": "^5.2.0",
@@ -38,13 +38,13 @@
     "less": "^3.9.0",
     "mocha": "^6.0.2",
     "nyc": "^13.1.0",
-    "parcel-bundler": "^1.10.3",
+    "parcel-bundler": "^1.12.3",
     "simulate-event": "git+https://github.com/ticlo/simulate-event.git",
     "ts-node": "^8.0.2",
-    "tslint": "^5.13.1",
+    "tslint": "^5.14.0",
     "tslint-react": "^3.6.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.4000"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",

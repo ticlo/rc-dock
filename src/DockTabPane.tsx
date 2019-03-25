@@ -114,7 +114,7 @@ class TabPaneCache {
       cache = new TabPaneCache();
       cache.id = id;
       cache.div = document.createElement('div');
-      cache.div.className = 'dock-tabs-pane-cache';
+      cache.div.className = 'dock-pane-cache';
       TabPaneCache._caches.set(id, cache);
     }
     cache.pane = pane;

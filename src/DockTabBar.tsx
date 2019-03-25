@@ -44,7 +44,7 @@ export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps,
       <DragInitiator onDragInit={onDragMoveInit}
                      onDrag={onHtmlDrag} draggable={onHtmlDrag != null}
                      role="tablist"
-                     className='dock-tabs-bar'
+                     className='dock-bar'
                      tabIndex={0}
                      ref={this.props.saveRef('root')}
                      onKeyDown={onKeyDown}

@@ -85,10 +85,10 @@ export class TabCache {
       <DockTabPane key={id} id={id} cached={cached} tab={
         <div ref={this.getRef}>
           {title}
-          <div className='dock-tabs-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDrag={this.onDragStart}
+          <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDrag={this.onDragStart}
                onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
             {closable ?
-              <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
+              <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>
               : null
             }
           </div>
@@ -187,7 +187,7 @@ export class DockTabs extends React.Component<Props, any> {
     }
 
     return (
-      <Tabs prefixCls='dock-tabs'
+      <Tabs prefixCls='dock'
             renderTabBar={this.renderTabBar}
             renderTabContent={this.renderTabContent}
             activeKey={activeId}

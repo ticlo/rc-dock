@@ -45,12 +45,10 @@ let box = {
   }
 };
 
-let count = 0;
-
 class Demo extends React.Component {
   render() {
     return (
-      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 200, bottom: 10}}/>
+      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

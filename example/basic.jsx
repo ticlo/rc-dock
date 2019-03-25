@@ -67,8 +67,6 @@ let box = {
   }
 };
 
-let count = 0;
-
 class Demo extends React.Component {
 
   render() {

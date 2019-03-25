@@ -55,9 +55,9 @@ let box = {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{...headlessTab, id: 't1'}, {...headlessTab, id: 't2'}, {...headlessTab, id: 't3'}],
-        group: headlessGroup,
-        activeId: 't1',
+        tabs: [{...defaultTab, id: 't7'}, {...defaultTab, id: 't8'}, {...defaultTab, id: 't9'}],
+        group: defaultGroup,
+        activeId: 't7',
       },
       {
         mode: 'vertical',
@@ -71,10 +71,11 @@ let box = {
             activeId: 't4',
           },
           {
-            tabs: [{...defaultTab, id: 't7'}, {...defaultTab, id: 't8'}, {...defaultTab, id: 't9'}],
-            group: defaultGroup,
-            activeId: 't4',
+            tabs: [{...headlessTab, id: 't1'}, {...headlessTab, id: 't2'}, {...headlessTab, id: 't3'}],
+            group: headlessGroup,
+            activeId: 't1',
           },
+
         ]
       }
 
@@ -85,7 +86,7 @@ let box = {
 class Demo extends React.Component {
   render() {
     return (
-      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 200, bottom: 10}}/>
+      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

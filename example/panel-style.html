@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>rc-dock</title>
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.less">
+  <style>
+    .dock-panel.my-panel {
+      border: 1px solid #d88;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .dock-panel.my-panel .dock-tab {
+      margin-right: 0;
+      border: 1px solid #d88;
+      border-radius: 5px 5px 0 0;
+      background: #d88;
+      color: #fff;
+    }
+
+    .dock-panel.my-panel .dock-tab.dock-tab-active {
+      border-bottom: 1px solid #fff;
+      background: #fff;
+      color: #c33;
+    }
+
+    .dock-panel.my-panel .dock-bar {
+      background: #facccc;
+      border-radius: 7px 7px 0 0;
+      border-bottom: 1px solid #d88;
+      overflow: visible;
+    }
+
+    .dock-panel.my-panel .dock-nav-container {
+      height: 35px;
+      overflow: visible;
+    }
+
+    .dock-panel.my-panel .dock-nav-wrap {
+      overflow: visible;
+      padding-top: 5px;
+    }
+
+    .dock-panel.my-panel .dock-ink-bar {
+      /* hide animated ink bar */
+      background: #fff;
+      opacity: 0;
+    }
+
+    .dock-panel.my-panel .dock-tab-hit-area {
+      /* cover the border area */
+      left: -1px;
+      right: -1px;
+    }
+  </style>
+</head>
+<body>
+<div id="app" style="height:100%"></div>
+
+<script src="panel-style.jsx" async></script>
+</body>
+</html>

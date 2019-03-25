@@ -18,6 +18,11 @@ export class TabCache {
     this._ref = r;
   };
 
+  _hitAreaRef: HTMLDivElement;
+  getHitAreaRef = (r: HTMLDivElement) => {
+    this._hitAreaRef = r;
+  };
+
   data: TabData;
   context: DockContext;
   content: React.ReactElement;
@@ -40,14 +45,14 @@ export class TabCache {
     e.stopPropagation();
   };
   onDragStart = (e: React.DragEvent) => {
-    DragStore.dragStart(DockContextType, {tab: this.data}, this._ref);
+    DragStore.dragStart(DockContextType, {tab: this.data}, this._hitAreaRef);
     e.stopPropagation();
   };
   onDragOver = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
-      this.context.setDropRect(this._ref, direction, this);
+      this.context.setDropRect(this._hitAreaRef, direction, this);
       e.dataTransfer.dropEffect = 'move';
       e.preventDefault();
       e.stopPropagation();
@@ -65,7 +70,7 @@ export class TabCache {
   };
 
   getDropDirection(e: React.DragEvent): DropDirection {
-    let rect = this._ref.getBoundingClientRect();
+    let rect = this._hitAreaRef.getBoundingClientRect();
     let midx = rect.left + rect.width * 0.5;
     return e.clientX > midx ? 'after-tab' : 'before-tab';
   }
@@ -78,14 +83,15 @@ export class TabCache {
     }
     return (
       <DockTabPane key={id} id={id} cached={cached} tab={
-        <div ref={this.getRef} draggable={!tabLocked} onDrag={this.onDragStart} onDragOver={this.onDragOver}
-             onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
-          <div className='dock-tabs-tab-overflow'/>
+        <div ref={this.getRef}>
           {title}
-          {closable ?
-            <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
-            : null}
-
+          <div className='dock-tabs-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDrag={this.onDragStart}
+               onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
+            {closable ?
+              <a className='dock-tabs-tab-close-btn' onClick={this.onCloseClick}>x</a>
+              : null
+            }
+          </div>
         </div>
       }>
         {content}

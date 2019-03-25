@@ -156,11 +156,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
         height *= ratio;
         break;
       case 'after-tab':
-        left += width - 10;
+        left += width - 15;
         width = 30;
         break;
       case 'before-tab':
-        left -= 30 - 10;
+        left -= 15;
         width = 30;
         break;
     }

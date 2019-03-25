@@ -5,6 +5,8 @@ export declare class TabCache {
     static readonly usedDataKeys: string[];
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
+    _hitAreaRef: HTMLDivElement;
+    getHitAreaRef: (r: HTMLDivElement) => void;
     data: TabData;
     context: DockContext;
     content: React.ReactElement;

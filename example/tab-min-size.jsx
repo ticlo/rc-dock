@@ -12,7 +12,8 @@ let minSizeTab = {
   minHeight: 300,
   content: (
     <div>
-      This tab has a minimal size.
+      This tab has a minimal size.<br/>
+      300 x 300 px
     </div>
   ),
   group

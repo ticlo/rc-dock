@@ -101,7 +101,7 @@ class Demo extends React.Component {
             id: 'id2', title: 'add count', group, content: (
               <div>
                 <p>Click here to change context.</p>
-                <button onClick={this.addCtx}>Add</button>
+                <button onClick={this.addCtx}>Click to Add Value</button>
               </div>
             )
           }],

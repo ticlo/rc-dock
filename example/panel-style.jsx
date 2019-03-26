@@ -54,6 +54,7 @@ let box = {
     mode: 'horizontal',
     children: [
       {
+        size: 100,
         tabs: [{...defaultTab, id: 't7'}, {...defaultTab, id: 't8'}, {...defaultTab, id: 't9'}],
       },
       {

@@ -55,24 +55,15 @@ let box = {
     children: [
       {
         tabs: [{...defaultTab, id: 't7'}, {...defaultTab, id: 't8'}, {...defaultTab, id: 't9'}],
-        group: defaultGroup,
-        activeId: 't7',
       },
       {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...customTab, id: 't4'}, {...customTab, id: 't6'}, {...customTab, id: 't6'}, {
-              ...customTab,
-              id: 't10'
-            }],
-            group: customStyleGroup,
-            activeId: 't4',
+            tabs: [{...customTab, id: 't4'}, {...customTab, id: 't6'}, {...customTab, id: 't6'}],
           },
           {
             tabs: [{...headlessTab, id: 't1'}, {...headlessTab, id: 't2'}, {...headlessTab, id: 't3'}],
-            group: headlessGroup,
-            activeId: 't1',
           },
 
         ]

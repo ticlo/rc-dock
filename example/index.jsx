@@ -17,7 +17,7 @@ class App extends React.Component {
         cls = 'current';
       }
       demoPages.push(
-        <a href={`#${page}`} className={cls} onClick={(e) => this.setState({current: page})}>
+        <a href={`#${page}`} key={page} className={cls} onClick={(e) => this.setState({current: page})}>
           {page}
         </a>
       )
@@ -29,7 +29,7 @@ class App extends React.Component {
         cls = 'current';
       }
       advancePages.push(
-        <a href={`#${page}`} className={cls} onClick={(e) => this.setState({current: page})}>
+        <a href={`#${page}`} key={page} className={cls} onClick={(e) => this.setState({current: page})}>
           {page}
         </a>
       )

@@ -261,6 +261,7 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   }
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  console.log(layout)
   return layout;
 }
 
@@ -287,6 +288,14 @@ function fixPanelData(panel: PanelData): PanelData {
   }
   if (panel.minHeight <= 0) {
     panel.minHeight = 1;
+  }
+  if (panel.tabs.length) {
+    if (panel.activeId == null) {
+      panel.activeId = panel.tabs[0].id;
+    }
+    if (panel.group == null) {
+      panel.group = panel.tabs[0].group;
+    }
   }
   return panel;
 }
@@ -329,10 +338,13 @@ function fixBoxData(box: BoxData): BoxData {
       if (child.tabs.length === 0) {
         // remove panel with no tab
         if (!child.panelLocked) {
+          console.log(111);
+          console.log(child);
           box.children.splice(i, 1);
           --i;
         } else if (child.group === placeHolderGroup && (box.children.length > 1 || box.parent)) {
           // remove placeHolder Group
+          console.log(222);
           box.children.splice(i, 1);
           --i;
         }

@@ -46,21 +46,15 @@ let box = {
         children: [
           {
             tabs: [{...minSizeTab300, id: 'id1'}, {...tab, id: 'id2'}],
-            group,
-            activeId: 'id1',
           },
           {
             tabs: [{...minSizeTab200, id: 'id5'}],
-            group,
-            activeId: 'id5',
           }
         ]
       },
 
       {
         tabs: [{...tab, id: 'id3'}, {...tab, id: 'id4'}],
-        group,
-        activeId: 'id3',
       },
     ]
   }

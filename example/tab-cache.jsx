@@ -33,13 +33,9 @@ let box = {
     children: [
       {
         tabs: [{...cachedTab, id: 'cache1'}, {...cachedTab, id: 'cache2'}],
-        group,
-        activeId: 'cache1',
       },
       {
         tabs: [{...nocachedTab, id: 'nocache1'}, {...nocachedTab, id: 'nocache2'}],
-        group,
-        activeId: 'nocache1',
       },
     ]
   }

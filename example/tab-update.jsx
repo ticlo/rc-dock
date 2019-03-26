@@ -93,10 +93,8 @@ class Demo extends React.Component {
               </Context.Consumer>
             ),
             // cached: true,
-            // cacheContext: Context  // when cached = true, cacheContext is needed to pass the context to cache
+            // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
           }],
-          group,
-          activeId: 'id1',
         },
         {
           tabs: [{
@@ -107,8 +105,6 @@ class Demo extends React.Component {
               </div>
             )
           }],
-          group,
-          activeId: 'id2',
         }
       ]
     }

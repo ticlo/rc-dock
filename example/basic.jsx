@@ -2,77 +2,77 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
-let group = {
+let fixGroup = {
   floatable: true,
 };
+let closableGroup = {
+  floatable: true,
+  animate: false
+};
+
+let fixTab = {
+  content: (
+    <div>Tab Group 1</div>
+  ),
+  group: fixGroup
+};
+
+let closableTab = {
+  content: <div>Tab Group 2</div>,
+  closable: true,
+  group: closableGroup
+};
+
 let box = {
   dockbox: {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{
-          id: 'hello1',
-          title: 'locked',
-          content: <div style={{padding: 20}}>hello</div>,
-          group
-        }, {
-          id: 'world2',
-          title: 'world',
-          content: <div style={{padding: 20}}>world</div>,
-          group
-        }],
-        group,
-        activeId: 'world2',
-        id: 'panel1',
+        mode: 'vertical',
+        children: [
+          {
+            tabs: [{...fixTab, id: 't1', title: 'tab 1'}, {...fixTab, id: 't2', title: 'tab 2'}],
+          },
+          {
+            tabs: [{...fixTab, id: 't3', title: 'tab 3'}, {...fixTab, id: 't4', title: 'tab 4'}],
+          },
+        ]
       },
       {
-        tabs: [{
-          id: 'hello3',
-          title: 'hello',
-          content: <div style={{padding: 20}}>hello</div>,
-          group
-        }, {
-          id: 'world4',
-          title: 'world',
-          content: <div style={{padding: 20}}>world</div>,
-          group
-        }],
-        group,
-        activeId: 'world4',
-        id: 'panel2',
-      }
+        tabs: [
+          {
+            ...closableTab, id: 't5', title: 'basic demo', content: (
+              <div>
+                This panel won't be removed from layout even when last tab is closed
+              </div>
+            ),
+          },
+          {...closableTab, id: 't6', title: 'tab 6'},
+          {...closableTab, id: 't7', title: 'tab 7'}
+        ],
+        panelLocked: true,
+      },
     ]
   },
   floatbox: {
     mode: 'float',
     children: [
       {
-        tabs: [{
-          id: 'hello5',
-          title: 'hello',
-          content: <span style={{padding: 20}}>hello</span>,
-          group
-        }, {
-          id: 'world6',
-          title: 'world',
-          content: <span style={{padding: 20}}>world</span>,
-          group
-        }],
-        group,
-        activeId: 'world6',
-        id: 'panel2',
-        x: 20, y: 30, w: 200, h: 200
+        tabs: [{...fixTab, id: 't8', title: 'tab 8'}, {...fixTab, id: 't9', title: 'tab 9'}],
+        x: 40, y: 40, w: 400, h: 300
       }
     ]
   }
 };
+
+let count = 0;
 
 class Demo extends React.Component {
 
   render() {
     return (
       <div style={{margin: 20}}>
-        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 200, bottom: 10}}/>
+        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 180, bottom: 10}}/>
 
         <div className='dragMe' draggable={true} onDragStart={(e) => {
           let content = `New Tab ${count++}`;
@@ -82,10 +82,11 @@ class Demo extends React.Component {
               content: <div style={{padding: 20}}>{content}</div>,
               title: content,
               closable: true,
-              group
+              group: closableGroup
             }
           });
-        }} style={{}}>New Tab
+        }}>
+          drag me <br/>to <br/>create new tab
         </div>
       </div>
     );

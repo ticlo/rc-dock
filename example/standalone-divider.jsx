@@ -37,7 +37,7 @@ class Demo extends React.Component {
     let {sizes} = this.state;
     return (
       <div>
-      Divider can be used separately, this doesn't require anything else from the dock layout
+      Divider can be used separately, this doesn't require anything else from the dock layout package
         <div ref={this.getRef} className='box'>
           <div style={{width: sizes[0]}}/>
           <Divider idx={1} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>

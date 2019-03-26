@@ -11,8 +11,6 @@ interface DockTabPaneProps {
     tab: React.ReactNode;
     id?: string;
     cached: boolean;
-    contextValue?: any;
-    contextType?: React.Context<any>;
 }
 export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {
     _ref: HTMLDivElement;
@@ -38,4 +36,5 @@ declare class TabPaneCache {
     update(node: React.ReactElement): void;
     destroy(): void;
 }
+export declare function getContextPaneClass(contextType: React.Context<any>): any;
 export {};

@@ -14,9 +14,7 @@ interface DockTabPaneProps {
   tab: React.ReactNode;
   id?: string;
   cached: boolean;
-  // proxy the context to children
-  contextValue?: any;
-  contextType?: React.Context<any>;
+
 }
 
 export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {
@@ -27,7 +25,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
   };
 
   updateCache() {
-    const {cached, children, id, contextValue, contextType} = this.props;
+    const {cached, children, id} = this.props;
     if (this._cache) {
       if (!cached || id !== this._cache.id) {
         TabPaneCache.remove(this._cache.id, this);
@@ -37,16 +35,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     if (cached && this._ref) {
       this._cache = TabPaneCache.create(id, this);
       this._ref.appendChild(this._cache.div);
-      if (contextType) {
-        let Provider = contextType.Provider;
-        this._cache.update(
-          <Provider value={contextValue}>
-            {children}
-          </Provider>
-        );
-      } else {
-        this._cache.update(children as React.ReactElement);
-      }
+      this._cache.update(children as React.ReactElement);
     }
   }
 
@@ -161,4 +150,56 @@ class TabPaneCache {
   destroy() {
     ReactDOM.unmountComponentAtNode(this.div);
   }
+}
+
+let _paneClassCache: WeakMap<React.Context<any>, any> = new WeakMap();
+
+export function getContextPaneClass(contextType: React.Context<any>) {
+  if (_paneClassCache.has(contextType)) {
+    return _paneClassCache.get(contextType);
+  }
+
+  class NewClass extends DockTabPane {
+    static contextType = contextType;
+    _context: any;
+    get context() {
+      return this._context;
+    }
+
+    set context(ctx: any) {
+      if (!Object.is(ctx, this._context)) {
+        this._context = ctx;
+        if (this._cache) {
+          this.updateCache();
+        }
+      }
+    }
+
+    updateCache() {
+      const {cached, children, id} = this.props;
+      if (this._cache) {
+        if (!cached || id !== this._cache.id) {
+          TabPaneCache.remove(this._cache.id, this);
+          this._cache = null;
+        }
+      }
+      if (cached && this._ref) {
+        this._cache = TabPaneCache.create(id, this);
+        this._ref.appendChild(this._cache.div);
+        if (contextType) {
+          let Provider = contextType.Provider;
+          this._cache.update(
+            <Provider value={this._context}>
+              {children}
+            </Provider>
+          );
+        } else {
+          this._cache.update(children as React.ReactElement);
+        }
+      }
+    }
+  }
+
+  _paneClassCache.set(contextType, NewClass);
+  return NewClass;
 }

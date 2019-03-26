@@ -87,13 +87,15 @@ class Demo extends React.Component {
                 {(value) => (
                   <div>
                     <p>React Context is the easiest way to update children tab.</p>
-                    Current value is: <b>{value}</b> <input/>
+                    Current value is: <b>{value}</b>
                   </div>
                 )}
               </Context.Consumer>
-            )
+            ),
+            // cached: true,
+            // cacheContext: Context  // when cached = true, cacheContext is needed to pass the context to cache
           }],
-          group, cached: true,
+          group,
           activeId: 'id1',
         },
         {

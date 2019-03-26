@@ -7,7 +7,7 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import {DragStore} from "./DragStore";
 import {DragInitFunction, DragInitHandler, DragInitiator} from "./DragInitiator";
 import {DockTabBar} from "./DockTabBar";
-import DockTabPane from "./DockTabPane";
+import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 
 export class TabCache {
 
@@ -94,15 +94,13 @@ export class TabCache {
       </div>
     );
     if (cacheContext) {
-      let Consumer = cacheContext.Consumer;
+      // allow DockTabPane to receive context
+      let DockTabPaneClass = getContextPaneClass(cacheContext);
       return (
-        <Consumer>
-          {(value) => (
-            <DockTabPane key={id} id={id} cached={cached} tab={tab} contextValue={value} contextType={cacheContext}>
-              {content as any}
-            </DockTabPane>
-          )}
-        </Consumer>);
+        <DockTabPaneClass key={id} id={id} cached={cached} tab={tab}>
+          {content}
+        </DockTabPaneClass>
+      );
     } else {
       return (
         <DockTabPane key={id} id={id} cached={cached} tab={tab}>

@@ -121,8 +121,15 @@ export class DockPanel extends React.PureComponent<Props, State> {
   render(): React.ReactNode {
     let {dropFromPanel} = this.state;
     let {panelData, size} = this.props;
-    let {minWidth, minHeight, group, id, parent} = panelData;
+    let {minWidth, minHeight, group, id, parent, panelLocked} = panelData;
     let {panelClass} = group;
+    console.log(panelLocked)
+    if (panelLocked) {
+      if (panelLocked.panelClass) {
+        panelClass = panelLocked.panelClass;
+      }
+    }
+
     let isFloat = parent && parent.mode === 'float';
     let pointerDownCallback: React.PointerEventHandler;
     if (isFloat) {

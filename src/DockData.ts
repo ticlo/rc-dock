@@ -17,7 +17,6 @@ export interface BoxData extends DockDataBase {
 
 
 export interface TabGroup {
-  floatable?: boolean;
   multiTabs?: boolean;
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
@@ -37,6 +36,12 @@ export interface TabData extends DockDataBase {
   cacheContext?: React.Context<any>;
 }
 
+interface PanelLock {
+  floatable?: boolean; // TODO
+  panelClass?: string;
+  animated?: boolean; // TODO
+}
+
 export interface PanelData extends DockDataBase {
   id?: string | number;
   parent?: BoxData;
@@ -46,7 +51,7 @@ export interface PanelData extends DockDataBase {
 
   // docked only
   size?: number;
-  panelLocked?: boolean; // panel won't disappear even when all children are gone
+  panelLocked?: PanelLock; // if not null, panel won't disappear even when all children are gone
 
   // float mode only
   x?: number;

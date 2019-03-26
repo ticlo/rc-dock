@@ -338,13 +338,10 @@ function fixBoxData(box: BoxData): BoxData {
       if (child.tabs.length === 0) {
         // remove panel with no tab
         if (!child.panelLocked) {
-          console.log(111);
-          console.log(child);
           box.children.splice(i, 1);
           --i;
         } else if (child.group === placeHolderGroup && (box.children.length > 1 || box.parent)) {
           // remove placeHolder Group
-          console.log(222);
           box.children.splice(i, 1);
           --i;
         }

@@ -17,6 +17,7 @@ export interface BoxData extends DockDataBase {
 
 
 export interface TabGroup {
+  floatable?: boolean;
   multiTabs?: boolean;
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
@@ -37,7 +38,6 @@ export interface TabData extends DockDataBase {
 }
 
 interface PanelLock {
-  floatable?: boolean; // TODO
   panelClass?: string;
   animated?: boolean; // TODO
 }

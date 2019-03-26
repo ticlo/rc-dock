@@ -12,6 +12,7 @@ export interface BoxData extends DockDataBase {
     children: (BoxData | PanelData)[];
 }
 export interface TabGroup {
+    floatable?: boolean;
     multiTabs?: boolean;
     tabLocked?: boolean;
     panelClass?: string;
@@ -28,7 +29,6 @@ export interface TabData extends DockDataBase {
     cacheContext?: React.Context<any>;
 }
 interface PanelLock {
-    floatable?: boolean;
     panelClass?: string;
     animated?: boolean;
 }

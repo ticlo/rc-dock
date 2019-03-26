@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Divider} from '../lib';
 
-let demos = ['basic', 'panel-style', 'tab-cache', 'tab-min-size', 'tab-update'];
+let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update'];
 let advance = ['standalone-divider'];
 
 class App extends React.Component {

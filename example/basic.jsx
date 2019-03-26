@@ -29,26 +29,35 @@ let box = {
     children: [
       {
         mode: 'vertical',
+        size: 200,
         children: [
           {
-            tabs: [{...fixTab, id: 't1', title: 'tab 1'}, {...fixTab, id: 't2', title: 'tab 2'}],
+            tabs: [{...fixTab, id: 't1', title: 'Tab 1'}, {...fixTab, id: 't2', title: 'Tab 2'}],
           },
           {
-            tabs: [{...fixTab, id: 't3', title: 'tab 3'}, {...fixTab, id: 't4', title: 'tab 4'}],
+            tabs: [{
+              ...fixTab, id: 't3', title: 'Min Size', content: (
+                <div>
+                  <p>This tab has a minimal size</p>
+                  200 x 200 px
+                </div>
+              ), minWidth: 200, minHeight: 200,
+            }, {...fixTab, id: 't4', title: 'Tab 4'}],
           },
         ]
       },
       {
+        size: 1000,
         tabs: [
           {
             ...closableTab, id: 't5', title: 'basic demo', content: (
               <div>
-                This panel won't be removed from layout even when last tab is closed
+                This panel won't be removed from layout even when last Tab is closed
               </div>
             ),
           },
-          {...closableTab, id: 't6', title: 'tab 6'},
-          {...closableTab, id: 't7', title: 'tab 7'}
+          {...closableTab, id: 't6', title: 'Tab 6'},
+          {...closableTab, id: 't7', title: 'Tab 7'}
         ],
         panelLocked: true,
       },
@@ -58,8 +67,8 @@ let box = {
     mode: 'float',
     children: [
       {
-        tabs: [{...fixTab, id: 't8', title: 'tab 8'}, {...fixTab, id: 't9', title: 'tab 9'}],
-        x: 40, y: 40, w: 400, h: 300
+        tabs: [{...fixTab, id: 't8', title: 'Tab 8'}, {...fixTab, id: 't9', title: 'Tab 9'}],
+        x: 120, y: 40, w: 400, h: 300
       }
     ]
   }

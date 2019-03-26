@@ -5,9 +5,20 @@ import {DockLayout} from '../lib';
 let group = {
   floatable: true
 };
-
+let minSizeTab400 = {
+  title: 'min size 400',
+  minWidth: 400,
+  minHeight: 400,
+  content: (
+    <div>
+      <p>This tab has a minimal size.<br/>
+        400 x 400 px</p>
+    </div>
+  ),
+  group
+};
 let minSizeTab300 = {
-  title: 'min size',
+  title: 'min size 300',
   minWidth: 300,
   minHeight: 300,
   content: (
@@ -19,7 +30,7 @@ let minSizeTab300 = {
   group
 };
 let minSizeTab200 = {
-  title: 'min size',
+  title: 'min size 200',
   minWidth: 200,
   minHeight: 200,
   content: (
@@ -54,7 +65,7 @@ let box = {
       },
 
       {
-        tabs: [{...tab, id: 'id3'}, {...tab, id: 'id4'}],
+        tabs: [{...minSizeTab400, id: 'id3'}, {...tab, id: 'id4'}],
       },
     ]
   }

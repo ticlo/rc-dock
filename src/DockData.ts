@@ -51,7 +51,7 @@ export interface PanelData extends DockDataBase {
 
   // docked only
   size?: number;
-  panelLocked?: PanelLock; // if not null, panel won't disappear even when all children are gone
+  panelLock?: PanelLock; // if not null, panel won't disappear even when all children are gone
 
   // float mode only
   x?: number;

@@ -247,7 +247,7 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
   if (layout.dockbox.children.length === 0) {
-    let newPanel: PanelData = {id: '+0', group: placeHolderGroup, panelLocked: true, size: 200, tabs: []};
+    let newPanel: PanelData = {id: '+0', group: placeHolderGroup, panelLock: true, size: 200, tabs: []};
     newPanel.parent = layout.dockbox;
     layout.dockbox.children.push(newPanel);
   } else {
@@ -337,7 +337,7 @@ function fixBoxData(box: BoxData): BoxData {
       fixPanelData(child);
       if (child.tabs.length === 0) {
         // remove panel with no tab
-        if (!child.panelLocked) {
+        if (!child.panelLock) {
           box.children.splice(i, 1);
           --i;
         } else if (child.group === placeHolderGroup && (box.children.length > 1 || box.parent)) {

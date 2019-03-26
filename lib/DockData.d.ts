@@ -39,7 +39,7 @@ export interface PanelData extends DockDataBase {
     tabs: TabData[];
     group: TabGroup;
     size?: number;
-    panelLocked?: PanelLock;
+    panelLock?: PanelLock;
     x?: number;
     y?: number;
     z?: number;

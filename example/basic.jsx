@@ -59,7 +59,7 @@ let box = {
             {...closableTab, id: 't6', title: 'Tab 6'},
             {...closableTab, id: 't7', title: 'Tab 7'}
           ],
-          panelLocked: {panelClass: 'dock-main-locked-panel'},
+          panelLock: {panelClass: 'dock-main-locked-panel'},
         },
         {
           size: 200,

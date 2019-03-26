@@ -300,7 +300,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 't7',
           title: 'Tab 7'
         })],
-        panelLocked: true
+        panelLock: {
+          panelClass: 'dock-main-locked-panel'
+        }
+      }, {
+        size: 200,
+        tabs: [_objectSpread({}, fixTab, {
+          id: 't8',
+          title: 'Tab 8'
+        })]
       }]
     },
     floatbox: {
@@ -308,13 +316,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       children: [{
         tabs: [_objectSpread({}, fixTab, {
           id: 't8',
-          title: 'Tab 8'
+          title: 'Tab 8',
+          content: React.createElement("div", null, "Float")
         }), _objectSpread({}, fixTab, {
           id: 't9',
           title: 'Tab 9'
         })],
-        x: 120,
-        y: 40,
+        x: 60,
+        y: 80,
         w: 400,
         h: 300
       }]

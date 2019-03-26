@@ -8721,7 +8721,7 @@ function fixLayoutData(layout) {
     let newPanel = {
       id: '+0',
       group: exports.placeHolderGroup,
-      panelLocked: true,
+      panelLock: true,
       size: 200,
       tabs: []
     };
@@ -8836,14 +8836,11 @@ function fixBoxData(box) {
 
       if (child.tabs.length === 0) {
         // remove panel with no tab
-        if (!child.panelLocked) {
-          console.log(111);
-          console.log(child);
+        if (!child.panelLock) {
           box.children.splice(i, 1);
           --i;
         } else if (child.group === exports.placeHolderGroup && (box.children.length > 1 || box.parent)) {
           // remove placeHolder Group
-          console.log(222);
           box.children.splice(i, 1);
           --i;
         }
@@ -9309,11 +9306,19 @@ class DockPanel extends react_1.default.PureComponent {
       minHeight,
       group,
       id,
-      parent
+      parent,
+      panelLock
     } = panelData;
     let {
       panelClass
     } = group;
+
+    if (panelLock) {
+      if (panelLock.panelClass) {
+        panelClass = panelLock.panelClass;
+      }
+    }
+
     let isFloat = parent && parent.mode === 'float';
     let pointerDownCallback;
 
@@ -9321,7 +9326,6 @@ class DockPanel extends react_1.default.PureComponent {
       pointerDownCallback = this.onFloatPointerDown;
     }
 
-    console.log(`panel render ${id}`);
     let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}`;
     let style = {
       minWidth,
@@ -9652,7 +9656,6 @@ class DockBox extends react_1.default.PureComponent {
       id
     } = boxData;
     let isVertical = mode === 'vertical';
-    console.log(`box render ${id}`);
     let childrenRender = [];
 
     for (let i = 0; i < children.length; ++i) {

@@ -36,6 +36,7 @@ class App extends React.Component {
     }
     return (
       <div>
+        <h2>rc-dock <small> - dock layout for react component</small></h2>
         <div className='link-bar'>
           Examples:
           {demoPages}

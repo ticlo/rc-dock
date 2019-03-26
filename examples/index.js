@@ -295,7 +295,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, page));
       }
 
-      return React.createElement("div", null, React.createElement("div", {
+      return React.createElement("div", null, React.createElement("h2", null, "rc-dock ", React.createElement("small", null, " - dock layout for react component")), React.createElement("div", {
         className: "link-bar"
       }, "Examples:", demoPages), React.createElement("div", {
         className: "link-bar"

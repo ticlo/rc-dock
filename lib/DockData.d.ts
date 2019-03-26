@@ -24,8 +24,9 @@ export interface TabData extends DockDataBase {
     title: string;
     content: React.ReactElement | (() => React.ReactElement);
     closable?: boolean;
-    cached?: boolean;
     group: TabGroup;
+    cached?: boolean;
+    cacheContext?: React.Context<any>;
 }
 export interface PanelData extends DockDataBase {
     id?: string | number;

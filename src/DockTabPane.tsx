@@ -14,6 +14,9 @@ interface DockTabPaneProps {
   tab: React.ReactNode;
   id?: string;
   cached: boolean;
+  // proxy the context to children
+  contextValue?: any;
+  contextType?: React.Context<any>;
 }
 
 export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {
@@ -24,7 +27,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
   };
 
   updateCache() {
-    const {cached, children, id} = this.props;
+    const {cached, children, id, contextValue, contextType} = this.props;
     if (this._cache) {
       if (!cached || id !== this._cache.id) {
         TabPaneCache.remove(this._cache.id, this);
@@ -34,7 +37,16 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     if (cached && this._ref) {
       this._cache = TabPaneCache.create(id, this);
       this._ref.appendChild(this._cache.div);
-      this._cache.update(children as React.ReactElement);
+      if (contextType) {
+        let Provider = contextType.Provider;
+        this._cache.update(
+          <Provider value={contextValue}>
+            {children}
+          </Provider>
+        );
+      } else {
+        this._cache.update(children as React.ReactElement);
+      }
     }
   }
 

@@ -76,27 +76,40 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached} = this.data;
+    let {id, title, group, content, closable, cached, cacheContext} = this.data;
     let {tabLocked} = group;
     if (typeof content === 'function') {
       content = content();
     }
-    return (
-      <DockTabPane key={id} id={id} cached={cached} tab={
-        <div ref={this.getRef}>
-          {title}
-          <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDrag={this.onDragStart}
-               onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
-            {closable ?
-              <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>
-              : null
-            }
-          </div>
+    let tab = (
+      <div ref={this.getRef}>
+        {title}
+        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDrag={this.onDragStart}
+             onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
+          {closable ?
+            <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>
+            : null
+          }
         </div>
-      }>
-        {content}
-      </DockTabPane>
+      </div>
     );
+    if (cacheContext) {
+      let Consumer = cacheContext.Consumer;
+      return (
+        <Consumer>
+          {(value) => (
+            <DockTabPane key={id} id={id} cached={cached} tab={tab} contextValue={value} contextType={cacheContext}>
+              {content as any}
+            </DockTabPane>
+          )}
+        </Consumer>);
+    } else {
+      return (
+        <DockTabPane key={id} id={id} cached={cached} tab={tab}>
+          {content}
+        </DockTabPane>
+      );
+    }
   }
 
   destroy() {

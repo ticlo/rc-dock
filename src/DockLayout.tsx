@@ -12,7 +12,7 @@ import {
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
 import {DockPanel} from "./DockPanel";
-import * as Algorithm from "./DockAlgorithm";
+import * as Algorithm from "./Algorithm";
 
 interface LayoutProps {
   defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];

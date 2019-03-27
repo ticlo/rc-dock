@@ -4,7 +4,7 @@ import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
 import {DragStore} from "./DragStore";
-import {placeHolderGroup} from "./DockAlgorithm";
+import {placeHolderGroup} from "./Algorithm";
 
 interface DockDropSquareProps {
   direction: DropDirection;

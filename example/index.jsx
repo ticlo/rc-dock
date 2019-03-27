@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Divider} from '../lib';
 
-let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update'];
+let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
 let advance = ['standalone-divider'];
 
 let current = window.location.hash.substr(1);

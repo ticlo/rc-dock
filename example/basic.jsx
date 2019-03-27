@@ -75,7 +75,7 @@ let box = {
             {...fixTab, id: 't8', title: 'Tab 8', content: <div>Float</div>},
             {...fixTab, id: 't9', title: 'Tab 9'}
           ],
-          x: 60, y: 80, w: 400, h: 300
+          x: 300, y: 150, w: 400, h: 300
         }
       ]
     }

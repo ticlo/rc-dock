@@ -5,6 +5,11 @@ import {Divider} from '../lib';
 let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update'];
 let advance = ['standalone-divider'];
 
+let current = window.location.hash.substr(1);
+if (!(demos.includes(current) || advance.includes(current))) {
+  current = 'basic';
+}
+
 class App extends React.Component {
   state = {current: 'basic'};
 
@@ -45,6 +50,7 @@ class App extends React.Component {
           Advanced:
           {advancePages}
         </div>
+        <hr/>
         <iframe src={`./${current}.html`}/>
       </div>
     );

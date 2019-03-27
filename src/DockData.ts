@@ -17,6 +17,7 @@ export interface BoxData extends DockDataBase {
 
 
 export interface TabGroup {
+  name?: string;
   floatable?: boolean;
   multiTabs?: boolean;
   // when tabs are locked, you can only drag the whole panel
@@ -28,7 +29,7 @@ export interface TabGroup {
 export interface TabData extends DockDataBase {
   id?: string;
   parent?: PanelData;
-  title: string;
+  title: React.ReactChild;
   content: React.ReactElement | (() => React.ReactElement);
   closable?: boolean;
   group: TabGroup;

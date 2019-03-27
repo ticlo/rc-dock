@@ -2,6 +2,8 @@ import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData
 
 
 export const placeHolderGroup: TabGroup = {
+  /** used by serialization */
+  name: '-place-holder-',
   panelClass: 'dock-placeholder-panel',
   floatable: false,
 };
@@ -247,7 +249,7 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
   if (layout.dockbox.children.length === 0) {
-    let newPanel: PanelData = {id: '+0', group: placeHolderGroup, panelLock: true, size: 200, tabs: []};
+    let newPanel: PanelData = {id: '+0', group: placeHolderGroup, panelLock: {}, size: 200, tabs: []};
     newPanel.parent = layout.dockbox;
     layout.dockbox.children.push(newPanel);
   } else {
@@ -261,7 +263,6 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   }
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
-  console.log(layout)
   return layout;
 }
 

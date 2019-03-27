@@ -6,12 +6,13 @@ let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update'];
 let advance = ['standalone-divider'];
 
 let current = window.location.hash.substr(1);
+console.log(current);
 if (!(demos.includes(current) || advance.includes(current))) {
   current = 'basic';
 }
 
 class App extends React.Component {
-  state = {current: 'basic'};
+  state = {current};
 
   render() {
     let {current} = this.state;

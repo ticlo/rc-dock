@@ -120,13 +120,16 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
 
     let children: React.ReactNode[] = [];
 
-    if (dropFromPanel.group.floatable) {
+    // check if it's whole panel dragging
+    let draggingPanel = DragStore.getData(DockContextType, 'panel');
+
+    if (dropFromPanel.group.floatable && (!draggingPanel || !draggingPanel.panelLock)) {
       children.push(
         <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
       );
     }
 
-    if (DragStore.getData(DockContextType, 'panel') !== panelData) { // don't drop panel to itself
+    if (draggingPanel !== panelData) { // don't drop panel to itself
 
       // 4 direction base drag square
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);

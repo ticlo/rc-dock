@@ -244,15 +244,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let defaultGroup = {
+    name: 'default',
     floatable: true
   };
   let headlessGroup = {
+    name: 'headless',
     floatable: true,
     // this is a pre-defined style, defined here:
     // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
     panelClass: 'dock-headless-panel'
   };
   let customStyleGroup = {
+    name: 'custom',
     closable: true,
     floatable: true,
     // this is a custom panel style defined in panel-style.html
@@ -284,6 +287,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     dockbox: {
       mode: 'horizontal',
       children: [{
+        size: 100,
         tabs: [_objectSpread({}, defaultTab, {
           id: 't7'
         }), _objectSpread({}, defaultTab, {

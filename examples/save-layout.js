@@ -232,83 +232,157 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"itBm":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"VRYX":[function(require,module,exports) {
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
   let {
     React,
     ReactDOM,
-    Divider
+    DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
+  let group = {
+    floatable: true
+  };
+  let tab1 = {
+    id: 't1',
+    title: 'Tab 1',
+    content: React.createElement("div", null, "Tab 1"),
+    group
+  };
+  let tab2 = {
+    id: 't2',
+    title: 'Tab 2',
+    content: React.createElement("div", null, "Tab 2"),
+    group
+  };
+  let tab3 = {
+    id: 't3',
+    title: 'Tab 3',
+    content: React.createElement("div", null, "Tab 3"),
+    group
+  };
+  let tab4 = {
+    id: 't4',
+    title: 'Tab 4',
+    content: React.createElement("div", null, "Tab 4"),
+    group
+  };
+  let tab5 = {
+    id: 't5',
+    title: 'Tab 5',
+    content: React.createElement("div", null, "Tab 5"),
+    group
+  };
+  let tab6 = {
+    id: 't6',
+    title: 'Tab 6',
+    content: React.createElement("div", null, "Tab 6"),
+    group
+  };
+  let defaultLayout = {
+    dockbox: {
+      mode: 'horizontal',
+      children: [{
+        mode: 'vertical',
+        children: [{
+          tabs: [tab1, tab2]
+        }, {
+          tabs: [tab3, tab4]
+        }]
+      }, {
+        tabs: [tab5, tab6]
+      }]
+    }
+  };
+  let panelLayout = {
+    dockbox: {
+      mode: 'horizontal',
+      children: [{
+        tabs: [{
+          id: 't1'
+        }, {
+          id: 't2'
+        }, {
+          id: 't3'
+        }, {
+          id: 't4'
+        }, {
+          id: 't5'
+        }, {
+          id: 't6'
+        }]
+      }]
+    }
+  };
+  let horizontalLayout = {
+    dockbox: {
+      mode: 'horizontal',
+      children: [{
+        tabs: [{
+          id: 't1'
+        }]
+      }, {
+        tabs: [{
+          id: 't2'
+        }]
+      }, {
+        tabs: [{
+          id: 't3'
+        }]
+      }, {
+        tabs: [{
+          id: 't4'
+        }]
+      }, {
+        tabs: [{
+          id: 't5'
+        }]
+      }, {
+        tabs: [{
+          id: 't6'
+        }]
+      }]
+    }
+  };
 
   class Demo extends React.Component {
     constructor(...args) {
       super(...args);
 
       _defineProperty(this, "getRef", r => {
-        this._ref = r;
+        this.dockLayout = r;
       });
 
       _defineProperty(this, "state", {
-        sizes: [200, 200, 30]
-      });
-
-      _defineProperty(this, "getDividerData", idx => {
-        let children = [];
-
-        this._ref.childNodes.forEach(child => {
-          if (!child.classList.contains('dock-divider')) {
-            children.push({
-              size: child.offsetWidth,
-              minSize: 20 // give them 20px min width
-
-            });
-          }
-        });
-
-        return {
-          element: this._ref,
-          beforeDivider: children.slice(0, idx),
-          afterDivider: children.slice(idx)
-        };
-      });
-
-      _defineProperty(this, "changeSizes", sizes => {
-        this.setState({
-          sizes
-        });
+        saved: null
       });
     }
 
     render() {
-      let {
-        sizes
-      } = this.state;
-      return React.createElement("div", null, "Divider can be used separately, this doesn't require anything else from the dock layout", React.createElement("div", {
+      return React.createElement("div", null, React.createElement(DockLayout, {
         ref: this.getRef,
-        className: "box"
+        defaultLayout: defaultLayout,
+        style: {
+          position: 'absolute',
+          left: 10,
+          top: 10,
+          right: 180,
+          bottom: 10
+        }
+      }), React.createElement("div", {
+        style: {
+          width: 150,
+          position: 'absolute',
+          right: 20
+        }
       }, React.createElement("div", {
-        style: {
-          width: sizes[0]
-        }
-      }), React.createElement(Divider, {
-        idx: 1,
-        getDividerData: this.getDividerData,
-        changeSizes: this.changeSizes
-      }), React.createElement("div", {
-        style: {
-          width: sizes[1]
-        }
-      }), React.createElement(Divider, {
-        idx: 2,
-        getDividerData: this.getDividerData,
-        changeSizes: this.changeSizes
-      }), React.createElement("div", {
-        style: {
-          width: sizes[2]
-        }
-      })), "Dragging with shift key to resize all children, otherwise only 2 children are affected");
+        onClick: () => this.setState({
+          saved: this.dockLayout.saveLayout()
+        })
+      }, "Save Layout"), React.createElement("div", {
+        onClick: () => this.dockLayout.loadLayout(this.state.saved)
+      }, "Load Saved Layout"), React.createElement("div", null, "Load Horizontal"), React.createElement("div", null, "Load Single Panel")));
     }
 
   }
@@ -339,4 +413,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"itBm"], null)
+},{}]},{},[0,"VRYX"], null)

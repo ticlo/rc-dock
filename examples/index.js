@@ -241,15 +241,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     Divider
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update'];
+  let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
   let advance = ['standalone-divider'];
+  let current = window.location.hash.substr(1);
+
+  if (!(demos.includes(current) || advance.includes(current))) {
+    current = 'basic';
+  }
 
   class App extends React.Component {
     constructor(...args) {
       super(...args);
 
       _defineProperty(this, "state", {
-        current: 'basic'
+        current
       });
     }
 
@@ -299,7 +304,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         className: "link-bar"
       }, "Examples:", demoPages), React.createElement("div", {
         className: "link-bar"
-      }, "Advanced:", advancePages), React.createElement("iframe", {
+      }, "Advanced:", advancePages), React.createElement("hr", null), React.createElement("iframe", {
         src: `./${current}.html`
       }));
     }

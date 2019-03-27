@@ -8194,7 +8194,7 @@ class TabCache {
     this.onDragOver = e => {
       let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
 
-      if (tab && tab !== this.data && tab.group === this.data.group) {
+      if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
         let direction = this.getDropDirection(e);
         this.context.setDropRect(this._hitAreaRef, direction, this);
         e.dataTransfer.dropEffect = 'move';
@@ -8210,7 +8210,7 @@ class TabCache {
     this.onDrop = e => {
       let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
 
-      if (tab && tab !== this.data && tab.group === this.data.group) {
+      if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
         let direction = this.getDropDirection(e);
         this.context.dockMove(tab, this.data, direction);
       }
@@ -8396,7 +8396,7 @@ class DockTabs extends react_1.default.Component {
 DockTabs.contextType = DockData_1.DockContextType;
 DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
 exports.DockTabs = DockTabs;
-},{"react":"1n8/","./DockData":"zh3I","./util/Compare":"LCzK","rc-tabs":"9FgV","rc-tabs/lib/TabContent":"Bdxb","./DragStore":"3vjO","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"mOnO":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./util/Compare":"LCzK","rc-tabs":"9FgV","rc-tabs/lib/TabContent":"Bdxb","./DragStore":"3vjO","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"wqok":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8406,6 +8406,8 @@ Object.defineProperty(exports, "__esModule", {
 const DockData_1 = require("./DockData");
 
 exports.placeHolderGroup = {
+  /** used by serialization */
+  name: '-place-holder-',
   panelClass: 'dock-placeholder-panel',
   floatable: false
 };
@@ -8721,7 +8723,7 @@ function fixLayoutData(layout) {
     let newPanel = {
       id: '+0',
       group: exports.placeHolderGroup,
-      panelLock: true,
+      panelLock: {},
       size: 200,
       tabs: []
     };
@@ -8740,7 +8742,6 @@ function fixLayoutData(layout) {
 
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
-  console.log(layout);
   return layout;
 }
 
@@ -8934,7 +8935,7 @@ const DockData_1 = require("./DockData");
 
 const DragStore_1 = require("./DragStore");
 
-const DockAlgorithm_1 = require("./DockAlgorithm");
+const Algorithm_1 = require("./Algorithm");
 
 class DockDropSquare extends react_1.default.PureComponent {
   constructor() {
@@ -8958,7 +8959,7 @@ class DockDropSquare extends react_1.default.PureComponent {
         targetElement = targetElement.parentElement;
       }
 
-      if (panelData.group === DockAlgorithm_1.placeHolderGroup && direction !== 'float') {
+      if (panelData.group === Algorithm_1.placeHolderGroup && direction !== 'float') {
         // place holder panel should always have full size drop rect
         this.context.setDropRect(targetElement, 'middle', this, e.nativeEvent);
       } else {
@@ -9082,9 +9083,11 @@ class DockDropLayer extends react_1.default.PureComponent {
       panelElement,
       dropFromPanel
     } = this.props;
-    let children = [];
+    let children = []; // check if it's whole panel dragging
 
-    if (dropFromPanel.group.floatable) {
+    let draggingPanel = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'panel');
+
+    if (dropFromPanel.group.floatable && (!draggingPanel || !draggingPanel.panelLock)) {
       children.push(react_1.default.createElement(DockDropSquare, {
         key: 'float',
         direction: 'float',
@@ -9093,13 +9096,13 @@ class DockDropLayer extends react_1.default.PureComponent {
       }));
     }
 
-    if (DragStore_1.DragStore.getData(DockData_1.DockContextType, 'panel') !== panelData) {
+    if (draggingPanel !== panelData) {
       // don't drop panel to itself
       // 4 direction base drag square
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
       DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
 
-      if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
+      if (panelData.group.name === dropFromPanel.group.name && panelData !== dropFromPanel) {
         // dock to tabs
         children.push(react_1.default.createElement(DockDropSquare, {
           key: 'middle',
@@ -9129,7 +9132,7 @@ class DockDropLayer extends react_1.default.PureComponent {
 }
 
 exports.DockDropLayer = DockDropLayer;
-},{"react":"1n8/","./DockData":"zh3I","./DragStore":"3vjO","./DockAlgorithm":"mOnO"}],"ohUB":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./DragStore":"3vjO","./Algorithm":"wqok"}],"ohUB":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -9751,7 +9754,290 @@ class FloatBox extends react_1.default.PureComponent {
 }
 
 exports.FloatBox = FloatBox;
-},{"react":"1n8/","./DockPanel":"ohUB"}],"0iJy":[function(require,module,exports) {
+},{"react":"1n8/","./DockPanel":"ohUB"}],"EWaN":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const Algorithm_1 = require("./Algorithm");
+
+function addPanelToCache(panelData, cache) {
+  cache.panels.set(panelData.id, panelData);
+  let group = panelData.group;
+
+  if (!cache.groups.has(group.name)) {
+    cache.groups.set(group.name, group);
+  }
+
+  for (let tab of panelData.tabs) {
+    cache.tabs.set(tab.id, tab);
+  }
+}
+
+function addBoxToCache(boxData, cache) {
+  for (let child of boxData.children) {
+    if ('tabs' in child) {
+      addPanelToCache(child, cache);
+    } else if ('children' in child) {
+      addBoxToCache(child, cache);
+    }
+  }
+}
+
+function createLayoutCache(defaultLayout) {
+  let cache = {
+    panels: new Map(),
+    tabs: new Map(),
+    groups: new Map()
+  };
+
+  if ('children' in defaultLayout) {
+    // BoxData
+    addBoxToCache(defaultLayout, cache);
+  } else {
+    // LayoutData
+    if ('dockbox' in defaultLayout) {
+      addBoxToCache(defaultLayout.dockbox, cache);
+    }
+
+    if ('floatbox' in defaultLayout) {
+      addBoxToCache(defaultLayout.floatbox, cache);
+    }
+  }
+
+  return cache;
+}
+
+exports.createLayoutCache = createLayoutCache;
+
+function saveLayout(layout, modifier = {}) {
+  const {
+    modifySavedTab,
+    modifySavedPanel
+  } = modifier;
+
+  function saveTab(tabData) {
+    let savedTab = {
+      id: tabData.id,
+      groupName: tabData.group.name
+    };
+
+    if (modifySavedTab) {
+      modifySavedTab(savedTab, tabData);
+    }
+
+    return savedTab;
+  }
+
+  function savePanel(panelData) {
+    let tabs = [];
+
+    for (let tab of panelData.tabs) {
+      tabs.push(saveTab(tab));
+    }
+
+    let {
+      id,
+      size,
+      activeId,
+      group
+    } = panelData;
+    let savedPanel;
+
+    if (panelData.parent.mode === 'float') {
+      let {
+        x,
+        y,
+        z,
+        w,
+        h
+      } = panelData;
+      savedPanel = {
+        id,
+        size,
+        tabs,
+        activeId,
+        groupName: group.name,
+        x,
+        y,
+        z,
+        w,
+        h
+      };
+    } else {
+      savedPanel = {
+        id,
+        size,
+        tabs,
+        activeId,
+        groupName: group.name
+      };
+    }
+
+    if (modifySavedPanel) {
+      modifySavedPanel(savedPanel, panelData);
+    }
+
+    return savedPanel;
+  }
+
+  function saveBox(boxData) {
+    let children = [];
+
+    for (let child of boxData.children) {
+      if ('tabs' in child) {
+        children.push(savePanel(child));
+      } else if ('children' in child) {
+        children.push(saveBox(child));
+      }
+    }
+
+    let {
+      id,
+      size,
+      mode
+    } = boxData;
+    return {
+      id,
+      size,
+      mode,
+      children
+    };
+  }
+
+  return {
+    dockbox: saveBox(layout.dockbox),
+    floatbox: saveBox(layout.floatbox)
+  };
+}
+
+exports.saveLayout = saveLayout;
+
+function loadLayout(savedLayout, defaultLayout, modifier = {}) {
+  const {
+    loadTab,
+    loadGroup,
+    modifyLoadedPanel
+  } = modifier;
+  let cache = createLayoutCache(defaultLayout);
+
+  function loadTabGroup(groupName) {
+    if (groupName === Algorithm_1.placeHolderGroup.name) {
+      return Algorithm_1.placeHolderGroup;
+    }
+
+    let group;
+
+    if (loadGroup) {
+      group = loadGroup(groupName);
+    }
+
+    if (!group) {
+      group = cache.groups.get(groupName);
+    }
+
+    if (!group) {
+      console.log(`loadLayout, unknown groupName: ${groupName}`);
+      return {};
+    }
+
+    return group;
+  }
+
+  function loadTabData(savedTab) {
+    if (loadTab) {
+      return loadTab(savedTab);
+    }
+
+    let {
+      id
+    } = savedTab;
+
+    if (cache.tabs.has(id)) {
+      return cache.tabs.get(id);
+    }
+
+    return null;
+  }
+
+  function loadPanelData(savedPanel) {
+    let {
+      id,
+      groupName,
+      size,
+      activeId,
+      x,
+      y,
+      z,
+      w,
+      h
+    } = savedPanel;
+    let tabs = [];
+
+    for (let savedTab of savedPanel.tabs) {
+      let tabData = loadTabData(savedTab);
+
+      if (tabData) {
+        tabs.push();
+      }
+    }
+
+    let panelData = {
+      id,
+      size,
+      activeId,
+      x,
+      y,
+      z,
+      w,
+      h,
+      tabs,
+      group: loadTabGroup(groupName)
+    };
+
+    if (modifyLoadedPanel) {
+      modifyLoadedPanel(panelData, savedPanel);
+    } else if (cache.panels.has(id)) {
+      panelData = Object.assign({}, cache.panels.get(id), panelData);
+    }
+
+    return panelData;
+  }
+
+  function loadBoxData(savedBox) {
+    let children = [];
+
+    for (let child of savedBox.children) {
+      if ('tabs' in child) {
+        children.push(loadPanelData(child));
+      } else if ('children' in child) {
+        children.push(loadBoxData(child));
+      }
+    }
+
+    let {
+      id,
+      size,
+      mode
+    } = savedBox;
+    return {
+      id,
+      size,
+      mode,
+      children
+    };
+  }
+
+  return {
+    dockbox: loadBoxData(savedLayout.dockbox),
+    floatbox: loadBoxData(savedLayout.floatbox)
+  };
+}
+
+exports.loadLayout = loadLayout;
+},{"./Algorithm":"wqok"}],"0iJy":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -9791,7 +10077,9 @@ const FloatBox_1 = require("./FloatBox");
 
 const DockPanel_1 = require("./DockPanel");
 
-const Algorithm = __importStar(require("./DockAlgorithm"));
+const Algorithm = __importStar(require("./Algorithm"));
+
+const Serializer = __importStar(require("./Serializer"));
 
 class DockLayout extends react_1.default.PureComponent {
   constructor(props) {
@@ -9829,15 +10117,7 @@ class DockLayout extends react_1.default.PureComponent {
   prepareInitData(data) {
     let layout;
 
-    if (Array.isArray(data)) {
-      layout = {
-        dockbox: {
-          mode: 'horizontal',
-          children: data,
-          size: 1
-        }
-      };
-    } else if ('dockbox' in data || 'floatbox' in data) {
+    if ('dockbox' in data || 'floatbox' in data) {
       layout = data;
     } else if ('children' in data) {
       layout = {
@@ -10043,12 +10323,25 @@ class DockLayout extends react_1.default.PureComponent {
 
   componentWillUnmount() {
     document.removeEventListener('dragend', this.dragEnd);
+  } // public api
+
+
+  saveLayout(modifier) {
+    return Serializer.saveLayout(this.state.layout, modifier);
+  }
+
+  loadLayout(savedLayout, modifier) {
+    let layout = Serializer.loadLayout(savedLayout, this.props.defaultLayout, modifier);
+    layout = Algorithm.fixLayoutData(layout);
+    this.setState({
+      layout
+    });
   }
 
 }
 
 exports.DockLayout = DockLayout;
-},{"react":"1n8/","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./DockAlgorithm":"mOnO"}],"VNNP":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN"}],"VNNP":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {

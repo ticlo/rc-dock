@@ -331,7 +331,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               group,
               content: React.createElement("div", null, React.createElement("p", null, "Click here to change context."), React.createElement("button", {
                 onClick: this.addCtx
-              }, "Add"))
+              }, "Click to Add Value"))
             }]
           }]
         }

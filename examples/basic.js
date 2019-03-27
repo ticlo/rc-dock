@@ -246,9 +246,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DragStore
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let fixGroup = {
+    name: 'fixed',
     floatable: true
   };
   let closableGroup = {
+    name: 'closable',
     floatable: true,
     animate: false
   };
@@ -322,8 +324,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 't9',
           title: 'Tab 9'
         })],
-        x: 60,
-        y: 80,
+        x: 300,
+        y: 150,
         w: 400,
         h: 300
       }]

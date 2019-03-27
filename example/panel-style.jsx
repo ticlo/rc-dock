@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
 let defaultGroup = {
+  name: 'default',
   floatable: true
 };
 
 let headlessGroup = {
+  name: 'headless',
   floatable: true,
 
   // this is a pre-defined style, defined here:
@@ -15,6 +17,7 @@ let headlessGroup = {
 };
 
 let customStyleGroup = {
+  name: 'custom',
   closable: true,
   floatable: true,
   // this is a custom panel style defined in panel-style.html

@@ -6,7 +6,6 @@ let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update'];
 let advance = ['standalone-divider'];
 
 let current = window.location.hash.substr(1);
-console.log(current);
 if (!(demos.includes(current) || advance.includes(current))) {
   current = 'basic';
 }

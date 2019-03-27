@@ -50,7 +50,7 @@ export class TabCache {
   };
   onDragOver = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    if (tab && tab !== this.data && tab.group === this.data.group) {
+    if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
       let direction = this.getDropDirection(e);
       this.context.setDropRect(this._hitAreaRef, direction, this);
       e.dataTransfer.dropEffect = 'move';
@@ -63,7 +63,7 @@ export class TabCache {
   };
   onDrop = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    if (tab && tab !== this.data && tab.group === this.data.group) {
+    if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
       let direction = this.getDropDirection(e);
       this.context.dockMove(tab, this.data, direction);
     }

@@ -1,7 +1,8 @@
-import { DockMode, LayoutData, PanelData, TabData } from "./DockData";
+import { BoxData, DockMode, LayoutData, PanelData, TabData, TabGroup } from "./DockData";
 interface DefaultLayoutCache {
     panels: Map<string | number, PanelData>;
     tabs: Map<string, TabData>;
+    groups: Map<string, TabGroup>;
 }
 interface SavedTab {
     id: string;
@@ -25,19 +26,20 @@ interface SavedBox {
     size: number;
     children: (SavedBox | SavedPanel)[];
 }
-interface SavedLayout {
+export interface SavedLayout {
     dockbox: SavedBox;
     floatbox: SavedBox;
 }
-export declare function createLayoutCache(defaultLayout: LayoutData): DefaultLayoutCache;
+export declare function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultLayoutCache;
 export interface SaveModifier {
     modifySavedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
     modifySavedTab?(savedTab: SavedTab, tabData: TabData): void;
 }
 export interface LoadModifier {
-    loadPanel?(savedPanel: SavedPanel): PanelData;
+    modifyLoadedPanel?(panelData: PanelData, savedPanel: SavedPanel): void;
     loadTab?(savedTab: SavedTab): TabData;
+    loadGroup?(groupName: string): TabGroup;
 }
 export declare function saveLayout(layout: LayoutData, modifier?: SaveModifier): SavedLayout;
-export declare function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData, modifier?: LoadModifier): LayoutData;
+export declare function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier?: LoadModifier): LayoutData;
 export {};

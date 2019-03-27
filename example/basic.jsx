@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
 let fixGroup = {
+  name: 'fixed',
   floatable: true,
 };
 let closableGroup = {
+  name: 'closable',
   floatable: true,
   animate: false
 };

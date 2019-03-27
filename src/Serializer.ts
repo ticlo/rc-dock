@@ -1,8 +1,10 @@
 import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData, TabGroup} from "./DockData";
+import {placeHolderGroup} from "./Algorithm";
 
 interface DefaultLayoutCache {
   panels: Map<string | number, PanelData>;
   tabs: Map<string, TabData>;
+  groups: Map<string, TabGroup>;
 }
 
 interface SavedTab {
@@ -32,13 +34,17 @@ interface SavedBox {
   children: (SavedBox | SavedPanel)[];
 }
 
-interface SavedLayout {
+export interface SavedLayout {
   dockbox: SavedBox;
   floatbox: SavedBox;
 }
 
 function addPanelToCache(panelData: PanelData, cache: DefaultLayoutCache) {
   cache.panels.set(panelData.id, panelData);
+  let group = panelData.group;
+  if (!cache.groups.has(group.name)) {
+    cache.groups.set(group.name, group);
+  }
   for (let tab of panelData.tabs) {
     cache.tabs.set(tab.id, tab);
   }
@@ -54,13 +60,24 @@ function addBoxToCache(boxData: BoxData, cache: DefaultLayoutCache) {
   }
 }
 
-export function createLayoutCache(defaultLayout: LayoutData): DefaultLayoutCache {
+export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultLayoutCache {
   let cache: DefaultLayoutCache = {
     panels: new Map(),
-    tabs: new Map()
+    tabs: new Map(),
+    groups: new Map()
   };
-  addBoxToCache(defaultLayout.dockbox, cache);
-  addBoxToCache(defaultLayout.floatbox, cache);
+  if ('children' in defaultLayout) {
+    // BoxData
+    addBoxToCache(defaultLayout, cache);
+  } else {
+    // LayoutData
+    if ('dockbox' in defaultLayout) {
+      addBoxToCache(defaultLayout.dockbox, cache);
+    }
+    if ('floatbox' in defaultLayout) {
+      addBoxToCache(defaultLayout.floatbox, cache);
+    }
+  }
   return cache;
 }
 
@@ -72,9 +89,11 @@ export interface SaveModifier {
 
 export interface LoadModifier {
   // should return a empty panel and ignore tabs
-  loadPanel?(savedPanel: SavedPanel): PanelData;
+  modifyLoadedPanel?(panelData: PanelData, savedPanel: SavedPanel): void;
 
   loadTab?(savedTab: SavedTab): TabData;
+
+  loadGroup?(groupName: string): TabGroup;
 }
 
 
@@ -127,24 +146,57 @@ export function saveLayout(layout: LayoutData, modifier: SaveModifier = {}): Sav
   };
 }
 
-export function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData, modifier: LoadModifier = {}): LayoutData {
-  const {loadTab, loadPanel} = modifier;
+export function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier: LoadModifier = {}): LayoutData {
+  const {loadTab, loadGroup, modifyLoadedPanel} = modifier;
 
   let cache = createLayoutCache(defaultLayout);
 
-  function loadTabData(savedTab: SavedTab): TabData {
+  function loadTabGroup(groupName: string): TabGroup {
+    if (groupName === placeHolderGroup.name) {
+      return placeHolderGroup;
+    }
+    let group: TabGroup;
+    if (loadGroup) {
+      group = loadGroup(groupName);
+    }
+    if (!group) {
+      group = cache.groups.get(groupName);
+    }
+    if (!group) {
+      console.log(`loadLayout, unknown groupName: ${groupName}`);
+      return {};
+    }
+    return group;
+  }
 
+  function loadTabData(savedTab: SavedTab): TabData {
+    if (loadTab) {
+      return loadTab(savedTab);
+    }
+    let {id} = savedTab;
+    if (cache.tabs.has(id)) {
+      return cache.tabs.get(id);
+    }
+    return null;
   }
 
   function loadPanelData(savedPanel: SavedPanel): PanelData {
+    let {id, groupName, size, activeId, x, y, z, w, h} = savedPanel;
+
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
-      tabs.push(loadTabData(savedTab));
+      let tabData = loadTabData(savedTab);
+      if (tabData) {
+        tabs.push();
+      }
     }
-    let panelData: PanelData;
-    if (loadPanel) {
-      panelData = loadPanel(savedPanel);
+    let panelData: PanelData = {id, size, activeId, x, y, z, w, h, tabs, group: loadTabGroup(groupName)};
+    if (modifyLoadedPanel) {
+      modifyLoadedPanel(panelData, savedPanel);
+    } else if (cache.panels.has(id)) {
+      panelData = {...cache.panels.get(id), ...panelData};
     }
+    return panelData;
   }
 
   function loadBoxData(savedBox: SavedBox): BoxData {

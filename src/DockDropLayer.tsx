@@ -135,7 +135,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
       DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
 
-      if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
+      if (panelData.group.name === dropFromPanel.group.name && panelData !== dropFromPanel) {
         // dock to tabs
         children.push(
           <DockDropSquare key='middle' direction='middle' panelData={panelData} panelElement={panelElement}/>

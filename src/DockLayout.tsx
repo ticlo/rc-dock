@@ -13,9 +13,10 @@ import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
 import {DockPanel} from "./DockPanel";
 import * as Algorithm from "./Algorithm";
+import * as Serializer from "./Serializer";
 
 interface LayoutProps {
-  defaultLayout: LayoutData | BoxData | (BoxData | PanelData)[];
+  defaultLayout: LayoutData | BoxData;
   style?: CSSProperties;
 }
 
@@ -34,13 +35,9 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   };
 
   /** @ignore */
-  prepareInitData(data: LayoutData | BoxData | (BoxData | PanelData)[]): LayoutData {
+  prepareInitData(data: LayoutData | BoxData): LayoutData {
     let layout: LayoutData;
-    if (Array.isArray(data)) {
-      layout = {
-        dockbox: {mode: 'horizontal', children: data, size: 1}
-      };
-    } else if ('dockbox' in data || 'floatbox' in data) {
+    if ('dockbox' in data || 'floatbox' in data) {
       layout = data;
     } else if ('children' in data) {
       layout = {
@@ -207,5 +204,17 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   /** @ignore */
   componentWillUnmount(): void {
     document.removeEventListener('dragend', this.dragEnd);
+  }
+
+  // public api
+
+  saveLayout(modifier?: Serializer.SaveModifier): Serializer.SavedLayout {
+    return Serializer.saveLayout(this.state.layout, modifier);
+  }
+
+  loadLayout(savedLayout: Serializer.SavedLayout, modifier?: Serializer.LoadModifier) {
+    let layout = Serializer.loadLayout(savedLayout, this.props.defaultLayout, modifier);
+    layout = Algorithm.fixLayoutData(layout);
+    this.setState({layout});
   }
 }

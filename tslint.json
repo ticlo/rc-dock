@@ -189,5 +189,16 @@
     "jsx-no-multiline-js": false,
     "jsx-alignment": false,
     "jsx-curly-spacing": false
+  },
+  "jsRules": {
+    "quotemark": [
+      false,
+      "single",
+      "double",
+      "avoid-escape"
+    ],
+    "object-literal-sort-keys": false,
+    "trailing-comma": false,
+    "semicolon": false
   }
 }

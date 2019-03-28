@@ -291,9 +291,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         tabs: [_objectSpread({}, defaultTab, {
           id: 't7'
         }), _objectSpread({}, defaultTab, {
-          id: 't8'
-        }), _objectSpread({}, defaultTab, {
-          id: 't9'
+          id: 't8',
+          title: React.createElement("div", {
+            className: "github-icon"
+          }, "custom-tab"),
+          content: React.createElement("div", null, "Tab title can be any react component")
         })]
       }, {
         mode: 'vertical',

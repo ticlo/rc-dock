@@ -300,11 +300,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, page));
       }
 
-      return React.createElement("div", null, React.createElement("h2", null, "rc-dock ", React.createElement("small", null, " - dock layout for react component")), React.createElement("div", {
+      return React.createElement("div", null, React.createElement("nav", null, React.createElement("h2", null, "rc-dock"), React.createElement("div", {
         className: "link-bar"
-      }, "Examples:", demoPages), React.createElement("div", {
+      }, "Examples:", React.createElement("br", null), demoPages), React.createElement("div", {
         className: "link-bar"
-      }, "Advanced:", advancePages), React.createElement("hr", null), React.createElement("iframe", {
+      }, "Advanced:", React.createElement("br", null), advancePages)), React.createElement("iframe", {
         src: `./${current}.html`
       }));
     }

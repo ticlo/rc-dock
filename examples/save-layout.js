@@ -377,7 +377,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         onClick: () => this.setState({
           saved: this.dockLayout.saveLayout()
         })
-      }, "Save Layout"), React.createElement("hr", null), React.createElement("button", {
+      }, "Save Layout"), React.createElement("div", {
+        style: {
+          height: 20
+        }
+      }), React.createElement("button", {
         disabled: this.state.saved == null,
         onClick: () => this.dockLayout.loadLayout(this.state.saved)
       }, "Load", React.createElement("br", null), "Saved Layout"), React.createElement("button", {

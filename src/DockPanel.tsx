@@ -86,7 +86,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   // drag in dock mode
   onPanelHeaderHtmlDrag = (event: React.DragEvent) => {
-    DragStore.dragStart(DockContextType, {panel: this.props.panelData}, this._ref);
+    DragStore.dragStart(DockContextType, {panel: this.props.panelData}, event.nativeEvent, this._ref);
     event.stopPropagation();
   };
 

@@ -98,7 +98,7 @@ class Demo extends React.Component {
         closable: true,
         group: closableGroup
       }
-    });
+    }, e.nativeEvent);
   };
 
   render() {

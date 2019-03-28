@@ -5,13 +5,16 @@ let _data: {[key: string]: any};
 let _dragEndListened = false;
 
 export class DragStore {
-  static dragStart(scope: any, data: {[key: string]: any}, element?: any) {
+  static dragStart(scope: any, data: {[key: string]: any}, event: DragEvent, element?: any, dragText: string = ' ') {
     _scope = scope;
     _data = data;
     if (element instanceof HTMLElement) {
       element.classList.add('dragging');
       _draggingElement = element;
     }
+
+    // required in firefox
+    event.dataTransfer.setData('text', dragText);
 
     if (!_dragEndListened) {
       document.addEventListener('dragend', DragStore.dragEnd);

@@ -45,7 +45,7 @@ export class TabCache {
     e.stopPropagation();
   };
   onDragStart = (e: React.DragEvent) => {
-    DragStore.dragStart(DockContextType, {tab: this.data}, this._hitAreaRef);
+    DragStore.dragStart(DockContextType, {tab: this.data}, e.nativeEvent, this._hitAreaRef);
     e.stopPropagation();
   };
   onDragOver = (e: React.DragEvent) => {
@@ -84,7 +84,7 @@ export class TabCache {
     let tab = (
       <div ref={this.getRef}>
         {title}
-        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDrag={this.onDragStart}
+        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDragStart={this.onDragStart}
              onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
           {closable ?
             <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>

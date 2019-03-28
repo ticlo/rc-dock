@@ -4753,14 +4753,17 @@ let _data;
 let _dragEndListened = false;
 
 class DragStore {
-  static dragStart(scope, data, element) {
+  static dragStart(scope, data, event, element, dragText = ' ') {
     _scope = scope;
     _data = data;
 
     if (element instanceof HTMLElement) {
       element.classList.add('dragging');
       _draggingElement = element;
-    }
+    } // required in firefox
+
+
+    event.dataTransfer.setData('text', dragText);
 
     if (!_dragEndListened) {
       document.addEventListener('dragend', DragStore.dragEnd);
@@ -7516,7 +7519,7 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
 
     return react_1.default.createElement(DragInitiator_1.DragInitiator, {
       onDragInit: onDragMoveInit,
-      onDrag: onHtmlDrag,
+      onDragStart: onHtmlDrag,
       draggable: onHtmlDrag != null,
       role: "tablist",
       className: 'dock-bar',
@@ -8187,7 +8190,7 @@ class TabCache {
     this.onDragStart = e => {
       DragStore_1.DragStore.dragStart(DockData_1.DockContextType, {
         tab: this.data
-      }, this._hitAreaRef);
+      }, e.nativeEvent, this._hitAreaRef);
       e.stopPropagation();
     };
 
@@ -8260,7 +8263,7 @@ class TabCache {
       className: 'dock-tab-hit-area',
       ref: this.getHitAreaRef,
       draggable: !tabLocked,
-      onDrag: this.onDragStart,
+      onDragStart: this.onDragStart,
       onDragOver: this.onDragOver,
       onDrop: this.onDrop,
       onDragLeave: this.onDragLeave
@@ -9233,7 +9236,7 @@ class DockPanel extends react_1.default.PureComponent {
     this.onPanelHeaderHtmlDrag = event => {
       DragStore_1.DragStore.dragStart(DockData_1.DockContextType, {
         panel: this.props.panelData
-      }, this._ref);
+      }, event.nativeEvent, this._ref);
       event.stopPropagation();
     };
 

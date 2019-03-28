@@ -334,6 +334,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let count = 0;
 
   class Demo extends React.Component {
+    constructor(...args) {
+      super(...args);
+
+      _defineProperty(this, "onDragNewTab", e => {
+        let content = `New Tab ${count++}`;
+        DragStore.dragStart(DockContextType, {
+          tab: {
+            id: content,
+            content: React.createElement("div", {
+              style: {
+                padding: 20
+              }
+            }, content),
+            title: content,
+            closable: true,
+            group: closableGroup
+          }
+        });
+      });
+    }
+
     render() {
       return React.createElement("div", {
         style: {
@@ -349,25 +370,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           bottom: 10
         }
       }), React.createElement("div", {
-        className: "dragMe",
+        className: "side-panel"
+      }, React.createElement("button", {
         draggable: true,
-        onDragStart: e => {
-          let content = `New Tab ${count++}`;
-          DragStore.dragStart(DockContextType, {
-            tab: {
-              id: content,
-              content: React.createElement("div", {
-                style: {
-                  padding: 20
-                }
-              }, content),
-              title: content,
-              closable: true,
-              group: closableGroup
-            }
-          });
-        }
-      }, "drag me ", React.createElement("br", null), "to ", React.createElement("br", null), "create new tab"));
+        onDragStart: this.onDragNewTab
+      }, "Drag a new Tab from here")));
     }
 
   }

@@ -9812,7 +9812,7 @@ function createLayoutCache(defaultLayout) {
 
 exports.createLayoutCache = createLayoutCache;
 
-function saveLayout(layout, modifier = {}) {
+function saveLayoutData(layout, modifier = {}) {
   const {
     modifySavedTab,
     modifySavedPanel
@@ -9913,14 +9913,23 @@ function saveLayout(layout, modifier = {}) {
   };
 }
 
-exports.saveLayout = saveLayout;
+exports.saveLayoutData = saveLayoutData;
 
-function loadLayout(savedLayout, defaultLayout, modifier = {}) {
+function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
   const {
     loadTab,
     loadGroup,
     modifyLoadedPanel
   } = modifier;
+
+  if (!savedLayout.floatbox) {
+    savedLayout.floatbox = {
+      mode: 'float',
+      children: [],
+      size: 0
+    };
+  }
+
   let cache = createLayoutCache(defaultLayout);
 
   function loadTabGroup(groupName) {
@@ -9936,11 +9945,6 @@ function loadLayout(savedLayout, defaultLayout, modifier = {}) {
 
     if (!group) {
       group = cache.groups.get(groupName);
-    }
-
-    if (!group) {
-      console.log(`loadLayout, unknown groupName: ${groupName}`);
-      return {};
     }
 
     return group;
@@ -9980,22 +9984,34 @@ function loadLayout(savedLayout, defaultLayout, modifier = {}) {
       let tabData = loadTabData(savedTab);
 
       if (tabData) {
-        tabs.push();
+        tabs.push(tabData);
       }
     }
 
-    let panelData = {
-      id,
-      size,
-      activeId,
-      x,
-      y,
-      z,
-      w,
-      h,
-      tabs,
-      group: loadTabGroup(groupName)
-    };
+    let panelData;
+
+    if (w || h || x || y || z) {
+      panelData = {
+        id,
+        size,
+        activeId,
+        x,
+        y,
+        z,
+        w,
+        h,
+        tabs,
+        group: loadTabGroup(groupName)
+      };
+    } else {
+      panelData = {
+        id,
+        size,
+        activeId,
+        tabs,
+        group: loadTabGroup(groupName)
+      };
+    }
 
     if (modifyLoadedPanel) {
       modifyLoadedPanel(panelData, savedPanel);
@@ -10036,7 +10052,7 @@ function loadLayout(savedLayout, defaultLayout, modifier = {}) {
   };
 }
 
-exports.loadLayout = loadLayout;
+exports.loadLayoutData = loadLayoutData;
 },{"./Algorithm":"wqok"}],"0iJy":[function(require,module,exports) {
 "use strict";
 
@@ -10327,11 +10343,11 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   saveLayout(modifier) {
-    return Serializer.saveLayout(this.state.layout, modifier);
+    return Serializer.saveLayoutData(this.state.layout, modifier);
   }
 
   loadLayout(savedLayout, modifier) {
-    let layout = Serializer.loadLayout(savedLayout, this.props.defaultLayout, modifier);
+    let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
     layout = Algorithm.fixLayoutData(layout);
     this.setState({
       layout

@@ -242,6 +242,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let group = {
+    name: 'default',
     floatable: true
   };
   let tab1 = {
@@ -371,18 +372,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           bottom: 10
         }
       }), React.createElement("div", {
-        style: {
-          width: 150,
-          position: 'absolute',
-          right: 20
-        }
-      }, React.createElement("div", {
+        className: "side-panel"
+      }, React.createElement("button", {
         onClick: () => this.setState({
           saved: this.dockLayout.saveLayout()
         })
-      }, "Save Layout"), React.createElement("div", {
+      }, "Save Layout"), React.createElement("hr", null), React.createElement("button", {
+        disabled: this.state.saved == null,
         onClick: () => this.dockLayout.loadLayout(this.state.saved)
-      }, "Load Saved Layout"), React.createElement("div", null, "Load Horizontal"), React.createElement("div", null, "Load Single Panel")));
+      }, "Load", React.createElement("br", null), "Saved Layout"), React.createElement("button", {
+        onClick: () => this.dockLayout.loadLayout(horizontalLayout)
+      }, "Load", React.createElement("br", null), "Horizontal"), React.createElement("button", {
+        onClick: () => this.dockLayout.loadLayout(panelLayout)
+      }, "Load", React.createElement("br", null), "Single Panel")));
     }
 
   }

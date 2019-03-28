@@ -243,10 +243,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
   let advance = ['standalone-divider'];
-  let current = window.location.hash.substr(1);
+  let defaultPage = window.location.hash.substr(1);
 
-  if (!(demos.includes(current) || advance.includes(current))) {
-    current = 'basic';
+  if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {
+    defaultPage = 'basic';
   }
 
   class App extends React.Component {
@@ -254,7 +254,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       super(...args);
 
       _defineProperty(this, "state", {
-        current
+        current: defaultPage
       });
     }
 

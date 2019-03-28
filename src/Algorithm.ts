@@ -3,8 +3,8 @@ import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData
 
 export const placeHolderGroup: TabGroup = {
   /** used by serialization */
-  name: '-place-holder-',
-  panelClass: 'dock-placeholder-panel',
+  name: 'place-holder',
+  panelClass: 'dock-panel-place-holder',
   floatable: false,
 };
 

@@ -16,6 +16,7 @@ export interface TabGroup {
     floatable?: boolean;
     multiTabs?: boolean;
     tabLocked?: boolean;
+    /** @ignore */
     panelClass?: string;
     animated?: boolean;
 }

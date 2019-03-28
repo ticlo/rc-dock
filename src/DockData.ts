@@ -22,6 +22,7 @@ export interface TabGroup {
   multiTabs?: boolean;
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
+  /** @ignore */
   panelClass?: string;
   animated?: boolean;
 }
@@ -39,6 +40,7 @@ export interface TabData extends DockDataBase {
 }
 
 interface PanelLock {
+  // override the class from TabGroup.name
   panelClass?: string;
   animated?: boolean; // TODO
 }

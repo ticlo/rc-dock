@@ -279,13 +279,17 @@
     position: absolute;
     cursor: pointer;
     font-family: Fredoka One;
-    color: red;
-    right: 1px;
+    color: #aaa;
+    right: 0;
     width: 16px;
     text-align: center;
-    top: 4px;
-    opacity: 0;
+    top: 3px;
+    opacity: 0.5;
     transition: opacity 0.25s ease-in-out;
+  }
+
+  &-tab-close-btn:hover {
+    color: red;
   }
 
   &-tab:hover &-tab-close-btn {

@@ -13,7 +13,7 @@ let headlessGroup = {
 
   // this is a pre-defined style, defined here:
   // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
-  panelClass: 'dock-headless-panel'
+  panelClass: 'dock-panel-headless'
 };
 
 let customStyleGroup = {
@@ -21,7 +21,7 @@ let customStyleGroup = {
   closable: true,
   floatable: true,
   // this is a custom panel style defined in panel-style.html
-  panelClass: 'my-panel'
+  panelClass: 'dock-panel-custom'
 };
 
 let defaultTab = {

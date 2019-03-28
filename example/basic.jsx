@@ -2,27 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
-let fixGroup = {
-  name: 'fixed',
-  floatable: true,
-};
-let closableGroup = {
+let group = {
   name: 'closable',
-  floatable: true,
-  animate: false
+  floatable: true
 };
 
-let fixTab = {
-  content: (
-    <div>Tab Group 1</div>
-  ),
-  group: fixGroup
-};
-
-let closableTab = {
+let tab = {
   content: <div>Tab Group 2</div>,
   closable: true,
-  group: closableGroup
+  group
 };
 
 let box = {
@@ -34,17 +22,17 @@ let box = {
           size: 200,
           children: [
             {
-              tabs: [{...fixTab, id: 't1', title: 'Tab 1'}, {...fixTab, id: 't2', title: 'Tab 2'}],
+              tabs: [{...tab, id: 't1', title: 'Tab 1'}, {...tab, id: 't2', title: 'Tab 2'}],
             },
             {
               tabs: [{
-                ...fixTab, id: 't3', title: 'Min Size', content: (
+                ...tab, id: 't3', title: 'Min Size', content: (
                   <div>
                     <p>This tab has a minimal size</p>
                     200 x 200 px
                   </div>
                 ), minWidth: 200, minHeight: 200,
-              }, {...fixTab, id: 't4', title: 'Tab 4'}],
+              }, {...tab, id: 't4', title: 'Tab 4'}],
             },
           ]
         },
@@ -52,20 +40,20 @@ let box = {
           size: 1000,
           tabs: [
             {
-              ...closableTab, id: 't5', title: 'basic demo', content: (
+              ...tab, id: 't5', title: 'basic demo', content: (
                 <div>
                   This panel won't be removed from layout even when last Tab is closed
                 </div>
               ),
             },
-            {...closableTab, id: 't6', title: 'Tab 6'},
-            {...closableTab, id: 't7', title: 'Tab 7'}
+            {...tab, id: 't6', title: 'Tab 6'},
+            {...tab, id: 't7', title: 'Tab 7'}
           ],
-          panelLock: {panelClass: 'dock-main-locked-panel'},
+          panelLock: {panelClass: 'dock-panel-main-locked'},
         },
         {
           size: 200,
-          tabs: [{...fixTab, id: 't8', title: 'Tab 8'}],
+          tabs: [{...tab, id: 't8', title: 'Tab 8'}],
         },
       ]
     },
@@ -74,8 +62,8 @@ let box = {
       children: [
         {
           tabs: [
-            {...fixTab, id: 't8', title: 'Tab 8', content: <div>Float</div>},
-            {...fixTab, id: 't9', title: 'Tab 9'}
+            {...tab, id: 't8', title: 'Tab 8', content: <div>Float</div>},
+            {...tab, id: 't9', title: 'Tab 9'}
           ],
           x: 300, y: 150, w: 400, h: 300
         }
@@ -96,7 +84,7 @@ class Demo extends React.Component {
         content: <div style={{padding: 20}}>{content}</div>,
         title: content,
         closable: true,
-        group: closableGroup
+        group
       }
     }, e.nativeEvent);
   };

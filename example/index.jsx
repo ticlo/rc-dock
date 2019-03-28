@@ -41,16 +41,17 @@ class App extends React.Component {
     }
     return (
       <div>
-        <h2>rc-dock <small> - dock layout for react component</small></h2>
-        <div className='link-bar'>
-          Examples:
-          {demoPages}
-        </div>
-        <div className='link-bar'>
-          Advanced:
-          {advancePages}
-        </div>
-        <hr/>
+        <nav>
+          <h2>rc-dock</h2>
+          <div className='link-bar'>
+            Examples:<br/>
+            {demoPages}
+          </div>
+          <div className='link-bar'>
+            Advanced:<br/>
+            {advancePages}
+          </div>
+        </nav>
         <iframe src={`./${current}.html`}/>
       </div>
     );

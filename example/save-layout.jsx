@@ -75,7 +75,7 @@ class Demo extends React.Component {
           <button onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
             Save Layout
           </button>
-          <hr/>
+          <div style={{height: 20}}/>
           <button disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
             Load<br/>Saved Layout
           </button>

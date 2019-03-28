@@ -58,7 +58,17 @@ let box = {
     children: [
       {
         size: 100,
-        tabs: [{...defaultTab, id: 't7'}, {...defaultTab, id: 't8'}, {...defaultTab, id: 't9'}],
+        tabs: [{...defaultTab, id: 't7'}, {
+          ...defaultTab, id: 't8', title: (
+            <div className='github-icon'>
+              custom-tab
+            </div>
+          ), content: (
+            <div>
+              Tab title can be any react component
+            </div>
+          )
+        }],
       },
       {
         mode: 'vertical',

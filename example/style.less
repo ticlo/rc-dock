@@ -8,3 +8,48 @@ body {
 .dock-tabpane > div {
   margin: 20px;
 }
+
+.side-panel {
+  width: 150px;
+  position: absolute;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch
+}
+
+button {
+  display: inline-block;
+  margin: 5px;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+
+button:hover {
+  color: #000;
+  background-color: #f8f8f8;
+  border-color: #cbd3da;
+  text-decoration: none;
+}
+
+button:focus, button.focus {
+  outline: 0;
+}
+
+button.disabled, button:disabled {
+  color: #888;
+  background-color: #f8f8f8;
+  border-color: #e9ecef;
+  opacity: 0.65;
+}

@@ -88,24 +88,27 @@ let count = 0;
 
 class Demo extends React.Component {
 
+  onDragNewTab = (e) => {
+    let content = `New Tab ${count++}`;
+    DragStore.dragStart(DockContextType, {
+      tab: {
+        id: content,
+        content: <div style={{padding: 20}}>{content}</div>,
+        title: content,
+        closable: true,
+        group: closableGroup
+      }
+    });
+  };
+
   render() {
     return (
       <div style={{margin: 20}}>
         <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 180, bottom: 10}}/>
-
-        <div className='dragMe' draggable={true} onDragStart={(e) => {
-          let content = `New Tab ${count++}`;
-          DragStore.dragStart(DockContextType, {
-            tab: {
-              id: content,
-              content: <div style={{padding: 20}}>{content}</div>,
-              title: content,
-              closable: true,
-              group: closableGroup
-            }
-          });
-        }}>
-          drag me <br/>to <br/>create new tab
+        <div className='side-panel'>
+          <button draggable={true} onDragStart={this.onDragNewTab}>
+            Drag a new Tab from here
+          </button>
         </div>
       </div>
     );

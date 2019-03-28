@@ -2,36 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-let defaultGroup = {
-  name: 'default',
-  floatable: true
-};
-
-let headlessGroup = {
-  name: 'headless',
-  floatable: true,
-
-  // this is a pre-defined style, defined here:
-  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
-  panelClass: 'dock-panel-headless'
-};
-
-let customStyleGroup = {
-  name: 'custom',
-  closable: true,
-  floatable: true,
-  // this is a custom panel style defined in panel-style.html
-  panelClass: 'dock-panel-custom'
+let groups = {
+  headless: {
+    // the css class for this would be dock-panel-headless
+    // this is a pre-defined style, defined here:
+    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+    floatable: true,
+  },
+  custom: {
+    // the css class for this would be dock-panel-custom
+    // this is a custom panel style defined in panel-style.html
+    closable: true,
+    floatable: true,
+  }
 };
 
 let defaultTab = {
   title: 'default-style',
   content: (
     <div>
-      Default style
+      Tabs from different style group can't be docked in same panel
     </div>
   ),
-  group: defaultGroup
 };
 let headlessTab = {
   title: 'headless',
@@ -41,19 +33,19 @@ let headlessTab = {
       Move mouse near top border to show header.
     </div>
   ),
-  group: headlessGroup
+  group: 'headless'
 };
 let customTab = {
   title: 'custom-style',
   content: (
     <div>
-      <p>Custom style</p>
-      You can mix different styles in same layout, but they can't be docked into same panel.
+      Custom style
     </div>
   ),
-  group: customStyleGroup
+  group: 'custom'
 };
 let box = {
+  groups,
   dockbox: {
     mode: 'horizontal',
     children: [

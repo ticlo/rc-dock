@@ -2,15 +2,14 @@ import { BoxData, DockMode, LayoutData, PanelData, TabData, TabGroup } from "./D
 interface DefaultLayoutCache {
     panels: Map<string | number, PanelData>;
     tabs: Map<string, TabData>;
-    groups: Map<string, TabGroup>;
 }
 interface SavedTab {
     id: string;
-    groupName: string;
+    group: string;
 }
 interface SavedPanel {
     id: string | number;
-    groupName: string;
+    group: string;
     size: number;
     tabs: SavedTab[];
     activeId: string;

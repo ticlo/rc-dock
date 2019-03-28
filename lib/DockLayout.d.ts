@@ -1,8 +1,8 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData } from "./DockData";
+import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup } from "./DockData";
 import * as Serializer from "./Serializer";
 interface LayoutProps {
-    defaultLayout: LayoutData | BoxData;
+    defaultLayout: DefaultLayout;
     style?: CSSProperties;
 }
 interface LayoutState {
@@ -23,8 +23,12 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     _ref: HTMLDivElement;
     /** @ignore */
     getRef: (r: HTMLDivElement) => void;
+    _groups: {
+        [key: string]: TabGroup;
+    };
     /** @ignore */
-    prepareInitData(data: LayoutData | BoxData): LayoutData;
+    prepareInitData(data: DefaultLayout): LayoutData;
+    getGroup(name: string): TabGroup;
     dockMove(source: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     constructor(props: LayoutProps);
     /** @ignore */

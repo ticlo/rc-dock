@@ -1,5 +1,23 @@
 import React from 'react';
 
+export interface TabGroup {
+  floatable?: boolean;
+  multiTabs?: boolean;
+  // when tabs are locked, you can only drag the whole panel
+  tabLocked?: boolean;
+  animated?: boolean;
+}
+
+export const defaultGroup: TabGroup = {
+  floatable: true,
+};
+
+export const placeHolderStyle = 'place-holder';
+export const placeHolderGroup: TabGroup = {
+  floatable: false,
+};
+
+
 interface DockDataBase {
   minWidth?: number;
   minHeight?: number;
@@ -15,25 +33,13 @@ export interface BoxData extends DockDataBase {
   children: (BoxData | PanelData)[];
 }
 
-
-export interface TabGroup {
-  name?: string;
-  floatable?: boolean;
-  multiTabs?: boolean;
-  // when tabs are locked, you can only drag the whole panel
-  tabLocked?: boolean;
-  /** @ignore */
-  panelClass?: string;
-  animated?: boolean;
-}
-
 export interface TabData extends DockDataBase {
   id?: string;
   parent?: PanelData;
   title: React.ReactChild;
   content: React.ReactElement | (() => React.ReactElement);
   closable?: boolean;
-  group: TabGroup;
+  group: string;
 
   cached?: boolean;
   cacheContext?: React.Context<any>;
@@ -41,7 +47,7 @@ export interface TabData extends DockDataBase {
 
 interface PanelLock {
   // override the class from TabGroup.name
-  panelClass?: string;
+  panelStyle?: string;
   animated?: boolean; // TODO
 }
 
@@ -50,7 +56,7 @@ export interface PanelData extends DockDataBase {
   parent?: BoxData;
   activeId?: string;
   tabs: TabData[];
-  group: TabGroup;
+  group: string;
 
   // docked only
   size?: number;
@@ -69,6 +75,10 @@ export interface LayoutData {
   floatbox?: BoxData;
 }
 
+export interface DefaultLayout extends LayoutData {
+  groups?: {[key: string]: TabGroup};
+}
+
 export type DropDirection =
   'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 
@@ -77,6 +87,8 @@ export interface DockContext {
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
 
   dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
+
+  getGroup(name: string): TabGroup;
 
   /** @ignore */
   nextFloatZIndex(current: number): number;

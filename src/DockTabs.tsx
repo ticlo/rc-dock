@@ -50,7 +50,7 @@ export class TabCache {
   };
   onDragOver = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
+    if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
       this.context.setDropRect(this._hitAreaRef, direction, this);
       e.dataTransfer.dropEffect = 'move';
@@ -63,7 +63,7 @@ export class TabCache {
   };
   onDrop = (e: React.DragEvent) => {
     let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
+    if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
       this.context.dockMove(tab, this.data, direction);
     }
@@ -77,7 +77,8 @@ export class TabCache {
 
   render(): React.ReactElement {
     let {id, title, group, content, closable, cached, cacheContext} = this.data;
-    let {tabLocked} = group;
+    let tabGroup = this.context.getGroup(group);
+    let {tabLocked} = tabGroup;
     if (typeof content === 'function') {
       content = content();
     }
@@ -180,7 +181,8 @@ export class DockTabs extends React.Component<Props, any> {
   );
   renderTabContent = () => {
     let {group} = this.props.panelData;
-    let {animated} = group;
+    let tabGroup = this.context.getGroup(group);
+    let {animated} = tabGroup;
     return <TabContent animated={animated}/>;
   };
 

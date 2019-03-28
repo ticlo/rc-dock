@@ -1,20 +1,18 @@
 import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData, TabGroup} from "./DockData";
-import {placeHolderGroup} from "./Algorithm";
 
 interface DefaultLayoutCache {
   panels: Map<string | number, PanelData>;
   tabs: Map<string, TabData>;
-  groups: Map<string, TabGroup>;
 }
 
 interface SavedTab {
   id: string;
-  groupName: string;
+  group: string;
 }
 
 interface SavedPanel {
   id: string | number;
-  groupName: string;
+  group: string;
   size: number;
   tabs: SavedTab[];
   activeId: string;
@@ -41,10 +39,6 @@ export interface SavedLayout {
 
 function addPanelToCache(panelData: PanelData, cache: DefaultLayoutCache) {
   cache.panels.set(panelData.id, panelData);
-  let group = panelData.group;
-  if (!cache.groups.has(group.name)) {
-    cache.groups.set(group.name, group);
-  }
   for (let tab of panelData.tabs) {
     cache.tabs.set(tab.id, tab);
   }
@@ -64,7 +58,6 @@ export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultL
   let cache: DefaultLayoutCache = {
     panels: new Map(),
     tabs: new Map(),
-    groups: new Map()
   };
   if ('children' in defaultLayout) {
     // BoxData
@@ -101,7 +94,7 @@ export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}):
   const {modifySavedTab, modifySavedPanel} = modifier;
 
   function saveTab(tabData: TabData): SavedTab {
-    let savedTab: SavedTab = {id: tabData.id, groupName: tabData.group.name};
+    let savedTab: SavedTab = {id: tabData.id, group: tabData.group};
     if (modifySavedTab) {
       modifySavedTab(savedTab, tabData);
     }
@@ -117,9 +110,9 @@ export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}):
     let savedPanel: SavedPanel;
     if (panelData.parent.mode === 'float') {
       let {x, y, z, w, h} = panelData;
-      savedPanel = {id, size, tabs, activeId, groupName: group.name, x, y, z, w, h};
+      savedPanel = {id, size, tabs, activeId, group, x, y, z, w, h};
     } else {
-      savedPanel = {id, size, tabs, activeId, groupName: group.name};
+      savedPanel = {id, size, tabs, activeId, group};
     }
     if (modifySavedPanel) {
       modifySavedPanel(savedPanel, panelData);
@@ -155,20 +148,6 @@ export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutDa
 
   let cache = createLayoutCache(defaultLayout);
 
-  function loadTabGroup(groupName: string): TabGroup {
-    if (groupName === placeHolderGroup.name) {
-      return placeHolderGroup;
-    }
-    let group: TabGroup;
-    if (loadGroup) {
-      group = loadGroup(groupName);
-    }
-    if (!group) {
-      group = cache.groups.get(groupName);
-    }
-    return group;
-  }
-
   function loadTabData(savedTab: SavedTab): TabData {
     if (loadTab) {
       return loadTab(savedTab);
@@ -181,7 +160,7 @@ export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutDa
   }
 
   function loadPanelData(savedPanel: SavedPanel): PanelData {
-    let {id, groupName, size, activeId, x, y, z, w, h} = savedPanel;
+    let {id, group, size, activeId, x, y, z, w, h} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -192,9 +171,9 @@ export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutDa
     }
     let panelData: PanelData;
     if (w || h || x || y || z) {
-      panelData = {id, size, activeId, x, y, z, w, h, tabs, group: loadTabGroup(groupName)};
+      panelData = {id, size, activeId, x, y, z, w, h, tabs, group};
     } else {
-      panelData = {id, size, activeId, tabs, group: loadTabGroup(groupName)};
+      panelData = {id, size, activeId, tabs, group};
     }
     if (modifyLoadedPanel) {
       modifyLoadedPanel(panelData, savedPanel);

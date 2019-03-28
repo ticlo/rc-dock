@@ -2,15 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
-let group = {
-  name: 'closable',
-  floatable: true
-};
-
 let tab = {
   content: <div>Tab Group 2</div>,
   closable: true,
-  group
 };
 
 let box = {
@@ -84,7 +78,6 @@ class Demo extends React.Component {
         content: <div style={{padding: 20}}>{content}</div>,
         title: content,
         closable: true,
-        group
       }
     }, e.nativeEvent);
   };

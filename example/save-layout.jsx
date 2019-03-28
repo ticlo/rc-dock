@@ -2,17 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-let group = {
-  name: 'default',
-  floatable: true
-};
-
-let tab1 = {id: 't1', title: 'Tab 1', content: <div>Tab 1</div>, group};
-let tab2 = {id: 't2', title: 'Tab 2', content: <div>Tab 2</div>, group};
-let tab3 = {id: 't3', title: 'Tab 3', content: <div>Tab 3</div>, group};
-let tab4 = {id: 't4', title: 'Tab 4', content: <div>Tab 4</div>, group};
-let tab5 = {id: 't5', title: 'Tab 5', content: <div>Tab 5</div>, group};
-let tab6 = {id: 't6', title: 'Tab 6', content: <div>Tab 6</div>, group};
+let tab1 = {id: 't1', title: 'Tab 1', content: <div>Tab 1</div>};
+let tab2 = {id: 't2', title: 'Tab 2', content: <div>Tab 2</div>};
+let tab3 = {id: 't3', title: 'Tab 3', content: <div>Tab 3</div>};
+let tab4 = {id: 't4', title: 'Tab 4', content: <div>Tab 4</div>};
+let tab5 = {id: 't5', title: 'Tab 5', content: <div>Tab 5</div>};
+let tab6 = {id: 't6', title: 'Tab 6', content: <div>Tab 6</div>};
 
 let defaultLayout = {
   dockbox: {

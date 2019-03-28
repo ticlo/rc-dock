@@ -2,20 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-let group = {
-  floatable: true
-};
-
 let cachedTab = {
   title: 'cached',
   cached: true,  // cached = true allows the component to keep its internal state when dragged around
   content: (
     <div>
-      <p>cached = true<br/>this input will keep its state when dragged around</p>
+      <p>cached = true</p>
+      <p>React component in this tab will keep its internal state when dragged around</p>
       <input/>
     </div>
   ),
-  group
 };
 let nocachedTab = {
   title: 'lose state',
@@ -25,7 +21,6 @@ let nocachedTab = {
       <input/>
     </div>
   ),
-  group
 };
 let box = {
   dockbox: {

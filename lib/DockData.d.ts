@@ -1,4 +1,13 @@
 import React from 'react';
+export interface TabGroup {
+    floatable?: boolean;
+    multiTabs?: boolean;
+    tabLocked?: boolean;
+    animated?: boolean;
+}
+export declare const defaultGroup: TabGroup;
+export declare const placeHolderStyle = "place-holder";
+export declare const placeHolderGroup: TabGroup;
 interface DockDataBase {
     minWidth?: number;
     minHeight?: number;
@@ -11,27 +20,18 @@ export interface BoxData extends DockDataBase {
     mode?: DockMode;
     children: (BoxData | PanelData)[];
 }
-export interface TabGroup {
-    name?: string;
-    floatable?: boolean;
-    multiTabs?: boolean;
-    tabLocked?: boolean;
-    /** @ignore */
-    panelClass?: string;
-    animated?: boolean;
-}
 export interface TabData extends DockDataBase {
     id?: string;
     parent?: PanelData;
     title: React.ReactChild;
     content: React.ReactElement | (() => React.ReactElement);
     closable?: boolean;
-    group: TabGroup;
+    group: string;
     cached?: boolean;
     cacheContext?: React.Context<any>;
 }
 interface PanelLock {
-    panelClass?: string;
+    panelStyle?: string;
     animated?: boolean;
 }
 export interface PanelData extends DockDataBase {
@@ -39,7 +39,7 @@ export interface PanelData extends DockDataBase {
     parent?: BoxData;
     activeId?: string;
     tabs: TabData[];
-    group: TabGroup;
+    group: string;
     size?: number;
     panelLock?: PanelLock;
     x?: number;
@@ -52,11 +52,17 @@ export interface LayoutData {
     dockbox?: BoxData;
     floatbox?: BoxData;
 }
+export interface DefaultLayout extends LayoutData {
+    groups?: {
+        [key: string]: TabGroup;
+    };
+}
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 export interface DockContext {
     /** @ignore */
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
     dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
+    getGroup(name: string): TabGroup;
     /** @ignore */
     nextFloatZIndex(current: number): number;
 }

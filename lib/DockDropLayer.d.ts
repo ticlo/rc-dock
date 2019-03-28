@@ -27,6 +27,8 @@ interface DockDropLayerProps {
     dropFromPanel: PanelData;
 }
 export declare class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> {
+    static contextType: React.Context<DockContext>;
+    context: DockContext;
     static addDepthSquare(children: React.ReactNode[], mode: DockMode, panelData: PanelData, panelElement: HTMLElement, depth?: number): void;
     render(): React.ReactNode;
 }

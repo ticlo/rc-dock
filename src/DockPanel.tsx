@@ -121,12 +121,18 @@ export class DockPanel extends React.PureComponent<Props, State> {
   render(): React.ReactNode {
     let {dropFromPanel} = this.state;
     let {panelData, size} = this.props;
-    let {minWidth, minHeight, group, id, parent, panelLock} = panelData;
-    let {panelClass} = group;
+    let {minWidth, minHeight, group: panelStyle, id, parent, panelLock} = panelData;
     if (panelLock) {
-      if (panelLock.panelClass) {
-        panelClass = panelLock.panelClass;
+      if (panelLock.panelStyle) {
+        panelStyle = panelLock.panelStyle;
       }
+    }
+    let panelClass: string;
+    if (panelStyle) {
+      panelClass = panelStyle
+        .split(' ')
+        .map((name) => `dock-panel-${name}`)
+        .join(' ');
     }
 
     let isFloat = parent && parent.mode === 'float';

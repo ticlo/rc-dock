@@ -1,12 +1,14 @@
-import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData, TabGroup} from "./DockData";
-
-
-export const placeHolderGroup: TabGroup = {
-  /** used by serialization */
-  name: 'place-holder',
-  panelClass: 'dock-panel-place-holder',
-  floatable: false,
-};
+import {
+  BoxData,
+  DockMode,
+  DropDirection,
+  LayoutData,
+  nextId,
+  PanelData,
+  placeHolderStyle,
+  TabData,
+  TabGroup
+} from "./DockData";
 
 let _watchObjectChange: WeakMap<any, any> = new WeakMap();
 
@@ -249,7 +251,7 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
   if (layout.dockbox.children.length === 0) {
-    let newPanel: PanelData = {id: '+0', group: placeHolderGroup, panelLock: {}, size: 200, tabs: []};
+    let newPanel: PanelData = {id: '+0', group: placeHolderStyle, panelLock: {}, size: 200, tabs: []};
     newPanel.parent = layout.dockbox;
     layout.dockbox.children.push(newPanel);
   } else {
@@ -341,7 +343,7 @@ function fixBoxData(box: BoxData): BoxData {
         if (!child.panelLock) {
           box.children.splice(i, 1);
           --i;
-        } else if (child.group === placeHolderGroup && (box.children.length > 1 || box.parent)) {
+        } else if (child.group === placeHolderStyle && (box.children.length > 1 || box.parent)) {
           // remove placeHolder Group
           box.children.splice(i, 1);
           --i;

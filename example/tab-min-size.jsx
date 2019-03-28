@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-let group = {
-  floatable: true
-};
+
 let minSizeTab400 = {
   title: 'min size 400',
   minWidth: 400,
@@ -15,7 +13,6 @@ let minSizeTab400 = {
         400 x 400 px</p>
     </div>
   ),
-  group
 };
 let minSizeTab300 = {
   title: 'min size 300',
@@ -27,7 +24,6 @@ let minSizeTab300 = {
         300 x 300 px</p>
     </div>
   ),
-  group
 };
 let minSizeTab200 = {
   title: 'min size 200',
@@ -39,14 +35,12 @@ let minSizeTab200 = {
         200 x 200 px</p>
     </div>
   ),
-  group
 };
 let tab = {
   title: 'normal',
   content: (
     <div/>
   ),
-  group
 };
 let box = {
   dockbox: {
@@ -63,7 +57,6 @@ let box = {
           }
         ]
       },
-
       {
         tabs: [{...minSizeTab400, id: 'id3'}, {...tab, id: 'id4'}],
       },

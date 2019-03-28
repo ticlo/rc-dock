@@ -7,7 +7,7 @@ import {
   nextId,
   DockContext,
   DropDirection,
-  TabData
+  TabData, DefaultLayout, TabGroup, placeHolderStyle, placeHolderGroup, defaultGroup
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -16,7 +16,7 @@ import * as Algorithm from "./Algorithm";
 import * as Serializer from "./Serializer";
 
 interface LayoutProps {
-  defaultLayout: LayoutData | BoxData;
+  defaultLayout: DefaultLayout;
   style?: CSSProperties;
 }
 
@@ -34,18 +34,29 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     this._ref = r;
   };
 
+  _groups: {[key: string]: TabGroup} = {};
+
   /** @ignore */
-  prepareInitData(data: LayoutData | BoxData): LayoutData {
-    let layout: LayoutData;
-    if ('dockbox' in data || 'floatbox' in data) {
-      layout = data;
-    } else if ('children' in data) {
-      layout = {
-        dockbox: data
-      };
+  prepareInitData(data: DefaultLayout): LayoutData {
+    let layout = {...data};
+
+    // add groups
+    if ('groups' in data) {
+      for (let name in data.groups) {
+        this._groups[name] = {...data.groups[name]};
+      }
     }
+    this._groups[placeHolderStyle] = placeHolderGroup;
+
     Algorithm.fixLayoutData(layout);
     return layout;
+  }
+
+  getGroup(name: string) {
+    if (name in this._groups) {
+      return this._groups[name];
+    }
+    return defaultGroup;
   }
 
   dockMove(source: TabData, target: TabData | PanelData | BoxData, direction: DropDirection) {

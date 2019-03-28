@@ -5,13 +5,13 @@ import {Divider} from '../lib';
 let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
 let advance = ['standalone-divider'];
 
-let current = window.location.hash.substr(1);
-if (!(demos.includes(current) || advance.includes(current))) {
-  current = 'basic';
+let defaultPage = window.location.hash.substr(1);
+if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {
+  defaultPage = 'basic';
 }
 
 class App extends React.Component {
-  state = {current};
+  state = {current: defaultPage};
 
   render() {
     let {current} = this.state;

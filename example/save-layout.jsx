@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
 let group = {
+  name: 'default',
   floatable: true
 };
 
@@ -70,15 +71,20 @@ class Demo extends React.Component {
       <div>
         <DockLayout ref={this.getRef} defaultLayout={defaultLayout}
                     style={{position: 'absolute', left: 10, top: 10, right: 180, bottom: 10}}/>
-        <div style={{width: 150, position: 'absolute', right: 20}}>
-          <div onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
+        <div className='side-panel'>
+          <button onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
             Save Layout
-          </div>
-          <div onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
-            Load Saved Layout
-          </div>
-          <div>Load Horizontal</div>
-          <div>Load Single Panel</div>
+          </button>
+          <hr/>
+          <button disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
+            Load<br/>Saved Layout
+          </button>
+          <button onClick={() => this.dockLayout.loadLayout(horizontalLayout)}>
+            Load<br/>Horizontal
+          </button>
+          <button onClick={() => this.dockLayout.loadLayout(panelLayout)}>
+            Load<br/>Single Panel
+          </button>
         </div>
       </div>
     );

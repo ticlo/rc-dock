@@ -97,7 +97,7 @@ export interface LoadModifier {
 }
 
 
-export function saveLayout(layout: LayoutData, modifier: SaveModifier = {}): SavedLayout {
+export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}): SavedLayout {
   const {modifySavedTab, modifySavedPanel} = modifier;
 
   function saveTab(tabData: TabData): SavedTab {
@@ -146,8 +146,12 @@ export function saveLayout(layout: LayoutData, modifier: SaveModifier = {}): Sav
   };
 }
 
-export function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier: LoadModifier = {}): LayoutData {
+export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier: LoadModifier = {}): LayoutData {
   const {loadTab, loadGroup, modifyLoadedPanel} = modifier;
+
+  if (!savedLayout.floatbox) {
+    savedLayout.floatbox = {mode: 'float', children: [], size: 0} as SavedBox;
+  }
 
   let cache = createLayoutCache(defaultLayout);
 
@@ -161,10 +165,6 @@ export function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData |
     }
     if (!group) {
       group = cache.groups.get(groupName);
-    }
-    if (!group) {
-      console.log(`loadLayout, unknown groupName: ${groupName}`);
-      return {};
     }
     return group;
   }
@@ -187,10 +187,15 @@ export function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData |
     for (let savedTab of savedPanel.tabs) {
       let tabData = loadTabData(savedTab);
       if (tabData) {
-        tabs.push();
+        tabs.push(tabData);
       }
     }
-    let panelData: PanelData = {id, size, activeId, x, y, z, w, h, tabs, group: loadTabGroup(groupName)};
+    let panelData: PanelData;
+    if (w || h || x || y || z) {
+      panelData = {id, size, activeId, x, y, z, w, h, tabs, group: loadTabGroup(groupName)};
+    } else {
+      panelData = {id, size, activeId, tabs, group: loadTabGroup(groupName)};
+    }
     if (modifyLoadedPanel) {
       modifyLoadedPanel(panelData, savedPanel);
     } else if (cache.panels.has(id)) {

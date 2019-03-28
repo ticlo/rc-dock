@@ -209,11 +209,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   // public api
 
   saveLayout(modifier?: Serializer.SaveModifier): Serializer.SavedLayout {
-    return Serializer.saveLayout(this.state.layout, modifier);
+    return Serializer.saveLayoutData(this.state.layout, modifier);
   }
 
   loadLayout(savedLayout: Serializer.SavedLayout, modifier?: Serializer.LoadModifier) {
-    let layout = Serializer.loadLayout(savedLayout, this.props.defaultLayout, modifier);
+    let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});
   }

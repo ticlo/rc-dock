@@ -40,6 +40,6 @@ export interface LoadModifier {
     loadTab?(savedTab: SavedTab): TabData;
     loadGroup?(groupName: string): TabGroup;
 }
-export declare function saveLayout(layout: LayoutData, modifier?: SaveModifier): SavedLayout;
-export declare function loadLayout(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier?: LoadModifier): LayoutData;
+export declare function saveLayoutData(layout: LayoutData, modifier?: SaveModifier): SavedLayout;
+export declare function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier?: LoadModifier): LayoutData;
 export {};

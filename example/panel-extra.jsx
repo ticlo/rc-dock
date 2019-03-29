@@ -6,8 +6,10 @@ let group = {
   floatable: true,
   closable: true,
   panelExtra: (panelData, context) => (
-    <div className='dock-tab-close-btn my-panel-close-btn'
-         onClick={() => context.dockMove(panelData, null, 'remove')}/>
+    <div className='my-panel-close-btn'
+         onClick={() => context.dockMove(panelData, null, 'remove')}>
+      X
+    </div>
   )
 };
 
@@ -46,8 +48,8 @@ let box = {
       },
     ]
   },
-  'close-all': {
-    closePanelBtn: group,
+  groups: {
+    'close-all': group
   }
 };
 

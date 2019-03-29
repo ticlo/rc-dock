@@ -131,7 +131,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (panelStyle) {
       panelClass = panelStyle
         .split(' ')
-        .map((name) => `dock-panel-${name}`)
+        .map((name) => `dock-style-${name}`)
         .join(' ');
     }
 

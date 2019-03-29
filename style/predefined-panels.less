@@ -1,6 +1,15 @@
+
+.dock-panel.dock-style-place-holder {
+  border: none;
+
+  & .dock-bar {
+    display: none;
+  }
+}
+
 // dock-headless-panel
 .dock-layout > :not(.dock-fbox) {
-  & .dock-panel.dock-panel-headless {
+  & .dock-panel.dock-style-headless {
     border: none;
 
     & .dock-bar {
@@ -19,7 +28,7 @@
   }
 }
 
-.dock-panel.dock-panel-main-locked {
+.dock-panel.dock-style-main {
   border: none;
 
   .dock-bar {
@@ -31,3 +40,5 @@
     background: #fff;
   }
 }
+
+

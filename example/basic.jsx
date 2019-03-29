@@ -43,7 +43,7 @@ let box = {
             {...tab, id: 't6', title: 'Tab 6'},
             {...tab, id: 't7', title: 'Tab 7'}
           ],
-          panelLock: {panelClass: 'dock-panel-main-locked'},
+          panelLock: {panelStyle: 'main'},
         },
         {
           size: 200,

@@ -1,11 +1,10 @@
 language: node_js
 node_js:
   - "10"
-addons:
-  chrome: stable
 cache:
   yarn: true
 script:
+  - git.exe clone -v --depth 1 https://github.com/ticlo/rc-dock.git ./www
   - yarn build-example
 deploy:
   provider: pages

@@ -17,6 +17,7 @@ let tab = {
   title: 'Tab',
   content: (
     <div>
+      <p>Custom component can be added to panel's title bar.</p>
       <p>This panel has a close all button</p>
     </div>),
   group: 'close-all'

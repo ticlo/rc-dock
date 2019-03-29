@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "10"
+addons:
+  chrome: stable
+cache:
+  yarn: true
+script:
+  - yarn build-example
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: www
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  on:
+    branch: master

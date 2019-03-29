@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Divider} from '../lib';
 
 let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
-let advance = ['standalone-divider'];
+let advance = ['panel-extra', 'standalone-divider'];
 
 let defaultPage = window.location.hash.substr(1);
 if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {

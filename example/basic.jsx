@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
 let tab = {
-  content: <div>Tab Group 2</div>,
+  content: <div>Tab Content</div>,
   closable: true,
 };
 

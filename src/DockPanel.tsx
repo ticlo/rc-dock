@@ -61,6 +61,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   }
 
+  // used both by dragging head and corner
   _movingX: number;
   _movingY: number;
   // drop to move in float mode
@@ -92,18 +93,61 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   _movingW: number;
   _movingH: number;
-  onPanelCornerDrag = (event: PointerEvent, initFunction: DragInitFunction) => {
-    let {parent, w, h} = this.props.panelData;
+  _movingCorner: string;
+  onPanelCornerDragTL = (event: PointerEvent, initFunction: DragInitFunction) => {
+    this.onPanelCornerDrag(event, initFunction, 'tl');
+  };
+  onPanelCornerDragTR = (event: PointerEvent, initFunction: DragInitFunction) => {
+    this.onPanelCornerDrag(event, initFunction, 'tr');
+  };
+  onPanelCornerDragBL = (event: PointerEvent, initFunction: DragInitFunction) => {
+    this.onPanelCornerDrag(event, initFunction, 'bl');
+  };
+  onPanelCornerDragBR = (event: PointerEvent, initFunction: DragInitFunction) => {
+    this.onPanelCornerDrag(event, initFunction, 'br');
+  };
+
+  onPanelCornerDrag(event: PointerEvent, initFunction: DragInitFunction, corner: string) {
+    let {parent, x, y, w, h} = this.props.panelData;
     if (parent && parent.mode === 'float') {
+      this._movingCorner = corner;
+      this._movingX = x;
+      this._movingY = y;
       this._movingW = w;
       this._movingH = h;
       initFunction(this._ref, this.onPanelCornerDragMove);
     }
-  };
+  }
+
   onPanelCornerDragMove = (e: AbstractPointerEvent, dx: number, dy: number) => {
     let {panelData} = this.props;
-    panelData.w = this._movingW + dx;
-    panelData.h = this._movingH + dy;
+    switch (this._movingCorner) {
+      case 'tl': {
+        panelData.x = this._movingX + dx;
+        panelData.w = this._movingW - dx;
+        panelData.y = this._movingY + dy;
+        panelData.h = this._movingH - dy;
+        break;
+      }
+      case 'tr': {
+        panelData.w = this._movingW + dx;
+        panelData.y = this._movingY + dy;
+        panelData.h = this._movingH - dy;
+        break;
+      }
+      case 'bl': {
+        panelData.x = this._movingX + dx;
+        panelData.w = this._movingW - dx;
+        panelData.h = this._movingH + dy;
+        break;
+      }
+      case 'br': {
+        panelData.w = this._movingW + dx;
+        panelData.h = this._movingH + dy;
+        break;
+      }
+    }
+
     this.forceUpdate();
   };
 
@@ -168,7 +212,16 @@ export class DockPanel extends React.PureComponent<Props, State> {
         <DockTabs panelData={panelData} onPanelHeaderDragInit={onPanelHeaderDragInit}
                   onPanelHeaderHtmlDrag={onPanelHeaderHtmlDrag}/>
         {isFloat ?
-          <DragInitiator className='dock-panel-drag-size' onDragInit={this.onPanelCornerDrag}/>
+          [
+            <DragInitiator key='drag-size-t-l' className='dock-panel-drag-size dock-panel-drag-size-t-l'
+                           onDragInit={this.onPanelCornerDragTL}/>,
+            <DragInitiator key='drag-size-t-r' className='dock-panel-drag-size dock-panel-drag-size-t-r'
+                           onDragInit={this.onPanelCornerDragTR}/>,
+            <DragInitiator key='drag-size-b-l' className='dock-panel-drag-size dock-panel-drag-size-b-l'
+                           onDragInit={this.onPanelCornerDragBL}/>,
+            <DragInitiator key='drag-size-b-r' className='dock-panel-drag-size dock-panel-drag-size-b-r'
+                           onDragInit={this.onPanelCornerDragBR}/>
+          ]
           : null
         }
         {droppingLayer}

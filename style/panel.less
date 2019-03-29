@@ -11,9 +11,33 @@
 
   &-drag-size {
     position: absolute;
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"%3E%3Cpath fill="rgba(0,0,0,0.1)" d="M2 12 L12 2 L12 12z"/%3E%3C/svg%3E');
+    width: 8px;
+    height: 8px;
+    z-index: 300;
+  }
+
+  &-drag-size-t-l {
+    top: -1px;
+    left: -1px;
+    cursor: nwse-resize;
+  }
+
+  &-drag-size-t-r {
+    top: -1px;
     right: -1px;
+    cursor: nesw-resize;
+  }
+
+  &-drag-size-b-l {
     bottom: -1px;
+    left: -1px;
+    cursor: nesw-resize;
+  }
+
+  &-drag-size-b-r {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"%3E%3Cpath fill="rgba(0,0,0,0.1)" d="M2 12 L12 2 L12 12z"/%3E%3C/svg%3E');
+    bottom: -1px;
+    right: -1px;
     width: 14px;
     height: 14px;
     cursor: nwse-resize;

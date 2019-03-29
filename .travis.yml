@@ -4,7 +4,7 @@ node_js:
 cache:
   yarn: true
 script:
-  - git.exe clone -v --depth 1 https://github.com/ticlo/rc-dock.git ./www
+  - git clone -v --depth 1 https://github.com/ticlo/rc-dock.git ./www
   - yarn build-example
 deploy:
   provider: pages

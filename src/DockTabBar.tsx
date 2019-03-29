@@ -16,7 +16,7 @@ interface TabBarRootNodeProps {
   onHtmlDrag?: React.DragEventHandler;
 }
 
-export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
+class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
   render() {
     const {
       onKeyDown, extraContent, style, children, onDragMoveInit, onHtmlDrag,
@@ -59,16 +59,18 @@ export class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps,
 interface DockTabBarProps {
   onDragMoveInit?: DragInitHandler;
   onHtmlDrag?: React.DragEventHandler;
+  extraContent?: React.ReactElement;
 }
 
 export class DockTabBar extends React.PureComponent<DockTabBarProps, any> {
   render() {
-    const {children: renderTabBarNode, onDragMoveInit, onHtmlDrag, ...restProps} = this.props;
+    const {children: renderTabBarNode, onDragMoveInit, onHtmlDrag, extraContent, ...restProps} = this.props;
 
     return (
       <SaveRef>
         {(saveRef: Function, getRef: Function) => (
-          <DockTabBarRootNode saveRef={saveRef} onDragMoveInit={onDragMoveInit} onHtmlDrag={onHtmlDrag} {...restProps}>
+          <DockTabBarRootNode saveRef={saveRef} onDragMoveInit={onDragMoveInit} onHtmlDrag={onHtmlDrag}
+                              extraContent={extraContent} {...restProps}>
             <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...restProps}>
               <TabBarTabsNode saveRef={saveRef} renderTabBarNode={renderTabBarNode} {...restProps} />
               <InkTabBarNode saveRef={saveRef} getRef={getRef} {...restProps} />

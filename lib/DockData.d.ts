@@ -4,6 +4,7 @@ export interface TabGroup {
     multiTabs?: boolean;
     tabLocked?: boolean;
     animated?: boolean;
+    panelExtra?: (panel: PanelData) => React.ReactElement;
 }
 export declare const defaultGroup: TabGroup;
 export declare const placeHolderStyle = "place-holder";
@@ -32,7 +33,7 @@ export interface TabData extends DockDataBase {
 }
 interface PanelLock {
     panelStyle?: string;
-    animated?: boolean;
+    panelExtra?: (panel: PanelData) => React.ReactElement;
 }
 export interface PanelData extends DockDataBase {
     id?: string | number;

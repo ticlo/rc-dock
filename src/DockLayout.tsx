@@ -186,8 +186,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       return current;
     }
     // if (this._zCount >= Number.MAX_SAFE_INTEGER) {
-    //   is it a bug here when this is commented out?
-    //   No !!
+    //   is it a bug here? No !
     // }
     return ++this._zCount;
   }

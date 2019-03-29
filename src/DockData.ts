@@ -6,6 +6,7 @@ export interface TabGroup {
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
   animated?: boolean;
+  panelExtra?: (panel: PanelData) => React.ReactElement;
 }
 
 export const defaultGroup: TabGroup = {
@@ -46,9 +47,10 @@ export interface TabData extends DockDataBase {
 }
 
 interface PanelLock {
-  // override the class from TabGroup.name
+  // override the default style from TabGroup.name
   panelStyle?: string;
-  animated?: boolean; // TODO
+  // override the default element from TabGroup.panelExtra
+  panelExtra?: (panel: PanelData) => React.ReactElement;
 }
 
 export interface PanelData extends DockDataBase {

@@ -85,7 +85,8 @@ export class TabCache {
     let tab = (
       <div ref={this.getRef}>
         {title}
-        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked} onDragStart={this.onDragStart}
+        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked}
+             onDragStart={this.onDragStart}
              onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
           {closable ?
             <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>
@@ -112,7 +113,7 @@ export class TabCache {
   }
 
   destroy() {
-
+    // place holder
   }
 }
 
@@ -176,9 +177,28 @@ export class DockTabs extends React.Component<Props, any> {
     return !compareKeys(this.props, nextProps, DockTabs.propKeys);
   }
 
-  renderTabBar = () => (
-    <DockTabBar onDragMoveInit={this.props.onPanelHeaderDragInit} onHtmlDrag={this.props.onPanelHeaderHtmlDrag}/>
-  );
+  renderTabBar = () => {
+    let {panelData} = this.props;
+    let {group: groupName, panelLock} = panelData;
+    let group = this.context.getGroup(groupName);
+    let {panelExtra} = group;
+
+    if (panelLock) {
+      if (panelLock.panelExtra) {
+        panelExtra = panelLock.panelExtra;
+      }
+    }
+
+    let panelExtraContent: React.ReactElement;
+    if (panelExtra) {
+      panelExtraContent = panelExtra(panelData);
+    }
+    return (
+      <DockTabBar extraContent={panelExtraContent}
+                  onDragMoveInit={this.props.onPanelHeaderDragInit} onHtmlDrag={this.props.onPanelHeaderHtmlDrag}/>
+    );
+  };
+
   renderTabContent = () => {
     let {group} = this.props.panelData;
     let tabGroup = this.context.getGroup(group);

@@ -23,9 +23,9 @@ let box = {
                 ...tab, id: 't3', title: 'Min Size', content: (
                   <div>
                     <p>This tab has a minimal size</p>
-                    200 x 200 px
+                    100 x 100 px
                   </div>
-                ), minWidth: 200, minHeight: 200,
+                ), minWidth: 100, minHeight: 100,
               }, {...tab, id: 't4', title: 'Tab 4'}],
             },
           ]

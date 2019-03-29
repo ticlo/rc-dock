@@ -2,46 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
+function getTab(width, height) {
+  let title = `size ${width}x${height}`;
+  return {
+    id: title,
+    title,
+    minWidth: width,
+    minHeight: height,
+    content: (
+      <div>
+        <p>This tab has a minimal size.<br/>
+          {width} x {height} px</p>
+      </div>
+    ),
+  }
+}
 
-let minSizeTab400 = {
-  title: 'min size 400',
-  minWidth: 400,
-  minHeight: 400,
-  content: (
-    <div>
-      <p>This tab has a minimal size.<br/>
-        400 x 400 px</p>
-    </div>
-  ),
-};
-let minSizeTab300 = {
-  title: 'min size 300',
-  minWidth: 300,
-  minHeight: 300,
-  content: (
-    <div>
-      <p>This tab has a minimal size.<br/>
-        300 x 300 px</p>
-    </div>
-  ),
-};
-let minSizeTab200 = {
-  title: 'min size 200',
-  minWidth: 200,
-  minHeight: 200,
-  content: (
-    <div>
-      <p>This tab has a minimal size.<br/>
-        200 x 200 px</p>
-    </div>
-  ),
-};
-let tab = {
-  title: 'normal',
-  content: (
-    <div/>
-  ),
-};
 let box = {
   dockbox: {
     mode: 'horizontal',
@@ -50,15 +26,15 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...minSizeTab300, id: 'id1'}, {...tab, id: 'id2'}],
+            tabs: [getTab(300, 300), getTab(300, 0)],
           },
           {
-            tabs: [{...minSizeTab200, id: 'id5'}],
+            tabs: [getTab(300, 100), getTab(100, 100)],
           }
         ]
       },
       {
-        tabs: [{...minSizeTab400, id: 'id3'}, {...tab, id: 'id4'}],
+        tabs: [getTab(0, 300), getTab(0, 0)],
       },
     ]
   }

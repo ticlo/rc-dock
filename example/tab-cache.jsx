@@ -17,6 +17,7 @@ let nocachedTab = {
   title: 'lose state',
   content: (
     <div>
+      <p>By default, React won't reuse component if it moves out from its parent</p>
       <p style={{color: 'red'}}>This input might lose its state when dragged around</p>
       <input/>
     </div>

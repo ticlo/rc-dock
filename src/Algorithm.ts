@@ -283,8 +283,8 @@ function fixPanelData(panel: PanelData): PanelData {
   fixpanelOrBox(panel);
   for (let child of panel.tabs) {
     child.parent = panel;
-    if (child.minWidth > 0) panel.minWidth += child.minWidth;
-    if (child.minHeight > 0) panel.minHeight += child.minHeight;
+    if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
+    if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
   }
   if (panel.minWidth <= 0) {
     panel.minWidth = 1;
@@ -350,9 +350,19 @@ function fixBoxData(box: BoxData): BoxData {
         }
       }
     }
-    if (child.minWidth > 0) box.minWidth += child.minWidth;
-    if (child.minHeight > 0) box.minHeight += child.minHeight;
+    // merge min size
+    switch (box.mode) {
+      case 'horizontal':
+        if (child.minWidth > 0) box.minWidth += child.minWidth;
+        if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
+        break;
+      case 'vertical':
+        if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
+        if (child.minHeight > 0) box.minHeight += child.minHeight;
+        break;
+    }
   }
+  // add divider size
   if (box.children.length > 1) {
     switch (box.mode) {
       case 'horizontal':

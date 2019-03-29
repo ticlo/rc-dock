@@ -32,6 +32,42 @@ function clone<T>(value: T): T {
   return newValue;
 }
 
+function findInPanel(panel: PanelData, id: string | number): PanelData | TabData {
+  if (panel.id === id) {
+    return panel;
+  }
+  for (let tab of panel.tabs) {
+    if (tab.id === id) {
+      return tab;
+    }
+  }
+  return null;
+}
+
+function findInBox(box: BoxData, id: string | number): PanelData | TabData {
+  let result: PanelData | TabData;
+  for (let child of box.children) {
+    if ('children' in child) {
+      if (result = findInBox(child, id)) {
+        break;
+      }
+    } else if ('tabs' in child) {
+      if (result = findInPanel(child, id)) {
+        break;
+      }
+    }
+  }
+  return result;
+}
+
+export function find(layout: LayoutData, id: string | number): PanelData | TabData {
+  let result = findInBox(layout.dockbox, id);
+  if (!result) {
+    result = findInBox(layout.floatbox, id);
+  }
+  return result;
+}
+
 export function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, direction: DropDirection): LayoutData {
   let pos = target.parent.tabs.indexOf(target);
   if (pos >= 0) {

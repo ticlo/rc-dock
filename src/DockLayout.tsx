@@ -94,6 +94,10 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     this.dragEnd();
   }
 
+  find(id: string | number): PanelData | TabData {
+    return Algorithm.find(this.state.layout, id);
+  }
+
   constructor(props: LayoutProps) {
     super(props);
     this.state = {

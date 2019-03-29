@@ -4,7 +4,7 @@ export interface TabGroup {
     multiTabs?: boolean;
     tabLocked?: boolean;
     animated?: boolean;
-    panelExtra?: (panel: PanelData) => React.ReactElement;
+    panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
 }
 export declare const defaultGroup: TabGroup;
 export declare const placeHolderStyle = "place-holder";
@@ -64,6 +64,7 @@ export interface DockContext {
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
     dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     getGroup(name: string): TabGroup;
+    find(id: string | number): PanelData | TabData;
     /** @ignore */
     nextFloatZIndex(current: number): number;
 }

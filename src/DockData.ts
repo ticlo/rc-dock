@@ -6,7 +6,7 @@ export interface TabGroup {
   // when tabs are locked, you can only drag the whole panel
   tabLocked?: boolean;
   animated?: boolean;
-  panelExtra?: (panel: PanelData) => React.ReactElement;
+  panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
 }
 
 export const defaultGroup: TabGroup = {
@@ -91,6 +91,8 @@ export interface DockContext {
   dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
 
   getGroup(name: string): TabGroup;
+
+  find(id: string | number): PanelData | TabData;
 
   /** @ignore */
   nextFloatZIndex(current: number): number;

@@ -191,7 +191,7 @@ export class DockTabs extends React.Component<Props, any> {
 
     let panelExtraContent: React.ReactElement;
     if (panelExtra) {
-      panelExtraContent = panelExtra(panelData);
+      panelExtraContent = panelExtra(panelData, this.context);
     }
     return (
       <DockTabBar extraContent={panelExtraContent}

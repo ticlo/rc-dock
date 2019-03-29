@@ -241,45 +241,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let group = {
-    name: 'default',
-    floatable: true
-  };
   let tab1 = {
     id: 't1',
     title: 'Tab 1',
-    content: React.createElement("div", null, "Tab 1"),
-    group
+    content: React.createElement("div", null, "Tab 1")
   };
   let tab2 = {
     id: 't2',
     title: 'Tab 2',
-    content: React.createElement("div", null, "Tab 2"),
-    group
+    content: React.createElement("div", null, "Tab 2")
   };
   let tab3 = {
     id: 't3',
     title: 'Tab 3',
-    content: React.createElement("div", null, "Tab 3"),
-    group
+    content: React.createElement("div", null, "Tab 3")
   };
   let tab4 = {
     id: 't4',
     title: 'Tab 4',
-    content: React.createElement("div", null, "Tab 4"),
-    group
+    content: React.createElement("div", null, "Tab 4")
   };
   let tab5 = {
     id: 't5',
     title: 'Tab 5',
-    content: React.createElement("div", null, "Tab 5"),
-    group
+    content: React.createElement("div", null, "Tab 5")
   };
   let tab6 = {
     id: 't6',
     title: 'Tab 6',
-    content: React.createElement("div", null, "Tab 6"),
-    group
+    content: React.createElement("div", null, "Tab 6")
   };
   let defaultLayout = {
     dockbox: {

@@ -242,7 +242,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Divider
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
-  let advance = ['standalone-divider'];
+  let advance = ['panel-extra', 'standalone-divider'];
   let defaultPage = window.location.hash.substr(1);
 
   if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {

@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"3Fhe"}],"zrKk":[function(require,module,exports) {
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
@@ -243,59 +241,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let group = {
-    floatable: true
-  };
-  let minSizeTab300 = {
-    title: 'min size',
-    minWidth: 300,
-    minHeight: 300,
-    content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size.", React.createElement("br", null), "300 x 300 px")),
-    group
-  };
-  let minSizeTab200 = {
-    title: 'min size',
-    minWidth: 200,
-    minHeight: 200,
-    content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size.", React.createElement("br", null), "200 x 200 px")),
-    group
-  };
-  let tab = {
-    title: 'normal',
-    content: React.createElement("div", null),
-    group
-  };
-  let box = {
-    dockbox: {
-      mode: 'horizontal',
-      children: [{
-        mode: 'vertical',
-        children: [{
-          tabs: [_objectSpread({}, minSizeTab300, {
-            id: 'id1'
-          }), _objectSpread({}, tab, {
-            id: 'id2'
-          })],
-          group,
-          activeId: 'id1'
-        }, {
-          tabs: [_objectSpread({}, minSizeTab200, {
-            id: 'id5'
-          })],
-          group,
-          activeId: 'id5'
-        }]
-      }, {
-        tabs: [_objectSpread({}, tab, {
-          id: 'id3'
-        }), _objectSpread({}, tab, {
-          id: 'id4'
-        })],
-        group,
-        activeId: 'id3'
-      }]
-    }
-  };
   const Context = React.createContext();
 
   class Demo extends React.Component {
@@ -319,7 +264,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tabs: [{
               id: 'id1',
               title: 'consumer',
-              group,
               content: React.createElement(Context.Consumer, null, value => React.createElement("div", null, React.createElement("p", null, "React Context is the easiest way to update children tab."), "Current value is: ", React.createElement("b", null, value))) // cached: true,
               // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
 
@@ -328,7 +272,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tabs: [{
               id: 'id2',
               title: 'add count',
-              group,
               content: React.createElement("div", null, React.createElement("p", null, "Click here to change context."), React.createElement("button", {
                 onClick: this.addCtx
               }, "Click to Add Value"))

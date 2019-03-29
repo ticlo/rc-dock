@@ -232,7 +232,7 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"SvKR":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"fRmv":[function(require,module,exports) {
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -245,76 +245,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockContextType,
     DragStore
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
+  let group = {
+    floatable: true,
+    closable: true,
+    panelExtra: (panelData, context) => React.createElement("div", {
+      className: "my-panel-close-btn",
+      onClick: () => context.dockMove(panelData, null, 'remove')
+    }, "X")
+  };
   let tab = {
-    content: React.createElement("div", null, "Tab Content"),
-    closable: true
+    title: 'Tab',
+    content: React.createElement("div", null, React.createElement("p", null, "Custom component can be added to panel's title bar."), React.createElement("p", null, "This panel has a close all button")),
+    group: 'close-all'
   };
   let box = {
     dockbox: {
       mode: 'horizontal',
       children: [{
         mode: 'vertical',
-        size: 200,
+        size: 300,
         children: [{
           tabs: [_objectSpread({}, tab, {
-            id: 't1',
-            title: 'Tab 1'
+            id: 't1'
           }), _objectSpread({}, tab, {
-            id: 't2',
-            title: 'Tab 2'
+            id: 't2'
           })]
         }, {
           tabs: [_objectSpread({}, tab, {
-            id: 't3',
-            title: 'Min Size',
-            content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size"), "100 x 100 px"),
-            minWidth: 100,
-            minHeight: 100
+            id: 't3'
           }), _objectSpread({}, tab, {
-            id: 't4',
-            title: 'Tab 4'
+            id: 't4'
           })]
         }]
       }, {
-        size: 1000,
+        size: 500,
         tabs: [_objectSpread({}, tab, {
-          id: 't5',
-          title: 'basic demo',
-          content: React.createElement("div", null, "This panel won't be removed from layout even when last Tab is closed")
+          id: 't5'
         }), _objectSpread({}, tab, {
-          id: 't6',
-          title: 'Tab 6'
-        }), _objectSpread({}, tab, {
-          id: 't7',
-          title: 'Tab 7'
-        })],
-        panelLock: {
-          panelStyle: 'main'
-        }
+          id: 't6'
+        })]
       }, {
-        size: 200,
+        size: 300,
         tabs: [_objectSpread({}, tab, {
-          id: 't8',
-          title: 'Tab 8'
+          id: 't8'
         })]
       }]
     },
-    floatbox: {
-      mode: 'float',
-      children: [{
-        tabs: [_objectSpread({}, tab, {
-          id: 't8',
-          title: 'Tab 8',
-          content: React.createElement("div", null, "Float")
-        }), _objectSpread({}, tab, {
-          id: 't9',
-          title: 'Tab 9'
-        })],
-        x: 300,
-        y: 150,
-        w: 400,
-        h: 300
-      }]
+    groups: {
+      'close-all': group
     }
   };
   let count = 0;
@@ -334,6 +312,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               }
             }, content),
             title: content,
+            group: 'close-all',
             closable: true
           }
         }, e.nativeEvent);
@@ -390,4 +369,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"SvKR"], null)
+},{}]},{},[0,"fRmv"], null)

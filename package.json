@@ -27,6 +27,7 @@
     "@types/react-dom": "^16.8.3",
     "@types/shelljs": "^0.8.3",
     "less": "^3.9.0",
+    "mobile-drag-drop": "^2.3.0-rc.1",
     "parcel-bundler": "^1.12.3",
     "shelljs": "^0.8.3",
     "ts-node": "^8.0.2",

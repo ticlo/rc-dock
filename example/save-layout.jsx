@@ -65,20 +65,22 @@ class Demo extends React.Component {
     return (
       <div>
         <DockLayout ref={this.getRef} defaultLayout={defaultLayout}
-                    style={{position: 'absolute', left: 10, top: 10, right: 180, bottom: 10}}/>
-        <div className='side-panel'>
-          <button onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
-            Save Layout
+                    style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}}/>
+        <div className='top-panel'>
+          Save Layout:
+          <button style={{marginRight: 20}}
+                  onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
+            Save
           </button>
-          <div style={{height: 20}}/>
-          <button disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
-            Load<br/>Saved Layout
-          </button>
+          Load Layout:
           <button onClick={() => this.dockLayout.loadLayout(horizontalLayout)}>
-            Load<br/>Horizontal
+            Horizontal
           </button>
           <button onClick={() => this.dockLayout.loadLayout(panelLayout)}>
-            Load<br/>Single Panel
+            Single Panel
+          </button>
+          <button disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
+            Saved
           </button>
         </div>
       </div>

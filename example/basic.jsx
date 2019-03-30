@@ -56,8 +56,8 @@ let box = {
       children: [
         {
           tabs: [
-            {...tab, id: 't8', title: 'Tab 8', content: <div>Float</div>},
-            {...tab, id: 't9', title: 'Tab 9'}
+            {...tab, id: 't9', title: 'Tab 9', content: <div>Float</div>},
+            {...tab, id: 't10', title: 'Tab 10'}
           ],
           x: 300, y: 150, w: 400, h: 300
         }
@@ -84,14 +84,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div style={{margin: 20}}>
-        <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 180, bottom: 10}}/>
-        <div className='side-panel'>
-          <button draggable={true} onDragStart={this.onDragNewTab}>
-            Drag a new Tab from here
-          </button>
-        </div>
-      </div>
+      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

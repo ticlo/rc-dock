@@ -303,12 +303,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       mode: 'float',
       children: [{
         tabs: [_objectSpread({}, tab, {
-          id: 't8',
-          title: 'Tab 8',
+          id: 't9',
+          title: 'Tab 9',
           content: React.createElement("div", null, "Float")
         }), _objectSpread({}, tab, {
-          id: 't9',
-          title: 'Tab 9'
+          id: 't10',
+          title: 'Tab 10'
         })],
         x: 300,
         y: 150,
@@ -341,25 +341,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     render() {
-      return React.createElement("div", {
-        style: {
-          margin: 20
-        }
-      }, React.createElement(DockLayout, {
+      return React.createElement(DockLayout, {
         defaultLayout: box,
         style: {
           position: 'absolute',
           left: 10,
           top: 10,
-          right: 180,
+          right: 10,
           bottom: 10
         }
-      }), React.createElement("div", {
-        className: "side-panel"
-      }, React.createElement("button", {
-        draggable: true,
-        onDragStart: this.onDragNewTab
-      }, "Drag a new Tab from here")));
+      });
     }
 
   }

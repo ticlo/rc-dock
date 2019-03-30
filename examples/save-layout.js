@@ -357,28 +357,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         style: {
           position: 'absolute',
           left: 10,
-          top: 10,
-          right: 180,
+          top: 60,
+          right: 10,
           bottom: 10
         }
       }), React.createElement("div", {
-        className: "side-panel"
-      }, React.createElement("button", {
+        className: "top-panel"
+      }, "Save Layout:", React.createElement("button", {
+        style: {
+          marginRight: 20
+        },
         onClick: () => this.setState({
           saved: this.dockLayout.saveLayout()
         })
-      }, "Save Layout"), React.createElement("div", {
-        style: {
-          height: 20
-        }
-      }), React.createElement("button", {
+      }, "Save"), "Load Layout:", React.createElement("button", {
+        onClick: () => this.dockLayout.loadLayout(horizontalLayout)
+      }, "Horizontal"), React.createElement("button", {
+        onClick: () => this.dockLayout.loadLayout(panelLayout)
+      }, "Single Panel"), React.createElement("button", {
         disabled: this.state.saved == null,
         onClick: () => this.dockLayout.loadLayout(this.state.saved)
-      }, "Load", React.createElement("br", null), "Saved Layout"), React.createElement("button", {
-        onClick: () => this.dockLayout.loadLayout(horizontalLayout)
-      }, "Load", React.createElement("br", null), "Horizontal"), React.createElement("button", {
-        onClick: () => this.dockLayout.loadLayout(panelLayout)
-      }, "Load", React.createElement("br", null), "Single Panel")));
+      }, "Saved")));
     }
 
   }

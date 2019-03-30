@@ -258,12 +258,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     content: React.createElement("div", null, React.createElement("p", null, "Custom component can be added to panel's title bar."), React.createElement("p", null, "This panel has a close all button")),
     group: 'close-all'
   };
+  let count = 0;
+
+  function newTab() {
+    return {
+      id: `newtab${++count}`,
+      title: 'New Tab',
+      content: React.createElement("div", null, React.createElement("p", null, "This panel has an 'add' button")),
+      group: 'close-all'
+    };
+  }
+
   let box = {
     dockbox: {
       mode: 'horizontal',
       children: [{
         mode: 'vertical',
-        size: 300,
+        size: 500,
         children: [{
           tabs: [_objectSpread({}, tab, {
             id: 't1'
@@ -271,23 +282,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             id: 't2'
           })]
         }, {
-          tabs: [_objectSpread({}, tab, {
-            id: 't3'
-          }), _objectSpread({}, tab, {
-            id: 't4'
-          })]
+          tabs: [newTab(), newTab()],
+          panelLock: {
+            panelExtra: (panelData, context) => React.createElement("button", {
+              onClick: () => context.dockMove(newTab(), panelData, 'middle')
+            }, "add")
+          }
         }]
       }, {
-        size: 500,
+        size: 300,
         tabs: [_objectSpread({}, tab, {
           id: 't5'
         }), _objectSpread({}, tab, {
           id: 't6'
-        })]
-      }, {
-        size: 300,
-        tabs: [_objectSpread({}, tab, {
-          id: 't8'
         })]
       }]
     },
@@ -295,50 +302,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       'close-all': group
     }
   };
-  let count = 0;
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "onDragNewTab", e => {
-        let content = `New Tab ${count++}`;
-        DragStore.dragStart(DockContextType, {
-          tab: {
-            id: content,
-            content: React.createElement("div", {
-              style: {
-                padding: 20
-              }
-            }, content),
-            title: content,
-            group: 'close-all',
-            closable: true
-          }
-        }, e.nativeEvent);
-      });
-    }
-
     render() {
-      return React.createElement("div", {
-        style: {
-          margin: 20
-        }
-      }, React.createElement(DockLayout, {
+      return React.createElement(DockLayout, {
         defaultLayout: box,
         style: {
           position: 'absolute',
           left: 10,
           top: 10,
-          right: 180,
+          right: 10,
           bottom: 10
         }
-      }), React.createElement("div", {
-        className: "side-panel"
-      }, React.createElement("button", {
-        draggable: true,
-        onDragStart: this.onDragNewTab
-      }, "Drag a new Tab from here")));
+      });
     }
 
   }

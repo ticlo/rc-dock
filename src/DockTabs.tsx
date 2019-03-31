@@ -11,7 +11,6 @@ import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 
 export class TabCache {
 
-
   _ref: HTMLDivElement;
   getRef = (r: HTMLDivElement) => {
     this._ref = r;

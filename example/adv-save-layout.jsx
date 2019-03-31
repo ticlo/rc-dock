@@ -3,15 +3,17 @@ import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
 class InputTab extends React.PureComponent {
+
   onChange = (e) => {
     this.props.tabData.inputValue = e.target.value;
+    this.forceUpdate();
   };
 
   render() {
     return (
       <div>
         <p>input value will be saved</p>
-        <input style={{width: '100%'}} onChange={this.onChange} defaultValue={this.props.tabData.inputValue}/>
+        <input style={{width: '100%'}} onChange={this.onChange} value={this.props.tabData.inputValue}/>
       </div>
     )
   }
@@ -22,7 +24,7 @@ class InputTab extends React.PureComponent {
 }
 
 function getTab(id) {
-  return {id, title: id, content: InputTab.create}
+  return {id, title: id, content: InputTab.create, inputValue: ''}
 }
 
 let tab0 = {

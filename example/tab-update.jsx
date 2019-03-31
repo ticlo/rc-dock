@@ -13,11 +13,21 @@ class Demo extends React.Component {
 
   defaultLayout = {
     dockbox: {
-      mode: 'horizontal',
+      mode: 'vertical',
       children: [
         {
           tabs: [{
-            id: 'id1', title: 'consumer', content: (
+            id: 'id2', title: 'change', content: (
+              <div>
+                <p>Click here to change value in React Context.</p>
+                <button onClick={this.addCtx}>Update Value</button>
+              </div>
+            )
+          }],
+        },
+        {
+          tabs: [{
+            id: 'id1', title: 'context consumer', content: (
               <Context.Consumer>
                 {(value) => (
                   <div>
@@ -31,16 +41,6 @@ class Demo extends React.Component {
             // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
           }],
         },
-        {
-          tabs: [{
-            id: 'id2', title: 'add count', content: (
-              <div>
-                <p>Click here to change context.</p>
-                <button onClick={this.addCtx}>Click to Add Value</button>
-              </div>
-            )
-          }],
-        }
       ]
     }
   };

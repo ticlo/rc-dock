@@ -15,7 +15,7 @@ export function compareKeys(a: {[key: string]: any}, b: {[key: string]: any}, ke
 
 const isArray = Array.isArray;
 
-export function compareChildKeys(a: {[key: string]: any}[], b: {[key: string]: any}[], keys: string[]) {
+export function compareArray(a: {[key: string]: any}[], b: {[key: string]: any}[]) {
   if (a === b) {
     return true;
   }
@@ -25,7 +25,7 @@ export function compareChildKeys(a: {[key: string]: any}[], b: {[key: string]: a
       return false;
     }
     for (let i = 0; i < len; ++i) {
-      if (!compareKeys(a[i], b[i], keys)) {
+      if (a[i] !== b[i]) {
         return false;
       }
     }

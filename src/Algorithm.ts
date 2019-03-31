@@ -233,10 +233,12 @@ export function floatPanel(
 }
 
 export function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData {
-  if ('tabs' in source) {
-    return removePanel(layout, source);
-  } else {
-    return removeTab(layout, source);
+  if (source) {
+    if ('tabs' in source) {
+      return removePanel(layout, source);
+    } else {
+      return removeTab(layout, source);
+    }
   }
 }
 

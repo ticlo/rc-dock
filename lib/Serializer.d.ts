@@ -1,4 +1,4 @@
-import { BoxData, DockMode, LayoutData, PanelData, TabData, TabGroup } from "./DockData";
+import { BoxData, DockMode, LayoutData, PanelData, TabData } from "./DockData";
 interface DefaultLayoutCache {
     panels: Map<string | number, PanelData>;
     tabs: Map<string, TabData>;
@@ -35,9 +35,8 @@ export interface SaveModifier {
     modifySavedTab?(savedTab: SavedTab, tabData: TabData): void;
 }
 export interface LoadModifier {
-    modifyLoadedPanel?(panelData: PanelData, savedPanel: SavedPanel): void;
+    modifyLoadedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
     loadTab?(savedTab: SavedTab): TabData;
-    loadGroup?(groupName: string): TabGroup;
 }
 export declare function saveLayoutData(layout: LayoutData, modifier?: SaveModifier): SavedLayout;
 export declare function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier?: LoadModifier): LayoutData;

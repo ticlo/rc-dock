@@ -82,11 +82,9 @@ export interface SaveModifier {
 
 export interface LoadModifier {
   // should return a empty panel and ignore tabs
-  modifyLoadedPanel?(panelData: PanelData, savedPanel: SavedPanel): void;
+  modifyLoadedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
 
   loadTab?(savedTab: SavedTab): TabData;
-
-  loadGroup?(groupName: string): TabGroup;
 }
 
 
@@ -140,7 +138,7 @@ export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}):
 }
 
 export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier: LoadModifier = {}): LayoutData {
-  const {loadTab, loadGroup, modifyLoadedPanel} = modifier;
+  const {loadTab, modifyLoadedPanel} = modifier;
 
   if (!savedLayout.floatbox) {
     savedLayout.floatbox = {mode: 'float', children: [], size: 0} as SavedBox;
@@ -176,7 +174,7 @@ export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutDa
       panelData = {id, size, activeId, tabs, group};
     }
     if (modifyLoadedPanel) {
-      modifyLoadedPanel(panelData, savedPanel);
+      modifyLoadedPanel(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
       panelData = {...cache.panels.get(id), ...panelData};
     }

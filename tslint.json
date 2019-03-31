@@ -199,6 +199,7 @@
     ],
     "object-literal-sort-keys": false,
     "trailing-comma": false,
-    "semicolon": false
+    "semicolon": false,
+    "no-console": false
   }
 }

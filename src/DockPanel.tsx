@@ -207,6 +207,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
       onPanelHeaderDragInit = null;
     }
 
+    console.log(`panel render ${id} ${cls}`);
+    console.log(panelData)
+
     return (
       <div ref={this.getRef} className={cls} style={style} data-dockid={id}
            onPointerDown={pointerDownCallback} onDragEnter={isFloat ? null : this.onDragEnter}>

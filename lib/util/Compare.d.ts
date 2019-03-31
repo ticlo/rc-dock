@@ -3,8 +3,8 @@ export declare function compareKeys(a: {
 }, b: {
     [key: string]: any;
 }, keys: string[]): boolean;
-export declare function compareChildKeys(a: {
+export declare function compareArray(a: {
     [key: string]: any;
 }[], b: {
     [key: string]: any;
-}[], keys: string[]): boolean;
+}[]): boolean;

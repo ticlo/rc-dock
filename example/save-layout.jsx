@@ -80,7 +80,7 @@ class Demo extends React.Component {
             Single Panel
           </button>
           <button disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
-            Saved
+            Saved Layout
           </button>
         </div>
       </div>

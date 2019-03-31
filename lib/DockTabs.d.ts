@@ -2,7 +2,6 @@ import React from "react";
 import { DockContext, DropDirection, PanelData, TabData } from "./DockData";
 import { DragInitHandler } from "./DragInitiator";
 export declare class TabCache {
-    static readonly usedDataKeys: string[];
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
     _hitAreaRef: HTMLDivElement;

@@ -1,6 +1,6 @@
 import React from "react";
 import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
-import {compareChildKeys, compareKeys} from "./util/Compare";
+import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
@@ -11,7 +11,6 @@ import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 
 export class TabCache {
 
-  static readonly usedDataKeys = ['id', 'title', 'group', 'content'];
 
   _ref: HTMLDivElement;
   getRef = (r: HTMLDivElement) => {
@@ -32,7 +31,7 @@ export class TabCache {
   }
 
   setData(data: TabData) {
-    if (!compareKeys(data, this.data, TabCache.usedDataKeys)) {
+    if (data !== this.data) {
       this.data = data;
       this.content = this.render();
       return true;
@@ -80,7 +79,7 @@ export class TabCache {
     let tabGroup = this.context.getGroup(group);
     let {tabLocked} = tabGroup;
     if (typeof content === 'function') {
-      content = content();
+      content = content(this.data);
     }
     let tab = (
       <div ref={this.getRef}>
@@ -170,7 +169,7 @@ export class DockTabs extends React.Component<Props, any> {
     let {tabs} = nextProps.panelData;
 
     // update tab cache
-    if (!compareChildKeys(tabs, this.props.panelData.tabs, TabCache.usedDataKeys)) {
+    if (!compareArray(tabs, this.props.panelData.tabs)) {
       this.updateTabs(tabs);
       return true;
     }

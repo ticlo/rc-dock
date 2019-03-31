@@ -1,5 +1,4 @@
 import React from "react";
-import HTML = Mocha.reporters.HTML;
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 type PointerEventHandler = (e: AbstractPointerEvent, dx: number, dy: number) => void;

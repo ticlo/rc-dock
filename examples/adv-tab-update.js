@@ -232,86 +232,97 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"/deH":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"7Pjd":[function(require,module,exports) {
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
   let {
     React,
     ReactDOM,
-    Divider
+    DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout', 'panel-extra'];
-  let advance = ['adv-tab-update', 'standalone-divider'];
-  let defaultPage = window.location.hash.substr(1);
+  let lockedGroup = {
+    tabLocked: true
+  };
 
-  if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {
-    defaultPage = 'basic';
+  function getTab(id, value) {
+    return {
+      id,
+      content: React.createElement("div", null, React.createElement("p", null, "It's easier to use React Context to update tab,", React.createElement("br", null), "but in some use cases you might need to directly update the tab."), id !== `tab${value}` ? React.createElement("p", null, "Only current active tab will be changed") : null, "value is ", value),
+      title: id,
+      group: 'locked'
+    };
   }
 
-  class App extends React.Component {
+  class Demo extends React.Component {
     constructor(...args) {
       super(...args);
 
+      _defineProperty(this, "getRef", r => {
+        this.dockLayout = r;
+      });
+
+      _defineProperty(this, "count", 4);
+
+      _defineProperty(this, "addValue", () => {
+        let panelData = this.dockLayout.find('my_panel');
+        let tabId = panelData.activeId; // docklayout will find the same tab id and replace the previous tab
+
+        this.dockLayout.updateTab(tabId, getTab(tabId, ++this.count));
+      });
+
+      _defineProperty(this, "addTab", () => {
+        let panelData = this.dockLayout.find('my_panel');
+        ++this.count;
+        let newTab = getTab(`tab${this.count}`, this.count);
+        this.dockLayout.dockMove(newTab, panelData, 'middle');
+      });
+
+      _defineProperty(this, "defaultLayout", {
+        dockbox: {
+          mode: 'vertical',
+          children: [{
+            tabs: [{
+              id: 'id2',
+              title: 'change',
+              content: React.createElement("div", null, React.createElement("p", null, "Click here to change the other panel."), React.createElement("button", {
+                onClick: this.addValue
+              }, "Update Value"), React.createElement("button", {
+                onClick: this.addTab
+              }, "Add Tab"))
+            }]
+          }, {
+            id: 'my_panel',
+            tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)]
+          }]
+        },
+        groups: {
+          'locked': lockedGroup
+        }
+      });
+
       _defineProperty(this, "state", {
-        current: defaultPage
+        saved: null
       });
     }
 
     render() {
-      let {
-        current
-      } = this.state;
-      let demoPages = [];
-
-      for (let page of demos) {
-        let cls = '';
-
-        if (page === current) {
-          cls = 'current';
+      return React.createElement(DockLayout, {
+        ref: this.getRef,
+        defaultLayout: this.defaultLayout,
+        style: {
+          position: 'absolute',
+          left: 10,
+          top: 10,
+          right: 10,
+          bottom: 10
         }
-
-        demoPages.push(React.createElement("a", {
-          href: `#${page}`,
-          key: page,
-          className: cls,
-          onClick: e => this.setState({
-            current: page
-          })
-        }, page));
-      }
-
-      let advancePages = [];
-
-      for (let page of advance) {
-        let cls = '';
-
-        if (page === current) {
-          cls = 'current';
-        }
-
-        advancePages.push(React.createElement("a", {
-          href: `#${page}`,
-          key: page,
-          className: cls,
-          onClick: e => this.setState({
-            current: page
-          })
-        }, page));
-      }
-
-      return React.createElement("div", null, React.createElement("nav", null, React.createElement("h2", null, "rc-dock"), React.createElement("div", {
-        className: "link-bar"
-      }, "Examples:", React.createElement("br", null), demoPages), React.createElement("div", {
-        className: "link-bar"
-      }, "Advanced:", React.createElement("br", null), advancePages)), React.createElement("iframe", {
-        src: `./${current}.html`
-      }));
+      });
     }
 
   }
 
-  ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
+  ReactDOM.render(React.createElement(Demo, null), document.getElementById('app'));
 })();
 },{"_bundle_loader":"21/1","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"Yi9z":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {
@@ -337,4 +348,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"/deH"], null)
+},{}]},{},[0,"7Pjd"], null)

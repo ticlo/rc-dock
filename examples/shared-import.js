@@ -10552,6 +10552,10 @@ __export(require("./DockLayout"));
 __export(require("./DragStore"));
 
 __export(require("./Divider"));
+
+const DockLayout_1 = require("./DockLayout");
+
+exports.default = DockLayout_1.DockLayout;
 },{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./DragStore":"3vjO","./Divider":"Lzzn"}],"FeNK":[function(require,module,exports) {
 "use strict";
 

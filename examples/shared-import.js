@@ -8939,8 +8939,6 @@ class DockPanel extends react_1.default.PureComponent {
       onPanelHeaderDragInit = null;
     }
 
-    console.log(`panel render ${id} ${cls}`);
-    console.log(panelData);
     return react_1.default.createElement("div", {
       ref: this.getRef,
       className: cls,

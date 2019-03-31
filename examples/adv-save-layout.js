@@ -250,6 +250,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       _defineProperty(this, "onChange", e => {
         this.props.tabData.inputValue = e.target.value;
+        this.forceUpdate();
       });
     }
 
@@ -259,7 +260,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           width: '100%'
         },
         onChange: this.onChange,
-        defaultValue: this.props.tabData.inputValue
+        value: this.props.tabData.inputValue
       }));
     }
 
@@ -275,7 +276,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       id,
       title: id,
-      content: InputTab.create
+      content: InputTab.create,
+      inputValue: ''
     };
   }
 

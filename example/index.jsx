@@ -44,11 +44,15 @@ class App extends React.Component {
         <nav>
           <h2>rc-dock</h2>
           <div className='link-bar'>
-            Examples:<br/>
+            <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
+              Examples:
+            </a><br/>
             {demoPages}
           </div>
           <div className='link-bar'>
-            Advanced:<br/>
+            <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
+              Advanced:
+            </a><br/>
             {advancePages}
           </div>
         </nav>

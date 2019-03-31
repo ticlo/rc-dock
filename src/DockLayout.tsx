@@ -98,6 +98,24 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return Algorithm.find(this.state.layout, id);
   }
 
+  updateTab(id: string, newTab: TabData): boolean {
+    let tab = this.find(id);
+    if (tab && !('tabs' in tab)) {
+      let panelData = tab.parent;
+      let idx = panelData.tabs.indexOf(tab);
+      if (idx >= 0) {
+        let {layout} = this.state;
+        layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
+        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
+        layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+        layout = Algorithm.fixLayoutData(layout);
+        this.setState({layout});
+        return true;
+      }
+    }
+    return false;
+  }
+
   constructor(props: LayoutProps) {
     super(props);
     this.state = {

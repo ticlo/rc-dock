@@ -377,7 +377,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, "Single Panel"), React.createElement("button", {
         disabled: this.state.saved == null,
         onClick: () => this.dockLayout.loadLayout(this.state.saved)
-      }, "Saved")));
+      }, "Saved Layout")));
     }
 
   }

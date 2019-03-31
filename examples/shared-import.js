@@ -705,7 +705,7 @@ function compareKeys(a, b, keys) {
 exports.compareKeys = compareKeys;
 const isArray = Array.isArray;
 
-function compareChildKeys(a, b, keys) {
+function compareArray(a, b) {
   if (a === b) {
     return true;
   }
@@ -718,7 +718,7 @@ function compareChildKeys(a, b, keys) {
     }
 
     for (let i = 0; i < len; ++i) {
-      if (!compareKeys(a[i], b[i], keys)) {
+      if (a[i] !== b[i]) {
         return false;
       }
     }
@@ -729,7 +729,7 @@ function compareChildKeys(a, b, keys) {
   return false;
 }
 
-exports.compareChildKeys = compareChildKeys;
+exports.compareArray = compareArray;
 },{}],"iY05":[function(require,module,exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -8230,7 +8230,7 @@ class TabCache {
   }
 
   setData(data) {
-    if (!Compare_1.compareKeys(data, this.data, TabCache.usedDataKeys)) {
+    if (data !== this.data) {
       this.data = data;
       this.content = this.render();
       return true;
@@ -8262,7 +8262,7 @@ class TabCache {
     } = tabGroup;
 
     if (typeof content === 'function') {
-      content = content();
+      content = content(this.data);
     }
 
     let tab = react_1.default.createElement("div", {
@@ -8304,7 +8304,6 @@ class TabCache {
 
 }
 
-TabCache.usedDataKeys = ['id', 'title', 'group', 'content'];
 exports.TabCache = TabCache;
 
 class DockTabs extends react_1.default.Component {
@@ -8403,7 +8402,7 @@ class DockTabs extends react_1.default.Component {
       tabs
     } = nextProps.panelData; // update tab cache
 
-    if (!Compare_1.compareChildKeys(tabs, this.props.panelData.tabs, TabCache.usedDataKeys)) {
+    if (!Compare_1.compareArray(tabs, this.props.panelData.tabs)) {
       this.updateTabs(tabs);
       return true;
     }
@@ -8940,6 +8939,8 @@ class DockPanel extends react_1.default.PureComponent {
       onPanelHeaderDragInit = null;
     }
 
+    console.log(`panel render ${id} ${cls}`);
+    console.log(panelData);
     return react_1.default.createElement("div", {
       ref: this.getRef,
       className: cls,
@@ -9631,10 +9632,12 @@ function floatPanel(layout, newPanel, rect) {
 exports.floatPanel = floatPanel;
 
 function removeFromLayout(layout, source) {
-  if ('tabs' in source) {
-    return removePanel(layout, source);
-  } else {
-    return removeTab(layout, source);
+  if (source) {
+    if ('tabs' in source) {
+      return removePanel(layout, source);
+    } else {
+      return removeTab(layout, source);
+    }
   }
 }
 
@@ -10068,7 +10071,6 @@ exports.saveLayoutData = saveLayoutData;
 function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
   const {
     loadTab,
-    loadGroup,
     modifyLoadedPanel
   } = modifier;
 
@@ -10146,7 +10148,7 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
     }
 
     if (modifyLoadedPanel) {
-      modifyLoadedPanel(panelData, savedPanel);
+      modifyLoadedPanel(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
       panelData = Object.assign({}, cache.panels.get(id), panelData);
     }

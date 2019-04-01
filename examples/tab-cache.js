@@ -257,9 +257,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }, "This input might lose its state when dragged around"), React.createElement("input", null))
   };
+  let commentTab = {
+    title: 'other method',
+    content: React.createElement("div", null, React.createElement("p", null, "Other methods can also be used to achieve this"), React.createElement("ul", null, React.createElement("li", null, "React Context is an easier way if the state can be stored globally, check the tab-update example"), React.createElement("li", null, "Store state inside TabData is also possible, check adv-save-layout example")))
+  };
   let box = {
     dockbox: {
-      mode: 'horizontal',
+      mode: 'vertical',
       children: [{
         tabs: [_objectSpread({}, cachedTab, {
           id: 'cache1'
@@ -271,6 +275,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 'nocache1'
         }), _objectSpread({}, nocachedTab, {
           id: 'nocache2'
+        })]
+      }, {
+        tabs: [_objectSpread({}, commentTab, {
+          id: 'comment'
         })]
       }]
     }

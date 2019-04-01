@@ -6,11 +6,6 @@ export interface TabGroup {
      */
     floatable?: boolean;
     /**
-     * whether multiple tabs can be group together
-     * default true
-     */
-    multiTabs?: boolean;
-    /**
      * when tabs are locked, you can not drag tab out of its panel
      * default false
      */
@@ -20,6 +15,9 @@ export interface TabGroup {
      * default true
      */
     animated?: boolean;
+    /**
+     * generate extra content show in the right side of tab bar
+     */
     panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
 }
 /** @ignore */
@@ -34,6 +32,9 @@ interface DockDataBase {
     minHeight?: number;
 }
 export declare type DockMode = 'horizontal' | 'vertical' | 'float';
+/**
+ * a box is the layout element that contains other boxes or panels
+ */
 export interface BoxData extends DockDataBase {
     id?: string;
     parent?: BoxData;
@@ -52,13 +53,23 @@ export interface TabData extends DockDataBase {
     content: React.ReactElement | ((tab: TabData) => React.ReactElement);
     closable?: boolean;
     group: string;
+    /**
+     * cached tab will always reuse the react component thus allows the component to keep its internal state
+     */
     cached?: boolean;
+    /**
+     * cached tab is disconnected with parent react component
+     * if react context is needed in the cached tab, the context type need to be specified here
+     */
     cacheContext?: React.Context<any>;
 }
 interface PanelLock {
     panelStyle?: string;
     panelExtra?: (panel: PanelData) => React.ReactElement;
 }
+/**
+ * a panel is a visiaul container with tabs button in the title bar
+ */
 export interface PanelData extends DockDataBase {
     id?: string;
     parent?: BoxData;
@@ -70,6 +81,11 @@ export interface PanelData extends DockDataBase {
      * width when in horizontal layout and height when in vertical layout
      */
     size?: number;
+    /**
+     * addition information of a panel
+     * this prevents the panel from being removed when there is no tab inside
+     * a locked panel can not be moved to float layer either
+     */
     panelLock?: PanelLock;
     x?: number;
     y?: number;

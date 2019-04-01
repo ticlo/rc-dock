@@ -60,7 +60,7 @@ a panel is a visiaul container with tabs button in the title bar
 | size | number | size in dock group, used as width in h-box and used as height in v-box | 200 |
 | group | string | name for the tab group | group of the first tab |
 | tabs | TabData[] | children tabs | **required** |
-| panelLock | PanelLock | addition information of a panel, this prevents the penel from being removed when there is no tab inside, a locked panel can not be moved to float layer either | |
+| panelLock | PanelLock | addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either | |
 | x | number | x position, only used in float mode | |
 | y | number | y position, only used in float mode | |
 | z | number | z index, only used in float mode | 0 |

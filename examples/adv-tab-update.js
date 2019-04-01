@@ -242,6 +242,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let lockedGroup = {
+    floatable: false,
     tabLocked: true
   };
 

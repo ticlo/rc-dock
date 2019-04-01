@@ -232,60 +232,81 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"zrKk":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"fRmv":[function(require,module,exports) {
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
   let {
     React,
     ReactDOM,
-    DockLayout
+    DockLayout,
+    DockContextType,
+    DragStore
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  const Context = React.createContext();
+  let group = {
+    floatable: true,
+    closable: true,
+    panelExtra: (panelData, context) => React.createElement("div", {
+      className: "my-panel-close-btn",
+      onClick: () => context.dockMove(panelData, null, 'remove')
+    }, "X")
+  };
+  let tab = {
+    title: 'Tab',
+    content: React.createElement("div", null, React.createElement("p", null, "Custom component can be added to panel's title bar."), React.createElement("p", null, "This panel has a close all button")),
+    group: 'close-all'
+  };
+  let count = 0;
+
+  function newTab() {
+    return {
+      id: `newtab${++count}`,
+      title: 'New Tab',
+      content: React.createElement("div", null, React.createElement("p", null, "This panel has an 'add' button")),
+      group: 'close-all'
+    };
+  }
+
+  let box = {
+    dockbox: {
+      mode: 'horizontal',
+      children: [{
+        mode: 'vertical',
+        size: 500,
+        children: [{
+          tabs: [_objectSpread({}, tab, {
+            id: 't1'
+          }), _objectSpread({}, tab, {
+            id: 't2'
+          })]
+        }, {
+          tabs: [newTab(), newTab()],
+          panelLock: {
+            panelExtra: (panelData, context) => React.createElement("button", {
+              onClick: () => context.dockMove(newTab(), panelData, 'middle')
+            }, "add")
+          }
+        }]
+      }, {
+        size: 300,
+        tabs: [_objectSpread({}, tab, {
+          id: 't5'
+        }), _objectSpread({}, tab, {
+          id: 't6'
+        })]
+      }]
+    },
+    groups: {
+      'close-all': group
+    }
+  };
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "state", {
-        ctx: 0
-      });
-
-      _defineProperty(this, "addCtx", () => {
-        this.setState({
-          ctx: this.state.ctx + 1
-        });
-      });
-
-      _defineProperty(this, "defaultLayout", {
-        dockbox: {
-          mode: 'vertical',
-          children: [{
-            tabs: [{
-              id: 'id2',
-              title: 'change',
-              content: React.createElement("div", null, React.createElement("p", null, "Click here to change value in React Context."), React.createElement("button", {
-                onClick: this.addCtx
-              }, "Update Value"))
-            }]
-          }, {
-            tabs: [{
-              id: 'id1',
-              title: 'context consumer',
-              content: React.createElement(Context.Consumer, null, value => React.createElement("div", null, React.createElement("p", null, "React Context is the easiest way to update children tab."), "Current value is: ", React.createElement("b", null, value))) // cached: true,
-              // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
-
-            }]
-          }]
-        }
-      });
-    }
-
     render() {
-      return React.createElement(Context.Provider, {
-        value: this.state.ctx
-      }, React.createElement(DockLayout, {
-        defaultLayout: this.defaultLayout,
+      return React.createElement(DockLayout, {
+        defaultLayout: box,
         style: {
           position: 'absolute',
           left: 10,
@@ -293,7 +314,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           right: 10,
           bottom: 10
         }
-      }));
+      });
     }
 
   }
@@ -324,4 +345,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"zrKk"], null)
+},{}]},{},[0,"fRmv"], null)

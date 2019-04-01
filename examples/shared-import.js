@@ -650,6 +650,19 @@ const react_1 = __importDefault(require("react"));
 /** @ignore */
 
 
+exports.defaultGroup = {
+  floatable: true
+};
+/** @ignore */
+
+exports.placeHolderStyle = 'place-holder';
+/** @ignore */
+
+exports.placeHolderGroup = {
+  floatable: false
+};
+/** @ignore */
+
 let _idCount = 0;
 /** @ignore */
 
@@ -698,7 +711,7 @@ function compareKeys(a, b, keys) {
 exports.compareKeys = compareKeys;
 const isArray = Array.isArray;
 
-function compareChildKeys(a, b, keys) {
+function compareArray(a, b) {
   if (a === b) {
     return true;
   }
@@ -711,7 +724,7 @@ function compareChildKeys(a, b, keys) {
     }
 
     for (let i = 0; i < len; ++i) {
-      if (!compareKeys(a[i], b[i], keys)) {
+      if (a[i] !== b[i]) {
         return false;
       }
     }
@@ -722,8 +735,8 @@ function compareChildKeys(a, b, keys) {
   return false;
 }
 
-exports.compareChildKeys = compareChildKeys;
-},{}],"i1Q6":[function(require,module,exports) {
+exports.compareArray = compareArray;
+},{}],"iY05":[function(require,module,exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
@@ -732,17 +745,17 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
   : Function('return this')();
 if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
-},{}],"zKeE":[function(require,module,exports) {
+},{}],"gfTL":[function(require,module,exports) {
 var core = module.exports = { version: '2.6.5' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
-},{}],"g31e":[function(require,module,exports) {
+},{}],"mCxV":[function(require,module,exports) {
 module.exports = function (it) {
   if (typeof it != 'function') throw TypeError(it + ' is not a function!');
   return it;
 };
 
-},{}],"3zRh":[function(require,module,exports) {
+},{}],"fAwT":[function(require,module,exports) {
 // optional / simple context binding
 var aFunction = require('./_a-function');
 module.exports = function (fn, that, length) {
@@ -764,19 +777,19 @@ module.exports = function (fn, that, length) {
   };
 };
 
-},{"./_a-function":"g31e"}],"BxvP":[function(require,module,exports) {
+},{"./_a-function":"mCxV"}],"UcPu":[function(require,module,exports) {
 module.exports = function (it) {
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
 
-},{}],"zotD":[function(require,module,exports) {
+},{}],"J0xC":[function(require,module,exports) {
 var isObject = require('./_is-object');
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
 };
 
-},{"./_is-object":"BxvP"}],"wLcK":[function(require,module,exports) {
+},{"./_is-object":"UcPu"}],"w113":[function(require,module,exports) {
 module.exports = function (exec) {
   try {
     return !!exec();
@@ -785,13 +798,13 @@ module.exports = function (exec) {
   }
 };
 
-},{}],"6MLN":[function(require,module,exports) {
+},{}],"EPcB":[function(require,module,exports) {
 // Thank's IE8 for his funny defineProperty
 module.exports = !require('./_fails')(function () {
   return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
 });
 
-},{"./_fails":"wLcK"}],"9kxq":[function(require,module,exports) {
+},{"./_fails":"w113"}],"JWjT":[function(require,module,exports) {
 var isObject = require('./_is-object');
 var document = require('./_global').document;
 // typeof document.createElement is 'object' in old IE
@@ -800,12 +813,12 @@ module.exports = function (it) {
   return is ? document.createElement(it) : {};
 };
 
-},{"./_is-object":"BxvP","./_global":"i1Q6"}],"R6c1":[function(require,module,exports) {
+},{"./_is-object":"UcPu","./_global":"iY05"}],"xkmf":[function(require,module,exports) {
 module.exports = !require('./_descriptors') && !require('./_fails')(function () {
   return Object.defineProperty(require('./_dom-create')('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
-},{"./_descriptors":"6MLN","./_fails":"wLcK","./_dom-create":"9kxq"}],"EKwp":[function(require,module,exports) {
+},{"./_descriptors":"EPcB","./_fails":"w113","./_dom-create":"JWjT"}],"UMw4":[function(require,module,exports) {
 // 7.1.1 ToPrimitive(input [, PreferredType])
 var isObject = require('./_is-object');
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
@@ -819,7 +832,7 @@ module.exports = function (it, S) {
   throw TypeError("Can't convert object to primitive value");
 };
 
-},{"./_is-object":"BxvP"}],"Gfzd":[function(require,module,exports) {
+},{"./_is-object":"UcPu"}],"V0Rs":[function(require,module,exports) {
 var anObject = require('./_an-object');
 var IE8_DOM_DEFINE = require('./_ie8-dom-define');
 var toPrimitive = require('./_to-primitive');
@@ -837,7 +850,7 @@ exports.f = require('./_descriptors') ? Object.defineProperty : function defineP
   return O;
 };
 
-},{"./_an-object":"zotD","./_ie8-dom-define":"R6c1","./_to-primitive":"EKwp","./_descriptors":"6MLN"}],"0WCH":[function(require,module,exports) {
+},{"./_an-object":"J0xC","./_ie8-dom-define":"xkmf","./_to-primitive":"UMw4","./_descriptors":"EPcB"}],"wRUo":[function(require,module,exports) {
 module.exports = function (bitmap, value) {
   return {
     enumerable: !(bitmap & 1),
@@ -847,7 +860,7 @@ module.exports = function (bitmap, value) {
   };
 };
 
-},{}],"akPY":[function(require,module,exports) {
+},{}],"Ut/h":[function(require,module,exports) {
 var dP = require('./_object-dp');
 var createDesc = require('./_property-desc');
 module.exports = require('./_descriptors') ? function (object, key, value) {
@@ -857,13 +870,13 @@ module.exports = require('./_descriptors') ? function (object, key, value) {
   return object;
 };
 
-},{"./_object-dp":"Gfzd","./_property-desc":"0WCH","./_descriptors":"6MLN"}],"yS17":[function(require,module,exports) {
+},{"./_object-dp":"V0Rs","./_property-desc":"wRUo","./_descriptors":"EPcB"}],"8nki":[function(require,module,exports) {
 var hasOwnProperty = {}.hasOwnProperty;
 module.exports = function (it, key) {
   return hasOwnProperty.call(it, key);
 };
 
-},{}],"vSO4":[function(require,module,exports) {
+},{}],"J7qu":[function(require,module,exports) {
 
 var global = require('./_global');
 var core = require('./_core');
@@ -928,14 +941,14 @@ $export.U = 64;  // safe
 $export.R = 128; // real proto method for `library`
 module.exports = $export;
 
-},{"./_global":"i1Q6","./_core":"zKeE","./_ctx":"3zRh","./_hide":"akPY","./_has":"yS17"}],"ShN9":[function(require,module,exports) {
+},{"./_global":"iY05","./_core":"gfTL","./_ctx":"fAwT","./_hide":"Ut/h","./_has":"8nki"}],"84ik":[function(require,module,exports) {
 var toString = {}.toString;
 
 module.exports = function (it) {
   return toString.call(it).slice(8, -1);
 };
 
-},{}],"E5Ce":[function(require,module,exports) {
+},{}],"D+1E":[function(require,module,exports) {
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = require('./_cof');
 // eslint-disable-next-line no-prototype-builtins
@@ -943,14 +956,14 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
 
-},{"./_cof":"ShN9"}],"U72i":[function(require,module,exports) {
+},{"./_cof":"84ik"}],"PAsk":[function(require,module,exports) {
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function (it) {
   if (it == undefined) throw TypeError("Can't call method on  " + it);
   return it;
 };
 
-},{}],"Wyka":[function(require,module,exports) {
+},{}],"hS2E":[function(require,module,exports) {
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = require('./_iobject');
 var defined = require('./_defined');
@@ -958,7 +971,7 @@ module.exports = function (it) {
   return IObject(defined(it));
 };
 
-},{"./_iobject":"E5Ce","./_defined":"U72i"}],"MpYs":[function(require,module,exports) {
+},{"./_iobject":"D+1E","./_defined":"PAsk"}],"J65m":[function(require,module,exports) {
 // 7.1.4 ToInteger
 var ceil = Math.ceil;
 var floor = Math.floor;
@@ -966,7 +979,7 @@ module.exports = function (it) {
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
 
-},{}],"S7IM":[function(require,module,exports) {
+},{}],"Hy4L":[function(require,module,exports) {
 // 7.1.15 ToLength
 var toInteger = require('./_to-integer');
 var min = Math.min;
@@ -974,7 +987,7 @@ module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
 
-},{"./_to-integer":"MpYs"}],"Zwq5":[function(require,module,exports) {
+},{"./_to-integer":"J65m"}],"YlTb":[function(require,module,exports) {
 var toInteger = require('./_to-integer');
 var max = Math.max;
 var min = Math.min;
@@ -983,7 +996,7 @@ module.exports = function (index, length) {
   return index < 0 ? max(index + length, 0) : min(index, length);
 };
 
-},{"./_to-integer":"MpYs"}],"LNnS":[function(require,module,exports) {
+},{"./_to-integer":"J65m"}],"1lYT":[function(require,module,exports) {
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = require('./_to-iobject');
@@ -1008,10 +1021,10 @@ module.exports = function (IS_INCLUDES) {
   };
 };
 
-},{"./_to-iobject":"Wyka","./_to-length":"S7IM","./_to-absolute-index":"Zwq5"}],"1kq3":[function(require,module,exports) {
+},{"./_to-iobject":"hS2E","./_to-length":"Hy4L","./_to-absolute-index":"YlTb"}],"z7RH":[function(require,module,exports) {
 module.exports = true;
 
-},{}],"NB7d":[function(require,module,exports) {
+},{}],"TRtI":[function(require,module,exports) {
 
 var core = require('./_core');
 var global = require('./_global');
@@ -1026,21 +1039,21 @@ var store = global[SHARED] || (global[SHARED] = {});
   copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 });
 
-},{"./_core":"zKeE","./_global":"i1Q6","./_library":"1kq3"}],"X6va":[function(require,module,exports) {
+},{"./_core":"gfTL","./_global":"iY05","./_library":"z7RH"}],"6bUA":[function(require,module,exports) {
 var id = 0;
 var px = Math.random();
 module.exports = function (key) {
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
 
-},{}],"/wuY":[function(require,module,exports) {
+},{}],"kXVo":[function(require,module,exports) {
 var shared = require('./_shared')('keys');
 var uid = require('./_uid');
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
 
-},{"./_shared":"NB7d","./_uid":"X6va"}],"B9Lq":[function(require,module,exports) {
+},{"./_shared":"TRtI","./_uid":"6bUA"}],"Z2n/":[function(require,module,exports) {
 var has = require('./_has');
 var toIObject = require('./_to-iobject');
 var arrayIndexOf = require('./_array-includes')(false);
@@ -1059,13 +1072,13 @@ module.exports = function (object, names) {
   return result;
 };
 
-},{"./_has":"yS17","./_to-iobject":"Wyka","./_array-includes":"LNnS","./_shared-key":"/wuY"}],"KxjL":[function(require,module,exports) {
+},{"./_has":"8nki","./_to-iobject":"hS2E","./_array-includes":"1lYT","./_shared-key":"kXVo"}],"Y85c":[function(require,module,exports) {
 // IE 8- don't enum bug keys
 module.exports = (
   'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 ).split(',');
 
-},{}],"knrM":[function(require,module,exports) {
+},{}],"kk7b":[function(require,module,exports) {
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys = require('./_object-keys-internal');
 var enumBugKeys = require('./_enum-bug-keys');
@@ -1074,20 +1087,20 @@ module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
 };
 
-},{"./_object-keys-internal":"B9Lq","./_enum-bug-keys":"KxjL"}],"Ocr3":[function(require,module,exports) {
+},{"./_object-keys-internal":"Z2n/","./_enum-bug-keys":"Y85c"}],"OyEB":[function(require,module,exports) {
 exports.f = Object.getOwnPropertySymbols;
 
-},{}],"z7R8":[function(require,module,exports) {
+},{}],"LUWG":[function(require,module,exports) {
 exports.f = {}.propertyIsEnumerable;
 
-},{}],"mbLO":[function(require,module,exports) {
+},{}],"Y2mk":[function(require,module,exports) {
 // 7.1.13 ToObject(argument)
 var defined = require('./_defined');
 module.exports = function (it) {
   return Object(defined(it));
 };
 
-},{"./_defined":"U72i"}],"uj5A":[function(require,module,exports) {
+},{"./_defined":"PAsk"}],"v8Hs":[function(require,module,exports) {
 'use strict';
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys = require('./_object-keys');
@@ -1123,19 +1136,19 @@ module.exports = !$assign || require('./_fails')(function () {
   } return T;
 } : $assign;
 
-},{"./_object-keys":"knrM","./_object-gops":"Ocr3","./_object-pie":"z7R8","./_to-object":"mbLO","./_iobject":"E5Ce","./_fails":"wLcK"}],"YD0x":[function(require,module,exports) {
+},{"./_object-keys":"kk7b","./_object-gops":"OyEB","./_object-pie":"LUWG","./_to-object":"Y2mk","./_iobject":"D+1E","./_fails":"w113"}],"0Khi":[function(require,module,exports) {
 // 19.1.3.1 Object.assign(target, source)
 var $export = require('./_export');
 
 $export($export.S + $export.F, 'Object', { assign: require('./_object-assign') });
 
-},{"./_export":"vSO4","./_object-assign":"uj5A"}],"vcHl":[function(require,module,exports) {
+},{"./_export":"J7qu","./_object-assign":"v8Hs"}],"L9zC":[function(require,module,exports) {
 require('../../modules/es6.object.assign');
 module.exports = require('../../modules/_core').Object.assign;
 
-},{"../../modules/es6.object.assign":"YD0x","../../modules/_core":"zKeE"}],"gc0D":[function(require,module,exports) {
+},{"../../modules/es6.object.assign":"0Khi","../../modules/_core":"gfTL"}],"gc0D":[function(require,module,exports) {
 module.exports = { "default": require("core-js/library/fn/object/assign"), __esModule: true };
-},{"core-js/library/fn/object/assign":"vcHl"}],"T4f3":[function(require,module,exports) {
+},{"core-js/library/fn/object/assign":"L9zC"}],"T4f3":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -1159,21 +1172,21 @@ exports.default = _assign2.default || function (target) {
 
   return target;
 };
-},{"../core-js/object/assign":"gc0D"}],"htFH":[function(require,module,exports) {
+},{"../core-js/object/assign":"gc0D"}],"Vjiw":[function(require,module,exports) {
 var $export = require('./_export');
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
 $export($export.S + $export.F * !require('./_descriptors'), 'Object', { defineProperty: require('./_object-dp').f });
 
-},{"./_export":"vSO4","./_descriptors":"6MLN","./_object-dp":"Gfzd"}],"3v7p":[function(require,module,exports) {
+},{"./_export":"J7qu","./_descriptors":"EPcB","./_object-dp":"V0Rs"}],"+V16":[function(require,module,exports) {
 require('../../modules/es6.object.define-property');
 var $Object = require('../../modules/_core').Object;
 module.exports = function defineProperty(it, key, desc) {
   return $Object.defineProperty(it, key, desc);
 };
 
-},{"../../modules/es6.object.define-property":"htFH","../../modules/_core":"zKeE"}],"FFZn":[function(require,module,exports) {
+},{"../../modules/es6.object.define-property":"Vjiw","../../modules/_core":"gfTL"}],"FFZn":[function(require,module,exports) {
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":"3v7p"}],"Xos8":[function(require,module,exports) {
+},{"core-js/library/fn/object/define-property":"+V16"}],"Xos8":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -1252,7 +1265,7 @@ exports.default = function () {
     return Constructor;
   };
 }();
-},{"../core-js/object/define-property":"FFZn"}],"lytE":[function(require,module,exports) {
+},{"../core-js/object/define-property":"FFZn"}],"UDBY":[function(require,module,exports) {
 var toInteger = require('./_to-integer');
 var defined = require('./_defined');
 // true  -> String#at
@@ -1271,13 +1284,13 @@ module.exports = function (TO_STRING) {
   };
 };
 
-},{"./_to-integer":"MpYs","./_defined":"U72i"}],"gojl":[function(require,module,exports) {
+},{"./_to-integer":"J65m","./_defined":"PAsk"}],"Y4Ow":[function(require,module,exports) {
 module.exports = require('./_hide');
 
-},{"./_hide":"akPY"}],"dhak":[function(require,module,exports) {
+},{"./_hide":"Ut/h"}],"NgBR":[function(require,module,exports) {
 module.exports = {};
 
-},{}],"gjjs":[function(require,module,exports) {
+},{}],"fkkt":[function(require,module,exports) {
 var dP = require('./_object-dp');
 var anObject = require('./_an-object');
 var getKeys = require('./_object-keys');
@@ -1292,11 +1305,11 @@ module.exports = require('./_descriptors') ? Object.defineProperties : function 
   return O;
 };
 
-},{"./_object-dp":"Gfzd","./_an-object":"zotD","./_object-keys":"knrM","./_descriptors":"6MLN"}],"ebIA":[function(require,module,exports) {
+},{"./_object-dp":"V0Rs","./_an-object":"J0xC","./_object-keys":"kk7b","./_descriptors":"EPcB"}],"k8O+":[function(require,module,exports) {
 var document = require('./_global').document;
 module.exports = document && document.documentElement;
 
-},{"./_global":"i1Q6"}],"TNJq":[function(require,module,exports) {
+},{"./_global":"iY05"}],"+Dtb":[function(require,module,exports) {
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = require('./_an-object');
 var dPs = require('./_object-dps');
@@ -1339,7 +1352,7 @@ module.exports = Object.create || function create(O, Properties) {
   return Properties === undefined ? result : dPs(result, Properties);
 };
 
-},{"./_an-object":"zotD","./_object-dps":"gjjs","./_enum-bug-keys":"KxjL","./_shared-key":"/wuY","./_dom-create":"9kxq","./_html":"ebIA"}],"Ug9I":[function(require,module,exports) {
+},{"./_an-object":"J0xC","./_object-dps":"fkkt","./_enum-bug-keys":"Y85c","./_shared-key":"kXVo","./_dom-create":"JWjT","./_html":"k8O+"}],"+PgN":[function(require,module,exports) {
 var store = require('./_shared')('wks');
 var uid = require('./_uid');
 var Symbol = require('./_global').Symbol;
@@ -1352,7 +1365,7 @@ var $exports = module.exports = function (name) {
 
 $exports.store = store;
 
-},{"./_shared":"NB7d","./_uid":"X6va","./_global":"i1Q6"}],"11Ut":[function(require,module,exports) {
+},{"./_shared":"TRtI","./_uid":"6bUA","./_global":"iY05"}],"tgxk":[function(require,module,exports) {
 var def = require('./_object-dp').f;
 var has = require('./_has');
 var TAG = require('./_wks')('toStringTag');
@@ -1361,7 +1374,7 @@ module.exports = function (it, tag, stat) {
   if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
 };
 
-},{"./_object-dp":"Gfzd","./_has":"yS17","./_wks":"Ug9I"}],"b7Q2":[function(require,module,exports) {
+},{"./_object-dp":"V0Rs","./_has":"8nki","./_wks":"+PgN"}],"gvBj":[function(require,module,exports) {
 'use strict';
 var create = require('./_object-create');
 var descriptor = require('./_property-desc');
@@ -1376,7 +1389,7 @@ module.exports = function (Constructor, NAME, next) {
   setToStringTag(Constructor, NAME + ' Iterator');
 };
 
-},{"./_object-create":"TNJq","./_property-desc":"0WCH","./_set-to-string-tag":"11Ut","./_hide":"akPY","./_wks":"Ug9I"}],"HHE0":[function(require,module,exports) {
+},{"./_object-create":"+Dtb","./_property-desc":"wRUo","./_set-to-string-tag":"tgxk","./_hide":"Ut/h","./_wks":"+PgN"}],"8QSD":[function(require,module,exports) {
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has = require('./_has');
 var toObject = require('./_to-object');
@@ -1391,7 +1404,7 @@ module.exports = Object.getPrototypeOf || function (O) {
   } return O instanceof Object ? ObjectProto : null;
 };
 
-},{"./_has":"yS17","./_to-object":"mbLO","./_shared-key":"/wuY"}],"uRfg":[function(require,module,exports) {
+},{"./_has":"8nki","./_to-object":"Y2mk","./_shared-key":"kXVo"}],"ZK8J":[function(require,module,exports) {
 'use strict';
 var LIBRARY = require('./_library');
 var $export = require('./_export');
@@ -1462,7 +1475,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
   return methods;
 };
 
-},{"./_library":"1kq3","./_export":"vSO4","./_redefine":"gojl","./_hide":"akPY","./_iterators":"dhak","./_iter-create":"b7Q2","./_set-to-string-tag":"11Ut","./_object-gpo":"HHE0","./_wks":"Ug9I"}],"i+u+":[function(require,module,exports) {
+},{"./_library":"z7RH","./_export":"J7qu","./_redefine":"Y4Ow","./_hide":"Ut/h","./_iterators":"NgBR","./_iter-create":"gvBj","./_set-to-string-tag":"tgxk","./_object-gpo":"8QSD","./_wks":"+PgN"}],"PPsw":[function(require,module,exports) {
 'use strict';
 var $at = require('./_string-at')(true);
 
@@ -1481,15 +1494,15 @@ require('./_iter-define')(String, 'String', function (iterated) {
   return { value: point, done: false };
 });
 
-},{"./_string-at":"lytE","./_iter-define":"uRfg"}],"ID6i":[function(require,module,exports) {
+},{"./_string-at":"UDBY","./_iter-define":"ZK8J"}],"KZxa":[function(require,module,exports) {
 module.exports = function () { /* empty */ };
 
-},{}],"xwD+":[function(require,module,exports) {
+},{}],"haD7":[function(require,module,exports) {
 module.exports = function (done, value) {
   return { value: value, done: !!done };
 };
 
-},{}],"OYXR":[function(require,module,exports) {
+},{}],"jtMz":[function(require,module,exports) {
 'use strict';
 var addToUnscopables = require('./_add-to-unscopables');
 var step = require('./_iter-step');
@@ -1525,7 +1538,7 @@ addToUnscopables('keys');
 addToUnscopables('values');
 addToUnscopables('entries');
 
-},{"./_add-to-unscopables":"ID6i","./_iter-step":"xwD+","./_iterators":"dhak","./_to-iobject":"Wyka","./_iter-define":"uRfg"}],"COf8":[function(require,module,exports) {
+},{"./_add-to-unscopables":"KZxa","./_iter-step":"haD7","./_iterators":"NgBR","./_to-iobject":"hS2E","./_iter-define":"ZK8J"}],"Et2G":[function(require,module,exports) {
 
 require('./es6.array.iterator');
 var global = require('./_global');
@@ -1547,17 +1560,17 @@ for (var i = 0; i < DOMIterables.length; i++) {
   Iterators[NAME] = Iterators.Array;
 }
 
-},{"./es6.array.iterator":"OYXR","./_global":"i1Q6","./_hide":"akPY","./_iterators":"dhak","./_wks":"Ug9I"}],"ZxII":[function(require,module,exports) {
+},{"./es6.array.iterator":"jtMz","./_global":"iY05","./_hide":"Ut/h","./_iterators":"NgBR","./_wks":"+PgN"}],"7Q5m":[function(require,module,exports) {
 exports.f = require('./_wks');
 
-},{"./_wks":"Ug9I"}],"nFDa":[function(require,module,exports) {
+},{"./_wks":"+PgN"}],"/fps":[function(require,module,exports) {
 require('../../modules/es6.string.iterator');
 require('../../modules/web.dom.iterable');
 module.exports = require('../../modules/_wks-ext').f('iterator');
 
-},{"../../modules/es6.string.iterator":"i+u+","../../modules/web.dom.iterable":"COf8","../../modules/_wks-ext":"ZxII"}],"6t7t":[function(require,module,exports) {
+},{"../../modules/es6.string.iterator":"PPsw","../../modules/web.dom.iterable":"Et2G","../../modules/_wks-ext":"7Q5m"}],"6t7t":[function(require,module,exports) {
 module.exports = { "default": require("core-js/library/fn/symbol/iterator"), __esModule: true };
-},{"core-js/library/fn/symbol/iterator":"nFDa"}],"e8vu":[function(require,module,exports) {
+},{"core-js/library/fn/symbol/iterator":"/fps"}],"JUM1":[function(require,module,exports) {
 var META = require('./_uid')('meta');
 var isObject = require('./_is-object');
 var has = require('./_has');
@@ -1612,7 +1625,7 @@ var meta = module.exports = {
   onFreeze: onFreeze
 };
 
-},{"./_uid":"X6va","./_is-object":"BxvP","./_has":"yS17","./_object-dp":"Gfzd","./_fails":"wLcK"}],"c2zY":[function(require,module,exports) {
+},{"./_uid":"6bUA","./_is-object":"UcPu","./_has":"8nki","./_object-dp":"V0Rs","./_fails":"w113"}],"J1mN":[function(require,module,exports) {
 
 var global = require('./_global');
 var core = require('./_core');
@@ -1624,7 +1637,7 @@ module.exports = function (name) {
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
 };
 
-},{"./_global":"i1Q6","./_core":"zKeE","./_library":"1kq3","./_wks-ext":"ZxII","./_object-dp":"Gfzd"}],"ycyv":[function(require,module,exports) {
+},{"./_global":"iY05","./_core":"gfTL","./_library":"z7RH","./_wks-ext":"7Q5m","./_object-dp":"V0Rs"}],"pEKD":[function(require,module,exports) {
 // all enumerable object keys, includes symbols
 var getKeys = require('./_object-keys');
 var gOPS = require('./_object-gops');
@@ -1641,14 +1654,14 @@ module.exports = function (it) {
   } return result;
 };
 
-},{"./_object-keys":"knrM","./_object-gops":"Ocr3","./_object-pie":"z7R8"}],"ayXv":[function(require,module,exports) {
+},{"./_object-keys":"kk7b","./_object-gops":"OyEB","./_object-pie":"LUWG"}],"bYsY":[function(require,module,exports) {
 // 7.2.2 IsArray(argument)
 var cof = require('./_cof');
 module.exports = Array.isArray || function isArray(arg) {
   return cof(arg) == 'Array';
 };
 
-},{"./_cof":"ShN9"}],"Ni5N":[function(require,module,exports) {
+},{"./_cof":"84ik"}],"aQU6":[function(require,module,exports) {
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
 var $keys = require('./_object-keys-internal');
 var hiddenKeys = require('./_enum-bug-keys').concat('length', 'prototype');
@@ -1657,7 +1670,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
   return $keys(O, hiddenKeys);
 };
 
-},{"./_object-keys-internal":"B9Lq","./_enum-bug-keys":"KxjL"}],"rMkZ":[function(require,module,exports) {
+},{"./_object-keys-internal":"Z2n/","./_enum-bug-keys":"Y85c"}],"iFkG":[function(require,module,exports) {
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = require('./_to-iobject');
 var gOPN = require('./_object-gopn').f;
@@ -1678,7 +1691,7 @@ module.exports.f = function getOwnPropertyNames(it) {
   return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
 };
 
-},{"./_to-iobject":"Wyka","./_object-gopn":"Ni5N"}],"sxPs":[function(require,module,exports) {
+},{"./_to-iobject":"hS2E","./_object-gopn":"aQU6"}],"48TN":[function(require,module,exports) {
 var pIE = require('./_object-pie');
 var createDesc = require('./_property-desc');
 var toIObject = require('./_to-iobject');
@@ -1696,7 +1709,7 @@ exports.f = require('./_descriptors') ? gOPD : function getOwnPropertyDescriptor
   if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
 };
 
-},{"./_object-pie":"z7R8","./_property-desc":"0WCH","./_to-iobject":"Wyka","./_to-primitive":"EKwp","./_has":"yS17","./_ie8-dom-define":"R6c1","./_descriptors":"6MLN"}],"Aa2f":[function(require,module,exports) {
+},{"./_object-pie":"LUWG","./_property-desc":"wRUo","./_to-iobject":"hS2E","./_to-primitive":"UMw4","./_has":"8nki","./_ie8-dom-define":"xkmf","./_descriptors":"EPcB"}],"TXMg":[function(require,module,exports) {
 
 'use strict';
 // ECMAScript 6 symbols shim
@@ -1933,24 +1946,24 @@ setToStringTag(Math, 'Math', true);
 // 24.3.3 JSON[@@toStringTag]
 setToStringTag(global.JSON, 'JSON', true);
 
-},{"./_global":"i1Q6","./_has":"yS17","./_descriptors":"6MLN","./_export":"vSO4","./_redefine":"gojl","./_meta":"e8vu","./_fails":"wLcK","./_shared":"NB7d","./_set-to-string-tag":"11Ut","./_uid":"X6va","./_wks":"Ug9I","./_wks-ext":"ZxII","./_wks-define":"c2zY","./_enum-keys":"ycyv","./_is-array":"ayXv","./_an-object":"zotD","./_is-object":"BxvP","./_to-iobject":"Wyka","./_to-primitive":"EKwp","./_property-desc":"0WCH","./_object-create":"TNJq","./_object-gopn-ext":"rMkZ","./_object-gopd":"sxPs","./_object-dp":"Gfzd","./_object-keys":"knrM","./_object-gopn":"Ni5N","./_object-pie":"z7R8","./_object-gops":"Ocr3","./_library":"1kq3","./_hide":"akPY"}],"tuDi":[function(require,module,exports) {
+},{"./_global":"iY05","./_has":"8nki","./_descriptors":"EPcB","./_export":"J7qu","./_redefine":"Y4Ow","./_meta":"JUM1","./_fails":"w113","./_shared":"TRtI","./_set-to-string-tag":"tgxk","./_uid":"6bUA","./_wks":"+PgN","./_wks-ext":"7Q5m","./_wks-define":"J1mN","./_enum-keys":"pEKD","./_is-array":"bYsY","./_an-object":"J0xC","./_is-object":"UcPu","./_to-iobject":"hS2E","./_to-primitive":"UMw4","./_property-desc":"wRUo","./_object-create":"+Dtb","./_object-gopn-ext":"iFkG","./_object-gopd":"48TN","./_object-dp":"V0Rs","./_object-keys":"kk7b","./_object-gopn":"aQU6","./_object-pie":"LUWG","./_object-gops":"OyEB","./_library":"z7RH","./_hide":"Ut/h"}],"4dTo":[function(require,module,exports) {
 
-},{}],"c6mp":[function(require,module,exports) {
+},{}],"IvbB":[function(require,module,exports) {
 require('./_wks-define')('asyncIterator');
 
-},{"./_wks-define":"c2zY"}],"2mwf":[function(require,module,exports) {
+},{"./_wks-define":"J1mN"}],"vWK2":[function(require,module,exports) {
 require('./_wks-define')('observable');
 
-},{"./_wks-define":"c2zY"}],"Ky5l":[function(require,module,exports) {
+},{"./_wks-define":"J1mN"}],"g/Af":[function(require,module,exports) {
 require('../../modules/es6.symbol');
 require('../../modules/es6.object.to-string');
 require('../../modules/es7.symbol.async-iterator');
 require('../../modules/es7.symbol.observable');
 module.exports = require('../../modules/_core').Symbol;
 
-},{"../../modules/es6.symbol":"Aa2f","../../modules/es6.object.to-string":"tuDi","../../modules/es7.symbol.async-iterator":"c6mp","../../modules/es7.symbol.observable":"2mwf","../../modules/_core":"zKeE"}],"ibPW":[function(require,module,exports) {
+},{"../../modules/es6.symbol":"TXMg","../../modules/es6.object.to-string":"4dTo","../../modules/es7.symbol.async-iterator":"IvbB","../../modules/es7.symbol.observable":"vWK2","../../modules/_core":"gfTL"}],"ibPW":[function(require,module,exports) {
 module.exports = { "default": require("core-js/library/fn/symbol"), __esModule: true };
-},{"core-js/library/fn/symbol":"Ky5l"}],"GyB/":[function(require,module,exports) {
+},{"core-js/library/fn/symbol":"g/Af"}],"GyB/":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -1990,7 +2003,7 @@ exports.default = function (self, call) {
 
   return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
 };
-},{"../helpers/typeof":"GyB/"}],"ZaKr":[function(require,module,exports) {
+},{"../helpers/typeof":"GyB/"}],"Ku2z":[function(require,module,exports) {
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
 var isObject = require('./_is-object');
@@ -2017,32 +2030,32 @@ module.exports = {
   check: check
 };
 
-},{"./_is-object":"BxvP","./_an-object":"zotD","./_ctx":"3zRh","./_object-gopd":"sxPs"}],"b1tA":[function(require,module,exports) {
+},{"./_is-object":"UcPu","./_an-object":"J0xC","./_ctx":"fAwT","./_object-gopd":"48TN"}],"HhDR":[function(require,module,exports) {
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = require('./_export');
 $export($export.S, 'Object', { setPrototypeOf: require('./_set-proto').set });
 
-},{"./_export":"vSO4","./_set-proto":"ZaKr"}],"dXs8":[function(require,module,exports) {
+},{"./_export":"J7qu","./_set-proto":"Ku2z"}],"KqgR":[function(require,module,exports) {
 require('../../modules/es6.object.set-prototype-of');
 module.exports = require('../../modules/_core').Object.setPrototypeOf;
 
-},{"../../modules/es6.object.set-prototype-of":"b1tA","../../modules/_core":"zKeE"}],"Aq8W":[function(require,module,exports) {
+},{"../../modules/es6.object.set-prototype-of":"HhDR","../../modules/_core":"gfTL"}],"Aq8W":[function(require,module,exports) {
 module.exports = { "default": require("core-js/library/fn/object/set-prototype-of"), __esModule: true };
-},{"core-js/library/fn/object/set-prototype-of":"dXs8"}],"yOG5":[function(require,module,exports) {
+},{"core-js/library/fn/object/set-prototype-of":"KqgR"}],"tgxx":[function(require,module,exports) {
 var $export = require('./_export');
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 $export($export.S, 'Object', { create: require('./_object-create') });
 
-},{"./_export":"vSO4","./_object-create":"TNJq"}],"cjsw":[function(require,module,exports) {
+},{"./_export":"J7qu","./_object-create":"+Dtb"}],"FYi9":[function(require,module,exports) {
 require('../../modules/es6.object.create');
 var $Object = require('../../modules/_core').Object;
 module.exports = function create(P, D) {
   return $Object.create(P, D);
 };
 
-},{"../../modules/es6.object.create":"yOG5","../../modules/_core":"zKeE"}],"yeEC":[function(require,module,exports) {
+},{"../../modules/es6.object.create":"tgxx","../../modules/_core":"gfTL"}],"yeEC":[function(require,module,exports) {
 module.exports = { "default": require("core-js/library/fn/object/create"), __esModule: true };
-},{"core-js/library/fn/object/create":"cjsw"}],"ZKjc":[function(require,module,exports) {
+},{"core-js/library/fn/object/create":"FYi9"}],"ZKjc":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -7532,22 +7545,22 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
 
 }
 
-exports.DockTabBarRootNode = DockTabBarRootNode;
-
 class DockTabBar extends react_1.default.PureComponent {
   render() {
     const _a = this.props,
           {
       children: renderTabBarNode,
       onDragMoveInit,
-      onHtmlDrag
+      onHtmlDrag,
+      extraContent
     } = _a,
-          restProps = __rest(_a, ["children", "onDragMoveInit", "onHtmlDrag"]);
+          restProps = __rest(_a, ["children", "onDragMoveInit", "onHtmlDrag", "extraContent"]);
 
     return react_1.default.createElement(SaveRef_1.default, null, (saveRef, getRef) => react_1.default.createElement(DockTabBarRootNode, Object.assign({
       saveRef: saveRef,
       onDragMoveInit: onDragMoveInit,
-      onHtmlDrag: onHtmlDrag
+      onHtmlDrag: onHtmlDrag,
+      extraContent: extraContent
     }, restProps), react_1.default.createElement(ScrollableTabBarNode_1.default, Object.assign({
       saveRef: saveRef,
       getRef: getRef
@@ -8197,7 +8210,7 @@ class TabCache {
     this.onDragOver = e => {
       let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
 
-      if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
+      if (tab && tab !== this.data && tab.group === this.data.group) {
         let direction = this.getDropDirection(e);
         this.context.setDropRect(this._hitAreaRef, direction, this);
         e.dataTransfer.dropEffect = 'move';
@@ -8213,7 +8226,7 @@ class TabCache {
     this.onDrop = e => {
       let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
 
-      if (tab && tab !== this.data && tab.group.name === this.data.group.name) {
+      if (tab && tab !== this.data && tab.group === this.data.group) {
         let direction = this.getDropDirection(e);
         this.context.dockMove(tab, this.data, direction);
       }
@@ -8223,7 +8236,7 @@ class TabCache {
   }
 
   setData(data) {
-    if (!Compare_1.compareKeys(data, this.data, TabCache.usedDataKeys)) {
+    if (data !== this.data) {
       this.data = data;
       this.content = this.render();
       return true;
@@ -8249,12 +8262,13 @@ class TabCache {
       cached,
       cacheContext
     } = this.data;
+    let tabGroup = this.context.getGroup(group);
     let {
       tabLocked
-    } = group;
+    } = tabGroup;
 
     if (typeof content === 'function') {
-      content = content();
+      content = content(this.data);
     }
 
     let tab = react_1.default.createElement("div", {
@@ -8291,11 +8305,11 @@ class TabCache {
     }
   }
 
-  destroy() {}
+  destroy() {// place holder
+  }
 
 }
 
-TabCache.usedDataKeys = ['id', 'title', 'group', 'content'];
 exports.TabCache = TabCache;
 
 class DockTabs extends react_1.default.Component {
@@ -8303,18 +8317,46 @@ class DockTabs extends react_1.default.Component {
     super(props, context);
     this._cache = new Map();
 
-    this.renderTabBar = () => react_1.default.createElement(DockTabBar_1.DockTabBar, {
-      onDragMoveInit: this.props.onPanelHeaderDragInit,
-      onHtmlDrag: this.props.onPanelHeaderHtmlDrag
-    });
+    this.renderTabBar = () => {
+      let {
+        panelData
+      } = this.props;
+      let {
+        group: groupName,
+        panelLock
+      } = panelData;
+      let group = this.context.getGroup(groupName);
+      let {
+        panelExtra
+      } = group;
+
+      if (panelLock) {
+        if (panelLock.panelExtra) {
+          panelExtra = panelLock.panelExtra;
+        }
+      }
+
+      let panelExtraContent;
+
+      if (panelExtra) {
+        panelExtraContent = panelExtra(panelData, this.context);
+      }
+
+      return react_1.default.createElement(DockTabBar_1.DockTabBar, {
+        extraContent: panelExtraContent,
+        onDragMoveInit: this.props.onPanelHeaderDragInit,
+        onHtmlDrag: this.props.onPanelHeaderHtmlDrag
+      });
+    };
 
     this.renderTabContent = () => {
       let {
         group
       } = this.props.panelData;
+      let tabGroup = this.context.getGroup(group);
       let {
         animated
-      } = group;
+      } = tabGroup;
       return react_1.default.createElement(TabContent_1.default, {
         animated: animated
       });
@@ -8366,7 +8408,7 @@ class DockTabs extends react_1.default.Component {
       tabs
     } = nextProps.panelData; // update tab cache
 
-    if (!Compare_1.compareChildKeys(tabs, this.props.panelData.tabs, TabCache.usedDataKeys)) {
+    if (!Compare_1.compareArray(tabs, this.props.panelData.tabs)) {
       this.updateTabs(tabs);
       return true;
     }
@@ -8399,527 +8441,7 @@ class DockTabs extends react_1.default.Component {
 DockTabs.contextType = DockData_1.DockContextType;
 DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
 exports.DockTabs = DockTabs;
-},{"react":"1n8/","./DockData":"zh3I","./util/Compare":"LCzK","rc-tabs":"9FgV","rc-tabs/lib/TabContent":"Bdxb","./DragStore":"3vjO","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"wqok":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const DockData_1 = require("./DockData");
-
-exports.placeHolderGroup = {
-  /** used by serialization */
-  name: '-place-holder-',
-  panelClass: 'dock-placeholder-panel',
-  floatable: false
-};
-
-let _watchObjectChange = new WeakMap();
-
-function getUpdatedObject(obj) {
-  let result = _watchObjectChange.get(obj);
-
-  if (result) {
-    return getUpdatedObject(result);
-  }
-
-  return obj;
-}
-
-exports.getUpdatedObject = getUpdatedObject;
-
-function clone(value) {
-  let newValue = Object.assign({}, value);
-
-  if (Array.isArray(newValue.tabs)) {
-    newValue.tabs = newValue.tabs.concat();
-  }
-
-  if (Array.isArray(newValue.children)) {
-    newValue.children = newValue.children.concat();
-  }
-
-  _watchObjectChange.set(value, newValue);
-
-  return newValue;
-}
-
-function addTabToTab(layout, tab, target, direction) {
-  let pos = target.parent.tabs.indexOf(target);
-
-  if (pos >= 0) {
-    if (direction === 'after-tab') {
-      ++pos;
-    }
-
-    return addTabToPanel(layout, tab, target.parent, pos);
-  }
-
-  return layout;
-}
-
-exports.addTabToTab = addTabToTab;
-
-function addTabToPanel(layout, source, panel, idx = -1) {
-  if (idx === -1) {
-    idx = panel.tabs.length;
-  }
-
-  let tabs;
-
-  if ('tabs' in source) {
-    // source is PanelData
-    tabs = source.tabs;
-  } else {
-    // source is TabData
-    tabs = [source];
-  }
-
-  if (tabs.length) {
-    let newPanel = clone(panel);
-    newPanel.tabs.splice(idx, 0, ...tabs);
-    newPanel.activeId = tabs[tabs.length - 1].id;
-
-    for (let tab of tabs) {
-      tab.parent = newPanel;
-    }
-
-    layout = replacePanel(layout, panel, newPanel);
-  }
-
-  return layout;
-}
-
-exports.addTabToPanel = addTabToPanel;
-
-function converToPanel(source) {
-  if ('tabs' in source) {
-    // source is already PanelData
-    return source;
-  } else {
-    let newPanel = {
-      tabs: [source],
-      group: source.group,
-      activeId: source.id
-    };
-    source.parent = newPanel;
-    return newPanel;
-  }
-}
-
-exports.converToPanel = converToPanel;
-
-function dockPanelToPanel(layout, newPanel, panel, direction) {
-  let box = panel.parent;
-  let dockMode = direction === 'left' || direction === 'right' ? 'horizontal' : 'vertical';
-  let afterPanel = direction === 'bottom' || direction === 'right';
-  let pos = box.children.indexOf(panel);
-
-  if (pos >= 0) {
-    let newBox = clone(box);
-
-    if (dockMode === box.mode) {
-      if (afterPanel) {
-        ++pos;
-      }
-
-      panel.size *= 0.5;
-      newPanel.size = panel.size;
-      newBox.children.splice(pos, 0, newPanel);
-    } else {
-      let newChildBox = {
-        mode: dockMode,
-        children: []
-      };
-      newChildBox.size = panel.size;
-
-      if (afterPanel) {
-        newChildBox.children = [panel, newPanel];
-      } else {
-        newChildBox.children = [newPanel, panel];
-      }
-
-      panel.parent = newChildBox;
-      panel.size = 200;
-      newPanel.parent = newChildBox;
-      newPanel.size = 200;
-      newBox.children[pos] = newChildBox;
-      newChildBox.parent = newBox;
-    }
-
-    return replaceBox(layout, box, newBox);
-  }
-
-  return layout;
-}
-
-exports.dockPanelToPanel = dockPanelToPanel;
-
-function dockPanelToBox(layout, newPanel, box, direction) {
-  let parentBox = box.parent;
-  let dockMode = direction === 'left' || direction === 'right' ? 'horizontal' : 'vertical';
-  let afterPanel = direction === 'bottom' || direction === 'right';
-
-  if (parentBox) {
-    let pos = parentBox.children.indexOf(box);
-
-    if (pos >= 0) {
-      let newParentBox = clone(parentBox);
-
-      if (dockMode === parentBox.mode) {
-        if (afterPanel) {
-          ++pos;
-        }
-
-        newPanel.size = box.size * 0.3;
-        box.size *= 0.7;
-        newParentBox.children.splice(pos, 0, newPanel);
-      } else {
-        let newChildBox = {
-          mode: dockMode,
-          children: []
-        };
-        newChildBox.size = box.size;
-
-        if (afterPanel) {
-          newChildBox.children = [box, newPanel];
-        } else {
-          newChildBox.children = [newPanel, box];
-        }
-
-        box.parent = newChildBox;
-        box.size = 280;
-        newPanel.parent = newChildBox;
-        newPanel.size = 120;
-        newParentBox.children[pos] = newChildBox;
-      }
-
-      return replaceBox(layout, parentBox, newParentBox);
-    }
-  } else if (box === layout.dockbox) {
-    let newBox = clone(box);
-
-    if (dockMode === box.mode) {
-      let pos = 0;
-
-      if (afterPanel) {
-        pos = newBox.children.length;
-      }
-
-      newPanel.size = box.size * 0.3;
-      box.size *= 0.7;
-      newBox.children.splice(pos, 0, newPanel);
-      return replaceBox(layout, box, newBox);
-    } else {
-      // replace root dockbox
-      let newDockBox = {
-        mode: dockMode,
-        children: []
-      };
-      newDockBox.size = box.size;
-
-      if (afterPanel) {
-        newDockBox.children = [newBox, newPanel];
-      } else {
-        newDockBox.children = [newPanel, newBox];
-      }
-
-      newBox.size = 280;
-      newPanel.size = 120;
-      return replaceBox(layout, box, newDockBox);
-    }
-  }
-
-  return layout;
-}
-
-exports.dockPanelToBox = dockPanelToBox;
-
-function floatPanel(layout, newPanel, rect) {
-  let newBox = clone(layout.floatbox);
-  newPanel.x = rect.left;
-  newPanel.y = rect.top;
-  newPanel.w = rect.width;
-  newPanel.h = rect.height;
-  newBox.children.push(newPanel);
-  return replaceBox(layout, layout.floatbox, newBox);
-}
-
-exports.floatPanel = floatPanel;
-
-function removeFromLayout(layout, source) {
-  if ('tabs' in source) {
-    return removePanel(layout, source);
-  } else {
-    return removeTab(layout, source);
-  }
-}
-
-exports.removeFromLayout = removeFromLayout;
-
-function removePanel(layout, panel) {
-  let box = panel.parent;
-
-  if (box) {
-    let pos = box.children.indexOf(panel);
-
-    if (pos >= 0) {
-      let newBox = clone(box);
-      newBox.children.splice(pos, 1);
-      return replaceBox(layout, box, newBox);
-    }
-  }
-
-  return layout;
-}
-
-function removeTab(layout, tab) {
-  let panel = tab.parent;
-
-  if (panel) {
-    let pos = panel.tabs.indexOf(tab);
-
-    if (pos >= 0) {
-      let newPanel = clone(panel);
-      newPanel.tabs.splice(pos, 1);
-
-      if (newPanel.activeId === tab.id) {
-        // update selection id
-        if (newPanel.tabs.length > pos) {
-          newPanel.activeId = newPanel.tabs[pos].id;
-        } else if (newPanel.tabs.length) {
-          newPanel.activeId = newPanel.tabs[0].id;
-        }
-      }
-
-      return replacePanel(layout, panel, newPanel);
-    }
-  }
-
-  return layout;
-}
-
-function fixLayoutData(layout) {
-  if (!('dockbox' in layout)) {
-    layout.dockbox = {
-      mode: 'horizontal',
-      children: [],
-      size: 1
-    };
-  }
-
-  if (!('floatbox' in layout)) {
-    layout.floatbox = {
-      mode: 'float',
-      children: [],
-      size: 1
-    };
-  } else {
-    layout.floatbox.mode = 'float';
-  }
-
-  fixBoxData(layout.dockbox);
-  fixBoxData(layout.floatbox);
-
-  if (layout.dockbox.children.length === 0) {
-    let newPanel = {
-      id: '+0',
-      group: exports.placeHolderGroup,
-      panelLock: {},
-      size: 200,
-      tabs: []
-    };
-    newPanel.parent = layout.dockbox;
-    layout.dockbox.children.push(newPanel);
-  } else {
-    while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
-      let newDockBox = clone(layout.dockbox.children[0]);
-      layout.dockbox = newDockBox;
-
-      for (let child of newDockBox.children) {
-        child.parent = newDockBox;
-      }
-    }
-  }
-
-  layout.dockbox.parent = null;
-  layout.floatbox.parent = null;
-  return layout;
-}
-
-exports.fixLayoutData = fixLayoutData;
-
-function fixpanelOrBox(d) {
-  if (d.id == null) {
-    d.id = DockData_1.nextId();
-  }
-
-  if (!(d.size >= 0)) {
-    d.size = 200;
-  }
-
-  d.minWidth = 0;
-  d.minHeight = 0;
-}
-
-function fixPanelData(panel) {
-  fixpanelOrBox(panel);
-
-  for (let child of panel.tabs) {
-    child.parent = panel;
-    if (child.minWidth > 0) panel.minWidth += child.minWidth;
-    if (child.minHeight > 0) panel.minHeight += child.minHeight;
-  }
-
-  if (panel.minWidth <= 0) {
-    panel.minWidth = 1;
-  }
-
-  if (panel.minHeight <= 0) {
-    panel.minHeight = 1;
-  }
-
-  if (panel.tabs.length) {
-    if (panel.activeId == null) {
-      panel.activeId = panel.tabs[0].id;
-    }
-
-    if (panel.group == null) {
-      panel.group = panel.tabs[0].group;
-    }
-  }
-
-  return panel;
-}
-
-function fixBoxData(box) {
-  fixpanelOrBox(box);
-
-  for (let i = 0; i < box.children.length; ++i) {
-    let child = box.children[i];
-    child.parent = box;
-
-    if ('children' in child) {
-      fixBoxData(child);
-
-      if (child.children.length === 0) {
-        // remove box with no child
-        box.children.splice(i, 1);
-        --i;
-      } else if (child.children.length === 1) {
-        // box with one child should be merged back to parent box
-        let subChild = child.children[0];
-
-        if (subChild.mode === box.mode) {
-          // sub child is another box that can be merged into current box
-          let totalSubSize = 0;
-
-          for (let subsubChild of subChild.children) {
-            totalSubSize += subsubChild.size;
-          }
-
-          let sizeScale = child.size / totalSubSize;
-
-          for (let subsubChild of subChild.children) {
-            subsubChild.size *= sizeScale;
-          } // merge children up
-
-
-          box.children.splice(i, 1, ...subChild.children);
-        } else {
-          // sub child can be moved up one layer
-          subChild.size = child.size;
-          box.children[i] = subChild;
-        }
-
-        --i;
-      }
-    } else if ('tabs' in child) {
-      fixPanelData(child);
-
-      if (child.tabs.length === 0) {
-        // remove panel with no tab
-        if (!child.panelLock) {
-          box.children.splice(i, 1);
-          --i;
-        } else if (child.group === exports.placeHolderGroup && (box.children.length > 1 || box.parent)) {
-          // remove placeHolder Group
-          box.children.splice(i, 1);
-          --i;
-        }
-      }
-    }
-
-    if (child.minWidth > 0) box.minWidth += child.minWidth;
-    if (child.minHeight > 0) box.minHeight += child.minHeight;
-  }
-
-  if (box.children.length > 1) {
-    switch (box.mode) {
-      case 'horizontal':
-        box.minWidth += (box.children.length - 1) * 4;
-        break;
-
-      case 'vertical':
-        box.minHeight += (box.children.length - 1) * 4;
-        break;
-    }
-  }
-
-  return box;
-}
-
-function replacePanel(layout, panel, newPanel) {
-  for (let tab of newPanel.tabs) {
-    tab.parent = newPanel;
-  }
-
-  let box = panel.parent;
-
-  if (box) {
-    let pos = box.children.indexOf(panel);
-
-    if (pos >= 0) {
-      let newBox = clone(box);
-      newBox.children[pos] = newPanel;
-      return replaceBox(layout, box, newBox);
-    }
-  }
-
-  return layout;
-}
-
-function replaceBox(layout, box, newBox) {
-  for (let child of newBox.children) {
-    child.parent = newBox;
-  }
-
-  let parentBox = box.parent;
-
-  if (parentBox) {
-    let pos = parentBox.children.indexOf(box);
-
-    if (pos >= 0) {
-      let newParentBox = clone(parentBox);
-      newParentBox.children[pos] = newBox;
-      return replaceBox(layout, parentBox, newParentBox);
-    }
-  } else {
-    if (box.id === layout.dockbox.id || box === layout.dockbox) {
-      return Object.assign({}, layout, {
-        dockbox: newBox
-      });
-    } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
-      return Object.assign({}, layout, {
-        floatbox: newBox
-      });
-    }
-  }
-
-  return layout;
-}
-},{"./DockData":"zh3I"}],"YpI/":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./util/Compare":"LCzK","rc-tabs":"9FgV","rc-tabs/lib/TabContent":"Bdxb","./DragStore":"3vjO","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"YpI/":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -8937,8 +8459,6 @@ const react_1 = __importDefault(require("react"));
 const DockData_1 = require("./DockData");
 
 const DragStore_1 = require("./DragStore");
-
-const Algorithm_1 = require("./Algorithm");
 
 class DockDropSquare extends react_1.default.PureComponent {
   constructor() {
@@ -8962,7 +8482,7 @@ class DockDropSquare extends react_1.default.PureComponent {
         targetElement = targetElement.parentElement;
       }
 
-      if (panelData.group === Algorithm_1.placeHolderGroup && direction !== 'float') {
+      if (panelData.group === DockData_1.placeHolderStyle && direction !== 'float') {
         // place holder panel should always have full size drop rect
         this.context.setDropRect(targetElement, 'middle', this, e.nativeEvent);
       } else {
@@ -9089,8 +8609,9 @@ class DockDropLayer extends react_1.default.PureComponent {
     let children = []; // check if it's whole panel dragging
 
     let draggingPanel = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'panel');
+    let fromGroup = this.context.getGroup(dropFromPanel.group);
 
-    if (dropFromPanel.group.floatable && (!draggingPanel || !draggingPanel.panelLock)) {
+    if (fromGroup.floatable && (!draggingPanel || !draggingPanel.panelLock)) {
       children.push(react_1.default.createElement(DockDropSquare, {
         key: 'float',
         direction: 'float',
@@ -9105,7 +8626,7 @@ class DockDropLayer extends react_1.default.PureComponent {
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
       DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
 
-      if (panelData.group.name === dropFromPanel.group.name && panelData !== dropFromPanel) {
+      if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
         // dock to tabs
         children.push(react_1.default.createElement(DockDropSquare, {
           key: 'middle',
@@ -9134,8 +8655,9 @@ class DockDropLayer extends react_1.default.PureComponent {
 
 }
 
+DockDropLayer.contextType = DockData_1.DockContextType;
 exports.DockDropLayer = DockDropLayer;
-},{"react":"1n8/","./DockData":"zh3I","./DragStore":"3vjO","./Algorithm":"wqok"}],"ohUB":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./DragStore":"3vjO"}],"ohUB":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -9240,26 +8762,61 @@ class DockPanel extends react_1.default.PureComponent {
       event.stopPropagation();
     };
 
-    this.onPanelCornerDrag = (event, initFunction) => {
-      let {
-        parent,
-        w,
-        h
-      } = this.props.panelData;
+    this.onPanelCornerDragTL = (event, initFunction) => {
+      this.onPanelCornerDrag(event, initFunction, 'tl');
+    };
 
-      if (parent && parent.mode === 'float') {
-        this._movingW = w;
-        this._movingH = h;
-        initFunction(this._ref, this.onPanelCornerDragMove);
-      }
+    this.onPanelCornerDragTR = (event, initFunction) => {
+      this.onPanelCornerDrag(event, initFunction, 'tr');
+    };
+
+    this.onPanelCornerDragBL = (event, initFunction) => {
+      this.onPanelCornerDrag(event, initFunction, 'bl');
+    };
+
+    this.onPanelCornerDragBR = (event, initFunction) => {
+      this.onPanelCornerDrag(event, initFunction, 'br');
     };
 
     this.onPanelCornerDragMove = (e, dx, dy) => {
       let {
         panelData
       } = this.props;
-      panelData.w = this._movingW + dx;
-      panelData.h = this._movingH + dy;
+
+      switch (this._movingCorner) {
+        case 'tl':
+          {
+            panelData.x = this._movingX + dx;
+            panelData.w = this._movingW - dx;
+            panelData.y = this._movingY + dy;
+            panelData.h = this._movingH - dy;
+            break;
+          }
+
+        case 'tr':
+          {
+            panelData.w = this._movingW + dx;
+            panelData.y = this._movingY + dy;
+            panelData.h = this._movingH - dy;
+            break;
+          }
+
+        case 'bl':
+          {
+            panelData.x = this._movingX + dx;
+            panelData.w = this._movingW - dx;
+            panelData.h = this._movingH + dy;
+            break;
+          }
+
+        case 'br':
+          {
+            panelData.w = this._movingW + dx;
+            panelData.h = this._movingH + dy;
+            break;
+          }
+      }
+
       this.forceUpdate();
     };
 
@@ -9299,6 +8856,25 @@ class DockPanel extends react_1.default.PureComponent {
     }
   }
 
+  onPanelCornerDrag(event, initFunction, corner) {
+    let {
+      parent,
+      x,
+      y,
+      w,
+      h
+    } = this.props.panelData;
+
+    if (parent && parent.mode === 'float') {
+      this._movingCorner = corner;
+      this._movingX = x;
+      this._movingY = y;
+      this._movingW = w;
+      this._movingH = h;
+      initFunction(this._ref, this.onPanelCornerDragMove);
+    }
+  }
+
   render() {
     let {
       dropFromPanel
@@ -9310,19 +8886,22 @@ class DockPanel extends react_1.default.PureComponent {
     let {
       minWidth,
       minHeight,
-      group,
+      group: groupName,
       id,
       parent,
       panelLock
     } = panelData;
-    let {
-      panelClass
-    } = group;
 
     if (panelLock) {
-      if (panelLock.panelClass) {
-        panelClass = panelLock.panelClass;
+      if (panelLock.panelStyle) {
+        groupName = panelLock.panelStyle;
       }
+    }
+
+    let panelClass;
+
+    if (groupName) {
+      panelClass = groupName.split(' ').map(name => `dock-style-${name}`).join(' ');
     }
 
     let isFloat = parent && parent.mode === 'float';
@@ -9377,10 +8956,23 @@ class DockPanel extends react_1.default.PureComponent {
       panelData: panelData,
       onPanelHeaderDragInit: onPanelHeaderDragInit,
       onPanelHeaderHtmlDrag: onPanelHeaderHtmlDrag
-    }), isFloat ? react_1.default.createElement(DragInitiator_1.DragInitiator, {
-      className: 'dock-panel-drag-size',
-      onDragInit: this.onPanelCornerDrag
-    }) : null, droppingLayer);
+    }), isFloat ? [react_1.default.createElement(DragInitiator_1.DragInitiator, {
+      key: 'drag-size-t-l',
+      className: 'dock-panel-drag-size dock-panel-drag-size-t-l',
+      onDragInit: this.onPanelCornerDragTL
+    }), react_1.default.createElement(DragInitiator_1.DragInitiator, {
+      key: 'drag-size-t-r',
+      className: 'dock-panel-drag-size dock-panel-drag-size-t-r',
+      onDragInit: this.onPanelCornerDragTR
+    }), react_1.default.createElement(DragInitiator_1.DragInitiator, {
+      key: 'drag-size-b-l',
+      className: 'dock-panel-drag-size dock-panel-drag-size-b-l',
+      onDragInit: this.onPanelCornerDragBL
+    }), react_1.default.createElement(DragInitiator_1.DragInitiator, {
+      key: 'drag-size-b-r',
+      className: 'dock-panel-drag-size dock-panel-drag-size-b-r',
+      onDragInit: this.onPanelCornerDragBR
+    })] : null, droppingLayer);
   }
 
 }
@@ -9757,22 +9349,585 @@ class FloatBox extends react_1.default.PureComponent {
 }
 
 exports.FloatBox = FloatBox;
-},{"react":"1n8/","./DockPanel":"ohUB"}],"EWaN":[function(require,module,exports) {
+},{"react":"1n8/","./DockPanel":"ohUB"}],"wqok":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const Algorithm_1 = require("./Algorithm");
+const DockData_1 = require("./DockData");
+
+let _watchObjectChange = new WeakMap();
+
+function getUpdatedObject(obj) {
+  let result = _watchObjectChange.get(obj);
+
+  if (result) {
+    return getUpdatedObject(result);
+  }
+
+  return obj;
+}
+
+exports.getUpdatedObject = getUpdatedObject;
+
+function clone(value) {
+  let newValue = Object.assign({}, value);
+
+  if (Array.isArray(newValue.tabs)) {
+    newValue.tabs = newValue.tabs.concat();
+  }
+
+  if (Array.isArray(newValue.children)) {
+    newValue.children = newValue.children.concat();
+  }
+
+  _watchObjectChange.set(value, newValue);
+
+  return newValue;
+}
+
+function findInPanel(panel, id) {
+  if (panel.id === id) {
+    return panel;
+  }
+
+  for (let tab of panel.tabs) {
+    if (tab.id === id) {
+      return tab;
+    }
+  }
+
+  return null;
+}
+
+function findInBox(box, id) {
+  let result;
+
+  for (let child of box.children) {
+    if ('children' in child) {
+      if (result = findInBox(child, id)) {
+        break;
+      }
+    } else if ('tabs' in child) {
+      if (result = findInPanel(child, id)) {
+        break;
+      }
+    }
+  }
+
+  return result;
+}
+
+function find(layout, id) {
+  let result = findInBox(layout.dockbox, id);
+
+  if (!result) {
+    result = findInBox(layout.floatbox, id);
+  }
+
+  return result;
+}
+
+exports.find = find;
+
+function addTabToTab(layout, tab, target, direction) {
+  let pos = target.parent.tabs.indexOf(target);
+
+  if (pos >= 0) {
+    if (direction === 'after-tab') {
+      ++pos;
+    }
+
+    return addTabToPanel(layout, tab, target.parent, pos);
+  }
+
+  return layout;
+}
+
+exports.addTabToTab = addTabToTab;
+
+function addTabToPanel(layout, source, panel, idx = -1) {
+  if (idx === -1) {
+    idx = panel.tabs.length;
+  }
+
+  let tabs;
+
+  if ('tabs' in source) {
+    // source is PanelData
+    tabs = source.tabs;
+  } else {
+    // source is TabData
+    tabs = [source];
+  }
+
+  if (tabs.length) {
+    let newPanel = clone(panel);
+    newPanel.tabs.splice(idx, 0, ...tabs);
+    newPanel.activeId = tabs[tabs.length - 1].id;
+
+    for (let tab of tabs) {
+      tab.parent = newPanel;
+    }
+
+    layout = replacePanel(layout, panel, newPanel);
+  }
+
+  return layout;
+}
+
+exports.addTabToPanel = addTabToPanel;
+
+function converToPanel(source) {
+  if ('tabs' in source) {
+    // source is already PanelData
+    return source;
+  } else {
+    let newPanel = {
+      tabs: [source],
+      group: source.group,
+      activeId: source.id
+    };
+    source.parent = newPanel;
+    return newPanel;
+  }
+}
+
+exports.converToPanel = converToPanel;
+
+function dockPanelToPanel(layout, newPanel, panel, direction) {
+  let box = panel.parent;
+  let dockMode = direction === 'left' || direction === 'right' ? 'horizontal' : 'vertical';
+  let afterPanel = direction === 'bottom' || direction === 'right';
+  let pos = box.children.indexOf(panel);
+
+  if (pos >= 0) {
+    let newBox = clone(box);
+
+    if (dockMode === box.mode) {
+      if (afterPanel) {
+        ++pos;
+      }
+
+      panel.size *= 0.5;
+      newPanel.size = panel.size;
+      newBox.children.splice(pos, 0, newPanel);
+    } else {
+      let newChildBox = {
+        mode: dockMode,
+        children: []
+      };
+      newChildBox.size = panel.size;
+
+      if (afterPanel) {
+        newChildBox.children = [panel, newPanel];
+      } else {
+        newChildBox.children = [newPanel, panel];
+      }
+
+      panel.parent = newChildBox;
+      panel.size = 200;
+      newPanel.parent = newChildBox;
+      newPanel.size = 200;
+      newBox.children[pos] = newChildBox;
+      newChildBox.parent = newBox;
+    }
+
+    return replaceBox(layout, box, newBox);
+  }
+
+  return layout;
+}
+
+exports.dockPanelToPanel = dockPanelToPanel;
+
+function dockPanelToBox(layout, newPanel, box, direction) {
+  let parentBox = box.parent;
+  let dockMode = direction === 'left' || direction === 'right' ? 'horizontal' : 'vertical';
+  let afterPanel = direction === 'bottom' || direction === 'right';
+
+  if (parentBox) {
+    let pos = parentBox.children.indexOf(box);
+
+    if (pos >= 0) {
+      let newParentBox = clone(parentBox);
+
+      if (dockMode === parentBox.mode) {
+        if (afterPanel) {
+          ++pos;
+        }
+
+        newPanel.size = box.size * 0.3;
+        box.size *= 0.7;
+        newParentBox.children.splice(pos, 0, newPanel);
+      } else {
+        let newChildBox = {
+          mode: dockMode,
+          children: []
+        };
+        newChildBox.size = box.size;
+
+        if (afterPanel) {
+          newChildBox.children = [box, newPanel];
+        } else {
+          newChildBox.children = [newPanel, box];
+        }
+
+        box.parent = newChildBox;
+        box.size = 280;
+        newPanel.parent = newChildBox;
+        newPanel.size = 120;
+        newParentBox.children[pos] = newChildBox;
+      }
+
+      return replaceBox(layout, parentBox, newParentBox);
+    }
+  } else if (box === layout.dockbox) {
+    let newBox = clone(box);
+
+    if (dockMode === box.mode) {
+      let pos = 0;
+
+      if (afterPanel) {
+        pos = newBox.children.length;
+      }
+
+      newPanel.size = box.size * 0.3;
+      box.size *= 0.7;
+      newBox.children.splice(pos, 0, newPanel);
+      return replaceBox(layout, box, newBox);
+    } else {
+      // replace root dockbox
+      let newDockBox = {
+        mode: dockMode,
+        children: []
+      };
+      newDockBox.size = box.size;
+
+      if (afterPanel) {
+        newDockBox.children = [newBox, newPanel];
+      } else {
+        newDockBox.children = [newPanel, newBox];
+      }
+
+      newBox.size = 280;
+      newPanel.size = 120;
+      return replaceBox(layout, box, newDockBox);
+    }
+  }
+
+  return layout;
+}
+
+exports.dockPanelToBox = dockPanelToBox;
+
+function floatPanel(layout, newPanel, rect) {
+  let newBox = clone(layout.floatbox);
+  newPanel.x = rect.left;
+  newPanel.y = rect.top;
+  newPanel.w = rect.width;
+  newPanel.h = rect.height;
+  newBox.children.push(newPanel);
+  return replaceBox(layout, layout.floatbox, newBox);
+}
+
+exports.floatPanel = floatPanel;
+
+function removeFromLayout(layout, source) {
+  if (source) {
+    if ('tabs' in source) {
+      return removePanel(layout, source);
+    } else {
+      return removeTab(layout, source);
+    }
+  }
+}
+
+exports.removeFromLayout = removeFromLayout;
+
+function removePanel(layout, panel) {
+  let box = panel.parent;
+
+  if (box) {
+    let pos = box.children.indexOf(panel);
+
+    if (pos >= 0) {
+      let newBox = clone(box);
+      newBox.children.splice(pos, 1);
+      return replaceBox(layout, box, newBox);
+    }
+  }
+
+  return layout;
+}
+
+function removeTab(layout, tab) {
+  let panel = tab.parent;
+
+  if (panel) {
+    let pos = panel.tabs.indexOf(tab);
+
+    if (pos >= 0) {
+      let newPanel = clone(panel);
+      newPanel.tabs.splice(pos, 1);
+
+      if (newPanel.activeId === tab.id) {
+        // update selection id
+        if (newPanel.tabs.length > pos) {
+          newPanel.activeId = newPanel.tabs[pos].id;
+        } else if (newPanel.tabs.length) {
+          newPanel.activeId = newPanel.tabs[0].id;
+        }
+      }
+
+      return replacePanel(layout, panel, newPanel);
+    }
+  }
+
+  return layout;
+}
+
+function fixLayoutData(layout) {
+  if (!('dockbox' in layout)) {
+    layout.dockbox = {
+      mode: 'horizontal',
+      children: [],
+      size: 1
+    };
+  }
+
+  if (!('floatbox' in layout)) {
+    layout.floatbox = {
+      mode: 'float',
+      children: [],
+      size: 1
+    };
+  } else {
+    layout.floatbox.mode = 'float';
+  }
+
+  fixBoxData(layout.dockbox);
+  fixBoxData(layout.floatbox);
+
+  if (layout.dockbox.children.length === 0) {
+    let newPanel = {
+      id: '+0',
+      group: DockData_1.placeHolderStyle,
+      panelLock: {},
+      size: 200,
+      tabs: []
+    };
+    newPanel.parent = layout.dockbox;
+    layout.dockbox.children.push(newPanel);
+  } else {
+    while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
+      let newDockBox = clone(layout.dockbox.children[0]);
+      layout.dockbox = newDockBox;
+
+      for (let child of newDockBox.children) {
+        child.parent = newDockBox;
+      }
+    }
+  }
+
+  layout.dockbox.parent = null;
+  layout.floatbox.parent = null;
+  return layout;
+}
+
+exports.fixLayoutData = fixLayoutData;
+
+function fixpanelOrBox(d) {
+  if (d.id == null) {
+    d.id = DockData_1.nextId();
+  }
+
+  if (!(d.size >= 0)) {
+    d.size = 200;
+  }
+
+  d.minWidth = 0;
+  d.minHeight = 0;
+}
+
+function fixPanelData(panel) {
+  fixpanelOrBox(panel);
+
+  for (let child of panel.tabs) {
+    child.parent = panel;
+    if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
+    if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
+  }
+
+  if (panel.minWidth <= 0) {
+    panel.minWidth = 1;
+  }
+
+  if (panel.minHeight <= 0) {
+    panel.minHeight = 1;
+  }
+
+  if (panel.tabs.length) {
+    if (panel.activeId == null) {
+      panel.activeId = panel.tabs[0].id;
+    }
+
+    if (panel.group == null) {
+      panel.group = panel.tabs[0].group;
+    }
+  }
+
+  return panel;
+}
+
+function fixBoxData(box) {
+  fixpanelOrBox(box);
+
+  for (let i = 0; i < box.children.length; ++i) {
+    let child = box.children[i];
+    child.parent = box;
+
+    if ('children' in child) {
+      fixBoxData(child);
+
+      if (child.children.length === 0) {
+        // remove box with no child
+        box.children.splice(i, 1);
+        --i;
+      } else if (child.children.length === 1) {
+        // box with one child should be merged back to parent box
+        let subChild = child.children[0];
+
+        if (subChild.mode === box.mode) {
+          // sub child is another box that can be merged into current box
+          let totalSubSize = 0;
+
+          for (let subsubChild of subChild.children) {
+            totalSubSize += subsubChild.size;
+          }
+
+          let sizeScale = child.size / totalSubSize;
+
+          for (let subsubChild of subChild.children) {
+            subsubChild.size *= sizeScale;
+          } // merge children up
+
+
+          box.children.splice(i, 1, ...subChild.children);
+        } else {
+          // sub child can be moved up one layer
+          subChild.size = child.size;
+          box.children[i] = subChild;
+        }
+
+        --i;
+      }
+    } else if ('tabs' in child) {
+      fixPanelData(child);
+
+      if (child.tabs.length === 0) {
+        // remove panel with no tab
+        if (!child.panelLock) {
+          box.children.splice(i, 1);
+          --i;
+        } else if (child.group === DockData_1.placeHolderStyle && (box.children.length > 1 || box.parent)) {
+          // remove placeHolder Group
+          box.children.splice(i, 1);
+          --i;
+        }
+      }
+    } // merge min size
+
+
+    switch (box.mode) {
+      case 'horizontal':
+        if (child.minWidth > 0) box.minWidth += child.minWidth;
+        if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
+        break;
+
+      case 'vertical':
+        if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
+        if (child.minHeight > 0) box.minHeight += child.minHeight;
+        break;
+    }
+  } // add divider size
+
+
+  if (box.children.length > 1) {
+    switch (box.mode) {
+      case 'horizontal':
+        box.minWidth += (box.children.length - 1) * 4;
+        break;
+
+      case 'vertical':
+        box.minHeight += (box.children.length - 1) * 4;
+        break;
+    }
+  }
+
+  return box;
+}
+
+function replacePanel(layout, panel, newPanel) {
+  for (let tab of newPanel.tabs) {
+    tab.parent = newPanel;
+  }
+
+  let box = panel.parent;
+
+  if (box) {
+    let pos = box.children.indexOf(panel);
+
+    if (pos >= 0) {
+      let newBox = clone(box);
+      newBox.children[pos] = newPanel;
+      return replaceBox(layout, box, newBox);
+    }
+  }
+
+  return layout;
+}
+
+function replaceBox(layout, box, newBox) {
+  for (let child of newBox.children) {
+    child.parent = newBox;
+  }
+
+  let parentBox = box.parent;
+
+  if (parentBox) {
+    let pos = parentBox.children.indexOf(box);
+
+    if (pos >= 0) {
+      let newParentBox = clone(parentBox);
+      newParentBox.children[pos] = newBox;
+      return replaceBox(layout, parentBox, newParentBox);
+    }
+  } else {
+    if (box.id === layout.dockbox.id || box === layout.dockbox) {
+      return Object.assign({}, layout, {
+        dockbox: newBox
+      });
+    } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
+      return Object.assign({}, layout, {
+        floatbox: newBox
+      });
+    }
+  }
+
+  return layout;
+}
+},{"./DockData":"zh3I"}],"EWaN":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function addPanelToCache(panelData, cache) {
   cache.panels.set(panelData.id, panelData);
-  let group = panelData.group;
-
-  if (!cache.groups.has(group.name)) {
-    cache.groups.set(group.name, group);
-  }
 
   for (let tab of panelData.tabs) {
     cache.tabs.set(tab.id, tab);
@@ -9792,8 +9947,7 @@ function addBoxToCache(boxData, cache) {
 function createLayoutCache(defaultLayout) {
   let cache = {
     panels: new Map(),
-    tabs: new Map(),
-    groups: new Map()
+    tabs: new Map()
   };
 
   if ('children' in defaultLayout) {
@@ -9824,7 +9978,7 @@ function saveLayoutData(layout, modifier = {}) {
   function saveTab(tabData) {
     let savedTab = {
       id: tabData.id,
-      groupName: tabData.group.name
+      group: tabData.group
     };
 
     if (modifySavedTab) {
@@ -9862,7 +10016,7 @@ function saveLayoutData(layout, modifier = {}) {
         size,
         tabs,
         activeId,
-        groupName: group.name,
+        group,
         x,
         y,
         z,
@@ -9875,7 +10029,7 @@ function saveLayoutData(layout, modifier = {}) {
         size,
         tabs,
         activeId,
-        groupName: group.name
+        group
       };
     }
 
@@ -9921,7 +10075,6 @@ exports.saveLayoutData = saveLayoutData;
 function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
   const {
     loadTab,
-    loadGroup,
     modifyLoadedPanel
   } = modifier;
 
@@ -9934,24 +10087,6 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
   }
 
   let cache = createLayoutCache(defaultLayout);
-
-  function loadTabGroup(groupName) {
-    if (groupName === Algorithm_1.placeHolderGroup.name) {
-      return Algorithm_1.placeHolderGroup;
-    }
-
-    let group;
-
-    if (loadGroup) {
-      group = loadGroup(groupName);
-    }
-
-    if (!group) {
-      group = cache.groups.get(groupName);
-    }
-
-    return group;
-  }
 
   function loadTabData(savedTab) {
     if (loadTab) {
@@ -9972,7 +10107,7 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
   function loadPanelData(savedPanel) {
     let {
       id,
-      groupName,
+      group,
       size,
       activeId,
       x,
@@ -10004,7 +10139,7 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
         w,
         h,
         tabs,
-        group: loadTabGroup(groupName)
+        group
       };
     } else {
       panelData = {
@@ -10012,12 +10147,12 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
         size,
         activeId,
         tabs,
-        group: loadTabGroup(groupName)
+        group
       };
     }
 
     if (modifyLoadedPanel) {
-      modifyLoadedPanel(panelData, savedPanel);
+      modifyLoadedPanel(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
       panelData = Object.assign({}, cache.panels.get(id), panelData);
     }
@@ -10056,7 +10191,7 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
 }
 
 exports.loadLayoutData = loadLayoutData;
-},{"./Algorithm":"wqok"}],"0iJy":[function(require,module,exports) {
+},{}],"0iJy":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -10108,8 +10243,9 @@ class DockLayout extends react_1.default.PureComponent {
     this.getRef = r => {
       this._ref = r;
     };
-    /** @ignore */
 
+    this._groups = {};
+    /** @ignore */
 
     this.dragEnd = () => {
       DockPanel_1.DockPanel.droppingPanel = null;
@@ -10134,18 +10270,25 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   prepareInitData(data) {
-    let layout;
+    let layout = Object.assign({}, data); // add groups
 
-    if ('dockbox' in data || 'floatbox' in data) {
-      layout = data;
-    } else if ('children' in data) {
-      layout = {
-        dockbox: data
-      };
+    if ('groups' in data) {
+      for (let name in data.groups) {
+        this._groups[name] = Object.assign({}, data.groups[name]);
+      }
     }
 
+    this._groups[DockData_1.placeHolderStyle] = DockData_1.placeHolderGroup;
     Algorithm.fixLayoutData(layout);
     return layout;
+  }
+
+  getGroup(name) {
+    if (name in this._groups) {
+      return this._groups[name];
+    }
+
+    return DockData_1.defaultGroup;
   }
 
   dockMove(source, target, direction) {
@@ -10184,6 +10327,38 @@ class DockLayout extends react_1.default.PureComponent {
       layout
     });
     this.dragEnd();
+  }
+
+  find(id) {
+    return Algorithm.find(this.state.layout, id);
+  }
+
+  updateTab(id, newTab) {
+    let tab = this.find(id);
+
+    if (tab && !('tabs' in tab)) {
+      let panelData = tab.parent;
+      let idx = panelData.tabs.indexOf(tab);
+
+      if (idx >= 0) {
+        let {
+          layout
+        } = this.state;
+        layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
+
+        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
+
+        layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+
+        layout = Algorithm.fixLayoutData(layout);
+        this.setState({
+          layout
+        });
+        return true;
+      }
+    }
+
+    return false;
   }
   /** @ignore */
 
@@ -10289,8 +10464,7 @@ class DockLayout extends react_1.default.PureComponent {
       // already the top
       return current;
     } // if (this._zCount >= Number.MAX_SAFE_INTEGER) {
-    //   is it a bug here when this is commented out?
-    //   No !!
+    //   is it a bug here? No !
     // }
 
 
@@ -10384,6 +10558,10 @@ __export(require("./DockLayout"));
 __export(require("./DragStore"));
 
 __export(require("./Divider"));
+
+const DockLayout_1 = require("./DockLayout");
+
+exports.default = DockLayout_1.DockLayout;
 },{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./DragStore":"3vjO","./Divider":"Lzzn"}],"FeNK":[function(require,module,exports) {
 "use strict";
 

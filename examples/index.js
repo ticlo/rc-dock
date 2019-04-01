@@ -241,8 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     Divider
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout'];
-  let advance = ['standalone-divider'];
+  let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout', 'panel-extra'];
+  let advance = ['adv-tab-update', 'adv-save-layout', 'standalone-divider'];
   let defaultPage = window.location.hash.substr(1);
 
   if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {
@@ -302,9 +302,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return React.createElement("div", null, React.createElement("nav", null, React.createElement("h2", null, "rc-dock"), React.createElement("div", {
         className: "link-bar"
-      }, "Examples:", React.createElement("br", null), demoPages), React.createElement("div", {
+      }, React.createElement("a", {
+        href: "https://github.com/ticlo/rc-dock/tree/master/example"
+      }, "Examples:"), React.createElement("br", null), demoPages), React.createElement("div", {
         className: "link-bar"
-      }, "Advanced:", React.createElement("br", null), advancePages)), React.createElement("iframe", {
+      }, React.createElement("a", {
+        href: "https://github.com/ticlo/rc-dock/tree/master/example"
+      }, "Advanced:"), React.createElement("br", null), advancePages)), React.createElement("iframe", {
         src: `./${current}.html`
       }));
     }

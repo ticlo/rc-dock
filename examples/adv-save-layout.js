@@ -232,7 +232,9 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"zrKk":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"29vj":[function(require,module,exports) {
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
@@ -241,59 +243,143 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  const Context = React.createContext();
+
+  class InputTab extends React.PureComponent {
+    constructor(...args) {
+      super(...args);
+
+      _defineProperty(this, "onChange", e => {
+        this.props.tabData.inputValue = e.target.value;
+        this.forceUpdate();
+      });
+    }
+
+    render() {
+      return React.createElement("div", null, React.createElement("p", null, "input value will be saved"), React.createElement("input", {
+        style: {
+          width: '100%'
+        },
+        onChange: this.onChange,
+        value: this.props.tabData.inputValue
+      }));
+    }
+
+    static create(tabData) {
+      return React.createElement(InputTab, {
+        tabData: tabData
+      });
+    }
+
+  }
+
+  function getTab(id) {
+    return {
+      id,
+      title: id,
+      content: InputTab.create,
+      inputValue: ''
+    };
+  }
+
+  let tab0 = {
+    id: 'tab0',
+    title: 'tab0',
+    content: React.createElement("div", null, "This tab will be added back to main panel every time you load layout.")
+  };
 
   class Demo extends React.Component {
     constructor(...args) {
       super(...args);
 
-      _defineProperty(this, "state", {
-        ctx: 0
+      _defineProperty(this, "getRef", r => {
+        this.dockLayout = r;
       });
 
-      _defineProperty(this, "addCtx", () => {
-        this.setState({
-          ctx: this.state.ctx + 1
-        });
+      _defineProperty(this, "state", {
+        saved: null
       });
 
       _defineProperty(this, "defaultLayout", {
         dockbox: {
-          mode: 'vertical',
+          mode: 'horizontal',
           children: [{
-            tabs: [{
-              id: 'id2',
-              title: 'change',
-              content: React.createElement("div", null, React.createElement("p", null, "Click here to change value in React Context."), React.createElement("button", {
-                onClick: this.addCtx
-              }, "Update Value"))
-            }]
+            size: 200,
+            tabs: [getTab('tab1'), getTab('tab2')]
           }, {
-            tabs: [{
-              id: 'id1',
-              title: 'context consumer',
-              content: React.createElement(Context.Consumer, null, value => React.createElement("div", null, React.createElement("p", null, "React Context is the easiest way to update children tab."), "Current value is: ", React.createElement("b", null, value))) // cached: true,
-              // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
-
-            }]
+            id: 'main-panel',
+            size: 400,
+            tabs: [tab0, getTab('tab3'), getTab('tab4')],
+            panelLock: {
+              panelStyle: 'main'
+            }
+          }, {
+            size: 200,
+            tabs: [getTab('tab5'), getTab('tab6')]
           }]
         }
+      });
+
+      _defineProperty(this, "saveModifier", {
+        modifySavedTab(savedTab, tabData) {
+          // add inputValue from saved data;
+          savedTab.inputValue = tabData.inputValue;
+        }
+
+      });
+
+      _defineProperty(this, "loadModifier", {
+        loadTab(savedTab) {
+          let id = savedTab.id;
+
+          if (id === 'tab0') {
+            return null;
+          }
+
+          let tabData = getTab(id); // load inputValue from savedData
+
+          tabData.inputValue = savedTab.inputValue;
+          return tabData;
+        },
+
+        // add tab0 to the main panel
+        modifyLoadedPanel(savedPanel, panelData) {
+          let id = savedPanel.id;
+
+          if (id === 'main-panel') {
+            panelData.panelLock = {
+              panelStyle: 'main'
+            };
+            panelData.tabs.unshift(_objectSpread({}, tab0));
+          }
+        }
+
       });
     }
 
     render() {
-      return React.createElement(Context.Provider, {
-        value: this.state.ctx
-      }, React.createElement(DockLayout, {
+      return React.createElement("div", null, React.createElement(DockLayout, {
+        ref: this.getRef,
         defaultLayout: this.defaultLayout,
         style: {
           position: 'absolute',
           left: 10,
-          top: 10,
+          top: 60,
           right: 10,
           bottom: 10
         }
-      }));
+      }), React.createElement("div", {
+        className: "top-panel"
+      }, React.createElement("button", {
+        style: {
+          marginRight: 20
+        },
+        onClick: () => this.setState({
+          saved: this.dockLayout.saveLayout(this.saveModifier)
+        })
+      }, "Save Layout"), React.createElement("button", {
+        disabled: this.state.saved == null,
+        onClick: () => this.dockLayout.loadLayout(this.state.saved, this.loadModifier)
+      }, "Load Layout")));
     }
 
   }
@@ -324,4 +410,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"zrKk"], null)
+},{}]},{},[0,"29vj"], null)

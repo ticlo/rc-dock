@@ -243,28 +243,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let defaultGroup = {
-    name: 'default',
-    floatable: true
-  };
-  let headlessGroup = {
-    name: 'headless',
-    floatable: true,
-    // this is a pre-defined style, defined here:
-    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
-    panelClass: 'dock-headless-panel'
-  };
-  let customStyleGroup = {
-    name: 'custom',
-    closable: true,
-    floatable: true,
-    // this is a custom panel style defined in panel-style.html
-    panelClass: 'my-panel'
+  let groups = {
+    headless: {
+      // the css class for this would be dock-panel-headless
+      // this is a pre-defined style, defined here:
+      // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+      floatable: true
+    },
+    custom: {
+      // the css class for this would be dock-panel-custom
+      // this is a custom panel style defined in panel-style.html
+      closable: true,
+      floatable: true
+    }
   };
   let defaultTab = {
     title: 'default-style',
-    content: React.createElement("div", null, "Default style"),
-    group: defaultGroup
+    content: React.createElement("div", null, "Tabs from different style group can't be docked in same panel")
   };
   let headlessTab = {
     title: 'headless',
@@ -275,15 +270,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         margin: 0,
         padding: 30
       }
-    }, "Hide border and header."),
-    group: headlessGroup
+    }, React.createElement("p", null, "Hide border and header."), "Move mouse near top border to show header."),
+    group: 'headless'
   };
   let customTab = {
     title: 'custom-style',
-    content: React.createElement("div", null, React.createElement("p", null, "Custom style"), "You can mix different styles in same layout, but they can't be docked into same panel."),
-    group: customStyleGroup
+    content: React.createElement("div", null, "Custom style"),
+    group: 'custom'
   };
   let box = {
+    groups,
     dockbox: {
       mode: 'horizontal',
       children: [{

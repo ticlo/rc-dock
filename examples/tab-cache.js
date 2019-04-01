@@ -243,24 +243,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let group = {
-    floatable: true
-  };
   let cachedTab = {
     title: 'cached',
     cached: true,
     // cached = true allows the component to keep its internal state when dragged around
-    content: React.createElement("div", null, React.createElement("p", null, "cached = true", React.createElement("br", null), "this input will keep its state when dragged around"), React.createElement("input", null)),
-    group
+    content: React.createElement("div", null, React.createElement("p", null, "cached = true"), React.createElement("p", null, "React component in this tab will keep its internal state when dragged around"), React.createElement("input", null))
   };
   let nocachedTab = {
     title: 'lose state',
-    content: React.createElement("div", null, React.createElement("p", {
+    content: React.createElement("div", null, React.createElement("p", null, "By default, React won't reuse component if it moves out from its parent"), React.createElement("p", {
       style: {
         color: 'red'
       }
-    }, "This input might lose its state when dragged around"), React.createElement("input", null)),
-    group
+    }, "This input might lose its state when dragged around"), React.createElement("input", null))
   };
   let box = {
     dockbox: {

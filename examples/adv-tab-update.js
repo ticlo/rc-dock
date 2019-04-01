@@ -232,7 +232,7 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"zrKk":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"7Pjd":[function(require,module,exports) {
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
@@ -241,20 +241,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  const Context = React.createContext();
+  let lockedGroup = {
+    tabLocked: true
+  };
+
+  function getTab(id, value) {
+    return {
+      id,
+      content: React.createElement("div", null, React.createElement("p", null, "It's easier to use React Context to update tab,", React.createElement("br", null), "but in some use cases you might need to directly update the tab."), id !== `tab${value}` ? React.createElement("p", null, "Only current active tab will be changed") : null, "value is ", value),
+      title: id,
+      group: 'locked'
+    };
+  }
 
   class Demo extends React.Component {
     constructor(...args) {
       super(...args);
 
-      _defineProperty(this, "state", {
-        ctx: 0
+      _defineProperty(this, "getRef", r => {
+        this.dockLayout = r;
       });
 
-      _defineProperty(this, "addCtx", () => {
-        this.setState({
-          ctx: this.state.ctx + 1
-        });
+      _defineProperty(this, "count", 4);
+
+      _defineProperty(this, "addValue", () => {
+        let panelData = this.dockLayout.find('my_panel');
+        let tabId = panelData.activeId; // docklayout will find the same tab id and replace the previous tab
+
+        this.dockLayout.updateTab(tabId, getTab(tabId, ++this.count));
+      });
+
+      _defineProperty(this, "addTab", () => {
+        let panelData = this.dockLayout.find('my_panel');
+        ++this.count;
+        let newTab = getTab(`tab${this.count}`, this.count);
+        this.dockLayout.dockMove(newTab, panelData, 'middle');
       });
 
       _defineProperty(this, "defaultLayout", {
@@ -264,27 +285,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tabs: [{
               id: 'id2',
               title: 'change',
-              content: React.createElement("div", null, React.createElement("p", null, "Click here to change value in React Context."), React.createElement("button", {
-                onClick: this.addCtx
-              }, "Update Value"))
+              content: React.createElement("div", null, React.createElement("p", null, "Click here to change the other panel."), React.createElement("button", {
+                onClick: this.addValue
+              }, "Update Value"), React.createElement("button", {
+                onClick: this.addTab
+              }, "Add Tab"))
             }]
           }, {
-            tabs: [{
-              id: 'id1',
-              title: 'context consumer',
-              content: React.createElement(Context.Consumer, null, value => React.createElement("div", null, React.createElement("p", null, "React Context is the easiest way to update children tab."), "Current value is: ", React.createElement("b", null, value))) // cached: true,
-              // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
-
-            }]
+            id: 'my_panel',
+            tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)]
           }]
+        },
+        groups: {
+          'locked': lockedGroup
         }
+      });
+
+      _defineProperty(this, "state", {
+        saved: null
       });
     }
 
     render() {
-      return React.createElement(Context.Provider, {
-        value: this.state.ctx
-      }, React.createElement(DockLayout, {
+      return React.createElement(DockLayout, {
+        ref: this.getRef,
         defaultLayout: this.defaultLayout,
         style: {
           position: 'absolute',
@@ -293,7 +317,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           right: 10,
           bottom: 10
         }
-      }));
+      });
     }
 
   }
@@ -324,4 +348,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"zrKk"], null)
+},{}]},{},[0,"7Pjd"], null)

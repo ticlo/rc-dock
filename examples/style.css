@@ -234,13 +234,16 @@
   position: absolute;
   cursor: pointer;
   font-family: Fredoka One;
-  color: red;
-  right: 1px;
+  color: #aaa;
+  right: 0;
   width: 16px;
   text-align: center;
-  top: 4px;
-  opacity: 0;
+  top: 3px;
+  opacity: 0.3;
   transition: opacity 0.25s ease-in-out;
+}
+.dock-tab-close-btn:hover {
+  color: red;
 }
 .dock-tab:hover .dock-tab-close-btn {
   opacity: 1;
@@ -267,9 +270,29 @@
 }
 .dock-panel-drag-size {
   position: absolute;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"%3E%3Cpath fill="rgba(0,0,0,0.1)" d="M2 12 L12 2 L12 12z"/%3E%3C/svg%3E');
+  width: 8px;
+  height: 8px;
+  z-index: 300;
+}
+.dock-panel-drag-size-t-l {
+  top: -1px;
+  left: -1px;
+  cursor: nwse-resize;
+}
+.dock-panel-drag-size-t-r {
+  top: -1px;
   right: -1px;
+  cursor: nesw-resize;
+}
+.dock-panel-drag-size-b-l {
   bottom: -1px;
+  left: -1px;
+  cursor: nesw-resize;
+}
+.dock-panel-drag-size-b-r {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"%3E%3Cpath fill="rgba(0,0,0,0.1)" d="M2 12 L12 2 L12 12z"/%3E%3C/svg%3E');
+  bottom: -1px;
+  right: -1px;
   width: 14px;
   height: 14px;
   cursor: nwse-resize;
@@ -416,40 +439,36 @@
 .dock-panel.dock-panel-dropping .dock-tab-close-btn {
   pointer-events: none;
 }
-.dock-panel.dock-placeholder-panel {
+.dock-panel.dock-style-place-holder {
   border: none;
 }
-.dock-panel.dock-placeholder-panel .dock-bar {
+.dock-panel.dock-style-place-holder .dock-bar {
   display: none;
 }
-.dock-layout > .dock-hbox .dock-panel.dock-headless-panel,
-.dock-layout > .dock-vbox .dock-panel.dock-headless-panel {
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless {
   border: none;
 }
-.dock-layout > .dock-hbox .dock-panel.dock-headless-panel .dock-bar,
-.dock-layout > .dock-vbox .dock-panel.dock-headless-panel .dock-bar {
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-bar {
   position: absolute;
   z-index: 1;
   opacity: 0;
-  height: 16px;
+  height: 20px;
   width: 100%;
   transition: all 0.15s ease-in-out;
 }
-.dock-layout > .dock-hbox .dock-panel.dock-headless-panel .dock-bar:hover,
-.dock-layout > .dock-vbox .dock-panel.dock-headless-panel .dock-bar:hover,
-.dock-layout > .dock-hbox .dock-panel.dock-headless-panel.dock-panel-dropping .dock-bar,
-.dock-layout > .dock-vbox .dock-panel.dock-headless-panel.dock-panel-dropping .dock-bar {
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-bar:hover,
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless.dock-panel-dropping .dock-bar {
   opacity: 1;
   height: 31px;
 }
-.dock-panel.dock-main-locked-panel {
+.dock-panel.dock-style-main {
   border: none;
 }
-.dock-panel.dock-main-locked-panel .dock-bar {
+.dock-panel.dock-style-main .dock-bar {
   background: none;
   border-bottom: 1px solid #eee;
 }
-.dock-panel.dock-main-locked-panel .dock-tab {
+.dock-panel.dock-style-main .dock-tab {
   background: #fff;
 }
 body {
@@ -459,13 +478,11 @@ body {
 .dock-tabpane > div {
   margin: 20px;
 }
-.side-panel {
-  width: 150px;
+.top-panel {
   position: absolute;
-  right: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  align-items: center;
+  padding: 0 20px;
 }
 button {
   display: inline-block;
@@ -477,7 +494,7 @@ button {
   color: #212529;
   background-color: #fff;
   border: 1px solid #e9ecef;
-  padding: 0.375rem 0.75rem;
+  padding: 3px 10px;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.25rem;

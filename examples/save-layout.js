@@ -241,45 +241,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let group = {
-    name: 'default',
-    floatable: true
-  };
   let tab1 = {
     id: 't1',
     title: 'Tab 1',
-    content: React.createElement("div", null, "Tab 1"),
-    group
+    content: React.createElement("div", null, "Tab 1")
   };
   let tab2 = {
     id: 't2',
     title: 'Tab 2',
-    content: React.createElement("div", null, "Tab 2"),
-    group
+    content: React.createElement("div", null, "Tab 2")
   };
   let tab3 = {
     id: 't3',
     title: 'Tab 3',
-    content: React.createElement("div", null, "Tab 3"),
-    group
+    content: React.createElement("div", null, "Tab 3")
   };
   let tab4 = {
     id: 't4',
     title: 'Tab 4',
-    content: React.createElement("div", null, "Tab 4"),
-    group
+    content: React.createElement("div", null, "Tab 4")
   };
   let tab5 = {
     id: 't5',
     title: 'Tab 5',
-    content: React.createElement("div", null, "Tab 5"),
-    group
+    content: React.createElement("div", null, "Tab 5")
   };
   let tab6 = {
     id: 't6',
     title: 'Tab 6',
-    content: React.createElement("div", null, "Tab 6"),
-    group
+    content: React.createElement("div", null, "Tab 6")
   };
   let defaultLayout = {
     dockbox: {
@@ -367,28 +357,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         style: {
           position: 'absolute',
           left: 10,
-          top: 10,
-          right: 180,
+          top: 60,
+          right: 10,
           bottom: 10
         }
       }), React.createElement("div", {
-        className: "side-panel"
-      }, React.createElement("button", {
+        className: "top-panel"
+      }, "Save Layout:", React.createElement("button", {
+        style: {
+          marginRight: 20
+        },
         onClick: () => this.setState({
           saved: this.dockLayout.saveLayout()
         })
-      }, "Save Layout"), React.createElement("div", {
-        style: {
-          height: 20
-        }
-      }), React.createElement("button", {
+      }, "Save"), "Load Layout:", React.createElement("button", {
+        onClick: () => this.dockLayout.loadLayout(horizontalLayout)
+      }, "Horizontal"), React.createElement("button", {
+        onClick: () => this.dockLayout.loadLayout(panelLayout)
+      }, "Single Panel"), React.createElement("button", {
         disabled: this.state.saved == null,
         onClick: () => this.dockLayout.loadLayout(this.state.saved)
-      }, "Load", React.createElement("br", null), "Saved Layout"), React.createElement("button", {
-        onClick: () => this.dockLayout.loadLayout(horizontalLayout)
-      }, "Load", React.createElement("br", null), "Horizontal"), React.createElement("button", {
-        onClick: () => this.dockLayout.loadLayout(panelLayout)
-      }, "Load", React.createElement("br", null), "Single Panel")));
+      }, "Saved Layout")));
     }
 
   }

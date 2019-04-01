@@ -233,67 +233,36 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"3Fhe"}],"0b9i":[function(require,module,exports) {
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 (async function () {
   let {
     React,
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let group = {
-    floatable: true
-  };
-  let minSizeTab400 = {
-    title: 'min size 400',
-    minWidth: 400,
-    minHeight: 400,
-    content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size.", React.createElement("br", null), "400 x 400 px")),
-    group
-  };
-  let minSizeTab300 = {
-    title: 'min size 300',
-    minWidth: 300,
-    minHeight: 300,
-    content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size.", React.createElement("br", null), "300 x 300 px")),
-    group
-  };
-  let minSizeTab200 = {
-    title: 'min size 200',
-    minWidth: 200,
-    minHeight: 200,
-    content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size.", React.createElement("br", null), "200 x 200 px")),
-    group
-  };
-  let tab = {
-    title: 'normal',
-    content: React.createElement("div", null),
-    group
-  };
+
+  function getTab(width, height) {
+    let title = `size ${width}x${height}`;
+    return {
+      id: title,
+      title,
+      minWidth: width,
+      minHeight: height,
+      content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size.", React.createElement("br", null), width, " x ", height, " px"))
+    };
+  }
+
   let box = {
     dockbox: {
       mode: 'horizontal',
       children: [{
         mode: 'vertical',
         children: [{
-          tabs: [_objectSpread({}, minSizeTab300, {
-            id: 'id1'
-          }), _objectSpread({}, tab, {
-            id: 'id2'
-          })]
+          tabs: [getTab(300, 300), getTab(300, 0)]
         }, {
-          tabs: [_objectSpread({}, minSizeTab200, {
-            id: 'id5'
-          })]
+          tabs: [getTab(300, 100), getTab(100, 100)]
         }]
       }, {
-        tabs: [_objectSpread({}, minSizeTab400, {
-          id: 'id3'
-        }), _objectSpread({}, tab, {
-          id: 'id4'
-        })]
+        tabs: [getTab(0, 300), getTab(0, 0)]
       }]
     }
   };

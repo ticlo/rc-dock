@@ -245,23 +245,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockContextType,
     DragStore
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let fixGroup = {
-    name: 'fixed',
-    floatable: true
-  };
-  let closableGroup = {
-    name: 'closable',
-    floatable: true,
-    animate: false
-  };
-  let fixTab = {
-    content: React.createElement("div", null, "Tab Group 1"),
-    group: fixGroup
-  };
-  let closableTab = {
-    content: React.createElement("div", null, "Tab Group 2"),
-    closable: true,
-    group: closableGroup
+  let tab = {
+    content: React.createElement("div", null, "Tab Content"),
+    closable: true
   };
   let box = {
     dockbox: {
@@ -270,44 +256,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         mode: 'vertical',
         size: 200,
         children: [{
-          tabs: [_objectSpread({}, fixTab, {
+          tabs: [_objectSpread({}, tab, {
             id: 't1',
             title: 'Tab 1'
-          }), _objectSpread({}, fixTab, {
+          }), _objectSpread({}, tab, {
             id: 't2',
             title: 'Tab 2'
           })]
         }, {
-          tabs: [_objectSpread({}, fixTab, {
+          tabs: [_objectSpread({}, tab, {
             id: 't3',
             title: 'Min Size',
-            content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size"), "200 x 200 px"),
-            minWidth: 200,
-            minHeight: 200
-          }), _objectSpread({}, fixTab, {
+            content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size"), "100 x 100 px"),
+            minWidth: 100,
+            minHeight: 100
+          }), _objectSpread({}, tab, {
             id: 't4',
             title: 'Tab 4'
           })]
         }]
       }, {
         size: 1000,
-        tabs: [_objectSpread({}, closableTab, {
+        tabs: [_objectSpread({}, tab, {
           id: 't5',
           title: 'basic demo',
           content: React.createElement("div", null, "This panel won't be removed from layout even when last Tab is closed")
-        }), _objectSpread({}, closableTab, {
+        }), _objectSpread({}, tab, {
           id: 't6',
           title: 'Tab 6'
-        }), _objectSpread({}, closableTab, {
+        }), _objectSpread({}, tab, {
           id: 't7',
           title: 'Tab 7'
         })],
         panelLock: {
-          panelClass: 'dock-main-locked-panel'
+          panelStyle: 'main'
         }
       }, {
         size: 200,
-        tabs: [_objectSpread({}, fixTab, {
+        tabs: [_objectSpread({}, tab, {
           id: 't8',
           title: 'Tab 8'
         })]
@@ -316,13 +302,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     floatbox: {
       mode: 'float',
       children: [{
-        tabs: [_objectSpread({}, fixTab, {
-          id: 't8',
-          title: 'Tab 8',
-          content: React.createElement("div", null, "Float")
-        }), _objectSpread({}, fixTab, {
+        tabs: [_objectSpread({}, tab, {
           id: 't9',
-          title: 'Tab 9'
+          title: 'Tab 9',
+          content: React.createElement("div", null, "Float")
+        }), _objectSpread({}, tab, {
+          id: 't10',
+          title: 'Tab 10'
         })],
         x: 300,
         y: 150,
@@ -348,33 +334,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               }
             }, content),
             title: content,
-            closable: true,
-            group: closableGroup
+            closable: true
           }
         }, e.nativeEvent);
       });
     }
 
     render() {
-      return React.createElement("div", {
-        style: {
-          margin: 20
-        }
-      }, React.createElement(DockLayout, {
+      return React.createElement(DockLayout, {
         defaultLayout: box,
         style: {
           position: 'absolute',
           left: 10,
           top: 10,
-          right: 180,
+          right: 10,
           bottom: 10
         }
-      }), React.createElement("div", {
-        className: "side-panel"
-      }, React.createElement("button", {
-        draggable: true,
-        onDragStart: this.onDragNewTab
-      }, "Drag a new Tab from here")));
+      });
     }
 
   }

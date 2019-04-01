@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Divider} from '../lib';
 
-let demos = ['basic', 'panel-style', 'tab-cache', 'tab-update', 'save-layout', 'panel-extra'];
-let advance = ['adv-tab-update', 'adv-save-layout', 'standalone-divider'];
+let demos = ['basic', 'panel-style', 'tab-update', 'save-layout', 'panel-extra'];
+let advance = ['adv-tab-update', 'adv-save-layout', 'tab-cache', 'standalone-divider'];
 
 let defaultPage = window.location.hash.substr(1);
 if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {

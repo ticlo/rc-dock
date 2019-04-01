@@ -23,15 +23,31 @@ let nocachedTab = {
     </div>
   ),
 };
+
+let commentTab = {
+  title: 'other method',
+  content: (
+    <div>
+      <p>Other methods can also be used to achieve this</p>
+      <ul>
+        <li>React Context is an easier way if the state can be stored globally, check the tab-update example</li>
+        <li>Store state inside TabData is also possible, check adv-save-layout example</li>
+      </ul>
+    </div>
+  ),
+};
 let box = {
   dockbox: {
-    mode: 'horizontal',
+    mode: 'vertical',
     children: [
       {
         tabs: [{...cachedTab, id: 'cache1'}, {...cachedTab, id: 'cache2'}],
       },
       {
         tabs: [{...nocachedTab, id: 'nocache1'}, {...nocachedTab, id: 'nocache2'}],
+      },
+      {
+        tabs: [{...commentTab, id: 'comment'}],
       },
     ]
   }

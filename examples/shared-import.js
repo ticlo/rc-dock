@@ -647,11 +647,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 const react_1 = __importDefault(require("react"));
+/** @ignore */
+
 
 exports.defaultGroup = {
   floatable: true
 };
+/** @ignore */
+
 exports.placeHolderStyle = 'place-holder';
+/** @ignore */
+
 exports.placeHolderGroup = {
   floatable: false
 };

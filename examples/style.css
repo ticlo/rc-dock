@@ -461,6 +461,9 @@
   opacity: 1;
   height: 31px;
 }
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-content {
+  height: 100%;
+}
 .dock-panel.dock-style-main {
   border: none;
 }
@@ -470,6 +473,40 @@
 }
 .dock-panel.dock-style-main .dock-tab {
   background: #fff;
+}
+.dock-panel.dock-style-card .dock-tab {
+  margin-right: 2px;
+  border: 1px solid #ddd;
+  border-radius: 5px 5px 0 0;
+}
+.dock-panel.dock-style-card .dock-tab.dock-tab-active {
+  border-bottom: 1px solid #fff;
+  background: #fff;
+}
+.dock-panel.dock-style-card .dock-bar {
+  border-bottom: 1px solid #ddd;
+  overflow: visible;
+}
+.dock-panel.dock-style-card .dock-nav-container {
+  height: 35px;
+  overflow: visible;
+}
+.dock-panel.dock-style-card .dock-nav-wrap {
+  overflow: visible;
+  padding-top: 6px;
+}
+.dock-panel.dock-style-card .dock-ink-bar {
+  /* hide animated ink bar */
+  background: #fff;
+  opacity: 0;
+}
+.dock-panel.dock-style-card .dock-tab-hit-area {
+  /* cover the border area */
+  left: -2px;
+  right: -2px;
+}
+.dock-panel.dock-style-card .dock-content {
+  height: calc(100% - 36px);
 }
 body {
   font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

@@ -271,28 +271,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         padding: 30
       }
     }, React.createElement("p", null, "Hide border and header."), "Move mouse near top border to show header."),
+    // this is a pre-defined style, defined here:
+    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
     group: 'headless'
+  };
+  let cardTab = {
+    title: 'card-style',
+    content: React.createElement("div", null, "card style"),
+    // this is a pre-defined style, defined here:
+    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+    group: 'card'
   };
   let customTab = {
     title: 'custom-style',
     content: React.createElement("div", null, "Custom style"),
-    group: 'custom'
+    // you can mix predefined style with you own style
+    // separate 2 styles with space
+    // the panel class will contain both dock-style-car and dock-style-custom
+    group: 'card custom'
   };
   let box = {
-    groups,
     dockbox: {
       mode: 'horizontal',
       children: [{
-        size: 100,
-        tabs: [_objectSpread({}, defaultTab, {
-          id: 't7'
-        }), _objectSpread({}, defaultTab, {
-          id: 't8',
-          title: React.createElement("div", {
-            className: "github-icon"
-          }, "custom-tab"),
-          content: React.createElement("div", null, "Tab title can be any react component")
-        })]
+        mode: 'vertical',
+        children: [{
+          tabs: [_objectSpread({}, defaultTab, {
+            id: 't7'
+          }), _objectSpread({}, defaultTab, {
+            id: 't8',
+            title: React.createElement("div", {
+              className: "github-icon"
+            }, "custom-tab"),
+            content: React.createElement("div", null, "Tab title can be any react component")
+          })]
+        }, {
+          tabs: [_objectSpread({}, cardTab, {
+            id: 't9'
+          }), _objectSpread({}, cardTab, {
+            id: 't10'
+          }), _objectSpread({}, cardTab, {
+            id: 't11'
+          })]
+        }]
       }, {
         mode: 'vertical',
         children: [{

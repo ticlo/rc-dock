@@ -1,6 +1,8 @@
 # Dock Layout for React Component
 
-## Example
+![alt text](https://ticlo.github.io/rc-dock/images/demo.gif)
+
+## Examples
 https://ticlo.github.io/rc-dock/examples/
 
 ## Usage

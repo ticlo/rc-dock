@@ -4,7 +4,6 @@ import {
   LayoutData,
   PanelData,
   DockContextProvider,
-  nextId,
   DockContext,
   DropDirection,
   TabData,
@@ -82,7 +81,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
         } else {
           let newPanel = Algorithm.converToPanel(source);
           if (direction === 'float') {
-            newPanel.z = this.nextFloatZIndex(null);
+            newPanel.z = Algorithm.nextZIndex(null);
             layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
           } else {
             layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
@@ -204,21 +203,6 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
 
     this.setState({dropRect: {left, top, width, height, element, source, direction}});
-  }
-
-  /** @ignore */
-  _zCount = 0;
-
-  /** @ignore */
-  nextFloatZIndex(current?: number): number {
-    if (current === this._zCount) {
-      // already the top
-      return current;
-    }
-    // if (this._zCount >= Number.MAX_SAFE_INTEGER) {
-    //   is it a bug here? No !
-    // }
-    return ++this._zCount;
   }
 
   /** @ignore */

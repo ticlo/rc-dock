@@ -3,7 +3,6 @@ import {
   DockMode,
   DropDirection,
   LayoutData,
-  nextId,
   PanelData,
   placeHolderStyle,
   TabData,
@@ -31,6 +30,25 @@ function clone<T>(value: T): T {
   _watchObjectChange.set(value, newValue);
   return newValue;
 }
+
+
+let _idCount = 0;
+
+export function nextId() {
+  ++_idCount;
+  return `+${_idCount}`;
+}
+
+let _zCount = 0;
+
+export function nextZIndex(current?: number): number {
+  if (current === _zCount) {
+    // already the top
+    return current;
+  }
+  return ++_zCount;
+}
+
 
 function findInPanel(panel: PanelData, id: string): PanelData | TabData {
   if (panel.id === id) {
@@ -309,6 +327,12 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
 function fixpanelOrBox(d: PanelData | BoxData) {
   if (d.id == null) {
     d.id = nextId();
+  } else if (d.id.startsWith('+')) {
+    let idnum = Number(d.id);
+    if (idnum > _idCount) {
+      // make sure generated id is unique
+      _idCount = idnum;
+    }
   }
   if (!(d.size >= 0)) {
     d.size = 200;
@@ -337,6 +361,10 @@ function fixPanelData(panel: PanelData): PanelData {
     if (panel.group == null) {
       panel.group = panel.tabs[0].group;
     }
+  }
+  if (panel.z > _zCount) {
+    // update next zIndex
+    _zCount = panel.z;
   }
   return panel;
 }

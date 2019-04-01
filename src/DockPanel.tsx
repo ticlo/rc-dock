@@ -4,6 +4,7 @@ import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
 import {DragStore} from "./DragStore";
 import {DockDropLayer} from "./DockDropLayer";
+import {nextZIndex} from "./Algorithm";
 
 interface Props {
   panelData: PanelData;
@@ -154,7 +155,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onFloatPointerDown = () => {
     let {panelData} = this.props;
     let {z} = panelData;
-    let newZ = this.context.nextFloatZIndex(z);
+    let newZ = nextZIndex(z);
     if (newZ !== z) {
       panelData.z = newZ;
       this.forceUpdate();

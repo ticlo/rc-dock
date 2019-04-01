@@ -119,11 +119,7 @@ export interface DockContext {
     dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     getGroup(name: string): TabGroup;
     find(id: string): PanelData | TabData;
-    /** @ignore */
-    nextFloatZIndex(current: number): number;
 }
-/** @ignore */
-export declare function nextId(): string;
 /** @ignore */
 export declare const DockContextType: React.Context<DockContext>;
 /** @ignore */

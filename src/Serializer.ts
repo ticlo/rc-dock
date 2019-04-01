@@ -3,7 +3,6 @@ import {
   DockMode,
   DropDirection,
   LayoutData, LoadModifier,
-  nextId,
   PanelData, SavedBox, SavedLayout, SavedPanel, SavedTab,
   SaveModifier,
   TabData,

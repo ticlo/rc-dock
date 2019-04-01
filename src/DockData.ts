@@ -147,20 +147,6 @@ export interface DockContext {
   getGroup(name: string): TabGroup;
 
   find(id: string): PanelData | TabData;
-
-  /** @ignore */
-  nextFloatZIndex(current: number): number;
-}
-
-/** @ignore */
-let _idCount = 0;
-
-/** @ignore */
-export function nextId() {
-  ++_idCount;
-  // if (_idCount >= Number.MAX_SAFE_INTEGER) {
-  // }
-  return `+${_idCount}`;
 }
 
 /** @ignore */

@@ -37,10 +37,6 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     /** @ignore */
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
     /** @ignore */
-    _zCount: number;
-    /** @ignore */
-    nextFloatZIndex(current?: number): number;
-    /** @ignore */
     render(): React.ReactNode;
     /** @ignore */
     componentWillUnmount(): void;

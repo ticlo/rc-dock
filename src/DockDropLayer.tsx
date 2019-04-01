@@ -136,7 +136,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     let draggingPanel = DragStore.getData(DockContextType, 'panel');
 
     let fromGroup = this.context.getGroup(dropFromPanel.group);
-    if (fromGroup.floatable && (!draggingPanel || !draggingPanel.panelLock)) {
+    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock)) {
       children.push(
         <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
       );

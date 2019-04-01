@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
 let lockedGroup = {
+  floatable: false,
   tabLocked: true
 };
 

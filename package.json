@@ -7,16 +7,18 @@
     "url": "https://github.com/ticlo/rc-dock.git"
   },
   "keywords": [
-    "reactjs",
     "react",
-    "react-dom",
     "layout",
-    "panel",
     "dock",
+    "panel",
     "tabs",
     "drag-and-drop",
+    "float",
+    "window",
     "drag",
-    "drop"
+    "drop",
+    "reactjs",
+    "react-dom"
   ],
   "author": {
     "name": "Rick Zhou",

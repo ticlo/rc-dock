@@ -10,7 +10,7 @@ function replacer(str: string, p1: string, p2: string) {
 
 // convert example to dynamic import
 // compile all dependencies in shared-import.js
-function main() {
+function buildExample() {
   shell.mkdir('-p', './temp-example');
   for (let file of fs.readdirSync('./example')) {
     let data: string = fs.readFileSync(`./example/${file}`, 'utf8');
@@ -21,6 +21,20 @@ function main() {
     fs.writeFileSync(`./temp-example/${file}`, data);
   }
   shell.exec('yarn parcel build ./temp-example/* --no-content-hash --no-source-maps --no-minify --out-dir www/examples --public-url ./');
+}
+
+function buildDocs() {
+  shell.exec('yarn typedoc --options ./typedocconfig.js');
+  shell.mv('./temp-doc/*', './www');
+}
+
+function main() {
+  shell.rm('./www/examples');
+  shell.rm('./www/interfaces');
+  shell.rm('./www/classes');
+  shell.rm('./www/assets');
+  buildDocs();
+  buildExample();
 }
 
 main();

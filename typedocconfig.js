@@ -5,7 +5,7 @@ module.exports = {
   ],
   mode: 'file',
   tsconfig: 'tsconfig.json',
-  out: './www',
+  out: './temp-doc',
   excludePrivate: true,
   excludeProtected: true,
   excludeExternals: true,

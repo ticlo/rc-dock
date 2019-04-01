@@ -39,7 +39,6 @@
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
     "build-less": "lessc style/index.less dist/rc-dock.css",
-    "build-example": "ts-node tool/build-examples",
-    "build-doc": "typedoc --options ./typedocconfig.js"
+    "build-www": "ts-node tool/build-www"
   }
 }

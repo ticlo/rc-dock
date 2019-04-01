@@ -5,8 +5,7 @@ cache:
   yarn: true
 script:
   - git clone -b gh-pages -v --depth 1 https://github.com/ticlo/rc-dock.git ./www
-  - yarn build-doc
-  - yarn build-example
+  - yarn build-www
 deploy:
   provider: pages
   skip_cleanup: true

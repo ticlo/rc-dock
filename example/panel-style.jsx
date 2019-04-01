@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
+
 let groups = {
   headless: {
     // the css class for this would be dock-panel-headless
@@ -33,7 +34,20 @@ let headlessTab = {
       Move mouse near top border to show header.
     </div>
   ),
+  // this is a pre-defined style, defined here:
+  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
   group: 'headless'
+};
+let cardTab = {
+  title: 'card-style',
+  content: (
+    <div>
+      card style
+    </div>
+  ),
+  // this is a pre-defined style, defined here:
+  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+  group: 'card'
 };
 let customTab = {
   title: 'custom-style',
@@ -42,26 +56,36 @@ let customTab = {
       Custom style
     </div>
   ),
-  group: 'custom'
+  // you can mix predefined style with you own style
+  // separate 2 styles with space
+  // the panel class will contain both dock-style-car and dock-style-custom
+  group: 'card custom'
 };
 let box = {
-  groups,
   dockbox: {
     mode: 'horizontal',
     children: [
       {
-        size: 100,
-        tabs: [{...defaultTab, id: 't7'}, {
-          ...defaultTab, id: 't8', title: (
-            <div className='github-icon'>
-              custom-tab
-            </div>
-          ), content: (
-            <div>
-              Tab title can be any react component
-            </div>
-          )
-        }],
+        mode: 'vertical',
+        children: [
+          {
+            tabs: [{...defaultTab, id: 't7'}, {
+              ...defaultTab, id: 't8', title: (
+                <div className='github-icon'>
+                  custom-tab
+                </div>
+              ), content: (
+                <div>
+                  Tab title can be any react component
+                </div>
+              )
+            }],
+          },
+          {
+            tabs: [{...cardTab, id: 't9'}, {...cardTab, id: 't10'}, {...cardTab, id: 't11'}],
+          },
+
+        ]
       },
       {
         mode: 'vertical',

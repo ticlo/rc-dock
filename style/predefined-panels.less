@@ -1,18 +1,19 @@
-
+// dock-style-place-holder
+// when all the panels are floated we need a place holder in the dock box to handle drag over event
 .dock-panel.dock-style-place-holder {
   border: none;
 
-  & .dock-bar {
+  .dock-bar {
     display: none;
   }
 }
 
-// dock-headless-panel
+// dock-style-headless
 .dock-layout > :not(.dock-fbox) {
-  & .dock-panel.dock-style-headless {
+  .dock-panel.dock-style-headless {
     border: none;
 
-    & .dock-bar {
+    .dock-bar {
       position: absolute;
       z-index: 1;
       opacity: 0;
@@ -21,13 +22,14 @@
       transition: all 0.15s ease-in-out;
     }
 
-    & .dock-bar:hover, &.dock-panel-dropping .dock-bar {
+    .dock-bar:hover, &.dock-panel-dropping .dock-bar {
       opacity: 1;
       height: 31px;
     }
   }
 }
 
+// dock-style-main
 .dock-panel.dock-style-main {
   border: none;
 
@@ -41,4 +43,44 @@
   }
 }
 
+//dock-style-card
+.dock-panel.dock-style-card {
 
+  .dock-tab {
+    margin-right: 2px;
+    border: 1px solid #ddd;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .dock-tab.dock-tab-active {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+  }
+
+  .dock-bar {
+    border-bottom: 1px solid #ddd;
+    overflow: visible;
+  }
+
+  .dock-nav-container {
+    height: 35px;
+    overflow: visible;
+  }
+
+  .dock-nav-wrap {
+    overflow: visible;
+    padding-top: 6px;
+  }
+
+  .dock-ink-bar {
+    /* hide animated ink bar */
+    background: #fff;
+    opacity: 0;
+  }
+
+  .dock-tab-hit-area {
+    /* cover the border area */
+    left: -2px;
+    right: -2px;
+  }
+}

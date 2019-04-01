@@ -26,6 +26,10 @@
       opacity: 1;
       height: 31px;
     }
+
+    .dock-content {
+      height: 100%; // header size is 0
+    }
   }
 }
 
@@ -82,5 +86,9 @@
     /* cover the border area */
     left: -2px;
     right: -2px;
+  }
+
+  .dock-content {
+    height: calc(100% - 36px); // header size is 36px
   }
 }

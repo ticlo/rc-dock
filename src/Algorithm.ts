@@ -32,7 +32,7 @@ function clone<T>(value: T): T {
   return newValue;
 }
 
-function findInPanel(panel: PanelData, id: string | number): PanelData | TabData {
+function findInPanel(panel: PanelData, id: string): PanelData | TabData {
   if (panel.id === id) {
     return panel;
   }
@@ -44,7 +44,7 @@ function findInPanel(panel: PanelData, id: string | number): PanelData | TabData
   return null;
 }
 
-function findInBox(box: BoxData, id: string | number): PanelData | TabData {
+function findInBox(box: BoxData, id: string): PanelData | TabData {
   let result: PanelData | TabData;
   for (let child of box.children) {
     if ('children' in child) {
@@ -60,7 +60,7 @@ function findInBox(box: BoxData, id: string | number): PanelData | TabData {
   return result;
 }
 
-export function find(layout: LayoutData, id: string | number): PanelData | TabData {
+export function find(layout: LayoutData, id: string): PanelData | TabData {
   let result = findInBox(layout.dockbox, id);
   if (!result) {
     result = findInBox(layout.floatbox, id);

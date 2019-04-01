@@ -7,7 +7,15 @@ import {
   nextId,
   DockContext,
   DropDirection,
-  TabData, DefaultLayout, TabGroup, placeHolderStyle, placeHolderGroup, defaultGroup
+  TabData,
+  DefaultLayout,
+  TabGroup,
+  placeHolderStyle,
+  placeHolderGroup,
+  defaultGroup,
+  SavedLayout,
+  LoadModifier,
+  SaveModifier
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -94,7 +102,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     this.dragEnd();
   }
 
-  find(id: string | number): PanelData | TabData {
+  find(id: string): PanelData | TabData {
     return Algorithm.find(this.state.layout, id);
   }
 
@@ -240,11 +248,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   // public api
 
-  saveLayout(modifier?: Serializer.SaveModifier): Serializer.SavedLayout {
+  saveLayout(modifier?: SaveModifier): SavedLayout {
     return Serializer.saveLayoutData(this.state.layout, modifier);
   }
 
-  loadLayout(savedLayout: Serializer.SavedLayout, modifier?: Serializer.LoadModifier) {
+  loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier) {
     let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});

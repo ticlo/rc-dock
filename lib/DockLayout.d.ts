@@ -1,6 +1,5 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup } from "./DockData";
-import * as Serializer from "./Serializer";
+import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, SavedLayout, LoadModifier, SaveModifier } from "./DockData";
 interface LayoutProps {
     defaultLayout: DefaultLayout;
     style?: CSSProperties;
@@ -30,7 +29,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     prepareInitData(data: DefaultLayout): LayoutData;
     getGroup(name: string): TabGroup;
     dockMove(source: TabData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
-    find(id: string | number): PanelData | TabData;
+    find(id: string): PanelData | TabData;
     updateTab(id: string, newTab: TabData): boolean;
     constructor(props: LayoutProps);
     /** @ignore */
@@ -45,7 +44,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     render(): React.ReactNode;
     /** @ignore */
     componentWillUnmount(): void;
-    saveLayout(modifier?: Serializer.SaveModifier): Serializer.SavedLayout;
-    loadLayout(savedLayout: Serializer.SavedLayout, modifier?: Serializer.LoadModifier): void;
+    saveLayout(modifier?: SaveModifier): SavedLayout;
+    loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): void;
 }
 export {};

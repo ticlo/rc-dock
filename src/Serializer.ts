@@ -1,40 +1,18 @@
-import {BoxData, DockMode, DropDirection, LayoutData, nextId, PanelData, TabData, TabGroup} from "./DockData";
+import {
+  BoxData,
+  DockMode,
+  DropDirection,
+  LayoutData, LoadModifier,
+  nextId,
+  PanelData, SavedBox, SavedLayout, SavedPanel, SavedTab,
+  SaveModifier,
+  TabData,
+  TabGroup
+} from "./DockData";
 
 interface DefaultLayoutCache {
-  panels: Map<string | number, PanelData>;
+  panels: Map<string, PanelData>;
   tabs: Map<string, TabData>;
-}
-
-interface SavedTab {
-  id: string;
-  group: string;
-}
-
-interface SavedPanel {
-  id: string | number;
-  group: string;
-  size: number;
-  tabs: SavedTab[];
-  activeId: string;
-
-  // for float panel
-  x?: number;
-  y?: number;
-  z?: number;
-  w?: number;
-  h?: number;
-}
-
-interface SavedBox {
-  id: string | number;
-  mode: DockMode;
-  size: number;
-  children: (SavedBox | SavedPanel)[];
-}
-
-export interface SavedLayout {
-  dockbox: SavedBox;
-  floatbox: SavedBox;
 }
 
 function addPanelToCache(panelData: PanelData, cache: DefaultLayoutCache) {
@@ -53,6 +31,7 @@ function addBoxToCache(boxData: BoxData, cache: DefaultLayoutCache) {
     }
   }
 }
+
 
 export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultLayoutCache {
   let cache: DefaultLayoutCache = {
@@ -73,20 +52,6 @@ export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultL
   }
   return cache;
 }
-
-export interface SaveModifier {
-  modifySavedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
-
-  modifySavedTab?(savedTab: SavedTab, tabData: TabData): void;
-}
-
-export interface LoadModifier {
-  // should return a empty panel and ignore tabs
-  modifyLoadedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
-
-  loadTab?(savedTab: SavedTab): TabData;
-}
-
 
 export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}): SavedLayout {
   const {modifySavedTab, modifySavedPanel} = modifier;

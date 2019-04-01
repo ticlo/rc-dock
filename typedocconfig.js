@@ -9,7 +9,7 @@ module.exports = {
   excludePrivate: true,
   excludeProtected: true,
   excludeExternals: true,
-  readme: 'docIndex.md',
+  readme: 'README.md',
   name: 'RC Dock',
   ignoreCompilerErrors: true,
   plugin: 'none'

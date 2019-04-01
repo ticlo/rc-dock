@@ -1,24 +1,42 @@
 import React from 'react';
 
 export interface TabGroup {
+  /**
+   * whether tab can be dragged into float layer
+   * default: false
+   */
   floatable?: boolean;
+  /**
+   * whether multiple tabs can be group together
+   * default true
+   */
   multiTabs?: boolean;
-  // when tabs are locked, you can only drag the whole panel
+  /**
+   * when tabs are locked, you can not drag tab out of its panel
+   * default false
+   */
   tabLocked?: boolean;
+  /**
+   * whether to show animation effect when switch tabs
+   * default true
+   */
   animated?: boolean;
+
   panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
 }
 
+/** @ignore */
 export const defaultGroup: TabGroup = {
   floatable: true,
 };
-
+/** @ignore */
 export const placeHolderStyle = 'place-holder';
+/** @ignore */
 export const placeHolderGroup: TabGroup = {
   floatable: false,
 };
 
-
+/** @ignore */
 interface DockDataBase {
   minWidth?: number;
   minHeight?: number;
@@ -27,9 +45,15 @@ interface DockDataBase {
 export type DockMode = 'horizontal' | 'vertical' | 'float';
 
 export interface BoxData extends DockDataBase {
-  id?: string | number;
+  id?: string;
   parent?: BoxData;
+
+  /**
+   * the size in dock box
+   * width when in horizontal layout and height when in vertical layout
+   */
   size?: number;
+
   mode?: DockMode;
   children: (BoxData | PanelData)[];
 }
@@ -54,13 +78,17 @@ interface PanelLock {
 }
 
 export interface PanelData extends DockDataBase {
-  id?: string | number;
+  id?: string;
   parent?: BoxData;
   activeId?: string;
   tabs: TabData[];
   group: string;
 
   // docked only
+  /**
+   * the size in dock box
+   * width when in horizontal layout and height when in vertical layout
+   */
   size?: number;
   panelLock?: PanelLock; // if not null, panel won't disappear even when all children are gone
 
@@ -73,11 +101,21 @@ export interface PanelData extends DockDataBase {
 }
 
 export interface LayoutData {
+  /**
+   * dock box
+   */
   dockbox?: BoxData;
+  /**
+   * float box
+   * children must be PanelData, child box is not allowed
+   */
   floatbox?: BoxData;
 }
 
 export interface DefaultLayout extends LayoutData {
+  /**
+   * Tab Groups
+   */
   groups?: {[key: string]: TabGroup};
 }
 
@@ -92,7 +130,7 @@ export interface DockContext {
 
   getGroup(name: string): TabGroup;
 
-  find(id: string | number): PanelData | TabData;
+  find(id: string): PanelData | TabData;
 
   /** @ignore */
   nextFloatZIndex(current: number): number;
@@ -115,3 +153,53 @@ export const DockContextType = React.createContext<DockContext>(null);
 export const DockContextProvider = DockContextType.Provider;
 /** @ignore */
 export const DockContextConsumer = DockContextType.Consumer;
+
+
+/// serializer
+
+export interface SavedTab {
+  id: string;
+  group: string;
+}
+
+export interface SavedPanel {
+  id: string;
+  group: string;
+  size: number;
+  tabs: SavedTab[];
+  activeId: string;
+
+  // for float panel
+  x?: number;
+  y?: number;
+  z?: number;
+  w?: number;
+  h?: number;
+}
+
+export interface SavedBox {
+  id: string;
+  mode: DockMode;
+  size: number;
+  children: (SavedBox | SavedPanel)[];
+}
+
+export interface SavedLayout {
+  dockbox: SavedBox;
+  floatbox: SavedBox;
+}
+
+
+
+export interface SaveModifier {
+  modifySavedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
+
+  modifySavedTab?(savedTab: SavedTab, tabData: TabData): void;
+}
+
+export interface LoadModifier {
+  // should return a empty panel and ignore tabs
+  modifyLoadedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
+
+  loadTab?(savedTab: SavedTab): TabData;
+}

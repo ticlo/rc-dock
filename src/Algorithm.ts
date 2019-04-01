@@ -343,10 +343,17 @@ function fixpanelOrBox(d: PanelData | BoxData) {
 
 function fixPanelData(panel: PanelData): PanelData {
   fixpanelOrBox(panel);
+  let findActiveId = false;
   for (let child of panel.tabs) {
     child.parent = panel;
+    if (child.id === panel.activeId) {
+      findActiveId = true;
+    }
     if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
     if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
+  }
+  if (!findActiveId && panel.tabs.length) {
+    panel.activeId = panel.tabs[0].id;
   }
   if (panel.minWidth <= 0) {
     panel.minWidth = 1;
@@ -354,16 +361,11 @@ function fixPanelData(panel: PanelData): PanelData {
   if (panel.minHeight <= 0) {
     panel.minHeight = 1;
   }
-  if (panel.tabs.length) {
-    if (panel.activeId == null) {
-      panel.activeId = panel.tabs[0].id;
-    }
-    if (panel.group == null) {
-      panel.group = panel.tabs[0].group;
-    }
+  if (panel.group == null && panel.tabs.length) {
+    panel.group = panel.tabs[0].group;
   }
   if (panel.z > _zCount) {
-    // update next zIndex
+    // make sure next zIndex is on top
     _zCount = panel.z;
   }
   return panel;

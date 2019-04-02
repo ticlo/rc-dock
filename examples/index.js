@@ -301,7 +301,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return React.createElement("div", null, React.createElement("nav", null, React.createElement("h2", null, React.createElement("a", {
-        href: "/"
+        href: "https://ticlo.github.io/rc-dock"
       }, "rc-dock")), React.createElement("div", {
         className: "link-bar"
       }, React.createElement("a", {

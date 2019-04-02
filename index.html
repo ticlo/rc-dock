@@ -64,8 +64,10 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="dock-layout-for-react-component">Dock Layout for React Component</h1>
 				<p><img src="https://ticlo.github.io/rc-dock/images/demo.gif" alt="alt text"></p>
-				<h2 id="examples">Examples</h2>
-				<p><a href="https://ticlo.github.io/rc-dock/examples/">https://ticlo.github.io/rc-dock/examples/</a></p>
+				<ul>
+					<li><strong>Examples:</strong> <a href="https://ticlo.github.io/rc-dock/examples">https://ticlo.github.io/rc-dock/examples</a></li>
+					<li><strong>Docs:</strong> <a href="https://ticlo.github.io/rc-dock">https://ticlo.github.io/rc-dock</a></li>
+				</ul>
 				<h2 id="usage">Usage</h2>
 				<p><a href="https://npmjs.org/package/rc-dock"><img src="https://nodei.co/npm/rc-dock.png" alt="rc-tabs"></a></p>
 				<pre><code class="language-jsx"><span class="hljs-keyword">import</span> DockLayout <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-dock'</span>
@@ -90,7 +92,7 @@ render() {
 }
 </span></code></pre>
 				<h2 id="defaultlayout-types">defaultLayout types</h2>
-				<h3 id="defaultlayout">DefaultLayout</h3>
+				<h3 id="defaultlayout-">DefaultLayout <a href="https://ticlo.github.io/rc-dock/interfaces/defaultlayout.html">🗎</a></h3>
 				<table>
 					<thead>
 						<tr>
@@ -119,7 +121,7 @@ render() {
 							<td align="center">{}</td>
 						</tr>
 				</tbody></table>
-				<h3 id="boxdata">BoxData</h3>
+				<h3 id="boxdata-">BoxData <a href="https://ticlo.github.io/rc-dock/interfaces/boxdata.html">🗎</a></h3>
 				<p>a box is the layout element that contains other boxes or panels</p>
 				<table>
 					<thead>
@@ -131,18 +133,6 @@ render() {
 						</tr>
 					</thead>
 					<tbody><tr>
-							<td align="center">id</td>
-							<td align="center">string</td>
-							<td align="center">unique id</td>
-							<td align="center">auto generated</td>
-						</tr>
-						<tr>
-							<td align="center">size</td>
-							<td align="center">number</td>
-							<td align="center">size in dock group, used as width in h-box and used as height in v-box</td>
-							<td align="center">200</td>
-						</tr>
-						<tr>
 							<td align="center">mode</td>
 							<td align="center">&#39;horizontal&#39; &#x7c; &#39;vertical&#39; &#x7c; &#39;float&#39;</td>
 							<td align="center">layout mode of the box</td>
@@ -155,7 +145,7 @@ render() {
 							<td align="center"><strong>required</strong></td>
 						</tr>
 				</tbody></table>
-				<h3 id="paneldata">PanelData</h3>
+				<h3 id="paneldata-">PanelData <a href="https://ticlo.github.io/rc-dock/interfaces/paneldata.html">🗎</a></h3>
 				<p>a panel is a visiaul container with tabs button in the title bar</p>
 				<table>
 					<thead>
@@ -167,24 +157,6 @@ render() {
 						</tr>
 					</thead>
 					<tbody><tr>
-							<td align="center">id</td>
-							<td align="center">string</td>
-							<td align="center">unique id</td>
-							<td align="center">auto generated</td>
-						</tr>
-						<tr>
-							<td align="center">size</td>
-							<td align="center">number</td>
-							<td align="center">size in dock group, used as width in h-box and used as height in v-box</td>
-							<td align="center">200</td>
-						</tr>
-						<tr>
-							<td align="center">group</td>
-							<td align="center">string</td>
-							<td align="center">name for the tab group</td>
-							<td align="center">group of the first tab</td>
-						</tr>
-						<tr>
 							<td align="center">tabs</td>
 							<td align="center">TabData[]</td>
 							<td align="center">children tabs</td>
@@ -196,38 +168,8 @@ render() {
 							<td align="center">addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either</td>
 							<td align="center"></td>
 						</tr>
-						<tr>
-							<td align="center">x</td>
-							<td align="center">number</td>
-							<td align="center">x position, only used in float mode</td>
-							<td align="center"></td>
-						</tr>
-						<tr>
-							<td align="center">y</td>
-							<td align="center">number</td>
-							<td align="center">y position, only used in float mode</td>
-							<td align="center"></td>
-						</tr>
-						<tr>
-							<td align="center">z</td>
-							<td align="center">number</td>
-							<td align="center">z index, only used in float mode</td>
-							<td align="center">0</td>
-						</tr>
-						<tr>
-							<td align="center">w</td>
-							<td align="center">number</td>
-							<td align="center">width, only used in float mode</td>
-							<td align="center"></td>
-						</tr>
-						<tr>
-							<td align="center">h</td>
-							<td align="center">number</td>
-							<td align="center">height, only used in float mode</td>
-							<td align="center"></td>
-						</tr>
 				</tbody></table>
-				<h3 id="tabdata">TabData</h3>
+				<h3 id="tabdata-">TabData <a href="https://ticlo.github.io/rc-dock/interfaces/tabdata.html">🗎</a></h3>
 				<table>
 					<thead>
 						<tr>
@@ -262,24 +204,29 @@ render() {
 							<td align="center">false</td>
 						</tr>
 						<tr>
-							<td align="center">cached</td>
-							<td align="center">bool</td>
-							<td align="center">cached tab will always reuse the react component thus allows the component to keep its internal state</td>
-							<td align="center">false</td>
-						</tr>
-						<tr>
-							<td align="center">cacheContext</td>
-							<td align="center">React Context</td>
-							<td align="center">cached tab is disconnected with parent react component, if react context is needed in the cached tab, the context type need to be specified here</td>
-							<td align="center"></td>
-						</tr>
-						<tr>
 							<td align="center">group</td>
 							<td align="center">string</td>
 							<td align="center">tabs with different tab group can not be put in same panel, more options for the group can be defined as TabGroup in DefaultLayout.groups</td>
 							<td align="center"></td>
 						</tr>
 				</tbody></table>
+				<h2 id="docklayout-api">DockLayout API</h2>
+				<h3 id="savelayout-">saveLayout <a href="https://ticlo.github.io/rc-dock/interfaces/savemodifier.html">🗎</a></h3>
+				<p>save layout</p>
+				<pre><code class="language-typescript">saveLayout(modifier?: SaveModifier): SavedLayout </code></pre>
+				<h3 id="loadlayout-">loadLayout <a href="https://ticlo.github.io/rc-dock/interfaces/loadmodifier.html">🗎</a></h3>
+				<p>load layout</p>
+				<pre><code class="language-typescript"> loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): <span class="hljs-built_in">void</span></code></pre>
+				<h3 id="dockmove-">dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove">🗎</a></h3>
+				<p>move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first</p>
+				<pre><code class="language-typescript">dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): <span class="hljs-built_in">void</span>;</code></pre>
+				<h3 id="find-">find <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#find">🗎</a></h3>
+				<p>find PanelData or TabData by id</p>
+				<pre><code class="language-typescript">find(id: <span class="hljs-built_in">string</span>): PanelData | TabData;</code></pre>
+				<h3 id="updatetab-">updateTab <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#updatetab">🗎</a></h3>
+				<p>update a tab with new TabData</p>
+				<p>returns false if the tab is not found</p>
+				<pre><code class="language-typescript">updateTab(id: <span class="hljs-built_in">string</span>, newTab: TabData): <span class="hljs-built_in">boolean</span>;</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

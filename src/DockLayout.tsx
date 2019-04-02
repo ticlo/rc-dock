@@ -236,6 +236,9 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return Serializer.saveLayoutData(this.state.layout, modifier);
   }
 
+  /**
+   * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
+   */
   loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier) {
     let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
     layout = Algorithm.fixLayoutData(layout);

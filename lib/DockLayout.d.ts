@@ -41,6 +41,9 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     /** @ignore */
     componentWillUnmount(): void;
     saveLayout(modifier?: SaveModifier): SavedLayout;
+    /**
+     * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
+     */
     loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): void;
 }
 export {};

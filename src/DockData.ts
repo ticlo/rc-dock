@@ -60,11 +60,22 @@ export interface BoxData extends DockDataBase {
 }
 
 export interface TabData extends DockDataBase {
+  /**
+   * id will be auto generated if it's undefined
+   */
   id?: string;
   parent?: PanelData;
+  /**
+   * title that's shown in the tab of the panel header
+   */
   title: React.ReactChild;
   content: React.ReactElement | ((tab: TabData) => React.ReactElement);
   closable?: boolean;
+  /**
+   * - group defines style of the panel
+   * - tabs with different tab groups can not be put in same panel
+   * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
+   */
   group: string;
 
   /**
@@ -89,10 +100,19 @@ interface PanelLock {
  * a panel is a visiaul container with tabs button in the title bar
  */
 export interface PanelData extends DockDataBase {
+  /**
+   * id will be auto generated if it's undefined
+   */
   id?: string;
   parent?: BoxData;
+  /**
+   * the id of current tab
+   */
   activeId?: string;
   tabs: TabData[];
+  /**
+   * if group is undefined, it will be set to the group name of first tab
+   */
   group: string;
 
   // docked only
@@ -108,11 +128,15 @@ export interface PanelData extends DockDataBase {
    */
   panelLock?: PanelLock; // if not null, panel won't disappear even when all children are gone
 
-  // float mode only
+  /** float mode only */
   x?: number;
+  /** float mode only */
   y?: number;
+  /** float mode only */
   z?: number;
+  /** float mode only */
   w?: number;
+  /** float mode only */
   h?: number;
 }
 
@@ -142,11 +166,33 @@ export interface DockContext {
   /** @ignore */
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
 
+  /**
+   * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
+   * @param source the source TabData or PanelData being moved
+   *  - it can exist in the layout already
+   *  - or can be a new tab or new panel that you want to add to the layout
+   * @param target where you want to drop the source
+   * @param direction which direction to drop<br>
+   *  - when target is tab, direction can only be 'after-tab' or 'before-tab'
+   *  - when target is null, direction can only be 'remove'
+   */
   dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
 
+  /**
+   * get the TabGroup defined in defaultLayout
+   */
   getGroup(name: string): TabGroup;
 
+  /**
+   * find PanelData or TabData by id
+   */
   find(id: string): PanelData | TabData;
+
+  /**
+   * update a tab with new TabData
+   * @returns returns false if the tab is not found
+   */
+  updateTab(id: string, newTab: TabData): boolean;
 }
 
 /** @ignore */
@@ -193,14 +239,25 @@ export interface SavedLayout {
 
 
 export interface SaveModifier {
+  /**
+   * modify the savedPanel, you can add additional data into the panel
+   */
   modifySavedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
-
+  /**
+   * modify the savedTab, you can add additional data into the tab
+   */
   modifySavedTab?(savedTab: SavedTab, tabData: TabData): void;
 }
 
 export interface LoadModifier {
-  // should return a empty panel and ignore tabs
+  /**
+   * modify the loaded panelData
+   */
   modifyLoadedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
 
+  /**
+   * completely overwrite the default behavior of loading tab
+   * returned TabData must contain id, title and content
+   */
   loadTab?(savedTab: SavedTab): TabData;
 }

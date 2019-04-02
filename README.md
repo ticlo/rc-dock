@@ -36,47 +36,74 @@ render() {
 ## defaultLayout types
 
 
-### DefaultLayout
+### DefaultLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/defaultlayout.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
 | dockbox | BoxData | main dock box | **required**  |
 | floatbox | BoxData | main float box, children can only be PanelData  | empty BoxData |
 | groups | {[key]: TabGroup} | additional group information | {} |
 
-### BoxData
+### BoxData [🗎](https://ticlo.github.io/rc-dock/interfaces/boxdata.html)
 a box is the layout element that contains other boxes or panels
 
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
-| id | string | unique id | auto generated |
-| size | number | size in dock group, used as width in h-box and used as height in v-box | 200 |
 | mode | 'horizontal' &#x7c; 'vertical' &#x7c; 'float' | layout mode of the box | |
 | children | (BoxData &#x7c; PanelData)[] | children boxes or panels | **required** |
 
-### PanelData
+### PanelData [🗎](https://ticlo.github.io/rc-dock/interfaces/paneldata.html)
 a panel is a visiaul container with tabs button in the title bar
 
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
-| id | string | unique id | auto generated |
-| size | number | size in dock group, used as width in h-box and used as height in v-box | 200 |
-| group | string | name for the tab group | group of the first tab |
 | tabs | TabData[] | children tabs | **required** |
 | panelLock | PanelLock | addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either | |
-| x | number | x position, only used in float mode | |
-| y | number | y position, only used in float mode | |
-| z | number | z index, only used in float mode | 0 |
-| w | number | width, only used in float mode | |
-| h | number | height, only used in float mode | |
 
-### TabData 
+
+### TabData [🗎](https://ticlo.github.io/rc-dock/interfaces/tabdata.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
 | id | string | unique id | **required** |
 | title | string &#x7c; ReactElement | tab title | **required** |
 | content | ReactElement &#x7c; (tab: TabData) => ReactElement | tab content | **required** |
 | closable | bool | whether tab can be closed | false |
-| cached | bool | cached tab will always reuse the react component thus allows the component to keep its internal state | false |
-| cacheContext | React Context |cached tab is disconnected with parent react component, if react context is needed in the cached tab, the context type need to be specified here |  |
 | group | string | tabs with different tab group can not be put in same panel, more options for the group can be defined as TabGroup in DefaultLayout.groups | |
 
+## DockLayout API
+
+### saveLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/savemodifier.html)
+save layout
+
+```typescript
+saveLayout(modifier?: SaveModifier): SavedLayout 
+```
+
+### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/loadmodifier.html)
+load layout
+
+```typescript
+ loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): void
+```
+
+### dockMove [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove)
+move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
+
+```typescript
+dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
+```
+
+### find [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#find)
+find PanelData or TabData by id
+
+```typescript
+find(id: string): PanelData | TabData;
+```
+
+### updateTab [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#updatetab)
+update a tab with new TabData
+
+returns false if the tab is not found
+
+```typescript
+updateTab(id: string, newTab: TabData): boolean;
+```

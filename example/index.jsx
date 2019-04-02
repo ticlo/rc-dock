@@ -42,7 +42,7 @@ class App extends React.Component {
     return (
       <div>
         <nav>
-          <h2><a href='/'>rc-dock</a></h2>
+          <h2><a href='https://ticlo.github.io/rc-dock'>rc-dock</a></h2>
           <div className='link-bar'>
             <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
               Examples:

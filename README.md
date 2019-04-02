@@ -2,8 +2,8 @@
 
 ![alt text](https://ticlo.github.io/rc-dock/images/demo.gif)
 
-## Examples
-https://ticlo.github.io/rc-dock/examples/
+- **Examples:** https://ticlo.github.io/rc-dock/examples
+- **Docs:** https://ticlo.github.io/rc-dock
 
 ## Usage
 

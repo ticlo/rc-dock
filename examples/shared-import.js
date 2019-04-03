@@ -9005,13 +9005,158 @@ function removeTab(layout, tab) {
   return layout;
 }
 
-function fixLayoutData(layout) {
-  if (!('dockbox' in layout)) {
-    layout.dockbox = {
-      mode: 'horizontal',
-      children: [],
-      size: 1
-    };
+function fixLayoutData(layout, loadTab) {
+  function fixpanelOrBox(d) {
+    if (d.id == null) {
+      d.id = nextId();
+    } else if (d.id.startsWith('+')) {
+      let idnum = Number(d.id);
+
+      if (idnum > _idCount) {
+        // make sure generated id is unique
+        _idCount = idnum;
+      }
+    }
+
+    if (!(d.size >= 0)) {
+      d.size = 200;
+    }
+
+    d.minWidth = 0;
+    d.minHeight = 0;
+  }
+
+  function fixPanelData(panel) {
+    fixpanelOrBox(panel);
+    let findActiveId = false;
+
+    if (loadTab) {
+      for (let i = 0; i < panel.tabs.length; ++i) {
+        panel.tabs[i] = loadTab(panel.tabs[i]);
+      }
+    }
+
+    for (let child of panel.tabs) {
+      child.parent = panel;
+
+      if (child.id === panel.activeId) {
+        findActiveId = true;
+      }
+
+      if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
+      if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
+    }
+
+    if (!findActiveId && panel.tabs.length) {
+      panel.activeId = panel.tabs[0].id;
+    }
+
+    if (panel.minWidth <= 0) {
+      panel.minWidth = 1;
+    }
+
+    if (panel.minHeight <= 0) {
+      panel.minHeight = 1;
+    }
+
+    if (panel.group == null && panel.tabs.length) {
+      panel.group = panel.tabs[0].group;
+    }
+
+    if (panel.z > _zCount) {
+      // make sure next zIndex is on top
+      _zCount = panel.z;
+    }
+
+    return panel;
+  }
+
+  function fixBoxData(box) {
+    fixpanelOrBox(box);
+
+    for (let i = 0; i < box.children.length; ++i) {
+      let child = box.children[i];
+      child.parent = box;
+
+      if ('children' in child) {
+        fixBoxData(child);
+
+        if (child.children.length === 0) {
+          // remove box with no child
+          box.children.splice(i, 1);
+          --i;
+        } else if (child.children.length === 1) {
+          // box with one child should be merged back to parent box
+          let subChild = child.children[0];
+
+          if (subChild.mode === box.mode) {
+            // sub child is another box that can be merged into current box
+            let totalSubSize = 0;
+
+            for (let subsubChild of subChild.children) {
+              totalSubSize += subsubChild.size;
+            }
+
+            let sizeScale = child.size / totalSubSize;
+
+            for (let subsubChild of subChild.children) {
+              subsubChild.size *= sizeScale;
+            } // merge children up
+
+
+            box.children.splice(i, 1, ...subChild.children);
+          } else {
+            // sub child can be moved up one layer
+            subChild.size = child.size;
+            box.children[i] = subChild;
+          }
+
+          --i;
+        }
+      } else if ('tabs' in child) {
+        fixPanelData(child);
+
+        if (child.tabs.length === 0) {
+          // remove panel with no tab
+          if (!child.panelLock) {
+            box.children.splice(i, 1);
+            --i;
+          } else if (child.group === DockData_1.placeHolderStyle && (box.children.length > 1 || box.parent)) {
+            // remove placeHolder Group
+            box.children.splice(i, 1);
+            --i;
+          }
+        }
+      } // merge min size
+
+
+      switch (box.mode) {
+        case 'horizontal':
+          if (child.minWidth > 0) box.minWidth += child.minWidth;
+          if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
+          break;
+
+        case 'vertical':
+          if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
+          if (child.minHeight > 0) box.minHeight += child.minHeight;
+          break;
+      }
+    } // add divider size
+
+
+    if (box.children.length > 1) {
+      switch (box.mode) {
+        case 'horizontal':
+          box.minWidth += (box.children.length - 1) * 4;
+          break;
+
+        case 'vertical':
+          box.minHeight += (box.children.length - 1) * 4;
+          break;
+      }
+    }
+
+    return box;
   }
 
   if (!('floatbox' in layout)) {
@@ -9054,153 +9199,6 @@ function fixLayoutData(layout) {
 }
 
 exports.fixLayoutData = fixLayoutData;
-
-function fixpanelOrBox(d) {
-  if (d.id == null) {
-    d.id = nextId();
-  } else if (d.id.startsWith('+')) {
-    let idnum = Number(d.id);
-
-    if (idnum > _idCount) {
-      // make sure generated id is unique
-      _idCount = idnum;
-    }
-  }
-
-  if (!(d.size >= 0)) {
-    d.size = 200;
-  }
-
-  d.minWidth = 0;
-  d.minHeight = 0;
-}
-
-function fixPanelData(panel) {
-  fixpanelOrBox(panel);
-  let findActiveId = false;
-
-  for (let child of panel.tabs) {
-    child.parent = panel;
-
-    if (child.id === panel.activeId) {
-      findActiveId = true;
-    }
-
-    if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
-    if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
-  }
-
-  if (!findActiveId && panel.tabs.length) {
-    panel.activeId = panel.tabs[0].id;
-  }
-
-  if (panel.minWidth <= 0) {
-    panel.minWidth = 1;
-  }
-
-  if (panel.minHeight <= 0) {
-    panel.minHeight = 1;
-  }
-
-  if (panel.group == null && panel.tabs.length) {
-    panel.group = panel.tabs[0].group;
-  }
-
-  if (panel.z > _zCount) {
-    // make sure next zIndex is on top
-    _zCount = panel.z;
-  }
-
-  return panel;
-}
-
-function fixBoxData(box) {
-  fixpanelOrBox(box);
-
-  for (let i = 0; i < box.children.length; ++i) {
-    let child = box.children[i];
-    child.parent = box;
-
-    if ('children' in child) {
-      fixBoxData(child);
-
-      if (child.children.length === 0) {
-        // remove box with no child
-        box.children.splice(i, 1);
-        --i;
-      } else if (child.children.length === 1) {
-        // box with one child should be merged back to parent box
-        let subChild = child.children[0];
-
-        if (subChild.mode === box.mode) {
-          // sub child is another box that can be merged into current box
-          let totalSubSize = 0;
-
-          for (let subsubChild of subChild.children) {
-            totalSubSize += subsubChild.size;
-          }
-
-          let sizeScale = child.size / totalSubSize;
-
-          for (let subsubChild of subChild.children) {
-            subsubChild.size *= sizeScale;
-          } // merge children up
-
-
-          box.children.splice(i, 1, ...subChild.children);
-        } else {
-          // sub child can be moved up one layer
-          subChild.size = child.size;
-          box.children[i] = subChild;
-        }
-
-        --i;
-      }
-    } else if ('tabs' in child) {
-      fixPanelData(child);
-
-      if (child.tabs.length === 0) {
-        // remove panel with no tab
-        if (!child.panelLock) {
-          box.children.splice(i, 1);
-          --i;
-        } else if (child.group === DockData_1.placeHolderStyle && (box.children.length > 1 || box.parent)) {
-          // remove placeHolder Group
-          box.children.splice(i, 1);
-          --i;
-        }
-      }
-    } // merge min size
-
-
-    switch (box.mode) {
-      case 'horizontal':
-        if (child.minWidth > 0) box.minWidth += child.minWidth;
-        if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
-        break;
-
-      case 'vertical':
-        if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
-        if (child.minHeight > 0) box.minHeight += child.minHeight;
-        break;
-    }
-  } // add divider size
-
-
-  if (box.children.length > 1) {
-    switch (box.mode) {
-      case 'horizontal':
-        box.minWidth += (box.children.length - 1) * 4;
-        break;
-
-      case 'vertical':
-        box.minHeight += (box.children.length - 1) * 4;
-        break;
-    }
-  }
-
-  return box;
-}
 
 function replacePanel(layout, panel, newPanel) {
   for (let tab of newPanel.tabs) {
@@ -9995,30 +9993,27 @@ function createLayoutCache(defaultLayout) {
 
 exports.createLayoutCache = createLayoutCache;
 
-function saveLayoutData(layout, modifier = {}) {
-  const {
-    modifySavedTab,
-    modifySavedPanel
-  } = modifier;
+function saveLayoutData(layout, saveTab, afterPanelSaved) {
+  function saveTabData(tabData) {
+    if (saveTab) {
+      return saveTab(tabData);
+    }
 
-  function saveTab(tabData) {
-    let savedTab = {
+    return {
       id: tabData.id,
       group: tabData.group
     };
-
-    if (modifySavedTab) {
-      modifySavedTab(savedTab, tabData);
-    }
-
-    return savedTab;
   }
 
-  function savePanel(panelData) {
+  function savePanelData(panelData) {
     let tabs = [];
 
     for (let tab of panelData.tabs) {
-      tabs.push(saveTab(tab));
+      let savedTab = saveTabData(tab);
+
+      if (savedTab) {
+        tabs.push(savedTab);
+      }
     }
 
     let {
@@ -10059,21 +10054,21 @@ function saveLayoutData(layout, modifier = {}) {
       };
     }
 
-    if (modifySavedPanel) {
-      modifySavedPanel(savedPanel, panelData);
+    if (afterPanelSaved) {
+      afterPanelSaved(savedPanel, panelData);
     }
 
     return savedPanel;
   }
 
-  function saveBox(boxData) {
+  function saveBoxData(boxData) {
     let children = [];
 
     for (let child of boxData.children) {
       if ('tabs' in child) {
-        children.push(savePanel(child));
+        children.push(savePanelData(child));
       } else if ('children' in child) {
-        children.push(saveBox(child));
+        children.push(saveBoxData(child));
       }
     }
 
@@ -10091,19 +10086,14 @@ function saveLayoutData(layout, modifier = {}) {
   }
 
   return {
-    dockbox: saveBox(layout.dockbox),
-    floatbox: saveBox(layout.floatbox)
+    dockbox: saveBoxData(layout.dockbox),
+    floatbox: saveBoxData(layout.floatbox)
   };
 }
 
 exports.saveLayoutData = saveLayoutData;
 
-function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
-  const {
-    loadTab,
-    modifyLoadedPanel
-  } = modifier;
-
+function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
   if (!savedLayout.floatbox) {
     savedLayout.floatbox = {
       mode: 'float',
@@ -10177,8 +10167,8 @@ function loadLayoutData(savedLayout, defaultLayout, modifier = {}) {
       };
     }
 
-    if (modifyLoadedPanel) {
-      modifyLoadedPanel(savedPanel, panelData);
+    if (afterPanelLoaded) {
+      afterPanelLoaded(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
       panelData = Object.assign({}, cache.panels.get(id), panelData);
     }
@@ -10302,7 +10292,7 @@ class DockLayout extends react_1.default.PureComponent {
     }
 
     this._groups[DockData_1.placeHolderStyle] = DockData_1.placeHolderGroup;
-    Algorithm.fixLayoutData(layout);
+    Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
 
@@ -10364,6 +10354,14 @@ class DockLayout extends react_1.default.PureComponent {
       let idx = panelData.tabs.indexOf(tab);
 
       if (idx >= 0) {
+        let {
+          loadTab
+        } = this.props;
+
+        if (loadTab && !('content' in newTab && 'title' in newTab)) {
+          newTab = loadTab(newTab);
+        }
+
         let {
           layout
         } = this.state;
@@ -10528,16 +10526,15 @@ class DockLayout extends react_1.default.PureComponent {
   } // public api
 
 
-  saveLayout(modifier) {
-    return Serializer.saveLayoutData(this.state.layout, modifier);
+  saveLayout() {
+    return Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
   }
   /**
-   * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
    */
 
 
-  loadLayout(savedLayout, modifier) {
-    let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
+  loadLayout(savedLayout) {
+    let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, this.props.loadTab, this.props.afterPanelLoaded);
     layout = Algorithm.fixLayoutData(layout);
     this.setState({
       layout

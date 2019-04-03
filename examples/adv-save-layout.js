@@ -272,15 +272,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   }
 
-  function getTab(id) {
-    return {
-      id,
-      title: id,
-      content: InputTab.create,
-      inputValue: ''
-    };
-  }
-
   let tab0 = {
     id: 'tab0',
     title: 'tab0',
@@ -304,55 +295,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           mode: 'horizontal',
           children: [{
             size: 200,
-            tabs: [getTab('tab1'), getTab('tab2')]
+            tabs: [{
+              id: 'tab1'
+            }, {
+              id: 'tab2'
+            }]
           }, {
             id: 'main-panel',
             size: 400,
-            tabs: [tab0, getTab('tab3'), getTab('tab4')],
+            tabs: [{
+              id: 'tab0'
+            }, {
+              id: 'tab3'
+            }, {
+              id: 'tab4'
+            }],
             panelLock: {
               panelStyle: 'main'
             }
           }, {
             size: 200,
-            tabs: [getTab('tab5'), getTab('tab6')]
+            tabs: [{
+              id: 'tab5'
+            }, {
+              id: 'tab6'
+            }]
           }]
         }
       });
 
-      _defineProperty(this, "saveModifier", {
-        modifySavedTab(savedTab, tabData) {
-          // add inputValue from saved data;
-          savedTab.inputValue = tabData.inputValue;
+      _defineProperty(this, "saveTab", tabData => {
+        let {
+          id,
+          inputValue
+        } = tabData; // add inputValue from saved data;
+
+        if (id === 'tab0') {
+          return null;
         }
 
+        return {
+          id,
+          inputValue
+        };
       });
 
-      _defineProperty(this, "loadModifier", {
-        loadTab(savedTab) {
-          let id = savedTab.id;
+      _defineProperty(this, "loadTab", savedTab => {
+        let id = savedTab.id;
 
-          if (id === 'tab0') {
-            return null;
-          }
-
-          let tabData = getTab(id); // load inputValue from savedData
-
-          tabData.inputValue = savedTab.inputValue;
-          return tabData;
-        },
-
-        // add tab0 to the main panel
-        modifyLoadedPanel(savedPanel, panelData) {
-          let id = savedPanel.id;
-
-          if (id === 'main-panel') {
-            panelData.panelLock = {
-              panelStyle: 'main'
-            };
-            panelData.tabs.unshift(_objectSpread({}, tab0));
-          }
+        if (id === 'tab0') {
+          return tab0;
         }
 
+        return {
+          id,
+          title: id,
+          content: InputTab.create,
+          inputValue: savedTab.inputValue
+        };
+      });
+
+      _defineProperty(this, "afterPanelLoaded", (savedPanel, panelData) => {
+        let id = savedPanel.id;
+
+        if (id === 'main-panel') {
+          panelData.panelLock = {
+            panelStyle: 'main'
+          };
+          panelData.tabs.unshift(_objectSpread({}, tab0));
+        }
       });
     }
 
@@ -360,6 +371,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return React.createElement("div", null, React.createElement(DockLayout, {
         ref: this.getRef,
         defaultLayout: this.defaultLayout,
+        saveTab: this.saveTab,
+        loadTab: this.loadTab,
+        afterPanelLoaded: this.afterPanelLoaded,
         style: {
           position: 'absolute',
           left: 10,
@@ -374,11 +388,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           marginRight: 20
         },
         onClick: () => this.setState({
-          saved: this.dockLayout.saveLayout(this.saveModifier)
+          saved: this.dockLayout.saveLayout()
         })
       }, "Save Layout"), React.createElement("button", {
         disabled: this.state.saved == null,
-        onClick: () => this.dockLayout.loadLayout(this.state.saved, this.loadModifier)
+        onClick: () => this.dockLayout.loadLayout(this.state.saved)
       }, "Load Layout")));
     }
 

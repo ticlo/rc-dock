@@ -1,7 +1,23 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, LayoutBase, LoadModifier, SaveModifier } from "./DockData";
+import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, LayoutBase, TabBase, PanelBase } from "./DockData";
 interface LayoutProps {
     defaultLayout: DefaultLayout;
+    /**
+     * override the default saveTab behavior
+     */
+    saveTab?(tab: TabData): TabBase;
+    /**
+     * override the default loadTab behavior
+     */
+    loadTab?(tab: TabBase): TabData;
+    /**
+     * modify the savedPanel, you can add additional data into the savedPanel
+     */
+    afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
+    /**
+     * modify the loadedPanel, you can retrieve additional data into the panel
+     */
+    afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
     style?: CSSProperties;
 }
 interface LayoutState {
@@ -40,10 +56,9 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     render(): React.ReactNode;
     /** @ignore */
     componentWillUnmount(): void;
-    saveLayout(modifier?: SaveModifier): LayoutBase;
+    saveLayout(): LayoutBase;
     /**
-     * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
      */
-    loadLayout(savedLayout: LayoutBase, modifier?: LoadModifier): void;
+    loadLayout(savedLayout: LayoutBase): void;
 }
 export {};

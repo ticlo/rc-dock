@@ -1,4 +1,4 @@
-import { BoxData, DropDirection, LayoutData, PanelData, TabData } from "./DockData";
+import { BoxData, DropDirection, LayoutData, PanelData, TabBase, TabData } from "./DockData";
 export declare function getUpdatedObject(obj: any): any;
 export declare function nextId(): string;
 export declare function nextZIndex(current?: number): number;
@@ -15,4 +15,4 @@ export declare function floatPanel(layout: LayoutData, newPanel: PanelData, rect
     height: number;
 }): LayoutData;
 export declare function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData;
-export declare function fixLayoutData(layout: LayoutData): LayoutData;
+export declare function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => TabData): LayoutData;

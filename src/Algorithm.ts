@@ -4,7 +4,7 @@ import {
   DropDirection,
   LayoutData,
   PanelData,
-  placeHolderStyle,
+  placeHolderStyle, TabBase,
   TabData,
   TabGroup
 } from "./DockData";
@@ -294,7 +294,134 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
   return layout;
 }
 
-export function fixLayoutData(layout: LayoutData): LayoutData {
+export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => TabData): LayoutData {
+
+  function fixpanelOrBox(d: PanelData | BoxData) {
+    if (d.id == null) {
+      d.id = nextId();
+    } else if (d.id.startsWith('+')) {
+      let idnum = Number(d.id);
+      if (idnum > _idCount) {
+        // make sure generated id is unique
+        _idCount = idnum;
+      }
+    }
+    if (!(d.size >= 0)) {
+      d.size = 200;
+    }
+    d.minWidth = 0;
+    d.minHeight = 0;
+  }
+
+  function fixPanelData(panel: PanelData): PanelData {
+    fixpanelOrBox(panel);
+    let findActiveId = false;
+    if (loadTab) {
+      for (let i = 0; i < panel.tabs.length; ++i) {
+        panel.tabs[i] = loadTab(panel.tabs[i]);
+      }
+    }
+    for (let child of panel.tabs) {
+      child.parent = panel;
+      if (child.id === panel.activeId) {
+        findActiveId = true;
+      }
+      if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
+      if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
+    }
+    if (!findActiveId && panel.tabs.length) {
+      panel.activeId = panel.tabs[0].id;
+    }
+    if (panel.minWidth <= 0) {
+      panel.minWidth = 1;
+    }
+    if (panel.minHeight <= 0) {
+      panel.minHeight = 1;
+    }
+    if (panel.group == null && panel.tabs.length) {
+      panel.group = panel.tabs[0].group;
+    }
+    if (panel.z > _zCount) {
+      // make sure next zIndex is on top
+      _zCount = panel.z;
+    }
+    return panel;
+  }
+
+  function fixBoxData(box: BoxData): BoxData {
+    fixpanelOrBox(box);
+    for (let i = 0; i < box.children.length; ++i) {
+      let child = box.children[i];
+      child.parent = box;
+      if ('children' in child) {
+        fixBoxData(child);
+        if (child.children.length === 0) {
+          // remove box with no child
+          box.children.splice(i, 1);
+          --i;
+        } else if (child.children.length === 1) {
+          // box with one child should be merged back to parent box
+          let subChild = child.children[0];
+          if ((subChild as BoxData).mode === box.mode) {
+            // sub child is another box that can be merged into current box
+            let totalSubSize = 0;
+            for (let subsubChild of (subChild as BoxData).children) {
+              totalSubSize += subsubChild.size;
+            }
+            let sizeScale = child.size / totalSubSize;
+            for (let subsubChild of (subChild as BoxData).children) {
+              subsubChild.size *= sizeScale;
+            }
+            // merge children up
+            box.children.splice(i, 1, ...(subChild as BoxData).children);
+          } else {
+            // sub child can be moved up one layer
+            subChild.size = child.size;
+            box.children[i] = subChild;
+          }
+          --i;
+        }
+      } else if ('tabs' in child) {
+        fixPanelData(child);
+        if (child.tabs.length === 0) {
+          // remove panel with no tab
+          if (!child.panelLock) {
+            box.children.splice(i, 1);
+            --i;
+          } else if (child.group === placeHolderStyle && (box.children.length > 1 || box.parent)) {
+            // remove placeHolder Group
+            box.children.splice(i, 1);
+            --i;
+          }
+        }
+      }
+      // merge min size
+      switch (box.mode) {
+        case 'horizontal':
+          if (child.minWidth > 0) box.minWidth += child.minWidth;
+          if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
+          break;
+        case 'vertical':
+          if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
+          if (child.minHeight > 0) box.minHeight += child.minHeight;
+          break;
+      }
+    }
+    // add divider size
+    if (box.children.length > 1) {
+      switch (box.mode) {
+        case 'horizontal':
+          box.minWidth += (box.children.length - 1) * 4;
+          break;
+        case 'vertical':
+          box.minHeight += (box.children.length - 1) * 4;
+          break;
+      }
+    }
+
+    return box;
+  }
+
   if (!('floatbox' in layout)) {
     layout.floatbox = {mode: 'float', children: [], size: 1};
   } else {
@@ -321,126 +448,6 @@ export function fixLayoutData(layout: LayoutData): LayoutData {
   return layout;
 }
 
-function fixpanelOrBox(d: PanelData | BoxData) {
-  if (d.id == null) {
-    d.id = nextId();
-  } else if (d.id.startsWith('+')) {
-    let idnum = Number(d.id);
-    if (idnum > _idCount) {
-      // make sure generated id is unique
-      _idCount = idnum;
-    }
-  }
-  if (!(d.size >= 0)) {
-    d.size = 200;
-  }
-  d.minWidth = 0;
-  d.minHeight = 0;
-}
-
-function fixPanelData(panel: PanelData): PanelData {
-  fixpanelOrBox(panel);
-  let findActiveId = false;
-  for (let child of panel.tabs) {
-    child.parent = panel;
-    if (child.id === panel.activeId) {
-      findActiveId = true;
-    }
-    if (child.minWidth > panel.minWidth) panel.minWidth = child.minWidth;
-    if (child.minHeight > panel.minHeight) panel.minHeight = child.minHeight;
-  }
-  if (!findActiveId && panel.tabs.length) {
-    panel.activeId = panel.tabs[0].id;
-  }
-  if (panel.minWidth <= 0) {
-    panel.minWidth = 1;
-  }
-  if (panel.minHeight <= 0) {
-    panel.minHeight = 1;
-  }
-  if (panel.group == null && panel.tabs.length) {
-    panel.group = panel.tabs[0].group;
-  }
-  if (panel.z > _zCount) {
-    // make sure next zIndex is on top
-    _zCount = panel.z;
-  }
-  return panel;
-}
-
-function fixBoxData(box: BoxData): BoxData {
-  fixpanelOrBox(box);
-  for (let i = 0; i < box.children.length; ++i) {
-    let child = box.children[i];
-    child.parent = box;
-    if ('children' in child) {
-      fixBoxData(child);
-      if (child.children.length === 0) {
-        // remove box with no child
-        box.children.splice(i, 1);
-        --i;
-      } else if (child.children.length === 1) {
-        // box with one child should be merged back to parent box
-        let subChild = child.children[0];
-        if ((subChild as BoxData).mode === box.mode) {
-          // sub child is another box that can be merged into current box
-          let totalSubSize = 0;
-          for (let subsubChild of (subChild as BoxData).children) {
-            totalSubSize += subsubChild.size;
-          }
-          let sizeScale = child.size / totalSubSize;
-          for (let subsubChild of (subChild as BoxData).children) {
-            subsubChild.size *= sizeScale;
-          }
-          // merge children up
-          box.children.splice(i, 1, ...(subChild as BoxData).children);
-        } else {
-          // sub child can be moved up one layer
-          subChild.size = child.size;
-          box.children[i] = subChild;
-        }
-        --i;
-      }
-    } else if ('tabs' in child) {
-      fixPanelData(child);
-      if (child.tabs.length === 0) {
-        // remove panel with no tab
-        if (!child.panelLock) {
-          box.children.splice(i, 1);
-          --i;
-        } else if (child.group === placeHolderStyle && (box.children.length > 1 || box.parent)) {
-          // remove placeHolder Group
-          box.children.splice(i, 1);
-          --i;
-        }
-      }
-    }
-    // merge min size
-    switch (box.mode) {
-      case 'horizontal':
-        if (child.minWidth > 0) box.minWidth += child.minWidth;
-        if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
-        break;
-      case 'vertical':
-        if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
-        if (child.minHeight > 0) box.minHeight += child.minHeight;
-        break;
-    }
-  }
-  // add divider size
-  if (box.children.length > 1) {
-    switch (box.mode) {
-      case 'horizontal':
-        box.minWidth += (box.children.length - 1) * 4;
-        break;
-      case 'vertical':
-        box.minHeight += (box.children.length - 1) * 4;
-        break;
-    }
-  }
-
-  return box;
-}
 
 function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData {
   for (let tab of newPanel.tabs) {

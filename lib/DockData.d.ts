@@ -190,25 +190,4 @@ export declare const DockContextType: React.Context<DockContext>;
 export declare const DockContextProvider: React.ProviderExoticComponent<React.ProviderProps<DockContext>>;
 /** @ignore */
 export declare const DockContextConsumer: React.ExoticComponent<React.ConsumerProps<DockContext>>;
-export interface SaveModifier {
-    /**
-     * modify the savedPanel, you can add additional data into the panel
-     */
-    modifySavedPanel?(savedPanel: PanelBase, panelData: PanelData): void;
-    /**
-     * modify the savedTab, you can add additional data into the tab
-     */
-    modifySavedTab?(savedTab: TabBase, tabData: TabData): void;
-}
-export interface LoadModifier {
-    /**
-     * modify the loaded panelData
-     */
-    modifyLoadedPanel?(savedPanel: PanelBase, panelData: PanelData): void;
-    /**
-     * completely overwrite the default behavior of loading tab
-     * returned TabData must contain id, title and content
-     */
-    loadTab?(savedTab: TabBase): TabData;
-}
 export {};

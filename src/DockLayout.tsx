@@ -13,8 +13,8 @@ import {
   placeHolderGroup,
   defaultGroup,
   LayoutBase,
-  LoadModifier,
-  SaveModifier
+  TabBase,
+  PanelBase
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -24,6 +24,27 @@ import * as Serializer from "./Serializer";
 
 interface LayoutProps {
   defaultLayout: DefaultLayout;
+
+  /**
+   * override the default saveTab behavior
+   */
+  saveTab?(tab: TabData): TabBase;
+
+  /**
+   * override the default loadTab behavior
+   */
+  loadTab?(tab: TabBase): TabData;
+
+  /**
+   * modify the savedPanel, you can add additional data into the savedPanel
+   */
+  afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
+
+  /**
+   * modify the loadedPanel, you can retrieve additional data into the panel
+   */
+  afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
+
   style?: CSSProperties;
 }
 
@@ -55,7 +76,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
     this._groups[placeHolderStyle] = placeHolderGroup;
 
-    Algorithm.fixLayoutData(layout);
+    Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
 
@@ -111,6 +132,10 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       let panelData = tab.parent;
       let idx = panelData.tabs.indexOf(tab);
       if (idx >= 0) {
+        let {loadTab} = this.props;
+        if (loadTab && !('content' in newTab && 'title' in newTab)) {
+          newTab = loadTab(newTab);
+        }
         let {layout} = this.state;
         layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
         panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
@@ -232,15 +257,19 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   // public api
 
-  saveLayout(modifier?: SaveModifier): LayoutBase {
-    return Serializer.saveLayoutData(this.state.layout, modifier);
+  saveLayout(): LayoutBase {
+    return Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
   }
 
   /**
-   * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
    */
-  loadLayout(savedLayout: LayoutBase, modifier?: LoadModifier) {
-    let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
+  loadLayout(savedLayout: LayoutBase) {
+    let layout = Serializer.loadLayoutData(
+      savedLayout,
+      this.props.defaultLayout,
+      this.props.loadTab,
+      this.props.afterPanelLoaded
+    );
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});
   }

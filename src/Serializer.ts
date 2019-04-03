@@ -60,7 +60,7 @@ export function saveLayoutData(
     if (saveTab) {
       return saveTab(tabData);
     }
-    return {id: tabData.id, group: tabData.group};
+    return {id: tabData.id};
 
   }
 
@@ -130,7 +130,7 @@ export function loadLayoutData(
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
-    let {id, group, size, activeId, x, y, z, w, h} = savedPanel;
+    let {id, size, activeId, x, y, z, w, h} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -141,9 +141,9 @@ export function loadLayoutData(
     }
     let panelData: PanelData;
     if (w || h || x || y || z) {
-      panelData = {id, size, activeId, x, y, z, w, h, tabs, group};
+      panelData = {id, size, activeId, x, y, z, w, h, tabs};
     } else {
-      panelData = {id, size, activeId, tabs, group};
+      panelData = {id, size, activeId, tabs};
     }
     if (afterPanelLoaded) {
       afterPanelLoaded(savedPanel, panelData);

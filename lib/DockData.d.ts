@@ -37,22 +37,12 @@ export interface TabBase {
      * id must be unique
      */
     id?: string;
-    /**
-     * - group defines style of the panel
-     * - tabs with different tab groups can not be put in same panel
-     * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
-     */
-    group: string;
 }
 export interface PanelBase {
     /**
      * id will be auto generated if it's undefined
      */
     id?: string;
-    /**
-     * if group is undefined, it will be set to the group name of first tab
-     */
-    group?: string;
     /**
      * the size in dock box
      * width when in horizontal layout and height when in vertical layout
@@ -100,6 +90,12 @@ export interface BoxData extends BoxBase, DockDataBase {
     children: (BoxData | PanelData)[];
 }
 export interface TabData extends TabBase, DockDataBase {
+    /**
+     * - group defines style of the panel
+     * - tabs with different tab groups can not be put in same panel
+     * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
+     */
+    group: string;
     parent?: PanelData;
     /**
      * title that's shown in the tab of the panel header
@@ -129,6 +125,10 @@ interface PanelLock {
 export interface PanelData extends PanelBase, DockDataBase {
     parent?: BoxData;
     tabs: TabData[];
+    /**
+     * if group is undefined, it will be set to the group name of first tab
+     */
+    group?: string;
     /**
      * addition information of a panel
      * this prevents the panel from being removed when there is no tab inside

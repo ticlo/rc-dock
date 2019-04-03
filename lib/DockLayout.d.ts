@@ -3,11 +3,13 @@ import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, De
 interface LayoutProps {
     defaultLayout: DefaultLayout;
     /**
-     * override the default saveTab behavior
+     * override the default saveTab behavior, id must be saved in TabBase
      */
     saveTab?(tab: TabData): TabBase;
     /**
      * override the default loadTab behavior
+     * - when loadTab is null, [[LayoutProps.defaultLayout]] must contain the titles and contents for TabData
+     * - when loadTab is specified, [[LayoutProps.defaultLayout]] can ignore all those and only keep id and other custom data
      */
     loadTab?(tab: TabBase): TabData;
     /**
@@ -16,6 +18,8 @@ interface LayoutProps {
     afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
     /**
      * modify the loadedPanel, you can retrieve additional data into the panel
+     * - modifying panel tabs is allowed, make sure to add or replace full TabData, because loadTab won't be called after this
+     * - when handling panel with panelLock, make sure also set the group
      */
     afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
     style?: CSSProperties;

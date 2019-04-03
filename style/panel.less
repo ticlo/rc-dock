@@ -51,16 +51,27 @@
 }
 
 .dock-divider {
+  box-sizing: border-box;
   flex: 0 0 4px;
-  background: rgba(0, 0, 0, 0.01);
+  background: rgba(0, 0, 0, 0);
   z-index: 1;
 }
 
 .dock-hbox {
   & > .dock-divider {
-    // extend it to 6px, overlap the panel borders
-    transform: scaleX(1.5);
+    // extend it to 8px, overlap the panel borders
+    transform: scaleX(2);
     cursor: ew-resize;
+  }
+}
+
+.dock-vbox {
+  flex-direction: column;
+
+  & > .dock-divider {
+    // extend it to 8px, overlap the panel borders
+    transform: scaleY(2);
+    cursor: ns-resize;
   }
 }
 
@@ -72,16 +83,6 @@
     position: absolute;
     pointer-events: visible;
     box-shadow: 0 0 4px #aaaaaa;
-  }
-}
-
-.dock-vbox {
-  flex-direction: column;
-
-  & > .dock-divider {
-    // extend it to 6px, overlap the panel borders
-    transform: scaleY(1.5);
-    cursor: ns-resize;
   }
 }
 

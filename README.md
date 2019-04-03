@@ -73,14 +73,14 @@ a panel is a visiaul container with tabs button in the title bar
 
 get the `ref` of the DockLayout component to use the following API
 
-### saveLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/savemodifier.html)
+### saveLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html)
 save layout
 
 ```typescript
 saveLayout(modifier?: SaveModifier): SavedLayout 
 ```
 
-### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/loadmodifier.html)
+### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html)
 load layout
 
 ```typescript

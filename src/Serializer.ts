@@ -3,7 +3,7 @@ import {
   DockMode,
   DropDirection,
   LayoutData, LoadModifier,
-  PanelData, SavedBox, SavedLayout, SavedPanel, SavedTab,
+  PanelData, BoxBase, LayoutBase, PanelBase, TabBase,
   SaveModifier,
   TabData,
   TabGroup
@@ -52,24 +52,24 @@ export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultL
   return cache;
 }
 
-export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}): SavedLayout {
+export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}): LayoutBase {
   const {modifySavedTab, modifySavedPanel} = modifier;
 
-  function saveTab(tabData: TabData): SavedTab {
-    let savedTab: SavedTab = {id: tabData.id, group: tabData.group};
+  function saveTab(tabData: TabData): TabBase {
+    let savedTab: TabBase = {id: tabData.id, group: tabData.group};
     if (modifySavedTab) {
       modifySavedTab(savedTab, tabData);
     }
     return savedTab;
   }
 
-  function savePanel(panelData: PanelData): SavedPanel {
-    let tabs: SavedTab[] = [];
+  function savePanel(panelData: PanelData): PanelBase {
+    let tabs: TabBase[] = [];
     for (let tab of panelData.tabs) {
       tabs.push(saveTab(tab));
     }
     let {id, size, activeId, group} = panelData;
-    let savedPanel: SavedPanel;
+    let savedPanel: PanelBase;
     if (panelData.parent.mode === 'float') {
       let {x, y, z, w, h} = panelData;
       savedPanel = {id, size, tabs, activeId, group, x, y, z, w, h};
@@ -82,8 +82,8 @@ export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}):
     return savedPanel;
   }
 
-  function saveBox(boxData: BoxData): SavedBox {
-    let children: (SavedBox | SavedPanel)[] = [];
+  function saveBox(boxData: BoxData): BoxBase {
+    let children: (BoxBase | PanelBase)[] = [];
     for (let child of boxData.children) {
       if ('tabs' in child) {
         children.push(savePanel(child));
@@ -101,16 +101,16 @@ export function saveLayoutData(layout: LayoutData, modifier: SaveModifier = {}):
   };
 }
 
-export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutData | BoxData, modifier: LoadModifier = {}): LayoutData {
+export function loadLayoutData(savedLayout: LayoutBase, defaultLayout: LayoutData | BoxData, modifier: LoadModifier = {}): LayoutData {
   const {loadTab, modifyLoadedPanel} = modifier;
 
   if (!savedLayout.floatbox) {
-    savedLayout.floatbox = {mode: 'float', children: [], size: 0} as SavedBox;
+    savedLayout.floatbox = {mode: 'float', children: [], size: 0} as BoxBase;
   }
 
   let cache = createLayoutCache(defaultLayout);
 
-  function loadTabData(savedTab: SavedTab): TabData {
+  function loadTabData(savedTab: TabBase): TabData {
     if (loadTab) {
       return loadTab(savedTab);
     }
@@ -121,7 +121,7 @@ export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutDa
     return null;
   }
 
-  function loadPanelData(savedPanel: SavedPanel): PanelData {
+  function loadPanelData(savedPanel: PanelBase): PanelData {
     let {id, group, size, activeId, x, y, z, w, h} = savedPanel;
 
     let tabs: TabData[] = [];
@@ -145,7 +145,7 @@ export function loadLayoutData(savedLayout: SavedLayout, defaultLayout: LayoutDa
     return panelData;
   }
 
-  function loadBoxData(savedBox: SavedBox): BoxData {
+  function loadBoxData(savedBox: BoxBase): BoxData {
     let children: (BoxData | PanelData)[] = [];
     for (let child of savedBox.children) {
       if ('tabs' in child) {

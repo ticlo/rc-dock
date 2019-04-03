@@ -32,25 +32,74 @@ interface DockDataBase {
     minHeight?: number;
 }
 export declare type DockMode = 'horizontal' | 'vertical' | 'float';
-/**
- * a box is the layout element that contains other boxes or panels
- */
-export interface BoxData extends DockDataBase {
+export interface TabBase {
+    /**
+     * id must be unique
+     */
     id?: string;
-    parent?: BoxData;
+    /**
+     * - group defines style of the panel
+     * - tabs with different tab groups can not be put in same panel
+     * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
+     */
+    group: string;
+}
+export interface PanelBase {
+    /**
+     * id will be auto generated if it's undefined
+     */
+    id?: string;
+    /**
+     * if group is undefined, it will be set to the group name of first tab
+     */
+    group?: string;
     /**
      * the size in dock box
      * width when in horizontal layout and height when in vertical layout
      */
     size?: number;
-    mode?: DockMode;
-    children: (BoxData | PanelData)[];
+    tabs: TabBase[];
+    /**
+     * the id of current tab
+     */
+    activeId?: string;
+    /** float mode only */
+    x?: number;
+    /** float mode only */
+    y?: number;
+    /** float mode only */
+    z?: number;
+    /** float mode only */
+    w?: number;
+    /** float mode only */
+    h?: number;
 }
-export interface TabData extends DockDataBase {
+export interface BoxBase {
     /**
      * id will be auto generated if it's undefined
      */
     id?: string;
+    mode: DockMode;
+    /**
+     * the size in dock box
+     * width when in horizontal layout and height when in vertical layout
+     */
+    size?: number;
+    children: (BoxBase | PanelBase)[];
+}
+export interface LayoutBase {
+    dockbox: BoxBase;
+    floatbox?: BoxBase;
+}
+/**
+ * a box is the layout element that contains other boxes or panels
+ */
+export interface BoxData extends BoxBase, DockDataBase {
+    parent?: BoxData;
+    mode: DockMode;
+    children: (BoxData | PanelData)[];
+}
+export interface TabData extends TabBase, DockDataBase {
     parent?: PanelData;
     /**
      * title that's shown in the tab of the panel header
@@ -59,13 +108,9 @@ export interface TabData extends DockDataBase {
     content: React.ReactElement | ((tab: TabData) => React.ReactElement);
     closable?: boolean;
     /**
-     * - group defines style of the panel
-     * - tabs with different tab groups can not be put in same panel
-     * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
-     */
-    group: string;
-    /**
-     * cached tab will always reuse the react component thus allows the component to keep its internal state
+     * - when value is true: content will always reuse the react component thus allows the component to keep its internal state
+     * - when value is false: content will be destroyed when it's not visible, [[TabGroup.animated]] should be set to false since animation would show blank pages
+     * - when value is undefined: content is rendered normally as react component
      */
     cached?: boolean;
     /**
@@ -81,48 +126,21 @@ interface PanelLock {
 /**
  * a panel is a visiaul container with tabs button in the title bar
  */
-export interface PanelData extends DockDataBase {
-    /**
-     * id will be auto generated if it's undefined
-     */
-    id?: string;
+export interface PanelData extends PanelBase, DockDataBase {
     parent?: BoxData;
-    /**
-     * the id of current tab
-     */
-    activeId?: string;
     tabs: TabData[];
-    /**
-     * if group is undefined, it will be set to the group name of first tab
-     */
-    group: string;
-    /**
-     * the size in dock box
-     * width when in horizontal layout and height when in vertical layout
-     */
-    size?: number;
     /**
      * addition information of a panel
      * this prevents the panel from being removed when there is no tab inside
      * a locked panel can not be moved to float layer either
      */
     panelLock?: PanelLock;
-    /** float mode only */
-    x?: number;
-    /** float mode only */
-    y?: number;
-    /** float mode only */
-    z?: number;
-    /** float mode only */
-    w?: number;
-    /** float mode only */
-    h?: number;
 }
-export interface LayoutData {
+export interface LayoutData extends LayoutBase {
     /**
      * dock box
      */
-    dockbox?: BoxData;
+    dockbox: BoxData;
     /**
      * float box
      * children must be PanelData, child box is not allowed
@@ -172,51 +190,25 @@ export declare const DockContextType: React.Context<DockContext>;
 export declare const DockContextProvider: React.ProviderExoticComponent<React.ProviderProps<DockContext>>;
 /** @ignore */
 export declare const DockContextConsumer: React.ExoticComponent<React.ConsumerProps<DockContext>>;
-export interface SavedTab {
-    id: string;
-    group: string;
-}
-export interface SavedPanel {
-    id: string;
-    group: string;
-    size: number;
-    tabs: SavedTab[];
-    activeId: string;
-    x?: number;
-    y?: number;
-    z?: number;
-    w?: number;
-    h?: number;
-}
-export interface SavedBox {
-    id: string;
-    mode: DockMode;
-    size: number;
-    children: (SavedBox | SavedPanel)[];
-}
-export interface SavedLayout {
-    dockbox: SavedBox;
-    floatbox: SavedBox;
-}
 export interface SaveModifier {
     /**
      * modify the savedPanel, you can add additional data into the panel
      */
-    modifySavedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
+    modifySavedPanel?(savedPanel: PanelBase, panelData: PanelData): void;
     /**
      * modify the savedTab, you can add additional data into the tab
      */
-    modifySavedTab?(savedTab: SavedTab, tabData: TabData): void;
+    modifySavedTab?(savedTab: TabBase, tabData: TabData): void;
 }
 export interface LoadModifier {
     /**
      * modify the loaded panelData
      */
-    modifyLoadedPanel?(savedPanel: SavedPanel, panelData: PanelData): void;
+    modifyLoadedPanel?(savedPanel: PanelBase, panelData: PanelData): void;
     /**
      * completely overwrite the default behavior of loading tab
      * returned TabData must contain id, title and content
      */
-    loadTab?(savedTab: SavedTab): TabData;
+    loadTab?(savedTab: TabBase): TabData;
 }
 export {};

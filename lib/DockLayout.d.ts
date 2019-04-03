@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, SavedLayout, LoadModifier, SaveModifier } from "./DockData";
+import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, LayoutBase, LoadModifier, SaveModifier } from "./DockData";
 interface LayoutProps {
     defaultLayout: DefaultLayout;
     style?: CSSProperties;
@@ -40,10 +40,10 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     render(): React.ReactNode;
     /** @ignore */
     componentWillUnmount(): void;
-    saveLayout(modifier?: SaveModifier): SavedLayout;
+    saveLayout(modifier?: SaveModifier): LayoutBase;
     /**
      * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
      */
-    loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): void;
+    loadLayout(savedLayout: LayoutBase, modifier?: LoadModifier): void;
 }
 export {};

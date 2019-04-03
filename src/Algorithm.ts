@@ -295,9 +295,6 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
 }
 
 export function fixLayoutData(layout: LayoutData): LayoutData {
-  if (!('dockbox' in layout)) {
-    layout.dockbox = {mode: 'horizontal', children: [], size: 1};
-  }
   if (!('floatbox' in layout)) {
     layout.floatbox = {mode: 'float', children: [], size: 1};
   } else {

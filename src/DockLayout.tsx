@@ -12,7 +12,7 @@ import {
   placeHolderStyle,
   placeHolderGroup,
   defaultGroup,
-  SavedLayout,
+  LayoutBase,
   LoadModifier,
   SaveModifier
 } from "./DockData";
@@ -232,14 +232,14 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   // public api
 
-  saveLayout(modifier?: SaveModifier): SavedLayout {
+  saveLayout(modifier?: SaveModifier): LayoutBase {
     return Serializer.saveLayoutData(this.state.layout, modifier);
   }
 
   /**
    * @param modifier if modifier is not defined, the DefaultLayout will be used to search for Panel and Tabs, then fill in other properties like title and content
    */
-  loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier) {
+  loadLayout(savedLayout: LayoutBase, modifier?: LoadModifier) {
     let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, modifier);
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});

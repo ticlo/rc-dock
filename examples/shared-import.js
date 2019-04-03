@@ -10000,8 +10000,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
     }
 
     return {
-      id: tabData.id,
-      group: tabData.group
+      id: tabData.id
     };
   }
 
@@ -10123,7 +10122,6 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
   function loadPanelData(savedPanel) {
     let {
       id,
-      group,
       size,
       activeId,
       x,
@@ -10154,16 +10152,14 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
         z,
         w,
         h,
-        tabs,
-        group
+        tabs
       };
     } else {
       panelData = {
         id,
         size,
         activeId,
-        tabs,
-        group
+        tabs
       };
     }
 

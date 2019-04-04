@@ -3,7 +3,7 @@ import SaveRef from 'rc-tabs/lib/SaveRef';
 import ScrollableTabBarNode from 'rc-tabs/lib/ScrollableTabBarNode';
 import TabBarTabsNode from 'rc-tabs/lib/TabBarTabsNode';
 import InkTabBarNode from 'rc-tabs/lib/InkTabBarNode';
-import {DragInitHandler, DragInitiator} from "./DragInitiator";
+import {DragInitHandler, DragInitiator} from "./dragdrop/DragInitiator";
 
 
 interface TabBarRootNodeProps {

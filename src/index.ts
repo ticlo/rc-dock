@@ -3,7 +3,7 @@ export * from "./DockData";
 export * from "./DockPanel";
 export * from "./DockBox";
 export * from "./DockLayout";
-export * from "./DragStore";
+export * from "./dragdrop/DragManager";
 export * from './Divider';
 
 import {DockLayout} from './DockLayout';

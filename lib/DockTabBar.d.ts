@@ -1,5 +1,5 @@
 import React from "react";
-import { DragInitHandler } from "./DragInitiator";
+import { DragInitHandler } from "./dragdrop/DragInitiator";
 interface DockTabBarProps {
     onDragMoveInit?: DragInitHandler;
     onHtmlDrag?: React.DragEventHandler;

@@ -1,6 +1,6 @@
 import React from "react";
 import { DockContext, DropDirection, PanelData, TabData } from "./DockData";
-import { DragInitHandler } from "./DragInitiator";
+import { DragInitHandler } from "./dragdrop/DragInitiator";
 export declare class TabCache {
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;

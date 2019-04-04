@@ -4,8 +4,8 @@ import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {DragStore} from "./DragStore";
-import {DragInitFunction, DragInitHandler, DragInitiator} from "./DragInitiator";
+import {DragManager} from "./dragdrop/DragManager";
+import {DragInitFunction, DragInitHandler, DragInitiator} from "./dragdrop/DragInitiator";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 
@@ -43,11 +43,11 @@ export class TabCache {
     e.stopPropagation();
   };
   onDragStart = (e: React.DragEvent) => {
-    DragStore.dragStart(DockContextType, {tab: this.data}, e.nativeEvent, this._hitAreaRef);
+    DragManager.dragStart(DockContextType, {tab: this.data}, e.nativeEvent, this._hitAreaRef);
     e.stopPropagation();
   };
   onDragOver = (e: React.DragEvent) => {
-    let tab: TabData = DragStore.getData(DockContextType, 'tab');
+    let tab: TabData = DragManager.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
       this.context.setDropRect(this._hitAreaRef, direction, this);
@@ -60,7 +60,7 @@ export class TabCache {
     this.context.setDropRect(null, 'remove', this);
   };
   onDrop = (e: React.DragEvent) => {
-    let tab: TabData = DragStore.getData(DockContextType, 'tab');
+    let tab: TabData = DragManager.getData(DockContextType, 'tab');
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
       this.context.dockMove(tab, this.data, direction);

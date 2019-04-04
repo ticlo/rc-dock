@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
+import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./dragdrop/DragInitiator";
 
 export interface DividerChild {
   size: number;

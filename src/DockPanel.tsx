@@ -1,8 +1,8 @@
 import React, {CSSProperties, PointerEventHandler} from "react";
 import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
-import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./DragInitiator";
-import {DragStore} from "./DragStore";
+import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./dragdrop/DragInitiator";
+import {DragManager} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {nextZIndex} from "./Algorithm";
 
@@ -42,8 +42,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onDragEnter = () => {
     let {panelData} = this.props;
     DockPanel.droppingPanel = this;
-    let tab: TabData = DragStore.getData(DockContextType, 'tab');
-    let panel: PanelData = DragStore.getData(DockContextType, 'panel');
+    let tab: TabData = DragManager.getData(DockContextType, 'tab');
+    let panel: PanelData = DragManager.getData(DockContextType, 'panel');
     if (tab) {
       if (tab.parent) {
         this.setState({dropFromPanel: tab.parent});
@@ -88,7 +88,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   // drag in dock mode
   onPanelHeaderHtmlDrag = (event: React.DragEvent) => {
-    DragStore.dragStart(DockContextType, {panel: this.props.panelData}, event.nativeEvent, this._ref);
+    DragManager.dragStart(DockContextType, {panel: this.props.panelData}, event.nativeEvent, this._ref);
     event.stopPropagation();
   };
 

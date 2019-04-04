@@ -13,7 +13,7 @@ import {
 import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
-import {DragStore} from "./DragStore";
+import {DragManager} from "./dragdrop/DragManager";
 
 interface DockDropSquareProps {
   direction: DropDirection;
@@ -58,9 +58,9 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDrop = (e: React.DragEvent) => {
-    let source: TabData | PanelData = DragStore.getData(DockContextType, 'tab');
+    let source: TabData | PanelData = DragManager.getData(DockContextType, 'tab');
     if (!source) {
-      source = DragStore.getData(DockContextType, 'panel');
+      source = DragManager.getData(DockContextType, 'panel');
     }
     if (source) {
       let {panelData, direction, depth} = this.props;
@@ -133,7 +133,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     let children: React.ReactNode[] = [];
 
     // check if it's whole panel dragging
-    let draggingPanel = DragStore.getData(DockContextType, 'panel');
+    let draggingPanel = DragManager.getData(DockContextType, 'panel');
 
     let fromGroup = this.context.getGroup(dropFromPanel.group);
     if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock)) {

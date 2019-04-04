@@ -72,13 +72,13 @@ export function saveLayoutData(
         tabs.push(savedTab);
       }
     }
-    let {id, size, activeId, group} = panelData;
+    let {id, size, activeId} = panelData;
     let savedPanel: PanelBase;
     if (panelData.parent.mode === 'float') {
       let {x, y, z, w, h} = panelData;
-      savedPanel = {id, size, tabs, activeId, group, x, y, z, w, h};
+      savedPanel = {id, size, tabs, activeId, x, y, z, w, h};
     } else {
-      savedPanel = {id, size, tabs, activeId, group};
+      savedPanel = {id, size, tabs, activeId};
     }
     if (afterPanelSaved) {
       afterPanelSaved(savedPanel, panelData);

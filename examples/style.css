@@ -1,3 +1,34 @@
+body > .dragging-layer {
+  position: absolute !important;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  border: none;
+  pointer-events: none;
+  opacity: 0.8;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: nowrap;
+  /* dragging element */
+  /* icon */
+}
+body > .dragging-layer > *:first-child {
+  pointer-events: none !important;
+  overflow: hidden !important;
+  transform: translate(-50%, -50%) !important;
+  background: white;
+}
+body > .dragging-layer > div:last-child {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+body > .dragging-layer > .dragging-icon-not-allowed:after {
+  content: '🚫';
+}
+body > .dragging-layer > .dragging-icon-move:after {
+  content: '➡';
+}
 .dock {
   box-sizing: border-box;
   width: 100%;
@@ -303,13 +334,21 @@
   align-items: stretch;
 }
 .dock-divider {
+  box-sizing: border-box;
   flex: 0 0 4px;
-  background: rgba(0, 0, 0, 0.01);
+  background: rgba(0, 0, 0, 0);
   z-index: 1;
 }
 .dock-hbox > .dock-divider {
-  transform: scaleX(1.5);
+  transform: scaleX(2);
   cursor: ew-resize;
+}
+.dock-vbox {
+  flex-direction: column;
+}
+.dock-vbox > .dock-divider {
+  transform: scaleY(2);
+  cursor: ns-resize;
 }
 .dock-fbox {
   pointer-events: none;
@@ -319,13 +358,6 @@
   position: absolute;
   pointer-events: visible;
   box-shadow: 0 0 4px #aaaaaa;
-}
-.dock-vbox {
-  flex-direction: column;
-}
-.dock-vbox > .dock-divider {
-  transform: scaleY(1.5);
-  cursor: ns-resize;
 }
 .dock-layout {
   overflow: hidden;

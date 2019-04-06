@@ -4737,41 +4737,77 @@ TabContent.defaultProps = {
   animated: true
 };
 module.exports = exports['default'];
-},{"babel-runtime/helpers/extends":"T4f3","babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"1n8/","prop-types":"5D9O","classnames":"9qb7","./utils":"c87w"}],"3vjO":[function(require,module,exports) {
+},{"babel-runtime/helpers/extends":"T4f3","babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"1n8/","prop-types":"5D9O","classnames":"9qb7","./utils":"c87w"}],"EJTb":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-let _scope;
+class DragState {
+  constructor(event, component, init = false) {
+    this.pageX = 0;
+    this.pageY = 0;
+    this.dx = 0;
+    this.dy = 0;
+    this.event = event;
+    this.component = component;
+    this._init = init;
 
-let _draggingElement;
+    if (event) {
+      if (event instanceof MouseEvent) {
+        this.pageX = event.pageX;
+        this.pageY = event.pageY;
+      } else if (event instanceof TouchEvent && event.touches.length) {
+        this.pageX = event.touches[0].pageX;
+        this.pageY = event.touches[0].pageY;
+      }
 
-let _data;
-
-let _dragEndListened = false;
-
-class DragStore {
-  static dragStart(scope, data, event, element, dragText = ' ') {
-    _scope = scope;
-    _data = data;
-
-    if (element instanceof HTMLElement) {
-      element.classList.add('dragging');
-      _draggingElement = element;
-    } // required in firefox
-
-
-    event.dataTransfer.setData('text', dragText);
-
-    if (!_dragEndListened) {
-      document.addEventListener('dragend', DragStore.dragEnd);
-      _dragEndListened = true;
+      if (init) {
+        this.dx = 0;
+        this.dy = 0;
+      } else {
+        this.dx = (this.pageX - component.baseX) * component.scaleX;
+        this.dy = (this.pageY - component.baseY) * component.scaleY;
+      }
     }
   }
+  /**
+   * @param refElement, the element being moved
+   * @param draggingHtml, the element show in the dragging layer
+   */
 
-  static getData(scope, field) {
+
+  startDrag(refElement, draggingHtml) {
+    if (!this._init) {
+      throw new Error('startDrag can only be used in onDragStart callback');
+    }
+
+    if (this.component) {
+      this.component.startDrag(refElement, this);
+    }
+
+    if (refElement === undefined) {
+      refElement = this.component.element;
+    }
+
+    if (draggingHtml === undefined && refElement != null) {
+      draggingHtml = refElement.outerHTML;
+    }
+
+    createDraggingElement(this, refElement, draggingHtml);
+  }
+
+  setData(data, scope) {
+    if (!this._init) {
+      throw new Error('setData can only be used in onDragStart callback');
+    }
+
+    _scope = scope;
+    _data = data;
+  }
+
+  getData(field, scope) {
     if (scope === _scope && _data) {
       return _data[field];
     }
@@ -4779,20 +4815,131 @@ class DragStore {
     return null;
   }
 
-  static dragEnd() {
-    _scope = null;
-    _data = null;
+  accept(style) {
+    this.style = style;
+  }
 
-    if (_draggingElement) {
-      _draggingElement.classList.remove('dragging');
+  moved() {
+    let searchElement = document.elementFromPoint(this.pageX, this.pageY);
+    let droppingHandlers;
 
-      _draggingElement = null;
+    while (searchElement && searchElement !== document.body) {
+      if (_dragListeners.has(searchElement)) {
+        let handlers = _dragListeners.get(searchElement);
+
+        if (handlers.onDragOver) {
+          handlers.onDragOver(this);
+
+          if (this.style != null) {
+            droppingHandlers = handlers;
+            break;
+          }
+        }
+      }
+
+      searchElement = searchElement.parentElement;
+    }
+
+    setDroppingHandler(droppingHandlers, this);
+    moveDraggingElement(this);
+  }
+
+  dropped() {
+    if (_droppingHandlers && _droppingHandlers.onDrop) {
+      _droppingHandlers.onDrop(this);
     }
   }
 
 }
 
-exports.DragStore = DragStore;
+exports.DragState = DragState;
+
+let _scope;
+
+let _data;
+
+let _draggingState; // applying dragging style
+
+
+let _refElement;
+
+let _droppingHandlers;
+
+function setDroppingHandler(handlers, state) {
+  if (_droppingHandlers && _droppingHandlers.onDragLeave) {
+    _droppingHandlers.onDragLeave(state);
+  }
+
+  _droppingHandlers = handlers;
+}
+
+let _dragListeners = new WeakMap();
+
+function isDragging() {
+  return _draggingState != null;
+}
+
+exports.isDragging = isDragging;
+
+function addHandlers(element, handlers) {
+  _dragListeners.set(element, handlers);
+}
+
+exports.addHandlers = addHandlers;
+
+let _draggingDiv = document.createElement('div');
+
+let _draggingIcon = document.createElement('div');
+
+_draggingDiv.className = 'dragging-layer';
+
+_draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
+
+
+_draggingDiv.appendChild(_draggingIcon);
+
+function createDraggingElement(state, refElement, draggingHtml) {
+  _draggingState = state;
+
+  if (refElement) {
+    refElement.classList.add('dragging');
+    _refElement = refElement;
+  }
+
+  document.body.appendChild(_draggingDiv);
+
+  if (draggingHtml) {
+    _draggingDiv.firstElementChild.outerHTML = draggingHtml;
+  }
+}
+
+function moveDraggingElement(state) {
+  _draggingDiv.style.left = `${state.pageX}px`;
+  _draggingDiv.style.top = `${state.pageY}px`;
+
+  if (state.style) {
+    _draggingIcon.className = `dragging-icon-${state.style}`;
+  } else {
+    _draggingIcon.className = 'dragging-icon-not-allowed';
+  }
+}
+
+function destroyDraggingElement() {
+  if (_refElement) {
+    _refElement.classList.remove('dragging');
+
+    _refElement = null;
+  }
+
+  _draggingDiv.firstElementChild.outerHTML = '<div/>';
+
+  _draggingDiv.remove();
+
+  _draggingState = null;
+  _droppingHandlers = null;
+}
+
+exports.destroyDraggingElement = destroyDraggingElement;
 },{}],"qC88":[function(require,module,exports) {
 'use strict';
 
@@ -7307,7 +7454,7 @@ InkTabBarNode.defaultProps = {
   saveRef: function saveRef() {}
 };
 module.exports = exports['default'];
-},{"babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"1n8/","prop-types":"5D9O","classnames":"9qb7","./utils":"c87w"}],"LXP3":[function(require,module,exports) {
+},{"babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"1n8/","prop-types":"5D9O","classnames":"9qb7","./utils":"c87w"}],"HyIX":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -7325,100 +7472,203 @@ var __importDefault = this && this.__importDefault || function (mod) {
   };
 };
 
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  result["default"] = mod;
+  return result;
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 const react_1 = __importDefault(require("react"));
 
-class DragInitiator extends react_1.default.Component {
+const DragManager = __importStar(require("./DragManager"));
+
+class DragDropDiv extends react_1.default.Component {
   constructor() {
     super(...arguments);
-    this.dragging = false;
-    this.isTouch = false;
 
-    this.onPointerDown = e => {
+    this._getRef = r => {
+      this.element = r;
       let {
-        onDragInit
+        getRef
       } = this.props;
 
-      if (onDragInit) {
-        onDragInit(e.nativeEvent, (referenceElement, moveListener, endListener) => {
-          if (this.dragging) {
-            this.onEnd();
-          }
+      if (getRef) {
+        getRef(r);
+      }
 
-          this.baseX = e.pageX;
-          this.baseY = e.pageY;
+      let {
+        onDragOver,
+        onDrop,
+        onDragLeave
+      } = this.props;
 
-          if (!referenceElement) {
-            referenceElement = e.nativeEvent.target.parentElement;
-          }
-
-          let rect = referenceElement.getBoundingClientRect();
-          this.scaleX = referenceElement.offsetWidth / rect.width;
-          this.scaleY = referenceElement.offsetHeight / rect.height;
-          this.moveListener = moveListener;
-          this.endListener = endListener;
-
-          if (e.pointerType === 'touch') {
-            this.isTouch = true;
-            document.addEventListener('touchmove', this.onTouchMove);
-            document.addEventListener('touchend', this.onTouchEnd);
-          } else {
-            this.isTouch = false;
-            document.addEventListener('mousemove', this.onMouseMove);
-            document.addEventListener('mouseup', this.onMouseEnd);
-          }
-
-          this.dragging = true;
-          e.stopPropagation();
+      if (onDragOver) {
+        DragManager.addHandlers(r, {
+          onDragOver,
+          onDragLeave,
+          onDrop
         });
       }
     };
 
+    this.dragging = false;
+    this.isTouch = false;
+
+    this.onPointerDown = e => {
+      this.addListeners(e);
+    };
+
     this.onMouseMove = e => {
-      if (e && this.moveListener) {
-        this.moveListener(e, (e.pageX - this.baseX) * this.scaleX, (e.pageY - this.baseY) * this.scaleY);
+      let {
+        onDragMove
+      } = this.props;
+
+      if (this.waitingMove) {
+        if (!this.checkFirstMove(e)) {
+          return;
+        }
+      } else {
+        let state = new DragManager.DragState(e, this);
+
+        if (onDragMove) {
+          onDragMove(state);
+        }
+
+        state.moved();
       }
 
       e.preventDefault();
     };
 
     this.onMouseEnd = e => {
-      if (e && this.endListener) {
-        this.endListener(e, (e.pageX - this.baseX) * this.scaleX, (e.pageY - this.baseY) * this.scaleY);
+      let {
+        onDragEnd
+      } = this.props;
+      let state = new DragManager.DragState(e, this);
+
+      if (onDragEnd) {
+        onDragEnd(state);
       }
 
+      state.dropped();
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseEnd);
-      this.dragging = false;
+      this.cleanup();
     };
 
     this.onTouchMove = e => {
-      if (e.touches.length !== 1) {
+      let {
+        onDragMove
+      } = this.props;
+
+      if (this.waitingMove) {
+        if (!this.checkFirstMove(e)) {
+          return;
+        }
+      } else if (e.touches.length !== 1) {
         this.onTouchEnd();
-      } else if (this.moveListener) {
-        this.moveListener(e, (e.touches[0].pageX - this.baseX) * this.scaleX, (e.touches[0].pageY - this.baseY) * this.scaleY);
+      } else {
+        let state = new DragManager.DragState(e, this);
+
+        if (onDragMove) {
+          onDragMove(state);
+        }
+
+        state.moved();
       }
 
       e.preventDefault();
     };
 
     this.onTouchEnd = e => {
-      if (this.endListener) {
-        if (e) {
-          this.endListener(e, (e.changedTouches[0].pageX - this.baseX) * this.scaleX, (e.changedTouches[0].pageY - this.baseY) * this.scaleY);
-        } else {
-          // canceled
-          this.endListener(null, 0, 0);
-        }
+      let {
+        onDragEnd
+      } = this.props;
+      let state = new DragManager.DragState(e, this);
+
+      if (onDragEnd) {
+        onDragEnd(state);
       }
 
+      state.dropped();
       document.removeEventListener('touchmove', this.onTouchMove);
       document.removeEventListener('touchend', this.onTouchEnd);
-      this.dragging = false;
+      this.cleanup();
     };
+
+    this.onKeyDown = e => {
+      if (e.key === 'Escape') {
+        this.onEnd();
+      }
+    };
+  }
+
+  startDrag(element, state) {
+    if (!element) {
+      element = this.element;
+    }
+
+    this.baseX = state.pageX;
+    this.baseY = state.pageY;
+    let rect = element.getBoundingClientRect();
+    this.scaleX = element.offsetWidth / rect.width;
+    this.scaleY = element.offsetHeight / rect.height;
+  }
+
+  addListeners(e) {
+    let {
+      onDragStart
+    } = this.props;
+
+    if (this.dragging) {
+      this.onEnd();
+    }
+
+    if (e.pointerType === 'touch') {
+      this.isTouch = true;
+      document.addEventListener('touchmove', this.onTouchMove);
+      document.addEventListener('touchend', this.onTouchEnd);
+    } else {
+      this.isTouch = false;
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('mouseup', this.onMouseEnd);
+    }
+
+    this.waitingMove = true;
+    this.dragging = true;
+    e.stopPropagation();
+  } // return true
+
+
+  checkFirstMove(e) {
+    let {
+      onDragStart
+    } = this.props;
+    this.waitingMove = false;
+    let state = new DragManager.DragState(e, this, true);
+    onDragStart(state);
+
+    if (!DragManager.isDragging()) {
+      this.onEnd();
+      return false;
+    }
+
+    state.moved();
+    document.addEventListener('keydown', this.onKeyDown);
+    return true;
+  }
+
+  cleanup() {
+    this.dragging = false;
+    this.waitingMove = false;
+    document.removeEventListener('keydown', this.onKeyDown);
+    DragManager.destroyDraggingElement();
   }
 
   onEnd() {
@@ -7432,15 +7682,24 @@ class DragInitiator extends react_1.default.Component {
   render() {
     let _a = this.props,
         {
-      getRef,
       children,
-      onDragInit,
-      onPointerDown
+      onDragStart,
+      onDragMove,
+      onDragEnd,
+      onDragOver,
+      onDragLeave,
+      onDrop
     } = _a,
-        others = __rest(_a, ["getRef", "children", "onDragInit", "onPointerDown"]);
+        others = __rest(_a, ["children", "onDragStart", "onDragMove", "onDragEnd", "onDragOver", "onDragLeave", "onDrop"]);
+
+    let onPointerDown = this.onPointerDown;
+
+    if (!onDragStart) {
+      onPointerDown = null;
+    }
 
     return react_1.default.createElement("div", Object.assign({
-      ref: getRef
+      ref: this._getRef
     }, others, {
       onPointerDown: this.onPointerDown
     }), children);
@@ -7454,8 +7713,8 @@ class DragInitiator extends react_1.default.Component {
 
 }
 
-exports.DragInitiator = DragInitiator;
-},{"react":"1n8/"}],"Ec16":[function(require,module,exports) {
+exports.DragDropDiv = DragDropDiv;
+},{"react":"1n8/","./DragManager":"EJTb"}],"Ec16":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -7487,7 +7746,7 @@ const TabBarTabsNode_1 = __importDefault(require("rc-tabs/lib/TabBarTabsNode"));
 
 const InkTabBarNode_1 = __importDefault(require("rc-tabs/lib/InkTabBarNode"));
 
-const DragInitiator_1 = require("./DragInitiator");
+const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
 class DockTabBarRootNode extends react_1.default.PureComponent {
   render() {
@@ -7517,7 +7776,7 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
       })];
     }
 
-    return react_1.default.createElement(DragInitiator_1.DragInitiator, {
+    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       onDragInit: onDragMoveInit,
       onDragStart: onHtmlDrag,
       draggable: onHtmlDrag != null,
@@ -7563,7 +7822,7 @@ class DockTabBar extends react_1.default.PureComponent {
 }
 
 exports.DockTabBar = DockTabBar;
-},{"react":"1n8/","rc-tabs/lib/SaveRef":"qC88","rc-tabs/lib/ScrollableTabBarNode":"sjF9","rc-tabs/lib/TabBarTabsNode":"AaQl","rc-tabs/lib/InkTabBarNode":"lgw1","./DragInitiator":"LXP3"}],"5IvP":[function(require,module,exports) {
+},{"react":"1n8/","rc-tabs/lib/SaveRef":"qC88","rc-tabs/lib/ScrollableTabBarNode":"sjF9","rc-tabs/lib/TabBarTabsNode":"AaQl","rc-tabs/lib/InkTabBarNode":"lgw1","./dragdrop/DragDropDiv":"HyIX"}],"5IvP":[function(require,module,exports) {
 var global = arguments[3];
 /** @license React v0.13.5
  * scheduler.production.min.js
@@ -8166,7 +8425,7 @@ const rc_tabs_1 = __importDefault(require("rc-tabs"));
 
 const TabContent_1 = __importDefault(require("rc-tabs/lib/TabContent"));
 
-const DragStore_1 = require("./DragStore");
+const DragManager_1 = require("./dragdrop/DragManager");
 
 const DockTabBar_1 = require("./DockTabBar");
 
@@ -8188,14 +8447,14 @@ class TabCache {
     };
 
     this.onDragStart = e => {
-      DragStore_1.DragStore.dragStart(DockData_1.DockContextType, {
+      DragManager_1.DragManager.dragStart(DockData_1.DockContextType, {
         tab: this.data
       }, e.nativeEvent, this._hitAreaRef);
       e.stopPropagation();
     };
 
     this.onDragOver = e => {
-      let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
+      let tab = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'tab');
 
       if (tab && tab !== this.data && tab.group === this.data.group) {
         let direction = this.getDropDirection(e);
@@ -8211,7 +8470,7 @@ class TabCache {
     };
 
     this.onDrop = e => {
-      let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
+      let tab = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'tab');
 
       if (tab && tab !== this.data && tab.group === this.data.group) {
         let direction = this.getDropDirection(e);
@@ -8428,7 +8687,7 @@ class DockTabs extends react_1.default.Component {
 DockTabs.contextType = DockData_1.DockContextType;
 DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
 exports.DockTabs = DockTabs;
-},{"react":"1n8/","./DockData":"zh3I","./util/Compare":"LCzK","rc-tabs":"9FgV","rc-tabs/lib/TabContent":"Bdxb","./DragStore":"3vjO","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"YpI/":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./util/Compare":"LCzK","rc-tabs":"9FgV","rc-tabs/lib/TabContent":"Bdxb","./dragdrop/DragManager":"EJTb","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"YpI/":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -8445,7 +8704,7 @@ const react_1 = __importDefault(require("react"));
 
 const DockData_1 = require("./DockData");
 
-const DragStore_1 = require("./DragStore");
+const DragManager_1 = require("./dragdrop/DragManager");
 
 class DockDropSquare extends react_1.default.PureComponent {
   constructor() {
@@ -8493,10 +8752,10 @@ class DockDropSquare extends react_1.default.PureComponent {
     };
 
     this.onDrop = e => {
-      let source = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
+      let source = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'tab');
 
       if (!source) {
-        source = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'panel');
+        source = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'panel');
       }
 
       if (source) {
@@ -8595,7 +8854,7 @@ class DockDropLayer extends react_1.default.PureComponent {
     } = this.props;
     let children = []; // check if it's whole panel dragging
 
-    let draggingPanel = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'panel');
+    let draggingPanel = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'panel');
     let fromGroup = this.context.getGroup(dropFromPanel.group);
 
     if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock)) {
@@ -8644,7 +8903,7 @@ class DockDropLayer extends react_1.default.PureComponent {
 
 DockDropLayer.contextType = DockData_1.DockContextType;
 exports.DockDropLayer = DockDropLayer;
-},{"react":"1n8/","./DockData":"zh3I","./DragStore":"3vjO"}],"wqok":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./dragdrop/DragManager":"EJTb"}],"wqok":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9268,9 +9527,9 @@ const DockData_1 = require("./DockData");
 
 const DockTabs_1 = require("./DockTabs");
 
-const DragInitiator_1 = require("./DragInitiator");
+const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
-const DragStore_1 = require("./DragStore");
+const DragManager_1 = require("./dragdrop/DragManager");
 
 const DockDropLayer_1 = require("./DockDropLayer");
 
@@ -9293,8 +9552,8 @@ class DockPanel extends react_1.default.PureComponent {
         panelData
       } = this.props;
       DockPanel.droppingPanel = this;
-      let tab = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'tab');
-      let panel = DragStore_1.DragStore.getData(DockData_1.DockContextType, 'panel');
+      let tab = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'tab');
+      let panel = DragManager_1.DragManager.getData(DockData_1.DockContextType, 'panel');
 
       if (tab) {
         if (tab.parent) {
@@ -9350,7 +9609,7 @@ class DockPanel extends react_1.default.PureComponent {
 
 
     this.onPanelHeaderHtmlDrag = event => {
-      DragStore_1.DragStore.dragStart(DockData_1.DockContextType, {
+      DragManager_1.DragManager.dragStart(DockData_1.DockContextType, {
         panel: this.props.panelData
       }, event.nativeEvent, this._ref);
       event.stopPropagation();
@@ -9550,19 +9809,19 @@ class DockPanel extends react_1.default.PureComponent {
       panelData: panelData,
       onPanelHeaderDragInit: onPanelHeaderDragInit,
       onPanelHeaderHtmlDrag: onPanelHeaderHtmlDrag
-    }), isFloat ? [react_1.default.createElement(DragInitiator_1.DragInitiator, {
+    }), isFloat ? [react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-t-l',
       className: 'dock-panel-drag-size dock-panel-drag-size-t-l',
       onDragInit: this.onPanelCornerDragTL
-    }), react_1.default.createElement(DragInitiator_1.DragInitiator, {
+    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-t-r',
       className: 'dock-panel-drag-size dock-panel-drag-size-t-r',
       onDragInit: this.onPanelCornerDragTR
-    }), react_1.default.createElement(DragInitiator_1.DragInitiator, {
+    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-b-l',
       className: 'dock-panel-drag-size dock-panel-drag-size-b-l',
       onDragInit: this.onPanelCornerDragBL
-    }), react_1.default.createElement(DragInitiator_1.DragInitiator, {
+    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-b-r',
       className: 'dock-panel-drag-size dock-panel-drag-size-b-r',
       onDragInit: this.onPanelCornerDragBR
@@ -9573,7 +9832,7 @@ class DockPanel extends react_1.default.PureComponent {
 
 DockPanel.contextType = DockData_1.DockContextType;
 exports.DockPanel = DockPanel;
-},{"react":"1n8/","./DockData":"zh3I","./DockTabs":"nskJ","./DragInitiator":"LXP3","./DragStore":"3vjO","./DockDropLayer":"YpI/","./Algorithm":"wqok"}],"Lzzn":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./DockTabs":"nskJ","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb","./DockDropLayer":"YpI/","./Algorithm":"wqok"}],"Lzzn":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -9588,7 +9847,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importDefault(require("react"));
 
-const DragInitiator_1 = require("./DragInitiator");
+const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
 class BoxDataCache {
   constructor(data) {
@@ -9748,7 +10007,7 @@ class Divider extends react_1.default.PureComponent {
       className = 'dock-divider';
     }
 
-    return react_1.default.createElement(DragInitiator_1.DragInitiator, {
+    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       className: className,
       onDragInit: this.startDrag
     });
@@ -9757,7 +10016,7 @@ class Divider extends react_1.default.PureComponent {
 }
 
 exports.Divider = Divider;
-},{"react":"1n8/","./DragInitiator":"LXP3"}],"GMUE":[function(require,module,exports) {
+},{"react":"1n8/","./dragdrop/DragDropDiv":"HyIX"}],"GMUE":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -10018,8 +10277,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
     let {
       id,
       size,
-      activeId,
-      group
+      activeId
     } = panelData;
     let savedPanel;
 
@@ -10036,7 +10294,6 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
         size,
         tabs,
         activeId,
-        group,
         x,
         y,
         z,
@@ -10048,8 +10305,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
         id,
         size,
         tabs,
-        activeId,
-        group
+        activeId
       };
     }
 
@@ -10561,14 +10817,16 @@ __export(require("./DockBox"));
 
 __export(require("./DockLayout"));
 
-__export(require("./DragStore"));
+__export(require("./dragdrop/DragManager"));
+
+__export(require("./dragdrop/DragDropDiv"));
 
 __export(require("./Divider"));
 
 const DockLayout_1 = require("./DockLayout");
 
 exports.default = DockLayout_1.DockLayout;
-},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./DragStore":"3vjO","./Divider":"Lzzn"}],"FeNK":[function(require,module,exports) {
+},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn"}],"FeNK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

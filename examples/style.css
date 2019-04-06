@@ -1,5 +1,6 @@
 body > .dragging-layer {
   position: absolute !important;
+  z-index: 9999;
   overflow: visible;
   margin: 0;
   padding: 0;
@@ -22,12 +23,6 @@ body > .dragging-layer > div:last-child {
   position: absolute;
   left: 12px;
   top: 12px;
-}
-body > .dragging-layer > .dragging-icon-not-allowed:after {
-  content: '🚫';
-}
-body > .dragging-layer > .dragging-icon-move:after {
-  content: '➡';
 }
 .dock {
   box-sizing: border-box;
@@ -358,6 +353,10 @@ body > .dragging-layer > .dragging-icon-move:after {
   position: absolute;
   pointer-events: visible;
   box-shadow: 0 0 4px #aaaaaa;
+}
+.dock-fbox > .dock-panel.dragging {
+  opacity: 0.8;
+  pointer-events: none;
 }
 .dock-layout {
   overflow: hidden;

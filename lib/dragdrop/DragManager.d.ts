@@ -1,10 +1,33 @@
+interface DragDropComponent {
+    element: HTMLElement;
+    baseX: number;
+    baseY: number;
+    scaleX: number;
+    scaleY: number;
+    startDrag(element: HTMLElement, state: DragState): void;
+}
 export declare class DragState {
+    _init: boolean;
     event: MouseEvent | TouchEvent;
+    component: DragDropComponent;
     pageX: number;
     pageY: number;
-    constructor(event: MouseEvent | TouchEvent);
+    dx: number;
+    dy: number;
+    constructor(event: MouseEvent | TouchEvent, component: DragDropComponent, init?: boolean);
+    /**
+     * @param refElement, the element being moved
+     * @param draggingHtml, the element show in the dragging layer
+     */
+    startDrag(refElement?: HTMLElement, draggingHtml?: string): void;
+    setData(data?: {
+        [key: string]: any;
+    }, scope?: any): void;
+    getData(field: string, scope?: any): any;
     style: string;
     accept(style: string): void;
+    moved(): void;
+    dropped(): void;
 }
 export declare type DragHandler = (state: DragState) => void;
 interface DragHandlers {
@@ -12,12 +35,7 @@ interface DragHandlers {
     onDragLeave: DragHandler;
     onDrop: DragHandler;
 }
-export declare class DragManager {
-    static addHandlers(element: HTMLElement, handlers: DragHandlers): void;
-    static dragStart(scope: any, data: {
-        [key: string]: any;
-    }, event: DragEvent, element?: any, dragText?: string): void;
-    static getData(scope: any, field: string): any;
-    static dragEnd(): void;
-}
+export declare function isDragging(): boolean;
+export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;
+export declare function destroyDraggingElement(): void;
 export {};

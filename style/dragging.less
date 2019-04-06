@@ -1,0 +1,36 @@
+body > .dragging-layer {
+  position: absolute !important;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  border: none;
+  pointer-events: none;
+  opacity: 0.8;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: nowrap;
+
+  /* dragging element */
+
+  & > *:first-child {
+    pointer-events: none !important;
+    overflow: hidden !important;
+    transform: translate(-50%, -50%) !important;
+    background: white;
+  }
+
+  /* icon */
+
+  & > div:last-child {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  & > .dragging-icon-not-allowed:after {
+    content: '🚫';
+  }
+  & > .dragging-icon-move:after {
+    content: '➡';
+  }
+}

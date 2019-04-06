@@ -1,7 +1,7 @@
 import React, {CSSProperties, PointerEventHandler} from "react";
 import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
-import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./dragdrop/DragInitiator";
+import {AbstractPointerEvent, DragInitFunction, DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragManager} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {nextZIndex} from "./Algorithm";
@@ -215,14 +215,14 @@ export class DockPanel extends React.PureComponent<Props, State> {
                   onPanelHeaderHtmlDrag={onPanelHeaderHtmlDrag}/>
         {isFloat ?
           [
-            <DragInitiator key='drag-size-t-l' className='dock-panel-drag-size dock-panel-drag-size-t-l'
-                           onDragInit={this.onPanelCornerDragTL}/>,
-            <DragInitiator key='drag-size-t-r' className='dock-panel-drag-size dock-panel-drag-size-t-r'
-                           onDragInit={this.onPanelCornerDragTR}/>,
-            <DragInitiator key='drag-size-b-l' className='dock-panel-drag-size dock-panel-drag-size-b-l'
-                           onDragInit={this.onPanelCornerDragBL}/>,
-            <DragInitiator key='drag-size-b-r' className='dock-panel-drag-size dock-panel-drag-size-b-r'
-                           onDragInit={this.onPanelCornerDragBR}/>
+            <DragDropDiv key='drag-size-t-l' className='dock-panel-drag-size dock-panel-drag-size-t-l'
+                         onDragInit={this.onPanelCornerDragTL}/>,
+            <DragDropDiv key='drag-size-t-r' className='dock-panel-drag-size dock-panel-drag-size-t-r'
+                         onDragInit={this.onPanelCornerDragTR}/>,
+            <DragDropDiv key='drag-size-b-l' className='dock-panel-drag-size dock-panel-drag-size-b-l'
+                         onDragInit={this.onPanelCornerDragBL}/>,
+            <DragDropDiv key='drag-size-b-r' className='dock-panel-drag-size dock-panel-drag-size-b-r'
+                         onDragInit={this.onPanelCornerDragBR}/>
           ]
           : null
         }

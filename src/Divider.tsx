@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbstractPointerEvent, DragInitFunction, DragInitiator} from "./dragdrop/DragInitiator";
+import {AbstractPointerEvent, DragInitFunction, DragDropDiv} from "./dragdrop/DragDropDiv";
 
 export interface DividerChild {
   size: number;
@@ -150,6 +150,6 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     if (!className) {
       className = 'dock-divider';
     }
-    return <DragInitiator className={className} onDragInit={this.startDrag}/>;
+    return <DragDropDiv className={className} onDragInit={this.startDrag}/>;
   }
 }

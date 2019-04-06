@@ -5,7 +5,7 @@ import Tabs from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import {DragManager} from "./dragdrop/DragManager";
-import {DragInitFunction, DragInitHandler, DragInitiator} from "./dragdrop/DragInitiator";
+import {DragInitFunction, DragInitHandler, DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 

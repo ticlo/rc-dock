@@ -3,7 +3,7 @@ import SaveRef from 'rc-tabs/lib/SaveRef';
 import ScrollableTabBarNode from 'rc-tabs/lib/ScrollableTabBarNode';
 import TabBarTabsNode from 'rc-tabs/lib/TabBarTabsNode';
 import InkTabBarNode from 'rc-tabs/lib/InkTabBarNode';
-import {DragInitHandler, DragInitiator} from "./dragdrop/DragInitiator";
+import {DragInitHandler, DragDropDiv} from "./dragdrop/DragDropDiv";
 
 
 interface TabBarRootNodeProps {
@@ -41,17 +41,17 @@ class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
 
     }
     return (
-      <DragInitiator onDragInit={onDragMoveInit}
-                     onDragStart={onHtmlDrag} draggable={onHtmlDrag != null}
-                     role="tablist"
-                     className='dock-bar'
-                     tabIndex={0}
-                     ref={this.props.saveRef('root')}
-                     onKeyDown={onKeyDown}
-                     style={style}
+      <DragDropDiv onDragInit={onDragMoveInit}
+                   onDragStart={onHtmlDrag} draggable={onHtmlDrag != null}
+                   role="tablist"
+                   className='dock-bar'
+                   tabIndex={0}
+                   ref={this.props.saveRef('root')}
+                   onKeyDown={onKeyDown}
+                   style={style}
       >
         {newChildren}
-      </DragInitiator>
+      </DragDropDiv>
     );
   }
 }

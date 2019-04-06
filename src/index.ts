@@ -4,6 +4,7 @@ export * from "./DockPanel";
 export * from "./DockBox";
 export * from "./DockLayout";
 export * from "./dragdrop/DragManager";
+export * from "./dragdrop/DragDropDiv";
 export * from './Divider';
 
 import {DockLayout} from './DockLayout';

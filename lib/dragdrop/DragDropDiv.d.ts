@@ -1,14 +1,10 @@
 import React, { CSSProperties } from "react";
 import * as DragManager from "./DragManager";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
-declare type PointerEventHandler = (e: AbstractPointerEvent, dx: number, dy: number, pageX: number, pageY: number) => void;
-export declare type DragInitFunction = (referenceElement: HTMLElement, moveListener?: PointerEventHandler, endListener?: PointerEventHandler) => void;
-export declare type DragInitHandler = (event: PointerEvent, initFunction: DragInitFunction) => void;
-interface DragInitiatorProps {
+interface DragDropDivProps {
     className?: string;
     style?: CSSProperties;
     getRef?: (ref: HTMLDivElement) => void;
-    onDragInit?: DragInitHandler;
     onDragStart?: DragManager.DragHandler;
     onDragMove?: DragManager.DragHandler;
     onDragEnd?: DragManager.DragHandler;
@@ -16,11 +12,9 @@ interface DragInitiatorProps {
     onDragLeave?: DragManager.DragHandler;
     onDrop?: DragManager.DragHandler;
 }
-export declare class DragInitiator extends React.Component<DragInitiatorProps, any> {
-    _ref: HTMLDivElement;
+export declare class DragDropDiv extends React.Component<DragDropDivProps, any> {
+    element: HTMLElement;
     _getRef: (r: HTMLDivElement) => void;
-    moveListener?: PointerEventHandler;
-    endListener?: PointerEventHandler;
     dragging: boolean;
     isTouch: boolean;
     baseX: number;
@@ -29,12 +23,15 @@ export declare class DragInitiator extends React.Component<DragInitiatorProps, a
     scaleY: number;
     waitingMove: boolean;
     onPointerDown: (e: React.PointerEvent<Element>) => void;
+    startDrag(element: HTMLElement, state: DragManager.DragState): void;
     addListeners(e: React.PointerEvent): void;
     checkFirstMove(e: AbstractPointerEvent): boolean;
     onMouseMove: (e: MouseEvent) => void;
     onMouseEnd: (e?: MouseEvent) => void;
     onTouchMove: (e: TouchEvent) => void;
     onTouchEnd: (e?: TouchEvent) => void;
+    onKeyDown: (e?: KeyboardEvent) => void;
+    cleanup(): void;
     onEnd(): void;
     render(): React.ReactNode;
     componentWillUnmount(): void;

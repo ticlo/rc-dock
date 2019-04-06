@@ -1,8 +1,8 @@
 import React from "react";
-import { DragInitHandler } from "./dragdrop/DragDropDiv";
+import * as DragManager from "./dragdrop/DragManager";
 interface DockTabBarProps {
-    onDragMoveInit?: DragInitHandler;
-    onHtmlDrag?: React.DragEventHandler;
+    onDragStart?: DragManager.DragHandler;
+    onDragMove?: DragManager.DragHandler;
     extraContent?: React.ReactElement;
 }
 export declare class DockTabBar extends React.PureComponent<DockTabBarProps, any> {

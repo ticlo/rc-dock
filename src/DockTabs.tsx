@@ -4,8 +4,8 @@ import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {DragManager} from "./dragdrop/DragManager";
-import {DragInitFunction, DragInitHandler, DragDropDiv} from "./dragdrop/DragDropDiv";
+import {default as DragManager, DragState} from "./dragdrop/DragManager";
+import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 
@@ -42,32 +42,30 @@ export class TabCache {
     this.context.dockMove(this.data, null, 'remove');
     e.stopPropagation();
   };
-  onDragStart = (e: React.DragEvent) => {
-    DragManager.dragStart(DockContextType, {tab: this.data}, e.nativeEvent, this._hitAreaRef);
-    e.stopPropagation();
+  onDragStart = (e: DragState) => {
+    e.startDrag(this._ref);
+    e.setData({tab: this.data}, DockContextType);
   };
-  onDragOver = (e: React.DragEvent) => {
-    let tab: TabData = DragManager.getData(DockContextType, 'tab');
+  onDragOver = (e: DragState) => {
+    let tab: TabData = DragState.getData('tab', DockContextType);
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
       this.context.setDropRect(this._hitAreaRef, direction, this);
-      e.dataTransfer.dropEffect = 'move';
-      e.preventDefault();
-      e.stopPropagation();
+      e.accept('');
     }
   };
-  onDragLeave = (e: React.DragEvent) => {
+  onDragLeave = (e: DragState) => {
     this.context.setDropRect(null, 'remove', this);
   };
-  onDrop = (e: React.DragEvent) => {
-    let tab: TabData = DragManager.getData(DockContextType, 'tab');
+  onDrop = (e: DragState) => {
+    let tab: TabData = DragState.getData('tab', DockContextType);
     if (tab && tab !== this.data && tab.group === this.data.group) {
       let direction = this.getDropDirection(e);
       this.context.dockMove(tab, this.data, direction);
     }
   };
 
-  getDropDirection(e: React.DragEvent): DropDirection {
+  getDropDirection(e: DragState): DropDirection {
     let rect = this._hitAreaRef.getBoundingClientRect();
     let midx = rect.left + rect.width * 0.5;
     return e.clientX > midx ? 'after-tab' : 'before-tab';
@@ -80,17 +78,18 @@ export class TabCache {
     if (typeof content === 'function') {
       content = content(this.data);
     }
+    let onDragStart = tabLocked ? null : this.onDragStart;
     let tab = (
       <div ref={this.getRef}>
         {title}
-        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} draggable={!tabLocked}
-             onDragStart={this.onDragStart}
-             onDragOver={this.onDragOver} onDrop={this.onDrop} onDragLeave={this.onDragLeave}>
+        <DragDropDiv className='dock-tab-hit-area' getRef={this.getHitAreaRef}
+                     onDragStartT={onDragStart}
+                     onDragOverT={this.onDragOver} onDropT={this.onDrop} onDragLeaveT={this.onDragLeave}>
           {closable ?
             <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>
             : null
           }
-        </div>
+        </DragDropDiv>
       </div>
     );
     if (cacheContext) {
@@ -117,8 +116,8 @@ export class TabCache {
 
 interface Props {
   panelData: PanelData;
-  onPanelHeaderDragInit: DragInitHandler;
-  onPanelHeaderHtmlDrag: React.DragEventHandler;
+  onPanelDragStart: DragManager.DragHandler;
+  onPanelDragMove: DragManager.DragHandler;
 }
 
 interface State {
@@ -192,8 +191,8 @@ export class DockTabs extends React.Component<Props, any> {
       panelExtraContent = panelExtra(panelData, this.context);
     }
     return (
-      <DockTabBar extraContent={panelExtraContent}
-                  onDragMoveInit={this.props.onPanelHeaderDragInit} onHtmlDrag={this.props.onPanelHeaderHtmlDrag}/>
+      <DockTabBar extraContent={panelExtraContent} onDragStart={this.props.onPanelDragStart}
+                  onDragMove={this.props.onPanelDragMove}/>
     );
   };
 

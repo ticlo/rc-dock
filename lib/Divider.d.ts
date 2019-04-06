@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbstractPointerEvent, DragInitFunction } from "./dragdrop/DragDropDiv";
+import { DragState } from "./dragdrop/DragManager";
 export interface DividerChild {
     size: number;
     minSize?: number;
@@ -28,11 +28,11 @@ declare class BoxDataCache implements DividerData {
 }
 export declare class Divider extends React.PureComponent<DividerProps, any> {
     boxData: BoxDataCache;
-    startDrag: (e: PointerEvent, initFunction: DragInitFunction) => void;
-    dragMove: (e: AbstractPointerEvent, dx: number, dy: number) => void;
-    dragMove2(e: AbstractPointerEvent, dx: number, dy: number): void;
-    dragMoveAll(e: AbstractPointerEvent, dx: number, dy: number): void;
-    dragEnd: (e: AbstractPointerEvent, dx: number, dy: number) => void;
+    startDrag: (e: DragState) => void;
+    dragMove: (e: DragState) => void;
+    dragMove2(e: DragState, dx: number, dy: number): void;
+    dragMoveAll(e: DragState, dx: number, dy: number): void;
+    dragEnd: (e: DragState) => void;
     render(): React.ReactNode;
 }
 export {};

@@ -3,16 +3,14 @@ import * as DragManager from "./DragManager";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
-interface DragDropDivProps {
-  className?: string;
-  style?: CSSProperties;
+interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: (ref: HTMLDivElement) => void;
-  onDragStart?: DragManager.DragHandler;
-  onDragMove?: DragManager.DragHandler;
-  onDragEnd?: DragManager.DragHandler;
-  onDragOver?: DragManager.DragHandler;
-  onDragLeave?: DragManager.DragHandler;
-  onDrop?: DragManager.DragHandler;
+  onDragStartT?: DragManager.DragHandler;
+  onDragMoveT?: DragManager.DragHandler;
+  onDragEndT?: DragManager.DragHandler;
+  onDragOverT?: DragManager.DragHandler;
+  onDragLeaveT?: DragManager.DragHandler;
+  onDropT?: DragManager.DragHandler;
 }
 
 export class DragDropDiv extends React.Component<DragDropDivProps, any> {
@@ -20,14 +18,19 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   element: HTMLElement;
 
   _getRef = (r: HTMLDivElement) => {
+    if (r === this.element) {
+      return;
+    }
+    let {getRef, onDragOverT, onDropT, onDragLeaveT} = this.props;
+    if (this.element && onDragOverT) {
+      DragManager.removeHandlers(this.element);
+    }
     this.element = r;
-    let {getRef} = this.props;
     if (getRef) {
       getRef(r);
     }
-    let {onDragOver, onDrop, onDragLeave} = this.props;
-    if (onDragOver) {
-      DragManager.addHandlers(r, {onDragOver, onDragLeave, onDrop});
+    if (r && onDragOverT) {
+      DragManager.addHandlers(r, {onDragOverT, onDragLeaveT, onDropT});
     }
   };
 
@@ -38,25 +41,19 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   scaleX: number;
   scaleY: number;
   waitingMove: boolean;
+
   onPointerDown = (e: React.PointerEvent) => {
+    this.baseX = e.pageX;
+    this.baseY = e.pageY;
+
+    let rect = this.element.getBoundingClientRect();
+    this.scaleX = this.element.offsetWidth / rect.width;
+    this.scaleY = this.element.offsetHeight / rect.height;
     this.addListeners(e);
   };
 
-  startDrag(element: HTMLElement, state: DragManager.DragState) {
-    if (!element) {
-      element = this.element;
-    }
-
-    this.baseX = state.pageX;
-    this.baseY = state.pageY;
-
-    let rect = element.getBoundingClientRect();
-    this.scaleX = element.offsetWidth / rect.width;
-    this.scaleY = element.offsetHeight / rect.height;
-  }
-
   addListeners(e: React.PointerEvent) {
-    let {onDragStart} = this.props;
+    let {onDragStartT} = this.props;
 
     if (this.dragging) {
       this.onEnd();
@@ -78,10 +75,16 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
   // return true
   checkFirstMove(e: AbstractPointerEvent) {
-    let {onDragStart} = this.props;
-    this.waitingMove = false;
+    let {onDragStartT} = this.props;
+
     let state = new DragManager.DragState(e, this, true);
-    onDragStart(state);
+    if (state.dx === 0 && state.dy === 0) {
+      console.log(state);
+      // not a move
+      return false;
+    }
+    this.waitingMove = false;
+    onDragStartT(state);
     if (!DragManager.isDragging()) {
       this.onEnd();
       return false;
@@ -92,15 +95,15 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   }
 
   onMouseMove = (e: MouseEvent) => {
-    let {onDragMove} = this.props;
+    let {onDragMoveT} = this.props;
     if (this.waitingMove) {
       if (!this.checkFirstMove(e)) {
         return;
       }
     } else {
       let state = new DragManager.DragState(e, this);
-      if (onDragMove) {
-        onDragMove(state);
+      if (onDragMoveT) {
+        onDragMoveT(state);
       }
       state.moved();
     }
@@ -108,10 +111,10 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   };
 
   onMouseEnd = (e?: MouseEvent) => {
-    let {onDragEnd} = this.props;
+    let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
-    if (onDragEnd) {
-      onDragEnd(state);
+    if (onDragEndT) {
+      onDragEndT(state);
     }
     state.dropped();
 
@@ -121,7 +124,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   };
 
   onTouchMove = (e: TouchEvent) => {
-    let {onDragMove} = this.props;
+    let {onDragMoveT} = this.props;
     if (this.waitingMove) {
       if (!this.checkFirstMove(e)) {
         return;
@@ -130,18 +133,18 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       this.onTouchEnd();
     } else {
       let state = new DragManager.DragState(e, this);
-      if (onDragMove) {
-        onDragMove(state);
+      if (onDragMoveT) {
+        onDragMoveT(state);
       }
       state.moved();
     }
     e.preventDefault();
   };
   onTouchEnd = (e?: TouchEvent) => {
-    let {onDragEnd} = this.props;
+    let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
-    if (onDragEnd) {
-      onDragEnd(state);
+    if (onDragEndT) {
+      onDragEndT(state);
     }
     state.dropped();
     document.removeEventListener('touchmove', this.onTouchMove);
@@ -172,9 +175,9 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   }
 
   render(): React.ReactNode {
-    let {children, onDragStart, onDragMove, onDragEnd, onDragOver, onDragLeave, onDrop, ...others} = this.props;
+    let {children, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, ...others} = this.props;
     let onPointerDown = this.onPointerDown;
-    if (!onDragStart) {
+    if (!onDragStartT) {
       onPointerDown = null;
     }
     return (

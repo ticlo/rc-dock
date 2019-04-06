@@ -1,16 +1,14 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import * as DragManager from "./DragManager";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
-interface DragDropDivProps {
-    className?: string;
-    style?: CSSProperties;
+interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     getRef?: (ref: HTMLDivElement) => void;
-    onDragStart?: DragManager.DragHandler;
-    onDragMove?: DragManager.DragHandler;
-    onDragEnd?: DragManager.DragHandler;
-    onDragOver?: DragManager.DragHandler;
-    onDragLeave?: DragManager.DragHandler;
-    onDrop?: DragManager.DragHandler;
+    onDragStartT?: DragManager.DragHandler;
+    onDragMoveT?: DragManager.DragHandler;
+    onDragEndT?: DragManager.DragHandler;
+    onDragOverT?: DragManager.DragHandler;
+    onDragLeaveT?: DragManager.DragHandler;
+    onDropT?: DragManager.DragHandler;
 }
 export declare class DragDropDiv extends React.Component<DragDropDivProps, any> {
     element: HTMLElement;
@@ -23,7 +21,6 @@ export declare class DragDropDiv extends React.Component<DragDropDivProps, any> 
     scaleY: number;
     waitingMove: boolean;
     onPointerDown: (e: React.PointerEvent<Element>) => void;
-    startDrag(element: HTMLElement, state: DragManager.DragState): void;
     addListeners(e: React.PointerEvent): void;
     checkFirstMove(e: AbstractPointerEvent): boolean;
     onMouseMove: (e: MouseEvent) => void;

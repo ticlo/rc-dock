@@ -158,7 +158,10 @@ export interface DefaultLayout extends LayoutData {
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 export interface DockContext {
     /** @ignore */
-    setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
+    setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {
+        clientX: number;
+        clientY: number;
+    }): void;
     /**
      * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
      * @param source the source TabData or PanelData being moved

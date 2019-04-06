@@ -1,5 +1,6 @@
 import React from "react";
 import { DockContext, DockMode, DropDirection, PanelData } from "./DockData";
+import { DragState } from "./dragdrop/DragManager";
 interface DockDropSquareProps {
     direction: DropDirection;
     depth?: number;
@@ -15,9 +16,9 @@ export declare class DockDropSquare extends React.PureComponent<DockDropSquarePr
     state: {
         dropping: boolean;
     };
-    onDragOver: (e: React.DragEvent<Element>) => void;
-    onDragLeave: (e: React.DragEvent<Element>) => void;
-    onDrop: (e: React.DragEvent<Element>) => void;
+    onDragOver: (e: DragState) => void;
+    onDragLeave: (e: DragState) => void;
+    onDrop: (e: DragState) => void;
     render(): React.ReactNode;
     componentWillUnmount(): void;
 }

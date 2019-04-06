@@ -1,12 +1,9 @@
 interface DragDropComponent {
   element: HTMLElement;
-
   baseX: number;
   baseY: number;
   scaleX: number;
   scaleY: number;
-
-  startDrag(element: HTMLElement, state: DragState): void;
 }
 
 export class DragState {
@@ -15,6 +12,8 @@ export class DragState {
   component: DragDropComponent;
   pageX = 0;
   pageY = 0;
+  clientX = 0;
+  clientY = 0;
   dx = 0;
   dy = 0;
 
@@ -26,17 +25,17 @@ export class DragState {
       if (event instanceof MouseEvent) {
         this.pageX = event.pageX;
         this.pageY = event.pageY;
+        this.clientX = event.clientX;
+        this.clientY = event.clientY;
       } else if (event instanceof TouchEvent && event.touches.length) {
-        this.pageX = event.touches[0].pageX;
-        this.pageY = event.touches[0].pageY;
+        let touch = event.touches[0];
+        this.pageX = touch.pageX;
+        this.pageY = touch.pageY;
+        this.clientX = touch.clientX;
+        this.clientY = touch.clientY;
       }
-      if (init) {
-        this.dx = 0;
-        this.dy = 0;
-      } else {
-        this.dx = (this.pageX - component.baseX) * component.scaleX;
-        this.dy = (this.pageY - component.baseY) * component.scaleY;
-      }
+      this.dx = (this.pageX - component.baseX) * component.scaleX;
+      this.dy = (this.pageY - component.baseY) * component.scaleY;
     }
   }
 
@@ -47,9 +46,6 @@ export class DragState {
   startDrag(refElement?: HTMLElement, draggingHtml?: string) {
     if (!this._init) {
       throw new Error('startDrag can only be used in onDragStart callback');
-    }
-    if (this.component) {
-      this.component.startDrag(refElement, this);
     }
     if (refElement === undefined) {
       refElement = this.component.element;
@@ -69,17 +65,22 @@ export class DragState {
     _data = data;
   }
 
-  getData(field: string, scope?: any) {
+  static getData(field: string, scope?: any) {
     if (scope === _scope && _data) {
       return _data[field];
     }
     return null;
   }
 
-  style: string;
+  acceptMessage: string;
+  rejected: boolean;
 
-  accept(style: string) {
-    this.style = style;
+  accept(message: string) {
+    this.acceptMessage = message;
+  }
+
+  reject() {
+    this.rejected = true;
   }
 
   moved() {
@@ -88,9 +89,9 @@ export class DragState {
     while (searchElement && searchElement !== document.body) {
       if (_dragListeners.has(searchElement)) {
         let handlers = _dragListeners.get(searchElement);
-        if (handlers.onDragOver) {
-          handlers.onDragOver(this);
-          if (this.style != null) {
+        if (handlers.onDragOverT) {
+          handlers.onDragOverT(this);
+          if (this.acceptMessage != null) {
             droppingHandlers = handlers;
             break;
           }
@@ -103,8 +104,8 @@ export class DragState {
   }
 
   dropped() {
-    if (_droppingHandlers && _droppingHandlers.onDrop) {
-      _droppingHandlers.onDrop(this);
+    if (_droppingHandlers && _droppingHandlers.onDropT) {
+      _droppingHandlers.onDropT(this);
     }
   }
 }
@@ -121,16 +122,19 @@ let _refElement: HTMLElement;
 let _droppingHandlers: DragHandlers;
 
 function setDroppingHandler(handlers: DragHandlers, state: DragState) {
-  if (_droppingHandlers && _droppingHandlers.onDragLeave) {
-    _droppingHandlers.onDragLeave(state);
+  if (_droppingHandlers === handlers) {
+    return;
+  }
+  if (_droppingHandlers && _droppingHandlers.onDragLeaveT) {
+    _droppingHandlers.onDragLeaveT(state);
   }
   _droppingHandlers = handlers;
 }
 
 interface DragHandlers {
-  onDragOver: DragHandler;
-  onDragLeave: DragHandler;
-  onDrop: DragHandler;
+  onDragOverT: DragHandler;
+  onDragLeaveT: DragHandler;
+  onDropT: DragHandler;
 }
 
 let _dragListeners: WeakMap<HTMLElement, DragHandlers> = new WeakMap<HTMLElement, DragHandlers>();
@@ -141,6 +145,10 @@ export function isDragging() {
 
 export function addHandlers(element: HTMLElement, handlers: DragHandlers) {
   _dragListeners.set(element, handlers);
+}
+
+export function removeHandlers(element: HTMLElement) {
+  _dragListeners.delete(element);
 }
 
 let _draggingDiv: HTMLDivElement = document.createElement('div');
@@ -165,12 +173,16 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
 function moveDraggingElement(state: DragState) {
   _draggingDiv.style.left = `${state.pageX}px`;
   _draggingDiv.style.top = `${state.pageY}px`;
-  if (state.style) {
-    _draggingIcon.className = `dragging-icon-${state.style}`;
+
+  if (state.rejected) {
+    _draggingIcon.innerText = '🚫';
+  } else if (state.acceptMessage != null) {
+    _draggingIcon.innerText = state.acceptMessage;
   } else {
-    _draggingIcon.className = 'dragging-icon-not-allowed';
+    _draggingIcon.innerText = '';
   }
 }
+
 
 export function destroyDraggingElement() {
   if (_refElement) {

@@ -170,7 +170,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   };
 
   /** @ignore */
-  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent) {
+  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}) {
     let {dropRect} = this.state;
     if (dropRect) {
       if (direction === 'remove') {

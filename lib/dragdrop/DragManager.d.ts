@@ -4,7 +4,6 @@ interface DragDropComponent {
     baseY: number;
     scaleX: number;
     scaleY: number;
-    startDrag(element: HTMLElement, state: DragState): void;
 }
 export declare class DragState {
     _init: boolean;
@@ -12,6 +11,8 @@ export declare class DragState {
     component: DragDropComponent;
     pageX: number;
     pageY: number;
+    clientX: number;
+    clientY: number;
     dx: number;
     dy: number;
     constructor(event: MouseEvent | TouchEvent, component: DragDropComponent, init?: boolean);
@@ -23,19 +24,22 @@ export declare class DragState {
     setData(data?: {
         [key: string]: any;
     }, scope?: any): void;
-    getData(field: string, scope?: any): any;
-    style: string;
-    accept(style: string): void;
+    static getData(field: string, scope?: any): any;
+    acceptMessage: string;
+    rejected: boolean;
+    accept(message: string): void;
+    reject(): void;
     moved(): void;
     dropped(): void;
 }
 export declare type DragHandler = (state: DragState) => void;
 interface DragHandlers {
-    onDragOver: DragHandler;
-    onDragLeave: DragHandler;
-    onDrop: DragHandler;
+    onDragOverT: DragHandler;
+    onDragLeaveT: DragHandler;
+    onDropT: DragHandler;
 }
 export declare function isDragging(): boolean;
 export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;
+export declare function removeHandlers(element: HTMLElement): void;
 export declare function destroyDraggingElement(): void;
 export {};

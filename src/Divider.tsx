@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbstractPointerEvent, DragInitFunction, DragDropDiv} from "./dragdrop/DragDropDiv";
+import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
+import {DragState} from "./dragdrop/DragManager";
 
 export interface DividerChild {
   size: number;
@@ -80,19 +81,19 @@ export class Divider extends React.PureComponent<DividerProps, any> {
 
   boxData: BoxDataCache;
 
-  startDrag = (e: PointerEvent, initFunction: DragInitFunction) => {
+  startDrag = (e: DragState) => {
     this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
-    initFunction(this.boxData.element, this.dragMove, this.dragEnd);
+    e.startDrag(this.boxData.element, null);
   };
-  dragMove = (e: AbstractPointerEvent, dx: number, dy: number) => {
-    if (e.shiftKey || e.ctrlKey) {
-      this.dragMoveAll(e, dx, dy);
+  dragMove = (e: DragState) => {
+    if (e.event.shiftKey || e.event.ctrlKey) {
+      this.dragMoveAll(e, e.dx, e.dy);
     } else {
-      this.dragMove2(e, dx, dy);
+      this.dragMove2(e, e.dx, e.dy);
     }
   };
 
-  dragMove2(e: AbstractPointerEvent, dx: number, dy: number) {
+  dragMove2(e: DragState, dx: number, dy: number) {
     let {isVertical, changeSizes} = this.props;
     let {beforeDivider, afterDivider} = this.boxData;
     if (!(beforeDivider.length && afterDivider.length)) {
@@ -121,7 +122,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     changeSizes(sizes);
   }
 
-  dragMoveAll(e: AbstractPointerEvent, dx: number, dy: number) {
+  dragMoveAll(e: DragState, dx: number, dy: number) {
     let {isVertical, changeSizes} = this.props;
     let {beforeSize, beforeMinSize, afterSize, afterMinSize, beforeDivider, afterDivider} = this.boxData;
     let d = isVertical ? dy : dx;
@@ -141,7 +142,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     changeSizes(spiltSize(newBeforeSize, beforeSize, beforeDivider).concat(spiltSize(newAfterSize, afterSize, afterDivider)));
   }
 
-  dragEnd = (e: AbstractPointerEvent, dx: number, dy: number) => {
+  dragEnd = (e: DragState) => {
     this.boxData = null;
   };
 
@@ -150,6 +151,9 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     if (!className) {
       className = 'dock-divider';
     }
-    return <DragDropDiv className={className} onDragInit={this.startDrag}/>;
+    return (
+      <DragDropDiv className={className} onDragStartT={this.startDrag} onDragMoveT={this.dragMove}
+                   onDragEndT={this.dragEnd}/>
+    );
   }
 }

@@ -194,7 +194,7 @@ export type DropDirection =
 
 export interface DockContext {
   /** @ignore */
-  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: MouseEvent): void;
+  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}): void;
 
   /**
    * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first

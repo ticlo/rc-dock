@@ -1,5 +1,6 @@
 body > .dragging-layer {
   position: absolute !important;
+  z-index: 9999;
   overflow: visible;
   margin: 0;
   padding: 0;
@@ -25,12 +26,5 @@ body > .dragging-layer {
     position: absolute;
     left: 12px;
     top: 12px;
-  }
-
-  & > .dragging-icon-not-allowed:after {
-    content: '🚫';
-  }
-  & > .dragging-icon-move:after {
-    content: '➡';
   }
 }

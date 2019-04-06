@@ -13,7 +13,9 @@ import {
 import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
-import {DragManager} from "./dragdrop/DragManager";
+import {DragDropDiv} from "./dragdrop/DragDropDiv";
+import {DragState} from "./dragdrop/DragManager";
+
 
 interface DockDropSquareProps {
   direction: DropDirection;
@@ -33,7 +35,7 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
 
   state = {dropping: false};
 
-  onDragOver = (e: React.DragEvent) => {
+  onDragOver = (e: DragState) => {
     let {panelElement: targetElement, direction, depth, panelData} = this.props;
     this.setState({dropping: true});
     for (let i = 0; i < depth; ++i) {
@@ -41,26 +43,24 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
     }
     if (panelData.group === placeHolderStyle && direction !== 'float') {
       // place holder panel should always have full size drop rect
-      this.context.setDropRect(targetElement, 'middle', this, e.nativeEvent);
+      this.context.setDropRect(targetElement, 'middle', this, e);
     } else {
-      this.context.setDropRect(targetElement, direction, this, e.nativeEvent);
+      this.context.setDropRect(targetElement, direction, this, e);
     }
 
-    e.dataTransfer.dropEffect = 'move';
-    e.preventDefault();
-    e.stopPropagation();
+    e.accept('move');
   };
 
-  onDragLeave = (e: React.DragEvent) => {
+  onDragLeave = (e: DragState) => {
     let {panelElement, direction} = this.props;
     this.setState({dropping: false});
     this.context.setDropRect(null, 'remove', this);
   };
 
-  onDrop = (e: React.DragEvent) => {
-    let source: TabData | PanelData = DragManager.getData(DockContextType, 'tab');
+  onDrop = (e: DragState) => {
+    let source: TabData | PanelData = DragState.getData('tab', DockContextType);
     if (!source) {
-      source = DragManager.getData(DockContextType, 'panel');
+      source = DragState.getData('panel', DockContextType);
     }
     if (source) {
       let {panelData, direction, depth} = this.props;
@@ -86,8 +86,8 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
     }
 
     return (
-      <div className={classes.join(' ')}
-           onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}/>
+      <DragDropDiv className={classes.join(' ')}
+                   onDragOverT={this.onDragOver} onDragLeaveT={this.onDragLeave} onDropT={this.onDrop}/>
     );
   }
 
@@ -133,7 +133,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     let children: React.ReactNode[] = [];
 
     // check if it's whole panel dragging
-    let draggingPanel = DragManager.getData(DockContextType, 'panel');
+    let draggingPanel = DragState.getData('panel', DockContextType);
 
     let fromGroup = this.context.getGroup(dropFromPanel.group);
     if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock)) {

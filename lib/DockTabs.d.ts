@@ -1,6 +1,6 @@
 import React from "react";
 import { DockContext, DropDirection, PanelData, TabData } from "./DockData";
-import { DragInitHandler } from "./dragdrop/DragDropDiv";
+import { default as DragManager, DragState } from "./dragdrop/DragManager";
 export declare class TabCache {
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
@@ -12,18 +12,18 @@ export declare class TabCache {
     constructor(context: DockContext);
     setData(data: TabData): boolean;
     onCloseClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
-    onDragStart: (e: React.DragEvent<Element>) => void;
-    onDragOver: (e: React.DragEvent<Element>) => void;
-    onDragLeave: (e: React.DragEvent<Element>) => void;
-    onDrop: (e: React.DragEvent<Element>) => void;
-    getDropDirection(e: React.DragEvent): DropDirection;
+    onDragStart: (e: DragManager.DragState) => void;
+    onDragOver: (e: DragManager.DragState) => void;
+    onDragLeave: (e: DragManager.DragState) => void;
+    onDrop: (e: DragManager.DragState) => void;
+    getDropDirection(e: DragState): DropDirection;
     render(): React.ReactElement;
     destroy(): void;
 }
 interface Props {
     panelData: PanelData;
-    onPanelHeaderDragInit: DragInitHandler;
-    onPanelHeaderHtmlDrag: React.DragEventHandler;
+    onPanelDragStart: DragManager.DragHandler;
+    onPanelDragMove: DragManager.DragHandler;
 }
 export declare class DockTabs extends React.Component<Props, any> {
     static contextType: React.Context<DockContext>;

@@ -239,6 +239,7 @@ export function removeDragEndListener(callback: Function) {
 let _lastPointerDownEvent: any;
 
 export function checkPointerDownEvent(e: any) {
+  console.log(e);
   if (e !== _lastPointerDownEvent) {
     _lastPointerDownEvent = e;
     return true;

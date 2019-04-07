@@ -43,7 +43,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   waitingMove: boolean;
 
   onPointerDown = (e: React.PointerEvent) => {
-    if (!DragManager.checkPointerDownEvent(e)) {
+    if (!DragManager.checkPointerDownEvent(e.nativeEvent)) {
       // same pointer event shouldn't trigger 2 drag start
       return;
     }

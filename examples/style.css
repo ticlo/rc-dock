@@ -24,6 +24,9 @@ body > .dragging-layer > div:last-child {
   left: 12px;
   top: 12px;
 }
+.drag-drop-div {
+  user-select: none;
+}
 .dock {
   box-sizing: border-box;
   width: 100%;

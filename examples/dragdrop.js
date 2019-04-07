@@ -5098,7 +5098,7 @@ class DragState {
     this._init = init;
 
     if (event) {
-      if (event instanceof MouseEvent) {
+      if ('pageX' in event) {
         this.pageX = event.pageX;
         this.pageY = event.pageY;
         this.clientX = event.clientX;
@@ -5235,6 +5235,12 @@ function addHandlers(element, handlers) {
 exports.addHandlers = addHandlers;
 
 function removeHandlers(element) {
+  let handlers = _dragListeners.get(element);
+
+  if (handlers === _droppingHandlers) {
+    _droppingHandlers = null;
+  }
+
   _dragListeners.delete(element);
 }
 
@@ -5292,9 +5298,40 @@ function destroyDraggingElement() {
 
   _draggingState = null;
   _droppingHandlers = null;
+
+  for (let callback of _dragEndListener) {
+    callback();
+  }
 }
 
 exports.destroyDraggingElement = destroyDraggingElement;
+
+let _dragEndListener = new Set();
+
+function addDragEndListener(callback) {
+  _dragEndListener.add(callback);
+}
+
+exports.addDragEndListener = addDragEndListener;
+
+function removeDragEndListener(callback) {
+  _dragEndListener.delete(callback);
+}
+
+exports.removeDragEndListener = removeDragEndListener;
+
+let _lastPointerDownEvent;
+
+function checkPointerDownEvent(e) {
+  if (e !== _lastPointerDownEvent) {
+    _lastPointerDownEvent = e;
+    return true;
+  }
+
+  return false;
+}
+
+exports.checkPointerDownEvent = checkPointerDownEvent;
 },{}],"HyIX":[function(require,module,exports) {
 "use strict";
 
@@ -5368,6 +5405,11 @@ class DragDropDiv extends react_1.default.Component {
     this.isTouch = false;
 
     this.onPointerDown = e => {
+      if (!DragManager.checkPointerDownEvent(e)) {
+        // same pointer event shouldn't trigger 2 drag start
+        return;
+      }
+
       this.baseX = e.pageX;
       this.baseY = e.pageY;
       let rect = this.element.getBoundingClientRect();
@@ -5408,7 +5450,10 @@ class DragDropDiv extends react_1.default.Component {
         onDragEndT(state);
       }
 
-      state.dropped();
+      if (e) {
+        state.dropped();
+      }
+
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseEnd);
       this.cleanup();
@@ -5448,7 +5493,10 @@ class DragDropDiv extends react_1.default.Component {
         onDragEndT(state);
       }
 
-      state.dropped();
+      if (e) {
+        state.dropped();
+      }
+
       document.removeEventListener('touchmove', this.onTouchMove);
       document.removeEventListener('touchend', this.onTouchEnd);
       this.cleanup();
@@ -5482,7 +5530,6 @@ class DragDropDiv extends react_1.default.Component {
 
     this.waitingMove = true;
     this.dragging = true;
-    e.stopPropagation();
   } // return true
 
 
@@ -5493,8 +5540,7 @@ class DragDropDiv extends react_1.default.Component {
     let state = new DragManager.DragState(e, this, true);
 
     if (state.dx === 0 && state.dy === 0) {
-      console.log(state); // not a move
-
+      // not a move
       return false;
     }
 
@@ -5529,15 +5575,17 @@ class DragDropDiv extends react_1.default.Component {
   render() {
     let _a = this.props,
         {
+      getRef,
       children,
       onDragStartT,
       onDragMoveT,
       onDragEndT,
       onDragOverT,
       onDragLeaveT,
-      onDropT
+      onDropT,
+      className
     } = _a,
-        others = __rest(_a, ["children", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT"]);
+        others = __rest(_a, ["getRef", "children", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "className"]);
 
     let onPointerDown = this.onPointerDown;
 
@@ -5545,14 +5593,29 @@ class DragDropDiv extends react_1.default.Component {
       onPointerDown = null;
     }
 
+    if (className) {
+      className = `${className} drag-drop-div`;
+    } else {
+      className = 'drag-drop-div';
+    }
+
     return react_1.default.createElement("div", Object.assign({
-      ref: this._getRef
+      ref: this._getRef,
+      className: className
     }, others, {
       onPointerDown: this.onPointerDown
     }), children);
   }
 
   componentWillUnmount() {
+    let {
+      onDragOverT
+    } = this.props;
+
+    if (this.element && onDragOverT) {
+      DragManager.removeHandlers(this.element);
+    }
+
     if (this.dragging) {
       this.onEnd();
     }
@@ -8143,7 +8206,7 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
       role: "tablist",
       className: 'dock-bar',
       tabIndex: 0,
-      ref: this.props.saveRef('root'),
+      getRef: this.props.saveRef('root'),
       onKeyDown: onKeyDown,
       style: style
     }, newChildren);
@@ -8756,7 +8819,7 @@ class DockDropSquare extends react_1.default.PureComponent {
         this.context.setDropRect(targetElement, direction, this, e);
       }
 
-      e.accept('move');
+      e.accept('');
     };
 
     this.onDragLeave = e => {
@@ -8876,7 +8939,7 @@ class DockDropLayer extends react_1.default.PureComponent {
     let draggingPanel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
     let fromGroup = this.context.getGroup(dropFromPanel.group);
 
-    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock)) {
+    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock && draggingPanel.parent.mode !== 'float')) {
       children.push(react_1.default.createElement(DockDropSquare, {
         key: 'float',
         direction: 'float',
@@ -10515,6 +10578,8 @@ const Algorithm = __importStar(require("./Algorithm"));
 
 const Serializer = __importStar(require("./Serializer"));
 
+const DragManager = __importStar(require("./dragdrop/DragManager"));
+
 class DockLayout extends react_1.default.PureComponent {
   constructor(props) {
     super(props);
@@ -10541,7 +10606,7 @@ class DockLayout extends react_1.default.PureComponent {
       layout: this.prepareInitData(props.defaultLayout),
       dropRect: null
     };
-    document.addEventListener('dragend', this.dragEnd);
+    DragManager.addDragEndListener(this.dragEnd);
   }
   /** @ignore */
 
@@ -10786,7 +10851,7 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   componentWillUnmount() {
-    document.removeEventListener('dragend', this.dragEnd);
+    DragManager.removeDragEndListener(this.dragEnd);
   } // public api
 
 
@@ -10808,7 +10873,7 @@ class DockLayout extends react_1.default.PureComponent {
 }
 
 exports.DockLayout = DockLayout;
-},{"react":"1n8/","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN"}],"VNNP":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb"}],"VNNP":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {

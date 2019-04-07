@@ -43,6 +43,10 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   waitingMove: boolean;
 
   onPointerDown = (e: React.PointerEvent) => {
+    if (!DragManager.checkPointerDownEvent(e)) {
+      // same pointer event shouldn't trigger 2 drag start
+      return;
+    }
     this.baseX = e.pageX;
     this.baseY = e.pageY;
 
@@ -70,7 +74,6 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
     this.waitingMove = true;
     this.dragging = true;
-    e.stopPropagation();
   }
 
   // return true
@@ -79,7 +82,6 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
     let state = new DragManager.DragState(e, this, true);
     if (state.dx === 0 && state.dy === 0) {
-      console.log(state);
       // not a move
       return false;
     }
@@ -116,7 +118,9 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     if (onDragEndT) {
       onDragEndT(state);
     }
-    state.dropped();
+    if (e) {
+      state.dropped();
+    }
 
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseEnd);
@@ -146,7 +150,9 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     if (onDragEndT) {
       onDragEndT(state);
     }
-    state.dropped();
+    if (e) {
+      state.dropped();
+    }
     document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchend', this.onTouchEnd);
     this.cleanup();
@@ -175,19 +181,28 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   }
 
   render(): React.ReactNode {
-    let {children, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, ...others} = this.props;
+    let {getRef, children, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, className, ...others} = this.props;
     let onPointerDown = this.onPointerDown;
     if (!onDragStartT) {
       onPointerDown = null;
     }
+    if (className) {
+      className = `${className} drag-drop-div`;
+    } else {
+      className = 'drag-drop-div';
+    }
     return (
-      <div ref={this._getRef} {...others} onPointerDown={this.onPointerDown}>
+      <div ref={this._getRef} className={className} {...others} onPointerDown={this.onPointerDown}>
         {children}
       </div>
     );
   }
 
   componentWillUnmount(): void {
+    let {onDragOverT} = this.props;
+    if (this.element && onDragOverT) {
+      DragManager.removeHandlers(this.element);
+    }
     if (this.dragging) {
       this.onEnd();
     }

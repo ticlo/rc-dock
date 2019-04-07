@@ -42,4 +42,7 @@ export declare function isDragging(): boolean;
 export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;
 export declare function removeHandlers(element: HTMLElement): void;
 export declare function destroyDraggingElement(): void;
+export declare function addDragEndListener(callback: Function): void;
+export declare function removeDragEndListener(callback: Function): void;
+export declare function checkPointerDownEvent(e: any): boolean;
 export {};

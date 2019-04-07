@@ -21,6 +21,7 @@ import {FloatBox} from "./FloatBox";
 import {DockPanel} from "./DockPanel";
 import * as Algorithm from "./Algorithm";
 import * as Serializer from "./Serializer";
+import * as DragManager from "./dragdrop/DragManager";
 
 interface LayoutProps {
   defaultLayout: DefaultLayout;
@@ -158,7 +159,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       layout: this.prepareInitData(props.defaultLayout),
       dropRect: null
     };
-    document.addEventListener('dragend', this.dragEnd);
+    DragManager.addDragEndListener(this.dragEnd);
   }
 
   /** @ignore */
@@ -256,7 +257,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   /** @ignore */
   componentWillUnmount(): void {
-    document.removeEventListener('dragend', this.dragEnd);
+    DragManager.removeDragEndListener(this.dragEnd);
   }
 
   // public api

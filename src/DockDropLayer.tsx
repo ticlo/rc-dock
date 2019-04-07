@@ -47,8 +47,7 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
     } else {
       this.context.setDropRect(targetElement, direction, this, e);
     }
-
-    e.accept('move');
+    e.accept('');
   };
 
   onDragLeave = (e: DragState) => {
@@ -136,7 +135,11 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     let draggingPanel = DragState.getData('panel', DockContextType);
 
     let fromGroup = this.context.getGroup(dropFromPanel.group);
-    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock)) {
+    if (fromGroup.floatable !== false &&
+      (!draggingPanel ||
+        (!draggingPanel.panelLock && draggingPanel.parent.mode !== 'float')
+      )
+    ) {
       children.push(
         <DockDropSquare key='float' direction='float' panelData={panelData} panelElement={panelElement}/>
       );

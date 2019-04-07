@@ -22,7 +22,7 @@ export class DragState {
     this.component = component;
     this._init = init;
     if (event) {
-      if (event instanceof MouseEvent) {
+      if ('pageX' in event) {
         this.pageX = event.pageX;
         this.pageY = event.pageY;
         this.clientX = event.clientX;
@@ -148,6 +148,10 @@ export function addHandlers(element: HTMLElement, handlers: DragHandlers) {
 }
 
 export function removeHandlers(element: HTMLElement) {
+  let handlers = _dragListeners.get(element);
+  if (handlers === _droppingHandlers) {
+    _droppingHandlers = null;
+  }
   _dragListeners.delete(element);
 }
 
@@ -196,6 +200,28 @@ export function destroyDraggingElement() {
   _draggingState = null;
   _droppingHandlers = null;
 
+  for (let callback of _dragEndListener) {
+    callback();
+  }
 }
 
 
+let _dragEndListener: Set<Function> = new Set<Function>();
+
+export function addDragEndListener(callback: Function) {
+  _dragEndListener.add(callback);
+}
+
+export function removeDragEndListener(callback: Function) {
+  _dragEndListener.delete(callback);
+}
+
+let _lastPointerDownEvent: any;
+
+export function checkPointerDownEvent(e: any) {
+  if (e !== _lastPointerDownEvent) {
+    _lastPointerDownEvent = e;
+    return true;
+  }
+  return false;
+}

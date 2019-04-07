@@ -47,7 +47,7 @@ class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
                    role="tablist"
                    className='dock-bar'
                    tabIndex={0}
-                   ref={this.props.saveRef('root')}
+                   getRef={this.props.saveRef('root')}
                    onKeyDown={onKeyDown}
                    style={style}
       >

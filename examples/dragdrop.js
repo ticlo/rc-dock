@@ -5130,10 +5130,6 @@ class DragState {
       refElement = this.component.element;
     }
 
-    if (draggingHtml === undefined && refElement != null) {
-      draggingHtml = refElement.outerHTML;
-    }
-
     createDraggingElement(this, refElement, draggingHtml);
   }
 
@@ -5266,9 +5262,27 @@ function createDraggingElement(state, refElement, draggingHtml) {
   }
 
   document.body.appendChild(_draggingDiv);
+  let draggingWidth = 0;
+  let draggingHeight = 0;
+
+  if (draggingHtml === undefined && refElement != null) {
+    draggingHtml = refElement.outerHTML;
+    draggingWidth = refElement.offsetWidth;
+    draggingHeight = refElement.offsetHeight;
+  }
 
   if (draggingHtml) {
     _draggingDiv.firstElementChild.outerHTML = draggingHtml;
+
+    if (draggingWidth) {
+      if (draggingWidth > 400) draggingWidth = 400;
+      _draggingDiv.firstElementChild.style.width = `${draggingWidth}px`;
+    }
+
+    if (draggingHeight) {
+      if (draggingHeight > 300) draggingHeight = 300;
+      _draggingDiv.firstElementChild.style.height = `${draggingHeight}px`;
+    }
   }
 }
 

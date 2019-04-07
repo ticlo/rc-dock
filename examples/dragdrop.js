@@ -5605,14 +5605,13 @@ class DragDropDiv extends react_1.default.Component {
       onDragOverT,
       onDragLeaveT,
       onDropT,
-      className
+      className,
+      onPointerDown
     } = _a,
-        others = __rest(_a, ["getRef", "children", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "className"]);
+        others = __rest(_a, ["getRef", "children", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "className", "onPointerDown"]);
 
-    let onPointerDown = this.onPointerDown;
-
-    if (!onDragStartT) {
-      onPointerDown = null;
+    if (!onPointerDown && onDragStartT) {
+      onPointerDown = this.onPointerDown;
     }
 
     if (className) {
@@ -8566,7 +8565,9 @@ class TabCache {
     this.onDragOver = e => {
       let tab = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
 
-      if (tab && tab !== this.data && tab.group === this.data.group) {
+      if (tab.group !== this.data.group) {
+        e.reject();
+      } else if (tab && tab !== this.data) {
         let direction = this.getDropDirection(e);
         this.context.setDropRect(this._hitAreaRef, direction, this);
         e.accept('');
@@ -9660,7 +9661,11 @@ class DockPanel extends react_1.default.PureComponent {
       draggingHeader: false
     };
 
-    this.onPointerEnter = () => {
+    this.onDragOver = e => {
+      if (DockPanel._droppingPanel === this) {
+        return;
+      }
+
       let {
         panelData
       } = this.props;
@@ -9913,13 +9918,13 @@ class DockPanel extends react_1.default.PureComponent {
       });
     }
 
-    return react_1.default.createElement("div", {
-      ref: this.getRef,
+    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+      getRef: this.getRef,
       className: cls,
       style: style,
       "data-dockid": id,
       onPointerDown: pointerDownCallback,
-      onPointerEnter: isFloat ? null : this.onPointerEnter
+      onDragOverT: isFloat ? null : this.onDragOver
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,
       onPanelDragStart: this.onPanelHeaderDragStart,

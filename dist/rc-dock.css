@@ -1,0 +1,546 @@
+body > .dragging-layer {
+  position: absolute !important;
+  z-index: 9999;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  border: none;
+  pointer-events: none;
+  opacity: 0.6;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: nowrap;
+  /* dragging element */
+  /* icon */
+}
+body > .dragging-layer > *:first-child {
+  pointer-events: none !important;
+  overflow: hidden !important;
+  transform: translate(-50%, -50%) !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+body > .dragging-layer > .dragging {
+  /* prevent double translucent layers */
+  opacity: 1 !important;
+}
+body > .dragging-layer > div:last-child {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+.drag-drop-div {
+  user-select: none;
+  touch-action: none;
+}
+.dock {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+.dock-bar,
+.dock-nav-container {
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  outline: none;
+  zoom: 1;
+  transition: padding 0.45s;
+}
+.dock-nav-container {
+  padding: 0 12px;
+  height: 30px;
+}
+.dock-ink-bar {
+  position: absolute;
+  box-sizing: border-box;
+  margin-top: -3px;
+  background-color: #108ee9;
+  transform-origin: 0 0;
+  width: 0;
+  height: 0;
+}
+.dock-ink-bar-animated {
+  transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), left 0.25s cubic-bezier(0.35, 0, 0.25, 1), top 0.25s cubic-bezier(0.35, 0, 0.25, 1), height 0.25s cubic-bezier(0.35, 0, 0.25, 1), width 0.25s cubic-bezier(0.35, 0, 0.25, 1);
+}
+.dock-tab-prev,
+.dock-tab-next {
+  color: #888;
+  user-select: none;
+  z-index: 1;
+  line-height: 30px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  position: absolute;
+}
+.dock-tab-prev-icon,
+.dock-tab-next-icon {
+  position: relative;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: inherit;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  font-smoothing: antialiased;
+  text-stroke-width: 0;
+  font-family: sans-serif;
+}
+.dock-tab-prev-icon:before,
+.dock-tab-next-icon:before {
+  display: block;
+}
+.dock-tab-btn-disabled {
+  cursor: default;
+  color: #ccc;
+}
+.dock-nav-wrap {
+  overflow: hidden;
+  width: 100%;
+}
+.dock-nav {
+  box-sizing: border-box;
+  padding-left: 0;
+  position: relative;
+  margin: 0;
+  float: left;
+  list-style: none;
+  display: inline-block;
+  transform-origin: 0 0;
+}
+.dock-nav-animated {
+  transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1);
+}
+.dock-nav:before,
+.dock-nav:after {
+  display: table;
+  content: " ";
+}
+.dock-nav:after {
+  clear: both;
+}
+.dock-tab {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  min-width: 30px;
+  height: 30px;
+  text-align: center;
+  transition: color 0.25s cubic-bezier(0.35, 0, 0.25, 1);
+  padding: 0;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  background: #fafafd;
+}
+.dock-tab.dragging {
+  opacity: 0.3;
+}
+.dock-tab > div {
+  padding: 4px 10px;
+}
+.dock-tab:hover {
+  color: #23c0fa;
+}
+.dock-tab-active,
+.dock-tab-active:hover {
+  color: #108ee9;
+  cursor: default;
+  transform: translateZ(0);
+}
+.dock-tab-disabled {
+  cursor: default;
+  color: #ccc;
+}
+.dock-tab-disabled:hover {
+  color: #ccc;
+}
+.dock-content {
+  zoom: 1;
+  height: calc(100% - 31px);
+}
+.dock-content .dock-tabpane {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.dock-content-animated {
+  transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-left 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-top 0.25s cubic-bezier(0.35, 0, 0.25, 1);
+  display: flex;
+  will-change: transform;
+}
+.dock-content-animated .dock-tabpane {
+  flex-shrink: 0;
+}
+.no-flexbox .dock-content {
+  transform: none !important;
+  overflow: auto;
+}
+.no-csstransitions .dock-tabpane-inactive,
+.no-flexbox .dock-tabpane-inactive,
+.dock-content-no-animated .dock-tabpane-inactive {
+  display: none;
+}
+.dock-top .dock-content {
+  width: 100%;
+}
+.dock-top .dock-bar {
+  background: #fafafd;
+  border-bottom: 1px solid #f3f3f3;
+}
+.dock-top .dock-nav-container-scrolling {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+.dock-nav-scroll {
+  display: flex;
+}
+.dock-nav-scroll > * {
+  flex: 0 0 auto;
+}
+.dock-top .dock-nav-swipe {
+  position: relative;
+  left: 0;
+}
+.dock-top .dock-nav-swipe .dock-nav {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+.dock-top .dock-nav-swipe .dock-nav .dock-tab {
+  display: flex;
+  flex-shrink: 0;
+  margin-right: 0;
+  padding: 8px 0;
+  justify-content: center;
+}
+.dock-top .dock-content-animated {
+  flex-direction: row;
+}
+.dock-top .dock-tab-next {
+  right: 2px;
+}
+.dock-top .dock-tab-next-icon:before {
+  content: ">";
+  font-family: 'Fredoka One';
+}
+.dock-top .dock-tab-prev {
+  left: 0;
+}
+.dock-top .dock-tab-prev-icon:before {
+  content: "<";
+  font-family: 'Fredoka One';
+}
+.dock-top .dock-tab-prev,
+.dock-top .dock-tab-next {
+  margin-right: -2px;
+  width: 0;
+  height: 0;
+  top: 0;
+  text-align: center;
+  opacity: 0;
+  transition: width 0.3s, height 0.3s, opacity 0.3s;
+}
+.dock-top .dock-tab-arrow-show {
+  opacity: 1;
+  width: 32px;
+  height: 100%;
+}
+.dock-top .dock-ink-bar {
+  height: 2px;
+  bottom: 0;
+  left: 0;
+}
+.dock-tab-close-btn {
+  position: absolute;
+  cursor: pointer;
+  font-family: Fredoka One;
+  color: #aaa;
+  right: 0;
+  width: 16px;
+  text-align: center;
+  top: 3px;
+  opacity: 0.3;
+  transition: opacity 0.25s ease-in-out;
+}
+.dock-tab-close-btn:hover {
+  color: red;
+}
+.dock-tab:hover .dock-tab-close-btn {
+  opacity: 1;
+}
+.dock-tab-hit-area {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -5px;
+  right: -5px;
+}
+.dock-tabpane-cache {
+  width: 100%;
+  height: 100%;
+}
+.dock-panel {
+  box-sizing: border-box;
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+.dock-panel.dragging {
+  opacity: 0.3;
+}
+.dock-panel-drag-size {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: 300;
+}
+.dock-panel-drag-size-t-l {
+  top: -1px;
+  left: -1px;
+  cursor: nwse-resize;
+}
+.dock-panel-drag-size-t-r {
+  top: -1px;
+  right: -1px;
+  cursor: nesw-resize;
+}
+.dock-panel-drag-size-b-l {
+  bottom: -1px;
+  left: -1px;
+  cursor: nesw-resize;
+}
+.dock-panel-drag-size-b-r {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"%3E%3Cpath fill="rgba(0,0,0,0.1)" d="M2 12 L12 2 L12 12z"/%3E%3C/svg%3E');
+  bottom: -1px;
+  right: -1px;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+}
+.dock-box {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+}
+.dock-divider {
+  box-sizing: border-box;
+  flex: 0 0 4px;
+  background: rgba(0, 0, 0, 0);
+  z-index: 1;
+}
+.dock-hbox > .dock-divider {
+  transform: scaleX(2);
+  cursor: ew-resize;
+}
+.dock-vbox {
+  flex-direction: column;
+}
+.dock-vbox > .dock-divider {
+  transform: scaleY(2);
+  cursor: ns-resize;
+}
+.dock-fbox {
+  pointer-events: none;
+  z-index: 200;
+}
+.dock-fbox > .dock-panel {
+  position: absolute;
+  pointer-events: visible;
+  box-shadow: 0 0 4px #aaaaaa;
+}
+.dock-fbox > .dock-panel.dragging {
+  opacity: 0.8;
+  pointer-events: none;
+}
+.dock-layout {
+  overflow: hidden;
+}
+.dock-layout > .dock-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.dock-layout > .dock-drop-indicator {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 400;
+  border: solid 1px white;
+  background: #91d5ff;
+  opacity: 0.5;
+  display: none;
+}
+.dock-drop-layer {
+  position: absolute;
+  pointer-events: none;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.dock-drop-layer .dock-drop-square {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: visible;
+  z-index: 300;
+  width: 32px;
+  height: 32px;
+  font-family: Fredoka One;
+  color: #ccc;
+  background: white;
+  border: 1px solid #ccc;
+  left: calc(50% - 16px);
+  top: calc(50% - 16px);
+}
+.dock-drop-layer .dock-drop-square::before {
+  width: 100%;
+  height: 100%;
+  display: block;
+  line-height: 30px;
+  text-align: center;
+}
+.dock-drop-layer .dock-drop-float {
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0.01;
+}
+.dock-drop-layer .dock-drop-left {
+  left: calc(50% - 49px);
+}
+.dock-drop-layer .dock-drop-left.dock-drop-deep {
+  left: calc(50% - 66px);
+  width: 16px;
+}
+.dock-drop-layer .dock-drop-left::before {
+  content: '>';
+  transform: rotate(180deg);
+}
+.dock-drop-layer .dock-drop-right {
+  left: calc(50% + 17px);
+}
+.dock-drop-layer .dock-drop-right.dock-drop-deep {
+  left: calc(50% + 50px);
+  width: 16px;
+}
+.dock-drop-layer .dock-drop-right::before {
+  content: '>';
+}
+.dock-drop-layer .dock-drop-top {
+  top: calc(50% - 49px);
+}
+.dock-drop-layer .dock-drop-top.dock-drop-deep {
+  top: calc(50% - 66px);
+  height: 16px;
+}
+.dock-drop-layer .dock-drop-top.dock-drop-deep::before {
+  line-height: 14px;
+}
+.dock-drop-layer .dock-drop-top::before {
+  content: '>';
+  transform: rotate(270deg);
+}
+.dock-drop-layer .dock-drop-bottom {
+  top: calc(50% + 17px);
+}
+.dock-drop-layer .dock-drop-bottom.dock-drop-deep {
+  top: calc(50% + 50px);
+  height: 16px;
+}
+.dock-drop-layer .dock-drop-bottom.dock-drop-deep::before {
+  line-height: 14px;
+}
+.dock-drop-layer .dock-drop-bottom::before {
+  content: '>';
+  transform: rotate(90deg);
+}
+.dock-drop-layer .dock-drop-square-dropping {
+  background: #91d5ff;
+  color: white;
+}
+.dock-panel.dock-panel-dropping .dock-tab-close-btn {
+  pointer-events: none;
+}
+.dock-panel.dock-style-place-holder {
+  border: none;
+}
+.dock-panel.dock-style-place-holder .dock-bar {
+  display: none;
+}
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless {
+  border: none;
+}
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-bar {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  height: 20px;
+  width: 100%;
+  transition: all 0.15s ease-in-out;
+}
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-bar:hover,
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless.dock-panel-dropping .dock-bar {
+  opacity: 1;
+  height: 31px;
+}
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-content {
+  height: 100%;
+}
+.dock-panel.dock-style-main {
+  border: none;
+}
+.dock-panel.dock-style-main .dock-bar {
+  background: none;
+  border-bottom: 1px solid #eee;
+}
+.dock-panel.dock-style-main .dock-tab {
+  background: #fff;
+}
+.dock-panel.dock-style-card .dock-tab {
+  margin-right: 2px;
+  border: 1px solid #ddd;
+  border-radius: 5px 5px 0 0;
+}
+.dock-panel.dock-style-card .dock-tab.dock-tab-active {
+  border-bottom: 1px solid #fff;
+  background: #fff;
+}
+.dock-panel.dock-style-card .dock-bar {
+  border-bottom: 1px solid #ddd;
+  overflow: visible;
+}
+.dock-panel.dock-style-card .dock-nav-container {
+  height: 35px;
+  overflow: visible;
+}
+.dock-panel.dock-style-card .dock-nav-wrap {
+  overflow: visible;
+  padding-top: 6px;
+}
+.dock-panel.dock-style-card .dock-ink-bar {
+  /* hide animated ink bar */
+  background: #fff;
+  opacity: 0;
+}
+.dock-panel.dock-style-card .dock-tab-hit-area {
+  /* cover the border area */
+  left: -2px;
+  right: -2px;
+}
+.dock-panel.dock-style-card .dock-content {
+  height: calc(100% - 36px);
+}

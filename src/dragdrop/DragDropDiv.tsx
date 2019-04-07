@@ -50,9 +50,10 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     this.baseX = e.pageX;
     this.baseY = e.pageY;
 
-    let rect = this.element.getBoundingClientRect();
-    this.scaleX = this.element.offsetWidth / rect.width;
-    this.scaleY = this.element.offsetHeight / rect.height;
+    let baseElement = this.element.parentElement;
+    let rect = baseElement.getBoundingClientRect();
+    this.scaleX = baseElement.offsetWidth / rect.width;
+    this.scaleY = baseElement.offsetHeight / rect.height;
     this.addListeners(e);
   };
 

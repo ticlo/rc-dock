@@ -1,6 +1,5 @@
 import React from "react";
 import { DockContext, PanelData } from "./DockData";
-import { AbstractPointerEvent } from "./dragdrop/DragDropDiv";
 import { DragState } from "./dragdrop/DragManager";
 interface Props {
     panelData: PanelData;
@@ -33,7 +32,7 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     onPanelCornerDragBL: (e: DragState) => void;
     onPanelCornerDragBR: (e: DragState) => void;
     onPanelCornerDrag(e: DragState, corner: string): void;
-    onPanelCornerDragMove: (e: AbstractPointerEvent, dx: number, dy: number) => void;
+    onPanelCornerDragMove: (e: MouseEvent | TouchEvent, dx: number, dy: number) => void;
     onFloatPointerDown: () => void;
     render(): React.ReactNode;
 }

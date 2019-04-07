@@ -31,6 +31,7 @@ body > .dragging-layer > div:last-child {
 }
 .drag-drop-div {
   user-select: none;
+  touch-action: none;
 }
 .dock {
   box-sizing: border-box;

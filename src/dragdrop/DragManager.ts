@@ -43,7 +43,7 @@ export class DragState {
    * @param refElement, the element being moved
    * @param draggingHtml, the element show in the dragging layer
    */
-  startDrag(refElement?: HTMLElement, draggingHtml?: string) {
+  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {
     if (!this._init) {
       throw new Error('startDrag can only be used in onDragStart callback');
     }
@@ -158,7 +158,7 @@ _draggingDiv.className = 'dragging-layer';
 _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
 _draggingDiv.appendChild(_draggingIcon);
 
-function createDraggingElement(state: DragState, refElement: HTMLElement, draggingHtml?: string) {
+function createDraggingElement(state: DragState, refElement: HTMLElement, draggingHtml?: HTMLElement | string) {
   _draggingState = state;
   if (refElement) {
     refElement.classList.add('dragging');
@@ -169,10 +169,14 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
 
   let draggingWidth = 0;
   let draggingHeight = 0;
-  if (draggingHtml === undefined && refElement != null) {
-    draggingHtml = refElement.outerHTML;
-    draggingWidth = refElement.offsetWidth;
-    draggingHeight = refElement.offsetHeight;
+  if (draggingHtml === undefined) {
+    draggingHtml = state.component.element;
+  }
+  if (draggingHtml instanceof HTMLElement) {
+    draggingWidth = draggingHtml.offsetWidth;
+    draggingHeight = draggingHtml.offsetHeight;
+    draggingHtml = draggingHtml.outerHTML;
+
   }
   if (draggingHtml) {
     _draggingDiv.firstElementChild.outerHTML = draggingHtml;

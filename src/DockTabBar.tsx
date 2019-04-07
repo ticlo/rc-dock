@@ -15,12 +15,13 @@ interface TabBarRootNodeProps {
   saveRef: Function;
   onDragStart?: DragManager.DragHandler;
   onDragMove?: DragManager.DragHandler;
+  onDragEnd?: DragManager.DragHandler;
 }
 
 class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
   render() {
     const {
-      onKeyDown, extraContent, style, children, onDragStart, onDragMove,
+      onKeyDown, extraContent, style, children, onDragStart, onDragMove, onDragEnd,
       ...restProps
     } = this.props;
 
@@ -44,6 +45,7 @@ class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
     return (
       <DragDropDiv onDragStartT={onDragStart}
                    onDragMoveT={onDragMove}
+                   onDragEndT={onDragEnd}
                    role="tablist"
                    className='dock-bar'
                    tabIndex={0}
@@ -60,17 +62,18 @@ class DockTabBarRootNode extends React.PureComponent<TabBarRootNodeProps, any> {
 interface DockTabBarProps {
   onDragStart?: DragManager.DragHandler;
   onDragMove?: DragManager.DragHandler;
+  onDragEnd?: DragManager.DragHandler;
   extraContent?: React.ReactElement;
 }
 
 export class DockTabBar extends React.PureComponent<DockTabBarProps, any> {
   render() {
-    const {children: renderTabBarNode, onDragStart, onDragMove, extraContent, ...restProps} = this.props;
+    const {children: renderTabBarNode, onDragStart, onDragMove, onDragEnd, extraContent, ...restProps} = this.props;
 
     return (
       <SaveRef>
         {(saveRef: Function, getRef: Function) => (
-          <DockTabBarRootNode saveRef={saveRef} onDragStart={onDragStart} onDragMove={onDragMove}
+          <DockTabBarRootNode saveRef={saveRef} onDragStart={onDragStart} onDragMove={onDragMove} onDragEnd={onDragEnd}
                               extraContent={extraContent} {...restProps}>
             <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...restProps}>
               <TabBarTabsNode saveRef={saveRef} renderTabBarNode={renderTabBarNode} {...restProps} />

@@ -43,7 +43,7 @@ export class TabCache {
     e.stopPropagation();
   };
   onDragStart = (e: DragState) => {
-    e.startDrag(this._ref);
+    e.startDrag(this._ref.parentElement, this._ref.parentElement);
     e.setData({tab: this.data}, DockContextType);
   };
   onDragOver = (e: DragState) => {
@@ -118,6 +118,7 @@ interface Props {
   panelData: PanelData;
   onPanelDragStart: DragManager.DragHandler;
   onPanelDragMove: DragManager.DragHandler;
+  onPanelDragEnd: DragManager.DragHandler;
 }
 
 interface State {
@@ -175,7 +176,7 @@ export class DockTabs extends React.Component<Props, any> {
   }
 
   renderTabBar = () => {
-    let {panelData} = this.props;
+    let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
     let group = this.context.getGroup(groupName);
     let {panelExtra} = group;
@@ -191,8 +192,8 @@ export class DockTabs extends React.Component<Props, any> {
       panelExtraContent = panelExtra(panelData, this.context);
     }
     return (
-      <DockTabBar extraContent={panelExtraContent} onDragStart={this.props.onPanelDragStart}
-                  onDragMove={this.props.onPanelDragMove}/>
+      <DockTabBar extraContent={panelExtraContent} onDragStart={onPanelDragStart}
+                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}/>
     );
   };
 

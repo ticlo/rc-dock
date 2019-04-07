@@ -13,7 +13,7 @@ interface Props {
 
 interface State {
   dropFromPanel: PanelData;
-
+  draggingHeader: boolean;
 }
 
 export class DockPanel extends React.PureComponent<Props, State> {
@@ -37,7 +37,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     DockPanel._droppingPanel = panel;
   }
 
-  state: State = {dropFromPanel: null};
+  state: State = {dropFromPanel: null, draggingHeader: false};
 
   onPointerEnter = () => {
     let {panelData} = this.props;
@@ -66,26 +66,30 @@ export class DockPanel extends React.PureComponent<Props, State> {
   _movingX: number;
   _movingY: number;
   // drop to move in float mode
-  onPanelHeaderDrag = (event: DragState) => {
+  onPanelHeaderDragStart = (event: DragState) => {
     let {panelData} = this.props;
     let {parent, x, y, z} = panelData;
     if (parent && parent.mode === 'float') {
       this._movingX = x;
       this._movingY = y;
       // hide the panel, but not create drag layer element
-      event.startDrag(this._ref, null);
+      event.startDrag(null, null);
       event.setData({panel: this.props.panelData}, DockContextType);
       this.onFloatPointerDown();
     } else {
-      event.startDrag();
+      event.startDrag(null);
       event.setData({panel: this.props.panelData}, DockContextType);
     }
+    this.setState({draggingHeader: true});
   };
   onPanelHeaderDragMove = (e: DragState) => {
     let {panelData} = this.props;
     panelData.x = this._movingX + e.dx;
     panelData.y = this._movingY + e.dy;
     this.forceUpdate();
+  };
+  onPanelHeaderDragEnd = (e: DragState) => {
+    this.setState({draggingHeader: false});
   };
 
 
@@ -161,7 +165,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
 
   render(): React.ReactNode {
-    let {dropFromPanel} = this.state;
+    let {dropFromPanel, draggingHeader} = this.state;
     let {panelData, size} = this.props;
     let {minWidth, minHeight, group: groupName, id, parent, panelLock} = panelData;
 
@@ -183,7 +187,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (isFloat) {
       pointerDownCallback = this.onFloatPointerDown;
     }
-    let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}`;
+    let cls = `dock-panel ${
+      panelClass ? panelClass : ''}${
+      dropFromPanel ? ' dock-panel-dropping' : ''}${
+      draggingHeader ? ' dragging' : ''
+      }`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `${size} 1 ${size}px`};
     if (panelData.parent.mode === 'float') {
       style.left = panelData.x;
@@ -201,8 +209,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     return (
       <div ref={this.getRef} className={cls} style={style} data-dockid={id}
            onPointerDown={pointerDownCallback} onPointerEnter={isFloat ? null : this.onPointerEnter}>
-        <DockTabs panelData={panelData} onPanelDragStart={this.onPanelHeaderDrag}
-                  onPanelDragMove={this.onPanelHeaderDragMove}/>
+        <DockTabs panelData={panelData} onPanelDragStart={this.onPanelHeaderDragStart}
+                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
         {isFloat ?
           [
             <DragDropDiv key='drag-size-t-l' className='dock-panel-drag-size dock-panel-drag-size-t-l'

@@ -20,7 +20,7 @@ export declare class DragState {
      * @param refElement, the element being moved
      * @param draggingHtml, the element show in the dragging layer
      */
-    startDrag(refElement?: HTMLElement, draggingHtml?: string): void;
+    startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string): void;
     setData(data?: {
         [key: string]: any;
     }, scope?: any): void;

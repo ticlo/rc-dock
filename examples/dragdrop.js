@@ -5138,12 +5138,12 @@ class DragState {
       throw new Error('setData can only be used in onDragStart callback');
     }
 
-    _scope = scope;
+    _dataCcope = scope;
     _data = data;
   }
 
   static getData(field, scope) {
-    if (scope === _scope && _data) {
+    if (scope === _dataCcope && _data) {
       return _data[field];
     }
 
@@ -5193,7 +5193,7 @@ class DragState {
 
 exports.DragState = DragState;
 
-let _scope;
+let _dataCcope;
 
 let _data;
 
@@ -5316,6 +5316,8 @@ function destroyDraggingElement() {
 
   _draggingState = null;
   _droppingHandlers = null;
+  _dataCcope = null;
+  _data = null;
 
   for (let callback of _dragEndListener) {
     callback();
@@ -5341,6 +5343,8 @@ exports.removeDragEndListener = removeDragEndListener;
 let _lastPointerDownEvent;
 
 function checkPointerDownEvent(e) {
+  console.log(e);
+
   if (e !== _lastPointerDownEvent) {
     _lastPointerDownEvent = e;
     return true;
@@ -5423,7 +5427,7 @@ class DragDropDiv extends react_1.default.Component {
     this.isTouch = false;
 
     this.onPointerDown = e => {
-      if (!DragManager.checkPointerDownEvent(e)) {
+      if (!DragManager.checkPointerDownEvent(e.nativeEvent)) {
         // same pointer event shouldn't trigger 2 drag start
         return;
       }

@@ -20,6 +20,10 @@ body > .dragging-layer > *:first-child {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1);
   background: white;
 }
+body > .dragging-layer > .dragging {
+  /* prevent double translucent layers */
+  opacity: 1 !important;
+}
 body > .dragging-layer > div:last-child {
   position: absolute;
   left: 12px;

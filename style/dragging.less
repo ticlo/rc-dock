@@ -21,6 +21,11 @@ body > .dragging-layer {
     background: white;
   }
 
+  & > .dragging {
+    /* prevent double translucent layers */
+    opacity: 1 !important;
+  }
+
   /* icon */
 
   & > div:last-child {

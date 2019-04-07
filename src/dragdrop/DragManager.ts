@@ -58,12 +58,12 @@ export class DragState {
     if (!this._init) {
       throw new Error('setData can only be used in onDragStart callback');
     }
-    _scope = scope;
+    _dataCcope = scope;
     _data = data;
   }
 
   static getData(field: string, scope?: any) {
-    if (scope === _scope && _data) {
+    if (scope === _dataCcope && _data) {
       return _data[field];
     }
     return null;
@@ -110,7 +110,7 @@ export class DragState {
 export type DragHandler = (state: DragState) => void;
 
 
-let _scope: any;
+let _dataCcope: any;
 let _data: {[key: string]: any};
 
 let _draggingState: DragState;
@@ -216,6 +216,9 @@ export function destroyDraggingElement() {
 
   _draggingState = null;
   _droppingHandlers = null;
+
+  _dataCcope = null;
+  _data = null;
 
   for (let callback of _dragEndListener) {
     callback();

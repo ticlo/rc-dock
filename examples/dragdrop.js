@@ -5265,10 +5265,14 @@ function createDraggingElement(state, refElement, draggingHtml) {
   let draggingWidth = 0;
   let draggingHeight = 0;
 
-  if (draggingHtml === undefined && refElement != null) {
-    draggingHtml = refElement.outerHTML;
-    draggingWidth = refElement.offsetWidth;
-    draggingHeight = refElement.offsetHeight;
+  if (draggingHtml === undefined) {
+    draggingHtml = state.component.element;
+  }
+
+  if (draggingHtml instanceof HTMLElement) {
+    draggingWidth = draggingHtml.offsetWidth;
+    draggingHeight = draggingHtml.offsetHeight;
+    draggingHtml = draggingHtml.outerHTML;
   }
 
   if (draggingHtml) {
@@ -8195,9 +8199,10 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
       style,
       children,
       onDragStart,
-      onDragMove
+      onDragMove,
+      onDragEnd
     } = _a,
-          restProps = __rest(_a, ["onKeyDown", "extraContent", "style", "children", "onDragStart", "onDragMove"]);
+          restProps = __rest(_a, ["onKeyDown", "extraContent", "style", "children", "onDragStart", "onDragMove", "onDragEnd"]);
 
     const tabBarExtraContentStyle = {
       float: 'right'
@@ -8217,6 +8222,7 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
     return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       onDragStartT: onDragStart,
       onDragMoveT: onDragMove,
+      onDragEndT: onDragEnd,
       role: "tablist",
       className: 'dock-bar',
       tabIndex: 0,
@@ -8235,14 +8241,16 @@ class DockTabBar extends react_1.default.PureComponent {
       children: renderTabBarNode,
       onDragStart,
       onDragMove,
+      onDragEnd,
       extraContent
     } = _a,
-          restProps = __rest(_a, ["children", "onDragStart", "onDragMove", "extraContent"]);
+          restProps = __rest(_a, ["children", "onDragStart", "onDragMove", "onDragEnd", "extraContent"]);
 
     return react_1.default.createElement(SaveRef_1.default, null, (saveRef, getRef) => react_1.default.createElement(DockTabBarRootNode, Object.assign({
       saveRef: saveRef,
       onDragStart: onDragStart,
       onDragMove: onDragMove,
+      onDragEnd: onDragEnd,
       extraContent: extraContent
     }, restProps), react_1.default.createElement(ScrollableTabBarNode_1.default, Object.assign({
       saveRef: saveRef,
@@ -8545,7 +8553,7 @@ class TabCache {
     };
 
     this.onDragStart = e => {
-      e.startDrag(this._ref);
+      e.startDrag(this._ref.parentElement, this._ref.parentElement);
       e.setData({
         tab: this.data
       }, DockData_1.DockContextType);
@@ -8661,7 +8669,10 @@ class DockTabs extends react_1.default.Component {
 
     this.renderTabBar = () => {
       let {
-        panelData
+        panelData,
+        onPanelDragStart,
+        onPanelDragMove,
+        onPanelDragEnd
       } = this.props;
       let {
         group: groupName,
@@ -8686,8 +8697,9 @@ class DockTabs extends react_1.default.Component {
 
       return react_1.default.createElement(DockTabBar_1.DockTabBar, {
         extraContent: panelExtraContent,
-        onDragStart: this.props.onPanelDragStart,
-        onDragMove: this.props.onPanelDragMove
+        onDragStart: onPanelDragStart,
+        onDragMove: onPanelDragMove,
+        onDragEnd: onPanelDragEnd
       });
     };
 
@@ -9640,7 +9652,8 @@ class DockPanel extends react_1.default.PureComponent {
     };
 
     this.state = {
-      dropFromPanel: null
+      dropFromPanel: null,
+      draggingHeader: false
     };
 
     this.onPointerEnter = () => {
@@ -9674,7 +9687,7 @@ class DockPanel extends react_1.default.PureComponent {
     }; // drop to move in float mode
 
 
-    this.onPanelHeaderDrag = event => {
+    this.onPanelHeaderDragStart = event => {
       let {
         panelData
       } = this.props;
@@ -9689,17 +9702,21 @@ class DockPanel extends react_1.default.PureComponent {
         this._movingX = x;
         this._movingY = y; // hide the panel, but not create drag layer element
 
-        event.startDrag(this._ref, null);
+        event.startDrag(null, null);
         event.setData({
           panel: this.props.panelData
         }, DockData_1.DockContextType);
         this.onFloatPointerDown();
       } else {
-        event.startDrag();
+        event.startDrag(null);
         event.setData({
           panel: this.props.panelData
         }, DockData_1.DockContextType);
       }
+
+      this.setState({
+        draggingHeader: true
+      });
     };
 
     this.onPanelHeaderDragMove = e => {
@@ -9709,6 +9726,12 @@ class DockPanel extends react_1.default.PureComponent {
       panelData.x = this._movingX + e.dx;
       panelData.y = this._movingY + e.dy;
       this.forceUpdate();
+    };
+
+    this.onPanelHeaderDragEnd = e => {
+      this.setState({
+        draggingHeader: false
+      });
     };
 
     this.onPanelCornerDragTL = e => {
@@ -9826,7 +9849,8 @@ class DockPanel extends react_1.default.PureComponent {
 
   render() {
     let {
-      dropFromPanel
+      dropFromPanel,
+      draggingHeader
     } = this.state;
     let {
       panelData,
@@ -9860,7 +9884,7 @@ class DockPanel extends react_1.default.PureComponent {
       pointerDownCallback = this.onFloatPointerDown;
     }
 
-    let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}`;
+    let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}${draggingHeader ? ' dragging' : ''}`;
     let style = {
       minWidth,
       minHeight,
@@ -9894,8 +9918,9 @@ class DockPanel extends react_1.default.PureComponent {
       onPointerEnter: isFloat ? null : this.onPointerEnter
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,
-      onPanelDragStart: this.onPanelHeaderDrag,
-      onPanelDragMove: this.onPanelHeaderDragMove
+      onPanelDragStart: this.onPanelHeaderDragStart,
+      onPanelDragMove: this.onPanelHeaderDragMove,
+      onPanelDragEnd: this.onPanelHeaderDragEnd
     }), isFloat ? [react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-t-l',
       className: 'dock-panel-drag-size dock-panel-drag-size-t-l',

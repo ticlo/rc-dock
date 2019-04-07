@@ -17,7 +17,7 @@ body > .dragging-layer > *:first-child {
   pointer-events: none !important;
   overflow: hidden !important;
   transform: translate(-50%, -50%) !important;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1);
   background: white;
 }
 body > .dragging-layer > div:last-child {
@@ -99,6 +99,7 @@ body > .dragging-layer > div:last-child {
 }
 .dock-nav-wrap {
   overflow: hidden;
+  width: 100%;
 }
 .dock-nav {
   box-sizing: border-box;
@@ -133,8 +134,11 @@ body > .dragging-layer > div:last-child {
   font-weight: 500;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  background: #fafafd;
 }
-.dock-tab > .dragging {
+.dock-tab.dragging {
   opacity: 0.3;
 }
 .dock-tab > div {
@@ -193,10 +197,10 @@ body > .dragging-layer > div:last-child {
   padding-left: 32px;
   padding-right: 32px;
 }
-.dock-top .dock-nav-scroll {
+.dock-nav-scroll {
   display: flex;
 }
-.dock-top .dock-nav-scroll > * {
+.dock-nav-scroll > * {
   flex: 0 0 auto;
 }
 .dock-top .dock-nav-swipe {
@@ -214,9 +218,6 @@ body > .dragging-layer > div:last-child {
   margin-right: 0;
   padding: 8px 0;
   justify-content: center;
-}
-.dock-top .dock-nav-wrap {
-  width: 100%;
 }
 .dock-top .dock-content-animated {
   flex-direction: row;
@@ -254,11 +255,6 @@ body > .dragging-layer > div:last-child {
   height: 2px;
   bottom: 0;
   left: 0;
-}
-.dock-top .dock-tab {
-  float: left;
-  margin-right: 10px;
-  background: #fafafd;
 }
 .dock-tab-close-btn {
   position: absolute;

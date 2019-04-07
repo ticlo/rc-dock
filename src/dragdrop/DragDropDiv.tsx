@@ -181,10 +181,9 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   }
 
   render(): React.ReactNode {
-    let {getRef, children, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, className, ...others} = this.props;
-    let onPointerDown = this.onPointerDown;
-    if (!onDragStartT) {
-      onPointerDown = null;
+    let {getRef, children, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, className, onPointerDown, ...others} = this.props;
+    if (!onPointerDown && onDragStartT) {
+      onPointerDown = this.onPointerDown;
     }
     if (className) {
       className = `${className} drag-drop-div`;

@@ -39,7 +39,10 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   state: State = {dropFromPanel: null, draggingHeader: false};
 
-  onPointerEnter = () => {
+  onDragOver = (e: DragState) => {
+    if (DockPanel._droppingPanel === this) {
+      return;
+    }
     let {panelData} = this.props;
     DockPanel.droppingPanel = this;
     let tab: TabData = DragState.getData('tab', DockContextType);
@@ -207,8 +210,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
 
     return (
-      <div ref={this.getRef} className={cls} style={style} data-dockid={id}
-           onPointerDown={pointerDownCallback} onPointerEnter={isFloat ? null : this.onPointerEnter}>
+      <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
+                   onPointerDown={pointerDownCallback} onDragOverT={isFloat ? null : this.onDragOver}>
         <DockTabs panelData={panelData} onPanelDragStart={this.onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
         {isFloat ?
@@ -225,7 +228,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
           : null
         }
         {droppingLayer}
-      </div>
+      </DragDropDiv>
     );
   }
 }

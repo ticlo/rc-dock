@@ -48,7 +48,9 @@ export class TabCache {
   };
   onDragOver = (e: DragState) => {
     let tab: TabData = DragState.getData('tab', DockContextType);
-    if (tab && tab !== this.data && tab.group === this.data.group) {
+    if (tab.group !== this.data.group) {
+      e.reject();
+    } else if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);
       this.context.setDropRect(this._hitAreaRef, direction, this);
       e.accept('');

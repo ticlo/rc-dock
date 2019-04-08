@@ -88,7 +88,7 @@ export class TabCache {
                      onDragStartT={onDragStart}
                      onDragOverT={this.onDragOver} onDropT={this.onDrop} onDragLeaveT={this.onDragLeave}>
           {closable ?
-            <a className='dock-tab-close-btn' onClick={this.onCloseClick}>x</a>
+            <div className='dock-tab-close-btn' onClick={this.onCloseClick}/>
             : null
           }
         </DragDropDiv>

@@ -126,7 +126,7 @@
     }
 
     & > div {
-      padding: 4px 10px;
+      padding: 4px 14px;
     }
   }
 
@@ -273,17 +273,22 @@
     position: absolute;
     cursor: pointer;
     font-family: Fredoka One;
-    color: #aaa;
-    right: 0;
+    color: #bbb;
+    right: 2px;
+    font-size: 12px;
     width: 16px;
     text-align: center;
-    top: 3px;
+    top: 6px;
     opacity: 0.3;
     transition: opacity 0.25s ease-in-out;
+
+    &:before {
+      content: "X";
+    }
   }
 
   &-tab-close-btn:hover {
-    color: red;
+    color: #666;
   }
 
   &-tab:hover &-tab-close-btn {

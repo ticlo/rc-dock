@@ -91,7 +91,7 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...customTab, id: 't4'}, {...customTab, id: 't6'}, {...customTab, id: 't6'}],
+            tabs: [{...customTab, id: 't4'}, {...customTab, id: 't5'}, {...customTab, id: 't6'}],
           },
           {
             tabs: [{...headlessTab, id: 't1'}, {...headlessTab, id: 't2'}, {...headlessTab, id: 't3'}],

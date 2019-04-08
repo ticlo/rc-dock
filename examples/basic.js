@@ -249,7 +249,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     content: React.createElement("div", null, "Tab Content"),
     closable: true
   };
-  let box = {
+  let layout = {
     dockbox: {
       mode: 'horizontal',
       children: [{
@@ -267,9 +267,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           tabs: [_objectSpread({}, tab, {
             id: 't3',
             title: 'Min Size',
-            content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size"), "100 x 100 px"),
-            minWidth: 100,
-            minHeight: 100
+            content: React.createElement("div", null, React.createElement("p", null, "This tab has a minimal size"), "150 x 150 px"),
+            minWidth: 150,
+            minHeight: 150
           }), _objectSpread({}, tab, {
             id: 't4',
             title: 'Tab 4'
@@ -317,6 +317,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     }
   };
+
+  if (window.innerWidth < 600) {
+    // remove a column for mobile
+    layout.dockbox.children.pop();
+  }
+
   let count = 0;
 
   class Demo extends React.Component {
@@ -342,7 +348,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     render() {
       return React.createElement(DockLayout, {
-        defaultLayout: box,
+        defaultLayout: layout,
         style: {
           position: 'absolute',
           left: 10,

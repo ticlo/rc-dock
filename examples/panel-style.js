@@ -320,7 +320,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           tabs: [_objectSpread({}, customTab, {
             id: 't4'
           }), _objectSpread({}, customTab, {
-            id: 't6'
+            id: 't5'
           }), _objectSpread({}, customTab, {
             id: 't6'
           })]

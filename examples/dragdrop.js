@@ -5613,10 +5613,12 @@ class DragDropDiv extends react_1.default.Component {
       onPointerDown = this.onPointerDown;
     }
 
-    if (className) {
-      className = `${className} drag-drop-div`;
-    } else {
-      className = 'drag-drop-div';
+    if (onDragStartT) {
+      if (className) {
+        className = `${className} drag-initiator`;
+      } else {
+        className = 'drag-initiator';
+      }
     }
 
     return react_1.default.createElement("div", Object.assign({
@@ -8635,10 +8637,10 @@ class TabCache {
       onDragOverT: this.onDragOver,
       onDropT: this.onDrop,
       onDragLeaveT: this.onDragLeave
-    }, closable ? react_1.default.createElement("a", {
+    }, closable ? react_1.default.createElement("div", {
       className: 'dock-tab-close-btn',
       onClick: this.onCloseClick
-    }, "x") : null));
+    }) : null));
 
     if (cacheContext) {
       // allow DockTabPane to receive context
@@ -9312,10 +9314,14 @@ exports.dockPanelToBox = dockPanelToBox;
 
 function floatPanel(layout, newPanel, rect) {
   let newBox = clone(layout.floatbox);
-  newPanel.x = rect.left;
-  newPanel.y = rect.top;
-  newPanel.w = rect.width;
-  newPanel.h = rect.height;
+
+  if (rect) {
+    newPanel.x = rect.left;
+    newPanel.y = rect.top;
+    newPanel.w = rect.width;
+    newPanel.h = rect.height;
+  }
+
   newBox.children.push(newPanel);
   return replaceBox(layout, layout.floatbox, newBox);
 }

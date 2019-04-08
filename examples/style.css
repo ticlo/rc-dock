@@ -29,7 +29,7 @@ body > .dragging-layer > div:last-child {
   left: 12px;
   top: 12px;
 }
-.drag-drop-div {
+.drag-initiator {
   user-select: none;
   touch-action: none;
 }
@@ -147,7 +147,7 @@ body > .dragging-layer > div:last-child {
   opacity: 0.3;
 }
 .dock-tab > div {
-  padding: 4px 10px;
+  padding: 4px 14px;
 }
 .dock-tab:hover {
   color: #23c0fa;
@@ -265,16 +265,20 @@ body > .dragging-layer > div:last-child {
   position: absolute;
   cursor: pointer;
   font-family: Fredoka One;
-  color: #aaa;
-  right: 0;
+  color: #bbb;
+  right: 2px;
+  font-size: 12px;
   width: 16px;
   text-align: center;
-  top: 3px;
+  top: 6px;
   opacity: 0.3;
   transition: opacity 0.25s ease-in-out;
 }
+.dock-tab-close-btn:before {
+  content: "X";
+}
 .dock-tab-close-btn:hover {
-  color: red;
+  color: #666;
 }
 .dock-tab:hover .dock-tab-close-btn {
   opacity: 1;

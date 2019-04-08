@@ -7,7 +7,7 @@ let tab = {
   closable: true,
 };
 
-let box = {
+let layout = {
     dockbox: {
       mode: 'horizontal',
       children: [
@@ -23,9 +23,9 @@ let box = {
                 ...tab, id: 't3', title: 'Min Size', content: (
                   <div>
                     <p>This tab has a minimal size</p>
-                    100 x 100 px
+                    150 x 150 px
                   </div>
-                ), minWidth: 100, minHeight: 100,
+                ), minWidth: 150, minHeight: 150,
               }, {...tab, id: 't4', title: 'Tab 4'}],
             },
           ]
@@ -65,6 +65,10 @@ let box = {
     }
   }
 ;
+if (window.innerWidth < 600) {
+  // remove a column for mobile
+  layout.dockbox.children.pop();
+}
 
 let count = 0;
 
@@ -84,7 +88,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
+      <DockLayout defaultLayout={layout} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

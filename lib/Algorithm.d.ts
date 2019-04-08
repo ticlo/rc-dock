@@ -8,7 +8,7 @@ export declare function addTabToPanel(layout: LayoutData, source: TabData | Pane
 export declare function converToPanel(source: TabData | PanelData): PanelData;
 export declare function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel: PanelData, direction: DropDirection): LayoutData;
 export declare function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: BoxData, direction: DropDirection): LayoutData;
-export declare function floatPanel(layout: LayoutData, newPanel: PanelData, rect: {
+export declare function floatPanel(layout: LayoutData, newPanel: PanelData, rect?: {
     left: number;
     top: number;
     width: number;

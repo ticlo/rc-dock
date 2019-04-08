@@ -238,13 +238,15 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
 
 export function floatPanel(
   layout: LayoutData, newPanel: PanelData,
-  rect: {left: number, top: number, width: number, height: number}
+  rect?: {left: number, top: number, width: number, height: number}
 ): LayoutData {
   let newBox = clone(layout.floatbox);
-  newPanel.x = rect.left;
-  newPanel.y = rect.top;
-  newPanel.w = rect.width;
-  newPanel.h = rect.height;
+  if (rect) {
+    newPanel.x = rect.left;
+    newPanel.y = rect.top;
+    newPanel.w = rect.width;
+    newPanel.h = rect.height;
+  }
 
   newBox.children.push(newPanel);
   return replaceBox(layout, layout.floatbox, newBox);

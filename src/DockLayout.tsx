@@ -85,6 +85,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return layout;
   }
 
+  /** @inheritDoc */
   getGroup(name: string) {
     if (name in this._groups) {
       return this._groups[name];
@@ -92,7 +93,13 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return defaultGroup;
   }
 
-  dockMove(source: TabData, target: TabData | PanelData | BoxData, direction: DropDirection) {
+  /**
+   * @inheritDoc
+   * @param source @inheritDoc
+   * @param target @inheritDoc
+   * @param direction @inheritDoc
+   */
+  dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection) {
     let {layout} = this.state;
 
     layout = Algorithm.removeFromLayout(layout, source);
@@ -128,10 +135,12 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     this.dragEnd();
   }
 
+  /** @inheritDoc */
   find(id: string): PanelData | TabData {
     return Algorithm.find(this.state.layout, id);
   }
 
+  /** @inheritDoc */
   updateTab(id: string, newTab: TabData): boolean {
     let tab = this.find(id);
     if (tab && !('tabs' in tab)) {

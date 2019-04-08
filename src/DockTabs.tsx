@@ -47,10 +47,20 @@ export class TabCache {
     e.setData({tab: this.data}, DockContextType);
   };
   onDragOver = (e: DragState) => {
+    let panel: PanelData;
     let tab: TabData = DragState.getData('tab', DockContextType);
-    if (tab.group !== this.data.group) {
+    if (tab) {
+      panel = tab.parent;
+    } else {
+      panel = DragState.getData('panel', DockContextType);
+    }
+    if (panel.group !== this.data.group) {
       e.reject();
     } else if (tab && tab !== this.data) {
+      let direction = this.getDropDirection(e);
+      this.context.setDropRect(this._hitAreaRef, direction, this);
+      e.accept('');
+    } else if (panel && panel !== this.data.parent) {
       let direction = this.getDropDirection(e);
       this.context.setDropRect(this._hitAreaRef, direction, this);
       e.accept('');
@@ -60,10 +70,19 @@ export class TabCache {
     this.context.setDropRect(null, 'remove', this);
   };
   onDrop = (e: DragState) => {
+    let panel: PanelData;
     let tab: TabData = DragState.getData('tab', DockContextType);
-    if (tab && tab !== this.data && tab.group === this.data.group) {
+    if (tab) {
+      panel = tab.parent;
+    } else {
+      panel = DragState.getData('panel', DockContextType);
+    }
+    if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);
       this.context.dockMove(tab, this.data, direction);
+    } else if (panel && panel !== this.data.parent) {
+      let direction = this.getDropDirection(e);
+      this.context.dockMove(panel, this.data, direction);
     }
   };
 

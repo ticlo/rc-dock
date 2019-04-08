@@ -86,13 +86,13 @@ export function find(layout: LayoutData, id: string): PanelData | TabData {
   return result;
 }
 
-export function addTabToTab(layout: LayoutData, tab: TabData, target: TabData, direction: DropDirection): LayoutData {
+export function addNextToTab(layout: LayoutData, source: TabData | PanelData, target: TabData, direction: DropDirection): LayoutData {
   let pos = target.parent.tabs.indexOf(target);
   if (pos >= 0) {
     if (direction === 'after-tab') {
       ++pos;
     }
-    return addTabToPanel(layout, tab, target.parent, pos);
+    return addTabToPanel(layout, source, target.parent, pos);
   }
   return layout;
 }

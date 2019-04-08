@@ -119,7 +119,8 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
         let newPanel = Algorithm.converToPanel(source);
         layout = Algorithm.dockPanelToBox(layout, newPanel, target, direction);
       } else {
-        layout = Algorithm.addTabToTab(layout, source, target, direction);
+        // tab target
+        layout = Algorithm.addNextToTab(layout, source, target, direction);
       }
     }
     layout = Algorithm.fixLayoutData(layout);

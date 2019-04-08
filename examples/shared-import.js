@@ -8564,11 +8564,22 @@ class TabCache {
     };
 
     this.onDragOver = e => {
+      let panel;
       let tab = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
 
-      if (tab.group !== this.data.group) {
+      if (tab) {
+        panel = tab.parent;
+      } else {
+        panel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+      }
+
+      if (panel.group !== this.data.group) {
         e.reject();
       } else if (tab && tab !== this.data) {
+        let direction = this.getDropDirection(e);
+        this.context.setDropRect(this._hitAreaRef, direction, this);
+        e.accept('');
+      } else if (panel && panel !== this.data.parent) {
         let direction = this.getDropDirection(e);
         this.context.setDropRect(this._hitAreaRef, direction, this);
         e.accept('');
@@ -8580,11 +8591,21 @@ class TabCache {
     };
 
     this.onDrop = e => {
+      let panel;
       let tab = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
 
-      if (tab && tab !== this.data && tab.group === this.data.group) {
+      if (tab) {
+        panel = tab.parent;
+      } else {
+        panel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+      }
+
+      if (tab && tab !== this.data) {
         let direction = this.getDropDirection(e);
         this.context.dockMove(tab, this.data, direction);
+      } else if (panel && panel !== this.data.parent) {
+        let direction = this.getDropDirection(e);
+        this.context.dockMove(panel, this.data, direction);
       }
     };
 
@@ -9121,7 +9142,7 @@ function find(layout, id) {
 
 exports.find = find;
 
-function addTabToTab(layout, tab, target, direction) {
+function addNextToTab(layout, source, target, direction) {
   let pos = target.parent.tabs.indexOf(target);
 
   if (pos >= 0) {
@@ -9129,13 +9150,13 @@ function addTabToTab(layout, tab, target, direction) {
       ++pos;
     }
 
-    return addTabToPanel(layout, tab, target.parent, pos);
+    return addTabToPanel(layout, source, target.parent, pos);
   }
 
   return layout;
 }
 
-exports.addTabToTab = addTabToTab;
+exports.addNextToTab = addNextToTab;
 
 function addTabToPanel(layout, source, panel, idx = -1) {
   if (idx === -1) {
@@ -10717,7 +10738,8 @@ class DockLayout extends react_1.default.PureComponent {
         let newPanel = Algorithm.converToPanel(source);
         layout = Algorithm.dockPanelToBox(layout, newPanel, target, direction);
       } else {
-        layout = Algorithm.addTabToTab(layout, source, target, direction);
+        // tab target
+        layout = Algorithm.addNextToTab(layout, source, target, direction);
       }
     }
 

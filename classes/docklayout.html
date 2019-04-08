@@ -144,7 +144,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L125">DockLayout.tsx:125</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L154">DockLayout.tsx:154</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">_groups<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L45">DockLayout.tsx:45</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L70">DockLayout.tsx:70</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -554,7 +554,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L70">DockLayout.tsx:70</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L95">DockLayout.tsx:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -584,7 +584,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#find">find</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L105">DockLayout.tsx:105</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L130">DockLayout.tsx:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -611,7 +611,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#getgroup">getGroup</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L63">DockLayout.tsx:63</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L88">DockLayout.tsx:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -667,22 +667,19 @@
 					<a name="loadlayout" class="tsd-anchor"></a>
 					<h3>load<wbr>Layout</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Layout<span class="tsd-signature-symbol">(</span>savedLayout<span class="tsd-signature-symbol">: </span><a href="../interfaces/savedlayout.html" class="tsd-signature-type">SavedLayout</a>, modifier<span class="tsd-signature-symbol">?: </span><a href="../interfaces/loadmodifier.html" class="tsd-signature-type">LoadModifier</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Layout<span class="tsd-signature-symbol">(</span>savedLayout<span class="tsd-signature-symbol">: </span><a href="../interfaces/layoutbase.html" class="tsd-signature-type">LayoutBase</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L255">DockLayout.tsx:255</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L271">DockLayout.tsx:271</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>savedLayout: <a href="../interfaces/savedlayout.html" class="tsd-signature-type">SavedLayout</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> modifier: <a href="../interfaces/loadmodifier.html" class="tsd-signature-type">LoadModifier</a></h5>
+									<h5>savedLayout: <a href="../interfaces/layoutbase.html" class="tsd-signature-type">LayoutBase</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -693,22 +690,16 @@
 					<a name="savelayout" class="tsd-anchor"></a>
 					<h3>save<wbr>Layout</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">save<wbr>Layout<span class="tsd-signature-symbol">(</span>modifier<span class="tsd-signature-symbol">?: </span><a href="../interfaces/savemodifier.html" class="tsd-signature-type">SaveModifier</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/savedlayout.html" class="tsd-signature-type">SavedLayout</a></li>
+						<li class="tsd-signature tsd-kind-icon">save<wbr>Layout<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/layoutbase.html" class="tsd-signature-type">LayoutBase</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L251">DockLayout.tsx:251</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L265">DockLayout.tsx:265</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> modifier: <a href="../interfaces/savemodifier.html" class="tsd-signature-type">SaveModifier</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/savedlayout.html" class="tsd-signature-type">SavedLayout</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/layoutbase.html" class="tsd-signature-type">LayoutBase</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -761,8 +752,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#updatetab">updateTab</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockLayout.tsx#L109">DockLayout.tsx:109</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockLayout.tsx#L134">DockLayout.tsx:134</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -857,6 +849,9 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/boxbase.html" class="tsd-kind-icon">Box<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/boxdata.html" class="tsd-kind-icon">Box<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -864,6 +859,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/dockcontext.html" class="tsd-kind-icon">Dock<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/layoutbase.html" class="tsd-kind-icon">Layout<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/layoutdata.html" class="tsd-kind-icon">Layout<wbr>Data</a>
@@ -875,7 +873,7 @@
 						<a href="../interfaces/layoutstate.html" class="tsd-kind-icon">Layout<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/loadmodifier.html" class="tsd-kind-icon">Load<wbr>Modifier</a>
+						<a href="../interfaces/panelbase.html" class="tsd-kind-icon">Panel<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/paneldata.html" class="tsd-kind-icon">Panel<wbr>Data</a>
@@ -884,19 +882,7 @@
 						<a href="../interfaces/panellock.html" class="tsd-kind-icon">Panel<wbr>Lock</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/savemodifier.html" class="tsd-kind-icon">Save<wbr>Modifier</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/savedbox.html" class="tsd-kind-icon">Saved<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/savedlayout.html" class="tsd-kind-icon">Saved<wbr>Layout</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/savedpanel.html" class="tsd-kind-icon">Saved<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/savedtab.html" class="tsd-kind-icon">Saved<wbr>Tab</a>
+						<a href="../interfaces/tabbase.html" class="tsd-kind-icon">Tab<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/tabdata.html" class="tsd-kind-icon">Tab<wbr>Data</a>

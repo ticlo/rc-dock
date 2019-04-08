@@ -88,6 +88,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="dockcontext.html#dockmove" class="tsd-kind-icon">dock<wbr>Move</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="dockcontext.html#find" class="tsd-kind-icon">find</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="dockcontext.html#getgroup" class="tsd-kind-icon">get<wbr>Group</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="dockcontext.html#updatetab" class="tsd-kind-icon">update<wbr>Tab</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,19 +106,41 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockData.ts#L145">DockData.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockData.ts#L209">DockData.ts:209</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>source: <a href="tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="paneldata.html" class="tsd-signature-type">PanelData</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the source TabData or PanelData being moved</p>
+										<ul>
+											<li>it can exist in the layout already</li>
+											<li>or can be a new tab or new panel that you want to add to the layout</li>
+										</ul>
+									</div>
 								</li>
 								<li>
 									<h5>target: <a href="tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="paneldata.html" class="tsd-signature-type">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="boxdata.html" class="tsd-signature-type">BoxData</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>where you want to drop the source</p>
+									</div>
 								</li>
 								<li>
 									<h5>direction: <a href="../globals.html#dropdirection" class="tsd-signature-type">DropDirection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>which direction to drop<br></p>
+										<ul>
+											<li>when target is tab, direction can only be &#39;after-tab&#39; or &#39;before-tab&#39;</li>
+											<li>when target is null, direction can only be &#39;remove&#39;</li>
+										</ul>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -134,9 +157,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockData.ts#L149">DockData.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockData.ts#L219">DockData.ts:219</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>find PanelData or TabData by id</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -160,9 +188,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockData.ts#L147">DockData.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockData.ts#L214">DockData.ts:214</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>get the TabGroup defined in defaultLayout</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -170,6 +203,38 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="tabgroup.html" class="tsd-signature-type">TabGroup</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="updatetab" class="tsd-anchor"></a>
+					<h3>update<wbr>Tab</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Tab<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, newTab<span class="tsd-signature-symbol">: </span><a href="tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockData.ts#L225">DockData.ts:225</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>update a tab with new TabData</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>newTab: <a href="tabdata.html" class="tsd-signature-type">TabData</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>returns false if the tab is not found</p>
 						</li>
 					</ul>
 				</section>
@@ -187,6 +252,9 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/docklayout.html" class="tsd-kind-icon">Dock<wbr>Layout</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="boxbase.html" class="tsd-kind-icon">Box<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="boxdata.html" class="tsd-kind-icon">Box<wbr>Data</a>
@@ -208,10 +276,16 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="dockcontext.html#getgroup" class="tsd-kind-icon">get<wbr>Group</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="dockcontext.html#updatetab" class="tsd-kind-icon">update<wbr>Tab</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="layoutbase.html" class="tsd-kind-icon">Layout<wbr>Base</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="layoutdata.html" class="tsd-kind-icon">Layout<wbr>Data</a>
 					</li>
@@ -222,7 +296,7 @@
 						<a href="layoutstate.html" class="tsd-kind-icon">Layout<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="loadmodifier.html" class="tsd-kind-icon">Load<wbr>Modifier</a>
+						<a href="panelbase.html" class="tsd-kind-icon">Panel<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="paneldata.html" class="tsd-kind-icon">Panel<wbr>Data</a>
@@ -231,19 +305,7 @@
 						<a href="panellock.html" class="tsd-kind-icon">Panel<wbr>Lock</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="savemodifier.html" class="tsd-kind-icon">Save<wbr>Modifier</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedbox.html" class="tsd-kind-icon">Saved<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedlayout.html" class="tsd-kind-icon">Saved<wbr>Layout</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedpanel.html" class="tsd-kind-icon">Saved<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedtab.html" class="tsd-kind-icon">Saved<wbr>Tab</a>
+						<a href="tabbase.html" class="tsd-kind-icon">Tab<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="tabdata.html" class="tsd-kind-icon">Tab<wbr>Data</a>

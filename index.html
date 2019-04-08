@@ -214,10 +214,10 @@ render() {
 				<p>get the <code>ref</code> of the DockLayout component to use the following API</p>
 				<h3 id="savelayout-">saveLayout <a href="https://ticlo.github.io/rc-dock/interfaces/layoutprops.html">🗎</a></h3>
 				<p>save layout</p>
-				<pre><code class="language-typescript">saveLayout(modifier?: SaveModifier): SavedLayout </code></pre>
+				<pre><code class="language-typescript">saveLayout(): SavedLayout </code></pre>
 				<h3 id="loadlayout-">loadLayout <a href="https://ticlo.github.io/rc-dock/interfaces/layoutprops.html">🗎</a></h3>
 				<p>load layout</p>
-				<pre><code class="language-typescript"> loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): <span class="hljs-built_in">void</span></code></pre>
+				<pre><code class="language-typescript"> loadLayout(savedLayout: SavedLayout): <span class="hljs-built_in">void</span></code></pre>
 				<h3 id="dockmove-">dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove">🗎</a></h3>
 				<p>move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first</p>
 				<pre><code class="language-typescript">dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): <span class="hljs-built_in">void</span>;</code></pre>

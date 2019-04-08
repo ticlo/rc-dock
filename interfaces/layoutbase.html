@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LoadModifier | RC Dock</title>
+	<title>LayoutBase | RC Dock</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="loadmodifier.html">LoadModifier</a>
+					<a href="layoutbase.html">LayoutBase</a>
 				</li>
 			</ul>
-			<h1>Interface LoadModifier</h1>
+			<h1>Interface LayoutBase</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">LoadModifier</span>
+						<span class="target">LayoutBase</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="layoutdata.html" class="tsd-signature-type">LayoutData</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -77,65 +82,36 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Methods</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="loadmodifier.html#loadtab" class="tsd-kind-icon">load<wbr>Tab</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="loadmodifier.html#modifyloadedpanel" class="tsd-kind-icon">modify<wbr>Loaded<wbr>Panel</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="layoutbase.html#dockbox" class="tsd-kind-icon">dockbox</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="layoutbase.html#floatbox" class="tsd-kind-icon">floatbox</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="loadtab" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> load<wbr>Tab</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Tab<span class="tsd-signature-symbol">(</span>savedTab<span class="tsd-signature-symbol">: </span><a href="savedtab.html" class="tsd-signature-type">SavedTab</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="tabdata.html" class="tsd-signature-type">TabData</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockData.ts#L219">DockData.ts:219</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>savedTab: <a href="savedtab.html" class="tsd-signature-type">SavedTab</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="tabdata.html" class="tsd-signature-type">TabData</a></h4>
-						</li>
-					</ul>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="dockbox" class="tsd-anchor"></a>
+					<h3>dockbox</h3>
+					<div class="tsd-signature tsd-kind-icon">dockbox<span class="tsd-signature-symbol">:</span> <a href="boxbase.html" class="tsd-signature-type">BoxBase</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockData.ts#L97">DockData.ts:97</a></li>
+						</ul>
+					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="modifyloadedpanel" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> modify<wbr>Loaded<wbr>Panel</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">modify<wbr>Loaded<wbr>Panel<span class="tsd-signature-symbol">(</span>savedPanel<span class="tsd-signature-symbol">: </span><a href="savedpanel.html" class="tsd-signature-type">SavedPanel</a>, panelData<span class="tsd-signature-symbol">: </span><a href="paneldata.html" class="tsd-signature-type">PanelData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/f18d42a/src/DockData.ts#L217">DockData.ts:217</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>savedPanel: <a href="savedpanel.html" class="tsd-signature-type">SavedPanel</a></h5>
-								</li>
-								<li>
-									<h5>panelData: <a href="paneldata.html" class="tsd-signature-type">PanelData</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="floatbox" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> floatbox</h3>
+					<div class="tsd-signature tsd-kind-icon">floatbox<span class="tsd-signature-symbol">:</span> <a href="boxbase.html" class="tsd-signature-type">BoxBase</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/3b4ecc9/src/DockData.ts#L98">DockData.ts:98</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -153,6 +129,9 @@
 						<a href="../classes/docklayout.html" class="tsd-kind-icon">Dock<wbr>Layout</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="boxbase.html" class="tsd-kind-icon">Box<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="boxdata.html" class="tsd-kind-icon">Box<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -161,6 +140,21 @@
 					<li class=" tsd-kind-interface">
 						<a href="dockcontext.html" class="tsd-kind-icon">Dock<wbr>Context</a>
 					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="layoutbase.html" class="tsd-kind-icon">Layout<wbr>Base</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="layoutbase.html#dockbox" class="tsd-kind-icon">dockbox</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="layoutbase.html#floatbox" class="tsd-kind-icon">floatbox</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="layoutdata.html" class="tsd-kind-icon">Layout<wbr>Data</a>
 					</li>
@@ -170,21 +164,9 @@
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="layoutstate.html" class="tsd-kind-icon">Layout<wbr>State</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="loadmodifier.html" class="tsd-kind-icon">Load<wbr>Modifier</a>
-						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="loadmodifier.html#loadtab" class="tsd-kind-icon">load<wbr>Tab</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="loadmodifier.html#modifyloadedpanel" class="tsd-kind-icon">modify<wbr>Loaded<wbr>Panel</a>
-							</li>
-						</ul>
+					<li class=" tsd-kind-interface">
+						<a href="panelbase.html" class="tsd-kind-icon">Panel<wbr>Base</a>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="paneldata.html" class="tsd-kind-icon">Panel<wbr>Data</a>
 					</li>
@@ -192,19 +174,7 @@
 						<a href="panellock.html" class="tsd-kind-icon">Panel<wbr>Lock</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="savemodifier.html" class="tsd-kind-icon">Save<wbr>Modifier</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedbox.html" class="tsd-kind-icon">Saved<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedlayout.html" class="tsd-kind-icon">Saved<wbr>Layout</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedpanel.html" class="tsd-kind-icon">Saved<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="savedtab.html" class="tsd-kind-icon">Saved<wbr>Tab</a>
+						<a href="tabbase.html" class="tsd-kind-icon">Tab<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="tabdata.html" class="tsd-kind-icon">Tab<wbr>Data</a>

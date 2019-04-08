@@ -29,10 +29,10 @@ function buildDocs() {
 }
 
 function main() {
-  shell.rm('./www/examples');
-  shell.rm('./www/interfaces');
-  shell.rm('./www/classes');
-  shell.rm('./www/assets');
+  shell.rm('-rf', './www/examples');
+  shell.rm('-rf', './www/interfaces');
+  shell.rm('-rf', './www/classes');
+  shell.rm('-rf', './www/assets');
   buildDocs();
   buildExample();
 }

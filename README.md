@@ -77,14 +77,14 @@ get the `ref` of the DockLayout component to use the following API
 save layout
 
 ```typescript
-saveLayout(modifier?: SaveModifier): SavedLayout 
+saveLayout(): SavedLayout 
 ```
 
 ### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html)
 load layout
 
 ```typescript
- loadLayout(savedLayout: SavedLayout, modifier?: LoadModifier): void
+ loadLayout(savedLayout: SavedLayout): void
 ```
 
 ### dockMove [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove)

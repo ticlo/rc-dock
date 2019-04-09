@@ -106,7 +106,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockData.ts#L209">DockData.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockData.ts#L211">DockData.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -137,8 +137,9 @@
 									<div class="tsd-comment tsd-typography">
 										<p>which direction to drop<br></p>
 										<ul>
-											<li>when target is tab, direction can only be &#39;after-tab&#39; or &#39;before-tab&#39;</li>
-											<li>when target is null, direction can only be &#39;remove&#39;</li>
+											<li>when direction is &#39;after-tab&#39; or &#39;before-tab&#39;, target must be TabData</li>
+											<li>when direction is &#39;remove&#39;, target must be null</li>
+											<li>when direction is &#39;float&#39;, target doesnt matter. If this is called directly from code without any user interaction, source must be PanelData with x,y,w,h properties</li>
 										</ul>
 									</div>
 								</li>
@@ -157,7 +158,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockData.ts#L219">DockData.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockData.ts#L221">DockData.ts:221</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +189,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockData.ts#L214">DockData.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockData.ts#L216">DockData.ts:216</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,7 +217,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockData.ts#L225">DockData.ts:225</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockData.ts#L227">DockData.ts:227</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

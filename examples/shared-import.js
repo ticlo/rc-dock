@@ -10666,6 +10666,8 @@ class DockLayout extends react_1.default.PureComponent {
     this.getRef = r => {
       this._ref = r;
     };
+    /** @ignore */
+
 
     this._groups = {};
     /** @ignore */
@@ -10702,6 +10704,8 @@ class DockLayout extends react_1.default.PureComponent {
     Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
+  /** @inheritDoc */
+
 
   getGroup(name) {
     if (name in this._groups) {
@@ -10710,6 +10714,13 @@ class DockLayout extends react_1.default.PureComponent {
 
     return DockData_1.defaultGroup;
   }
+  /**
+   * @inheritDoc
+   * @param source @inheritDoc
+   * @param target @inheritDoc
+   * @param direction @inheritDoc
+   */
+
 
   dockMove(source, target, direction) {
     let {
@@ -10718,20 +10729,18 @@ class DockLayout extends react_1.default.PureComponent {
     layout = Algorithm.removeFromLayout(layout, source);
     target = Algorithm.getUpdatedObject(target); // target might change during removeTab
 
-    if (target) {
+    if (direction === 'float') {
+      let newPanel = Algorithm.converToPanel(source);
+      newPanel.z = Algorithm.nextZIndex(null);
+      layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+    } else if (target) {
       if ('tabs' in target) {
         // pandel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, source, target);
         } else {
           let newPanel = Algorithm.converToPanel(source);
-
-          if (direction === 'float') {
-            newPanel.z = Algorithm.nextZIndex(null);
-            layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
-          } else {
-            layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
-          }
+          layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
         }
       } else if ('children' in target) {
         // box target
@@ -10749,10 +10758,14 @@ class DockLayout extends react_1.default.PureComponent {
     });
     this.dragEnd();
   }
+  /** @inheritDoc */
+
 
   find(id) {
     return Algorithm.find(this.state.layout, id);
   }
+  /** @inheritDoc */
+
 
   updateTab(id, newTab) {
     let tab = this.find(id);
@@ -10937,9 +10950,6 @@ class DockLayout extends react_1.default.PureComponent {
   saveLayout() {
     return Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
   }
-  /**
-   */
-
 
   loadLayout(savedLayout) {
     let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, this.props.loadTab, this.props.afterPanelLoaded);

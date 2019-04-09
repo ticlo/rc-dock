@@ -102,12 +102,6 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="docklayout.html#_groups" class="tsd-kind-icon">_groups</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="docklayout.html#unsafe_componentwillmount" class="tsd-kind-icon">UNSAFE_<wbr>component<wbr>Will<wbr>Mount</a></li>
@@ -144,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L155">DockLayout.tsx:155</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L163">DockLayout.tsx:163</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,27 +150,6 @@
 							<h4 class="tsd-returns-title">Returns <a href="docklayout.html" class="tsd-signature-type">DockLayout</a></h4>
 						</li>
 					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_groups" class="tsd-anchor"></a>
-					<h3>_groups</h3>
-					<div class="tsd-signature tsd-kind-icon">_groups<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L70">DockLayout.tsx:70</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../interfaces/tabgroup.html" class="tsd-signature-type">TabGroup</a></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -548,25 +521,49 @@
 					<a name="dockmove" class="tsd-anchor"></a>
 					<h3>dock<wbr>Move</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">dock<wbr>Move<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a>, target<span class="tsd-signature-symbol">: </span><a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/paneldata.html" class="tsd-signature-type">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/boxdata.html" class="tsd-signature-type">BoxData</a>, direction<span class="tsd-signature-symbol">: </span><a href="../globals.html#dropdirection" class="tsd-signature-type">DropDirection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">dock<wbr>Move<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/paneldata.html" class="tsd-signature-type">PanelData</a>, target<span class="tsd-signature-symbol">: </span><a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/paneldata.html" class="tsd-signature-type">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/boxdata.html" class="tsd-signature-type">BoxData</a>, direction<span class="tsd-signature-symbol">: </span><a href="../globals.html#dropdirection" class="tsd-signature-type">DropDirection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#dockmove">dockMove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L95">DockLayout.tsx:95</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L102">DockLayout.tsx:102</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>source: <a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a></h5>
+									<h5>source: <a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/paneldata.html" class="tsd-signature-type">PanelData</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the source TabData or PanelData being moved</p>
+										<ul>
+											<li>it can exist in the layout already</li>
+											<li>or can be a new tab or new panel that you want to add to the layout</li>
+										</ul>
+									</div>
 								</li>
 								<li>
 									<h5>target: <a href="../interfaces/tabdata.html" class="tsd-signature-type">TabData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/paneldata.html" class="tsd-signature-type">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/boxdata.html" class="tsd-signature-type">BoxData</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>where you want to drop the source</p>
+									</div>
 								</li>
 								<li>
 									<h5>direction: <a href="../globals.html#dropdirection" class="tsd-signature-type">DropDirection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>which direction to drop<br></p>
+										<ul>
+											<li>when direction is &#39;after-tab&#39; or &#39;before-tab&#39;, target must be TabData</li>
+											<li>when direction is &#39;remove&#39;, target must be null</li>
+											<li>when direction is &#39;float&#39;, target doesnt matter. If this is called directly from code without any user interaction, source must be PanelData with x,y,w,h properties</li>
+										</ul>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -584,9 +581,14 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#find">find</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L131">DockLayout.tsx:131</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L138">DockLayout.tsx:138</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>find PanelData or TabData by id</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -611,9 +613,14 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#getgroup">getGroup</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L88">DockLayout.tsx:88</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L89">DockLayout.tsx:89</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>get the TabGroup defined in defaultLayout</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -673,7 +680,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L272">DockLayout.tsx:272</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L278">DockLayout.tsx:278</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -696,7 +703,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L266">DockLayout.tsx:266</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L274">DockLayout.tsx:274</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/layoutbase.html" class="tsd-signature-type">LayoutBase</a></h4>
@@ -754,9 +761,14 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#updatetab">updateTab</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/9cb8075/src/DockLayout.tsx#L135">DockLayout.tsx:135</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/062fd8f/src/DockLayout.tsx#L143">DockLayout.tsx:143</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>update a tab with new TabData</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -767,6 +779,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>returns false if the tab is not found</p>
 						</li>
 					</ul>
 				</section>
@@ -789,9 +802,6 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="docklayout.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="docklayout.html#_groups" class="tsd-kind-icon">_groups</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="docklayout.html#unsafe_componentwillmount" class="tsd-kind-icon">UNSAFE_<wbr>component<wbr>Will<wbr>Mount</a>

@@ -2,6 +2,11 @@ import React, { CSSProperties } from "react";
 import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, LayoutBase, TabBase, PanelBase } from "./DockData";
 interface LayoutProps {
     defaultLayout: DefaultLayout;
+    /**
+     * - default mode: showing 4 to 9 squares to help picking drop areas
+     * - edge mode: using the distance between mouse and panel border to pick drop area
+     *   - in edge mode, dragging float panel's header won't bring panel back to dock layer
+     */
     dropMode?: 'default' | 'edge';
     /**
      * override the default saveTab behavior, id must be saved in TabBase

@@ -194,6 +194,9 @@ export type DropDirection =
 
 export interface DockContext {
   /** @ignore */
+  useEdgeDrop(): boolean;
+
+  /** @ignore */
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}): void;
 
   /**

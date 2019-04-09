@@ -26,6 +26,8 @@ import * as DragManager from "./dragdrop/DragManager";
 interface LayoutProps {
   defaultLayout: DefaultLayout;
 
+  dropMode?: 'default' | 'edge';
+
   /**
    * override the default saveTab behavior, id must be saved in TabBase
    */
@@ -178,6 +180,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       this.setState({dropRect: null});
     }
   };
+
+  /** @ignore */
+  useEdgeDrop() {
+    return this.props.dropMode === 'edge';
+  }
 
   /** @ignore */
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}) {

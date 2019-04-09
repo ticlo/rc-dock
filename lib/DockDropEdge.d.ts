@@ -16,7 +16,7 @@ export declare class DockDropEdge extends React.PureComponent<DockDropEdgeProps,
         mode?: DockMode;
         depth: number;
     };
-    getActualDepth(depth: number, mode: DockMode): number;
+    getActualDepth(depth: number, mode: DockMode, direction: DropDirection): number;
     onDragOver: (e: DragState) => void;
     onDragLeave: (e: DragState) => void;
     onDrop: (e: DragState) => void;

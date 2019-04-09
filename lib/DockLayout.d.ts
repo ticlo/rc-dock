@@ -2,6 +2,7 @@ import React, { CSSProperties } from "react";
 import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, LayoutBase, TabBase, PanelBase } from "./DockData";
 interface LayoutProps {
     defaultLayout: DefaultLayout;
+    dropMode?: 'default' | 'edge';
     /**
      * override the default saveTab behavior, id must be saved in TabBase
      */
@@ -64,6 +65,8 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     constructor(props: LayoutProps);
     /** @ignore */
     dragEnd: () => void;
+    /** @ignore */
+    useEdgeDrop(): boolean;
     /** @ignore */
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {
         clientX: number;

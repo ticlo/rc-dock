@@ -5,6 +5,7 @@ import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {nextZIndex} from "./Algorithm";
+import {DockDropEdge} from "./DockDropEdge";
 
 interface Props {
   panelData: PanelData;
@@ -205,7 +206,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     let droppingLayer: React.ReactNode;
     if (dropFromPanel) {
-      droppingLayer = <DockDropLayer panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
+      let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
+      DockDropClass = DockDropEdge;
+      droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
     }
 
 

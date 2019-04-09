@@ -70,18 +70,34 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     return {direction: null, depth: 0};
   }
 
-  getActualDepth(depth: number, mode: DockMode): number {
+  getActualDepth(depth: number, mode: DockMode, direction: DropDirection): number {
+    let afterPanel = (direction === 'bottom' || direction === 'right');
     if (!depth) {
       return depth;
     }
     let {panelData} = this.props;
-    let lastBox: BoxData = panelData.parent;
+    let previousTarget: BoxData | PanelData = panelData;
+    let targetBox: BoxData = panelData.parent;
     let lastDepth = 0;
     if (panelData.parent.mode === mode) {
       ++depth;
     }
-    while (lastBox && lastDepth < depth) {
-      lastBox = lastBox.parent;
+    while (targetBox && lastDepth < depth) {
+      if (targetBox.mode === mode) {
+        if (afterPanel) {
+          if (targetBox.children[targetBox.children.length - 1] !== previousTarget) {
+            // dont go deeper if current target is on different side of the box
+            break;
+          }
+        } else {
+          if (targetBox.children[0] !== previousTarget) {
+            // dont go deeper if current target is on different side of the box
+            break;
+          }
+        }
+      }
+      previousTarget = targetBox;
+      targetBox = targetBox.parent;
       ++lastDepth;
     }
     while (depth > lastDepth) {
@@ -100,7 +116,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
       return;
     }
     let {direction, mode, depth} = this.getDirection(e);
-    depth = this.getActualDepth(depth, mode);
+    depth = this.getActualDepth(depth, mode, direction);
     if (!direction) {
       this.context.setDropRect(null, 'remove', this);
     }
@@ -124,7 +140,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     }
     if (source) {
       let {direction, mode, depth} = this.getDirection(e);
-      depth = this.getActualDepth(depth, mode);
+      depth = this.getActualDepth(depth, mode, direction);
       if (!direction) {
         return;
       }

@@ -158,6 +158,8 @@ export interface DefaultLayout extends LayoutData {
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 export interface DockContext {
     /** @ignore */
+    useEdgeDrop(): boolean;
+    /** @ignore */
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {
         clientX: number;
         clientY: number;

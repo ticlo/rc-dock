@@ -70,6 +70,26 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     return {direction: null, depth: 0};
   }
 
+  getActualDepth(depth: number, mode: DockMode): number {
+    if (!depth) {
+      return depth;
+    }
+    let {panelData} = this.props;
+    let lastBox: BoxData = panelData.parent;
+    let lastDepth = 0;
+    if (panelData.parent.mode === mode) {
+      ++depth;
+    }
+    while (lastBox && lastDepth < depth) {
+      lastBox = lastBox.parent;
+      ++lastDepth;
+    }
+    while (depth > lastDepth) {
+      depth -= 2;
+    }
+    return depth;
+  }
+
   onDragOver = (e: DragState) => {
     let {panelData, panelElement, dropFromPanel} = this.props;
     let draggingPanel = DragState.getData('panel', DockContextType);
@@ -79,7 +99,8 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
       // ignore float panel in edge mode
       return;
     }
-    let {direction, depth} = this.getDirection(e);
+    let {direction, mode, depth} = this.getDirection(e);
+    depth = this.getActualDepth(depth, mode);
     if (!direction) {
       this.context.setDropRect(null, 'remove', this);
     }
@@ -102,7 +123,8 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
       source = DragState.getData('panel', DockContextType);
     }
     if (source) {
-      let {direction, depth} = this.getDirection(e);
+      let {direction, mode, depth} = this.getDirection(e);
+      depth = this.getActualDepth(depth, mode);
       if (!direction) {
         return;
       }

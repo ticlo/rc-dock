@@ -84,6 +84,7 @@
     pointer-events: visible;
     box-shadow: 0 0 4px #aaaaaa;
   }
+
   & > .dock-panel.dragging {
     opacity: 0.8;
     pointer-events: none;
@@ -109,6 +110,18 @@
     opacity: 0.5;
     display: none;
   }
+}
+
+.dock-drop-edge {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: white;
+  border: none;
+  opacity: 0.01;
 }
 
 .dock-drop-layer {

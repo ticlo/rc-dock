@@ -42,6 +42,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     _ref: HTMLDivElement;
     /** @ignore */
     getRef: (r: HTMLDivElement) => void;
+    /** @ignore */
     _groups: {
         [key: string]: TabGroup;
     };
@@ -73,8 +74,6 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     /** @ignore */
     componentWillUnmount(): void;
     saveLayout(): LayoutBase;
-    /**
-     */
     loadLayout(savedLayout: LayoutBase): void;
 }
 export {};

@@ -66,7 +66,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
-
+  /** @ignore */
   _groups: {[key: string]: TabGroup} = {};
 
   /** @ignore */
@@ -106,19 +106,18 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
     target = Algorithm.getUpdatedObject(target); // target might change during removeTab
 
-    if (target) {
+    if (direction === 'float') {
+      let newPanel = Algorithm.converToPanel(source);
+      newPanel.z = Algorithm.nextZIndex(null);
+      layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+    } else if (target) {
       if ('tabs' in target) {
         // pandel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, source, target);
         } else {
           let newPanel = Algorithm.converToPanel(source);
-          if (direction === 'float') {
-            newPanel.z = Algorithm.nextZIndex(null);
-            layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
-          } else {
-            layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
-          }
+          layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
         }
 
       } else if ('children' in target) {
@@ -276,8 +275,6 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
   }
 
-  /**
-   */
   loadLayout(savedLayout: LayoutBase) {
     let layout = Serializer.loadLayoutData(
       savedLayout,

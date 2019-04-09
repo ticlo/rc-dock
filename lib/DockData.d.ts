@@ -169,8 +169,10 @@ export interface DockContext {
      *  - or can be a new tab or new panel that you want to add to the layout
      * @param target where you want to drop the source
      * @param direction which direction to drop<br>
-     *  - when target is tab, direction can only be 'after-tab' or 'before-tab'
-     *  - when target is null, direction can only be 'remove'
+     *  - when direction is 'after-tab' or 'before-tab', target must be TabData
+     *  - when direction is 'remove', target must be null
+     *  - when direction is 'float', target doesnt matter. If this is called directly from code without any user interaction, source must be PanelData with x,y,w,h properties
+     *
      */
     dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
     /**

@@ -243,9 +243,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
+  let dropModeTab = {
+    title: 'Drop Mode',
+    content: React.createElement("div", null, React.createElement("p", null, "When you set ", React.createElement("b", null, "dropMode"), "='edge' on <DockLayout>"), React.createElement("p", null, "The distance between mouse cursor and panel border is used to pick drop location."))
+  };
   let tab = {
     title: 'Tab',
-    content: React.createElement("div", null, React.createElement("p", null, "When you set dropMode='edge' on DockLayout"), React.createElement("p", null, "The small square drop indicators will stop showing as you drag around."), React.createElement("p", null, "Instead, the distance between panel border to the mouse is used to choose the drop location."))
+    content: React.createElement("div", null, "Tab")
   };
   let box = {
     dockbox: {
@@ -253,7 +257,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       children: [{
         mode: 'vertical',
         children: [{
-          tabs: [_objectSpread({}, tab, {
+          tabs: [_objectSpread({}, dropModeTab, {
             id: 't1'
           }), _objectSpread({}, tab, {
             id: 't2'

@@ -9401,7 +9401,48 @@ function removeTab(layout, tab) {
   }
 
   return layout;
+} // move float panel into the screen
+
+
+function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
+  let layoutChanged = false;
+
+  if (layoutWidth && layoutHeight) {
+    let newFloatChildren = layout.floatbox.children.concat();
+
+    for (let i = 0; i < newFloatChildren.length; ++i) {
+      let panel = newFloatChildren[i];
+      let panelChange = {};
+
+      if (panel.y > layoutHeight - 16) {
+        panelChange.y = Math.max(layoutHeight - panel.h, 0);
+      } else if (panel.y < 0) {
+        panelChange.y = 0;
+      }
+
+      if (panel.x + panel.w < 16) {
+        panelChange.x = 0;
+      } else if (panel.x > layoutWidth - 16) {
+        panelChange.x = layoutWidth - panel.w;
+      }
+
+      if (Object.keys(panelChange).length) {
+        newFloatChildren[i] = Object.assign({}, panel, panelChange);
+        layoutChanged = true;
+      }
+    }
+
+    if (layoutChanged) {
+      let newBox = clone(layout.floatbox);
+      newBox.children = newFloatChildren;
+      return replaceBox(layout, layout.floatbox, newBox);
+    }
+  }
+
+  return layout;
 }
+
+exports.fixFloatPanelPos = fixFloatPanelPos;
 
 function fixLayoutData(layout, loadTab) {
   function fixpanelOrBox(d) {
@@ -9571,6 +9612,7 @@ function fixLayoutData(layout, loadTab) {
   fixBoxData(layout.floatbox);
 
   if (layout.dockbox.children.length === 0) {
+    // add place holder panel when root box is empty
     let newPanel = {
       id: '+0',
       group: DockData_1.placeHolderStyle,
@@ -9581,6 +9623,7 @@ function fixLayoutData(layout, loadTab) {
     newPanel.parent = layout.dockbox;
     layout.dockbox.children.push(newPanel);
   } else {
+    // merge and replace root box when box has only one child
     while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
       let newDockBox = clone(layout.dockbox.children[0]);
       layout.dockbox = newDockBox;
@@ -10888,6 +10931,8 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importDefault(require("react"));
 
+const debounce_1 = __importDefault(require("lodash/debounce"));
+
 const DockData_1 = require("./DockData");
 
 const DockBox_1 = require("./DockBox");
@@ -10926,11 +10971,24 @@ class DockLayout extends react_1.default.PureComponent {
       }
     };
 
+    this.onWindowResize = debounce_1.default(() => {
+      let layout = this.state.layout;
+      let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+
+      if (layout !== newLayout) {
+        newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
+
+        this.setState({
+          layout: newLayout
+        });
+      }
+    }, 200);
     this.state = {
       layout: this.prepareInitData(props.defaultLayout),
       dropRect: null
     };
     DragManager.addDragEndListener(this.dragEnd);
+    window.addEventListener('resize', this.onWindowResize);
   }
   /** @ignore */
 
@@ -11193,7 +11251,9 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.onWindowResize);
     DragManager.removeDragEndListener(this.dragEnd);
+    this.onWindowResize.cancel();
   } // public api
 
 
@@ -11203,7 +11263,8 @@ class DockLayout extends react_1.default.PureComponent {
 
   loadLayout(savedLayout) {
     let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, this.props.loadTab, this.props.afterPanelLoaded);
-    layout = Algorithm.fixLayoutData(layout);
+    layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+    layout = Algorithm.fixLayoutData(layout, null);
     this.setState({
       layout
     });
@@ -11212,7 +11273,7 @@ class DockLayout extends react_1.default.PureComponent {
 }
 
 exports.DockLayout = DockLayout;
-},{"react":"1n8/","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb"}],"VNNP":[function(require,module,exports) {
+},{"react":"1n8/","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb"}],"VNNP":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {

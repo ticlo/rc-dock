@@ -285,7 +285,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
       this.setState({layout: newLayout});
     }
-  }, 200);
+  }, 100);
 
   /** @ignore */
   componentWillUnmount(): void {

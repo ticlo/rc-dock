@@ -232,92 +232,73 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"/deH":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"MJWi":[function(require,module,exports) {
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
   let {
     React,
     ReactDOM,
-    Divider
+    DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let demos = ['basic', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];
-  let advance = ['adv-tab-update', 'adv-save-layout', 'tab-cache', 'standalone-divider'];
-  let defaultPage = window.location.hash.substr(1);
+  let tab = {
+    title: 'Tab',
+    content: React.createElement("div", null, React.createElement("p", null, "When you set dropMode='edge' on DockLayout"), React.createElement("p", null, "The small square drop indicators will stop showing as you drag around."), React.createElement("p", null, "Instead, the distance between panel border to the mouse is used to choose the drop location."))
+  };
+  let box = {
+    dockbox: {
+      mode: 'horizontal',
+      children: [{
+        mode: 'vertical',
+        children: [{
+          tabs: [_objectSpread({}, tab, {
+            id: 't1'
+          }), _objectSpread({}, tab, {
+            id: 't2'
+          }), _objectSpread({}, tab, {
+            id: 't3'
+          })]
+        }, {
+          tabs: [_objectSpread({}, tab, {
+            id: 't4'
+          }), _objectSpread({}, tab, {
+            id: 't5'
+          }), _objectSpread({}, tab, {
+            id: 't6'
+          })]
+        }]
+      }, {
+        tabs: [_objectSpread({}, tab, {
+          id: 't7'
+        }), _objectSpread({}, tab, {
+          id: 't8'
+        }), _objectSpread({}, tab, {
+          id: 't9'
+        })]
+      }]
+    }
+  };
 
-  if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {
-    defaultPage = 'basic';
-  }
-
-  class App extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "state", {
-        current: defaultPage
+  class Demo extends React.Component {
+    render() {
+      return React.createElement(DockLayout, {
+        defaultLayout: box,
+        dropMode: "edge",
+        style: {
+          position: 'absolute',
+          left: 10,
+          top: 10,
+          right: 10,
+          bottom: 10
+        }
       });
     }
 
-    render() {
-      let {
-        current
-      } = this.state;
-      let demoPages = [];
-
-      for (let page of demos) {
-        let cls = '';
-
-        if (page === current) {
-          cls = 'current';
-        }
-
-        demoPages.push(React.createElement("a", {
-          href: `#${page}`,
-          key: page,
-          className: cls,
-          onClick: e => this.setState({
-            current: page
-          })
-        }, page));
-      }
-
-      let advancePages = [];
-
-      for (let page of advance) {
-        let cls = '';
-
-        if (page === current) {
-          cls = 'current';
-        }
-
-        advancePages.push(React.createElement("a", {
-          href: `#${page}`,
-          key: page,
-          className: cls,
-          onClick: e => this.setState({
-            current: page
-          })
-        }, page));
-      }
-
-      return React.createElement("div", null, React.createElement("nav", null, React.createElement("h2", null, React.createElement("a", {
-        href: "https://ticlo.github.io/rc-dock"
-      }, "rc-dock")), React.createElement("div", {
-        className: "link-bar"
-      }, React.createElement("a", {
-        href: "https://github.com/ticlo/rc-dock/tree/master/example"
-      }, "Examples:"), React.createElement("br", null), demoPages), React.createElement("div", {
-        className: "link-bar"
-      }, React.createElement("a", {
-        href: "https://github.com/ticlo/rc-dock/tree/master/example"
-      }, "Advanced:"), React.createElement("br", null), advancePages)), React.createElement("iframe", {
-        src: `./${current}.html`
-      }));
-    }
-
   }
 
-  ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
+  ReactDOM.render(React.createElement(Demo, null), document.getElementById('app'));
 })();
 },{"_bundle_loader":"21/1","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"Yi9z":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {
@@ -343,4 +324,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"/deH"], null)
+},{}]},{},[0,"MJWi"], null)

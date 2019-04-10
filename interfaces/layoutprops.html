@@ -80,6 +80,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="layoutprops.html#defaultlayout" class="tsd-kind-icon">default<wbr>Layout</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="layoutprops.html#dropmode" class="tsd-kind-icon">drop<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="layoutprops.html#style" class="tsd-kind-icon">style</a></li>
 							</ul>
 						</section>
@@ -103,9 +104,30 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Layout<span class="tsd-signature-symbol">:</span> <a href="defaultlayout.html" class="tsd-signature-type">DefaultLayout</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1bfbcbd/src/DockLayout.tsx#L27">DockLayout.tsx:27</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L27">DockLayout.tsx:27</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="dropmode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> drop<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">drop<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"default"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"edge"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L34">DockLayout.tsx:34</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<ul>
+								<li>default mode: showing 4 to 9 squares to help picking drop areas</li>
+								<li>edge mode: using the distance between mouse and panel border to pick drop area<ul>
+										<li>in edge mode, dragging float panel&#39;s header won&#39;t bring panel back to dock layer</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 					<a name="style" class="tsd-anchor"></a>
@@ -113,7 +135,7 @@
 					<div class="tsd-signature tsd-kind-icon">style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CSSProperties</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1bfbcbd/src/DockLayout.tsx#L53">DockLayout.tsx:53</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L60">DockLayout.tsx:60</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -130,7 +152,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1bfbcbd/src/DockLayout.tsx#L51">DockLayout.tsx:51</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L58">DockLayout.tsx:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -165,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1bfbcbd/src/DockLayout.tsx#L44">DockLayout.tsx:44</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L51">DockLayout.tsx:51</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,7 +218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1bfbcbd/src/DockLayout.tsx#L39">DockLayout.tsx:39</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L46">DockLayout.tsx:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +250,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1bfbcbd/src/DockLayout.tsx#L32">DockLayout.tsx:32</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/b65f643/src/DockLayout.tsx#L39">DockLayout.tsx:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,6 +308,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 								<a href="layoutprops.html#defaultlayout" class="tsd-kind-icon">default<wbr>Layout</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="layoutprops.html#dropmode" class="tsd-kind-icon">drop<wbr>Mode</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 								<a href="layoutprops.html#style" class="tsd-kind-icon">style</a>

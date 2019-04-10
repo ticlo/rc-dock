@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-let tab = {
-  title: 'Tab',
+let dropModeTab = {
+  title: 'Drop Mode',
   content: (
     <div>
-      <p>When you set dropMode='edge' on DockLayout</p>
-      <p>The small square drop indicators will stop showing as you drag around.</p>
-      <p>Instead, the distance between panel border to the mouse is used to choose the drop location.</p>
+      <p>When you set <b>dropMode</b>='edge' on &lt;DockLayout&gt;</p>
+      <p>The distance between mouse cursor and panel border is used to pick drop location.</p>
     </div>
   )
 };
 
+let tab = {
+  title: 'Tab',
+  content: <div>Tab</div>
+};
 let box = {
   dockbox: {
     mode: 'horizontal',
@@ -21,7 +24,7 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...tab, id: 't1'}, {...tab, id: 't2'}, {...tab, id: 't3'}],
+            tabs: [{...dropModeTab, id: 't1'}, {...tab, id: 't2'}, {...tab, id: 't3'}],
           },
           {
             tabs: [{...tab, id: 't4'}, {...tab, id: 't5'}, {...tab, id: 't6'}],

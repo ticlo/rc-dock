@@ -35,10 +35,12 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
 
   getDirection(e: DragState): {direction: DropDirection, mode?: DockMode, depth: number} {
     let rect = this._ref.getBoundingClientRect();
-    let left = (e.clientX - rect.left) / rect.width;
-    let right = (rect.right - e.clientX) / rect.width;
-    let top = (e.clientY - rect.top) / rect.height;
-    let bottom = (rect.bottom - e.clientY) / rect.height;
+    let widthRate = Math.min(rect.width, 500);
+    let heightRate = Math.min(rect.height, 500);
+    let left = (e.clientX - rect.left) / widthRate;
+    let right = (rect.right - e.clientX) / widthRate;
+    let top = (e.clientY - rect.top) / heightRate;
+    let bottom = (rect.bottom - e.clientY) / heightRate;
     let min = Math.min(left, right, top, bottom);
     let depth = 0;
     if (min < 0) {

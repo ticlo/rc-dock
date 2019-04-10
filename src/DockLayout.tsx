@@ -266,6 +266,10 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;
       dropRectStyle = {...rect, display: 'block'};
+      if (direction === 'float') {
+        dropRectStyle.transition = 'none';
+        dropRectStyle.boxShadow = '0 0 4px #aaaaaa';
+      }
     }
     return (
       <div ref={this.getRef} className='dock-layout' style={style}>

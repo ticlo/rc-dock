@@ -296,6 +296,40 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
   return layout;
 }
 
+// move float panel into the screen
+export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData {
+  let layoutChanged = false;
+  if (layoutWidth && layoutHeight) {
+    let newFloatChildren = layout.floatbox.children.concat();
+    for (let i = 0; i < newFloatChildren.length; ++i) {
+      let panel: PanelData = newFloatChildren[i] as PanelData;
+      let panelChange: any = {};
+      if (panel.y > layoutHeight - 16) {
+        panelChange.y = Math.max(layoutHeight - panel.h, 0);
+      } else if (panel.y < 0) {
+        panelChange.y = 0;
+      }
+
+      if (panel.x + panel.w < 16) {
+        panelChange.x = 0;
+      } else if (panel.x > layoutWidth - 16) {
+        panelChange.x = layoutWidth - panel.w;
+      }
+      if (Object.keys(panelChange).length) {
+        newFloatChildren[i] = {...panel, ...panelChange};
+        layoutChanged = true;
+      }
+    }
+    if (layoutChanged) {
+      let newBox = clone(layout.floatbox);
+      newBox.children = newFloatChildren;
+      return replaceBox(layout, layout.floatbox, newBox);
+    }
+  }
+
+  return layout;
+}
+
 export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => TabData): LayoutData {
 
   function fixpanelOrBox(d: PanelData | BoxData) {
@@ -432,11 +466,14 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
 
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
+
   if (layout.dockbox.children.length === 0) {
+    // add place holder panel when root box is empty
     let newPanel: PanelData = {id: '+0', group: placeHolderStyle, panelLock: {}, size: 200, tabs: []};
     newPanel.parent = layout.dockbox;
     layout.dockbox.children.push(newPanel);
   } else {
+    // merge and replace root box when box has only one child
     while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
       let newDockBox = clone(layout.dockbox.children[0] as BoxData);
       layout.dockbox = newDockBox;

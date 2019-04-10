@@ -15,4 +15,5 @@ export declare function floatPanel(layout: LayoutData, newPanel: PanelData, rect
     height: number;
 }): LayoutData;
 export declare function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData;
+export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData;
 export declare function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => TabData): LayoutData;

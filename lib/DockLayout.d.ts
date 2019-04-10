@@ -1,3 +1,4 @@
+/// <reference types="lodash" />
 import React, { CSSProperties } from "react";
 import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, DefaultLayout, TabGroup, LayoutBase, TabBase, PanelBase } from "./DockData";
 interface LayoutProps {
@@ -79,6 +80,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     }): void;
     /** @ignore */
     render(): React.ReactNode;
+    onWindowResize: (() => void) & import("lodash").Cancelable;
     /** @ignore */
     componentWillUnmount(): void;
     saveLayout(): LayoutBase;

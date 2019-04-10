@@ -1,4 +1,5 @@
 import React, {CSSProperties} from "react";
+import debounce from 'lodash/debounce';
 import {
   BoxData,
   LayoutData,
@@ -176,6 +177,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       dropRect: null
     };
     DragManager.addDragEndListener(this.dragEnd);
+    window.addEventListener('resize', this.onWindowResize);
   }
 
   /** @ignore */
@@ -276,9 +278,20 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     );
   }
 
+  onWindowResize = debounce(() => {
+    let layout = this.state.layout;
+    let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+    if (layout !== newLayout) {
+      newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
+      this.setState({layout: newLayout});
+    }
+  }, 200);
+
   /** @ignore */
   componentWillUnmount(): void {
+    window.removeEventListener('resize', this.onWindowResize);
     DragManager.removeDragEndListener(this.dragEnd);
+    this.onWindowResize.cancel();
   }
 
   // public api
@@ -294,6 +307,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       this.props.loadTab,
       this.props.afterPanelLoaded
     );
+    layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
     layout = Algorithm.fixLayoutData(layout);
     this.setState({layout});
   }

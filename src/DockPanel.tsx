@@ -207,7 +207,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let droppingLayer: React.ReactNode;
     if (dropFromPanel) {
       let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
-      DockDropClass = DockDropEdge;
       droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
     }
 

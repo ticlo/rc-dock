@@ -19,6 +19,10 @@ export function getUpdatedObject(obj: any): any {
   return obj;
 }
 
+function clearObjectCache() {
+  _watchObjectChange = new WeakMap();
+}
+
 function clone<T>(value: T, extra?: any): T {
   let newValue: any = {...value, ...extra};
   if (Array.isArray(newValue.tabs)) {
@@ -489,6 +493,7 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
   }
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  clearObjectCache();
   return layout;
 }
 

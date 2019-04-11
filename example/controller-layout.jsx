@@ -49,7 +49,7 @@ class Demo extends React.Component {
   };
 
   onLayoutChange = (newLayout) => {
-    console.log(newLayout);
+    // control DockLayout from state
     this.setState({layout: newLayout});
   };
 

@@ -181,6 +181,11 @@ export interface LayoutData extends LayoutBase {
    * children must be PanelData, child box is not allowed
    */
   floatbox?: BoxData;
+
+  /** @ignore
+   * keep the last loaded layout to prevent unnecessary reloading
+   */
+  loadedFrom?: LayoutBase;
 }
 
 export type DropDirection =
@@ -195,6 +200,13 @@ export interface DockContext {
 
   /** @ignore */
   getLayoutSize(): {width: number, height: number};
+
+  /** @ignore
+   * when a state change happen to the layout that's handled locally, like inside DockPanel or DockBox
+   * it still need to tell the context there is a change so DockLayout can call onLayoutChange callback
+   * this usually happens on dragEnd event of size/location change
+   */
+  onSilentChange(): void;
 
   /**
    * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first

@@ -21,6 +21,8 @@ interface DividerProps {
   getDividerData(idx: number): DividerData;
 
   changeSizes(sizes: number[]): void;
+
+  onDragEnd?(): void;
 }
 
 class BoxDataCache implements DividerData {
@@ -143,7 +145,11 @@ export class Divider extends React.PureComponent<DividerProps, any> {
   }
 
   dragEnd = (e: DragState) => {
+    let {onDragEnd} = this.props;
     this.boxData = null;
+    if (onDragEnd) {
+      onDragEnd();
+    }
   };
 
   render(): React.ReactNode {

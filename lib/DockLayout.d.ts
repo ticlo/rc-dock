@@ -53,10 +53,6 @@ interface LayoutProps {
 }
 interface LayoutState {
     layout: LayoutData;
-    /** @ignore
-     * keep the last loaded layout to prevent unnecessary reloading
-     */
-    loadedFrom?: LayoutBase;
     /** @ignore */
     dropRect?: {
         left: number;
@@ -112,6 +108,11 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
      * change layout
      */
     changeLayout(layoutData: LayoutData): void;
+    /** @ignore
+     * some layout change were handled by component silently
+     * but they should still call this function to trigger onLayoutChange
+     */
+    onSilentChange(): void;
     saveLayout(): LayoutBase;
     /**
      * load layout
@@ -122,7 +123,6 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     static loadLayoutData(savedLayout: LayoutBase, props: LayoutProps, width?: number, height?: number): LayoutData;
     static getDerivedStateFromProps(props: LayoutProps, state: LayoutState): {
         layout: LayoutData;
-        loadedLayout: LayoutBase;
     };
 }
 export {};

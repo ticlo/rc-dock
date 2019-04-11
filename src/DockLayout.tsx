@@ -83,10 +83,6 @@ interface LayoutProps {
 
 interface LayoutState {
   layout: LayoutData;
-  /** @ignore
-   * keep the last loaded layout to prevent unnecessary reloading
-   */
-  loadedFrom?: LayoutBase;
   /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
 }
@@ -212,7 +208,6 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     if (layout) {
       // controlled layout
       this.state = {
-        loadedFrom: layout,
         layout: DockLayout.loadLayoutData(layout, props),
         dropRect: null
       };
@@ -352,11 +347,26 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     let savedLayout: LayoutBase;
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
+      layoutData.loadedFrom = savedLayout;
       onLayoutChange(savedLayout);
     }
     if (!layout) {
       // uncontrolled layout when Props.layout is null
-      this.setState({layout: layoutData, loadedFrom: savedLayout});
+      this.setState({layout: layoutData});
+    }
+  }
+
+  /** @ignore
+   * some layout change were handled by component silently
+   * but they should still call this function to trigger onLayoutChange
+   */
+  onSilentChange() {
+    let {onLayoutChange} = this.props;
+    if (onLayoutChange) {
+      let {layout} = this.state;
+      let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
+      layout.loadedFrom = savedLayout;
+      onLayoutChange(savedLayout);
     }
   }
 
@@ -386,17 +396,17 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     );
     layout = Algorithm.fixFloatPanelPos(layout, width, height);
     layout = Algorithm.fixLayoutData(layout);
+    layout.loadedFrom = savedLayout;
     return layout;
   }
 
   static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
-    let {layout} = props;
-    let {loadedFrom} = state;
-    if (layout && layout !== loadedFrom) {
+    let {layout: layoutToLoad} = props;
+    let {layout: currentLayout} = state;
+    if (layoutToLoad && layoutToLoad !== currentLayout.loadedFrom) {
       // auto reload on layout prop change
       return {
-        layout: DockLayout.loadLayoutData(layout, props),
-        loadedLayout: layout
+        layout: DockLayout.loadLayoutData(layoutToLoad, props),
       };
     }
     return null;

@@ -15,6 +15,7 @@ interface DividerProps {
     isVertical?: boolean;
     getDividerData(idx: number): DividerData;
     changeSizes(sizes: number[]): void;
+    onDragEnd?(): void;
 }
 declare class BoxDataCache implements DividerData {
     element: HTMLElement;

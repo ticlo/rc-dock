@@ -108,6 +108,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
   onPanelHeaderDragEnd = (e: DragState) => {
     this.setState({draggingHeader: false});
+    this.context.onSilentChange();
   };
 
 
@@ -182,6 +183,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     this.forceUpdate();
   };
+  onPanelCornerDragEnd = (e: DragState) => {
+    this.context.onSilentChange();
+  };
 
   onFloatPointerDown = () => {
     let {panelData} = this.props;
@@ -245,13 +249,17 @@ export class DockPanel extends React.PureComponent<Props, State> {
         {isFloat ?
           [
             <DragDropDiv key='drag-size-t-l' className='dock-panel-drag-size dock-panel-drag-size-t-l'
-                         onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}/>,
+                         onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
+                         onDragEndT={this.onPanelCornerDragEnd}/>,
             <DragDropDiv key='drag-size-t-r' className='dock-panel-drag-size dock-panel-drag-size-t-r'
-                         onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}/>,
+                         onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
+                         onDragEndT={this.onPanelCornerDragEnd}/>,
             <DragDropDiv key='drag-size-b-l' className='dock-panel-drag-size dock-panel-drag-size-b-l'
-                         onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}/>,
+                         onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
+                         onDragEndT={this.onPanelCornerDragEnd}/>,
             <DragDropDiv key='drag-size-b-r' className='dock-panel-drag-size dock-panel-drag-size-b-r'
-                         onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}/>
+                         onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
+                         onDragEndT={this.onPanelCornerDragEnd}/>
           ]
           : null
         }

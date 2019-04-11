@@ -1,5 +1,5 @@
 import React from "react";
-import {BoxData, PanelData, TabGroup} from "./DockData";
+import {BoxData, DockContext, DockContextType, PanelData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
@@ -10,6 +10,10 @@ interface Props {
 }
 
 export class DockBox extends React.PureComponent<Props, any> {
+  static contextType = DockContextType;
+
+  context!: DockContext;
+
   _ref: HTMLDivElement;
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
@@ -47,6 +51,10 @@ export class DockBox extends React.PureComponent<Props, any> {
     }
   };
 
+  onDragEnd = () => {
+    this.context.onSilentChange();
+  }
+
   render(): React.ReactNode {
     let {boxData} = this.props;
     let {minWidth, minHeight, size, children, mode, id} = boxData;
@@ -55,7 +63,7 @@ export class DockBox extends React.PureComponent<Props, any> {
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
         childrenRender.push(
-          <Divider idx={i} key={i} isVertical={isVertical}
+          <Divider idx={i} key={i} isVertical={isVertical} onDragEnd={this.onDragEnd}
                    getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
         );
       }

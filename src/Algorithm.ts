@@ -19,8 +19,8 @@ export function getUpdatedObject(obj: any): any {
   return obj;
 }
 
-function clone<T>(value: T): T {
-  let newValue: any = {...value};
+function clone<T>(value: T, extra?: any): T {
+  let newValue: any = {...value, ...extra};
   if (Array.isArray(newValue.tabs)) {
     newValue.tabs = newValue.tabs.concat();
   }
@@ -117,7 +117,6 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
     newPanel.activeId = tabs[tabs.length - 1].id;
     for (let tab of tabs) {
       tab.parent = newPanel;
-
     }
     layout = replacePanel(layout, panel, newPanel);
   }
@@ -322,7 +321,7 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
         panelChange.x = layoutWidth - 16 - (panel.w >> 1);
       }
       if (Object.keys(panelChange).length) {
-        newFloatChildren[i] = {...panel, ...panelChange};
+        newFloatChildren[i] = clone(panel, panelChange);
         layoutChanged = true;
       }
     }

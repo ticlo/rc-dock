@@ -9,6 +9,11 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     onDragOverT?: DragManager.DragHandler;
     onDragLeaveT?: DragManager.DragHandler;
     onDropT?: DragManager.DragHandler;
+    /**
+     * by default onDragStartT will be called on first drag move
+     * but if directDragT is true, onDragStartT will be called as soon as mouse is down
+     */
+    directDragT?: boolean;
 }
 export declare class DragDropDiv extends React.Component<DragDropDivProps, any> {
     element: HTMLElement;
@@ -23,6 +28,7 @@ export declare class DragDropDiv extends React.Component<DragDropDivProps, any> 
     onPointerDown: (e: React.PointerEvent<Element>) => void;
     addListeners(e: React.PointerEvent): void;
     checkFirstMove(e: AbstractPointerEvent): boolean;
+    executeFirstMove(state: DragManager.DragState): boolean;
     onMouseMove: (e: MouseEvent) => void;
     onMouseEnd: (e?: MouseEvent) => void;
     onTouchMove: (e: TouchEvent) => void;

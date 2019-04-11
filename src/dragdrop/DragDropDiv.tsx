@@ -11,6 +11,11 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   onDragOverT?: DragManager.DragHandler;
   onDragLeaveT?: DragManager.DragHandler;
   onDropT?: DragManager.DragHandler;
+  /**
+   * by default onDragStartT will be called on first drag move
+   * but if directDragT is true, onDragStartT will be called as soon as mouse is down
+   */
+  directDragT?: boolean;
 }
 
 export class DragDropDiv extends React.Component<DragDropDivProps, any> {
@@ -55,6 +60,10 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     this.scaleX = baseElement.offsetWidth / rect.width;
     this.scaleY = baseElement.offsetHeight / rect.height;
     this.addListeners(e);
+    if (this.props.directDragT) {
+      let state = new DragManager.DragState(e.nativeEvent, this, true);
+      this.executeFirstMove(state);
+    }
   };
 
   addListeners(e: React.PointerEvent) {
@@ -77,15 +86,19 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     this.dragging = true;
   }
 
-  // return true
+  // return true for a valid move
   checkFirstMove(e: AbstractPointerEvent) {
-    let {onDragStartT} = this.props;
-
     let state = new DragManager.DragState(e, this, true);
     if (state.dx === 0 && state.dy === 0) {
       // not a move
       return false;
     }
+    return this.executeFirstMove(state);
+  }
+
+  executeFirstMove(state: DragManager.DragState): boolean {
+    let {onDragStartT} = this.props;
+
     this.waitingMove = false;
     onDragStartT(state);
     if (!DragManager.isDragging()) {
@@ -96,6 +109,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     document.addEventListener('keydown', this.onKeyDown);
     return true;
   }
+
 
   onMouseMove = (e: MouseEvent) => {
     let {onDragMoveT} = this.props;

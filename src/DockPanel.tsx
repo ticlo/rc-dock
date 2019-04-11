@@ -2,7 +2,7 @@ import React, {CSSProperties, PointerEventHandler} from "react";
 import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
-import {DragState} from "./dragdrop/DragManager";
+import {default as DragManager, DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";
@@ -33,7 +33,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       return;
     }
     if (DockPanel._droppingPanel) {
-      DockPanel._droppingPanel.onDragLeave();
+      DockPanel._droppingPanel.onDragOverOtherPanel();
     }
     DockPanel._droppingPanel = panel;
   }
@@ -60,7 +60,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  onDragLeave() {
+  onDragOverOtherPanel() {
     if (this.state.dropFromPanel) {
       this.setState({dropFromPanel: null});
     }
@@ -266,5 +266,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
         {droppingLayer}
       </DragDropDiv>
     );
+  }
+
+  componentWillUnmount(): void {
+    if (DockPanel._droppingPanel === this) {
+      DockPanel.droppingPanel = null;
+    }
   }
 }

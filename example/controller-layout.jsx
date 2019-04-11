@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
 let tab0 = {
-  title: 'Drop Mode',
+  title: 'Controlled Layout',
   content: (
     <div>
-      <p>When you set <b>dropMode</b>='edge' on &lt;DockLayout&gt;</p>
-      <p>The distance between mouse cursor and panel border is used to pick drop location.</p>
+      <p>When you use <b>layout</b> instead of <b>defaultLayout</b> on &lt;DockLayout&gt;</p>
+      <p>DockLayout will work as a controlled component</p>
     </div>
   )
 };
@@ -50,6 +50,7 @@ class Demo extends React.Component {
 
   onLayoutChange = (newLayout) => {
     // control DockLayout from state
+    console.log(newLayout);
     this.setState({layout: newLayout});
   };
 

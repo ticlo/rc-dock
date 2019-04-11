@@ -30,13 +30,13 @@ interface LayoutProps {
     dropMode?: 'default' | 'edge';
     /**
      * override the default saveTab behavior
-     * @return must have an unique id
+     * @return must at least have an unique id
      */
     saveTab?(tab: TabData): TabBase;
     /**
      * override the default loadTab behavior
-     * - when loadTab is null, [[LayoutProps.defaultLayout]] must contain the titles and contents for TabData
-     * - when loadTab is specified, [[LayoutProps.defaultLayout]] can ignore all those and only keep id and other custom data
+     * - when loadTab is not defined, [[LayoutProps.defaultLayout]] will be used to find a tab to load, thus defaultLayout must contain the titles and contents for TabData
+     * - when loadTab is defined, [[LayoutProps.defaultLayout]] can ignore all those and only keep id and other custom data
      */
     loadTab?(tab: TabBase): TabData;
     /**
@@ -45,8 +45,8 @@ interface LayoutProps {
     afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
     /**
      * modify the loadedPanel, you can retrieve additional data into the panel
-     * - modifying panel tabs is allowed, make sure to add or replace full TabData, because loadTab won't be called after this
-     * - when handling panel with panelLock, make sure also set the group
+     * - modifying panel tabs is allowed, make sure to add or replace full TabData with title and content, because loadTab won't be called after this
+     * - if tabs is empty, but still remaining in layout because of panelLock, make sure also set the group if it's not null
      */
     afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
     style?: CSSProperties;

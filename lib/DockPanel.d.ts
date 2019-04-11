@@ -1,6 +1,6 @@
 import React from "react";
 import { DockContext, PanelData } from "./DockData";
-import { DragState } from "./dragdrop/DragManager";
+import { default as DragManager, DragState } from "./dragdrop/DragManager";
 interface Props {
     panelData: PanelData;
     size: number;
@@ -17,24 +17,25 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     static _droppingPanel: DockPanel;
     static droppingPanel: DockPanel;
     state: State;
-    onDragOver: (e: DragState) => void;
-    onDragLeave(): void;
+    onDragOver: (e: DragManager.DragState) => void;
+    onDragOverOtherPanel(): void;
     _movingX: number;
     _movingY: number;
-    onPanelHeaderDragStart: (event: DragState) => void;
-    onPanelHeaderDragMove: (e: DragState) => void;
-    onPanelHeaderDragEnd: (e: DragState) => void;
+    onPanelHeaderDragStart: (event: DragManager.DragState) => void;
+    onPanelHeaderDragMove: (e: DragManager.DragState) => void;
+    onPanelHeaderDragEnd: (e: DragManager.DragState) => void;
     _movingW: number;
     _movingH: number;
     _movingCorner: string;
-    onPanelCornerDragTL: (e: DragState) => void;
-    onPanelCornerDragTR: (e: DragState) => void;
-    onPanelCornerDragBL: (e: DragState) => void;
-    onPanelCornerDragBR: (e: DragState) => void;
+    onPanelCornerDragTL: (e: DragManager.DragState) => void;
+    onPanelCornerDragTR: (e: DragManager.DragState) => void;
+    onPanelCornerDragBL: (e: DragManager.DragState) => void;
+    onPanelCornerDragBR: (e: DragManager.DragState) => void;
     onPanelCornerDrag(e: DragState, corner: string): void;
-    onPanelCornerDragMove: (e: DragState) => void;
-    onPanelCornerDragEnd: (e: DragState) => void;
+    onPanelCornerDragMove: (e: DragManager.DragState) => void;
+    onPanelCornerDragEnd: (e: DragManager.DragState) => void;
     onFloatPointerDown: () => void;
     render(): React.ReactNode;
+    componentWillUnmount(): void;
 }
 export {};

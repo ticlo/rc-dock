@@ -130,7 +130,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   onMouseEnd = (e?: MouseEvent) => {
     let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
-    if (onDragEndT) {
+    if (onDragEndT && !this.waitingMove) {
       onDragEndT(state);
     }
     if (e) {
@@ -162,7 +162,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   onTouchEnd = (e?: TouchEvent) => {
     let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
-    if (onDragEndT) {
+    if (onDragEndT && !this.waitingMove) {
       onDragEndT(state);
     }
     if (e) {

@@ -10,7 +10,7 @@ module.exports = {
   excludeProtected: true,
   excludeExternals: true,
   readme: 'README.md',
-  name: 'RC Dock',
+  name: 'rc-dock',
   ignoreCompilerErrors: true,
   plugin: 'none'
 };

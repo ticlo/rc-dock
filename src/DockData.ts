@@ -115,8 +115,9 @@ export interface TabData extends TabBase, DockDataBase {
    * - tabs with different tab groups can not be put in same panel
    * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
    */
-  group: string;
+  group?: string;
 
+  /** @ignore */
   parent?: PanelData;
   /**
    * title that's shown in the tab of the panel header

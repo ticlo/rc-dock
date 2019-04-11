@@ -25,7 +25,22 @@ import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
 
 interface LayoutProps {
+  /**
+   * - when [[LayoutProps.loadTab]] callback is defined, tabs in defaultLayout only need to have an id, unless loadTab requires other fields
+   * - when [[LayoutProps.loadTab]] is not defined, tabs must contain title and content, as well as other fields in [[TabData]] when needed
+   */
   defaultLayout: DefaultLayout;
+
+  /**
+   * set layout only when you want to use DockLayout as a fully controlled react component
+   * when using controlled layout, [[LayoutProps.onChange]] must be set to enable any layout change
+   */
+  layout?: LayoutBase;
+
+  /**
+   * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
+   */
+  onLayoutChange?(newLayout: LayoutBase): void;
 
   /**
    * - default mode: showing 4 to 9 squares to help picking drop areas
@@ -35,7 +50,8 @@ interface LayoutProps {
   dropMode?: 'default' | 'edge';
 
   /**
-   * override the default saveTab behavior, id must be saved in TabBase
+   * override the default saveTab behavior
+   * @return must have an unique id
    */
   saveTab?(tab: TabData): TabBase;
 
@@ -63,6 +79,10 @@ interface LayoutProps {
 
 interface LayoutState {
   layout: LayoutData;
+  /** @ignore
+   * keep the last loaded layout to prevent unnecessary reloading
+   */
+  loadedFrom?: LayoutBase;
   /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
 }
@@ -180,10 +200,22 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   constructor(props: LayoutProps) {
     super(props);
-    this.state = {
-      layout: this.prepareInitData(props.defaultLayout),
-      dropRect: null
-    };
+    let {layout, defaultLayout} = props;
+    let preparedLayout = this.prepareInitData(props.defaultLayout);
+    if (layout) {
+      // controlled layout
+      this.state = {
+        loadedFrom: layout,
+        layout: DockLayout.loadLayoutData(layout, props),
+        dropRect: null
+      };
+    } else {
+      this.state = {
+        layout: preparedLayout,
+        dropRect: null
+      };
+    }
+
     DragManager.addDragEndListener(this.dragEnd);
     window.addEventListener('resize', this.onWindowResize);
   }
@@ -305,21 +337,60 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     this.onWindowResize.cancel();
   }
 
+  /** @ignore
+   * change layout
+   */
+  changeLayout(layoutData: LayoutData) {
+    let {layout, onLayoutChange} = this.props;
+    if (onLayoutChange) {
+      onLayoutChange(Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved));
+    }
+    if (!layout) {
+      // uncontrolled
+      this.setState({layout: layoutData, loadedFrom: null});
+    }
+  }
+
   // public api
 
   saveLayout(): LayoutBase {
     return Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
   }
 
+  /**
+   * load layout
+   * calling this api won't trigger the [[LayoutProps.onLayoutChange]] callback
+   */
   loadLayout(savedLayout: LayoutBase) {
+    let {defaultLayout, loadTab, afterPanelLoaded} = this.props;
+    this.setState({layout: DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight)});
+  }
+
+  /** @ignore */
+  static loadLayoutData(savedLayout: LayoutBase, props: LayoutProps, width = 0, height = 0): LayoutData {
+    let {defaultLayout, loadTab, afterPanelLoaded} = props;
     let layout = Serializer.loadLayoutData(
       savedLayout,
-      this.props.defaultLayout,
-      this.props.loadTab,
-      this.props.afterPanelLoaded
+      defaultLayout,
+      loadTab,
+      afterPanelLoaded
     );
-    layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+
+    layout = Algorithm.fixFloatPanelPos(layout, width, height);
     layout = Algorithm.fixLayoutData(layout);
-    this.setState({layout});
+    return layout;
+  }
+
+  static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
+    let {layout} = props;
+    let {loadedFrom} = state;
+    if (layout && layout !== loadedFrom) {
+      // auto reload on layout prop change
+      return {
+        layout: DockLayout.loadLayoutData(layout, props),
+        loadedLayout: layout
+      };
+    }
+    return null;
   }
 }

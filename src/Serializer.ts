@@ -36,18 +36,21 @@ export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultL
     panels: new Map(),
     tabs: new Map(),
   };
-  if ('children' in defaultLayout) {
-    // BoxData
-    addBoxToCache(defaultLayout, cache);
-  } else {
-    // LayoutData
-    if ('dockbox' in defaultLayout) {
-      addBoxToCache(defaultLayout.dockbox, cache);
-    }
-    if ('floatbox' in defaultLayout) {
-      addBoxToCache(defaultLayout.floatbox, cache);
+  if (defaultLayout) {
+    if ('children' in defaultLayout) {
+      // BoxData
+      addBoxToCache(defaultLayout, cache);
+    } else {
+      // LayoutData
+      if ('dockbox' in defaultLayout) {
+        addBoxToCache(defaultLayout.dockbox, cache);
+      }
+      if ('floatbox' in defaultLayout) {
+        addBoxToCache(defaultLayout.floatbox, cache);
+      }
     }
   }
+
   return cache;
 }
 

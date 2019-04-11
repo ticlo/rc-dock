@@ -156,8 +156,10 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
         layout = Algorithm.addNextToTab(layout, source, target, direction);
       }
     }
-    layout = Algorithm.fixLayoutData(layout);
-    this.changeLayout(layout);
+    if (layout !== this.state.layout) {
+      layout = Algorithm.fixLayoutData(layout);
+      this.changeLayout(layout);
+    }
     this.dragEnd();
   }
 
@@ -199,8 +201,14 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   constructor(props: LayoutProps) {
     super(props);
-    let {layout, defaultLayout} = props;
-    let preparedLayout = this.prepareInitData(props.defaultLayout);
+    let {layout, defaultLayout, loadTab} = props;
+    let preparedLayout: LayoutData;
+    if (defaultLayout) {
+      preparedLayout = this.prepareInitData(props.defaultLayout);
+    } else if (!loadTab) {
+      throw new Error('DockLayout.loadTab and DockLayout.defaultLayout should not both be undefined.');
+    }
+
     if (layout) {
       // controlled layout
       this.state = {
@@ -343,7 +351,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     let {layout, onLayoutChange} = this.props;
     let savedLayout: LayoutBase;
     if (onLayoutChange) {
-      savedLayout = Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+      savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       onLayoutChange(savedLayout);
     }
     if (!layout) {
@@ -376,7 +384,6 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       loadTab,
       afterPanelLoaded
     );
-
     layout = Algorithm.fixFloatPanelPos(layout, width, height);
     layout = Algorithm.fixLayoutData(layout);
     return layout;

@@ -298,7 +298,7 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
 // move float panel into the screen
 export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData {
   let layoutChanged = false;
-  if (layoutWidth > 200 && layoutHeight > 200) {
+  if (layout && layout.floatbox && layoutWidth > 200 && layoutHeight > 200) {
     let newFloatChildren = layout.floatbox.children.concat();
     for (let i = 0; i < newFloatChildren.length; ++i) {
       let panel: PanelData = newFloatChildren[i] as PanelData;

@@ -6,7 +6,7 @@ interface LayoutProps {
      * - when [[LayoutProps.loadTab]] callback is defined, tabs in defaultLayout only need to have an id, unless loadTab requires other fields
      * - when [[LayoutProps.loadTab]] is not defined, tabs must contain title and content, as well as other fields in [[TabData]] when needed
      */
-    defaultLayout: LayoutData;
+    defaultLayout?: LayoutData;
     /**
      * set layout only when you want to use DockLayout as a fully controlled react component
      * when using controlled layout, [[LayoutProps.onChange]] must be set to enable any layout change

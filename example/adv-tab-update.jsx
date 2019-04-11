@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-let lockedGroup = {
-  floatable: false,
-  tabLocked: true
+let groups = {
+  'locked': {
+    floatable: false,
+    tabLocked: true
+  }
 };
 
 function getTab(id, value) {
@@ -65,9 +67,6 @@ class Demo extends React.Component {
           tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)],
         },
       ]
-    },
-    groups: {
-      'locked': lockedGroup
     }
   };
 
@@ -75,7 +74,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <DockLayout ref={this.getRef} defaultLayout={this.defaultLayout}
+      <DockLayout ref={this.getRef} defaultLayout={this.defaultLayout} groups={groups}
                   style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }

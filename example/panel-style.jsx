@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout} from '../lib';
 
-
 let groups = {
   headless: {
     // the css class for this would be dock-panel-headless
@@ -107,7 +106,8 @@ let box = {
 class Demo extends React.Component {
   render() {
     return (
-      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
+      <DockLayout defaultLayout={box} groups={groups}
+                  style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

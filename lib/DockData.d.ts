@@ -93,7 +93,7 @@ export interface TabData extends TabBase, DockDataBase {
     /**
      * - group defines style of the panel
      * - tabs with different tab groups can not be put in same panel
-     * - more options for the group can be defined as TabGroup in [[DefaultLayout.groups]]
+     * - more options for the group can be defined as TabGroup in [[LayoutProps.groups]]
      */
     group?: string;
     /** @ignore */
@@ -147,14 +147,6 @@ export interface LayoutData extends LayoutBase {
      * children must be PanelData, child box is not allowed
      */
     floatbox?: BoxData;
-}
-export interface DefaultLayout extends LayoutData {
-    /**
-     * Tab Groups
-     */
-    groups?: {
-        [key: string]: TabGroup;
-    };
 }
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
 export interface DockContext {

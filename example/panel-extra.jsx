@@ -2,15 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
-let group = {
-  floatable: true,
-  closable: true,
-  panelExtra: (panelData, context) => (
-    <div className='my-panel-close-btn'
-         onClick={() => context.dockMove(panelData, null, 'remove')}>
-      X
-    </div>
-  )
+let groups = {
+  'close-all': {
+    floatable: true,
+    closable: true,
+    panelExtra: (panelData, context) => (
+      <div className='my-panel-close-btn'
+           onClick={() => context.dockMove(panelData, null, 'remove')}>
+        X
+      </div>
+    )
+  }
 };
 
 let tab = {
@@ -66,16 +68,14 @@ let box = {
         tabs: [{...tab, id: 't5'}, {...tab, id: 't6'}],
       },
     ]
-  },
-  groups: {
-    'close-all': group
   }
 };
 
 class Demo extends React.Component {
   render() {
     return (
-      <DockLayout defaultLayout={box} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
+      <DockLayout defaultLayout={box} groups={groups}
+                  style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

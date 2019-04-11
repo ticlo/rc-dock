@@ -14,7 +14,7 @@ let dropModeTab = {
 
 let tab = {
   title: 'Tab',
-  content: <div>Tab</div>
+  content: <div>Tab Content</div>
 };
 let box = {
   dockbox: {

@@ -8,7 +8,6 @@ import {
   DockContext,
   DropDirection,
   TabData,
-  DefaultLayout,
   TabGroup,
   placeHolderStyle,
   placeHolderGroup,
@@ -29,13 +28,18 @@ interface LayoutProps {
    * - when [[LayoutProps.loadTab]] callback is defined, tabs in defaultLayout only need to have an id, unless loadTab requires other fields
    * - when [[LayoutProps.loadTab]] is not defined, tabs must contain title and content, as well as other fields in [[TabData]] when needed
    */
-  defaultLayout: DefaultLayout;
+  defaultLayout: LayoutData;
 
   /**
    * set layout only when you want to use DockLayout as a fully controlled react component
    * when using controlled layout, [[LayoutProps.onChange]] must be set to enable any layout change
    */
   layout?: LayoutBase;
+
+  /**
+   * Tab Groups, defines additional configuration for different groups
+   */
+  groups?: {[key: string]: TabGroup};
 
   /**
    * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
@@ -94,29 +98,24 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
-  /** @ignore */
-  _groups: {[key: string]: TabGroup} = {};
 
   /** @ignore */
-  prepareInitData(data: DefaultLayout): LayoutData {
+  prepareInitData(data: LayoutData): LayoutData {
     let layout = {...data};
-
-    // add groups
-    if ('groups' in data) {
-      for (let name in data.groups) {
-        this._groups[name] = {...data.groups[name]};
-      }
-    }
-    this._groups[placeHolderStyle] = placeHolderGroup;
-
     Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
 
   /** @inheritDoc */
   getGroup(name: string) {
-    if (name in this._groups) {
-      return this._groups[name];
+    if (name) {
+      let {groups} = this.props;
+      if (groups && name in groups) {
+        return groups[name];
+      }
+      if (name === placeHolderStyle) {
+        return placeHolderGroup;
+      }
     }
     return defaultGroup;
   }
@@ -158,7 +157,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       }
     }
     layout = Algorithm.fixLayoutData(layout);
-    this.setState({layout});
+    this.changeLayout(layout);
     this.dragEnd();
   }
 
@@ -326,9 +325,9 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
     if (layout !== newLayout) {
       newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
-      this.setState({layout: newLayout});
+      this.changeLayout(newLayout);
     }
-  }, 100);
+  }, 200);
 
   /** @ignore */
   componentWillUnmount(): void {
@@ -342,12 +341,14 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
    */
   changeLayout(layoutData: LayoutData) {
     let {layout, onLayoutChange} = this.props;
+    let savedLayout: LayoutBase;
     if (onLayoutChange) {
-      onLayoutChange(Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved));
+      savedLayout = Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+      onLayoutChange(savedLayout);
     }
     if (!layout) {
-      // uncontrolled
-      this.setState({layout: layoutData, loadedFrom: null});
+      // uncontrolled layout when Props.layout is null
+      this.setState({layout: layoutData, loadedFrom: savedLayout});
     }
   }
 

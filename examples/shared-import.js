@@ -4762,8 +4762,15 @@ class DragState {
         this.pageY = event.pageY;
         this.clientX = event.clientX;
         this.clientY = event.clientY;
-      } else if (event instanceof TouchEvent && event.touches.length) {
-        let touch = event.touches[0];
+      } else if (event instanceof TouchEvent) {
+        let touch;
+
+        if (event.type === 'touchend') {
+          touch = event.changedTouches[0];
+        } else {
+          touch = event.touches[0];
+        }
+
         this.pageX = touch.pageX;
         this.pageY = touch.pageY;
         this.clientX = touch.clientX;
@@ -9407,23 +9414,31 @@ function removeTab(layout, tab) {
 function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
   let layoutChanged = false;
 
-  if (layoutWidth && layoutHeight) {
+  if (layoutWidth > 200 && layoutHeight > 200) {
     let newFloatChildren = layout.floatbox.children.concat();
 
     for (let i = 0; i < newFloatChildren.length; ++i) {
       let panel = newFloatChildren[i];
       let panelChange = {};
 
+      if (panel.w > layoutWidth) {
+        panelChange.w = layoutWidth;
+      }
+
+      if (panel.h > layoutHeight) {
+        panelChange.h = layoutHeight;
+      }
+
       if (panel.y > layoutHeight - 16) {
-        panelChange.y = Math.max(layoutHeight - panel.h, 0);
+        panelChange.y = Math.max(layoutHeight - 16 - (panel.h >> 1), 0);
       } else if (panel.y < 0) {
         panelChange.y = 0;
       }
 
       if (panel.x + panel.w < 16) {
-        panelChange.x = 0;
+        panelChange.x = 16 - (panel.w >> 1);
       } else if (panel.x > layoutWidth - 16) {
-        panelChange.x = layoutWidth - panel.w;
+        panelChange.x = layoutWidth - 16 - (panel.w >> 1);
       }
 
       if (Object.keys(panelChange).length) {
@@ -10041,10 +10056,29 @@ class DockPanel extends react_1.default.PureComponent {
 
     this.onPanelHeaderDragMove = e => {
       let {
+        width,
+        height
+      } = this.context.getLayoutSize();
+      let {
         panelData
       } = this.props;
       panelData.x = this._movingX + e.dx;
       panelData.y = this._movingY + e.dy;
+
+      if (width > 200 && height > 200) {
+        if (panelData.y < 0) {
+          panelData.y = 0;
+        } else if (panelData.y > height - 16) {
+          panelData.y = height - 16;
+        }
+
+        if (panelData.x + panelData.w < 16) {
+          panelData.x = 16 - panelData.w;
+        } else if (panelData.x > width - 16) {
+          panelData.x = width - 16;
+        }
+      }
+
       this.forceUpdate();
     };
 
@@ -10074,37 +10108,55 @@ class DockPanel extends react_1.default.PureComponent {
       let {
         panelData
       } = this.props;
+      let {
+        dx,
+        dy
+      } = e;
+
+      if (this._movingCorner.startsWith('t')) {
+        // when moving top corners, dont let it move header out of screen
+        let {
+          width,
+          height
+        } = this.context.getLayoutSize();
+
+        if (this._movingY + dy < 0) {
+          dy = -this._movingY;
+        } else if (this._movingY + dy > height - 16) {
+          dy = height - 16 - this._movingY;
+        }
+      }
 
       switch (this._movingCorner) {
         case 'tl':
           {
-            panelData.x = this._movingX + e.dx;
-            panelData.w = this._movingW - e.dx;
-            panelData.y = this._movingY + e.dy;
-            panelData.h = this._movingH - e.dy;
+            panelData.x = this._movingX + dx;
+            panelData.w = this._movingW - dx;
+            panelData.y = this._movingY + dy;
+            panelData.h = this._movingH - dy;
             break;
           }
 
         case 'tr':
           {
-            panelData.w = this._movingW + e.dx;
-            panelData.y = this._movingY + e.dy;
-            panelData.h = this._movingH - e.dy;
+            panelData.w = this._movingW + dx;
+            panelData.y = this._movingY + dy;
+            panelData.h = this._movingH - dy;
             break;
           }
 
         case 'bl':
           {
-            panelData.x = this._movingX + e.dx;
-            panelData.w = this._movingW - e.dx;
-            panelData.h = this._movingH + e.dy;
+            panelData.x = this._movingX + dx;
+            panelData.w = this._movingW - dx;
+            panelData.h = this._movingH + dy;
             break;
           }
 
         case 'br':
           {
-            panelData.w = this._movingW + e.dx;
-            panelData.h = this._movingH + e.dy;
+            panelData.w = this._movingW + dx;
+            panelData.h = this._movingH + dy;
             break;
           }
       }
@@ -10223,7 +10275,6 @@ class DockPanel extends react_1.default.PureComponent {
 
     if (dropFromPanel) {
       let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge_1.DockDropEdge : DockDropLayer_1.DockDropLayer;
-      DockDropClass = DockDropEdge_1.DockDropEdge;
       droppingLayer = react_1.default.createElement(DockDropClass, {
         panelData: panelData,
         panelElement: this._ref,
@@ -10982,7 +11033,7 @@ class DockLayout extends react_1.default.PureComponent {
           layout: newLayout
         });
       }
-    }, 200);
+    }, 100);
     this.state = {
       layout: this.prepareInitData(props.defaultLayout),
       dropRect: null
@@ -11065,6 +11116,22 @@ class DockLayout extends react_1.default.PureComponent {
 
   find(id) {
     return Algorithm.find(this.state.layout, id);
+  }
+  /** @ignore */
+
+
+  getLayoutSize() {
+    if (this._ref) {
+      return {
+        width: this._ref.offsetWidth,
+        height: this._ref.offsetHeight
+      };
+    }
+
+    return {
+      width: 0,
+      height: 0
+    };
   }
   /** @inheritDoc */
 
@@ -11229,6 +11296,10 @@ class DockLayout extends react_1.default.PureComponent {
       dropRectStyle = Object.assign({}, rect, {
         display: 'block'
       });
+
+      if (direction === 'float') {
+        dropRectStyle.transition = 'none';
+      }
     }
 
     return react_1.default.createElement("div", {
@@ -11264,7 +11335,7 @@ class DockLayout extends react_1.default.PureComponent {
   loadLayout(savedLayout) {
     let layout = Serializer.loadLayoutData(savedLayout, this.props.defaultLayout, this.props.loadTab, this.props.afterPanelLoaded);
     layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
-    layout = Algorithm.fixLayoutData(layout, null);
+    layout = Algorithm.fixLayoutData(layout);
     this.setState({
       layout
     });

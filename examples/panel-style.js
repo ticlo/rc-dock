@@ -341,6 +341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     render() {
       return React.createElement(DockLayout, {
         defaultLayout: box,
+        groups: groups,
         style: {
           position: 'absolute',
           left: 10,

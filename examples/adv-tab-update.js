@@ -241,9 +241,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReactDOM,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let lockedGroup = {
-    floatable: false,
-    tabLocked: true
+  let groups = {
+    'locked': {
+      floatable: false,
+      tabLocked: true
+    }
   };
 
   function getTab(id, value) {
@@ -296,9 +298,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             id: 'my_panel',
             tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)]
           }]
-        },
-        groups: {
-          'locked': lockedGroup
         }
       });
 
@@ -311,6 +310,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return React.createElement(DockLayout, {
         ref: this.getRef,
         defaultLayout: this.defaultLayout,
+        groups: groups,
         style: {
           position: 'absolute',
           left: 10,

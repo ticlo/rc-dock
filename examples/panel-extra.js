@@ -245,13 +245,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockContextType,
     DragStore
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
-  let group = {
-    floatable: true,
-    closable: true,
-    panelExtra: (panelData, context) => React.createElement("div", {
-      className: "my-panel-close-btn",
-      onClick: () => context.dockMove(panelData, null, 'remove')
-    }, "X")
+  let groups = {
+    'close-all': {
+      floatable: true,
+      closable: true,
+      panelExtra: (panelData, context) => React.createElement("div", {
+        className: "my-panel-close-btn",
+        onClick: () => context.dockMove(panelData, null, 'remove')
+      }, "X")
+    }
   };
   let tab = {
     title: 'Tab',
@@ -297,9 +299,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 't6'
         })]
       }]
-    },
-    groups: {
-      'close-all': group
     }
   };
 
@@ -307,6 +306,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     render() {
       return React.createElement(DockLayout, {
         defaultLayout: box,
+        groups: groups,
         style: {
           position: 'absolute',
           left: 10,

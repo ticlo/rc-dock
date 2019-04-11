@@ -249,7 +249,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   };
   let tab = {
     title: 'Tab',
-    content: React.createElement("div", null, "Tab")
+    content: React.createElement("div", null, "Tab Content")
   };
   let box = {
     dockbox: {

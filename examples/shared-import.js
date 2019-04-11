@@ -11009,9 +11009,6 @@ class DockLayout extends react_1.default.PureComponent {
     /** @ignore */
 
 
-    this._groups = {};
-    /** @ignore */
-
     this.dragEnd = () => {
       DockPanel_1.DockPanel.droppingPanel = null;
 
@@ -11029,11 +11026,9 @@ class DockLayout extends react_1.default.PureComponent {
       if (layout !== newLayout) {
         newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
 
-        this.setState({
-          layout: newLayout
-        });
+        this.changeLayout(newLayout);
       }
-    }, 100);
+    }, 200);
     let {
       layout,
       defaultLayout
@@ -11061,15 +11056,7 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   prepareInitData(data) {
-    let layout = Object.assign({}, data); // add groups
-
-    if ('groups' in data) {
-      for (let name in data.groups) {
-        this._groups[name] = Object.assign({}, data.groups[name]);
-      }
-    }
-
-    this._groups[DockData_1.placeHolderStyle] = DockData_1.placeHolderGroup;
+    let layout = Object.assign({}, data);
     Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
@@ -11077,8 +11064,18 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   getGroup(name) {
-    if (name in this._groups) {
-      return this._groups[name];
+    if (name) {
+      let {
+        groups
+      } = this.props;
+
+      if (groups && name in groups) {
+        return groups[name];
+      }
+
+      if (name === DockData_1.placeHolderStyle) {
+        return DockData_1.placeHolderGroup;
+      }
     }
 
     return DockData_1.defaultGroup;
@@ -11122,9 +11119,7 @@ class DockLayout extends react_1.default.PureComponent {
     }
 
     layout = Algorithm.fixLayoutData(layout);
-    this.setState({
-      layout
-    });
+    this.changeLayout(layout);
     this.dragEnd();
   }
   /** @inheritDoc */
@@ -11352,16 +11347,18 @@ class DockLayout extends react_1.default.PureComponent {
       layout,
       onLayoutChange
     } = this.props;
+    let savedLayout;
 
     if (onLayoutChange) {
-      onLayoutChange(Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved));
+      savedLayout = Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+      onLayoutChange(savedLayout);
     }
 
     if (!layout) {
-      // uncontrolled
+      // uncontrolled layout when Props.layout is null
       this.setState({
         layout: layoutData,
-        loadedFrom: null
+        loadedFrom: savedLayout
       });
     }
   } // public api

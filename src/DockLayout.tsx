@@ -147,6 +147,14 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     return Algorithm.find(this.state.layout, id);
   }
 
+  /** @ignore */
+  getLayoutSize() {
+    if (this._ref) {
+      return {width: this._ref.offsetWidth, height: this._ref.offsetHeight};
+    }
+    return {width: 0, height: 0};
+  }
+
   /** @inheritDoc */
   updateTab(id: string, newTab: TabData): boolean {
     let tab = this.find(id);
@@ -268,7 +276,6 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       dropRectStyle = {...rect, display: 'block'};
       if (direction === 'float') {
         dropRectStyle.transition = 'none';
-        dropRectStyle.boxShadow = '0 0 4px #aaaaaa';
       }
     }
     return (

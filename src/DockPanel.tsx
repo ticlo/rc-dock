@@ -87,9 +87,23 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.setState({draggingHeader: true});
   };
   onPanelHeaderDragMove = (e: DragState) => {
+    let {width, height} = this.context.getLayoutSize();
     let {panelData} = this.props;
     panelData.x = this._movingX + e.dx;
     panelData.y = this._movingY + e.dy;
+    if (width > 200 && height > 200) {
+      if (panelData.y < 0) {
+        panelData.y = 0;
+      } else if (panelData.y > height - 16) {
+        panelData.y = height - 16;
+      }
+
+      if (panelData.x + panelData.w < 16) {
+        panelData.x = 16 - panelData.w;
+      } else if (panelData.x > width - 16) {
+        panelData.x = width - 16;
+      }
+    }
     this.forceUpdate();
   };
   onPanelHeaderDragEnd = (e: DragState) => {
@@ -127,29 +141,41 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   onPanelCornerDragMove = (e: DragState) => {
     let {panelData} = this.props;
+    let {dx, dy} = e;
+
+    if (this._movingCorner.startsWith('t')) {
+      // when moving top corners, dont let it move header out of screen
+      let {width, height} = this.context.getLayoutSize();
+      if (this._movingY + dy < 0) {
+        dy = -this._movingY;
+      } else if (this._movingY + dy > height - 16) {
+        dy = height - 16 - this._movingY;
+      }
+    }
+
     switch (this._movingCorner) {
       case 'tl': {
-        panelData.x = this._movingX + e.dx;
-        panelData.w = this._movingW - e.dx;
-        panelData.y = this._movingY + e.dy;
-        panelData.h = this._movingH - e.dy;
+        panelData.x = this._movingX + dx;
+        panelData.w = this._movingW - dx;
+        panelData.y = this._movingY + dy;
+        panelData.h = this._movingH - dy;
         break;
       }
       case 'tr': {
-        panelData.w = this._movingW + e.dx;
-        panelData.y = this._movingY + e.dy;
-        panelData.h = this._movingH - e.dy;
+        panelData.w = this._movingW + dx;
+        panelData.y = this._movingY + dy;
+        panelData.h = this._movingH - dy;
         break;
       }
       case 'bl': {
-        panelData.x = this._movingX + e.dx;
-        panelData.w = this._movingW - e.dx;
-        panelData.h = this._movingH + e.dy;
+        panelData.x = this._movingX + dx;
+        panelData.w = this._movingW - dx;
+        panelData.h = this._movingH + dy;
         break;
       }
       case 'br': {
-        panelData.w = this._movingW + e.dx;
-        panelData.h = this._movingH + e.dy;
+        panelData.w = this._movingW + dx;
+        panelData.h = this._movingH + dy;
         break;
       }
     }

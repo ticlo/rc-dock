@@ -164,6 +164,11 @@ export interface DockContext {
         clientX: number;
         clientY: number;
     }): void;
+    /** @ignore */
+    getLayoutSize(): {
+        width: number;
+        height: number;
+    };
     /**
      * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
      * @param source the source TabData or PanelData being moved

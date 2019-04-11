@@ -9414,7 +9414,7 @@ function removeTab(layout, tab) {
 function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
   let layoutChanged = false;
 
-  if (layoutWidth > 200 && layoutHeight > 200) {
+  if (layout && layout.floatbox && layoutWidth > 200 && layoutHeight > 200) {
     let newFloatChildren = layout.floatbox.children.concat();
 
     for (let i = 0; i < newFloatChildren.length; ++i) {
@@ -10724,17 +10724,19 @@ function createLayoutCache(defaultLayout) {
     tabs: new Map()
   };
 
-  if ('children' in defaultLayout) {
-    // BoxData
-    addBoxToCache(defaultLayout, cache);
-  } else {
-    // LayoutData
-    if ('dockbox' in defaultLayout) {
-      addBoxToCache(defaultLayout.dockbox, cache);
-    }
+  if (defaultLayout) {
+    if ('children' in defaultLayout) {
+      // BoxData
+      addBoxToCache(defaultLayout, cache);
+    } else {
+      // LayoutData
+      if ('dockbox' in defaultLayout) {
+        addBoxToCache(defaultLayout.dockbox, cache);
+      }
 
-    if ('floatbox' in defaultLayout) {
-      addBoxToCache(defaultLayout.floatbox, cache);
+      if ('floatbox' in defaultLayout) {
+        addBoxToCache(defaultLayout.floatbox, cache);
+      }
     }
   }
 
@@ -11031,9 +11033,16 @@ class DockLayout extends react_1.default.PureComponent {
     }, 200);
     let {
       layout,
-      defaultLayout
+      defaultLayout,
+      loadTab
     } = props;
-    let preparedLayout = this.prepareInitData(props.defaultLayout);
+    let preparedLayout;
+
+    if (defaultLayout) {
+      preparedLayout = this.prepareInitData(props.defaultLayout);
+    } else if (!loadTab) {
+      throw new Error('DockLayout.loadTab and DockLayout.defaultLayout should not both be undefined.');
+    }
 
     if (layout) {
       // controlled layout
@@ -11118,8 +11127,11 @@ class DockLayout extends react_1.default.PureComponent {
       }
     }
 
-    layout = Algorithm.fixLayoutData(layout);
-    this.changeLayout(layout);
+    if (layout !== this.state.layout) {
+      layout = Algorithm.fixLayoutData(layout);
+      this.changeLayout(layout);
+    }
+
     this.dragEnd();
   }
   /** @inheritDoc */
@@ -11350,7 +11362,7 @@ class DockLayout extends react_1.default.PureComponent {
     let savedLayout;
 
     if (onLayoutChange) {
-      savedLayout = Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+      savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       onLayoutChange(savedLayout);
     }
 

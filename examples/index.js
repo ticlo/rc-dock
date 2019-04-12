@@ -300,9 +300,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, page));
       }
 
-      return React.createElement("div", null, React.createElement("nav", null, React.createElement("h2", null, React.createElement("a", {
+      return React.createElement("div", null, React.createElement("nav", {
+        className: "nav"
+      }, React.createElement("h2", null, React.createElement("a", {
         href: "https://ticlo.github.io/rc-dock"
       }, "rc-dock")), React.createElement("div", {
+        className: "nav"
+      }, React.createElement("div", {
         className: "link-bar"
       }, React.createElement("a", {
         href: "https://github.com/ticlo/rc-dock/tree/master/example"
@@ -310,7 +314,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         className: "link-bar"
       }, React.createElement("a", {
         href: "https://github.com/ticlo/rc-dock/tree/master/example"
-      }, "Advanced:"), React.createElement("br", null), advancePages)), React.createElement("iframe", {
+      }, "Advanced:"), React.createElement("br", null), advancePages))), React.createElement("iframe", {
         src: `./${current}.html`
       }));
     }

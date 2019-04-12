@@ -344,14 +344,14 @@ body > .dragging-layer > div:last-child {
   z-index: 1;
 }
 .dock-hbox > .dock-divider {
-  transform: scaleX(2);
+  transform: scaleX(3);
   cursor: ew-resize;
 }
 .dock-vbox {
   flex-direction: column;
 }
 .dock-vbox > .dock-divider {
-  transform: scaleY(2);
+  transform: scaleY(3);
   cursor: ns-resize;
 }
 .dock-fbox {

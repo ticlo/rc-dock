@@ -19,6 +19,9 @@ export interface TabGroup {
 
   /**
    * generate extra content show in the right side of tab bar
+   *
+   * panelExtra can also be used as a listener on panel state changes,
+   * if you don't need to show extra content in this case, just return null
    */
   panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
 }
@@ -141,9 +144,15 @@ export interface TabData extends TabBase, DockDataBase {
 }
 
 interface PanelLock {
-  // override the default style from TabGroup.name
+  /** override the default style */
   panelStyle?: string;
-  // override the default element from TabGroup.panelExtra
+
+  /**
+   * override the default extra content from TabGroup.panelExtra
+   *
+   * panelExtra can also be used as a listener on panel state changes,
+   * if you don't need to show extra content in this case, just return null
+   */
   panelExtra?: (panel: PanelData) => React.ReactElement;
 }
 

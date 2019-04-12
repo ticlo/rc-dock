@@ -32,16 +32,20 @@ render() {
 }
 
 ```
+- use as **uncontrolled layout**
+  - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html#defaultlayout)**
+- use as **controlled layout**
+  - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html#layout)** 
 
-## defaultLayout types
+
+## types
 
 
-### DefaultLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/defaultlayout.html)
+### LayoutData [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutdata.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
-| dockbox | BoxData | main dock box | **required**  |
+| dockbox | BoxData | main dock box | empty BoxData |
 | floatbox | BoxData | main float box, children can only be PanelData  | empty BoxData |
-| groups | {[key]: TabGroup} | additional group information | {} |
 
 ### BoxData [🗎](https://ticlo.github.io/rc-dock/interfaces/boxdata.html)
 a box is the layout element that contains other boxes or panels

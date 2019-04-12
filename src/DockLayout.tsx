@@ -219,7 +219,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
 
     DragManager.addDragEndListener(this.dragEnd);
-    window.addEventListener('resize', this.onWindowResize);
+    window.addEventListener('resize', this._onWindowResize);
   }
 
   /** @ignore */
@@ -323,7 +323,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     );
   }
 
-  onWindowResize = debounce(() => {
+  _onWindowResize: any = debounce(() => {
     let layout = this.state.layout;
     let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
     if (layout !== newLayout) {
@@ -334,9 +334,9 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   /** @ignore */
   componentWillUnmount(): void {
-    window.removeEventListener('resize', this.onWindowResize);
+    window.removeEventListener('resize', this._onWindowResize);
     DragManager.removeDragEndListener(this.dragEnd);
-    this.onWindowResize.cancel();
+    this._onWindowResize.cancel();
   }
 
   /** @ignore

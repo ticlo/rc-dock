@@ -244,8 +244,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let tab0 = {
-    title: 'Drop Mode',
-    content: React.createElement("div", null, React.createElement("p", null, "When you set ", React.createElement("b", null, "dropMode"), "='edge' on <DockLayout>"), React.createElement("p", null, "The distance between mouse cursor and panel border is used to pick drop location."))
+    title: 'Controlled Layout',
+    content: React.createElement("div", null, React.createElement("p", null, "When you use ", React.createElement("b", null, "layout"), " instead of ", React.createElement("b", null, "defaultLayout"), " on <DockLayout>"), React.createElement("p", null, "DockLayout will work as a controlled component"))
   };
   let box = {
     dockbox: {
@@ -308,6 +308,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
 
       _defineProperty(this, "onLayoutChange", newLayout => {
+        // control DockLayout from state
         console.log(newLayout);
         this.setState({
           layout: newLayout

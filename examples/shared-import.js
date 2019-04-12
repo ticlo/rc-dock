@@ -5103,6 +5103,11 @@ class DragDropDiv extends react_1.default.Component {
       this.scaleX = baseElement.offsetWidth / rect.width;
       this.scaleY = baseElement.offsetHeight / rect.height;
       this.addListeners(e);
+
+      if (this.props.directDragT) {
+        let state = new DragManager.DragState(e.nativeEvent, this, true);
+        this.executeFirstMove(state);
+      }
     };
 
     this.onMouseMove = e => {
@@ -5133,7 +5138,7 @@ class DragDropDiv extends react_1.default.Component {
       } = this.props;
       let state = new DragManager.DragState(e, this);
 
-      if (onDragEndT) {
+      if (onDragEndT && !this.waitingMove) {
         onDragEndT(state);
       }
 
@@ -5176,7 +5181,7 @@ class DragDropDiv extends react_1.default.Component {
       } = this.props;
       let state = new DragManager.DragState(e, this);
 
-      if (onDragEndT) {
+      if (onDragEndT && !this.waitingMove) {
         onDragEndT(state);
       }
 
@@ -5217,13 +5222,10 @@ class DragDropDiv extends react_1.default.Component {
 
     this.waitingMove = true;
     this.dragging = true;
-  } // return true
+  } // return true for a valid move
 
 
   checkFirstMove(e) {
-    let {
-      onDragStartT
-    } = this.props;
     let state = new DragManager.DragState(e, this, true);
 
     if (state.dx === 0 && state.dy === 0) {
@@ -5231,6 +5233,13 @@ class DragDropDiv extends react_1.default.Component {
       return false;
     }
 
+    return this.executeFirstMove(state);
+  }
+
+  executeFirstMove(state) {
+    let {
+      onDragStartT
+    } = this.props;
     this.waitingMove = false;
     onDragStartT(state);
 
@@ -5264,16 +5273,17 @@ class DragDropDiv extends react_1.default.Component {
         {
       getRef,
       children,
+      className,
+      onPointerDown,
+      directDragT,
       onDragStartT,
       onDragMoveT,
       onDragEndT,
       onDragOverT,
       onDragLeaveT,
-      onDropT,
-      className,
-      onPointerDown
+      onDropT
     } = _a,
-        others = __rest(_a, ["getRef", "children", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "className", "onPointerDown"]);
+        others = __rest(_a, ["getRef", "children", "className", "onPointerDown", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT"]);
 
     if (!onPointerDown && onDragStartT) {
       onPointerDown = this.onPointerDown;
@@ -8752,6 +8762,7 @@ class DockTabs extends react_1.default.Component {
 
     this.onTabChange = activeId => {
       this.props.panelData.activeId = activeId;
+      this.context.onSilentChange();
       this.forceUpdate();
     };
 
@@ -9067,6 +9078,10 @@ function getUpdatedObject(obj) {
 }
 
 exports.getUpdatedObject = getUpdatedObject;
+
+function clearObjectCache() {
+  _watchObjectChange = new WeakMap();
+}
 
 function clone(value, extra) {
   let newValue = Object.assign({}, value, extra);
@@ -9651,6 +9666,7 @@ function fixLayoutData(layout, loadTab) {
 
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  clearObjectCache();
   return layout;
 }
 
@@ -10086,6 +10102,7 @@ class DockPanel extends react_1.default.PureComponent {
       this.setState({
         draggingHeader: false
       });
+      this.context.onSilentChange();
     };
 
     this.onPanelCornerDragTL = e => {
@@ -10164,6 +10181,10 @@ class DockPanel extends react_1.default.PureComponent {
       this.forceUpdate();
     };
 
+    this.onPanelCornerDragEnd = e => {
+      this.context.onSilentChange();
+    };
+
     this.onFloatPointerDown = () => {
       let {
         panelData
@@ -10186,13 +10207,13 @@ class DockPanel extends react_1.default.PureComponent {
     }
 
     if (DockPanel._droppingPanel) {
-      DockPanel._droppingPanel.onDragLeave();
+      DockPanel._droppingPanel.onDragOverOtherPanel();
     }
 
     DockPanel._droppingPanel = panel;
   }
 
-  onDragLeave() {
+  onDragOverOtherPanel() {
     if (this.state.dropFromPanel) {
       this.setState({
         dropFromPanel: null
@@ -10298,23 +10319,33 @@ class DockPanel extends react_1.default.PureComponent {
       key: 'drag-size-t-l',
       className: 'dock-panel-drag-size dock-panel-drag-size-t-l',
       onDragStartT: this.onPanelCornerDragTL,
-      onDragMoveT: this.onPanelCornerDragMove
+      onDragMoveT: this.onPanelCornerDragMove,
+      onDragEndT: this.onPanelCornerDragEnd
     }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-t-r',
       className: 'dock-panel-drag-size dock-panel-drag-size-t-r',
       onDragStartT: this.onPanelCornerDragTR,
-      onDragMoveT: this.onPanelCornerDragMove
+      onDragMoveT: this.onPanelCornerDragMove,
+      onDragEndT: this.onPanelCornerDragEnd
     }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-b-l',
       className: 'dock-panel-drag-size dock-panel-drag-size-b-l',
       onDragStartT: this.onPanelCornerDragBL,
-      onDragMoveT: this.onPanelCornerDragMove
+      onDragMoveT: this.onPanelCornerDragMove,
+      onDragEndT: this.onPanelCornerDragEnd
     }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       key: 'drag-size-b-r',
       className: 'dock-panel-drag-size dock-panel-drag-size-b-r',
       onDragStartT: this.onPanelCornerDragBR,
-      onDragMoveT: this.onPanelCornerDragMove
+      onDragMoveT: this.onPanelCornerDragMove,
+      onDragEndT: this.onPanelCornerDragEnd
     })] : null, droppingLayer);
+  }
+
+  componentWillUnmount() {
+    if (DockPanel._droppingPanel === this) {
+      DockPanel.droppingPanel = null;
+    }
   }
 
 }
@@ -10416,7 +10447,14 @@ class Divider extends react_1.default.PureComponent {
     };
 
     this.dragEnd = e => {
+      let {
+        onDragEnd
+      } = this.props;
       this.boxData = null;
+
+      if (onDragEnd) {
+        onDragEnd();
+      }
     };
   }
 
@@ -10522,6 +10560,8 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importDefault(require("react"));
 
+const DockData_1 = require("./DockData");
+
 const Divider_1 = require("./Divider");
 
 const DockPanel_1 = require("./DockPanel");
@@ -10583,6 +10623,10 @@ class DockBox extends react_1.default.PureComponent {
         this.forceUpdate();
       }
     };
+
+    this.onDragEnd = () => {
+      this.context.onSilentChange();
+    };
   }
 
   render() {
@@ -10606,6 +10650,7 @@ class DockBox extends react_1.default.PureComponent {
           idx: i,
           key: i,
           isVertical: isVertical,
+          onDragEnd: this.onDragEnd,
           getDividerData: this.getDividerData,
           changeSizes: this.changeSizes
         }));
@@ -10650,8 +10695,9 @@ class DockBox extends react_1.default.PureComponent {
 
 }
 
+DockBox.contextType = DockData_1.DockContextType;
 exports.DockBox = DockBox;
-},{"react":"1n8/","./Divider":"Lzzn","./DockPanel":"ohUB"}],"1tXc":[function(require,module,exports) {
+},{"react":"1n8/","./DockData":"zh3I","./Divider":"Lzzn","./DockPanel":"ohUB"}],"1tXc":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -11047,7 +11093,6 @@ class DockLayout extends react_1.default.PureComponent {
     if (layout) {
       // controlled layout
       this.state = {
-        loadedFrom: layout,
         layout: DockLayout.loadLayoutData(layout, props),
         dropRect: null
       };
@@ -11363,15 +11408,35 @@ class DockLayout extends react_1.default.PureComponent {
 
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
+      layoutData.loadedFrom = savedLayout;
       onLayoutChange(savedLayout);
     }
 
     if (!layout) {
-      // uncontrolled layout when Props.layout is null
+      // uncontrolled layout when Props.layout is not defined
       this.setState({
-        layout: layoutData,
-        loadedFrom: savedLayout
+        layout: layoutData
       });
+    }
+  }
+  /** @ignore
+   * some layout change were handled by component silently
+   * but they should still call this function to trigger onLayoutChange
+   */
+
+
+  onSilentChange() {
+    let {
+      onLayoutChange
+    } = this.props;
+
+    if (onLayoutChange) {
+      let {
+        layout
+      } = this.state;
+      let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
+      layout.loadedFrom = savedLayout;
+      onLayoutChange(savedLayout);
     }
   } // public api
 
@@ -11407,22 +11472,22 @@ class DockLayout extends react_1.default.PureComponent {
     let layout = Serializer.loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded);
     layout = Algorithm.fixFloatPanelPos(layout, width, height);
     layout = Algorithm.fixLayoutData(layout);
+    layout.loadedFrom = savedLayout;
     return layout;
   }
 
   static getDerivedStateFromProps(props, state) {
     let {
-      layout
+      layout: layoutToLoad
     } = props;
     let {
-      loadedFrom
+      layout: currentLayout
     } = state;
 
-    if (layout && layout !== loadedFrom) {
+    if (layoutToLoad && layoutToLoad !== currentLayout.loadedFrom) {
       // auto reload on layout prop change
       return {
-        layout: DockLayout.loadLayoutData(layout, props),
-        loadedLayout: layout
+        layout: DockLayout.loadLayoutData(layoutToLoad, props)
       };
     }
 

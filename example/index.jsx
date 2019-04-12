@@ -41,19 +41,21 @@ class App extends React.Component {
     }
     return (
       <div>
-        <nav>
+        <nav className='nav'>
           <h2><a href='https://ticlo.github.io/rc-dock'>rc-dock</a></h2>
-          <div className='link-bar'>
-            <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
-              Examples:
-            </a><br/>
-            {demoPages}
-          </div>
-          <div className='link-bar'>
-            <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
-              Advanced:
-            </a><br/>
-            {advancePages}
+          <div className='nav'>
+            <div className='link-bar'>
+              <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
+                Examples:
+              </a><br/>
+              {demoPages}
+            </div>
+            <div className='link-bar'>
+              <a href='https://github.com/ticlo/rc-dock/tree/master/example'>
+                Advanced:
+              </a><br/>
+              {advancePages}
+            </div>
           </div>
         </nav>
         <iframe src={`./${current}.html`}/>

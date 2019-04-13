@@ -241,6 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
 
@@ -306,9 +308,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tabs: [{
               id: 'tab0'
             }, {
-              id: 'tab3'
+              id: 'jsxTab'
             }, {
-              id: 'tab4'
+              id: 'htmlTab'
             }],
             panelLock: {
               panelStyle: 'main'
@@ -343,16 +345,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _defineProperty(this, "loadTab", savedTab => {
         let id = savedTab.id;
 
-        if (id === 'tab0') {
-          return tab0;
-        }
+        switch (id) {
+          case 'tab0':
+            return tab0;
 
-        return {
-          id,
-          title: id,
-          content: InputTab.create,
-          inputValue: savedTab.inputValue
-        };
+          case 'jsxTab':
+            return jsxTab;
+
+          case 'htmlTab':
+            return htmlTab;
+
+          default:
+            return {
+              id,
+              title: id,
+              content: InputTab.create,
+              inputValue: savedTab.inputValue
+            };
+        }
       });
 
       _defineProperty(this, "afterPanelLoaded", (savedPanel, panelData) => {

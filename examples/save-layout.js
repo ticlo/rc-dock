@@ -239,6 +239,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let tab1 = {
@@ -277,9 +279,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       children: [{
         mode: 'vertical',
         children: [{
-          tabs: [tab1, tab2]
+          tabs: [tab1, jsxTab, htmlTab]
         }, {
-          tabs: [tab3, tab4]
+          tabs: [tab2, tab3, tab4]
         }]
       }, {
         tabs: [tab5, tab6]
@@ -302,6 +304,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 't5'
         }, {
           id: 't6'
+        }, {
+          id: 'jsxTab'
+        }, {
+          id: 'htmlTab'
         }]
       }]
     }
@@ -312,6 +318,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       children: [{
         tabs: [{
           id: 't1'
+        }, {
+          id: 'jsxTab'
+        }, {
+          id: 'htmlTab'
         }]
       }, {
         tabs: [{

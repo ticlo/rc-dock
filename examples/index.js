@@ -239,6 +239,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     Divider
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let demos = ['basic', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];

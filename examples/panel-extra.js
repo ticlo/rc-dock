@@ -241,6 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout,
     DockContextType,
     DragStore
@@ -280,9 +282,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         children: [{
           tabs: [_objectSpread({}, tab, {
             id: 't1'
-          }), _objectSpread({}, tab, {
-            id: 't2'
-          })]
+          }), jsxTab, htmlTab]
         }, {
           tabs: [newTab(), newTab()],
           panelLock: {

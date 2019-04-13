@@ -4804,12 +4804,12 @@ class DragState {
       throw new Error('setData can only be used in onDragStart callback');
     }
 
-    _dataCcope = scope;
+    _dataScope = scope;
     _data = data;
   }
 
   static getData(field, scope) {
-    if (scope === _dataCcope && _data) {
+    if (scope === _dataScope && _data) {
       return _data[field];
     }
 
@@ -4859,7 +4859,7 @@ class DragState {
 
 exports.DragState = DragState;
 
-let _dataCcope;
+let _dataScope;
 
 let _data;
 
@@ -4954,6 +4954,14 @@ function createDraggingElement(state, refElement, draggingHtml) {
       _draggingDiv.firstElementChild.style.height = `${draggingHeight}px`;
     }
   }
+
+  for (let callback of _dragStateListener) {
+    if (_dataScope) {
+      callback(_dataScope);
+    } else {
+      callback(true);
+    }
+  }
 }
 
 function moveDraggingElement(state) {
@@ -4982,29 +4990,29 @@ function destroyDraggingElement() {
 
   _draggingState = null;
   _droppingHandlers = null;
-  _dataCcope = null;
+  _dataScope = null;
   _data = null;
 
-  for (let callback of _dragEndListener) {
-    callback();
+  for (let callback of _dragStateListener) {
+    callback(null);
   }
 }
 
 exports.destroyDraggingElement = destroyDraggingElement;
 
-let _dragEndListener = new Set();
+let _dragStateListener = new Set();
 
-function addDragEndListener(callback) {
-  _dragEndListener.add(callback);
+function addDragStateListener(callback) {
+  _dragStateListener.add(callback);
 }
 
-exports.addDragEndListener = addDragEndListener;
+exports.addDragStateListener = addDragStateListener;
 
-function removeDragEndListener(callback) {
-  _dragEndListener.delete(callback);
+function removeDragStateListener(callback) {
+  _dragStateListener.delete(callback);
 }
 
-exports.removeDragEndListener = removeDragEndListener;
+exports.removeDragStateListener = removeDragStateListener;
 
 let _lastPointerDownEvent;
 
@@ -8574,10 +8582,10 @@ class TabCache {
     };
 
     this.onDragStart = e => {
-      e.startDrag(this._ref.parentElement, this._ref.parentElement);
       e.setData({
         tab: this.data
       }, DockData_1.DockContextType);
+      e.startDrag(this._ref.parentElement, this._ref.parentElement);
     };
 
     this.onDragOver = e => {
@@ -10053,16 +10061,16 @@ class DockPanel extends react_1.default.PureComponent {
         this._movingX = x;
         this._movingY = y; // hide the panel, but not create drag layer element
 
-        event.startDrag(null, null);
         event.setData({
           panel: this.props.panelData
         }, DockData_1.DockContextType);
+        event.startDrag(null, null);
         this.onFloatPointerDown();
       } else {
-        event.startDrag(null);
         event.setData({
           panel: this.props.panelData
         }, DockData_1.DockContextType);
+        event.startDrag(null);
       }
 
       this.setState({
@@ -10369,6 +10377,8 @@ const react_1 = __importDefault(require("react"));
 
 const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
+const DockData_1 = require("./DockData");
+
 class BoxDataCache {
   constructor(data) {
     this.beforeSize = 0;
@@ -10435,6 +10445,7 @@ class Divider extends react_1.default.PureComponent {
 
     this.startDrag = e => {
       this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
+      e.setData({}, DockData_1.DockContextType);
       e.startDrag(this.boxData.element, null);
     };
 
@@ -10545,7 +10556,7 @@ class Divider extends react_1.default.PureComponent {
 }
 
 exports.Divider = Divider;
-},{"react":"1n8/","./dragdrop/DragDropDiv":"HyIX"}],"GMUE":[function(require,module,exports) {
+},{"react":"1n8/","./dragdrop/DragDropDiv":"HyIX","./DockData":"zh3I"}],"GMUE":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -11057,13 +11068,22 @@ class DockLayout extends react_1.default.PureComponent {
     /** @ignore */
 
 
-    this.dragEnd = () => {
-      DockPanel_1.DockPanel.droppingPanel = null;
+    this.onDragStateChange = draggingScopt => {
+      if (draggingScopt === DockData_1.DockContextType) {
+        if (!this.state.dragging) {
+          this.setState({
+            dragging: true
+          });
+        }
+      } else {
+        DockPanel_1.DockPanel.droppingPanel = null;
 
-      if (this.state.dropRect) {
-        this.setState({
-          dropRect: null
-        });
+        if (this.state.dropRect || this.state.dragging) {
+          this.setState({
+            dropRect: null,
+            dragging: false
+          });
+        }
       }
     };
 
@@ -11094,16 +11114,18 @@ class DockLayout extends react_1.default.PureComponent {
       // controlled layout
       this.state = {
         layout: DockLayout.loadLayoutData(layout, props),
-        dropRect: null
+        dropRect: null,
+        dragging: false
       };
     } else {
       this.state = {
         layout: preparedLayout,
-        dropRect: null
+        dropRect: null,
+        dragging: false
       };
     }
 
-    DragManager.addDragEndListener(this.dragEnd);
+    DragManager.addDragStateListener(this.onDragStateChange);
     window.addEventListener('resize', this._onWindowResize);
   }
   /** @ignore */
@@ -11177,7 +11199,7 @@ class DockLayout extends react_1.default.PureComponent {
       this.changeLayout(layout);
     }
 
-    this.dragEnd();
+    this.onDragStateChange(false);
   }
   /** @inheritDoc */
 
@@ -11350,7 +11372,8 @@ class DockLayout extends react_1.default.PureComponent {
     } = this.props;
     let {
       layout,
-      dropRect
+      dropRect,
+      dragging
     } = this.state;
     let dropRectStyle;
 
@@ -11372,7 +11395,7 @@ class DockLayout extends react_1.default.PureComponent {
 
     return react_1.default.createElement("div", {
       ref: this.getRef,
-      className: 'dock-layout',
+      className: `dock-layout${dragging ? ' dock-docking' : ''}`,
       style: style
     }, react_1.default.createElement(DockData_1.DockContextProvider, {
       value: this
@@ -11391,7 +11414,7 @@ class DockLayout extends react_1.default.PureComponent {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this._onWindowResize);
-    DragManager.removeDragEndListener(this.dragEnd);
+    DragManager.removeDragStateListener(this.onDragStateChange);
 
     this._onWindowResize.cancel();
   }
@@ -11528,7 +11551,40 @@ __export(require("./Divider"));
 const DockLayout_1 = require("./DockLayout");
 
 exports.default = DockLayout_1.DockLayout;
-},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn"}],"FeNK":[function(require,module,exports) {
+},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn"}],"a1rF":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const react_1 = __importDefault(require("react"));
+
+let name = window.location.pathname.split('/').pop();
+name = name.substr(0, name.length - 5);
+exports.jsxTab = {
+  id: 'jsxTab',
+  title: 'jsx',
+  closable: true,
+  content: react_1.default.createElement("iframe", {
+    src: `./${name}.jsx.html`
+  })
+};
+exports.htmlTab = {
+  id: 'htmlTab',
+  title: 'html',
+  closable: true,
+  content: react_1.default.createElement("iframe", {
+    src: `./${name}.html.html`
+  })
+};
+},{"react":"1n8/"}],"FeNK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11553,6 +11609,19 @@ Object.keys(_lib).forEach(function (key) {
   });
 });
 
+var _prismTabs = require("./prism-tabs");
+
+Object.keys(_prismTabs).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _prismTabs[key];
+    }
+  });
+});
+
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
@@ -11563,4 +11632,4 @@ const React = _react.default;
 exports.React = React;
 const ReactDOM = _reactDom.default;
 exports.ReactDOM = ReactDOM;
-},{"../lib":"VNNP","react":"1n8/","react-dom":"NKHc"}]},{},["FeNK"], null)
+},{"../lib":"VNNP","./prism-tabs":"a1rF","react":"1n8/","react-dom":"NKHc"}]},{},["FeNK"], null)

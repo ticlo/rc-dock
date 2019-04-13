@@ -241,6 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout,
     DockContextType,
     DragStore
@@ -281,13 +283,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 't5',
           title: 'basic demo',
           content: React.createElement("div", null, "This panel won't be removed from layout even when last Tab is closed")
-        }), _objectSpread({}, tab, {
-          id: 't6',
-          title: 'Tab 6'
-        }), _objectSpread({}, tab, {
-          id: 't7',
-          title: 'Tab 7'
-        })],
+        }), jsxTab, htmlTab],
         panelLock: {
           panelStyle: 'main'
         }

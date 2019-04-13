@@ -241,6 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let dropModeTab = {
@@ -259,11 +261,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         children: [{
           tabs: [_objectSpread({}, dropModeTab, {
             id: 't1'
-          }), _objectSpread({}, tab, {
-            id: 't2'
-          }), _objectSpread({}, tab, {
-            id: 't3'
-          })]
+          }), jsxTab, htmlTab]
         }, {
           tabs: [_objectSpread({}, tab, {
             id: 't4'

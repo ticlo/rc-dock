@@ -387,6 +387,9 @@ body > .dragging-layer > div:last-child {
   display: none;
   transition: all 0.1s ease-out;
 }
+.dock-layout.dock-docking .dock-content {
+  pointer-events: none;
+}
 .dock-drop-edge {
   position: absolute;
   top: 30px;
@@ -606,4 +609,10 @@ button:disabled {
   background-color: #f8f8f8;
   border-color: #e9ecef;
   opacity: 0.65;
+}
+iframe {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  height: 100%;
 }

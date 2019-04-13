@@ -241,6 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let groups = {
@@ -304,7 +306,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               className: "github-icon"
             }, "custom-tab"),
             content: React.createElement("div", null, "Tab title can be any react component")
-          })]
+          }), jsxTab, htmlTab]
         }, {
           tabs: [_objectSpread({}, cardTab, {
             id: 't9'

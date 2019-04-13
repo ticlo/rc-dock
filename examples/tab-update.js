@@ -239,6 +239,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   const Context = React.createContext();
@@ -267,7 +269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               content: React.createElement("div", null, React.createElement("p", null, "Click here to change value in React Context."), React.createElement("button", {
                 onClick: this.addCtx
               }, "Update Value"))
-            }]
+            }, jsxTab, htmlTab]
           }, {
             tabs: [{
               id: 'id1',

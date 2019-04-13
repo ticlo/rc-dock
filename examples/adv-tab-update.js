@@ -239,6 +239,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let groups = {
@@ -293,7 +295,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               }, "Update Value"), React.createElement("button", {
                 onClick: this.addTab
               }, "Add Tab"))
-            }]
+            }, jsxTab, htmlTab]
           }, {
             id: 'my_panel',
             tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)]

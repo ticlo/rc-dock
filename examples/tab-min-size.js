@@ -237,6 +237,8 @@ LazyPromise.prototype.catch = function (onError) {
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
 
@@ -260,7 +262,7 @@ LazyPromise.prototype.catch = function (onError) {
           tabs: [getTab(300, 300), getTab(300, 0)]
         }, {
           tabs: [getTab(300, 100), getTab(100, 100)]
-        }]
+        }, jsxTab, htmlTab]
       }, {
         tabs: [getTab(0, 300), getTab(0, 0)]
       }]

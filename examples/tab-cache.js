@@ -241,6 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     DockLayout
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
   let cachedTab = {
@@ -269,7 +271,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 'cache1'
         }), _objectSpread({}, cachedTab, {
           id: 'cache2'
-        })]
+        }), jsxTab, htmlTab]
       }, {
         tabs: [_objectSpread({}, nocachedTab, {
           id: 'nocache1'

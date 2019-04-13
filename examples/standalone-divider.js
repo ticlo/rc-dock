@@ -239,6 +239,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   let {
     React,
     ReactDOM,
+    jsxTab,
+    htmlTab,
     Divider
   } = await require("_bundle_loader")(require.resolve('./shared-import'));
 
@@ -308,7 +310,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         style: {
           width: sizes[2]
         }
-      })), "Dragging with shift key to resize all children, otherwise only 2 children are affected");
+      })), "Dragging with shift key to resize all children, otherwise only 2 children are affected", jsxTab.content);
     }
 
   }

@@ -91,8 +91,18 @@ render() {
   <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">DockLayout</span> <span class="hljs-attr">defaultLayout</span>=<span class="hljs-string">{defaultLayout}/</span>&gt;</span>
 }
 </span></code></pre>
-				<h2 id="defaultlayout-types">defaultLayout types</h2>
-				<h3 id="defaultlayout-">DefaultLayout <a href="https://ticlo.github.io/rc-dock/interfaces/defaultlayout.html">🗎</a></h3>
+				<ul>
+					<li>use as <strong>uncontrolled layout</strong><ul>
+							<li>set layout object in <strong><a href="https://ticlo.github.io/rc-dock/interfaces/layoutprops.html#defaultlayout">DockLayout.defaultLayout</a></strong></li>
+						</ul>
+					</li>
+					<li>use as <strong>controlled layout</strong><ul>
+							<li>set layout object in <strong><a href="https://ticlo.github.io/rc-dock/interfaces/layoutprops.html#layout">DockLayout.layout</a></strong> </li>
+						</ul>
+					</li>
+				</ul>
+				<h2 id="types">types</h2>
+				<h3 id="layoutdata-">LayoutData <a href="https://ticlo.github.io/rc-dock/interfaces/layoutdata.html">🗎</a></h3>
 				<table>
 					<thead>
 						<tr>
@@ -106,19 +116,13 @@ render() {
 							<td align="center">dockbox</td>
 							<td align="center">BoxData</td>
 							<td align="center">main dock box</td>
-							<td align="center"><strong>required</strong></td>
+							<td align="center">empty BoxData</td>
 						</tr>
 						<tr>
 							<td align="center">floatbox</td>
 							<td align="center">BoxData</td>
 							<td align="center">main float box, children can only be PanelData</td>
 							<td align="center">empty BoxData</td>
-						</tr>
-						<tr>
-							<td align="center">groups</td>
-							<td align="center">{[key]: TabGroup}</td>
-							<td align="center">additional group information</td>
-							<td align="center">{}</td>
 						</tr>
 				</tbody></table>
 				<h3 id="boxdata-">BoxData <a href="https://ticlo.github.io/rc-dock/interfaces/boxdata.html">🗎</a></h3>

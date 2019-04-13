@@ -43,8 +43,8 @@ export class TabCache {
     e.stopPropagation();
   };
   onDragStart = (e: DragState) => {
-    e.startDrag(this._ref.parentElement, this._ref.parentElement);
     e.setData({tab: this.data}, DockContextType);
+    e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragState) => {
     let panel: PanelData;

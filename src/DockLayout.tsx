@@ -14,7 +14,7 @@ import {
   defaultGroup,
   LayoutBase,
   TabBase,
-  PanelBase
+  PanelBase, DockContextType
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -85,6 +85,8 @@ interface LayoutState {
   layout: LayoutData;
   /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
+  /** @ignore */
+  dragging?: boolean;
 }
 
 export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> implements DockContext {
@@ -156,7 +158,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       layout = Algorithm.fixLayoutData(layout);
       this.changeLayout(layout);
     }
-    this.dragEnd();
+    this.onDragStateChange(false);
   }
 
   /** @inheritDoc */
@@ -209,25 +211,34 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       // controlled layout
       this.state = {
         layout: DockLayout.loadLayoutData(layout, props),
-        dropRect: null
+        dropRect: null,
+        dragging: false,
       };
     } else {
       this.state = {
         layout: preparedLayout,
-        dropRect: null
+        dropRect: null,
+        dragging: false,
       };
     }
 
-    DragManager.addDragEndListener(this.dragEnd);
+    DragManager.addDragStateListener(this.onDragStateChange);
     window.addEventListener('resize', this._onWindowResize);
   }
 
   /** @ignore */
-  dragEnd = () => {
-    DockPanel.droppingPanel = null;
-    if (this.state.dropRect) {
-      this.setState({dropRect: null});
+  onDragStateChange = (draggingScopt: any) => {
+    if (draggingScopt === DockContextType) {
+      if (!this.state.dragging) {
+        this.setState({dragging: true});
+      }
+    } else {
+      DockPanel.droppingPanel = null;
+      if (this.state.dropRect || this.state.dragging) {
+        this.setState({dropRect: null, dragging: false});
+      }
     }
+
   };
 
   /** @ignore */
@@ -303,7 +314,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   /** @ignore */
   render(): React.ReactNode {
     let {style} = this.props;
-    let {layout, dropRect} = this.state;
+    let {layout, dropRect, dragging} = this.state;
     let dropRectStyle: CSSProperties;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;
@@ -313,7 +324,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       }
     }
     return (
-      <div ref={this.getRef} className='dock-layout' style={style}>
+      <div ref={this.getRef} className={`dock-layout${dragging ? ' dock-docking' : ''}`} style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
@@ -335,7 +346,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   /** @ignore */
   componentWillUnmount(): void {
     window.removeEventListener('resize', this._onWindowResize);
-    DragManager.removeDragEndListener(this.dragEnd);
+    DragManager.removeDragStateListener(this.onDragStateChange);
     this._onWindowResize.cancel();
   }
 

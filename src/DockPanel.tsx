@@ -77,12 +77,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
       this._movingX = x;
       this._movingY = y;
       // hide the panel, but not create drag layer element
-      event.startDrag(null, null);
       event.setData({panel: this.props.panelData}, DockContextType);
+      event.startDrag(null, null);
       this.onFloatPointerDown();
     } else {
-      event.startDrag(null);
       event.setData({panel: this.props.panelData}, DockContextType);
+      event.startDrag(null);
     }
     this.setState({draggingHeader: true});
   };

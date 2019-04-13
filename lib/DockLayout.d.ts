@@ -62,6 +62,8 @@ interface LayoutState {
         source?: any;
         direction?: DropDirection;
     };
+    /** @ignore */
+    dragging?: boolean;
 }
 export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutState> implements DockContext {
     /** @ignore */
@@ -90,7 +92,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     updateTab(id: string, newTab: TabData): boolean;
     constructor(props: LayoutProps);
     /** @ignore */
-    dragEnd: () => void;
+    onDragStateChange: (draggingScopt: any) => void;
     /** @ignore */
     useEdgeDrop(): boolean;
     /** @ignore */

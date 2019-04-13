@@ -64,12 +64,12 @@ export class DragState {
     if (!this._init) {
       throw new Error('setData can only be used in onDragStart callback');
     }
-    _dataCcope = scope;
+    _dataScope = scope;
     _data = data;
   }
 
   static getData(field: string, scope?: any) {
-    if (scope === _dataCcope && _data) {
+    if (scope === _dataScope && _data) {
       return _data[field];
     }
     return null;
@@ -116,7 +116,7 @@ export class DragState {
 export type DragHandler = (state: DragState) => void;
 
 
-let _dataCcope: any;
+let _dataScope: any;
 let _data: {[key: string]: any};
 
 let _draggingState: DragState;
@@ -195,6 +195,14 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
       (_draggingDiv.firstElementChild as HTMLElement).style.height = `${draggingHeight}px`;
     }
   }
+
+  for (let callback of _dragStateListener) {
+    if (_dataScope) {
+      callback(_dataScope);
+    } else {
+      callback(true);
+    }
+  }
 }
 
 function moveDraggingElement(state: DragState) {
@@ -223,23 +231,23 @@ export function destroyDraggingElement() {
   _draggingState = null;
   _droppingHandlers = null;
 
-  _dataCcope = null;
+  _dataScope = null;
   _data = null;
 
-  for (let callback of _dragEndListener) {
-    callback();
+  for (let callback of _dragStateListener) {
+    callback(null);
   }
 }
 
 
-let _dragEndListener: Set<Function> = new Set<Function>();
+let _dragStateListener: Set<(scope: any) => void> = new Set();
 
-export function addDragEndListener(callback: Function) {
-  _dragEndListener.add(callback);
+export function addDragStateListener(callback: (scope: any) => void) {
+  _dragStateListener.add(callback);
 }
 
-export function removeDragEndListener(callback: Function) {
-  _dragEndListener.delete(callback);
+export function removeDragStateListener(callback: (scope: any) => void) {
+  _dragStateListener.delete(callback);
 }
 
 let _lastPointerDownEvent: any;

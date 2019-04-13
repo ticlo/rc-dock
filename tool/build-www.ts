@@ -1,11 +1,28 @@
 import shell from "shelljs";
 import * as fs from 'fs';
+import {highlight, languages} from 'prismjs';
 
 let reg = /(.|[\n\r])*\{(.*)\} from '..\/lib';/m;
 
 function replacer(str: string, p1: string, p2: string) {
   return `(async function () {
-  let {React, ReactDOM, ${p2}} = await import('./shared-import');`;
+  let {React, ReactDOM, jsxTab, htmlTab, ${p2}} = await import('./shared-import');`;
+}
+
+function exportCodeHtml(lan: string, file: string, data: string) {
+  let html = highlight(data, languages[lan], lan);
+
+  html = `<html>
+<head>
+<link rel="stylesheet" href="./prism-coy.css">
+</head>
+<body>
+<pre class="language-${lan}">
+<code class="language-${lan}">${html}</code>
+</pre>
+</body>
+</html>`;
+  fs.writeFileSync(`./temp-example/${file}.html`, html);
 }
 
 // convert example to dynamic import
@@ -16,7 +33,10 @@ function buildExample() {
     let data: string = fs.readFileSync(`./example/${file}`, 'utf8');
 
     if (file.endsWith('.jsx')) {
+      exportCodeHtml('javascript', file, data);
       data = `${data.replace(reg, replacer)} \n})();`;
+    } else if (file.endsWith('.html')) {
+      exportCodeHtml('html', file, data);
     }
     fs.writeFileSync(`./temp-example/${file}`, data);
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout} from '../lib';
 
 let tab0 = {

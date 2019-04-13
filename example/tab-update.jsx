@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout} from '../lib';
 
 const Context = React.createContext();
@@ -16,14 +17,17 @@ class Demo extends React.Component {
       mode: 'vertical',
       children: [
         {
-          tabs: [{
-            id: 'id2', title: 'change', content: (
-              <div>
-                <p>Click here to change value in React Context.</p>
-                <button onClick={this.addCtx}>Update Value</button>
-              </div>
-            )
-          }],
+          tabs: [
+            {
+              id: 'id2', title: 'change', content: (
+                <div>
+                  <p>Click here to change value in React Context.</p>
+                  <button onClick={this.addCtx}>Update Value</button>
+                </div>
+              )
+            },
+            jsxTab,
+            htmlTab],
         },
         {
           tabs: [{

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout} from '../lib';
 
 let dropModeTab = {
@@ -24,7 +25,7 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...dropModeTab, id: 't1'}, {...tab, id: 't2'}, {...tab, id: 't3'}],
+            tabs: [{...dropModeTab, id: 't1'}, jsxTab, htmlTab],
           },
           {
             tabs: [{...tab, id: 't4'}, {...tab, id: 't5'}, {...tab, id: 't6'}],

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {jsxTab, htmlTab} from './prism-tabs';
 import {DockLayout} from '../lib';
 
 function getTab(width, height) {
@@ -30,7 +31,9 @@ let box = {
           },
           {
             tabs: [getTab(300, 100), getTab(100, 100)],
-          }
+          },
+          jsxTab,
+          htmlTab
         ]
       },
       {

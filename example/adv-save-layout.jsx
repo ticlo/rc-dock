@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout} from '../lib';
 
 class InputTab extends React.PureComponent {
@@ -46,7 +47,7 @@ class Demo extends React.Component {
         {
           id: 'main-panel',
           size: 400,
-          tabs: [{id: 'tab0'}, {id: 'tab3'}, {id: 'tab4'}],
+          tabs: [{id: 'tab0'}, {id: 'jsxTab'}, {id: 'htmlTab'}],
           panelLock: {
             panelStyle: 'main'
           }
@@ -69,10 +70,16 @@ class Demo extends React.Component {
   };
   loadTab = (savedTab) => {
     let id = savedTab.id;
-    if (id === 'tab0') {
-      return tab0;
+    switch (id) {
+      case 'tab0':
+        return tab0;
+      case 'jsxTab':
+        return jsxTab;
+      case 'htmlTab':
+        return htmlTab;
+      default:
+        return {id, title: id, content: InputTab.create, inputValue: savedTab.inputValue};
     }
-    return {id, title: id, content: InputTab.create, inputValue: savedTab.inputValue};
   };
 
   // add tab0 to the main panel

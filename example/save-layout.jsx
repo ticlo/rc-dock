@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout} from '../lib';
 
 let tab1 = {id: 't1', title: 'Tab 1', content: <div>Tab 1</div>};
@@ -17,10 +18,10 @@ let defaultLayout = {
         mode: 'vertical',
         children: [
           {
-            tabs: [tab1, tab2],
+            tabs: [tab1, jsxTab, htmlTab],
           },
           {
-            tabs: [tab3, tab4],
+            tabs: [tab2, tab3, tab4],
           }
         ]
       },
@@ -35,7 +36,7 @@ let panelLayout = {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{id: 't1'}, {id: 't2'}, {id: 't3'}, {id: 't4'}, {id: 't5'}, {id: 't6'}],
+        tabs: [{id: 't1'}, {id: 't2'}, {id: 't3'}, {id: 't4'}, {id: 't5'}, {id: 't6'}, {id: 'jsxTab'}, {id: 'htmlTab'}],
       },
     ]
   }
@@ -44,7 +45,7 @@ let horizontalLayout = {
   dockbox: {
     mode: 'horizontal',
     children: [
-      {tabs: [{id: 't1'}]},
+      {tabs: [{id: 't1'}, {id: 'jsxTab'}, {id: 'htmlTab'}]},
       {tabs: [{id: 't2'}]},
       {tabs: [{id: 't3'}]},
       {tabs: [{id: 't4'}]},

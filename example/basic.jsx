@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {jsxTab, htmlTab} from './prism-tabs';
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
 let tab = {
@@ -40,8 +41,8 @@ let layout = {
                 </div>
               ),
             },
-            {...tab, id: 't6', title: 'Tab 6'},
-            {...tab, id: 't7', title: 'Tab 7'}
+            jsxTab,
+            htmlTab,
           ],
           panelLock: {panelStyle: 'main'},
         },

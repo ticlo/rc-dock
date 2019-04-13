@@ -13,6 +13,10 @@
     }
 
     body {
+      margin: 0;
+    }
+
+    #app {
       margin: 40px;
     }
 
@@ -34,6 +38,16 @@
       flex: 0 0 4px;
       background: rgba(0, 0, 0, 0.01);
       cursor: ew-resize;
+    }
+
+    iframe {
+      position: absolute;
+      top: 350px;
+      left: 0;
+      right: 0;
+      height: calc(100% - 350px);
+      min-height: 300px;
+      border-top: solid 1px #ccc;
     }
   </style>
 </head>

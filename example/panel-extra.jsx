@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout, DockContextType, DragStore} from '../lib';
 
 let groups = {
@@ -48,7 +49,7 @@ let box = {
         size: 500,
         children: [
           {
-            tabs: [{...tab, id: 't1'}, {...tab, id: 't2'}],
+            tabs: [{...tab, id: 't1'}, jsxTab, htmlTab],
           },
           {
             tabs: [newTab(), newTab()],

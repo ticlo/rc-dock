@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {jsxTab, htmlTab} from './prism-tabs';
 import {DockLayout} from '../lib';
 
 let groups = {
@@ -68,17 +69,22 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{...defaultTab, id: 't7'}, {
-              ...defaultTab, id: 't8', title: (
-                <div className='github-icon'>
-                  custom-tab
-                </div>
-              ), content: (
-                <div>
-                  Tab title can be any react component
-                </div>
-              )
-            }],
+            tabs: [
+              {...defaultTab, id: 't7'},
+              {
+                ...defaultTab, id: 't8', title: (
+                  <div className='github-icon'>
+                    custom-tab
+                  </div>
+                ), content: (
+                  <div>
+                    Tab title can be any react component
+                  </div>
+                )
+              },
+              jsxTab,
+              htmlTab
+            ],
           },
           {
             tabs: [{...cardTab, id: 't9'}, {...cardTab, id: 't10'}, {...cardTab, id: 't11'}],

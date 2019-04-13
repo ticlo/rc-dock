@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {jsxTab} from "./prism-tabs";
 import {Divider} from '../lib';
 
 class Demo extends React.Component {
@@ -37,7 +38,7 @@ class Demo extends React.Component {
     let {sizes} = this.state;
     return (
       <div>
-      Divider can be used separately, this doesn't require anything else from the dock layout package
+        Divider can be used separately, this doesn't require anything else from the dock layout package
         <div ref={this.getRef} className='box'>
           <div style={{width: sizes[0]}}/>
           <Divider idx={1} getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
@@ -46,6 +47,7 @@ class Demo extends React.Component {
           <div style={{width: sizes[2]}}/>
         </div>
         Dragging with shift key to resize all children, otherwise only 2 children are affected
+        {jsxTab.content}
       </div>
     );
   }

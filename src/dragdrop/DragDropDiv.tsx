@@ -57,8 +57,8 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
     let baseElement = this.element.parentElement;
     let rect = baseElement.getBoundingClientRect();
-    this.scaleX = baseElement.offsetWidth / rect.width;
-    this.scaleY = baseElement.offsetHeight / rect.height;
+    this.scaleX = baseElement.offsetWidth / Math.round(rect.width);
+    this.scaleY = baseElement.offsetHeight / Math.round(rect.height);
     this.addListeners(e);
     if (this.props.directDragT) {
       let state = new DragManager.DragState(e.nativeEvent, this, true);
@@ -90,7 +90,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   // return true for a valid move
   checkFirstMove(e: AbstractPointerEvent) {
     let state = new DragManager.DragState(e, this, true);
-    if (state.dx === 0 && state.dy === 0) {
+    if (Math.abs(state.dx) < 1 && Math.abs(state.dy) < 1) {
       // not a move
       return false;
     }

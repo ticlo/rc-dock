@@ -34,7 +34,7 @@ export declare class DragDropDiv extends React.Component<DragDropDivProps, any> 
     onTouchMove: (e: TouchEvent) => void;
     onTouchEnd: (e?: TouchEvent) => void;
     onKeyDown: (e?: KeyboardEvent) => void;
-    cleanup(): void;
+    cleanup(e: DragManager.DragState): void;
     onEnd(): void;
     render(): React.ReactNode;
     componentWillUnmount(): void;

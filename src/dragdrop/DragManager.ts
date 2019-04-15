@@ -221,7 +221,7 @@ function moveDraggingElement(state: DragState) {
 }
 
 
-export function destroyDraggingElement() {
+export function destroyDraggingElement(e: DragState) {
   if (_refElement) {
     _refElement.classList.remove('dragging');
     _refElement = null;
@@ -231,7 +231,7 @@ export function destroyDraggingElement() {
   _draggingDiv.remove();
 
   _draggingState = null;
-  _droppingHandlers = null;
+  setDroppingHandler(null, e);
 
   _dataScope = null;
   _data = null;

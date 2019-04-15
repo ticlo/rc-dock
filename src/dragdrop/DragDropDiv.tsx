@@ -140,7 +140,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseEnd);
-    this.cleanup();
+    this.cleanup(state);
   };
 
   onTouchMove = (e: TouchEvent) => {
@@ -171,7 +171,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     }
     document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchend', this.onTouchEnd);
-    this.cleanup();
+    this.cleanup(state);
 
   };
 
@@ -181,12 +181,12 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     }
   };
 
-  cleanup() {
+  cleanup(e: DragManager.DragState) {
     this.dragging = false;
     this.waitingMove = false;
     document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
-    DragManager.destroyDraggingElement();
+    DragManager.destroyDraggingElement(e);
   }
 
   onEnd() {

@@ -41,7 +41,7 @@ interface DragHandlers {
 export declare function isDragging(): boolean;
 export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;
 export declare function removeHandlers(element: HTMLElement): void;
-export declare function destroyDraggingElement(): void;
+export declare function destroyDraggingElement(e: DragState): void;
 export declare function addDragStateListener(callback: (scope: any) => void): void;
 export declare function removeDragStateListener(callback: (scope: any) => void): void;
 export declare function checkPointerDownEvent(e: any): boolean;

@@ -78,7 +78,7 @@ export class DragState {
   acceptMessage: string;
   rejected: boolean;
 
-  accept(message: string) {
+  accept(message: string = '') {
     this.acceptMessage = message;
   }
 

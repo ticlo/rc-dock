@@ -27,7 +27,7 @@ export declare class DragState {
     static getData(field: string, scope?: any): any;
     acceptMessage: string;
     rejected: boolean;
-    accept(message: string): void;
+    accept(message?: string): void;
     reject(): void;
     moved(): void;
     dropped(): void;

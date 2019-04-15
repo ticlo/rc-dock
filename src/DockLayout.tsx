@@ -85,8 +85,6 @@ interface LayoutState {
   layout: LayoutData;
   /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
-  /** @ignore */
-  dragging?: boolean;
 }
 
 export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> implements DockContext {
@@ -212,13 +210,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       this.state = {
         layout: DockLayout.loadLayoutData(layout, props),
         dropRect: null,
-        dragging: false,
       };
     } else {
       this.state = {
         layout: preparedLayout,
         dropRect: null,
-        dragging: false,
       };
     }
 
@@ -227,15 +223,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   }
 
   /** @ignore */
-  onDragStateChange = (draggingScopt: any) => {
-    if (draggingScopt === DockContextType) {
-      if (!this.state.dragging) {
-        this.setState({dragging: true});
-      }
-    } else {
+  onDragStateChange = (draggingScope: any) => {
+    if (draggingScope == null) {
       DockPanel.droppingPanel = null;
-      if (this.state.dropRect || this.state.dragging) {
-        this.setState({dropRect: null, dragging: false});
+      if (this.state.dropRect) {
+        this.setState({dropRect: null});
       }
     }
 
@@ -314,7 +306,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   /** @ignore */
   render(): React.ReactNode {
     let {style} = this.props;
-    let {layout, dropRect, dragging} = this.state;
+    let {layout, dropRect} = this.state;
     let dropRectStyle: CSSProperties;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;
@@ -324,7 +316,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       }
     }
     return (
-      <div ref={this.getRef} className={`dock-layout${dragging ? ' dock-docking' : ''}`} style={style}>
+      <div ref={this.getRef} className='dock-layout' style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>

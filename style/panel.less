@@ -1,4 +1,8 @@
 
+body.dock-dragging .dock-content {
+  pointer-events: none;
+}
+
 .dock-panel {
   box-sizing: border-box;
   position: relative;
@@ -111,10 +115,6 @@
     box-shadow: 0 0 4px #ccc;
     display: none;
     transition: all 0.1s ease-out;
-  }
-
-  &.dock-docking .dock-content {
-    pointer-events: none;
   }
 }
 

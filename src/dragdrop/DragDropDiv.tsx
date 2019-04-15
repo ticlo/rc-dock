@@ -81,6 +81,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseEnd);
     }
+    document.body.classList.add('dock-dragging');
 
     this.waitingMove = true;
     this.dragging = true;
@@ -183,6 +184,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   cleanup() {
     this.dragging = false;
     this.waitingMove = false;
+    document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
     DragManager.destroyDraggingElement();
   }

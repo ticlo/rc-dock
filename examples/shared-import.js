@@ -4825,27 +4825,30 @@ class DragState {
   }
 
   moved() {
-    let searchElement = document.elementFromPoint(this.pageX, this.pageY);
-    let droppingHandlers;
+    if (_data) {
+      let searchElement = document.elementFromPoint(this.pageX, this.pageY);
+      let droppingHandlers;
 
-    while (searchElement && searchElement !== document.body) {
-      if (_dragListeners.has(searchElement)) {
-        let handlers = _dragListeners.get(searchElement);
+      while (searchElement && searchElement !== document.body) {
+        if (_dragListeners.has(searchElement)) {
+          let handlers = _dragListeners.get(searchElement);
 
-        if (handlers.onDragOverT) {
-          handlers.onDragOverT(this);
+          if (handlers.onDragOverT) {
+            handlers.onDragOverT(this);
 
-          if (this.acceptMessage != null) {
-            droppingHandlers = handlers;
-            break;
+            if (this.acceptMessage != null) {
+              droppingHandlers = handlers;
+              break;
+            }
           }
         }
+
+        searchElement = searchElement.parentElement;
       }
 
-      searchElement = searchElement.parentElement;
+      setDroppingHandler(droppingHandlers, this);
     }
 
-    setDroppingHandler(droppingHandlers, this);
     moveDraggingElement(this);
   }
 
@@ -5228,6 +5231,7 @@ class DragDropDiv extends react_1.default.Component {
       document.addEventListener('mouseup', this.onMouseEnd);
     }
 
+    document.body.classList.add('dock-dragging');
     this.waitingMove = true;
     this.dragging = true;
   } // return true for a valid move
@@ -5264,6 +5268,7 @@ class DragDropDiv extends react_1.default.Component {
   cleanup() {
     this.dragging = false;
     this.waitingMove = false;
+    document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
     DragManager.destroyDraggingElement();
   }
@@ -10377,8 +10382,6 @@ const react_1 = __importDefault(require("react"));
 
 const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
-const DockData_1 = require("./DockData");
-
 class BoxDataCache {
   constructor(data) {
     this.beforeSize = 0;
@@ -10445,7 +10448,6 @@ class Divider extends react_1.default.PureComponent {
 
     this.startDrag = e => {
       this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
-      e.setData({}, DockData_1.DockContextType);
       e.startDrag(this.boxData.element, null);
     };
 
@@ -10556,7 +10558,7 @@ class Divider extends react_1.default.PureComponent {
 }
 
 exports.Divider = Divider;
-},{"react":"1n8/","./dragdrop/DragDropDiv":"HyIX","./DockData":"zh3I"}],"GMUE":[function(require,module,exports) {
+},{"react":"1n8/","./dragdrop/DragDropDiv":"HyIX"}],"GMUE":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -11068,20 +11070,13 @@ class DockLayout extends react_1.default.PureComponent {
     /** @ignore */
 
 
-    this.onDragStateChange = draggingScopt => {
-      if (draggingScopt === DockData_1.DockContextType) {
-        if (!this.state.dragging) {
-          this.setState({
-            dragging: true
-          });
-        }
-      } else {
+    this.onDragStateChange = draggingScope => {
+      if (draggingScope == null) {
         DockPanel_1.DockPanel.droppingPanel = null;
 
-        if (this.state.dropRect || this.state.dragging) {
+        if (this.state.dropRect) {
           this.setState({
-            dropRect: null,
-            dragging: false
+            dropRect: null
           });
         }
       }
@@ -11114,14 +11109,12 @@ class DockLayout extends react_1.default.PureComponent {
       // controlled layout
       this.state = {
         layout: DockLayout.loadLayoutData(layout, props),
-        dropRect: null,
-        dragging: false
+        dropRect: null
       };
     } else {
       this.state = {
         layout: preparedLayout,
-        dropRect: null,
-        dragging: false
+        dropRect: null
       };
     }
 
@@ -11372,8 +11365,7 @@ class DockLayout extends react_1.default.PureComponent {
     } = this.props;
     let {
       layout,
-      dropRect,
-      dragging
+      dropRect
     } = this.state;
     let dropRectStyle;
 
@@ -11395,7 +11387,7 @@ class DockLayout extends react_1.default.PureComponent {
 
     return react_1.default.createElement("div", {
       ref: this.getRef,
-      className: `dock-layout${dragging ? ' dock-docking' : ''}`,
+      className: 'dock-layout',
       style: style
     }, react_1.default.createElement(DockData_1.DockContextProvider, {
       value: this

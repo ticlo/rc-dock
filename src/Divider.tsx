@@ -86,7 +86,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
 
   startDrag = (e: DragState) => {
     this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
-    e.setData({}, DockContextType);
+    e.setData(null, DockContextType);
     e.startDrag(this.boxData.element, null);
   };
   dragMove = (e: DragState) => {

@@ -87,22 +87,24 @@ export class DragState {
   }
 
   moved() {
-    let searchElement = document.elementFromPoint(this.pageX, this.pageY) as HTMLElement;
-    let droppingHandlers: DragHandlers;
-    while (searchElement && searchElement !== document.body) {
-      if (_dragListeners.has(searchElement)) {
-        let handlers = _dragListeners.get(searchElement);
-        if (handlers.onDragOverT) {
-          handlers.onDragOverT(this);
-          if (this.acceptMessage != null) {
-            droppingHandlers = handlers;
-            break;
+    if (_data) {
+      let searchElement = document.elementFromPoint(this.pageX, this.pageY) as HTMLElement;
+      let droppingHandlers: DragHandlers;
+      while (searchElement && searchElement !== document.body) {
+        if (_dragListeners.has(searchElement)) {
+          let handlers = _dragListeners.get(searchElement);
+          if (handlers.onDragOverT) {
+            handlers.onDragOverT(this);
+            if (this.acceptMessage != null) {
+              droppingHandlers = handlers;
+              break;
+            }
           }
         }
+        searchElement = searchElement.parentElement;
       }
-      searchElement = searchElement.parentElement;
+      setDroppingHandler(droppingHandlers, this);
     }
-    setDroppingHandler(droppingHandlers, this);
     moveDraggingElement(this);
   }
 

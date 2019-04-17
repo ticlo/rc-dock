@@ -4816,7 +4816,7 @@ class DragState {
     return null;
   }
 
-  accept(message) {
+  accept(message = '') {
     this.acceptMessage = message;
   }
 
@@ -4980,7 +4980,7 @@ function moveDraggingElement(state) {
   }
 }
 
-function destroyDraggingElement() {
+function destroyDraggingElement(e) {
   if (_refElement) {
     _refElement.classList.remove('dragging');
 
@@ -4992,7 +4992,7 @@ function destroyDraggingElement() {
   _draggingDiv.remove();
 
   _draggingState = null;
-  _droppingHandlers = null;
+  setDroppingHandler(null, e);
   _dataScope = null;
   _data = null;
 
@@ -5111,8 +5111,8 @@ class DragDropDiv extends react_1.default.Component {
       this.baseY = e.pageY;
       let baseElement = this.element.parentElement;
       let rect = baseElement.getBoundingClientRect();
-      this.scaleX = baseElement.offsetWidth / rect.width;
-      this.scaleY = baseElement.offsetHeight / rect.height;
+      this.scaleX = baseElement.offsetWidth / Math.round(rect.width);
+      this.scaleY = baseElement.offsetHeight / Math.round(rect.height);
       this.addListeners(e);
 
       if (this.props.directDragT) {
@@ -5159,7 +5159,7 @@ class DragDropDiv extends react_1.default.Component {
 
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseEnd);
-      this.cleanup();
+      this.cleanup(state);
     };
 
     this.onTouchMove = e => {
@@ -5202,7 +5202,7 @@ class DragDropDiv extends react_1.default.Component {
 
       document.removeEventListener('touchmove', this.onTouchMove);
       document.removeEventListener('touchend', this.onTouchEnd);
-      this.cleanup();
+      this.cleanup(state);
     };
 
     this.onKeyDown = e => {
@@ -5240,7 +5240,7 @@ class DragDropDiv extends react_1.default.Component {
   checkFirstMove(e) {
     let state = new DragManager.DragState(e, this, true);
 
-    if (state.dx === 0 && state.dy === 0) {
+    if (Math.abs(state.dx) < 1 && Math.abs(state.dy) < 1) {
       // not a move
       return false;
     }
@@ -5265,12 +5265,12 @@ class DragDropDiv extends react_1.default.Component {
     return true;
   }
 
-  cleanup() {
+  cleanup(e) {
     this.dragging = false;
     this.waitingMove = false;
     document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
-    DragManager.destroyDraggingElement();
+    DragManager.destroyDraggingElement(e);
   }
 
   onEnd() {

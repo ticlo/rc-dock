@@ -90,7 +90,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   // return true for a valid move
   checkFirstMove(e: AbstractPointerEvent) {
     let state = new DragManager.DragState(e, this, true);
-    if (Math.abs(state.dx) < 1 && Math.abs(state.dy) < 1) {
+    if (!state.moved()) {
       // not a move
       return false;
     }
@@ -106,7 +106,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       this.onEnd();
       return false;
     }
-    state.moved();
+    state.onMove();
     document.addEventListener('keydown', this.onKeyDown);
     return true;
   }
@@ -123,7 +123,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       if (onDragMoveT) {
         onDragMoveT(state);
       }
-      state.moved();
+      state.onMove();
     }
     e.preventDefault();
   };
@@ -135,7 +135,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       onDragEndT(state);
     }
     if (e) {
-      state.dropped();
+      state.onDrop();
     }
 
     document.removeEventListener('mousemove', this.onMouseMove);
@@ -156,7 +156,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       if (onDragMoveT) {
         onDragMoveT(state);
       }
-      state.moved();
+      state.onMove();
     }
     e.preventDefault();
   };
@@ -167,7 +167,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       onDragEndT(state);
     }
     if (e) {
-      state.dropped();
+      state.onDrop();
     }
     document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchend', this.onTouchEnd);

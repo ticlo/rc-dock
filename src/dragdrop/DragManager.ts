@@ -45,6 +45,10 @@ export class DragState {
     }
   }
 
+  moved(): boolean {
+    return Math.abs(this.dx) >= 1 || Math.abs(this.dy) >= 1;
+  }
+
   /**
    * @param refElement, the element being moved
    * @param draggingHtml, the element show in the dragging layer
@@ -86,7 +90,7 @@ export class DragState {
     this.rejected = true;
   }
 
-  moved() {
+  onMove() {
     if (_data) {
       let searchElement = document.elementFromPoint(this.pageX, this.pageY) as HTMLElement;
       let droppingHandlers: DragHandlers;
@@ -108,7 +112,7 @@ export class DragState {
     moveDraggingElement(this);
   }
 
-  dropped() {
+  onDrop() {
     if (_droppingHandlers && _droppingHandlers.onDropT) {
       _droppingHandlers.onDropT(this);
     }

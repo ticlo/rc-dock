@@ -16,6 +16,7 @@ export declare class DragState {
     dx: number;
     dy: number;
     constructor(event: MouseEvent | TouchEvent, component: DragDropComponent, init?: boolean);
+    moved(): boolean;
     /**
      * @param refElement, the element being moved
      * @param draggingHtml, the element show in the dragging layer
@@ -29,8 +30,8 @@ export declare class DragState {
     rejected: boolean;
     accept(message?: string): void;
     reject(): void;
-    moved(): void;
-    dropped(): void;
+    onMove(): void;
+    onDrop(): void;
 }
 export declare type DragHandler = (state: DragState) => void;
 interface DragHandlers {

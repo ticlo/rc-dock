@@ -120,10 +120,10 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       }
     } else {
       let state = new DragManager.DragState(e, this);
+      state.onMove();
       if (onDragMoveT) {
         onDragMoveT(state);
       }
-      state.onMove();
     }
     e.preventDefault();
   };
@@ -153,10 +153,10 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       this.onTouchEnd();
     } else {
       let state = new DragManager.DragState(e, this);
+      state.onMove();
       if (onDragMoveT) {
         onDragMoveT(state);
       }
-      state.onMove();
     }
     e.preventDefault();
   };

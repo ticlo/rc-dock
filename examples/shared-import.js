@@ -5136,12 +5136,11 @@ class DragDropDiv extends react_1.default.Component {
         }
       } else {
         let state = new DragManager.DragState(e, this);
+        state.onMove();
 
         if (onDragMoveT) {
           onDragMoveT(state);
         }
-
-        state.onMove();
       }
 
       e.preventDefault();
@@ -5179,12 +5178,11 @@ class DragDropDiv extends react_1.default.Component {
         this.onTouchEnd();
       } else {
         let state = new DragManager.DragState(e, this);
+        state.onMove();
 
         if (onDragMoveT) {
           onDragMoveT(state);
         }
-
-        state.onMove();
       }
 
       e.preventDefault();

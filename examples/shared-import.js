@@ -4781,6 +4781,10 @@ class DragState {
       this.dy = (this.pageY - component.baseY) * component.scaleY;
     }
   }
+
+  moved() {
+    return Math.abs(this.dx) >= 1 || Math.abs(this.dy) >= 1;
+  }
   /**
    * @param refElement, the element being moved
    * @param draggingHtml, the element show in the dragging layer
@@ -4824,7 +4828,7 @@ class DragState {
     this.rejected = true;
   }
 
-  moved() {
+  onMove() {
     if (_data) {
       let searchElement = document.elementFromPoint(this.pageX, this.pageY);
       let droppingHandlers;
@@ -4852,7 +4856,7 @@ class DragState {
     moveDraggingElement(this);
   }
 
-  dropped() {
+  onDrop() {
     if (_droppingHandlers && _droppingHandlers.onDropT) {
       _droppingHandlers.onDropT(this);
     }
@@ -5137,7 +5141,7 @@ class DragDropDiv extends react_1.default.Component {
           onDragMoveT(state);
         }
 
-        state.moved();
+        state.onMove();
       }
 
       e.preventDefault();
@@ -5154,7 +5158,7 @@ class DragDropDiv extends react_1.default.Component {
       }
 
       if (e) {
-        state.dropped();
+        state.onDrop();
       }
 
       document.removeEventListener('mousemove', this.onMouseMove);
@@ -5180,7 +5184,7 @@ class DragDropDiv extends react_1.default.Component {
           onDragMoveT(state);
         }
 
-        state.moved();
+        state.onMove();
       }
 
       e.preventDefault();
@@ -5197,7 +5201,7 @@ class DragDropDiv extends react_1.default.Component {
       }
 
       if (e) {
-        state.dropped();
+        state.onDrop();
       }
 
       document.removeEventListener('touchmove', this.onTouchMove);
@@ -5240,7 +5244,7 @@ class DragDropDiv extends react_1.default.Component {
   checkFirstMove(e) {
     let state = new DragManager.DragState(e, this, true);
 
-    if (Math.abs(state.dx) < 1 && Math.abs(state.dy) < 1) {
+    if (!state.moved()) {
       // not a move
       return false;
     }
@@ -5260,7 +5264,7 @@ class DragDropDiv extends react_1.default.Component {
       return false;
     }
 
-    state.moved();
+    state.onMove();
     document.addEventListener('keydown', this.onKeyDown);
     return true;
   }

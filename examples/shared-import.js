@@ -5151,6 +5151,9 @@ class DragDropDiv extends react_1.default.Component {
         onDragEndT
       } = this.props;
       let state = new DragManager.DragState(e, this);
+      document.removeEventListener('mousemove', this.onMouseMove);
+      document.removeEventListener('mouseup', this.onMouseEnd);
+      this.cleanup(state);
 
       if (onDragEndT && !this.waitingMove) {
         onDragEndT(state);
@@ -5160,9 +5163,7 @@ class DragDropDiv extends react_1.default.Component {
         state.onDrop();
       }
 
-      document.removeEventListener('mousemove', this.onMouseMove);
-      document.removeEventListener('mouseup', this.onMouseEnd);
-      this.cleanup(state);
+      DragManager.destroyDraggingElement(state);
     };
 
     this.onTouchMove = e => {
@@ -5193,6 +5194,9 @@ class DragDropDiv extends react_1.default.Component {
         onDragEndT
       } = this.props;
       let state = new DragManager.DragState(e, this);
+      document.removeEventListener('touchmove', this.onTouchMove);
+      document.removeEventListener('touchend', this.onTouchEnd);
+      this.cleanup(state);
 
       if (onDragEndT && !this.waitingMove) {
         onDragEndT(state);
@@ -5202,9 +5206,7 @@ class DragDropDiv extends react_1.default.Component {
         state.onDrop();
       }
 
-      document.removeEventListener('touchmove', this.onTouchMove);
-      document.removeEventListener('touchend', this.onTouchEnd);
-      this.cleanup(state);
+      DragManager.destroyDraggingElement(state);
     };
 
     this.onKeyDown = e => {
@@ -5272,7 +5274,6 @@ class DragDropDiv extends react_1.default.Component {
     this.waitingMove = false;
     document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
-    DragManager.destroyDraggingElement(e);
   }
 
   onEnd() {

@@ -232,14 +232,14 @@ body > .dragging-layer > div:last-child {
 }
 .dock-top .dock-tab-next-icon:before {
   content: ">";
-  font-family: 'Fredoka One';
+  font-family: 'Fredoka One', sans-serif;
 }
 .dock-top .dock-tab-prev {
   left: 0;
 }
 .dock-top .dock-tab-prev-icon:before {
   content: "<";
-  font-family: 'Fredoka One';
+  font-family: 'Fredoka One', sans-serif;
 }
 .dock-top .dock-tab-prev,
 .dock-top .dock-tab-next {
@@ -264,7 +264,7 @@ body > .dragging-layer > div:last-child {
 .dock-tab-close-btn {
   position: absolute;
   cursor: pointer;
-  font-family: Fredoka One;
+  font-family: 'Fredoka One', sans-serif;
   color: #bbb;
   right: 2px;
   font-size: 12px;
@@ -293,6 +293,9 @@ body > .dragging-layer > div:last-child {
 .dock-tabpane-cache {
   width: 100%;
   height: 100%;
+}
+body.dock-dragging .dock-content {
+  pointer-events: none;
 }
 .dock-panel {
   box-sizing: border-box;
@@ -344,14 +347,14 @@ body > .dragging-layer > div:last-child {
   z-index: 1;
 }
 .dock-hbox > .dock-divider {
-  transform: scaleX(2);
+  transform: scaleX(3);
   cursor: ew-resize;
 }
 .dock-vbox {
   flex-direction: column;
 }
 .dock-vbox > .dock-divider {
-  transform: scaleY(2);
+  transform: scaleY(3);
   cursor: ns-resize;
 }
 .dock-fbox {
@@ -383,7 +386,20 @@ body > .dragging-layer > div:last-child {
   border: solid 1px white;
   background: #91d5ff;
   opacity: 0.5;
+  box-shadow: 0 0 4px #ccc;
   display: none;
+  transition: all 0.1s ease-out;
+}
+.dock-drop-edge {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: white;
+  border: none;
+  opacity: 0.01;
 }
 .dock-drop-layer {
   position: absolute;
@@ -400,7 +416,7 @@ body > .dragging-layer > div:last-child {
   z-index: 300;
   width: 32px;
   height: 32px;
-  font-family: Fredoka One;
+  font-family: 'Fredoka One', sans-serif;
   color: #ccc;
   background: white;
   border: 1px solid #ccc;

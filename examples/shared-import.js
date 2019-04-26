@@ -5155,12 +5155,14 @@ class DragDropDiv extends react_1.default.Component {
       document.removeEventListener('mouseup', this.onMouseEnd);
       this.cleanup(state);
 
-      if (onDragEndT && !this.waitingMove) {
-        onDragEndT(state);
-      }
+      if (!this.waitingMove) {
+        if (e) {
+          state.onDrop();
+        }
 
-      if (e) {
-        state.onDrop();
+        if (onDragEndT) {
+          onDragEndT(state);
+        }
       }
 
       DragManager.destroyDraggingElement(state);
@@ -5198,12 +5200,14 @@ class DragDropDiv extends react_1.default.Component {
       document.removeEventListener('touchend', this.onTouchEnd);
       this.cleanup(state);
 
-      if (onDragEndT && !this.waitingMove) {
-        onDragEndT(state);
-      }
+      if (!this.waitingMove) {
+        if (e) {
+          state.onDrop();
+        }
 
-      if (e) {
-        state.onDrop();
+        if (onDragEndT) {
+          onDragEndT(state);
+        }
       }
 
       DragManager.destroyDraggingElement(state);
@@ -8778,7 +8782,7 @@ class DockTabs extends react_1.default.Component {
 
     this.onTabChange = activeId => {
       this.props.panelData.activeId = activeId;
-      this.context.onSilentChange();
+      this.context.onSilentChange(activeId);
       this.forceUpdate();
     };
 
@@ -9202,10 +9206,12 @@ function addTabToPanel(layout, source, panel, idx = -1) {
   }
 
   let tabs;
+  let activeId;
 
   if ('tabs' in source) {
     // source is PanelData
     tabs = source.tabs;
+    activeId = source.activeId;
   } else {
     // source is TabData
     tabs = [source];
@@ -9218,6 +9224,10 @@ function addTabToPanel(layout, source, panel, idx = -1) {
 
     for (let tab of tabs) {
       tab.parent = newPanel;
+    }
+
+    if (activeId) {
+      newPanel.activeId = activeId;
     }
 
     layout = replacePanel(layout, panel, newPanel);
@@ -10115,10 +10125,12 @@ class DockPanel extends react_1.default.PureComponent {
     };
 
     this.onPanelHeaderDragEnd = e => {
-      this.setState({
-        draggingHeader: false
-      });
-      this.context.onSilentChange();
+      if (!this._unmounted) {
+        this.setState({
+          draggingHeader: false
+        });
+        this.context.onSilentChange(this.props.panelData.activeId);
+      }
     };
 
     this.onPanelCornerDragTL = e => {
@@ -10215,6 +10227,8 @@ class DockPanel extends react_1.default.PureComponent {
         this.forceUpdate();
       }
     };
+
+    this._unmounted = false;
   }
 
   static set droppingPanel(panel) {
@@ -10362,6 +10376,8 @@ class DockPanel extends react_1.default.PureComponent {
     if (DockPanel._droppingPanel === this) {
       DockPanel.droppingPanel = null;
     }
+
+    this._unmounted = true;
   }
 
 }
@@ -10455,7 +10471,7 @@ class Divider extends react_1.default.PureComponent {
     };
 
     this.dragMove = e => {
-      if (e.event.shiftKey || e.event.ctrlKey) {
+      if (e.event.shiftKey || e.event.ctrlKey || e.event.altKey) {
         this.dragMoveAll(e, e.dx, e.dy);
       } else {
         this.dragMove2(e, e.dx, e.dy);
@@ -11092,7 +11108,7 @@ class DockLayout extends react_1.default.PureComponent {
       if (layout !== newLayout) {
         newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
 
-        this.changeLayout(newLayout);
+        this.changeLayout(newLayout, null);
       }
     }, 200);
     let {
@@ -11192,7 +11208,18 @@ class DockLayout extends react_1.default.PureComponent {
 
     if (layout !== this.state.layout) {
       layout = Algorithm.fixLayoutData(layout);
-      this.changeLayout(layout);
+      let currentTabId = null;
+
+      if (direction !== 'remove') {
+        if (source.hasOwnProperty('tabs')) {
+          currentTabId = source.activeId;
+        } else {
+          // when source is tab
+          currentTabId = source.id;
+        }
+      }
+
+      this.changeLayout(layout, currentTabId);
     }
 
     this.onDragStateChange(false);
@@ -11418,7 +11445,7 @@ class DockLayout extends react_1.default.PureComponent {
    */
 
 
-  changeLayout(layoutData) {
+  changeLayout(layoutData, currentTabId) {
     let {
       layout,
       onLayoutChange
@@ -11428,7 +11455,7 @@ class DockLayout extends react_1.default.PureComponent {
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       layoutData.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout);
+      onLayoutChange(savedLayout, currentTabId);
     }
 
     if (!layout) {
@@ -11444,7 +11471,7 @@ class DockLayout extends react_1.default.PureComponent {
    */
 
 
-  onSilentChange() {
+  onSilentChange(currentTabId = null) {
     let {
       onLayoutChange
     } = this.props;
@@ -11455,7 +11482,7 @@ class DockLayout extends react_1.default.PureComponent {
       } = this.state;
       let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
       layout.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout);
+      onLayoutChange(savedLayout, currentTabId);
     }
   } // public api
 

@@ -257,11 +257,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         children: [{
           tabs: [{
             id: 't0'
-          }, {
-            id: 't2'
-          }, {
-            id: 't3'
-          }]
+          }, htmlTab, jsxTab]
         }, {
           tabs: [{
             id: 't4'
@@ -296,10 +292,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id
         } = data;
 
-        if (id === 't0') {
-          return _objectSpread({}, tab0, {
-            id
-          });
+        switch (id) {
+          case 't0':
+            return _objectSpread({}, tab0, {
+              id
+            });
+
+          case jsxTab.id:
+            return jsxTab;
+
+          case htmlTab.id:
+            return htmlTab;
         }
 
         return {
@@ -309,9 +312,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         };
       });
 
-      _defineProperty(this, "onLayoutChange", newLayout => {
+      _defineProperty(this, "onLayoutChange", (newLayout, currentTabId) => {
         // control DockLayout from state
-        console.log(newLayout);
+        console.log(currentTabId, newLayout);
         this.setState({
           layout: newLayout
         });

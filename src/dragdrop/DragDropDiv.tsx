@@ -47,13 +47,14 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   scaleY: number;
   waitingMove: boolean;
 
-  onPointerDown = (e: React.PointerEvent) => {
+  onPointerDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (!DragManager.checkPointerDownEvent(e.nativeEvent)) {
       // same pointer event shouldn't trigger 2 drag start
       return;
     }
-    this.baseX = e.pageX;
-    this.baseY = e.pageY;
+    let state = new DragManager.DragState(e.nativeEvent, this, true);
+    this.baseX = state.pageX;
+    this.baseY = state.pageY;
 
     let baseElement = this.element.parentElement;
     let rect = baseElement.getBoundingClientRect();
@@ -66,13 +67,13 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     }
   };
 
-  addListeners(e: React.PointerEvent) {
+  addListeners(e: React.MouseEvent | React.TouchEvent) {
     let {onDragStartT} = this.props;
 
     if (this.dragging) {
       this.onEnd();
     }
-    if (e.pointerType === 'touch') {
+    if (e.nativeEvent instanceof TouchEvent) {
       this.isTouch = true;
       document.addEventListener('touchmove', this.onTouchMove);
       document.addEventListener('touchend', this.onTouchEnd);
@@ -208,12 +209,13 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
   render(): React.ReactNode {
     let {
-      getRef, children, className, onPointerDown,
+      getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
       ...others
     } = this.props;
-    if (!onPointerDown && onDragStartT) {
-      onPointerDown = this.onPointerDown;
+    let onPointerDown = this.onPointerDown;
+    if (!onDragStartT) {
+      onPointerDown = null;
     }
     if (onDragStartT) {
       if (className) {
@@ -224,7 +226,8 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     }
 
     return (
-      <div ref={this._getRef} className={className} {...others} onPointerDown={onPointerDown}>
+      <div ref={this._getRef} className={className} {...others} onMouseDown={onPointerDown}
+           onTouchStart={onPointerDown}>
         {children}
       </div>
     );

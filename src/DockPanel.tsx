@@ -219,9 +219,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
 
     let isFloat = parent && parent.mode === 'float';
-    let pointerDownCallback: React.PointerEventHandler;
-    if (isFloat) {
-      pointerDownCallback = this.onFloatPointerDown;
+    let pointerDownCallback = this.onFloatPointerDown;
+    if (!isFloat) {
+      pointerDownCallback = null;
     }
     let cls = `dock-panel ${
       panelClass ? panelClass : ''}${
@@ -245,7 +245,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
-                   onPointerDown={pointerDownCallback} onDragOverT={isFloat ? null : this.onDragOver}>
+                   onMouseDown={pointerDownCallback} onTouchStart={pointerDownCallback}
+                   onDragOverT={isFloat ? null : this.onDragOver}>
         <DockTabs panelData={panelData} onPanelDragStart={this.onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
         {isFloat ?

@@ -20,7 +20,7 @@ interface LayoutProps {
     /**
      * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
      */
-    onLayoutChange?(newLayout: LayoutBase): void;
+    onLayoutChange?(newLayout: LayoutBase, currentTabId: string): void;
     /**
      * - default mode: showing 4 to 9 squares to help picking drop areas
      * - edge mode: using the distance between mouse and panel border to pick drop area
@@ -106,12 +106,12 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     /** @ignore
      * change layout
      */
-    changeLayout(layoutData: LayoutData): void;
+    changeLayout(layoutData: LayoutData, currentTabId: string): void;
     /** @ignore
      * some layout change were handled by component silently
      * but they should still call this function to trigger onLayoutChange
      */
-    onSilentChange(): void;
+    onSilentChange(currentTabId?: string): void;
     saveLayout(): LayoutBase;
     /**
      * load layout

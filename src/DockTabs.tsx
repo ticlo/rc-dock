@@ -227,7 +227,7 @@ export class DockTabs extends React.Component<Props, any> {
 
   onTabChange = (activeId: string) => {
     this.props.panelData.activeId = activeId;
-    this.context.onSilentChange();
+    this.context.onSilentChange(activeId);
     this.forceUpdate();
   };
 

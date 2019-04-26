@@ -21,7 +21,7 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{id: 't0'}, {id: 't2'}, {id: 't3'}],
+            tabs: [{id: 't0'}, htmlTab, jsxTab],
           },
           {
             tabs: [{id: 't4'}, {id: 't5'}, {id: 't6'}],
@@ -40,18 +40,24 @@ class Demo extends React.Component {
 
   loadTab = (data) => {
     let {id} = data;
-    if (id === 't0') {
-      return {...tab0, id};
+    switch (id) {
+      case 't0':
+        return {...tab0, id};
+      case jsxTab.id:
+        return jsxTab;
+      case htmlTab.id:
+        return htmlTab;
     }
+
     return {
       id, title: id,
       content: <div>Tab Content</div>
     };
   };
 
-  onLayoutChange = (newLayout) => {
+  onLayoutChange = (newLayout, currentTabId) => {
     // control DockLayout from state
-    console.log(newLayout);
+    console.log(currentTabId, newLayout);
     this.setState({layout: newLayout});
   };
 

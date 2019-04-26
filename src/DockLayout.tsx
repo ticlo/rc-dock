@@ -44,7 +44,7 @@ interface LayoutProps {
   /**
    * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
    */
-  onLayoutChange?(newLayout: LayoutBase): void;
+  onLayoutChange?(newLayout: LayoutBase, currentTabId: string): void;
 
   /**
    * - default mode: showing 4 to 9 squares to help picking drop areas
@@ -154,7 +154,16 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
     if (layout !== this.state.layout) {
       layout = Algorithm.fixLayoutData(layout);
-      this.changeLayout(layout);
+      let currentTabId: string = null;
+      if (direction !== 'remove') {
+        if (source.hasOwnProperty('tabs')) {
+          currentTabId = (source as PanelData).activeId;
+        } else {
+          // when source is tab
+          currentTabId = (source as TabData).id;
+        }
+      }
+      this.changeLayout(layout, currentTabId);
     }
     this.onDragStateChange(false);
   }
@@ -331,7 +340,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
     if (layout !== newLayout) {
       newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
-      this.changeLayout(newLayout);
+      this.changeLayout(newLayout, null);
     }
   }, 200);
 
@@ -345,13 +354,13 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   /** @ignore
    * change layout
    */
-  changeLayout(layoutData: LayoutData) {
+  changeLayout(layoutData: LayoutData, currentTabId: string) {
     let {layout, onLayoutChange} = this.props;
     let savedLayout: LayoutBase;
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       layoutData.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout);
+      onLayoutChange(savedLayout, currentTabId);
     }
     if (!layout) {
       // uncontrolled layout when Props.layout is not defined
@@ -363,13 +372,13 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
    * some layout change were handled by component silently
    * but they should still call this function to trigger onLayoutChange
    */
-  onSilentChange() {
+  onSilentChange(currentTabId: string = null) {
     let {onLayoutChange} = this.props;
     if (onLayoutChange) {
       let {layout} = this.state;
       let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
       layout.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout);
+      onLayoutChange(savedLayout, currentTabId);
     }
   }
 

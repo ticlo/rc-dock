@@ -215,7 +215,7 @@ export interface DockContext {
    * it still need to tell the context there is a change so DockLayout can call onLayoutChange callback
    * this usually happens on dragEnd event of size/location change
    */
-  onSilentChange(): void;
+  onSilentChange(currentTabId?: string): void;
 
   /**
    * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first

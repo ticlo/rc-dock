@@ -107,9 +107,11 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
   }
 
   let tabs: TabData[];
+  let activeId: string;
   if ('tabs' in source) {
     // source is PanelData
     tabs = source.tabs;
+    activeId = source.activeId;
   } else {
     // source is TabData
     tabs = [source];
@@ -121,6 +123,9 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
     newPanel.activeId = tabs[tabs.length - 1].id;
     for (let tab of tabs) {
       tab.parent = newPanel;
+    }
+    if (activeId) {
+      newPanel.activeId = activeId;
     }
     layout = replacePanel(layout, panel, newPanel);
   }

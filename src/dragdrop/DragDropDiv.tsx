@@ -136,11 +136,13 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     document.removeEventListener('mouseup', this.onMouseEnd);
     this.cleanup(state);
 
-    if (onDragEndT && !this.waitingMove) {
-      onDragEndT(state);
-    }
-    if (e) {
-      state.onDrop();
+    if (!this.waitingMove) {
+      if (e) {
+        state.onDrop();
+      }
+      if (onDragEndT) {
+        onDragEndT(state);
+      }
     }
 
     DragManager.destroyDraggingElement(state);
@@ -171,11 +173,13 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     document.removeEventListener('touchend', this.onTouchEnd);
     this.cleanup(state);
 
-    if (onDragEndT && !this.waitingMove) {
-      onDragEndT(state);
-    }
-    if (e) {
-      state.onDrop();
+    if (!this.waitingMove) {
+      if (e) {
+        state.onDrop();
+      }
+      if (onDragEndT) {
+        onDragEndT(state);
+      }
     }
 
     DragManager.destroyDraggingElement(state);

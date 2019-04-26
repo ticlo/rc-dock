@@ -89,7 +89,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     e.startDrag(this.boxData.element, null);
   };
   dragMove = (e: DragState) => {
-    if (e.event.shiftKey || e.event.ctrlKey) {
+    if (e.event.shiftKey || e.event.ctrlKey || e.event.altKey) {
       this.dragMoveAll(e, e.dx, e.dy);
     } else {
       this.dragMove2(e, e.dx, e.dy);

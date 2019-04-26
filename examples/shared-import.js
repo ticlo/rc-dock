@@ -5111,8 +5111,9 @@ class DragDropDiv extends react_1.default.Component {
         return;
       }
 
-      this.baseX = e.pageX;
-      this.baseY = e.pageY;
+      let state = new DragManager.DragState(e.nativeEvent, this, true);
+      this.baseX = state.pageX;
+      this.baseY = state.pageY;
       let baseElement = this.element.parentElement;
       let rect = baseElement.getBoundingClientRect();
       this.scaleX = baseElement.offsetWidth / Math.round(rect.width);
@@ -5229,7 +5230,7 @@ class DragDropDiv extends react_1.default.Component {
       this.onEnd();
     }
 
-    if (e.pointerType === 'touch') {
+    if (e.nativeEvent instanceof TouchEvent) {
       this.isTouch = true;
       document.addEventListener('touchmove', this.onTouchMove);
       document.addEventListener('touchend', this.onTouchEnd);
@@ -5294,7 +5295,6 @@ class DragDropDiv extends react_1.default.Component {
       getRef,
       children,
       className,
-      onPointerDown,
       directDragT,
       onDragStartT,
       onDragMoveT,
@@ -5303,10 +5303,12 @@ class DragDropDiv extends react_1.default.Component {
       onDragLeaveT,
       onDropT
     } = _a,
-        others = __rest(_a, ["getRef", "children", "className", "onPointerDown", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT"]);
+        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT"]);
 
-    if (!onPointerDown && onDragStartT) {
-      onPointerDown = this.onPointerDown;
+    let onPointerDown = this.onPointerDown;
+
+    if (!onDragStartT) {
+      onPointerDown = null;
     }
 
     if (onDragStartT) {
@@ -5321,7 +5323,8 @@ class DragDropDiv extends react_1.default.Component {
       ref: this._getRef,
       className: className
     }, others, {
-      onPointerDown: onPointerDown
+      onMouseDown: onPointerDown,
+      onTouchStart: onPointerDown
     }), children);
   }
 
@@ -10301,10 +10304,10 @@ class DockPanel extends react_1.default.PureComponent {
     }
 
     let isFloat = parent && parent.mode === 'float';
-    let pointerDownCallback;
+    let pointerDownCallback = this.onFloatPointerDown;
 
-    if (isFloat) {
-      pointerDownCallback = this.onFloatPointerDown;
+    if (!isFloat) {
+      pointerDownCallback = null;
     }
 
     let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}${draggingHeader ? ' dragging' : ''}`;
@@ -10338,7 +10341,8 @@ class DockPanel extends react_1.default.PureComponent {
       className: cls,
       style: style,
       "data-dockid": id,
-      onPointerDown: pointerDownCallback,
+      onMouseDown: pointerDownCallback,
+      onTouchStart: pointerDownCallback,
       onDragOverT: isFloat ? null : this.onDragOver
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,

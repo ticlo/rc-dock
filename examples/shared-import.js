@@ -4820,6 +4820,10 @@ class DragState {
     return null;
   }
 
+  get dragType() {
+    return this.component.dragType;
+  }
+
   accept(message = '') {
     this.acceptMessage = message;
   }
@@ -5024,7 +5028,13 @@ exports.removeDragStateListener = removeDragStateListener;
 let _lastPointerDownEvent;
 
 function checkPointerDownEvent(e) {
+  if (e instanceof MouseEvent && e.button !== 0 && e.button !== 2) {
+    // only allows left right button drag
+    return false;
+  }
+
   if (e !== _lastPointerDownEvent) {
+    // same event can't trigger drag twice
     _lastPointerDownEvent = e;
     return true;
   }
@@ -5102,8 +5112,7 @@ class DragDropDiv extends react_1.default.Component {
       }
     };
 
-    this.dragging = false;
-    this.isTouch = false;
+    this.dragType = null;
 
     this.onPointerDown = e => {
       if (!DragManager.checkPointerDownEvent(e.nativeEvent)) {
@@ -5226,23 +5235,27 @@ class DragDropDiv extends react_1.default.Component {
       onDragStartT
     } = this.props;
 
-    if (this.dragging) {
+    if (this.dragType) {
       this.onEnd();
     }
 
     if (e.nativeEvent.type === 'touchstart') {
-      this.isTouch = true;
       document.addEventListener('touchmove', this.onTouchMove);
       document.addEventListener('touchend', this.onTouchEnd);
+      this.dragType = 'touch';
     } else {
-      this.isTouch = false;
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseEnd);
+
+      if (e.nativeEvent.button === 2) {
+        this.dragType = 'right';
+      } else {
+        this.dragType = 'left';
+      }
     }
 
     document.body.classList.add('dock-dragging');
     this.waitingMove = true;
-    this.dragging = true;
   } // return true for a valid move
 
 
@@ -5275,14 +5288,14 @@ class DragDropDiv extends react_1.default.Component {
   }
 
   cleanup(e) {
-    this.dragging = false;
+    this.dragType = null;
     this.waitingMove = false;
     document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
   }
 
   onEnd() {
-    if (this.isTouch) {
+    if (this.dragType === 'touch') {
       this.onTouchEnd();
     } else {
       this.onMouseEnd();
@@ -5337,7 +5350,7 @@ class DragDropDiv extends react_1.default.Component {
       DragManager.removeHandlers(this.element);
     }
 
-    if (this.dragging) {
+    if (this.dragType) {
       this.onEnd();
     }
   }

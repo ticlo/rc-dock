@@ -27,7 +27,7 @@ export class DragState {
         this.pageY = event.pageY;
         this.clientX = event.clientX;
         this.clientY = event.clientY;
-      } else if (event instanceof TouchEvent) {
+      } else if (event.type.startsWith('touch')) {
         let touch: Touch;
         if (event.type === 'touchend') {
           touch = event.changedTouches[0];

@@ -294,6 +294,9 @@ body > .dragging-layer > div:last-child {
   width: 100%;
   height: 100%;
 }
+body.dock-dragging {
+  user-select: none;
+}
 body.dock-dragging .dock-content {
   pointer-events: none;
 }

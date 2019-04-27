@@ -1,5 +1,8 @@
+export type DragType = 'left' | 'right' | 'touch';
+
 interface DragDropComponent {
   element: HTMLElement;
+  dragType: DragType;
   baseX: number;
   baseY: number;
   scaleX: number;
@@ -77,6 +80,10 @@ export class DragState {
       return _data[field];
     }
     return null;
+  }
+
+  get dragType(): DragType {
+    return this.component.dragType;
   }
 
   acceptMessage: string;
@@ -259,7 +266,12 @@ export function removeDragStateListener(callback: (scope: any) => void) {
 let _lastPointerDownEvent: any;
 
 export function checkPointerDownEvent(e: any) {
+  if (e instanceof MouseEvent && e.button !== 0 && e.button !== 2) {
+    // only allows left right button drag
+    return false;
+  }
   if (e !== _lastPointerDownEvent) {
+    // same event can't trigger drag twice
     _lastPointerDownEvent = e;
     return true;
   }

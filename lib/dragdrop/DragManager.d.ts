@@ -1,5 +1,7 @@
+export declare type DragType = 'left' | 'right' | 'touch';
 interface DragDropComponent {
     element: HTMLElement;
+    dragType: DragType;
     baseX: number;
     baseY: number;
     scaleX: number;
@@ -26,6 +28,7 @@ export declare class DragState {
         [key: string]: any;
     }, scope?: any): void;
     static getData(field: string, scope?: any): any;
+    readonly dragType: DragType;
     acceptMessage: string;
     rejected: boolean;
     accept(message?: string): void;

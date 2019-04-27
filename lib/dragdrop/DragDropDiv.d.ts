@@ -18,8 +18,7 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
 export declare class DragDropDiv extends React.Component<DragDropDivProps, any> {
     element: HTMLElement;
     _getRef: (r: HTMLDivElement) => void;
-    dragging: boolean;
-    isTouch: boolean;
+    dragType: DragManager.DragType;
     baseX: number;
     baseY: number;
     scaleX: number;

@@ -5230,7 +5230,7 @@ class DragDropDiv extends react_1.default.Component {
       this.onEnd();
     }
 
-    if (e.nativeEvent instanceof TouchEvent) {
+    if (e.nativeEvent.type === 'touchstart') {
       this.isTouch = true;
       document.addEventListener('touchmove', this.onTouchMove);
       document.addEventListener('touchend', this.onTouchEnd);

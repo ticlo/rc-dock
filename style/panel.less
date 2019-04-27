@@ -1,6 +1,9 @@
 
-body.dock-dragging .dock-content {
-  pointer-events: none;
+body.dock-dragging {
+  user-select: none;
+  .dock-content {
+    pointer-events: none;
+  }
 }
 
 .dock-panel {

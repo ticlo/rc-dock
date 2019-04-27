@@ -4762,7 +4762,7 @@ class DragState {
         this.pageY = event.pageY;
         this.clientX = event.clientX;
         this.clientY = event.clientY;
-      } else if (event instanceof TouchEvent) {
+      } else if (event.type.startsWith('touch')) {
         let touch;
 
         if (event.type === 'touchend') {

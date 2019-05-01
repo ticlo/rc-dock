@@ -44,7 +44,8 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   baseY: number;
   scaleX: number;
   scaleY: number;
-  waitingMove: boolean;
+  waitingMove = false;
+  listening = false;
 
   onPointerDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (!DragManager.checkPointerDownEvent(e.nativeEvent)) {
@@ -69,16 +70,16 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   addListeners(e: React.MouseEvent | React.TouchEvent) {
     let {onDragStartT} = this.props;
 
-    if (this.dragType) {
-      this.onEnd();
+    if (this.listening) {
+      this.onDragEnd();
     }
     if (e.nativeEvent.type === 'touchstart') {
       document.addEventListener('touchmove', this.onTouchMove);
-      document.addEventListener('touchend', this.onTouchEnd);
+      document.addEventListener('touchend', this.onDragEnd);
       this.dragType = 'touch';
     } else {
       document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('mouseup', this.onMouseEnd);
+      document.addEventListener('mouseup', this.onDragEnd);
       if ((e.nativeEvent as MouseEvent).button === 2) {
         this.dragType = 'right';
       } else {
@@ -87,7 +88,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     }
     document.body.classList.add('dock-dragging');
     this.waitingMove = true;
-
+    this.listening = true;
   }
 
   // return true for a valid move
@@ -106,7 +107,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     this.waitingMove = false;
     onDragStartT(state);
     if (!DragManager.isDragging()) {
-      this.onEnd();
+      this.onDragEnd();
       return false;
     }
     state.onMove();
@@ -131,26 +132,6 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     e.preventDefault();
   };
 
-  onMouseEnd = (e?: MouseEvent) => {
-    let {onDragEndT} = this.props;
-    let state = new DragManager.DragState(e, this);
-
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.onMouseEnd);
-    this.cleanup(state);
-
-    if (!this.waitingMove) {
-      if (e) {
-        state.onDrop();
-      }
-      if (onDragEndT) {
-        onDragEndT(state);
-      }
-    }
-
-    DragManager.destroyDraggingElement(state);
-  };
-
   onTouchMove = (e: TouchEvent) => {
     let {onDragMoveT} = this.props;
     if (this.waitingMove) {
@@ -158,7 +139,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
         return;
       }
     } else if (e.touches.length !== 1) {
-      this.onTouchEnd();
+      this.onDragEnd();
     } else {
       let state = new DragManager.DragState(e, this);
       state.onMove();
@@ -168,13 +149,12 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     }
     e.preventDefault();
   };
-  onTouchEnd = (e?: TouchEvent) => {
+
+  onDragEnd = (e?: TouchEvent | MouseEvent) => {
     let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
 
-    document.removeEventListener('touchmove', this.onTouchMove);
-    document.removeEventListener('touchend', this.onTouchEnd);
-    this.cleanup(state);
+    this.removeListeners();
 
     if (!this.waitingMove) {
       if (e) {
@@ -185,28 +165,32 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       }
     }
 
-    DragManager.destroyDraggingElement(state);
+    this.cleanup(state);
   };
 
   onKeyDown = (e?: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      this.onEnd();
+      this.onDragEnd();
     }
   };
 
-  cleanup(e: DragManager.DragState) {
-    this.dragType = null;
-    this.waitingMove = false;
+  removeListeners() {
+    if (this.dragType === 'touch') {
+      document.removeEventListener('touchmove', this.onTouchMove);
+      document.removeEventListener('touchend', this.onDragEnd);
+    } else {
+      document.removeEventListener('mousemove', this.onMouseMove);
+      document.removeEventListener('mouseup', this.onDragEnd);
+    }
     document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
+    this.listening = false;
   }
 
-  onEnd() {
-    if (this.dragType === 'touch') {
-      this.onTouchEnd();
-    } else {
-      this.onMouseEnd();
-    }
+  cleanup(state: DragManager.DragState) {
+    this.dragType = null;
+    this.waitingMove = false;
+    DragManager.destroyDraggingElement(state);
   }
 
   render(): React.ReactNode {
@@ -240,8 +224,8 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     if (this.element && onDragOverT) {
       DragManager.removeHandlers(this.element);
     }
-    if (this.dragType) {
-      this.onEnd();
+    if (this.listening) {
+      this.onDragEnd();
     }
   }
 }

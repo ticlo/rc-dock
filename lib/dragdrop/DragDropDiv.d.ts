@@ -24,17 +24,17 @@ export declare class DragDropDiv extends React.Component<DragDropDivProps, any> 
     scaleX: number;
     scaleY: number;
     waitingMove: boolean;
+    listening: boolean;
     onPointerDown: (e: React.MouseEvent<Element, MouseEvent> | React.TouchEvent<Element>) => void;
     addListeners(e: React.MouseEvent | React.TouchEvent): void;
     checkFirstMove(e: AbstractPointerEvent): boolean;
     executeFirstMove(state: DragManager.DragState): boolean;
     onMouseMove: (e: MouseEvent) => void;
-    onMouseEnd: (e?: MouseEvent) => void;
     onTouchMove: (e: TouchEvent) => void;
-    onTouchEnd: (e?: TouchEvent) => void;
+    onDragEnd: (e?: MouseEvent | TouchEvent) => void;
     onKeyDown: (e?: KeyboardEvent) => void;
-    cleanup(e: DragManager.DragState): void;
-    onEnd(): void;
+    removeListeners(): void;
+    cleanup(state: DragManager.DragState): void;
     render(): React.ReactNode;
     componentWillUnmount(): void;
 }

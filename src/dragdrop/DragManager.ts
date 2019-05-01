@@ -99,7 +99,7 @@ export class DragState {
 
   onMove() {
     if (_data) {
-      let searchElement = document.elementFromPoint(this.pageX, this.pageY) as HTMLElement;
+      let searchElement = document.elementFromPoint(this.clientX, this.clientY) as HTMLElement;
       let droppingHandlers: DragHandlers;
       while (searchElement && searchElement !== document.body) {
         if (_dragListeners.has(searchElement)) {

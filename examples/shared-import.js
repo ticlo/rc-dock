@@ -9797,8 +9797,9 @@ class DockDropEdge extends react_1.default.PureComponent {
       } = this.getDirection(e);
       depth = this.getActualDepth(depth, mode, direction);
 
-      if (!direction) {
+      if (!direction || direction === 'float' && dropFromPanel.panelLock) {
         this.context.setDropRect(null, 'remove', this);
+        return;
       }
 
       let targetElement = panelElement;

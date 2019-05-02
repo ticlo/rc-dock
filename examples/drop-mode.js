@@ -278,7 +278,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: 't8'
         }), _objectSpread({}, tab, {
           id: 't9'
-        })]
+        })],
+        panelLock: {
+          panelStyle: 'main'
+        }
       }]
     }
   };

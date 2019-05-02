@@ -33,8 +33,8 @@ export declare class DragState {
     rejected: boolean;
     accept(message?: string): void;
     reject(): void;
-    onMove(): void;
-    onDrop(): void;
+    _onMove(): void;
+    _onDragEnd(): void;
 }
 export declare type DragHandler = (state: DragState) => void;
 interface DragHandlers {

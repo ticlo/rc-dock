@@ -97,7 +97,7 @@ export class DragState {
     this.rejected = true;
   }
 
-  onMove() {
+  _onMove() {
     if (_data) {
       let searchElement = document.elementFromPoint(this.clientX, this.clientY) as HTMLElement;
       let droppingHandlers: DragHandlers;
@@ -119,12 +119,24 @@ export class DragState {
     moveDraggingElement(this);
   }
 
-  onDrop() {
+  _onDragEnd() {
     if (_droppingHandlers && _droppingHandlers.onDropT) {
       _droppingHandlers.onDropT(this);
     }
+    if (this.component.dragType === 'right') {
+      // prevent the next menu event if drop handler is called on right mouse button
+      document.addEventListener('contextmenu', preventDefault, true);
+      setTimeout(() => {
+        document.removeEventListener('contextmenu', preventDefault, true);
+      }, 0);
+    }
   }
 }
+
+function preventDefault(e: Event) {
+  e.preventDefault();
+}
+
 
 export type DragHandler = (state: DragState) => void;
 

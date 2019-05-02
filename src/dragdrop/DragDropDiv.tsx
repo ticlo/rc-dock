@@ -110,7 +110,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       this.onDragEnd();
       return false;
     }
-    state.onMove();
+    state._onMove();
     document.addEventListener('keydown', this.onKeyDown);
     return true;
   }
@@ -124,7 +124,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       }
     } else {
       let state = new DragManager.DragState(e, this);
-      state.onMove();
+      state._onMove();
       if (onDragMoveT) {
         onDragMoveT(state);
       }
@@ -142,7 +142,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       this.onDragEnd();
     } else {
       let state = new DragManager.DragState(e, this);
-      state.onMove();
+      state._onMove();
       if (onDragMoveT) {
         onDragMoveT(state);
       }
@@ -158,7 +158,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
 
     if (!this.waitingMove) {
       if (e) {
-        state.onDrop();
+        state._onDragEnd();
       }
       if (onDragEndT) {
         onDragEndT(state);

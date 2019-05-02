@@ -34,6 +34,7 @@ let box = {
       },
       {
         tabs: [{...tab, id: 't7'}, {...tab, id: 't8'}, {...tab, id: 't9'}],
+        panelLock: {panelStyle: 'main'},
       },
     ]
   }

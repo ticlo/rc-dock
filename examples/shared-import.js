@@ -4832,7 +4832,7 @@ class DragState {
     this.rejected = true;
   }
 
-  onMove() {
+  _onMove() {
     if (_data) {
       let searchElement = document.elementFromPoint(this.clientX, this.clientY);
       let droppingHandlers;
@@ -4860,15 +4860,27 @@ class DragState {
     moveDraggingElement(this);
   }
 
-  onDrop() {
+  _onDragEnd() {
     if (_droppingHandlers && _droppingHandlers.onDropT) {
       _droppingHandlers.onDropT(this);
+    }
+
+    if (this.component.dragType === 'right') {
+      // prevent the next menu event if drop handler is called on right mouse button
+      document.addEventListener('contextmenu', preventDefault, true);
+      setTimeout(() => {
+        document.removeEventListener('contextmenu', preventDefault, true);
+      }, 0);
     }
   }
 
 }
 
 exports.DragState = DragState;
+
+function preventDefault(e) {
+  e.preventDefault();
+}
 
 let _dataScope;
 
@@ -5148,7 +5160,8 @@ class DragDropDiv extends react_1.default.Component {
         }
       } else {
         let state = new DragManager.DragState(e, this);
-        state.onMove();
+
+        state._onMove();
 
         if (onDragMoveT) {
           onDragMoveT(state);
@@ -5171,7 +5184,8 @@ class DragDropDiv extends react_1.default.Component {
         this.onDragEnd();
       } else {
         let state = new DragManager.DragState(e, this);
-        state.onMove();
+
+        state._onMove();
 
         if (onDragMoveT) {
           onDragMoveT(state);
@@ -5190,7 +5204,7 @@ class DragDropDiv extends react_1.default.Component {
 
       if (!this.waitingMove) {
         if (e) {
-          state.onDrop();
+          state._onDragEnd();
         }
 
         if (onDragEndT) {
@@ -5261,7 +5275,8 @@ class DragDropDiv extends react_1.default.Component {
       return false;
     }
 
-    state.onMove();
+    state._onMove();
+
     document.addEventListener('keydown', this.onKeyDown);
     return true;
   }

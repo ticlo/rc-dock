@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>rc-dock</title>
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.less">
+  <style>
+
+    div {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    #app {
+      margin: 30px;
+    }
+
+    .drag-initiator {
+      width: 300px;
+      height: 300px;
+      background: #f8f8f8;
+    }
+
+    .sidebox {
+      position: absolute;
+      top: 30px;
+      left: 350px;
+    }
+
+    iframe {
+      position: absolute;
+      top: 350px;
+      left: 0;
+      right: 0;
+      height: calc(100% - 350px);
+      min-height: 300px;
+      border-top: solid 1px #ccc;
+    }
+  </style>
+</head>
+<body>
+<div id="app" style="height:100%"></div>
+
+<script src="gesture.jsx" async></script>
+</body>
+</html>

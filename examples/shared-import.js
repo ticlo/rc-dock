@@ -5055,6 +5055,69 @@ function checkPointerDownEvent(e) {
 }
 
 exports.checkPointerDownEvent = checkPointerDownEvent;
+},{}],"cItD":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+class GestureState {
+  constructor(event, component, init = false) {
+    this.dx1 = 0;
+    this.dy1 = 0;
+    this.dx2 = 0;
+    this.dy2 = 0;
+    this.scale = 1;
+    this.rotate = 0;
+    this.dx = 0;
+    this.dy = 0;
+    this.event = event;
+    this.component = component;
+    this._init = init;
+
+    if (event) {
+      if (event.touches.length === 2) {
+        let touch1 = event.touches[0];
+        let touch2 = event.touches[1];
+        this.dx1 = (touch1.pageX - component.baseX) * component.scaleX;
+        this.dy1 = (touch1.pageY - component.baseY) * component.scaleY;
+        this.dx2 = (touch2.pageX - component.baseX2) * component.scaleX;
+        this.dy2 = (touch2.pageY - component.baseY2) * component.scaleY;
+
+        if (this.dx1 * this.dx2 >= 0) {
+          this.dx = (this.dx1 + this.dx2) / 2;
+        }
+
+        if (this.dy1 * this.dy2 >= 0) {
+          this.dy = (this.dy1 + this.dy2) / 2;
+        }
+
+        this.scale = Math.sqrt(Math.pow(touch2.pageX - touch1.pageX, 2) + Math.pow(touch2.pageY - touch1.pageY, 2)) / component.baseDis;
+        this.rotate = Math.atan2(touch2.pageY - touch1.pageY, touch2.pageX - touch1.pageX) - component.baseAng;
+      }
+    }
+  }
+
+  moved() {
+    return Math.max(Math.abs(this.dx1), Math.abs(this.dx2), Math.abs(this.dy1), Math.abs(this.dy2));
+  }
+
+  pageCenter() {
+    let touch1 = this.event.touches[0];
+    let touch2 = this.event.touches[1];
+    return [(touch1.pageX + touch2.pageX) / 2, (touch1.pageY + touch2.pageY) / 2];
+  }
+
+  clientCenter() {
+    let touch1 = this.event.touches[0];
+    let touch2 = this.event.touches[1];
+    return [(touch1.clientX + touch2.clientX) / 2, (touch1.clientY + touch2.clientY) / 2];
+  }
+
+}
+
+exports.GestureState = GestureState;
 },{}],"HyIX":[function(require,module,exports) {
 "use strict";
 
@@ -5088,6 +5151,8 @@ Object.defineProperty(exports, "__esModule", {
 const react_1 = __importDefault(require("react"));
 
 const DragManager = __importStar(require("./DragManager"));
+
+const GestureManager_1 = require("./GestureManager");
 
 class DragDropDiv extends react_1.default.Component {
   constructor() {
@@ -5127,25 +5192,30 @@ class DragDropDiv extends react_1.default.Component {
     this.dragType = null;
     this.waitingMove = false;
     this.listening = false;
+    this.gesturing = false;
 
     this.onPointerDown = e => {
-      if (!DragManager.checkPointerDownEvent(e.nativeEvent)) {
-        // same pointer event shouldn't trigger 2 drag start
-        return;
-      }
+      let {
+        onDragStartT,
+        onGestureStartT,
+        onGestureMoveT
+      } = this.props;
+      let event = e.nativeEvent;
+      this.cancel();
 
-      let state = new DragManager.DragState(e.nativeEvent, this, true);
-      this.baseX = state.pageX;
-      this.baseY = state.pageY;
-      let baseElement = this.element.parentElement;
-      let rect = baseElement.getBoundingClientRect();
-      this.scaleX = baseElement.offsetWidth / Math.round(rect.width);
-      this.scaleY = baseElement.offsetHeight / Math.round(rect.height);
-      this.addListeners(e);
-
-      if (this.props.directDragT) {
-        let state = new DragManager.DragState(e.nativeEvent, this, true);
-        this.executeFirstMove(state);
+      if (event.type === 'touchstart') {
+        // check single or double fingure touch
+        if (event.touches.length === 1) {
+          if (onDragStartT) {
+            this.onDragStart(event);
+          }
+        } else if (event.touches.length === 2) {
+          if (onGestureStartT && onGestureMoveT) {
+            this.onGestureStart(event);
+          }
+        }
+      } else if (onDragStartT) {
+        this.onDragStart(event);
       }
     };
 
@@ -5204,6 +5274,7 @@ class DragDropDiv extends react_1.default.Component {
 
       if (!this.waitingMove) {
         if (e) {
+          // e=null means drag is canceled
           state._onDragEnd();
         }
 
@@ -5212,26 +5283,78 @@ class DragDropDiv extends react_1.default.Component {
         }
       }
 
-      this.cleanup(state);
+      this.cleanupDrag(state);
+    };
+
+    this.onGestureMove = e => {
+      let {
+        onGestureMoveT,
+        gestureSensitivity
+      } = this.props;
+      let state = new GestureManager_1.GestureState(e, this);
+
+      if (this.waitingMove) {
+        if (!(gestureSensitivity > 0)) {
+          gestureSensitivity = 10; // default sensitivity
+        }
+
+        if (state.moved() > gestureSensitivity) {
+          this.waitingMove = false;
+        } else {
+          return;
+        }
+      }
+
+      if (onGestureMoveT) {
+        onGestureMoveT(state);
+      }
+    };
+
+    this.onGestureEnd = e => {
+      let {
+        onGestureEndT
+      } = this.props;
+      let state = new DragManager.DragState(e, this);
+      this.removeListeners();
+
+      if (onGestureEndT) {
+        onGestureEndT();
+      }
     };
 
     this.onKeyDown = e => {
       if (e.key === 'Escape') {
-        this.onDragEnd();
+        this.cancel();
       }
     };
   }
 
-  addListeners(e) {
+  onDragStart(event) {
+    if (!DragManager.checkPointerDownEvent(event)) {
+      // same pointer event shouldn't trigger 2 drag start
+      return;
+    }
+
+    let state = new DragManager.DragState(event, this, true);
+    this.baseX = state.pageX;
+    this.baseY = state.pageY;
+    let baseElement = this.element.parentElement;
+    let rect = baseElement.getBoundingClientRect();
+    this.scaleX = baseElement.offsetWidth / Math.round(rect.width);
+    this.scaleY = baseElement.offsetHeight / Math.round(rect.height);
+    this.addDragListeners(event);
+
+    if (this.props.directDragT) {
+      this.executeFirstMove(state);
+    }
+  }
+
+  addDragListeners(event) {
     let {
       onDragStartT
     } = this.props;
 
-    if (this.listening) {
-      this.onDragEnd();
-    }
-
-    if (e.nativeEvent.type === 'touchstart') {
+    if (event.type === 'touchstart') {
       document.addEventListener('touchmove', this.onTouchMove);
       document.addEventListener('touchend', this.onDragEnd);
       this.dragType = 'touch';
@@ -5239,7 +5362,7 @@ class DragDropDiv extends react_1.default.Component {
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onDragEnd);
 
-      if (e.nativeEvent.button === 2) {
+      if (event.button === 2) {
         this.dragType = 'right';
       } else {
         this.dragType = 'left';
@@ -5281,21 +5404,72 @@ class DragDropDiv extends react_1.default.Component {
     return true;
   }
 
+  addGestureListeners(event) {
+    document.addEventListener('touchmove', this.onGestureMove);
+    document.addEventListener('touchend', this.onGestureEnd);
+    document.addEventListener('keydown', this.onKeyDown);
+    document.body.classList.add('dock-dragging');
+    this.gesturing = true;
+    this.waitingMove = true;
+  }
+
+  onGestureStart(event) {
+    if (!DragManager.checkPointerDownEvent(event)) {
+      // same pointer event shouldn't trigger 2 drag start
+      return;
+    }
+
+    let {
+      onGestureStartT
+    } = this.props;
+    this.baseX = event.touches[0].pageX;
+    this.baseY = event.touches[0].pageY;
+    this.baseX2 = event.touches[1].pageX;
+    this.baseY2 = event.touches[1].pageY;
+    let baseElement = this.element.parentElement;
+    let rect = baseElement.getBoundingClientRect();
+    this.scaleX = baseElement.offsetWidth / Math.round(rect.width);
+    this.scaleY = baseElement.offsetHeight / Math.round(rect.height);
+    this.baseDis = Math.sqrt(Math.pow(this.baseX - this.baseX2, 2) + Math.pow(this.baseY - this.baseY2, 2));
+    this.baseAng = Math.atan2(this.baseY2 - this.baseY, this.baseX2 - this.baseX);
+    let state = new GestureManager_1.GestureState(event, this, true);
+
+    if (onGestureStartT(state)) {
+      this.addGestureListeners(event);
+    }
+  }
+
+  cancel() {
+    if (this.listening) {
+      this.onDragEnd();
+    }
+
+    if (this.gesturing) {
+      this.onGestureEnd();
+    }
+  }
+
   removeListeners() {
-    if (this.dragType === 'touch') {
-      document.removeEventListener('touchmove', this.onTouchMove);
-      document.removeEventListener('touchend', this.onDragEnd);
-    } else {
-      document.removeEventListener('mousemove', this.onMouseMove);
-      document.removeEventListener('mouseup', this.onDragEnd);
+    if (this.gesturing) {
+      document.removeEventListener('touchmove', this.onGestureMove);
+      document.removeEventListener('touchend', this.onGestureEnd);
+    } else if (this.listening) {
+      if (this.dragType === 'touch') {
+        document.removeEventListener('touchmove', this.onTouchMove);
+        document.removeEventListener('touchend', this.onDragEnd);
+      } else {
+        document.removeEventListener('mousemove', this.onMouseMove);
+        document.removeEventListener('mouseup', this.onDragEnd);
+      }
     }
 
     document.body.classList.remove('dock-dragging');
     document.removeEventListener('keydown', this.onKeyDown);
     this.listening = false;
+    this.gesturing = false;
   }
 
-  cleanup(state) {
+  cleanupDrag(state) {
     this.dragType = null;
     this.waitingMove = false;
     DragManager.destroyDraggingElement(state);
@@ -5313,17 +5487,25 @@ class DragDropDiv extends react_1.default.Component {
       onDragEndT,
       onDragOverT,
       onDragLeaveT,
-      onDropT
+      onDropT,
+      onGestureStartT,
+      onGestureMoveT,
+      onGestureEndT
     } = _a,
-        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT"]);
+        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT"]);
 
-    let onPointerDown = this.onPointerDown;
+    let onTouchDown = this.onPointerDown;
+    let onMouseDown = this.onPointerDown;
 
     if (!onDragStartT) {
-      onPointerDown = null;
+      onMouseDown = null;
+
+      if (!onGestureStartT) {
+        onTouchDown = null;
+      }
     }
 
-    if (onDragStartT) {
+    if (onDragStartT || onGestureStartT) {
       if (className) {
         className = `${className} drag-initiator`;
       } else {
@@ -5335,8 +5517,8 @@ class DragDropDiv extends react_1.default.Component {
       ref: this._getRef,
       className: className
     }, others, {
-      onMouseDown: onPointerDown,
-      onTouchStart: onPointerDown
+      onMouseDown: onMouseDown,
+      onTouchStart: onTouchDown
     }), children);
   }
 
@@ -5349,15 +5531,13 @@ class DragDropDiv extends react_1.default.Component {
       DragManager.removeHandlers(this.element);
     }
 
-    if (this.listening) {
-      this.onDragEnd();
-    }
+    this.cancel();
   }
 
 }
 
 exports.DragDropDiv = DragDropDiv;
-},{"react":"1n8/","./DragManager":"EJTb"}],"qC88":[function(require,module,exports) {
+},{"react":"1n8/","./DragManager":"EJTb","./GestureManager":"cItD"}],"qC88":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11583,6 +11763,8 @@ __export(require("./DockLayout"));
 
 __export(require("./dragdrop/DragManager"));
 
+__export(require("./dragdrop/GestureManager"));
+
 __export(require("./dragdrop/DragDropDiv"));
 
 __export(require("./Divider"));
@@ -11590,7 +11772,7 @@ __export(require("./Divider"));
 const DockLayout_1 = require("./DockLayout");
 
 exports.default = DockLayout_1.DockLayout;
-},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn"}],"a1rF":[function(require,module,exports) {
+},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"0iJy","./dragdrop/DragManager":"EJTb","./dragdrop/GestureManager":"cItD","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn"}],"a1rF":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

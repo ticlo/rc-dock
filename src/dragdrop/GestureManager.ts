@@ -67,6 +67,11 @@ export class GestureState {
         }
         this.scale = Math.sqrt(Math.pow(touch2.pageX - touch1.pageX, 2) + Math.pow(touch2.pageY - touch1.pageY, 2)) / component.baseDis;
         this.rotate = Math.atan2(touch2.pageY - touch1.pageY, touch2.pageX - touch1.pageX) - component.baseAng;
+        if (this.rotate > Math.PI) {
+          this.rotate -= Math.PI * 2;
+        } else if (this.rotate < -Math.PI) {
+          this.rotate += Math.PI * 2;
+        }
       }
     }
   }

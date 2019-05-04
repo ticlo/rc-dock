@@ -4757,12 +4757,7 @@ class DragState {
     this._init = init;
 
     if (event) {
-      if ('pageX' in event) {
-        this.pageX = event.pageX;
-        this.pageY = event.pageY;
-        this.clientX = event.clientX;
-        this.clientY = event.clientY;
-      } else if (event.type.startsWith('touch')) {
+      if (event.type.startsWith('touch')) {
         let touch;
 
         if (event.type === 'touchend') {
@@ -4775,6 +4770,11 @@ class DragState {
         this.pageY = touch.pageY;
         this.clientX = touch.clientX;
         this.clientY = touch.clientY;
+      } else if ('pageX' in event) {
+        this.pageX = event.pageX;
+        this.pageY = event.pageY;
+        this.clientX = event.clientX;
+        this.clientY = event.clientY;
       }
 
       this.dx = (this.pageX - component.baseX) * component.scaleX;
@@ -5095,6 +5095,12 @@ class GestureState {
 
         this.scale = Math.sqrt(Math.pow(touch2.pageX - touch1.pageX, 2) + Math.pow(touch2.pageY - touch1.pageY, 2)) / component.baseDis;
         this.rotate = Math.atan2(touch2.pageY - touch1.pageY, touch2.pageX - touch1.pageX) - component.baseAng;
+
+        if (this.rotate > Math.PI) {
+          this.rotate -= Math.PI * 2;
+        } else if (this.rotate < -Math.PI) {
+          this.rotate += Math.PI * 2;
+        }
       }
     }
   }
@@ -5347,6 +5353,8 @@ class DragDropDiv extends react_1.default.Component {
     if (this.props.directDragT) {
       this.executeFirstMove(state);
     }
+
+    event.preventDefault();
   }
 
   addDragListeners(event) {
@@ -5436,6 +5444,7 @@ class DragDropDiv extends react_1.default.Component {
 
     if (onGestureStartT(state)) {
       this.addGestureListeners(event);
+      event.preventDefault();
     }
   }
 
@@ -8872,21 +8881,17 @@ class TabCache {
       cacheContext
     } = this.data;
     let tabGroup = this.context.getGroup(group);
-    let {
-      tabLocked
-    } = tabGroup;
 
     if (typeof content === 'function') {
       content = content(this.data);
     }
 
-    let onDragStart = tabLocked ? null : this.onDragStart;
     let tab = react_1.default.createElement("div", {
       ref: this.getRef
     }, title, react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       className: 'dock-tab-hit-area',
       getRef: this.getHitAreaRef,
-      onDragStartT: onDragStart,
+      onDragStartT: this.onDragStart,
       onDragOverT: this.onDragOver,
       onDropT: this.onDrop,
       onDragLeaveT: this.onDragLeave
@@ -10478,7 +10483,7 @@ class DockPanel extends react_1.default.PureComponent {
     let {
       minWidth,
       minHeight,
-      group: groupName,
+      group: styleName,
       id,
       parent,
       panelLock
@@ -10486,14 +10491,14 @@ class DockPanel extends react_1.default.PureComponent {
 
     if (panelLock) {
       if (panelLock.panelStyle) {
-        groupName = panelLock.panelStyle;
+        styleName = panelLock.panelStyle;
       }
     }
 
     let panelClass;
 
-    if (groupName) {
-      panelClass = groupName.split(' ').map(name => `dock-style-${name}`).join(' ');
+    if (styleName) {
+      panelClass = styleName.split(' ').map(name => `dock-style-${name}`).join(' ');
     }
 
     let isFloat = parent && parent.mode === 'float';
@@ -10521,12 +10526,17 @@ class DockPanel extends react_1.default.PureComponent {
     let droppingLayer;
 
     if (dropFromPanel) {
-      let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge_1.DockDropEdge : DockDropLayer_1.DockDropLayer;
-      droppingLayer = react_1.default.createElement(DockDropClass, {
-        panelData: panelData,
-        panelElement: this._ref,
-        dropFromPanel: dropFromPanel
-      });
+      let tabGroup = this.context.getGroup(dropFromPanel.group);
+
+      if (!tabGroup.tabLocked || DragManager_1.DragState.getData('tab', DockData_1.DockContextType) == null) {
+        // not allowed locked tab to create new panel
+        let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge_1.DockDropEdge : DockDropLayer_1.DockDropLayer;
+        droppingLayer = react_1.default.createElement(DockDropClass, {
+          panelData: panelData,
+          panelElement: this._ref,
+          dropFromPanel: dropFromPanel
+        });
+      }
     }
 
     return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
@@ -10534,8 +10544,8 @@ class DockPanel extends react_1.default.PureComponent {
       className: cls,
       style: style,
       "data-dockid": id,
-      onMouseDown: pointerDownCallback,
-      onTouchStart: pointerDownCallback,
+      onMouseDownCapture: pointerDownCallback,
+      onTouchStartCapture: pointerDownCallback,
       onDragOverT: isFloat ? null : this.onDragOver
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,

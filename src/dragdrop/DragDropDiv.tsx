@@ -98,6 +98,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     if (this.props.directDragT) {
       this.executeFirstMove(state);
     }
+    event.preventDefault();
   }
 
   addDragListeners(event: MouseEvent | TouchEvent) {
@@ -230,6 +231,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     let state = new GestureState(event, this, true);
     if (onGestureStartT(state)) {
       this.addGestureListeners(event);
+      event.preventDefault();
     }
   }
 

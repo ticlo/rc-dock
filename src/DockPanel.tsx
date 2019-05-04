@@ -245,7 +245,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
-                   onMouseDown={pointerDownCallback} onTouchStart={pointerDownCallback}
+                   onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
                    onDragOverT={isFloat ? null : this.onDragOver}>
         <DockTabs panelData={panelData} onPanelDragStart={this.onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>

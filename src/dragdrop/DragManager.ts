@@ -25,23 +25,23 @@ export class DragState {
     this.component = component;
     this._init = init;
     if (event) {
-      if ('pageX' in event) {
-        this.pageX = event.pageX;
-        this.pageY = event.pageY;
-        this.clientX = event.clientX;
-        this.clientY = event.clientY;
-      } else if (event.type.startsWith('touch')) {
+      if (event.type.startsWith('touch')) {
         let touch: Touch;
         if (event.type === 'touchend') {
-          touch = event.changedTouches[0];
+          touch = (event as TouchEvent).changedTouches[0];
         } else {
-          touch = event.touches[0];
+          touch = (event as TouchEvent).touches[0];
         }
 
         this.pageX = touch.pageX;
         this.pageY = touch.pageY;
         this.clientX = touch.clientX;
         this.clientY = touch.clientY;
+      } else if ('pageX' in event) {
+        this.pageX = event.pageX;
+        this.pageY = event.pageY;
+        this.clientX = event.clientX;
+        this.clientY = event.clientY;
       }
       this.dx = (this.pageX - component.baseX) * component.scaleX;
       this.dy = (this.pageY - component.baseY) * component.scaleY;

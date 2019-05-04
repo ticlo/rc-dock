@@ -289,3 +289,12 @@ export function checkPointerDownEvent(e: any) {
   }
   return false;
 }
+
+// work around for drag scroll issue on IOS
+if (typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform)) {
+  document.addEventListener('touchmove', (e: TouchEvent) => {
+    if (e.touches.length === 1 && isDragging()) {
+      e.preventDefault();
+    }
+  }, {passive: false});
+}

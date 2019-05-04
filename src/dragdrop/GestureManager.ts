@@ -1,5 +1,4 @@
 import {DragType} from "./DragManager";
-import {number} from "prop-types";
 
 interface GestureComponent {
   element: HTMLElement;

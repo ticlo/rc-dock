@@ -7,11 +7,7 @@ let tab = {
   content: <div>Tab Content</div>,
   closable: true,
 };
-let groups = {
-  lock: {
-    tabLocked: true,
-  }
-};
+
 let layout = {
     dockbox: {
       mode: 'horizontal',
@@ -44,12 +40,10 @@ let layout = {
                   This panel won't be removed from layout even when last Tab is closed
                 </div>
               ),
-              group: 'lock'
             },
-            {...jsxTab, group: 'lock'},
-            {...htmlTab, group: 'lock'},
+            jsxTab,
+            htmlTab,
           ],
-          group: 'lock',
           panelLock: {panelStyle: 'main'},
         },
         {
@@ -95,7 +89,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <DockLayout defaultLayout={layout} groups={groups} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
+      <DockLayout defaultLayout={layout} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

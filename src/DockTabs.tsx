@@ -95,16 +95,14 @@ export class TabCache {
   render(): React.ReactElement {
     let {id, title, group, content, closable, cached, cacheContext} = this.data;
     let tabGroup = this.context.getGroup(group);
-    let {tabLocked} = tabGroup;
     if (typeof content === 'function') {
       content = content(this.data);
     }
-    let onDragStart = tabLocked ? null : this.onDragStart;
     let tab = (
       <div ref={this.getRef}>
         {title}
         <DragDropDiv className='dock-tab-hit-area' getRef={this.getHitAreaRef}
-                     onDragStartT={onDragStart}
+                     onDragStartT={this.onDragStart}
                      onDragOverT={this.onDragOver} onDropT={this.onDrop} onDragLeaveT={this.onDragLeave}>
           {closable ?
             <div className='dock-tab-close-btn' onClick={this.onCloseClick}/>

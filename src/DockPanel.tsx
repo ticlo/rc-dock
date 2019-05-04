@@ -203,16 +203,15 @@ export class DockPanel extends React.PureComponent<Props, State> {
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
     let {panelData, size} = this.props;
-    let {minWidth, minHeight, group: groupName, id, parent, panelLock} = panelData;
-
+    let {minWidth, minHeight, group: styleName, id, parent, panelLock} = panelData;
     if (panelLock) {
       if (panelLock.panelStyle) {
-        groupName = panelLock.panelStyle;
+        styleName = panelLock.panelStyle;
       }
     }
     let panelClass: string;
-    if (groupName) {
-      panelClass = groupName
+    if (styleName) {
+      panelClass = styleName
         .split(' ')
         .map((name) => `dock-style-${name}`)
         .join(' ');
@@ -238,10 +237,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     let droppingLayer: React.ReactNode;
     if (dropFromPanel) {
-      let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
-      droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
+      let tabGroup = this.context.getGroup(dropFromPanel.group);
+      if (!tabGroup.tabLocked || DragState.getData('tab', DockContextType) == null) {
+        // not allowed locked tab to create new panel
+        let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
+        droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
+      }
     }
-
 
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}

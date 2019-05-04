@@ -5054,7 +5054,17 @@ function checkPointerDownEvent(e) {
   return false;
 }
 
-exports.checkPointerDownEvent = checkPointerDownEvent;
+exports.checkPointerDownEvent = checkPointerDownEvent; // work around for drag scroll issue on IOS
+
+if (typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform)) {
+  document.addEventListener('touchmove', e => {
+    if (e.touches.length === 1 && isDragging()) {
+      e.preventDefault();
+    }
+  }, {
+    passive: false
+  });
+}
 },{}],"cItD":[function(require,module,exports) {
 "use strict";
 

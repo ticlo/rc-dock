@@ -5058,7 +5058,7 @@ exports.checkPointerDownEvent = checkPointerDownEvent; // work around for drag s
 
 if (typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform)) {
   document.addEventListener('touchmove', e => {
-    if (e.touches.length === 1 && isDragging()) {
+    if (e.touches.length === 1 && document.body.classList.contains('dock-dragging')) {
       e.preventDefault();
     }
   }, {
@@ -9182,7 +9182,9 @@ class DockDropSquare extends react_1.default.PureComponent {
       onDragOverT: this.onDragOver,
       onDragLeaveT: this.onDragLeave,
       onDropT: this.onDrop
-    });
+    }, react_1.default.createElement("div", {
+      className: 'dock-drop-square-box'
+    }));
   }
 
   componentWillUnmount() {

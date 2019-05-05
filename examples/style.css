@@ -422,11 +422,18 @@ body.dock-dragging .dock-content {
   font-family: 'Fredoka One', sans-serif;
   color: #ccc;
   background: white;
-  border: 1px solid #ccc;
+  border: 1px solid transparent;
   left: calc(50% - 16px);
   top: calc(50% - 16px);
 }
+.dock-drop-layer .dock-drop-square .dock-drop-square-box {
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  width: 100%;
+  height: 100%;
+}
 .dock-drop-layer .dock-drop-square::before {
+  position: absolute;
   width: 100%;
   height: 100%;
   display: block;
@@ -443,10 +450,10 @@ body.dock-dragging .dock-content {
   opacity: 0.01;
 }
 .dock-drop-layer .dock-drop-left {
-  left: calc(50% - 49px);
+  left: calc(50% - 48px);
 }
 .dock-drop-layer .dock-drop-left.dock-drop-deep {
-  left: calc(50% - 66px);
+  left: calc(50% - 64px);
   width: 16px;
 }
 .dock-drop-layer .dock-drop-left::before {
@@ -454,20 +461,20 @@ body.dock-dragging .dock-content {
   transform: rotate(180deg);
 }
 .dock-drop-layer .dock-drop-right {
-  left: calc(50% + 17px);
+  left: calc(50% + 16px);
 }
 .dock-drop-layer .dock-drop-right.dock-drop-deep {
-  left: calc(50% + 50px);
+  left: calc(50% + 48px);
   width: 16px;
 }
 .dock-drop-layer .dock-drop-right::before {
   content: '>';
 }
 .dock-drop-layer .dock-drop-top {
-  top: calc(50% - 49px);
+  top: calc(50% - 48px);
 }
 .dock-drop-layer .dock-drop-top.dock-drop-deep {
-  top: calc(50% - 66px);
+  top: calc(50% - 64px);
   height: 16px;
 }
 .dock-drop-layer .dock-drop-top.dock-drop-deep::before {
@@ -478,10 +485,10 @@ body.dock-dragging .dock-content {
   transform: rotate(270deg);
 }
 .dock-drop-layer .dock-drop-bottom {
-  top: calc(50% + 17px);
+  top: calc(50% + 16px);
 }
 .dock-drop-layer .dock-drop-bottom.dock-drop-deep {
-  top: calc(50% + 50px);
+  top: calc(50% + 48px);
   height: 16px;
 }
 .dock-drop-layer .dock-drop-bottom.dock-drop-deep::before {

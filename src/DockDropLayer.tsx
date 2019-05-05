@@ -86,7 +86,9 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
 
     return (
       <DragDropDiv className={classes.join(' ')}
-                   onDragOverT={this.onDragOver} onDragLeaveT={this.onDragLeave} onDropT={this.onDrop}/>
+                   onDragOverT={this.onDragOver} onDragLeaveT={this.onDragLeave} onDropT={this.onDrop}>
+        <div className='dock-drop-square-box'/>
+      </DragDropDiv>
     );
   }
 

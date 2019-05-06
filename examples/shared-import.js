@@ -5214,7 +5214,8 @@ class DragDropDiv extends react_1.default.Component {
       let {
         onDragStartT,
         onGestureStartT,
-        onGestureMoveT
+        onGestureMoveT,
+        useRightButtonDragT
       } = this.props;
       let event = e.nativeEvent;
       this.cancel();
@@ -5231,6 +5232,10 @@ class DragDropDiv extends react_1.default.Component {
           }
         }
       } else if (onDragStartT) {
+        if (event.button === 2 && !useRightButtonDragT) {
+          return;
+        }
+
         this.onDragStart(event);
       }
     };

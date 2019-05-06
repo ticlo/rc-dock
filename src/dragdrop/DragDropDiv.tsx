@@ -17,11 +17,11 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
    * but if directDragT is true, onDragStartT will be called as soon as mouse is down
    */
   directDragT?: boolean;
+  useRightButtonDragT?: boolean;
 
   onGestureStartT?: (state: GestureState) => boolean;
   onGestureMoveT?: (state: GestureState) => void;
   onGestureEndT?: () => void;
-
 
   gestureSensitivity?: number;
 }
@@ -62,7 +62,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   baseAng: number;
 
   onPointerDown = (e: React.MouseEvent | React.TouchEvent) => {
-    let {onDragStartT, onGestureStartT, onGestureMoveT} = this.props;
+    let {onDragStartT, onGestureStartT, onGestureMoveT, useRightButtonDragT} = this.props;
     let event = e.nativeEvent;
     this.cancel();
     if (event.type === 'touchstart') {
@@ -77,6 +77,9 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
         }
       }
     } else if (onDragStartT) {
+      if ((event as MouseEvent).button === 2 && !useRightButtonDragT) {
+        return;
+      }
       this.onDragStart(event);
     }
   };

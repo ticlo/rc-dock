@@ -308,7 +308,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT,
       ...others
     } = this.props;
     let onTouchDown = this.onPointerDown;

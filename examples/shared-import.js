@@ -5514,9 +5514,10 @@ class DragDropDiv extends react_1.default.Component {
       onDropT,
       onGestureStartT,
       onGestureMoveT,
-      onGestureEndT
+      onGestureEndT,
+      useRightButtonDragT
     } = _a,
-        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT"]);
+        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT"]);
 
     let onTouchDown = this.onPointerDown;
     let onMouseDown = this.onPointerDown;

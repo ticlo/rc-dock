@@ -62,6 +62,12 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
   baseAng: number;
 
   onPointerDown = (e: React.MouseEvent | React.TouchEvent) => {
+    let nativeTarget = e.nativeEvent.target as HTMLElement;
+    if (nativeTarget instanceof HTMLInputElement || nativeTarget instanceof HTMLTextAreaElement || nativeTarget.classList.contains('drag-ignore')) {
+      // ignore drag from input element
+      return;
+    }
+
     let {onDragStartT, onGestureStartT, onGestureMoveT, useRightButtonDragT} = this.props;
     let event = e.nativeEvent;
     this.cancel();

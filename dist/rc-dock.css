@@ -297,7 +297,7 @@ body > .dragging-layer > div:last-child {
 body.dock-dragging {
   user-select: none;
 }
-body.dock-dragging .dock-content {
+body.dock-dragging iframe {
   pointer-events: none;
 }
 .dock-panel {

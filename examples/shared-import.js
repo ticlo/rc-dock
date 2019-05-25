@@ -9265,7 +9265,7 @@ class DockDropLayer extends react_1.default.PureComponent {
       }));
     }
 
-    if (draggingPanel !== panelData) {
+    if (draggingPanel !== panelData && !fromGroup.disableDock) {
       // don't drop panel to itself
       // 4 direction base drag square
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
@@ -10020,7 +10020,7 @@ class DockDropEdge extends react_1.default.PureComponent {
         direction,
         mode,
         depth
-      } = this.getDirection(e);
+      } = this.getDirection(e, fromGroup);
       depth = this.getActualDepth(depth, mode, direction);
 
       if (!direction || direction === 'float' && dropFromPanel.panelLock) {
@@ -10047,6 +10047,7 @@ class DockDropEdge extends react_1.default.PureComponent {
         panelData,
         dropFromPanel
       } = this.props;
+      let fromGroup = this.context.getGroup(dropFromPanel.group);
       let source = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
 
       if (!source) {
@@ -10058,7 +10059,7 @@ class DockDropEdge extends react_1.default.PureComponent {
           direction,
           mode,
           depth
-        } = this.getDirection(e);
+        } = this.getDirection(e, fromGroup);
         depth = this.getActualDepth(depth, mode, direction);
 
         if (!direction) {
@@ -10076,7 +10077,7 @@ class DockDropEdge extends react_1.default.PureComponent {
     };
   }
 
-  getDirection(e) {
+  getDirection(e, group) {
     let rect = this._ref.getBoundingClientRect();
 
     let widthRate = Math.min(rect.width, 500);
@@ -10088,6 +10089,11 @@ class DockDropEdge extends react_1.default.PureComponent {
     let min = Math.min(left, right, top, bottom);
     let depth = 0;
 
+    if (group.disableDock) {
+      // impossible min value, disable dock drop
+      min = 1;
+    }
+
     if (min < 0) {
       return {
         direction: null,
@@ -10098,7 +10104,7 @@ class DockDropEdge extends react_1.default.PureComponent {
     } else if (min < 0.15) {
       depth = 1; // depth 1 or 2
     } else if (min < 0.3) {// default
-    } else {
+    } else if (group.floatable) {
       return {
         direction: 'float',
         mode: 'float',

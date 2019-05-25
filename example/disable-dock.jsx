@@ -16,7 +16,7 @@ let layout = {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{id: 't1', title: 'Dock', content: <div>Dock Content</div>}],
+        tabs: [{id: 't1', title: 'Dock', content: <div>Dock Content</div>}, jsxTab, htmlTab],
       }
     ]
   },

@@ -6,6 +6,10 @@ export interface TabGroup {
      */
     floatable?: boolean;
     /**
+     * disable dock, so the panel will only work in float mode
+     */
+    disableDock?: boolean;
+    /**
      * when tabs are locked, you can not drag tab out of its panel
      * default false
      */

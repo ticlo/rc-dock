@@ -147,7 +147,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       );
     }
 
-    if (draggingPanel !== panelData) { // don't drop panel to itself
+    if (draggingPanel !== panelData && !fromGroup.disableDock) { // don't drop panel to itself
 
       // 4 direction base drag square
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);

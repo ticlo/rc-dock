@@ -33,7 +33,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
   };
 
 
-  getDirection(e: DragState): {direction: DropDirection, mode?: DockMode, depth: number} {
+  getDirection(e: DragState, group: TabGroup): {direction: DropDirection, mode?: DockMode, depth: number} {
     let rect = this._ref.getBoundingClientRect();
     let widthRate = Math.min(rect.width, 500);
     let heightRate = Math.min(rect.height, 500);
@@ -43,6 +43,10 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     let bottom = (rect.bottom - e.clientY) / heightRate;
     let min = Math.min(left, right, top, bottom);
     let depth = 0;
+    if (group.disableDock) {
+      // impossible min value, disable dock drop
+      min = 1;
+    }
     if (min < 0) {
       return {direction: null, depth: 0};
     } else if (min < 0.075) {
@@ -51,7 +55,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
       depth = 1; // depth 1 or 2
     } else if (min < 0.3) {
       // default
-    } else {
+    } else if (group.floatable) {
       return {direction: 'float', mode: 'float', depth: 0};
     }
     switch (min) {
@@ -117,7 +121,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
       // ignore float panel in edge mode
       return;
     }
-    let {direction, mode, depth} = this.getDirection(e);
+    let {direction, mode, depth} = this.getDirection(e, fromGroup);
     depth = this.getActualDepth(depth, mode, direction);
     if (!direction || (direction === 'float' && dropFromPanel.panelLock)) {
       this.context.setDropRect(null, 'remove', this);
@@ -137,12 +141,13 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
 
   onDrop = (e: DragState) => {
     let {panelData, dropFromPanel} = this.props;
+    let fromGroup = this.context.getGroup(dropFromPanel.group);
     let source: TabData | PanelData = DragState.getData('tab', DockContextType);
     if (!source) {
       source = DragState.getData('panel', DockContextType);
     }
     if (source) {
-      let {direction, mode, depth} = this.getDirection(e);
+      let {direction, mode, depth} = this.getDirection(e, fromGroup);
       depth = this.getActualDepth(depth, mode, direction);
       if (!direction) {
         return;

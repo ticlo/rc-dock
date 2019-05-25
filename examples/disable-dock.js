@@ -256,7 +256,7 @@ LazyPromise.prototype.catch = function (onError) {
           id: 't1',
           title: 'Dock',
           content: React.createElement("div", null, "Dock Content")
-        }]
+        }, jsxTab, htmlTab]
       }]
     },
     floatbox: {

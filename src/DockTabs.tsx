@@ -47,12 +47,12 @@ export class TabCache {
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragState) => {
-    let panel: PanelData;
     let tab: TabData = DragState.getData('tab', DockContextType);
+    let panel: PanelData = DragState.getData('panel', DockContextType);
     if (tab) {
       panel = tab.parent;
-    } else {
-      panel = DragState.getData('panel', DockContextType);
+    } else if (!panel) {
+      return;
     }
     if (panel.group !== this.data.group) {
       e.reject();

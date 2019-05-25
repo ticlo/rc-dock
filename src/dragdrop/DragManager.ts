@@ -91,6 +91,7 @@ export class DragState {
 
   accept(message: string = '') {
     this.acceptMessage = message;
+    this.rejected = false;
   }
 
   reject() {

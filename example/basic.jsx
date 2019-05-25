@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {jsxTab, htmlTab} from './prism-tabs';
-import {DockLayout, DockContextType, DragStore} from '../lib';
+import {DockLayout, DockContextType} from '../lib';
 
 let tab = {
   content: <div>Tab Content</div>,

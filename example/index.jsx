@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Divider} from '../lib';
 
 let demos = ['basic', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];
 let advance = ['adv-tab-update', 'adv-save-layout', 'controlled-layout', 'tab-cache', 'standalone-divider'];

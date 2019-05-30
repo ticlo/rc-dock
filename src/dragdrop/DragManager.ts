@@ -212,6 +212,10 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
   }
   if (draggingHtml) {
     _draggingDiv.firstElementChild.outerHTML = draggingHtml;
+    if (window.getComputedStyle(_draggingDiv.firstElementChild).backgroundColor === 'rgba(0, 0, 0, 0)') {
+      (_draggingDiv.firstElementChild as HTMLElement).style.backgroundColor
+        = window.getComputedStyle(_draggingDiv).getPropertyValue('--default-background-color');
+    }
     if (draggingWidth) {
       if (draggingWidth > 400) draggingWidth = 400;
       (_draggingDiv.firstElementChild as HTMLElement).style.width = `${draggingWidth}px`;

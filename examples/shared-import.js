@@ -733,7 +733,7 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
 if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 },{}],"zKeE":[function(require,module,exports) {
-var core = module.exports = { version: '2.6.8' };
+var core = module.exports = { version: '2.6.9' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 },{}],"g31e":[function(require,module,exports) {

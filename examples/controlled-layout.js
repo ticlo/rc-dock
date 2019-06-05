@@ -232,7 +232,7 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"bPkI":[function(require,module,exports) {
+},{"./bundle-url":"3Fhe"}],"7qsP":[function(require,module,exports) {
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -364,4 +364,4 @@ module.exports = function loadJSBundle(bundle) {
 };
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"bPkI"], null)
+},{}]},{},[0,"7qsP"], null)

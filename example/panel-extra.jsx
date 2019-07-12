@@ -35,8 +35,7 @@ function newTab() {
     content: (
       <div>
         <p>This panel has an 'add' button</p>
-      </div>),
-    group: 'close-all'
+      </div>)
   };
 }
 
@@ -49,7 +48,7 @@ let box = {
         size: 500,
         children: [
           {
-            tabs: [{...tab, id: 't1'}, jsxTab, htmlTab],
+            tabs: [{...tab, id: 't1'}, {...jsxTab, group: 'close-all'}, {...htmlTab, group: 'close-all'}],
           },
           {
             tabs: [newTab(), newTab()],

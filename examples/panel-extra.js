@@ -267,8 +267,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       id: `newtab${++count}`,
       title: 'New Tab',
-      content: React.createElement("div", null, React.createElement("p", null, "This panel has an 'add' button")),
-      group: 'close-all'
+      content: React.createElement("div", null, React.createElement("p", null, "This panel has an 'add' button"))
     };
   }
 
@@ -281,7 +280,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         children: [{
           tabs: [_objectSpread({}, tab, {
             id: 't1'
-          }), jsxTab, htmlTab]
+          }), _objectSpread({}, jsxTab, {
+            group: 'close-all'
+          }), _objectSpread({}, htmlTab, {
+            group: 'close-all'
+          })]
         }, {
           tabs: [newTab(), newTab()],
           panelLock: {

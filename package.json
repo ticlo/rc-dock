@@ -28,31 +28,35 @@
   "license": "Apache-2.0",
   "dependencies": {
     "classnames": "^2.2.6",
-    "lodash": "^4.17.11",
-    "rc-tabs": "^9.6.4",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "lodash": "^4.17.15",
+    "rc-tabs": "^9.6.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
-    "@types/classnames": "^2.2.7",
-    "@types/lodash": "^4.14.134",
-    "@types/node": "^12.0.10",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@types/classnames": "^2.2.9",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "^12.6.8",
     "@types/prismjs": "^1.16.0",
-    "@types/react": "^16.8.22",
-    "@types/react-dom": "^16.8.4",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "@types/shelljs": "^0.8.5",
     "less": "^3.9.0",
     "parcel-bundler": "^1.12.3",
-    "prismjs": "^1.16.0",
+    "prismjs": "^1.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "shelljs": "^0.8.3",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "tslint-react": "^4.0.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
+  },
+  "peerDependencies": {
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",

@@ -11,7 +11,7 @@ export declare class DockDropEdge extends React.PureComponent<DockDropEdgeProps,
     context: DockContext;
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
-    getDirection(e: DragState, group: TabGroup): {
+    getDirection(e: DragState, group: TabGroup, samePanel: boolean): {
         direction: DropDirection;
         mode?: DockMode;
         depth: number;

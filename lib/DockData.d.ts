@@ -2,6 +2,7 @@ import React from 'react';
 export interface TabGroup {
     /**
      * whether tab can be dragged into float layer
+     *
      * default: false
      */
     floatable?: boolean;
@@ -10,12 +11,14 @@ export interface TabGroup {
      */
     disableDock?: boolean;
     /**
-     * when tabs are locked, you can not drag tab out of its panel
+     * when tabs are locked, you can not drag tab to create new panel, but it can still be dropped into a different panel if they have the same tab group.
+     *
      * default false
      */
     tabLocked?: boolean;
     /**
      * whether to show animation effect when switch tabs
+     *
      * default true
      */
     animated?: boolean;

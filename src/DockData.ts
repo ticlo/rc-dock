@@ -156,6 +156,9 @@ interface PanelLock {
   /** override the default style */
   panelStyle?: string;
 
+  minWidth?: number;
+  minHeight?: number;
+
   /**
    * override the default extra content from TabGroup.panelExtra
    *

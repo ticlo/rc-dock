@@ -53,6 +53,7 @@ let box = {
           {
             tabs: [newTab(), newTab()],
             panelLock: {
+              minWidth: 200,
               panelExtra: (panelData, context) => (
                 <button
                   onClick={() => context.dockMove(newTab(), panelData, 'middle')}>

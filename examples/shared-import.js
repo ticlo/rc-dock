@@ -9808,6 +9808,16 @@ function fixLayoutData(layout, loadTab) {
       panel.minHeight = 1;
     }
 
+    if (panel.panelLock) {
+      if (panel.minWidth < panel.panelLock.minWidth) {
+        panel.minWidth = panel.panelLock.minWidth;
+      }
+
+      if (panel.minHeight < panel.panelLock.minHeight) {
+        panel.minHeight = panel.panelLock.minHeight;
+      }
+    }
+
     if (panel.group == null && panel.tabs.length) {
       panel.group = panel.tabs[0].group;
     }

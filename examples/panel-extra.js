@@ -290,6 +290,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, {
           tabs: [newTab(), newTab()],
           panelLock: {
+            minWidth: 200,
             panelExtra: (panelData, context) => React.createElement("button", {
               onClick: () => context.dockMove(newTab(), panelData, 'middle')
             }, "add")

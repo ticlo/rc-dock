@@ -5196,7 +5196,7 @@ const DragManager = __importStar(require("./DragManager"));
 
 const GestureManager_1 = require("./GestureManager");
 
-class DragDropDiv extends react_1.default.Component {
+class DragDropDiv extends react_1.default.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -5207,9 +5207,7 @@ class DragDropDiv extends react_1.default.Component {
 
       let {
         getRef,
-        onDragOverT,
-        onDropT,
-        onDragLeaveT
+        onDragOverT
       } = this.props;
 
       if (this.element && onDragOverT) {
@@ -5223,11 +5221,7 @@ class DragDropDiv extends react_1.default.Component {
       }
 
       if (r && onDragOverT) {
-        DragManager.addHandlers(r, {
-          onDragOverT,
-          onDragLeaveT,
-          onDropT
-        });
+        DragManager.addHandlers(r, this.props);
       }
     };
 
@@ -5578,6 +5572,22 @@ class DragDropDiv extends react_1.default.Component {
       onMouseDown: onMouseDown,
       onTouchStart: onTouchDown
     }), children);
+  }
+
+  componentDidUpdate(prevProps) {
+    let {
+      onDragOverT,
+      onDragEndT,
+      onDragLeaveT
+    } = this.props;
+
+    if (this.element && (prevProps.onDragOverT !== onDragOverT || prevProps.onDragLeaveT !== onDragLeaveT || prevProps.onDragEndT !== onDragEndT)) {
+      if (onDragOverT) {
+        DragManager.addHandlers(this.element, this.props);
+      } else {
+        DragManager.removeHandlers(this.element);
+      }
+    }
   }
 
   componentWillUnmount() {

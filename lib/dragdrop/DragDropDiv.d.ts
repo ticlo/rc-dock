@@ -21,7 +21,7 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     onGestureEndT?: () => void;
     gestureSensitivity?: number;
 }
-export declare class DragDropDiv extends React.Component<DragDropDivProps, any> {
+export declare class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     element: HTMLElement;
     _getRef: (r: HTMLDivElement) => void;
     dragType: DragManager.DragType;
@@ -53,6 +53,7 @@ export declare class DragDropDiv extends React.Component<DragDropDivProps, any> 
     removeListeners(): void;
     cleanupDrag(state: DragManager.DragState): void;
     render(): React.ReactNode;
+    componentDidUpdate(prevProps: DragDropDivProps): void;
     componentWillUnmount(): void;
 }
 export {};

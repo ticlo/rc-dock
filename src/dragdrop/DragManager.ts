@@ -162,9 +162,9 @@ function setDroppingHandler(handlers: DragHandlers, state: DragState) {
 }
 
 interface DragHandlers {
-  onDragOverT: DragHandler;
-  onDragLeaveT: DragHandler;
-  onDropT: DragHandler;
+  onDragOverT?: DragHandler;
+  onDragLeaveT?: DragHandler;
+  onDropT?: DragHandler;
 }
 
 let _dragListeners: WeakMap<HTMLElement, DragHandlers> = new WeakMap<HTMLElement, DragHandlers>();

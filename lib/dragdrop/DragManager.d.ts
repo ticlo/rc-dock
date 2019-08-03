@@ -38,9 +38,9 @@ export declare class DragState {
 }
 export declare type DragHandler = (state: DragState) => void;
 interface DragHandlers {
-    onDragOverT: DragHandler;
-    onDragLeaveT: DragHandler;
-    onDropT: DragHandler;
+    onDragOverT?: DragHandler;
+    onDragLeaveT?: DragHandler;
+    onDropT?: DragHandler;
 }
 export declare function isDragging(): boolean;
 export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;

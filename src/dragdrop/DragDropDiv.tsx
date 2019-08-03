@@ -26,7 +26,7 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   gestureSensitivity?: number;
 }
 
-export class DragDropDiv extends React.Component<DragDropDivProps, any> {
+export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
 
   element: HTMLElement;
 
@@ -34,7 +34,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
     if (r === this.element) {
       return;
     }
-    let {getRef, onDragOverT, onDropT, onDragLeaveT} = this.props;
+    let {getRef, onDragOverT} = this.props;
     if (this.element && onDragOverT) {
       DragManager.removeHandlers(this.element);
     }
@@ -43,7 +43,7 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
       getRef(r);
     }
     if (r && onDragOverT) {
-      DragManager.addHandlers(r, {onDragOverT, onDragLeaveT, onDropT});
+      DragManager.addHandlers(r, this.props);
     }
   };
 
@@ -339,6 +339,23 @@ export class DragDropDiv extends React.Component<DragDropDivProps, any> {
         {children}
       </div>
     );
+  }
+
+  componentDidUpdate(prevProps: DragDropDivProps) {
+    let {onDragOverT, onDragEndT, onDragLeaveT} = this.props;
+    if (this.element
+      && (
+        prevProps.onDragOverT !== onDragOverT
+        || prevProps.onDragLeaveT !== onDragLeaveT
+        || prevProps.onDragEndT !== onDragEndT
+      )
+    ) {
+      if (onDragOverT) {
+        DragManager.addHandlers(this.element, this.props);
+      } else {
+        DragManager.removeHandlers(this.element);
+      }
+    }
   }
 
   componentWillUnmount(): void {

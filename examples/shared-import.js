@@ -11471,7 +11471,12 @@ class DockLayout extends react_1.default.PureComponent {
       layout
     } = this.state;
     layout = Algorithm.removeFromLayout(layout, source);
-    target = Algorithm.getUpdatedObject(target); // target might change during removeTab
+
+    if (typeof target === 'string') {
+      target = this.find(target);
+    } else {
+      target = Algorithm.getUpdatedObject(target); // target might change during removeTab
+    }
 
     if (direction === 'float') {
       let newPanel = Algorithm.converToPanel(source);

@@ -277,10 +277,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
 
       _defineProperty(this, "addTab", () => {
-        let panelData = this.dockLayout.find('my_panel');
         ++this.count;
         let newTab = getTab(`tab${this.count}`, this.count);
-        this.dockLayout.dockMove(newTab, panelData, 'middle');
+        this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
       });
 
       _defineProperty(this, "defaultLayout", {

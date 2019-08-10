@@ -78,7 +78,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
      * @param target @inheritDoc
      * @param direction @inheritDoc
      */
-    dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
+    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection): void;
     /** @inheritDoc */
     find(id: string): PanelData | TabData;
     /** @ignore */

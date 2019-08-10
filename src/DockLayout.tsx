@@ -122,34 +122,38 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
    * @param target @inheritDoc
    * @param direction @inheritDoc
    */
-  dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection) {
+  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection) {
     let {layout} = this.state;
 
     layout = Algorithm.removeFromLayout(layout, source);
 
-    target = Algorithm.getUpdatedObject(target); // target might change during removeTab
+    if (typeof target === 'string') {
+      target = this.find(target);
+    } else {
+      target = Algorithm.getUpdatedObject(target); // target might change during removeTab
+    }
 
     if (direction === 'float') {
       let newPanel = Algorithm.converToPanel(source);
       newPanel.z = Algorithm.nextZIndex(null);
       layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
     } else if (target) {
-      if ('tabs' in target) {
+      if ('tabs' in (target as PanelData)) {
         // pandel target
         if (direction === 'middle') {
-          layout = Algorithm.addTabToPanel(layout, source, target);
+          layout = Algorithm.addTabToPanel(layout, source, target as PanelData);
         } else {
           let newPanel = Algorithm.converToPanel(source);
-          layout = Algorithm.dockPanelToPanel(layout, newPanel, target, direction);
+          layout = Algorithm.dockPanelToPanel(layout, newPanel, target as PanelData, direction);
         }
 
-      } else if ('children' in target) {
+      } else if ('children' in (target as BoxData)) {
         // box target
         let newPanel = Algorithm.converToPanel(source);
-        layout = Algorithm.dockPanelToBox(layout, newPanel, target, direction);
+        layout = Algorithm.dockPanelToBox(layout, newPanel, target as BoxData, direction);
       } else {
         // tab target
-        layout = Algorithm.addNextToTab(layout, source, target, direction);
+        layout = Algorithm.addNextToTab(layout, source, target as TabData, direction);
       }
     }
     if (layout !== this.state.layout) {

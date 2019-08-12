@@ -10,6 +10,7 @@ body > .dragging-layer {
   font-size: 14px;
   line-height: 1.5;
   white-space: nowrap;
+  --default-background-color: white;
   /* dragging element */
   /* icon */
 }
@@ -18,7 +19,6 @@ body > .dragging-layer > *:first-child {
   overflow: hidden !important;
   transform: translate(-50%, -50%) !important;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1);
-  background: white;
 }
 body > .dragging-layer > .dragging {
   /* prevent double translucent layers */
@@ -170,6 +170,7 @@ body > .dragging-layer > div:last-child {
   height: calc(100% - 31px);
 }
 .dock-content .dock-tabpane {
+  position: relative;
   overflow: hidden;
   width: 100%;
   height: 100%;

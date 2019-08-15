@@ -341,7 +341,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       }
     }
     let maximize: React.ReactNode;
-    if (layout.maxbox && layout.maxbox.children.length === 1) {
+    // if (layout.maxbox && layout.maxbox.children.length === 1) {
       if (maximizeTo) {
         if (typeof maximizeTo === 'string') {
           maximizeTo = document.getElementById(maximizeTo);
@@ -353,7 +353,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       } else {
         maximize = <MaxBox boxData={layout.maxbox}/>;
       }
-    }
+   // }
 
     return (
       <div ref={this.getRef} className='dock-layout' style={style}>

@@ -47,6 +47,7 @@ export interface TabGroup {
 /** @ignore */
 export const defaultGroup: TabGroup = {
   floatable: true,
+  maximizable: true,
 };
 /** @ignore */
 export const placeHolderStyle = 'place-holder';

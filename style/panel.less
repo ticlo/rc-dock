@@ -114,7 +114,9 @@ body.dock-dragging {
     visibility: visible;
     animation: dock-mbox-show 0.2s ease;
   }
+
   &.dock-mbox-hide {
+    pointer-events: none;
     visibility: hidden;
     animation: dock-mbox-hide 0.2s ease;
   }
@@ -132,17 +134,12 @@ body.dock-dragging {
 }
 
 @keyframes dock-mbox-hide {
-  0% {
+  from {
     transform: scale(1, 1);
     visibility: visible;
     opacity: 1;
   }
-  50% {
-    transform: scale(0.95, 0.95);
-    visibility: visible;
-    opacity: 1;
-  }
-  100% {
+  to {
     transform: scale(0.9, 0.9);
     visibility: visible;
     opacity: 0;
@@ -320,10 +317,11 @@ body.dock-dragging {
   margin: 8px 6px 8px 0;
   opacity: 0.2;
   cursor: pointer;
-  transition: opacity 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
 
   &:hover {
     opacity: 1;
+    transform: scale(1.1, 1.1);
   }
 }
 

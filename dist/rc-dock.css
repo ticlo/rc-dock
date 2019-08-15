@@ -53,7 +53,7 @@ body > .dragging-layer > div:last-child {
   transition: padding 0.45s;
 }
 .dock-nav-container {
-  padding: 0 12px;
+  padding: 0 6px 0 12px;
   height: 30px;
 }
 .dock-ink-bar {
@@ -389,6 +389,7 @@ body.dock-dragging iframe {
   animation: dock-mbox-show 0.2s ease;
 }
 .dock-mbox.dock-mbox-hide {
+  pointer-events: none;
   visibility: hidden;
   animation: dock-mbox-hide 0.2s ease;
 }
@@ -403,17 +404,12 @@ body.dock-dragging iframe {
   }
 }
 @keyframes dock-mbox-hide {
-  0% {
+  from {
     transform: scale(1, 1);
     visibility: visible;
     opacity: 1;
   }
-  50% {
-    transform: scale(0.95, 0.95);
-    visibility: visible;
-    opacity: 1;
-  }
-  100% {
+  to {
     transform: scale(0.9, 0.9);
     visibility: visible;
     opacity: 0;
@@ -561,10 +557,11 @@ body.dock-dragging iframe {
   margin: 8px 6px 8px 0;
   opacity: 0.2;
   cursor: pointer;
-  transition: opacity 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
 }
 .dock-panel-max-btn:hover {
   opacity: 1;
+  transform: scale(1.1, 1.1);
 }
 .dock-mbox .dock-panel-max-btn {
   border: none;
@@ -626,6 +623,7 @@ body.dock-dragging iframe {
 .dock-panel.dock-style-card .dock-nav-container {
   height: 35px;
   overflow: visible;
+  max-width: calc(100% - 28px);
 }
 .dock-panel.dock-style-card .dock-nav-wrap {
   overflow: visible;

@@ -2,7 +2,7 @@ import {
   BoxData,
   DockMode,
   DropDirection,
-  LayoutData,
+  LayoutData, maximePlaceHolderId,
   PanelData,
   placeHolderStyle, TabBase,
   TabData,
@@ -86,6 +86,9 @@ export function find(layout: LayoutData, id: string): PanelData | TabData {
   let result = findInBox(layout.dockbox, id);
   if (!result) {
     result = findInBox(layout.floatbox, id);
+  }
+  if (!result) {
+    result = findInBox(layout.maxbox, id);
   }
   return result;
 }
@@ -239,6 +242,10 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       newPanel.size = 120;
       return replaceBox(layout, box, newDockBox);
     }
+  } else if (box === layout.maxbox) {
+    let newBox = clone(box);
+    newBox.children.push(newPanel);
+    return replaceBox(layout, box, newBox);
   }
 
   return layout;
@@ -262,12 +269,26 @@ export function floatPanel(
 
 export function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData {
   if (source) {
+    let panelData: PanelData;
     if ('tabs' in source) {
-      return removePanel(layout, source);
+      panelData = source;
+      layout = removePanel(layout, panelData);
     } else {
-      return removeTab(layout, source);
+      panelData = source.parent;
+      layout = removeTab(layout, source);
+    }
+    if (panelData.parent.mode === 'maximize') {
+      let newPanel = layout.maxbox.children[0] as PanelData;
+      if (!newPanel || (newPanel.tabs.length === 0 && !newPanel.panelLock)) {
+        // max panel is gone, remove the place holder
+        let placeHolder = find(layout, maximePlaceHolderId) as PanelData;
+        if (placeHolder) {
+          return removePanel(layout, placeHolder);
+        }
+      }
     }
   }
+  return layout;
 }
 
 function removePanel(layout: LayoutData, panel: PanelData): LayoutData {
@@ -301,6 +322,54 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
       return replacePanel(layout, panel, newPanel);
     }
   }
+  return layout;
+}
+
+// maximize or restore the panel
+export function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData {
+  if (source) {
+    if ('tabs' in source) {
+      if (source.parent.mode === 'maximize') {
+        return restorePanel(layout, source);
+      } else {
+        return maximizePanel(layout, source);
+      }
+    } else {
+      return maximizeTab(layout, source);
+    }
+  }
+  return layout;
+}
+
+function maximizePanel(layout: LayoutData, panel: PanelData): LayoutData {
+  let maxbox = layout.maxbox;
+  if (maxbox.children.length) {
+    // invalid maximize
+    return layout;
+  }
+  let placeHodlerPanel: PanelData = {
+    ...panel,
+    id: maximePlaceHolderId,
+    tabs: [],
+    panelLock: {}
+  };
+  layout = replacePanel(layout, panel, placeHodlerPanel);
+  layout = dockPanelToBox(layout, panel, layout.maxbox, 'middle');
+  return layout;
+}
+
+function restorePanel(layout: LayoutData, panel: PanelData): LayoutData {
+  layout = removePanel(layout, panel);
+  let placeHolder = find(layout, maximePlaceHolderId) as PanelData;
+  if (placeHolder) {
+    return replacePanel(layout, placeHolder, panel);
+  } else {
+    return dockPanelToBox(layout, panel, layout.dockbox, 'right');
+  }
+}
+
+function maximizeTab(layout: LayoutData, tab: TabData): LayoutData {
+  // TODO to be implemented
   return layout;
 }
 
@@ -486,8 +555,15 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
     layout.floatbox.mode = 'float';
   }
 
+  if (!('maxbox' in layout)) {
+    layout.maxbox = {mode: 'maximize', children: [], size: 1};
+  } else {
+    layout.maxbox.mode = 'maximize';
+  }
+
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
+  fixBoxData(layout.maxbox);
 
   if (layout.dockbox.children.length === 0) {
     // add place holder panel when root box is empty
@@ -506,6 +582,7 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
   }
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  layout.maxbox.parent = null;
   clearObjectCache();
   return layout;
 }
@@ -546,6 +623,8 @@ function replaceBox(layout: LayoutData, box: BoxData, newBox: BoxData): LayoutDa
       return {...layout, dockbox: newBox};
     } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
       return {...layout, floatbox: newBox};
+    } else if (box.id === layout.maxbox.id || box === layout.maxbox) {
+      return {...layout, maxbox: newBox};
     }
   }
   return layout;

@@ -194,6 +194,11 @@ export class DockTabs extends React.Component<Props, any> {
     return !compareKeys(this.props, nextProps, DockTabs.propKeys);
   }
 
+  onMaximizeClick = () => {
+    let {panelData} = this.props
+    this.context.dockMove(panelData, null, 'maximize');
+  };
+
   renderTabBar = () => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
@@ -209,6 +214,10 @@ export class DockTabs extends React.Component<Props, any> {
     let panelExtraContent: React.ReactElement;
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
+    } else if (group.maximizable) {
+      panelExtraContent = (
+        <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}/>
+      );
     }
     return (
       <DockTabBar extraContent={panelExtraContent} onDragStart={onPanelDragStart}

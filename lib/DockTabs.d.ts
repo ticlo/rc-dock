@@ -34,6 +34,7 @@ export declare class DockTabs extends React.Component<Props, any> {
     constructor(props: Props, context: any);
     updateTabs(tabs: TabData[]): void;
     shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<any>, nextContext: any): boolean;
+    onMaximizeClick: () => void;
     renderTabBar: () => JSX.Element;
     renderTabContent: () => JSX.Element;
     onTabChange: (activeId: string) => void;

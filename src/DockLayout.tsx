@@ -1,4 +1,5 @@
 import React, {CSSProperties} from "react";
+import ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import {
   BoxData,
@@ -22,6 +23,7 @@ import {DockPanel} from "./DockPanel";
 import * as Algorithm from "./Algorithm";
 import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
+import {MaxBox} from "./MaxBox";
 
 interface LayoutProps {
   /**
@@ -79,6 +81,12 @@ interface LayoutProps {
   afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
 
   style?: CSSProperties;
+
+  /**
+   * when specified, docklayout will create a react portal for the maximized panel
+   * use dom element as the value, or use the element's id
+   */
+  maximizeTo?: string | HTMLElement;
 }
 
 interface LayoutState {
@@ -125,7 +133,11 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection) {
     let {layout} = this.state;
 
-    layout = Algorithm.removeFromLayout(layout, source);
+    if (direction === 'maximize') {
+      layout = Algorithm.maximize(layout, source);
+    } else {
+      layout = Algorithm.removeFromLayout(layout, source);
+    }
 
     if (typeof target === 'string') {
       target = this.find(target);
@@ -318,7 +330,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   /** @ignore */
   render(): React.ReactNode {
-    let {style} = this.props;
+    let {style, maximizeTo} = this.props;
     let {layout, dropRect} = this.state;
     let dropRectStyle: CSSProperties;
     if (dropRect) {
@@ -328,11 +340,27 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
         dropRectStyle.transition = 'none';
       }
     }
+    let maximize: React.ReactNode;
+    if (layout.maxbox && layout.maxbox.children.length === 1) {
+      if (maximizeTo) {
+        if (typeof maximizeTo === 'string') {
+          maximizeTo = document.getElementById(maximizeTo);
+        }
+        maximize = ReactDOM.createPortal(
+          <MaxBox boxData={layout.maxbox}/>,
+          maximizeTo
+        );
+      } else {
+        maximize = <MaxBox boxData={layout.maxbox}/>;
+      }
+    }
+
     return (
       <div ref={this.getRef} className='dock-layout' style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
+          {maximize}
         </DockContextProvider>
         <div className='dock-drop-indicator' style={dropRectStyle}/>
       </div>

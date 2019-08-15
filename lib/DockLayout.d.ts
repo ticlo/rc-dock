@@ -49,6 +49,11 @@ interface LayoutProps {
      */
     afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
     style?: CSSProperties;
+    /**
+     * when specified, docklayout will create a react portal for the maximized panel
+     * use dom element as the value, or use the element's id
+     */
+    maximizeTo?: string | HTMLElement;
 }
 interface LayoutState {
     layout: LayoutData;

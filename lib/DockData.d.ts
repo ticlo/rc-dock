@@ -8,8 +8,16 @@ export interface TabGroup {
     floatable?: boolean;
     /**
      * disable dock, so the panel will only work in float mode
+     *
+     * default: false
      */
     disableDock?: boolean;
+    /**
+     * whether tab can be maximized
+     *
+     * default: false
+     */
+    maximizable?: boolean;
     /**
      * when tabs are locked, you can not drag tab to create new panel, but it can still be dropped into a different panel if they have the same tab group.
      *
@@ -35,13 +43,15 @@ export declare const defaultGroup: TabGroup;
 /** @ignore */
 export declare const placeHolderStyle = "place-holder";
 /** @ignore */
+export declare const maximePlaceHolderId = "-maximized-placeholder-";
+/** @ignore */
 export declare const placeHolderGroup: TabGroup;
 /** @ignore */
 interface DockDataBase {
     minWidth?: number;
     minHeight?: number;
 }
-export declare type DockMode = 'horizontal' | 'vertical' | 'float';
+export declare type DockMode = 'horizontal' | 'vertical' | 'float' | 'maximize';
 export interface TabBase {
     /**
      * id must be unique
@@ -166,12 +176,17 @@ export interface LayoutData extends LayoutBase {
      * children must be PanelData, child box is not allowed
      */
     floatbox?: BoxData;
+    /**
+     * the maximized panel
+     * only one child allowed, child must be PanelData
+     */
+    maxbox?: BoxData;
     /** @ignore
      * keep the last loaded layout to prevent unnecessary reloading
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'maximize';
 export interface DockContext {
     /** @ignore */
     useEdgeDrop(): boolean;

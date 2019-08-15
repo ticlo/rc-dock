@@ -216,19 +216,24 @@ export class DockPanel extends React.PureComponent<Props, State> {
         .map((name) => `dock-style-${name}`)
         .join(' ');
     }
-
+    let isMax = parent && parent.mode === 'maximize';
     let isFloat = parent && parent.mode === 'float';
     let pointerDownCallback = this.onFloatPointerDown;
-    if (!isFloat) {
+    let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
+    if (!isFloat || isMax) {
       pointerDownCallback = null;
+    }
+    if (isMax) {
+      dropFromPanel = null;
+      onPanelHeaderDragStart = null;
     }
     let cls = `dock-panel ${
       panelClass ? panelClass : ''}${
       dropFromPanel ? ' dock-panel-dropping' : ''}${
       draggingHeader ? ' dragging' : ''
-      }`;
+    }`;
     let style: React.CSSProperties = {minWidth, minHeight, flex: `${size} 1 ${size}px`};
-    if (panelData.parent.mode === 'float') {
+    if (isFloat) {
       style.left = panelData.x;
       style.top = panelData.y;
       style.width = panelData.w;
@@ -249,7 +254,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
                    onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
                    onDragOverT={isFloat ? null : this.onDragOver}>
-        <DockTabs panelData={panelData} onPanelDragStart={this.onPanelHeaderDragStart}
+        <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
         {isFloat ?
           [

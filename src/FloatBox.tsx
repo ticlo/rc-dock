@@ -1,7 +1,5 @@
 import React from "react";
-import {BoxData, PanelData, TabGroup} from "./DockData";
-import {DockTabs} from "./DockTabs";
-import {Divider, DividerChild} from "./Divider";
+import {BoxData} from "./DockData";
 import {DockPanel} from "./DockPanel";
 
 interface Props {

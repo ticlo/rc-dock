@@ -9800,6 +9800,20 @@ function restorePanel(layout, panel) {
   let placeHolder = find(layout, DockData_1.maximePlaceHolderId);
 
   if (placeHolder) {
+    let {
+      x,
+      y,
+      z,
+      w,
+      h
+    } = placeHolder;
+    panel = Object.assign({}, panel, {
+      x,
+      y,
+      z,
+      w,
+      h
+    });
     return replacePanel(layout, placeHolder, panel);
   } else {
     return dockPanelToBox(layout, panel, layout.dockbox, 'right');
@@ -11185,6 +11199,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+const DockData_1 = require("./DockData");
+
 function addPanelToCache(panelData, cache) {
   cache.panels.set(panelData.id, panelData);
 
@@ -11320,7 +11336,8 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
 
   return {
     dockbox: saveBoxData(layout.dockbox),
-    floatbox: saveBoxData(layout.floatbox)
+    floatbox: saveBoxData(layout.floatbox),
+    maxbox: saveBoxData(layout.maxbox)
   };
 }
 
@@ -11332,6 +11349,14 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
       mode: 'float',
       children: [],
       size: 0
+    };
+  }
+
+  if (!savedLayout.maxbox) {
+    savedLayout.maxbox = {
+      mode: 'maximize',
+      children: [],
+      size: 1
     };
   }
 
@@ -11397,7 +11422,9 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
       };
     }
 
-    if (afterPanelLoaded) {
+    if (savedPanel.id === DockData_1.maximePlaceHolderId) {
+      panelData.panelLock = {};
+    } else if (afterPanelLoaded) {
       afterPanelLoaded(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
       panelData = Object.assign({}, cache.panels.get(id), panelData);
@@ -11432,12 +11459,13 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
 
   return {
     dockbox: loadBoxData(savedLayout.dockbox),
-    floatbox: loadBoxData(savedLayout.floatbox)
+    floatbox: loadBoxData(savedLayout.floatbox),
+    maxbox: loadBoxData(savedLayout.maxbox)
   };
 }
 
 exports.loadLayoutData = loadLayoutData;
-},{}],"Lojd":[function(require,module,exports) {
+},{"./DockData":"zh3I"}],"Lojd":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

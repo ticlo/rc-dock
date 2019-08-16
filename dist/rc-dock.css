@@ -642,3 +642,14 @@ body.dock-dragging iframe {
 .dock-panel.dock-style-card .dock-content {
   height: calc(100% - 36px);
 }
+.dock-panel.dock-style-card .dock-panel-max-btn {
+  margin-top: 10px;
+}
+.dock-panel.dock-style-card .dock-tab-close-btn {
+  right: 0;
+  font-size: 10px;
+  top: 8px;
+}
+.dock-panel.dock-style-card .dock-tab-close-btn:hover {
+  transform: scale(1.2, 1.2);
+}

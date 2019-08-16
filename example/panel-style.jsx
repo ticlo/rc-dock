@@ -13,7 +13,6 @@ let groups = {
   'card custom': {
     // the css class for this would be dock-panel-custom
     // this is a custom panel style defined in panel-style.html
-    closable: true,
     floatable: true,
     maximizable: true,
   }
@@ -57,6 +56,7 @@ let customTab = {
       Custom style
     </div>
   ),
+  closable: true,
   // you can mix predefined style with you own style
   // separate 2 styles with space
   // the panel class will contain both dock-style-car and dock-style-custom

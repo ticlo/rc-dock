@@ -215,8 +215,6 @@ export class DockTabs extends React.Component<Props, any> {
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (group.maximizable) {
-      console.log(groupName);
-      console.log(group);
       panelExtraContent = (
         <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}/>
       );

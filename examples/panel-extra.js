@@ -252,15 +252,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     'close-all': {
       floatable: true,
       closable: true,
-      panelExtra: (panelData, context) => React.createElement("div", {
-        className: "my-panel-close-btn",
+      panelExtra: (panelData, context) => React.createElement("div", null, React.createElement("span", {
+        className: "my-panel-extra-btn",
+        onClick: () => context.dockMove(panelData, null, 'maximize')
+      }, panelData.parent.mode === 'maximize' ? '▬' : '▣'), React.createElement("span", {
+        className: "my-panel-extra-btn",
         onClick: () => context.dockMove(panelData, null, 'remove')
-      }, "X")
+      }, "X"))
     }
   };
   let tab = {
     title: 'Tab',
-    content: React.createElement("div", null, React.createElement("p", null, "Custom component can be added to panel's title bar."), React.createElement("p", null, "This panel has a close all button")),
+    content: React.createElement("div", null, React.createElement("p", null, "Custom component can be added to panel's title bar."), React.createElement("p", null, "This panel has a custom maximize button and a close all button")),
     group: 'close-all'
   };
   let count = 0;
@@ -269,7 +272,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       id: `newtab${++count}`,
       title: 'New Tab',
-      content: React.createElement("div", null, React.createElement("p", null, "This panel has an 'add' button"))
+      content: React.createElement("div", null, React.createElement("p", null, "This panel has an 'add' button defined in panelLock"))
     };
   }
 

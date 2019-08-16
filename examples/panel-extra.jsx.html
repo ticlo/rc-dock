@@ -14,9 +14,15 @@
     floatable<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
     closable<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
     <span class="token function-variable function">panelExtra</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token parameter">panelData<span class="token punctuation">,</span> context</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span>
-      <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">'my-panel-close-btn'</span>
-           onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> context<span class="token punctuation">.</span><span class="token function">dockMove</span><span class="token punctuation">(</span>panelData<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">'remove'</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span>
-        <span class="token constant">X</span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span>
+        <span class="token operator">&lt;</span>span className<span class="token operator">=</span><span class="token string">'my-panel-extra-btn'</span>
+              onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> context<span class="token punctuation">.</span><span class="token function">dockMove</span><span class="token punctuation">(</span>panelData<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">'maximize'</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span>
+          <span class="token punctuation">{</span>panelData<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>mode <span class="token operator">===</span> <span class="token string">'maximize'</span> <span class="token operator">?</span> <span class="token string">'▬'</span> <span class="token punctuation">:</span> <span class="token string">'▣'</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+        <span class="token operator">&lt;</span>span className<span class="token operator">=</span><span class="token string">'my-panel-extra-btn'</span>
+              onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> context<span class="token punctuation">.</span><span class="token function">dockMove</span><span class="token punctuation">(</span>panelData<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">'remove'</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span>
+          <span class="token constant">X</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
       <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
     <span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
@@ -27,7 +33,7 @@
   content<span class="token punctuation">:</span> <span class="token punctuation">(</span>
     <span class="token operator">&lt;</span>div<span class="token operator">></span>
       <span class="token operator">&lt;</span>p<span class="token operator">></span>Custom component can be added to panel's title bar<span class="token punctuation">.</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
-      <span class="token operator">&lt;</span>p<span class="token operator">></span>This panel has a close all button<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+      <span class="token operator">&lt;</span>p<span class="token operator">></span>This panel has a custom maximize button and a close all button<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
     <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
   group<span class="token punctuation">:</span> <span class="token string">'close-all'</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -40,7 +46,7 @@
     title<span class="token punctuation">:</span> <span class="token string">'New Tab'</span><span class="token punctuation">,</span>
     content<span class="token punctuation">:</span> <span class="token punctuation">(</span>
       <span class="token operator">&lt;</span>div<span class="token operator">></span>
-        <span class="token operator">&lt;</span>p<span class="token operator">></span>This panel has an <span class="token string">'add'</span> button<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+        <span class="token operator">&lt;</span>p<span class="token operator">></span>This panel has an <span class="token string">'add'</span> button defined <span class="token keyword">in</span> panelLock<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
       <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>

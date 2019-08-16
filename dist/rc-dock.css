@@ -273,13 +273,14 @@ body > .dragging-layer > div:last-child {
   text-align: center;
   top: 6px;
   opacity: 0.3;
-  transition: opacity 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
 }
 .dock-tab-close-btn:before {
   content: "X";
 }
 .dock-tab-close-btn:hover {
   color: #666;
+  transform: scale(1.1, 1.1);
 }
 .dock-tab:hover .dock-tab-close-btn {
   opacity: 1;
@@ -649,7 +650,4 @@ body.dock-dragging iframe {
   right: 0;
   font-size: 10px;
   top: 8px;
-}
-.dock-panel.dock-style-card .dock-tab-close-btn:hover {
-  transform: scale(1.2, 1.2);
 }

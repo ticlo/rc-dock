@@ -8,9 +8,15 @@ let groups = {
     floatable: true,
     closable: true,
     panelExtra: (panelData, context) => (
-      <div className='my-panel-close-btn'
-           onClick={() => context.dockMove(panelData, null, 'remove')}>
-        X
+      <div>
+        <span className='my-panel-extra-btn'
+              onClick={() => context.dockMove(panelData, null, 'maximize')}>
+          {panelData.parent.mode === 'maximize' ? '▬' : '▣'}
+        </span>
+        <span className='my-panel-extra-btn'
+              onClick={() => context.dockMove(panelData, null, 'remove')}>
+          X
+        </span>
       </div>
     )
   }
@@ -21,7 +27,7 @@ let tab = {
   content: (
     <div>
       <p>Custom component can be added to panel's title bar.</p>
-      <p>This panel has a close all button</p>
+      <p>This panel has a custom maximize button and a close all button</p>
     </div>),
   group: 'close-all'
 };
@@ -34,7 +40,7 @@ function newTab() {
     title: 'New Tab',
     content: (
       <div>
-        <p>This panel has an 'add' button</p>
+        <p>This panel has an 'add' button defined in panelLock</p>
       </div>)
   };
 }

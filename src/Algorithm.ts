@@ -362,6 +362,8 @@ function restorePanel(layout: LayoutData, panel: PanelData): LayoutData {
   layout = removePanel(layout, panel);
   let placeHolder = find(layout, maximePlaceHolderId) as PanelData;
   if (placeHolder) {
+    let {x, y, z, w, h} = placeHolder;
+    panel = {...panel, x, y, z, w, h};
     return replacePanel(layout, placeHolder, panel);
   } else {
     return dockPanelToBox(layout, panel, layout.dockbox, 'right');

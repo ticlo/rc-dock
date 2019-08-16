@@ -100,6 +100,7 @@ export interface BoxBase {
 export interface LayoutBase {
     dockbox: BoxBase;
     floatbox?: BoxBase;
+    maxbox?: BoxBase;
 }
 /**
  * a box is the layout element that contains other boxes or panels

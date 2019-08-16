@@ -5,7 +5,7 @@ import {
   LayoutData,
   PanelData, BoxBase, LayoutBase, PanelBase, TabBase,
   TabData,
-  TabGroup
+  TabGroup, maximePlaceHolderId
 } from "./DockData";
 
 interface DefaultLayoutCache {
@@ -104,7 +104,8 @@ export function saveLayoutData(
 
   return {
     dockbox: saveBoxData(layout.dockbox),
-    floatbox: saveBoxData(layout.floatbox)
+    floatbox: saveBoxData(layout.floatbox),
+    maxbox: saveBoxData(layout.maxbox),
   };
 }
 
@@ -114,9 +115,11 @@ export function loadLayoutData(
   loadTab?: (savedTab: TabBase) => TabData,
   afterPanelLoaded?: (savedPanel: PanelBase, panel: PanelData) => void
 ): LayoutData {
-
   if (!savedLayout.floatbox) {
     savedLayout.floatbox = {mode: 'float', children: [], size: 0} as BoxBase;
+  }
+  if (!savedLayout.maxbox) {
+    savedLayout.maxbox = {mode: 'maximize', children: [], size: 1} as BoxBase;
   }
 
   let cache = createLayoutCache(defaultLayout);
@@ -148,7 +151,9 @@ export function loadLayoutData(
     } else {
       panelData = {id, size, activeId, tabs};
     }
-    if (afterPanelLoaded) {
+    if (savedPanel.id === maximePlaceHolderId) {
+      panelData.panelLock = {};
+    } else if (afterPanelLoaded) {
       afterPanelLoaded(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
       panelData = {...cache.panels.get(id), ...panelData};
@@ -171,6 +176,7 @@ export function loadLayoutData(
 
   return {
     dockbox: loadBoxData(savedLayout.dockbox),
-    floatbox: loadBoxData(savedLayout.floatbox)
+    floatbox: loadBoxData(savedLayout.floatbox),
+    maxbox: loadBoxData(savedLayout.maxbox),
   };
 }

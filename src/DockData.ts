@@ -120,6 +120,7 @@ export interface BoxBase {
 export interface LayoutBase {
   dockbox: BoxBase;
   floatbox?: BoxBase;
+  maxbox?: BoxBase;
 }
 
 /**

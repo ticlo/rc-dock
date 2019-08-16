@@ -86,6 +86,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="layoutdata.html#dockbox" class="tsd-kind-icon">dockbox</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="layoutdata.html#floatbox" class="tsd-kind-icon">floatbox</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="layoutdata.html#maxbox" class="tsd-kind-icon">maxbox</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,7 +101,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="layoutbase.html">LayoutBase</a>.<a href="layoutbase.html#dockbox">dockbox</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/334a332/src/DockData.ts#L199">DockData.ts:199</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1988a16/src/DockData.ts#L211">DockData.ts:211</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -116,13 +117,29 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="layoutbase.html">LayoutBase</a>.<a href="layoutbase.html#floatbox">floatbox</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/334a332/src/DockData.ts#L204">DockData.ts:204</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1988a16/src/DockData.ts#L216">DockData.ts:216</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>float box
 							children must be PanelData, child box is not allowed</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="maxbox" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> maxbox</h3>
+					<div class="tsd-signature tsd-kind-icon">maxbox<span class="tsd-signature-symbol">:</span> <a href="boxdata.html" class="tsd-signature-type">BoxData</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/1988a16/src/DockData.ts#L222">DockData.ts:222</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>the maximized panel
+							only one child allowed, child must be PanelData</p>
 						</div>
 					</div>
 				</section>
@@ -163,6 +180,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="layoutdata.html#floatbox" class="tsd-kind-icon">floatbox</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="layoutdata.html#maxbox" class="tsd-kind-icon">maxbox</a>
 							</li>
 						</ul>
 					</li>

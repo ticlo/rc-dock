@@ -254,11 +254,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
       floatable: true
     },
-    custom: {
+    'card custom': {
       // the css class for this would be dock-panel-custom
       // this is a custom panel style defined in panel-style.html
       closable: true,
-      floatable: true
+      floatable: true,
+      maximizable: true
     }
   };
   let defaultTab = {

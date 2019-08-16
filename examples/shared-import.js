@@ -651,11 +651,15 @@ const react_1 = __importDefault(require("react"));
 
 
 exports.defaultGroup = {
-  floatable: true
+  floatable: true,
+  maximizable: true
 };
 /** @ignore */
 
 exports.placeHolderStyle = 'place-holder';
+/** @ignore */
+
+exports.maximePlaceHolderId = '-maximized-placeholder-';
 /** @ignore */
 
 exports.placeHolderGroup = {
@@ -8993,6 +8997,13 @@ class DockTabs extends react_1.default.Component {
     super(props, context);
     this._cache = new Map();
 
+    this.onMaximizeClick = () => {
+      let {
+        panelData
+      } = this.props;
+      this.context.dockMove(panelData, null, 'maximize');
+    };
+
     this.renderTabBar = () => {
       let {
         panelData,
@@ -9019,6 +9030,13 @@ class DockTabs extends react_1.default.Component {
 
       if (panelExtra) {
         panelExtraContent = panelExtra(panelData, this.context);
+      } else if (group.maximizable) {
+        console.log(groupName);
+        console.log(group);
+        panelExtraContent = react_1.default.createElement("div", {
+          className: 'dock-panel-max-btn',
+          onClick: this.onMaximizeClick
+        });
       }
 
       return react_1.default.createElement(DockTabBar_1.DockTabBar, {
@@ -9443,6 +9461,10 @@ function find(layout, id) {
     result = findInBox(layout.floatbox, id);
   }
 
+  if (!result) {
+    result = findInBox(layout.maxbox, id);
+  }
+
   return result;
 }
 
@@ -9638,6 +9660,10 @@ function dockPanelToBox(layout, newPanel, box, direction) {
       newPanel.size = 120;
       return replaceBox(layout, box, newDockBox);
     }
+  } else if (box === layout.maxbox) {
+    let newBox = clone(box);
+    newBox.children.push(newPanel);
+    return replaceBox(layout, box, newBox);
   }
 
   return layout;
@@ -9663,12 +9689,31 @@ exports.floatPanel = floatPanel;
 
 function removeFromLayout(layout, source) {
   if (source) {
+    let panelData;
+
     if ('tabs' in source) {
-      return removePanel(layout, source);
+      panelData = source;
+      layout = removePanel(layout, panelData);
     } else {
-      return removeTab(layout, source);
+      panelData = source.parent;
+      layout = removeTab(layout, source);
+    }
+
+    if (panelData.parent.mode === 'maximize') {
+      let newPanel = layout.maxbox.children[0];
+
+      if (!newPanel || newPanel.tabs.length === 0 && !newPanel.panelLock) {
+        // max panel is gone, remove the place holder
+        let placeHolder = find(layout, DockData_1.maximePlaceHolderId);
+
+        if (placeHolder) {
+          return removePanel(layout, placeHolder);
+        }
+      }
     }
   }
+
+  return layout;
 }
 
 exports.removeFromLayout = removeFromLayout;
@@ -9712,6 +9757,59 @@ function removeTab(layout, tab) {
     }
   }
 
+  return layout;
+} // maximize or restore the panel
+
+
+function maximize(layout, source) {
+  if (source) {
+    if ('tabs' in source) {
+      if (source.parent.mode === 'maximize') {
+        return restorePanel(layout, source);
+      } else {
+        return maximizePanel(layout, source);
+      }
+    } else {
+      return maximizeTab(layout, source);
+    }
+  }
+
+  return layout;
+}
+
+exports.maximize = maximize;
+
+function maximizePanel(layout, panel) {
+  let maxbox = layout.maxbox;
+
+  if (maxbox.children.length) {
+    // invalid maximize
+    return layout;
+  }
+
+  let placeHodlerPanel = Object.assign({}, panel, {
+    id: DockData_1.maximePlaceHolderId,
+    tabs: [],
+    panelLock: {}
+  });
+  layout = replacePanel(layout, panel, placeHodlerPanel);
+  layout = dockPanelToBox(layout, panel, layout.maxbox, 'middle');
+  return layout;
+}
+
+function restorePanel(layout, panel) {
+  layout = removePanel(layout, panel);
+  let placeHolder = find(layout, DockData_1.maximePlaceHolderId);
+
+  if (placeHolder) {
+    return replacePanel(layout, placeHolder, panel);
+  } else {
+    return dockPanelToBox(layout, panel, layout.dockbox, 'right');
+  }
+}
+
+function maximizeTab(layout, tab) {
+  // TODO to be implemented
   return layout;
 } // move float panel into the screen
 
@@ -9938,8 +10036,19 @@ function fixLayoutData(layout, loadTab) {
     layout.floatbox.mode = 'float';
   }
 
+  if (!('maxbox' in layout)) {
+    layout.maxbox = {
+      mode: 'maximize',
+      children: [],
+      size: 1
+    };
+  } else {
+    layout.maxbox.mode = 'maximize';
+  }
+
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
+  fixBoxData(layout.maxbox);
 
   if (layout.dockbox.children.length === 0) {
     // add place holder panel when root box is empty
@@ -9966,6 +10075,7 @@ function fixLayoutData(layout, loadTab) {
 
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  layout.maxbox.parent = null;
   clearObjectCache();
   return layout;
 }
@@ -10015,6 +10125,10 @@ function replaceBox(layout, box, newBox) {
     } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
       return Object.assign({}, layout, {
         floatbox: newBox
+      });
+    } else if (box.id === layout.maxbox.id || box === layout.maxbox) {
+      return Object.assign({}, layout, {
+        maxbox: newBox
       });
     }
   }
@@ -10582,11 +10696,18 @@ class DockPanel extends react_1.default.PureComponent {
       panelClass = styleName.split(' ').map(name => `dock-style-${name}`).join(' ');
     }
 
+    let isMax = parent && parent.mode === 'maximize';
     let isFloat = parent && parent.mode === 'float';
     let pointerDownCallback = this.onFloatPointerDown;
+    let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
 
-    if (!isFloat) {
+    if (!isFloat || isMax) {
       pointerDownCallback = null;
+    }
+
+    if (isMax) {
+      dropFromPanel = null;
+      onPanelHeaderDragStart = null;
     }
 
     let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}${draggingHeader ? ' dragging' : ''}`;
@@ -10596,7 +10717,7 @@ class DockPanel extends react_1.default.PureComponent {
       flex: `${size} 1 ${size}px`
     };
 
-    if (panelData.parent.mode === 'float') {
+    if (isFloat) {
       style.left = panelData.x;
       style.top = panelData.y;
       style.width = panelData.w;
@@ -10630,7 +10751,7 @@ class DockPanel extends react_1.default.PureComponent {
       onDragOverT: isFloat ? null : this.onDragOver
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,
-      onPanelDragStart: this.onPanelHeaderDragStart,
+      onPanelDragStart: onPanelHeaderDragStart,
       onPanelDragMove: this.onPanelHeaderDragMove,
       onPanelDragEnd: this.onPanelHeaderDragEnd
     }), isFloat ? [react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
@@ -11318,7 +11439,58 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
 }
 
 exports.loadLayoutData = loadLayoutData;
-},{}],"0iJy":[function(require,module,exports) {
+},{}],"Lojd":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const react_1 = __importDefault(require("react"));
+
+const DockPanel_1 = require("./DockPanel");
+
+class MaxBox extends react_1.default.PureComponent {
+  render() {
+    let panelData = this.props.boxData.children[0];
+
+    if (panelData) {
+      this.hidePanelData = Object.assign({}, panelData, {
+        tabs: []
+      });
+      return react_1.default.createElement("div", {
+        className: 'dock-box dock-mbox dock-mbox-show'
+      }, react_1.default.createElement(DockPanel_1.DockPanel, {
+        size: 100,
+        panelData: panelData
+      }));
+    } else if (this.hidePanelData) {
+      // use the hiden data only once, dont keep it for too long
+      let hidePanelData = this.hidePanelData;
+      this.hidePanelData = null;
+      return react_1.default.createElement("div", {
+        className: 'dock-box dock-mbox dock-mbox-hide'
+      }, react_1.default.createElement(DockPanel_1.DockPanel, {
+        size: 100,
+        panelData: hidePanelData
+      }));
+    } else {
+      return react_1.default.createElement("div", {
+        className: 'dock-box dock-mbox dock-mbox-hide'
+      });
+    }
+  }
+
+}
+
+exports.MaxBox = MaxBox;
+},{"react":"1n8/","./DockPanel":"ohUB"}],"0iJy":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -11352,6 +11524,8 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importDefault(require("react"));
 
+const react_dom_1 = __importDefault(require("react-dom"));
+
 const debounce_1 = __importDefault(require("lodash/debounce"));
 
 const DockData_1 = require("./DockData");
@@ -11367,6 +11541,8 @@ const Algorithm = __importStar(require("./Algorithm"));
 const Serializer = __importStar(require("./Serializer"));
 
 const DragManager = __importStar(require("./dragdrop/DragManager"));
+
+const MaxBox_1 = require("./MaxBox");
 
 class DockLayout extends react_1.default.PureComponent {
   constructor(props) {
@@ -11470,7 +11646,12 @@ class DockLayout extends react_1.default.PureComponent {
     let {
       layout
     } = this.state;
-    layout = Algorithm.removeFromLayout(layout, source);
+
+    if (direction === 'maximize') {
+      layout = Algorithm.maximize(layout, source);
+    } else {
+      layout = Algorithm.removeFromLayout(layout, source);
+    }
 
     if (typeof target === 'string') {
       target = this.find(target);
@@ -11686,7 +11867,8 @@ class DockLayout extends react_1.default.PureComponent {
 
   render() {
     let {
-      style
+      style,
+      maximizeTo
     } = this.props;
     let {
       layout,
@@ -11710,6 +11892,23 @@ class DockLayout extends react_1.default.PureComponent {
       }
     }
 
+    let maximize; // if (layout.maxbox && layout.maxbox.children.length === 1) {
+
+    if (maximizeTo) {
+      if (typeof maximizeTo === 'string') {
+        maximizeTo = document.getElementById(maximizeTo);
+      }
+
+      maximize = react_dom_1.default.createPortal(react_1.default.createElement(MaxBox_1.MaxBox, {
+        boxData: layout.maxbox
+      }), maximizeTo);
+    } else {
+      maximize = react_1.default.createElement(MaxBox_1.MaxBox, {
+        boxData: layout.maxbox
+      });
+    } // }
+
+
     return react_1.default.createElement("div", {
       ref: this.getRef,
       className: 'dock-layout',
@@ -11721,7 +11920,7 @@ class DockLayout extends react_1.default.PureComponent {
       boxData: layout.dockbox
     }), react_1.default.createElement(FloatBox_1.FloatBox, {
       boxData: layout.floatbox
-    })), react_1.default.createElement("div", {
+    }), maximize), react_1.default.createElement("div", {
       className: 'dock-drop-indicator',
       style: dropRectStyle
     }));
@@ -11838,7 +12037,7 @@ class DockLayout extends react_1.default.PureComponent {
 }
 
 exports.DockLayout = DockLayout;
-},{"react":"1n8/","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb"}],"VNNP":[function(require,module,exports) {
+},{"react":"1n8/","react-dom":"NKHc","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"1tXc","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb","./MaxBox":"Lojd"}],"VNNP":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {

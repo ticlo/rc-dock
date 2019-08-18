@@ -118,6 +118,7 @@ body.dock-dragging {
   &.dock-mbox-hide {
     pointer-events: none;
     visibility: hidden;
+    opacity: 0;
     animation: dock-mbox-hide 0.2s ease;
   }
 }
@@ -308,13 +309,11 @@ body.dock-dragging {
 }
 
 .dock-panel-max-btn {
-  height: 9px;
-  width: 9px;
-  border: 2px solid #888;
+  height: 15px;
+  width: 15px;
   font-family: 'Fredoka One', sans-serif;
-  color: #666;
-  border-radius: 1px;
-  margin: 8px 6px 8px 0;
+  margin: 2px 2px 2px 0;
+  padding: 6px 4px 6px 2px;
   opacity: 0.2;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
@@ -323,15 +322,25 @@ body.dock-dragging {
     opacity: 1;
     transform: scale(1.1, 1.1);
   }
+
+  &:before {
+    position: absolute;
+    content: " ";
+    border: 2px solid #888;
+    border-radius: 1px;
+    width: 9px;
+    height:9px;
+  }
 }
 
 .dock-mbox .dock-panel-max-btn {
-  border: none;
+
 
   &:before {
+    border: none;
     content: "-";
+    color: #666;
     font-size: 20px;
     line-height: 4px;
-    position: absolute;
   }
 }

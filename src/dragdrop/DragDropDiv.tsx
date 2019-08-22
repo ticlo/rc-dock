@@ -29,7 +29,7 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
 export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
 
   element: HTMLElement;
-
+  ownerDocument: Document;
   _getRef = (r: HTMLDivElement) => {
     if (r === this.element) {
       return;
@@ -39,6 +39,9 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       DragManager.removeHandlers(this.element);
     }
     this.element = r;
+    if (r) {
+      this.ownerDocument = r.ownerDocument;
+    }
     if (getRef) {
       getRef(r);
     }
@@ -114,19 +117,19 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     let {onDragStartT} = this.props;
 
     if (event.type === 'touchstart') {
-      document.addEventListener('touchmove', this.onTouchMove);
-      document.addEventListener('touchend', this.onDragEnd);
+      this.ownerDocument.addEventListener('touchmove', this.onTouchMove);
+      this.ownerDocument.addEventListener('touchend', this.onDragEnd);
       this.dragType = 'touch';
     } else {
-      document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('mouseup', this.onDragEnd);
+      this.ownerDocument.addEventListener('mousemove', this.onMouseMove);
+      this.ownerDocument.addEventListener('mouseup', this.onDragEnd);
       if ((event as MouseEvent).button === 2) {
         this.dragType = 'right';
       } else {
         this.dragType = 'left';
       }
     }
-    document.body.classList.add('dock-dragging');
+    this.ownerDocument.body.classList.add('dock-dragging');
     this.waitingMove = true;
     this.listening = true;
   }
@@ -151,7 +154,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       return false;
     }
     state._onMove();
-    document.addEventListener('keydown', this.onKeyDown);
+    this.ownerDocument.addEventListener('keydown', this.onKeyDown);
     return true;
   }
 
@@ -210,10 +213,10 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   };
 
   addGestureListeners(event: TouchEvent) {
-    document.addEventListener('touchmove', this.onGestureMove);
-    document.addEventListener('touchend', this.onGestureEnd);
-    document.addEventListener('keydown', this.onKeyDown);
-    document.body.classList.add('dock-dragging');
+    this.ownerDocument.addEventListener('touchmove', this.onGestureMove);
+    this.ownerDocument.addEventListener('touchend', this.onGestureEnd);
+    this.ownerDocument.addEventListener('keydown', this.onKeyDown);
+    this.ownerDocument.body.classList.add('dock-dragging');
     this.gesturing = true;
     this.waitingMove = true;
   }
@@ -287,19 +290,19 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
 
   removeListeners() {
     if (this.gesturing) {
-      document.removeEventListener('touchmove', this.onGestureMove);
-      document.removeEventListener('touchend', this.onGestureEnd);
+      this.ownerDocument.removeEventListener('touchmove', this.onGestureMove);
+      this.ownerDocument.removeEventListener('touchend', this.onGestureEnd);
     } else if (this.listening) {
       if (this.dragType === 'touch') {
-        document.removeEventListener('touchmove', this.onTouchMove);
-        document.removeEventListener('touchend', this.onDragEnd);
+        this.ownerDocument.removeEventListener('touchmove', this.onTouchMove);
+        this.ownerDocument.removeEventListener('touchend', this.onDragEnd);
       } else {
-        document.removeEventListener('mousemove', this.onMouseMove);
-        document.removeEventListener('mouseup', this.onDragEnd);
+        this.ownerDocument.removeEventListener('mousemove', this.onMouseMove);
+        this.ownerDocument.removeEventListener('mouseup', this.onDragEnd);
       }
     }
-    document.body.classList.remove('dock-dragging');
-    document.removeEventListener('keydown', this.onKeyDown);
+    this.ownerDocument.body.classList.remove('dock-dragging');
+    this.ownerDocument.removeEventListener('keydown', this.onKeyDown);
     this.listening = false;
     this.gesturing = false;
   }

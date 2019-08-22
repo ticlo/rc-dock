@@ -2,6 +2,7 @@ export type DragType = 'left' | 'right' | 'touch';
 
 interface DragDropComponent {
   element: HTMLElement;
+  ownerDocument: Document;
   dragType: DragType;
   baseX: number;
   baseY: number;
@@ -100,7 +101,7 @@ export class DragState {
 
   _onMove() {
     if (_data) {
-      let searchElement = document.elementFromPoint(this.clientX, this.clientY) as HTMLElement;
+      let searchElement = this.component.ownerDocument.elementFromPoint(this.clientX, this.clientY) as HTMLElement;
       let droppingHandlers: DragHandlers;
       while (searchElement && searchElement !== document.body) {
         if (_dragListeners.has(searchElement)) {
@@ -126,9 +127,9 @@ export class DragState {
     }
     if (this.component.dragType === 'right') {
       // prevent the next menu event if drop handler is called on right mouse button
-      document.addEventListener('contextmenu', preventDefault, true);
+      this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
       setTimeout(() => {
-        document.removeEventListener('contextmenu', preventDefault, true);
+        this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
       }, 0);
     }
   }

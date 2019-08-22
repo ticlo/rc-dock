@@ -1,6 +1,7 @@
 export declare type DragType = 'left' | 'right' | 'touch';
 interface DragDropComponent {
     element: HTMLElement;
+    ownerDocument: Document;
     dragType: DragType;
     baseX: number;
     baseY: number;

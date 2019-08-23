@@ -12215,7 +12215,13 @@ var _exportNames = {
   ReactDOM: true,
   NewWindow: true
 };
-exports.NewWindow = exports.ReactDOM = exports.React = void 0;
+Object.defineProperty(exports, "NewWindow", {
+  enumerable: true,
+  get: function () {
+    return _reactNewWindow.default;
+  }
+});
+exports.ReactDOM = exports.React = void 0;
 
 var _lib = require("../lib");
 
@@ -12255,6 +12261,4 @@ const React = _react.default;
 exports.React = React;
 const ReactDOM = _reactDom.default;
 exports.ReactDOM = ReactDOM;
-const NewWindow = _reactNewWindow.default;
-exports.NewWindow = NewWindow;
 },{"../lib":"VNNP","./prism-tabs":"a1rF","react":"1n8/","react-dom":"NKHc","react-new-window":"U7Gc"}]},{},["FeNK"], null)

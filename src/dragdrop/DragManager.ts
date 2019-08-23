@@ -186,11 +186,17 @@ export function removeHandlers(element: HTMLElement) {
   _dragListeners.delete(element);
 }
 
-let _draggingDiv: HTMLDivElement = document.createElement('div');
-let _draggingIcon: HTMLDivElement = document.createElement('div');
-_draggingDiv.className = 'dragging-layer';
-_draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
-_draggingDiv.appendChild(_draggingIcon);
+let _draggingDiv: HTMLDivElement;
+let _draggingIcon: HTMLDivElement;
+
+function _createDraggingDiv(doc: Document) {
+  _draggingDiv = doc.createElement('div');
+  _draggingIcon = doc.createElement('div');
+  _draggingDiv.className = 'dragging-layer';
+  _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
+  _draggingDiv.appendChild(_draggingIcon);
+}
+
 
 function createDraggingElement(state: DragState, refElement: HTMLElement, draggingHtml?: HTMLElement | string) {
   _draggingState = state;
@@ -198,22 +204,22 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
     refElement.classList.add('dragging');
     _refElement = refElement;
   }
-
-  document.body.appendChild(_draggingDiv);
+  _createDraggingDiv(state.component.ownerDocument);
+  state.component.ownerDocument.body.appendChild(_draggingDiv);
 
   let draggingWidth = 0;
   let draggingHeight = 0;
   if (draggingHtml === undefined) {
     draggingHtml = state.component.element;
   }
-  if (draggingHtml instanceof HTMLElement) {
-    draggingWidth = draggingHtml.offsetWidth;
-    draggingHeight = draggingHtml.offsetHeight;
-    draggingHtml = draggingHtml.outerHTML;
+  if (draggingHtml && 'outerHTML' in (draggingHtml as any)) {
+    draggingWidth = (draggingHtml as HTMLElement).offsetWidth;
+    draggingHeight = (draggingHtml as HTMLElement).offsetHeight;
+    draggingHtml = (draggingHtml as HTMLElement).outerHTML;
 
   }
   if (draggingHtml) {
-    _draggingDiv.firstElementChild.outerHTML = draggingHtml;
+    _draggingDiv.firstElementChild.outerHTML = draggingHtml as string;
     if (window.getComputedStyle(_draggingDiv.firstElementChild).backgroundColor === 'rgba(0, 0, 0, 0)') {
       (_draggingDiv.firstElementChild as HTMLElement).style.backgroundColor
         = window.getComputedStyle(_draggingDiv).getPropertyValue('--default-background-color');
@@ -257,8 +263,8 @@ export function destroyDraggingElement(e: DragState) {
     _refElement = null;
   }
 
-  _draggingDiv.firstElementChild.outerHTML = '<div/>';
   _draggingDiv.remove();
+  _draggingDiv = null;
 
   _draggingState = null;
   setDroppingHandler(null, e);

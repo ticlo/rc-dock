@@ -4,6 +4,8 @@
 
 - **Examples:** https://ticlo.github.io/rc-dock/examples
 - **Docs:** https://ticlo.github.io/rc-dock
+- **Discord:** [![Discord](https://img.shields.io/discord/434106806503997445.svg?color=7289DA&logo=discord&logoColor=white
+)](https://discord.gg/G7pw9DR)
 
 ## Usage
 

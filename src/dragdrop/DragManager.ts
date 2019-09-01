@@ -248,11 +248,11 @@ function moveDraggingElement(state: DragState) {
   _draggingDiv.style.top = `${state.pageY}px`;
 
   if (state.rejected) {
-    _draggingIcon.innerText = '🚫';
-  } else if (state.acceptMessage != null) {
-    _draggingIcon.innerText = state.acceptMessage;
+    _draggingIcon.className = 'drag-accept-reject';
+  } else if (state.acceptMessage) {
+    _draggingIcon.className = state.acceptMessage;
   } else {
-    _draggingIcon.innerText = '';
+    _draggingIcon.className = '';
   }
 }
 

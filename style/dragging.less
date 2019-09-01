@@ -29,12 +29,19 @@ body > .dragging-layer {
 
   & > div:last-child {
     position: absolute;
-    left: 12px;
-    top: 12px;
   }
 }
 
 .drag-initiator {
   user-select: none;
   touch-action: none;
+}
+
+.drag-accept-reject {
+  left: 12px;
+  top: 12px;
+
+  &::after {
+    content: "🚫";
+  }
 }

@@ -11,7 +11,7 @@
     ],
     "alwaysStrict": true,
     "noImplicitAny": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "newLine": "lf",
     "outDir": "./lib"

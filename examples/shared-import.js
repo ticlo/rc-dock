@@ -5149,9 +5149,12 @@ function destroyDraggingElement(e) {
     _refElement = null;
   }
 
-  _draggingDiv.remove();
+  if (_draggingDiv) {
+    _draggingDiv.remove();
 
-  _draggingDiv = null;
+    _draggingDiv = null;
+  }
+
   _draggingState = null;
   setDroppingHandler(null, e);
   _dataScope = null;

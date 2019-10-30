@@ -187,15 +187,12 @@ export class DockTabs extends React.Component<Props, any> {
     let {tabs} = nextProps.panelData;
 
     // update tab cache
-    if (!compareArray(tabs, this.props.panelData.tabs)) {
-      this.updateTabs(tabs);
-      return true;
-    }
-    return !compareKeys(this.props, nextProps, DockTabs.propKeys);
+    this.updateTabs(tabs);
+    return true;
   }
 
   onMaximizeClick = () => {
-    let {panelData} = this.props
+    let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'maximize');
   };
 

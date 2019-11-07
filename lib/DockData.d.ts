@@ -237,7 +237,7 @@ export interface DockContext {
 /** @ignore */
 export declare const DockContextType: React.Context<DockContext>;
 /** @ignore */
-export declare const DockContextProvider: React.ProviderExoticComponent<React.ProviderProps<DockContext>>;
+export declare const DockContextProvider: React.Provider<DockContext>;
 /** @ignore */
-export declare const DockContextConsumer: React.ExoticComponent<React.ConsumerProps<DockContext>>;
+export declare const DockContextConsumer: React.Consumer<DockContext>;
 export {};

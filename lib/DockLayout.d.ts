@@ -108,6 +108,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     _onWindowResize: any;
     /** @ignore */
     componentWillUnmount(): void;
+    tempLayout: LayoutData;
     /** @ignore
      * change layout
      */

@@ -9771,7 +9771,7 @@ function removeFromLayout(layout, source) {
       layout = removeTab(layout, source);
     }
 
-    if (panelData && panelData.parent.mode === 'maximize') {
+    if (panelData && panelData.parent && panelData.parent.mode === 'maximize') {
       let newPanel = layout.maxbox.children[0];
 
       if (!newPanel || newPanel.tabs.length === 0 && !newPanel.panelLock) {

@@ -131,7 +131,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
    * @param direction @inheritDoc
    */
   dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection) {
-    let {layout} = this.state;
+    let layout = this.tempLayout || this.state.layout;
 
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
@@ -186,7 +186,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   /** @inheritDoc */
   find(id: string): PanelData | TabData {
-    return Algorithm.find(this.state.layout, id);
+    return Algorithm.find(this.tempLayout || this.state.layout, id);
   }
 
   /** @ignore */
@@ -330,6 +330,9 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
   /** @ignore */
   render(): React.ReactNode {
+    // clear tempLayout
+    this.tempLayout = null;
+
     let {style, maximizeTo} = this.props;
     let {layout, dropRect} = this.state;
     let dropRectStyle: CSSProperties;
@@ -342,18 +345,18 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
     let maximize: React.ReactNode;
     // if (layout.maxbox && layout.maxbox.children.length === 1) {
-      if (maximizeTo) {
-        if (typeof maximizeTo === 'string') {
-          maximizeTo = document.getElementById(maximizeTo);
-        }
-        maximize = ReactDOM.createPortal(
-          <MaxBox boxData={layout.maxbox}/>,
-          maximizeTo
-        );
-      } else {
-        maximize = <MaxBox boxData={layout.maxbox}/>;
+    if (maximizeTo) {
+      if (typeof maximizeTo === 'string') {
+        maximizeTo = document.getElementById(maximizeTo);
       }
-   // }
+      maximize = ReactDOM.createPortal(
+        <MaxBox boxData={layout.maxbox}/>,
+        maximizeTo
+      );
+    } else {
+      maximize = <MaxBox boxData={layout.maxbox}/>;
+    }
+    // }
 
     return (
       <div ref={this.getRef} className='dock-layout' style={style}>
@@ -368,7 +371,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   }
 
   _onWindowResize: any = debounce(() => {
-    let layout = this.state.layout;
+    let layout = this.tempLayout || this.state.layout;
     let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
     if (layout !== newLayout) {
       newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
@@ -383,6 +386,8 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     this._onWindowResize.cancel();
   }
 
+  tempLayout: LayoutData;
+
   /** @ignore
    * change layout
    */
@@ -396,6 +401,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
     if (!layout) {
       // uncontrolled layout when Props.layout is not defined
+      this.tempLayout = layoutData;
       this.setState({layout: layoutData});
     }
   }
@@ -407,7 +413,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   onSilentChange(currentTabId: string = null) {
     let {onLayoutChange} = this.props;
     if (onLayoutChange) {
-      let {layout} = this.state;
+      let layout = this.tempLayout || this.state.layout;
       let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
       layout.loadedFrom = savedLayout;
       onLayoutChange(savedLayout, currentTabId);
@@ -417,7 +423,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   // public api
 
   saveLayout(): LayoutBase {
-    return Serializer.saveLayoutData(this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+    return Serializer.saveLayoutData(this.tempLayout || this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
   }
 
   /**

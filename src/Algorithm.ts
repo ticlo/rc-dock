@@ -277,7 +277,7 @@ export function removeFromLayout(layout: LayoutData, source: TabData | PanelData
       panelData = source.parent;
       layout = removeTab(layout, source);
     }
-    if (panelData && panelData.parent.mode === 'maximize') {
+    if (panelData && panelData.parent && panelData.parent.mode === 'maximize') {
       let newPanel = layout.maxbox.children[0] as PanelData;
       if (!newPanel || (newPanel.tabs.length === 0 && !newPanel.panelLock)) {
         // max panel is gone, remove the place holder

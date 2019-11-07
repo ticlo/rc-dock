@@ -127,7 +127,7 @@ export interface TabData extends TabBase, DockDataBase {
     closable?: boolean;
     /**
      * - when value is true: content will always reuse the react component thus allows the component to keep its internal state
-     * - when value is false: content will be destroyed when it's not visible, [[TabGroup.animated]] should be set to false since animation would show blank pages
+     * - when value is false: content will be destroyed when it's not visible, [[TabGroup.animated]] should be set to false, otherwise animation would show blank pages
      * - when value is undefined: content is rendered normally as react component
      */
     cached?: boolean;

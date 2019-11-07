@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"3Fhe":[function(require,module,exports) {
+})({"FheM":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -149,7 +149,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"21/1":[function(require,module,exports) {
+},{}],"TUK3":[function(require,module,exports) {
 var getBundleURL = require('./bundle-url').getBundleURL;
 
 function loadBundlesLazy(bundles) {
@@ -232,7 +232,7 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"3Fhe"}],"7Pjd":[function(require,module,exports) {
+},{"./bundle-url":"FheM"}],"Pjdl":[function(require,module,exports) {
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (async function () {
@@ -326,7 +326,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   ReactDOM.render(React.createElement(Demo, null), document.getElementById('app'));
 })();
-},{"_bundle_loader":"21/1","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"Yi9z":[function(require,module,exports) {
+},{"_bundle_loader":"TUK3","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"Yi9z":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {
   return new Promise(function (resolve, reject) {
     var script = document.createElement('script');
@@ -349,5 +349,5 @@ module.exports = function loadJSBundle(bundle) {
   });
 };
 },{}],0:[function(require,module,exports) {
-var b=require("21/1");b.register("js",require("Yi9z"));
-},{}]},{},[0,"7Pjd"], null)
+var b=require("TUK3");b.register("js",require("Yi9z"));
+},{}]},{},[0,"Pjdl"], null)

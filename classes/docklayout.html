@@ -105,6 +105,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="docklayout.html#_onwindowresize" class="tsd-kind-icon">_on<wbr>Window<wbr>Resize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="docklayout.html#templayout" class="tsd-kind-icon">temp<wbr>Layout</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -145,7 +146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L221">DockLayout.tsx:221</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L221">DockLayout.tsx:221</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -164,10 +165,20 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="_onwindowresize" class="tsd-anchor"></a>
 					<h3>_on<wbr>Window<wbr>Resize</h3>
-					<div class="tsd-signature tsd-kind-icon">_on<wbr>Window<wbr>Resize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;debounce(() &#x3D;&gt; {let layout &#x3D; this.state.layout;let newLayout &#x3D; Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);if (layout !&#x3D;&#x3D; newLayout) {newLayout &#x3D; Algorithm.fixLayoutData(newLayout); // panel parent might need a fixthis.changeLayout(newLayout, null);}}, 200)</span></div>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Window<wbr>Resize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;debounce(() &#x3D;&gt; {let layout &#x3D; this.tempLayout || this.state.layout;let newLayout &#x3D; Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);if (layout !&#x3D;&#x3D; newLayout) {newLayout &#x3D; Algorithm.fixLayoutData(newLayout); // panel parent might need a fixthis.changeLayout(newLayout, null);}}, 200)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L370">DockLayout.tsx:370</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L373">DockLayout.tsx:373</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="templayout" class="tsd-anchor"></a>
+					<h3>temp<wbr>Layout</h3>
+					<div class="tsd-signature tsd-kind-icon">temp<wbr>Layout<span class="tsd-signature-symbol">:</span> <a href="../interfaces/layoutdata.html" class="tsd-signature-type">LayoutData</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L389">DockLayout.tsx:389</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +196,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillMount</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:638</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:658</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -223,7 +234,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillReceiveProps</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:670</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:690</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -272,7 +283,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillUpdate</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:698</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:718</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -322,7 +333,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from ComponentLifecycle.componentDidCatch</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:567</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:587</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +366,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from ComponentLifecycle.componentDidMount</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:546</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:566</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -378,7 +389,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from NewLifecycle.componentDidUpdate</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:609</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:629</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -414,7 +425,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.componentWillMount</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:624</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:644</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -451,7 +462,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.componentWillReceiveProps</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:653</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:673</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -499,7 +510,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.componentWillUpdate</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:683</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:703</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -548,7 +559,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#dockmove">dockMove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L133">DockLayout.tsx:133</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L133">DockLayout.tsx:133</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -601,7 +612,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#find">find</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L188">DockLayout.tsx:188</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L188">DockLayout.tsx:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -633,7 +644,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#getgroup">getGroup</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L114">DockLayout.tsx:114</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L114">DockLayout.tsx:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -662,7 +673,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from NewLifecycle.getSnapshotBeforeUpdate</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:603</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:623</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -700,7 +711,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L427">DockLayout.tsx:427</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L433">DockLayout.tsx:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -729,7 +740,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L419">DockLayout.tsx:419</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L425">DockLayout.tsx:425</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/layoutbase.html" class="tsd-signature-type">LayoutBase</a></h4>
@@ -747,7 +758,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from ComponentLifecycle.shouldComponentUpdate</p>
 								<ul>
-									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:557</li>
+									<li>Defined in /home/travis/build/ticlo/rc-dock/node_modules/@types/react/index.d.ts:577</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -787,7 +798,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/dockcontext.html">DockContext</a>.<a href="../interfaces/dockcontext.html#updatetab">updateTab</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L201">DockLayout.tsx:201</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L201">DockLayout.tsx:201</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,7 +830,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/c7df429/src/DockLayout.tsx#L447">DockLayout.tsx:447</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/5430e78/src/DockLayout.tsx#L453">DockLayout.tsx:453</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -862,6 +873,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="docklayout.html#_onwindowresize" class="tsd-kind-icon">_on<wbr>Window<wbr>Resize</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="docklayout.html#templayout" class="tsd-kind-icon">temp<wbr>Layout</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="docklayout.html#unsafe_componentwillmount" class="tsd-kind-icon">UNSAFE_<wbr>component<wbr>Will<wbr>Mount</a>

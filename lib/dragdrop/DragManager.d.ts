@@ -29,7 +29,7 @@ export declare class DragState {
         [key: string]: any;
     }, scope?: any): void;
     static getData(field: string, scope?: any): any;
-    get dragType(): DragType;
+    readonly dragType: DragType;
     acceptMessage: string;
     rejected: boolean;
     accept(message?: string): void;

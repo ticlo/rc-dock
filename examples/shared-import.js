@@ -5218,16 +5218,9 @@ exports.GestureState = GestureState;
 },{}],"HyIX":[function(require,module,exports) {
 "use strict";
 
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -5588,7 +5581,7 @@ class DragDropDiv extends react_1.default.PureComponent {
   }
 
   render() {
-    let _a = this.props,
+    let _this$props = this.props,
         {
       getRef,
       children,
@@ -5604,8 +5597,8 @@ class DragDropDiv extends react_1.default.PureComponent {
       onGestureMoveT,
       onGestureEndT,
       useRightButtonDragT
-    } = _a,
-        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT"]);
+    } = _this$props,
+        others = _objectWithoutProperties(_this$props, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT"]);
 
     let onTouchDown = this.onPointerDown;
     let onMouseDown = this.onPointerDown;
@@ -8128,16 +8121,15 @@ module.exports = exports['default'];
 },{"babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","classnames":"qb7c","./utils":"c87w"}],"Ec16":[function(require,module,exports) {
 "use strict";
 
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -8163,7 +8155,7 @@ const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
 class DockTabBarRootNode extends react_1.default.PureComponent {
   render() {
-    const _a = this.props,
+    const _this$props = this.props,
           {
       onKeyDown,
       extraContent,
@@ -8172,8 +8164,8 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
       onDragStart,
       onDragMove,
       onDragEnd
-    } = _a,
-          restProps = __rest(_a, ["onKeyDown", "extraContent", "style", "children", "onDragStart", "onDragMove", "onDragEnd"]);
+    } = _this$props,
+          restProps = _objectWithoutProperties(_this$props, ["onKeyDown", "extraContent", "style", "children", "onDragStart", "onDragMove", "onDragEnd"]);
 
     const tabBarExtraContentStyle = {
       float: 'right'
@@ -8184,7 +8176,7 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
     if (extraContent) {
       newChildren = [react_1.default.cloneElement(extraContent, {
         key: 'extra',
-        style: Object.assign(Object.assign({}, tabBarExtraContentStyle), extraContentStyle)
+        style: _objectSpread({}, tabBarExtraContentStyle, {}, extraContentStyle)
       }), react_1.default.cloneElement(children, {
         key: 'content'
       })];
@@ -8207,15 +8199,15 @@ class DockTabBarRootNode extends react_1.default.PureComponent {
 
 class DockTabBar extends react_1.default.PureComponent {
   render() {
-    const _a = this.props,
+    const _this$props2 = this.props,
           {
       children: renderTabBarNode,
       onDragStart,
       onDragMove,
       onDragEnd,
       extraContent
-    } = _a,
-          restProps = __rest(_a, ["children", "onDragStart", "onDragMove", "onDragEnd", "extraContent"]);
+    } = _this$props2,
+          restProps = _objectWithoutProperties(_this$props2, ["children", "onDragStart", "onDragMove", "onDragEnd", "extraContent"]);
 
     return react_1.default.createElement(SaveRef_1.default, null, (saveRef, getRef) => react_1.default.createElement(DockTabBarRootNode, Object.assign({
       saveRef: saveRef,
@@ -9151,9 +9143,9 @@ class DockTabs extends react_1.default.Component {
 
 }
 
-exports.DockTabs = DockTabs;
 DockTabs.contextType = DockData_1.DockContextType;
 DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
+exports.DockTabs = DockTabs;
 },{"react":"n8MK","./DockData":"zh3I","rc-tabs":"FgVr","rc-tabs/lib/TabContent":"Bdxb","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./DockTabBar":"Ec16","./DockTabPane":"ZavB"}],"YpI8":[function(require,module,exports) {
 "use strict";
 
@@ -9277,8 +9269,8 @@ class DockDropSquare extends react_1.default.PureComponent {
 
 }
 
-exports.DockDropSquare = DockDropSquare;
 DockDropSquare.contextType = DockData_1.DockContextType;
+exports.DockDropSquare = DockDropSquare;
 
 class DockDropLayer extends react_1.default.PureComponent {
   static addDepthSquare(children, mode, panelData, panelElement, depth) {
@@ -9370,10 +9362,16 @@ class DockDropLayer extends react_1.default.PureComponent {
 
 }
 
-exports.DockDropLayer = DockDropLayer;
 DockDropLayer.contextType = DockData_1.DockContextType;
+exports.DockDropLayer = DockDropLayer;
 },{"react":"n8MK","./DockData":"zh3I","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb"}],"wqok":[function(require,module,exports) {
 "use strict";
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -9400,7 +9398,7 @@ function clearObjectCache() {
 }
 
 function clone(value, extra) {
-  let newValue = Object.assign(Object.assign({}, value), extra);
+  let newValue = _objectSpread({}, value, {}, extra);
 
   if (Array.isArray(newValue.tabs)) {
     newValue.tabs = newValue.tabs.concat();
@@ -9801,11 +9799,12 @@ function maximizePanel(layout, panel) {
     return layout;
   }
 
-  let placeHodlerPanel = Object.assign(Object.assign({}, panel), {
+  let placeHodlerPanel = _objectSpread({}, panel, {
     id: DockData_1.maximePlaceHolderId,
     tabs: [],
     panelLock: {}
   });
+
   layout = replacePanel(layout, panel, placeHodlerPanel);
   layout = dockPanelToBox(layout, panel, layout.maxbox, 'middle');
   return layout;
@@ -9823,7 +9822,7 @@ function restorePanel(layout, panel) {
       w,
       h
     } = placeHolder;
-    panel = Object.assign(Object.assign({}, panel), {
+    panel = _objectSpread({}, panel, {
       x,
       y,
       z,
@@ -10147,15 +10146,15 @@ function replaceBox(layout, box, newBox) {
     }
   } else {
     if (box.id === layout.dockbox.id || box === layout.dockbox) {
-      return Object.assign(Object.assign({}, layout), {
+      return _objectSpread({}, layout, {
         dockbox: newBox
       });
     } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
-      return Object.assign(Object.assign({}, layout), {
+      return _objectSpread({}, layout, {
         floatbox: newBox
       });
     } else if (box.id === layout.maxbox.id || box === layout.maxbox) {
-      return Object.assign(Object.assign({}, layout), {
+      return _objectSpread({}, layout, {
         maxbox: newBox
       });
     }
@@ -10409,8 +10408,8 @@ class DockDropEdge extends react_1.default.PureComponent {
 
 }
 
-exports.DockDropEdge = DockDropEdge;
 DockDropEdge.contextType = DockData_1.DockContextType;
+exports.DockDropEdge = DockDropEdge;
 },{"react":"n8MK","./DockData":"zh3I","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb"}],"ohUB":[function(require,module,exports) {
 "use strict";
 
@@ -10819,8 +10818,8 @@ class DockPanel extends react_1.default.PureComponent {
 
 }
 
-exports.DockPanel = DockPanel;
 DockPanel.contextType = DockData_1.DockContextType;
+exports.DockPanel = DockPanel;
 },{"react":"n8MK","./DockData":"zh3I","./DockTabs":"nskJ","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb","./DockDropLayer":"YpI8","./Algorithm":"wqok","./DockDropEdge":"QpCJ"}],"Lzzn":[function(require,module,exports) {
 "use strict";
 
@@ -11164,8 +11163,8 @@ class DockBox extends react_1.default.PureComponent {
 
 }
 
-exports.DockBox = DockBox;
 DockBox.contextType = DockData_1.DockContextType;
+exports.DockBox = DockBox;
 },{"react":"n8MK","./DockData":"zh3I","./Divider":"Lzzn","./DockPanel":"ohUB"}],"tXcC":[function(require,module,exports) {
 "use strict";
 
@@ -11210,6 +11209,12 @@ class FloatBox extends react_1.default.PureComponent {
 exports.FloatBox = FloatBox;
 },{"react":"n8MK","./DockPanel":"ohUB"}],"EWaN":[function(require,module,exports) {
 "use strict";
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -11443,7 +11448,7 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
     } else if (afterPanelLoaded) {
       afterPanelLoaded(savedPanel, panelData);
     } else if (cache.panels.has(id)) {
-      panelData = Object.assign(Object.assign({}, cache.panels.get(id)), panelData);
+      panelData = _objectSpread({}, cache.panels.get(id), {}, panelData);
     }
 
     return panelData;
@@ -11484,6 +11489,12 @@ exports.loadLayoutData = loadLayoutData;
 },{"./DockData":"zh3I"}],"Lojd":[function(require,module,exports) {
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -11503,7 +11514,7 @@ class MaxBox extends react_1.default.PureComponent {
     let panelData = this.props.boxData.children[0];
 
     if (panelData) {
-      this.hidePanelData = Object.assign(Object.assign({}, panelData), {
+      this.hidePanelData = _objectSpread({}, panelData, {
         tabs: []
       });
       return react_1.default.createElement("div", {
@@ -11535,16 +11546,15 @@ exports.MaxBox = MaxBox;
 },{"react":"n8MK","./DockPanel":"ohUB"}],"iJyS":[function(require,module,exports) {
 "use strict";
 
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -11652,7 +11662,8 @@ class DockLayout extends react_1.default.PureComponent {
 
 
   prepareInitData(data) {
-    let layout = Object.assign({}, data);
+    let layout = _objectSpread({}, data);
+
     Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
@@ -11923,9 +11934,9 @@ class DockLayout extends react_1.default.PureComponent {
         element,
         direction
       } = dropRect,
-          rect = __rest(dropRect, ["element", "direction"]);
+          rect = _objectWithoutProperties(dropRect, ["element", "direction"]);
 
-      dropRectStyle = Object.assign(Object.assign({}, rect), {
+      dropRectStyle = _objectSpread({}, rect, {
         display: 'block'
       });
 

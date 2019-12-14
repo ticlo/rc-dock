@@ -214,7 +214,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   return to;
 };
 },{}],"awqi":[function(require,module,exports) {
-/** @license React v16.11.0
+/** @license React v16.12.0
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -598,7 +598,7 @@ var X = {
     return b;
   },
   isValidElement: N,
-  version: "16.11.0",
+  version: "16.12.0",
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
     ReactCurrentDispatcher: I,
     ReactCurrentBatchConfig: {

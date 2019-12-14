@@ -84,6 +84,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabgroup.html#floatable" class="tsd-kind-icon">floatable</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabgroup.html#maximizable" class="tsd-kind-icon">maximizable</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabgroup.html#panelextra" class="tsd-kind-icon">panel<wbr>Extra</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabgroup.html#preferredfloatheight" class="tsd-kind-icon">preferred<wbr>Float<wbr>Height</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabgroup.html#preferredfloatwidth" class="tsd-kind-icon">preferred<wbr>Float<wbr>Width</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabgroup.html#tablocked" class="tsd-kind-icon">tab<wbr>Locked</a></li>
 							</ul>
 						</section>
@@ -98,7 +100,7 @@
 					<div class="tsd-signature tsd-kind-icon">animated<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/bdee4c6/src/DockData.ts#L36">DockData.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L36">src/DockData.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -114,7 +116,7 @@
 					<div class="tsd-signature tsd-kind-icon">disable<wbr>Dock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/bdee4c6/src/DockData.ts#L16">DockData.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L16">src/DockData.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -130,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">floatable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/bdee4c6/src/DockData.ts#L9">DockData.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L9">src/DockData.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">maximizable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/bdee4c6/src/DockData.ts#L23">DockData.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L23">src/DockData.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">panel<wbr>Extra<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/bdee4c6/src/DockData.ts#L44">DockData.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L44">src/DockData.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -198,12 +200,46 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="preferredfloatheight" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> preferred<wbr>Float<wbr>Height</h3>
+					<div class="tsd-signature tsd-kind-icon">preferred<wbr>Float<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L57">src/DockData.ts:57</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>when creating float panel from dragging, DockLayout would use the original panel&#39;s size
+								use this to defined the [min, max] allowed height for the default size of a float panel
+							if not specified, minHeight = 50, maxHeight = 500</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="preferredfloatwidth" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> preferred<wbr>Float<wbr>Width</h3>
+					<div class="tsd-signature tsd-kind-icon">preferred<wbr>Float<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L51">src/DockData.ts:51</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>when creating float panel from dragging, DockLayout would use the original panel&#39;s size
+								use this to defined the [min, max] allowed with for the default size of a float panel
+							if not specified, minWidth = 100, maxWidth = 600</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="tablocked" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tab<wbr>Locked</h3>
 					<div class="tsd-signature tsd-kind-icon">tab<wbr>Locked<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/bdee4c6/src/DockData.ts#L30">DockData.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/63061e6/src/DockData.ts#L30">src/DockData.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -283,6 +319,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="tabgroup.html#panelextra" class="tsd-kind-icon">panel<wbr>Extra</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabgroup.html#preferredfloatheight" class="tsd-kind-icon">preferred<wbr>Float<wbr>Height</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabgroup.html#preferredfloatwidth" class="tsd-kind-icon">preferred<wbr>Float<wbr>Width</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="tabgroup.html#tablocked" class="tsd-kind-icon">tab<wbr>Locked</a>

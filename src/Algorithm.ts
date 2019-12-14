@@ -633,19 +633,22 @@ function replaceBox(layout: LayoutData, box: BoxData, newBox: BoxData): LayoutDa
 }
 
 export function getFloatPanelSize(panel: HTMLElement, tabGroup: TabGroup) {
+  if (!panel) {
+    return [300, 300];
+  }
   let panelWidth = panel.offsetWidth;
   let panelHeight = panel.offsetHeight;
 
   let [minWidth, maxWidth] = tabGroup.preferredFloatWidth || [100, 600];
   let [minHeight, maxHeight] = tabGroup.preferredFloatHeight || [50, 500];
-  if (panelWidth < minWidth) {
+  if (!(panelWidth >= minWidth)) {
     panelWidth = minWidth;
-  } else if (panelWidth > maxWidth) {
+  } else if (!(panelWidth <= maxWidth)) {
     panelWidth = maxWidth;
   }
-  if (panelHeight < minHeight) {
+  if (!(panelHeight >= minHeight)) {
     panelHeight = minHeight;
-  } else if (panelHeight > maxHeight) {
+  } else if (!(panelHeight <= maxHeight)) {
     panelHeight = maxHeight;
   }
 

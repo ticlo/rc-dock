@@ -4,7 +4,7 @@ import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
 import {default as DragManager, DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
-import {nextZIndex} from "./Algorithm";
+import {getFloatPanelSize, nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";
 
 interface Props {
@@ -81,7 +81,10 @@ export class DockPanel extends React.PureComponent<Props, State> {
       event.startDrag(null, null);
       this.onFloatPointerDown();
     } else {
-      event.setData({panel: this.props.panelData}, DockContextType);
+      let tabGroup = this.context.getGroup(panelData.group);
+      let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
+
+      event.setData({panel: panelData, panelSize: [panelWidth, panelHeight]}, DockContextType);
       event.startDrag(null);
     }
     this.setState({draggingHeader: true});

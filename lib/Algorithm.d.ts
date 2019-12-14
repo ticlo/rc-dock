@@ -1,4 +1,4 @@
-import { BoxData, DropDirection, LayoutData, PanelData, TabBase, TabData } from "./DockData";
+import { BoxData, DropDirection, LayoutData, PanelData, TabBase, TabData, TabGroup } from "./DockData";
 export declare function getUpdatedObject(obj: any): any;
 export declare function nextId(): string;
 export declare function nextZIndex(current?: number): number;
@@ -18,3 +18,4 @@ export declare function removeFromLayout(layout: LayoutData, source: TabData | P
 export declare function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData;
 export declare function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => TabData): LayoutData;
+export declare function getFloatPanelSize(panel: HTMLElement, tabGroup: TabGroup): number[];

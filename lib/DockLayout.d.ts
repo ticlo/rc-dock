@@ -102,7 +102,7 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {
         clientX: number;
         clientY: number;
-    }): void;
+    }, panelSize?: [number, number]): void;
     /** @ignore */
     render(): React.ReactNode;
     _onWindowResize: any;

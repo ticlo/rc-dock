@@ -131,7 +131,8 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     for (let i = 0; i < depth; ++i) {
       targetElement = targetElement.parentElement;
     }
-    this.context.setDropRect(targetElement, direction, this, e);
+    let panelSize: [number, number] = DragState.getData('panelSize', DockContextType);
+    this.context.setDropRect(targetElement, direction, this, e, panelSize);
     e.accept('');
   };
 

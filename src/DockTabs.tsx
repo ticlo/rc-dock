@@ -8,6 +8,20 @@ import {default as DragManager, DragState} from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane, {getContextPaneClass} from "./DockTabPane";
+import {getFloatPanelSize} from "./Algorithm";
+
+function findParentPanel(element: HTMLElement) {
+  for (let i = 0; i < 10; ++i) {
+    if (!element) {
+      return null;
+    }
+    if (element.classList.contains('dock-panel')) {
+      return element;
+    }
+    element = element.parentElement;
+  }
+  return null;
+}
 
 export class TabCache {
 
@@ -43,7 +57,11 @@ export class TabCache {
     e.stopPropagation();
   };
   onDragStart = (e: DragState) => {
-    e.setData({tab: this.data}, DockContextType);
+    let panel = findParentPanel(this._ref);
+    let tabGroup = this.context.getGroup(this.data.group);
+    let [panelWidth, panelHeight] = getFloatPanelSize(panel, tabGroup);
+
+    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, DockContextType);
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragState) => {

@@ -264,7 +264,7 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
   }
 
   /** @ignore */
-  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}) {
+  setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}, panelSize: [number, number] = [300, 300]) {
     let {dropRect} = this.state;
     if (dropRect) {
       if (direction === 'remove') {
@@ -299,10 +299,10 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
       case 'float': {
         let x = (event.clientX - layoutRect.left) * scaleX;
         let y = (event.clientY - layoutRect.top) * scaleY;
-        left = x - 150;
         top = y - 15;
-        width = 300;
-        height = 300;
+        width = panelSize[0];
+        height = panelSize[1];
+        left = x - (width >> 1);
         break;
       }
       case 'right':

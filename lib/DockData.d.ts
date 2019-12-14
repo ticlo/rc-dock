@@ -37,6 +37,18 @@ export interface TabGroup {
      * if you don't need to show extra content in this case, just return null
      */
     panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
+    /**
+     * when creating float panel from dragging, DockLayout would use the original panel's size
+     * use this to defined the [min, max] allowed with for the default size of a float panel
+     * if not specified, minWidth = 100, maxWidth = 600
+     */
+    preferredFloatWidth?: [number, number];
+    /**
+     * when creating float panel from dragging, DockLayout would use the original panel's size
+     * use this to defined the [min, max] allowed height for the default size of a float panel
+     * if not specified, minHeight = 50, maxHeight = 500
+     */
+    preferredFloatHeight?: [number, number];
 }
 /** @ignore */
 export declare const defaultGroup: TabGroup;
@@ -195,7 +207,7 @@ export interface DockContext {
     setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {
         clientX: number;
         clientY: number;
-    }): void;
+    }, panelSize?: [number, number]): void;
     /** @ignore */
     getLayoutSize(): {
         width: number;

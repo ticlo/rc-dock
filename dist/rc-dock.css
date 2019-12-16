@@ -31,6 +31,7 @@ body > .dragging-layer > div:last-child {
 }
 .drag-initiator {
   user-select: none;
+  -webkit-user-select: none;
   touch-action: none;
 }
 .drag-accept-reject::after {
@@ -75,6 +76,7 @@ body > .dragging-layer > div:last-child {
 .dock-tab-next {
   color: #888;
   user-select: none;
+  -webkit-user-select: none;
   z-index: 1;
   line-height: 30px;
   cursor: pointer;
@@ -301,6 +303,7 @@ body > .dragging-layer > div:last-child {
 }
 body.dock-dragging {
   user-select: none;
+  -webkit-user-select: none;
 }
 body.dock-dragging iframe {
   pointer-events: none;
@@ -557,7 +560,7 @@ body.dock-dragging iframe {
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
   margin: 2px 2px 2px 0;
-  padding: 6px 4px 6px 2px;
+  padding: 6px 4px 4px 2px;
   opacity: 0.2;
   cursor: pointer;
   transition: all 0.25s ease-in-out;

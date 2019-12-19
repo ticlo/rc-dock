@@ -110,7 +110,6 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     if (this.props.directDragT) {
       this.executeFirstMove(state);
     }
-    event.preventDefault();
   }
 
   addDragListeners(event: MouseEvent | TouchEvent) {

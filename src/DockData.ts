@@ -242,7 +242,7 @@ export interface LayoutData extends LayoutBase {
 }
 
 export type DropDirection =
-  'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'maximize';
+  'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize';
 
 export interface DockContext {
   /** @ignore */

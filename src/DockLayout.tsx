@@ -135,6 +135,8 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
 
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
+    } else if (direction === 'front') {
+      layout = Algorithm.moveToFront(layout, source);
     } else {
       layout = Algorithm.removeFromLayout(layout, source);
     }

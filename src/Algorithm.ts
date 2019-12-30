@@ -325,6 +325,36 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
   return layout;
 }
 
+export function moveToFront(layout: LayoutData, source: TabData | PanelData): LayoutData {
+  if (source) {
+    let panelData: PanelData;
+    let needUpdate = false;
+    let changes: any = {};
+    if ('tabs' in source) {
+      panelData = source;
+    } else {
+      panelData = source.parent;
+      if (panelData.activeId !== source.id) {
+        // move tab to front
+        changes.activeId =  source.id;
+        needUpdate = true;
+      }
+    }
+    if (panelData && panelData.parent && panelData.parent.mode === 'float') {
+      // move float panel to front
+      let newZ = nextZIndex(panelData.z);
+      if (newZ !== panelData.z) {
+        changes.z =  newZ;
+        needUpdate = true;
+      }
+    }
+    if (needUpdate) {
+      layout = replacePanel(layout, panelData, clone(panelData, changes));
+    }
+  }
+  return layout;
+}
+
 // maximize or restore the panel
 export function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData {
   if (source) {

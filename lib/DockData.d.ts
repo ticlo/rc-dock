@@ -199,7 +199,7 @@ export interface LayoutData extends LayoutBase {
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'maximize';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize';
 export interface DockContext {
     /** @ignore */
     useEdgeDrop(): boolean;

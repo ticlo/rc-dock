@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
@@ -29,19 +29,19 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
-    "rc-tabs": "^9.7.0",
+    "rc-tabs": "^10.0.0-alpha.1",
     "react-new-window": "^0.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.5",
+    "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-proposal-export-default-from": "^7.7.4",
-    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-env": "^7.7.7",
     "@types/classnames": "^2.2.9",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^12.12.17",
+    "@types/node": "^13.1.2",
     "@types/prismjs": "^1.16.0",
-    "@types/react": "^16.9.16",
+    "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/shelljs": "^0.8.6",
     "less": "^3.10.3",
@@ -53,8 +53,8 @@
     "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "tslint-react": "^4.1.0",
-    "typedoc": "^0.15.4",
-    "typescript": "^3.7.3"
+    "typedoc": "^0.15.6",
+    "typescript": "^3.7.4"
   },
   "peerDependencies": {
     "react": ">=15.0.0",

@@ -17,7 +17,10 @@ build
 /temp*
 /www
 
-.travis.yml
 /tool
 /example
-.github
+/.github
+/typedocconfig.js
+/.travis.yml
+/.vscode
+/yarn.lock

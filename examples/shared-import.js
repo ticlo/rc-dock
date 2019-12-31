@@ -2514,139 +2514,7 @@ module.exports.polyfill = function(object) {
   object.cancelAnimationFrame = caf
 }
 
-},{"performance-now":"xNmf"}],"nkXc":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.polyfill = polyfill;
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-function componentWillMount() {
-  // Call this.constructor.gDSFP to support sub-classes.
-  var state = this.constructor.getDerivedStateFromProps(this.props, this.state);
-
-  if (state !== null && state !== undefined) {
-    this.setState(state);
-  }
-}
-
-function componentWillReceiveProps(nextProps) {
-  // Call this.constructor.gDSFP to support sub-classes.
-  // Use the setState() updater to ensure state isn't stale in certain edge cases.
-  function updater(prevState) {
-    var state = this.constructor.getDerivedStateFromProps(nextProps, prevState);
-    return state !== null && state !== undefined ? state : null;
-  } // Binding "this" is important for shallow renderer support.
-
-
-  this.setState(updater.bind(this));
-}
-
-function componentWillUpdate(nextProps, nextState) {
-  try {
-    var prevProps = this.props;
-    var prevState = this.state;
-    this.props = nextProps;
-    this.state = nextState;
-    this.__reactInternalSnapshotFlag = true;
-    this.__reactInternalSnapshot = this.getSnapshotBeforeUpdate(prevProps, prevState);
-  } finally {
-    this.props = prevProps;
-    this.state = prevState;
-  }
-} // React may warn about cWM/cWRP/cWU methods being deprecated.
-// Add a flag to suppress these warnings for this special case.
-
-
-componentWillMount.__suppressDeprecationWarning = true;
-componentWillReceiveProps.__suppressDeprecationWarning = true;
-componentWillUpdate.__suppressDeprecationWarning = true;
-
-function polyfill(Component) {
-  var prototype = Component.prototype;
-
-  if (!prototype || !prototype.isReactComponent) {
-    throw new Error('Can only polyfill class components');
-  }
-
-  if (typeof Component.getDerivedStateFromProps !== 'function' && typeof prototype.getSnapshotBeforeUpdate !== 'function') {
-    return Component;
-  } // If new component APIs are defined, "unsafe" lifecycles won't be called.
-  // Error if any of these lifecycles are present,
-  // Because they would work differently between older and newer (16.3+) versions of React.
-
-
-  var foundWillMountName = null;
-  var foundWillReceivePropsName = null;
-  var foundWillUpdateName = null;
-
-  if (typeof prototype.componentWillMount === 'function') {
-    foundWillMountName = 'componentWillMount';
-  } else if (typeof prototype.UNSAFE_componentWillMount === 'function') {
-    foundWillMountName = 'UNSAFE_componentWillMount';
-  }
-
-  if (typeof prototype.componentWillReceiveProps === 'function') {
-    foundWillReceivePropsName = 'componentWillReceiveProps';
-  } else if (typeof prototype.UNSAFE_componentWillReceiveProps === 'function') {
-    foundWillReceivePropsName = 'UNSAFE_componentWillReceiveProps';
-  }
-
-  if (typeof prototype.componentWillUpdate === 'function') {
-    foundWillUpdateName = 'componentWillUpdate';
-  } else if (typeof prototype.UNSAFE_componentWillUpdate === 'function') {
-    foundWillUpdateName = 'UNSAFE_componentWillUpdate';
-  }
-
-  if (foundWillMountName !== null || foundWillReceivePropsName !== null || foundWillUpdateName !== null) {
-    var componentName = Component.displayName || Component.name;
-    var newApiName = typeof Component.getDerivedStateFromProps === 'function' ? 'getDerivedStateFromProps()' : 'getSnapshotBeforeUpdate()';
-    throw Error('Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n' + componentName + ' uses ' + newApiName + ' but also contains the following legacy lifecycles:' + (foundWillMountName !== null ? '\n  ' + foundWillMountName : '') + (foundWillReceivePropsName !== null ? '\n  ' + foundWillReceivePropsName : '') + (foundWillUpdateName !== null ? '\n  ' + foundWillUpdateName : '') + '\n\nThe above lifecycles should be removed. Learn more about this warning here:\n' + 'https://fb.me/react-async-component-lifecycle-hooks');
-  } // React <= 16.2 does not support static getDerivedStateFromProps.
-  // As a workaround, use cWM and cWRP to invoke the new static lifecycle.
-  // Newer versions of React will ignore these lifecycles if gDSFP exists.
-
-
-  if (typeof Component.getDerivedStateFromProps === 'function') {
-    prototype.componentWillMount = componentWillMount;
-    prototype.componentWillReceiveProps = componentWillReceiveProps;
-  } // React <= 16.2 does not support getSnapshotBeforeUpdate.
-  // As a workaround, use cWU to invoke the new lifecycle.
-  // Newer versions of React will ignore that lifecycle if gSBU exists.
-
-
-  if (typeof prototype.getSnapshotBeforeUpdate === 'function') {
-    if (typeof prototype.componentDidUpdate !== 'function') {
-      throw new Error('Cannot polyfill getSnapshotBeforeUpdate() for components that do not define componentDidUpdate() on the prototype');
-    }
-
-    prototype.componentWillUpdate = componentWillUpdate;
-    var componentDidUpdate = prototype.componentDidUpdate;
-
-    prototype.componentDidUpdate = function componentDidUpdatePolyfill(prevProps, prevState, maybeSnapshot) {
-      // 16.3+ will not execute our will-update method;
-      // It will pass a snapshot value to did-update though.
-      // Older versions will require our polyfilled will-update value.
-      // We need to handle both cases, but can't just check for the presence of "maybeSnapshot",
-      // Because for <= 15.x versions this might be a "prevContext" object.
-      // We also can't just check "__reactInternalSnapshot",
-      // Because get-snapshot might return a falsy value.
-      // So check for the explicit __reactInternalSnapshotFlag flag to determine behavior.
-      var snapshot = this.__reactInternalSnapshotFlag ? this.__reactInternalSnapshot : maybeSnapshot;
-      componentDidUpdate.call(this, prevProps, prevState, snapshot);
-    };
-  }
-
-  return Component;
-}
-},{}],"r9ga":[function(require,module,exports) {
+},{"performance-now":"xNmf"}],"r9ga":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2777,7 +2645,13 @@ function getTransformByIndex(index, tabBarPosition) {
 }
 
 function getMarginStyle(index, tabBarPosition) {
+  var direction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'ltr';
   var marginDirection = isVertical(tabBarPosition) ? 'marginTop' : 'marginLeft';
+
+  if (!isVertical(tabBarPosition) && direction === 'rtl') {
+    return (0, _defineProperty2.default)({}, marginDirection, (index + 1) * 100 + '%');
+  }
+
   return (0, _defineProperty2.default)({}, marginDirection, -index * 100 + '%');
 }
 
@@ -3474,322 +3348,7 @@ var KeyCode = {
 };
 var _default = KeyCode;
 exports.default = _default;
-},{}],"bHnc":[function(require,module,exports) {
-var global = arguments[3];
-'use strict';
-
-var key = '__global_unique_id__';
-
-module.exports = function () {
-  return global[key] = (global[key] || 0) + 1;
-};
-},{}],"XOCG":[function(require,module,exports) {
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-'use strict';
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var __DEV__ = "production" !== 'production';
-
-var warning = function () {};
-
-if (__DEV__) {
-  var printWarning = function printWarning(format, args) {
-    var len = arguments.length;
-    args = new Array(len > 1 ? len - 1 : 0);
-
-    for (var key = 1; key < len; key++) {
-      args[key - 1] = arguments[key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  warning = function (condition, format, args) {
-    var len = arguments.length;
-    args = new Array(len > 2 ? len - 2 : 0);
-
-    for (var key = 2; key < len; key++) {
-      args[key - 2] = arguments[key];
-    }
-
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-
-    if (!condition) {
-      printWarning.apply(null, [format].concat(args));
-    }
-  };
-}
-
-module.exports = warning;
-},{}],"BsBy":[function(require,module,exports) {
-'use strict';
-
-exports.__esModule = true;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _gud = require('gud');
-
-var _gud2 = _interopRequireDefault(_gud);
-
-var _warning = require('warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-var MAX_SIGNED_31_BIT_INT = 1073741823; // Inlined Object.is polyfill.
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-
-function objectIs(x, y) {
-  if (x === y) {
-    return x !== 0 || 1 / x === 1 / y;
-  } else {
-    return x !== x && y !== y;
-  }
-}
-
-function createEventEmitter(value) {
-  var handlers = [];
-  return {
-    on: function on(handler) {
-      handlers.push(handler);
-    },
-    off: function off(handler) {
-      handlers = handlers.filter(function (h) {
-        return h !== handler;
-      });
-    },
-    get: function get() {
-      return value;
-    },
-    set: function set(newValue, changedBits) {
-      value = newValue;
-      handlers.forEach(function (handler) {
-        return handler(value, changedBits);
-      });
-    }
-  };
-}
-
-function onlyChild(children) {
-  return Array.isArray(children) ? children[0] : children;
-}
-
-function createReactContext(defaultValue, calculateChangedBits) {
-  var _Provider$childContex, _Consumer$contextType;
-
-  var contextProp = '__create-react-context-' + (0, _gud2.default)() + '__';
-
-  var Provider = function (_Component) {
-    _inherits(Provider, _Component);
-
-    function Provider() {
-      var _temp, _this, _ret;
-
-      _classCallCheck(this, Provider);
-
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.emitter = createEventEmitter(_this.props.value), _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    Provider.prototype.getChildContext = function getChildContext() {
-      var _ref;
-
-      return _ref = {}, _ref[contextProp] = this.emitter, _ref;
-    };
-
-    Provider.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-      if (this.props.value !== nextProps.value) {
-        var oldValue = this.props.value;
-        var newValue = nextProps.value;
-        var changedBits = void 0;
-
-        if (objectIs(oldValue, newValue)) {
-          changedBits = 0; // No change
-        } else {
-          changedBits = typeof calculateChangedBits === 'function' ? calculateChangedBits(oldValue, newValue) : MAX_SIGNED_31_BIT_INT;
-
-          if ("production" !== 'production') {
-            (0, _warning2.default)((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: %s', changedBits);
-          }
-
-          changedBits |= 0;
-
-          if (changedBits !== 0) {
-            this.emitter.set(nextProps.value, changedBits);
-          }
-        }
-      }
-    };
-
-    Provider.prototype.render = function render() {
-      return this.props.children;
-    };
-
-    return Provider;
-  }(_react.Component);
-
-  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[contextProp] = _propTypes2.default.object.isRequired, _Provider$childContex);
-
-  var Consumer = function (_Component2) {
-    _inherits(Consumer, _Component2);
-
-    function Consumer() {
-      var _temp2, _this2, _ret2;
-
-      _classCallCheck(this, Consumer);
-
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, _Component2.call.apply(_Component2, [this].concat(args))), _this2), _this2.state = {
-        value: _this2.getValue()
-      }, _this2.onUpdate = function (newValue, changedBits) {
-        var observedBits = _this2.observedBits | 0;
-
-        if ((observedBits & changedBits) !== 0) {
-          _this2.setState({
-            value: _this2.getValue()
-          });
-        }
-      }, _temp2), _possibleConstructorReturn(_this2, _ret2);
-    }
-
-    Consumer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-      var observedBits = nextProps.observedBits;
-      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
-      : observedBits;
-    };
-
-    Consumer.prototype.componentDidMount = function componentDidMount() {
-      if (this.context[contextProp]) {
-        this.context[contextProp].on(this.onUpdate);
-      }
-
-      var observedBits = this.props.observedBits;
-      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
-      : observedBits;
-    };
-
-    Consumer.prototype.componentWillUnmount = function componentWillUnmount() {
-      if (this.context[contextProp]) {
-        this.context[contextProp].off(this.onUpdate);
-      }
-    };
-
-    Consumer.prototype.getValue = function getValue() {
-      if (this.context[contextProp]) {
-        return this.context[contextProp].get();
-      } else {
-        return defaultValue;
-      }
-    };
-
-    Consumer.prototype.render = function render() {
-      return onlyChild(this.props.children)(this.state.value);
-    };
-
-    return Consumer;
-  }(_react.Component);
-
-  Consumer.contextTypes = (_Consumer$contextType = {}, _Consumer$contextType[contextProp] = _propTypes2.default.object, _Consumer$contextType);
-  return {
-    Provider: Provider,
-    Consumer: Consumer
-  };
-}
-
-exports.default = createReactContext;
-module.exports = exports['default'];
-},{"react":"n8MK","prop-types":"D9Od","gud":"bHnc","warning":"XOCG"}],"Rr1A":[function(require,module,exports) {
-'use strict';
-
-exports.__esModule = true;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _implementation = require('./implementation');
-
-var _implementation2 = _interopRequireDefault(_implementation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _react2.default.createContext || _implementation2.default;
-module.exports = exports['default'];
-},{"react":"n8MK","./implementation":"BsBy"}],"c7Tf":[function(require,module,exports) {
+},{}],"c7Tf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3805,18 +3364,20 @@ var _possibleConstructorReturn2 = _interopRequireDefault(require("babel-runtime/
 
 var _inherits2 = _interopRequireDefault(require("babel-runtime/helpers/inherits"));
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _KeyCode = _interopRequireDefault(require("rc-util/es/KeyCode"));
 
-var _createReactContext = _interopRequireDefault(require("@ant-design/create-react-context"));
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-var SentinelContext = (0, _createReactContext.default)({});
+var SentinelContext = (0, _react.createContext)({});
 var SentinelProvider = SentinelContext.Provider;
 exports.SentinelProvider = SentinelProvider;
 var SentinelConsumer = SentinelContext.Consumer;
@@ -3885,7 +3446,7 @@ Sentinel.propTypes = {
 };
 var _default = Sentinel;
 exports.default = _default;
-},{"babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","rc-util/es/KeyCode":"Imvn","@ant-design/create-react-context":"Rr1A"}],"ANrU":[function(require,module,exports) {
+},{"babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","rc-util/es/KeyCode":"Imvn"}],"ANrU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4030,8 +3591,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _raf = _interopRequireDefault(require("raf"));
-
-var _reactLifecyclesCompat = require("react-lifecycles-compat");
 
 var _KeyCode = _interopRequireDefault(require("./KeyCode"));
 
@@ -4345,10 +3904,9 @@ Tabs.defaultProps = {
   direction: 'ltr'
 };
 Tabs.TabPane = _TabPane.default;
-(0, _reactLifecyclesCompat.polyfill)(Tabs);
 var _default = Tabs;
 exports.default = _default;
-},{"babel-runtime/helpers/extends":"T4f3","babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/objectWithoutProperties":"zCAL","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","classnames":"qb7c","raf":"oXMl","react-lifecycles-compat":"nkXc","./KeyCode":"r9ga","./TabPane":"ANrU","./utils":"zHCx","./Sentinel":"c7Tf"}],"TOQs":[function(require,module,exports) {
+},{"babel-runtime/helpers/extends":"T4f3","babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/objectWithoutProperties":"zCAL","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","classnames":"qb7c","raf":"oXMl","./KeyCode":"r9ga","./TabPane":"ANrU","./utils":"zHCx","./Sentinel":"c7Tf"}],"TOQs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4431,7 +3989,7 @@ var TabContent = function (_React$Component) {
         var activeIndex = (0, _utils.getActiveIndex)(children, activeKey);
 
         if (activeIndex !== -1) {
-          var animatedStyle = animatedWithMargin ? (0, _utils.getMarginStyle)(activeIndex, tabBarPosition) : (0, _utils.getTransformPropValue)((0, _utils.getTransformByIndex)(activeIndex, tabBarPosition, direction));
+          var animatedStyle = animatedWithMargin ? (0, _utils.getMarginStyle)(activeIndex, tabBarPosition, direction) : (0, _utils.getTransformPropValue)((0, _utils.getTransformByIndex)(activeIndex, tabBarPosition, direction));
           style = (0, _extends2.default)({}, style, animatedStyle);
         } else {
           style = (0, _extends2.default)({}, style, {
@@ -4595,7 +4153,13 @@ function getTransformByIndex(index, tabBarPosition) {
 }
 
 function getMarginStyle(index, tabBarPosition) {
+  var direction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'ltr';
+
   var marginDirection = isVertical(tabBarPosition) ? 'marginTop' : 'marginLeft';
+
+  if (!isVertical(tabBarPosition) && direction === 'rtl') {
+    return (0, _defineProperty3['default'])({}, marginDirection, (index + 1) * 100 + '%');
+  }
   return (0, _defineProperty3['default'])({}, marginDirection, -index * 100 + '%');
 }
 
@@ -4758,7 +4322,7 @@ var TabContent = function (_React$Component) {
       if (animated) {
         var activeIndex = (0, _utils.getActiveIndex)(children, activeKey);
         if (activeIndex !== -1) {
-          var animatedStyle = animatedWithMargin ? (0, _utils.getMarginStyle)(activeIndex, tabBarPosition) : (0, _utils.getTransformPropValue)((0, _utils.getTransformByIndex)(activeIndex, tabBarPosition, direction));
+          var animatedStyle = animatedWithMargin ? (0, _utils.getMarginStyle)(activeIndex, tabBarPosition, direction) : (0, _utils.getTransformPropValue)((0, _utils.getTransformByIndex)(activeIndex, tabBarPosition, direction));
           style = (0, _extends3['default'])({}, style, animatedStyle);
         } else {
           style = (0, _extends3['default'])({}, style, {
@@ -7784,7 +7348,71 @@ ScrollableTabBarNode.defaultProps = {
   }
 };
 module.exports = exports['default'];
-},{"babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","classnames":"qb7c","lodash/debounce":"CXfR","resize-observer-polyfill":"C4qV","./utils":"c87w"}],"AaQl":[function(require,module,exports) {
+},{"babel-runtime/helpers/defineProperty":"Xos8","babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","classnames":"qb7c","lodash/debounce":"CXfR","resize-observer-polyfill":"C4qV","./utils":"c87w"}],"XOCG":[function(require,module,exports) {
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+'use strict';
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var __DEV__ = "production" !== 'production';
+
+var warning = function () {};
+
+if (__DEV__) {
+  var printWarning = function printWarning(format, args) {
+    var len = arguments.length;
+    args = new Array(len > 1 ? len - 1 : 0);
+
+    for (var key = 1; key < len; key++) {
+      args[key - 1] = arguments[key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+
+  warning = function (condition, format, args) {
+    var len = arguments.length;
+    args = new Array(len > 2 ? len - 2 : 0);
+
+    for (var key = 2; key < len; key++) {
+      args[key - 2] = arguments[key];
+    }
+
+    if (format === undefined) {
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (!condition) {
+      printWarning.apply(null, [format].concat(args));
+    }
+  };
+}
+
+module.exports = warning;
+},{}],"AaQl":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9236,8 +8864,45 @@ function removeTab(layout, tab) {
   }
 
   return layout;
-} // maximize or restore the panel
+}
 
+function moveToFront(layout, source) {
+  if (source) {
+    let panelData;
+    let needUpdate = false;
+    let changes = {};
+
+    if ('tabs' in source) {
+      panelData = source;
+    } else {
+      panelData = source.parent;
+
+      if (panelData.activeId !== source.id) {
+        // move tab to front
+        changes.activeId = source.id;
+        needUpdate = true;
+      }
+    }
+
+    if (panelData && panelData.parent && panelData.parent.mode === 'float') {
+      // move float panel to front
+      let newZ = nextZIndex(panelData.z);
+
+      if (newZ !== panelData.z) {
+        changes.z = newZ;
+        needUpdate = true;
+      }
+    }
+
+    if (needUpdate) {
+      layout = replacePanel(layout, panelData, clone(panelData, changes));
+    }
+  }
+
+  return layout;
+}
+
+exports.moveToFront = moveToFront; // maximize or restore the panel
 
 function maximize(layout, source) {
   if (source) {
@@ -11748,6 +11413,8 @@ class DockLayout extends react_1.default.PureComponent {
 
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
+    } else if (direction === 'front') {
+      layout = Algorithm.moveToFront(layout, source);
     } else {
       layout = Algorithm.removeFromLayout(layout, source);
     }

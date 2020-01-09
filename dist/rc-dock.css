@@ -43,6 +43,7 @@ body > .dragging-layer > div:last-child {
   height: 100%;
   position: absolute;
   overflow: hidden;
+  display: flex;
 }
 .dock-bar,
 .dock-nav-container {
@@ -172,7 +173,7 @@ body > .dragging-layer > div:last-child {
 }
 .dock-content {
   zoom: 1;
-  height: calc(100% - 31px);
+  flex: 1;
 }
 .dock-content .dock-tabpane {
   position: relative;
@@ -196,6 +197,9 @@ body > .dragging-layer > div:last-child {
 .no-flexbox .dock-tabpane-inactive,
 .dock-content-no-animated .dock-tabpane-inactive {
   display: none;
+}
+.dock-top {
+  flex-direction: column;
 }
 .dock-top .dock-content {
   width: 100%;
@@ -650,9 +654,6 @@ body.dock-dragging iframe {
   /* cover the border area */
   left: -2px;
   right: -2px;
-}
-.dock-panel.dock-style-card .dock-content {
-  height: calc(100% - 36px);
 }
 .dock-panel.dock-style-card .dock-panel-max-btn {
   margin-top: 4px;

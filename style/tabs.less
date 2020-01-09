@@ -4,6 +4,7 @@
   height: 100%;
   position: absolute;
   overflow: hidden;
+  display: flex;
 
   &-bar,
   &-nav-container {
@@ -153,7 +154,7 @@
 
   &-content {
     zoom: 1;
-    height: calc(100% - 31px);
+    flex: 1;
   }
 
   &-content &-tabpane {
@@ -182,6 +183,10 @@
   .no-flexbox &-tabpane-inactive,
   &-content-no-animated &-tabpane-inactive {
     display: none;
+  }
+
+  &-top {
+    flex-direction: column;
   }
 
   &-top &-content {

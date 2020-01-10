@@ -154,7 +154,7 @@
 
   &-content {
     zoom: 1;
-    flex: 1;
+    flex: 1 1 0;
   }
 
   &-content &-tabpane {
@@ -191,9 +191,11 @@
 
   &-top &-content {
     width: 100%;
+    height: 0;
   }
 
   &-top &-bar {
+    flex: 0 0 auto;
     background: #fafafd;
     border-bottom: 1px solid #f3f3f3;
   }

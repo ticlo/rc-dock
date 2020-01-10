@@ -173,7 +173,7 @@ body > .dragging-layer > div:last-child {
 }
 .dock-content {
   zoom: 1;
-  flex: 1;
+  flex: 1 1 0;
 }
 .dock-content .dock-tabpane {
   position: relative;
@@ -203,8 +203,10 @@ body > .dragging-layer > div:last-child {
 }
 .dock-top .dock-content {
   width: 100%;
+  height: 0;
 }
 .dock-top .dock-bar {
+  flex: 0 0 auto;
   background: #fafafd;
   border-bottom: 1px solid #f3f3f3;
 }

@@ -78,9 +78,9 @@ export class DividerBox extends React.PureComponent<Props, any> {
 
     let cls: string;
     if (mode === 'vertical') {
-      cls = 'dock-box dock-vbox';
+      cls = 'divider-box dock-vbox';
     } else {
-      cls = 'dock-box dock-hbox';
+      cls = 'divider-box dock-hbox';
     }
     if (className) {
       cls = `${cls} ${className}`;

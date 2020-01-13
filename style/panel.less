@@ -59,6 +59,17 @@ body.dock-dragging {
   align-items: stretch;
 }
 
+.divider-box {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+
+  & > *:nth-child(odd) {
+    flex: 1 1 auto;
+  }
+
+}
+
 .dock-divider {
   box-sizing: border-box;
   flex: 0 0 4px;

@@ -245,7 +245,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   } = await require("_bundle_loader")(require.resolve('./shared-import')); // keep the above unused import so tools script can understand this jsx
 
   let demos = ['basic', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];
-  let advance = ['adv-tab-update', 'adv-save-layout', 'controlled-layout', 'tab-cache', 'standalone-divider'];
+  let advance = ['adv-tab-update', 'adv-save-layout', 'controlled-layout', 'tab-cache', 'divider-box'];
   let defaultPage = window.location.hash.substr(1);
 
   if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {

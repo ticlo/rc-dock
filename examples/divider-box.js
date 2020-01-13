@@ -267,7 +267,7 @@ LazyPromise.prototype.catch = function (onError) {
         tabs: [{
           id: 't3',
           title: 'Dock',
-          content: React.createElement("div", null, "Right Side Dock Layout.", React.createElement("br", null), "You can use DividerBox for fixed Tool Panels")
+          content: React.createElement("div", null, "Right Side Dock Layout.")
         }, jsxTab, htmlTab]
       }]
     }
@@ -286,15 +286,28 @@ LazyPromise.prototype.catch = function (onError) {
       }, React.createElement(DockLayout, {
         defaultLayout: layoutLeft,
         style: {
-          width: 200,
-          minWidth: 100,
-          flex: '2 2 auto'
+          width: '20%',
+          minWidth: 100
         }
-      }), React.createElement(DockLayout, {
+      }), React.createElement(DividerBox, {
+        mode: "vertical",
+        style: {
+          width: '20%',
+          minWidth: 100
+        }
+      }, React.createElement("div", {
+        style: {
+          border: '1px solid #ccc',
+          padding: 5
+        }
+      }, "not DockLayout, only DividerBox"), React.createElement("div", {
+        style: {
+          border: '1px solid #ccc'
+        }
+      }, "You can use DividerBox for fixed Tool Panels")), React.createElement(DockLayout, {
         defaultLayout: layoutRight,
         style: {
-          width: 800,
-          flex: '8 8 auto'
+          width: '60%'
         }
       }));
     }

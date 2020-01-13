@@ -431,6 +431,7 @@ body.dock-dragging iframe {
 }
 .dock-layout {
   overflow: hidden;
+  position: relative;
 }
 .dock-layout > .dock-box {
   position: absolute;

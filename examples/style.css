@@ -431,6 +431,7 @@ body.dock-dragging iframe {
 }
 .dock-layout {
   overflow: hidden;
+  position: relative;
 }
 .dock-layout > .dock-box {
   position: absolute;
@@ -671,9 +672,7 @@ body {
   margin: 0;
 }
 .dock-tabpane > div {
-  margin: 0;
-  overflow: scroll;
-  height: 100%;
+  margin: 20px;
 }
 .top-panel {
   position: absolute;

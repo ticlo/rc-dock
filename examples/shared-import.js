@@ -9396,13 +9396,14 @@ class TabCache {
       e.setData({
         tab: this.data,
         panelSize: [panelWidth, panelHeight]
-      }, DockData_1.DockContextType);
+      }, this.context.getDockId());
       e.startDrag(this._ref.parentElement, this._ref.parentElement);
     };
 
     this.onDragOver = e => {
-      let tab = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
-      let panel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+      let dockId = this.context.getDockId();
+      let tab = DragManager_1.DragState.getData('tab', dockId);
+      let panel = DragManager_1.DragState.getData('panel', dockId);
 
       if (tab) {
         panel = tab.parent;
@@ -9428,13 +9429,14 @@ class TabCache {
     };
 
     this.onDrop = e => {
+      let dockId = this.context.getDockId();
       let panel;
-      let tab = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
+      let tab = DragManager_1.DragState.getData('tab', dockId);
 
       if (tab) {
         panel = tab.parent;
       } else {
-        panel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+        panel = DragManager_1.DragState.getData('panel', dockId);
       }
 
       if (tab && tab !== this.data) {
@@ -9711,7 +9713,8 @@ class DockDropSquare extends react_1.default.PureComponent {
         // place holder panel should always have full size drop rect
         this.context.setDropRect(targetElement, 'middle', this, e);
       } else {
-        let panelSize = DragManager_1.DragState.getData('panelSize', DockData_1.DockContextType);
+        let dockId = this.context.getDockId();
+        let panelSize = DragManager_1.DragState.getData('panelSize', dockId);
         this.context.setDropRect(targetElement, direction, this, e, panelSize);
       }
 
@@ -9730,10 +9733,11 @@ class DockDropSquare extends react_1.default.PureComponent {
     };
 
     this.onDrop = e => {
-      let source = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
+      let dockId = this.context.getDockId();
+      let source = DragManager_1.DragState.getData('tab', dockId);
 
       if (!source) {
-        source = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+        source = DragManager_1.DragState.getData('panel', dockId);
       }
 
       if (source) {
@@ -9832,9 +9836,10 @@ class DockDropLayer extends react_1.default.PureComponent {
       panelElement,
       dropFromPanel
     } = this.props;
+    let dockId = this.context.getDockId();
     let children = []; // check if it's whole panel dragging
 
-    let draggingPanel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+    let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
     let fromGroup = this.context.getGroup(dropFromPanel.group);
 
     if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock && draggingPanel.parent.mode !== 'float')) {
@@ -9918,7 +9923,8 @@ class DockDropEdge extends react_1.default.PureComponent {
         panelElement,
         dropFromPanel
       } = this.props;
-      let draggingPanel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+      let dockId = this.context.getDockId();
+      let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
       let fromGroup = this.context.getGroup(dropFromPanel.group);
 
       if (draggingPanel && draggingPanel.parent.mode === 'float') {
@@ -9944,7 +9950,7 @@ class DockDropEdge extends react_1.default.PureComponent {
         targetElement = targetElement.parentElement;
       }
 
-      let panelSize = DragManager_1.DragState.getData('panelSize', DockData_1.DockContextType);
+      let panelSize = DragManager_1.DragState.getData('panelSize', dockId);
       this.context.setDropRect(targetElement, direction, this, e, panelSize);
       e.accept('');
     };
@@ -9958,9 +9964,10 @@ class DockDropEdge extends react_1.default.PureComponent {
         panelData,
         dropFromPanel
       } = this.props;
+      let dockId = this.context.getDockId();
       let fromGroup = this.context.getGroup(dropFromPanel.group);
-      let source = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
-      let draggingPanel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+      let source = DragManager_1.DragState.getData('tab', dockId);
+      let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
 
       if (!source) {
         source = draggingPanel;
@@ -10183,8 +10190,9 @@ class DockPanel extends react_1.default.PureComponent {
         panelData
       } = this.props;
       DockPanel.droppingPanel = this;
-      let tab = DragManager_1.DragState.getData('tab', DockData_1.DockContextType);
-      let panel = DragManager_1.DragState.getData('panel', DockData_1.DockContextType);
+      let dockId = this.context.getDockId();
+      let tab = DragManager_1.DragState.getData('tab', dockId);
+      let panel = DragManager_1.DragState.getData('panel', dockId);
 
       if (tab) {
         if (tab.parent) {
@@ -10219,6 +10227,7 @@ class DockPanel extends react_1.default.PureComponent {
         y,
         z
       } = panelData;
+      let dockId = this.context.getDockId();
 
       if (parent && parent.mode === 'float') {
         this._movingX = x;
@@ -10226,7 +10235,7 @@ class DockPanel extends react_1.default.PureComponent {
 
         event.setData({
           panel: this.props.panelData
-        }, DockData_1.DockContextType);
+        }, dockId);
         event.startDrag(null, null);
         this.onFloatPointerDown();
       } else {
@@ -10235,7 +10244,7 @@ class DockPanel extends react_1.default.PureComponent {
         event.setData({
           panel: panelData,
           panelSize: [panelWidth, panelHeight]
-        }, DockData_1.DockContextType);
+        }, dockId);
         event.startDrag(null);
       }
 
@@ -10481,8 +10490,9 @@ class DockPanel extends react_1.default.PureComponent {
 
     if (dropFromPanel) {
       let tabGroup = this.context.getGroup(dropFromPanel.group);
+      let dockId = this.context.getDockId();
 
-      if (!tabGroup.tabLocked || DragManager_1.DragState.getData('tab', DockData_1.DockContextType) == null) {
+      if (!tabGroup.tabLocked || DragManager_1.DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge_1.DockDropEdge : DockDropLayer_1.DockDropLayer;
         droppingLayer = react_1.default.createElement(DockDropClass, {
@@ -11380,6 +11390,12 @@ class DockLayout extends react_1.default.PureComponent {
     Algorithm.fixLayoutData(layout, this.props.loadTab);
     return layout;
   }
+  /** @ignore */
+
+
+  getDockId() {
+    return this.props.dockId || this;
+  }
   /** @inheritDoc */
 
 
@@ -11804,7 +11820,156 @@ class DockLayout extends react_1.default.PureComponent {
 }
 
 exports.DockLayout = DockLayout;
-},{"react":"n8MK","react-dom":"NKHc","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"tXcC","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb","./MaxBox":"Lojd"}],"VNNP":[function(require,module,exports) {
+},{"react":"n8MK","react-dom":"NKHc","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"tXcC","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb","./MaxBox":"Lojd"}],"yQx6":[function(require,module,exports) {
+"use strict";
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const react_1 = __importDefault(require("react"));
+
+const DockData_1 = require("./DockData");
+
+const Divider_1 = require("./Divider");
+
+class DividerBox extends react_1.default.PureComponent {
+  constructor() {
+    super(...arguments);
+
+    this.getRef = r => {
+      this._ref = r;
+    };
+
+    this.getDividerData = idx => {
+      if (this._ref) {
+        let {
+          children,
+          mode
+        } = this.props;
+        let nodes = this._ref.childNodes;
+        let length = 1;
+
+        if (Array.isArray(children)) {
+          length = children.length;
+        }
+
+        if (nodes.length === length * 2 - 1) {
+          let dividerChildren = [];
+
+          for (let i = 0; i < length; ++i) {
+            if (mode === 'vertical') {
+              dividerChildren.push({
+                size: nodes[i * 2].offsetHeight
+              });
+            } else {
+              dividerChildren.push({
+                size: nodes[i * 2].offsetWidth
+              });
+            }
+          }
+
+          return {
+            element: this._ref,
+            beforeDivider: dividerChildren.slice(0, idx),
+            afterDivider: dividerChildren.slice(idx)
+          };
+        }
+      }
+
+      return null;
+    };
+
+    this.changeSizes = sizes => {
+      let {
+        mode
+      } = this.props;
+      let nodes = this._ref.childNodes;
+
+      if (nodes.length === sizes.length * 2 - 1) {
+        for (let i = 0; i < sizes.length; ++i) {
+          if (mode === 'vertical') {
+            nodes[i * 2].style.height = `${sizes[i]}px`;
+          } else {
+            nodes[i * 2].style.width = `${sizes[i]}px`;
+          }
+        }
+
+        this.forceUpdate();
+      }
+    };
+  }
+
+  render() {
+    let _a = this.props,
+        {
+      children,
+      mode,
+      className
+    } = _a,
+        others = __rest(_a, ["children", "mode", "className"]);
+
+    let isVertical = mode === 'vertical';
+    let childrenRender = [];
+
+    if (Array.isArray(children)) {
+      for (let i = 0; i < children.length; ++i) {
+        if (i > 0) {
+          childrenRender.push(react_1.default.createElement(Divider_1.Divider, {
+            idx: i,
+            key: i,
+            isVertical: isVertical,
+            getDividerData: this.getDividerData,
+            changeSizes: this.changeSizes
+          }));
+        }
+
+        childrenRender.push(children[i]);
+      }
+    } else {
+      childrenRender = children;
+    }
+
+    let cls;
+
+    if (mode === 'vertical') {
+      cls = 'dock-box dock-vbox';
+    } else {
+      cls = 'dock-box dock-hbox';
+    }
+
+    if (className) {
+      cls = `${cls} ${className}`;
+    }
+
+    return react_1.default.createElement("div", Object.assign({
+      ref: this.getRef,
+      className: cls
+    }, others), childrenRender);
+  }
+
+}
+
+exports.DividerBox = DividerBox;
+DividerBox.contextType = DockData_1.DockContextType;
+},{"react":"n8MK","./DockData":"zh3I","./Divider":"Lzzn"}],"VNNP":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -11833,10 +11998,12 @@ __export(require("./dragdrop/DragDropDiv"));
 
 __export(require("./Divider"));
 
+__export(require("./DividerBox"));
+
 const DockLayout_1 = require("./DockLayout");
 
 exports.default = DockLayout_1.DockLayout;
-},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"iJyS","./dragdrop/DragManager":"EJTb","./dragdrop/GestureManager":"cItD","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn"}],"a1rF":[function(require,module,exports) {
+},{"./DockTabs":"nskJ","./DockData":"zh3I","./DockPanel":"ohUB","./DockBox":"GMUE","./DockLayout":"iJyS","./dragdrop/DragManager":"EJTb","./dragdrop/GestureManager":"cItD","./dragdrop/DragDropDiv":"HyIX","./Divider":"Lzzn","./DividerBox":"yQx6"}],"a1rF":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

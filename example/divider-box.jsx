@@ -39,8 +39,8 @@ class Demo extends React.Component {
   render() {
     return (
       <DividerBox style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}>
-        <DockLayout defaultLayout={layoutLeft} style={{width: 200, minWidth: 100}}/>
-        <DockLayout defaultLayout={layoutRight} style={{width: 800, minWidth: 100, flex: '1 1 auto'}}/>
+        <DockLayout defaultLayout={layoutLeft} style={{width: 200, minWidth: 100, flex: '2 2 auto'}}/>
+        <DockLayout defaultLayout={layoutRight} style={{width: 800, flex: '8 8 auto'}}/>
       </DividerBox>
     );
   }

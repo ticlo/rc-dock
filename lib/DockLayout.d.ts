@@ -2,6 +2,12 @@ import React, { CSSProperties } from "react";
 import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, TabGroup, LayoutBase, TabBase, PanelBase } from "./DockData";
 interface LayoutProps {
     /**
+     * @ignore
+     * when there are multiple DockLayout, by default, you can't drag panel between them
+     * but if you assign same dockId, it will allow panels to be from one layout to another
+     */
+    dockId?: string;
+    /**
      * - when [[LayoutProps.loadTab]] callback is defined, tabs in defaultLayout only need to have an id, unless loadTab requires other fields
      * - when [[LayoutProps.loadTab]] is not defined, tabs must contain title and content, as well as other fields in [[TabData]] when needed
      */
@@ -75,6 +81,8 @@ export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutS
     getRef: (r: HTMLDivElement) => void;
     /** @ignore */
     prepareInitData(data: LayoutData): LayoutData;
+    /** @ignore */
+    getDockId(): any;
     /** @inheritDoc */
     getGroup(name: string): TabGroup;
     /**

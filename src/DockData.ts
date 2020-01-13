@@ -246,6 +246,9 @@ export type DropDirection =
 
 export interface DockContext {
   /** @ignore */
+  getDockId(): any;
+
+  /** @ignore */
   useEdgeDrop(): boolean;
 
   /** @ignore */

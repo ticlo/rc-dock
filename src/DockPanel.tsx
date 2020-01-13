@@ -46,8 +46,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     let {panelData} = this.props;
     DockPanel.droppingPanel = this;
-    let tab: TabData = DragState.getData('tab', DockContextType);
-    let panel: PanelData = DragState.getData('panel', DockContextType);
+    let dockId = this.context.getDockId();
+    let tab: TabData = DragState.getData('tab', dockId);
+    let panel: PanelData = DragState.getData('panel', dockId);
     if (tab) {
       if (tab.parent) {
         this.setState({dropFromPanel: tab.parent});
@@ -73,18 +74,19 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onPanelHeaderDragStart = (event: DragState) => {
     let {panelData} = this.props;
     let {parent, x, y, z} = panelData;
+    let dockId = this.context.getDockId();
     if (parent && parent.mode === 'float') {
       this._movingX = x;
       this._movingY = y;
       // hide the panel, but not create drag layer element
-      event.setData({panel: this.props.panelData}, DockContextType);
+      event.setData({panel: this.props.panelData}, dockId);
       event.startDrag(null, null);
       this.onFloatPointerDown();
     } else {
       let tabGroup = this.context.getGroup(panelData.group);
       let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
 
-      event.setData({panel: panelData, panelSize: [panelWidth, panelHeight]}, DockContextType);
+      event.setData({panel: panelData, panelSize: [panelWidth, panelHeight]}, dockId);
       event.startDrag(null);
     }
     this.setState({draggingHeader: true});
@@ -246,7 +248,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let droppingLayer: React.ReactNode;
     if (dropFromPanel) {
       let tabGroup = this.context.getGroup(dropFromPanel.group);
-      if (!tabGroup.tabLocked || DragState.getData('tab', DockContextType) == null) {
+      let dockId = this.context.getDockId();
+      if (!tabGroup.tabLocked || DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
         droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;

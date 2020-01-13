@@ -45,7 +45,8 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
       // place holder panel should always have full size drop rect
       this.context.setDropRect(targetElement, 'middle', this, e);
     } else {
-      let panelSize: [number, number] = DragState.getData('panelSize', DockContextType);
+      let dockId = this.context.getDockId();
+      let panelSize: [number, number] = DragState.getData('panelSize', dockId);
       this.context.setDropRect(targetElement, direction, this, e, panelSize);
     }
     e.accept('');
@@ -58,9 +59,10 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDrop = (e: DragState) => {
-    let source: TabData | PanelData = DragState.getData('tab', DockContextType);
+    let dockId = this.context.getDockId();
+    let source: TabData | PanelData = DragState.getData('tab', dockId);
     if (!source) {
-      source = DragState.getData('panel', DockContextType);
+      source = DragState.getData('panel', dockId);
     }
     if (source) {
       let {panelData, direction, depth} = this.props;
@@ -131,11 +133,12 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
 
   render(): React.ReactNode {
     let {panelData, panelElement, dropFromPanel} = this.props;
+    let dockId = this.context.getDockId();
 
     let children: React.ReactNode[] = [];
 
     // check if it's whole panel dragging
-    let draggingPanel = DragState.getData('panel', DockContextType);
+    let draggingPanel = DragState.getData('panel', dockId);
 
     let fromGroup = this.context.getGroup(dropFromPanel.group);
     if (fromGroup.floatable !== false &&

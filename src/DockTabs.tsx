@@ -61,12 +61,13 @@ export class TabCache {
     let tabGroup = this.context.getGroup(this.data.group);
     let [panelWidth, panelHeight] = getFloatPanelSize(panel, tabGroup);
 
-    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, DockContextType);
+    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, this.context.getDockId());
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragState) => {
-    let tab: TabData = DragState.getData('tab', DockContextType);
-    let panel: PanelData = DragState.getData('panel', DockContextType);
+    let dockId = this.context.getDockId();
+    let tab: TabData = DragState.getData('tab', dockId);
+    let panel: PanelData = DragState.getData('panel', dockId);
     if (tab) {
       panel = tab.parent;
     } else if (!panel) {
@@ -88,12 +89,13 @@ export class TabCache {
     this.context.setDropRect(null, 'remove', this);
   };
   onDrop = (e: DragState) => {
+    let dockId = this.context.getDockId();
     let panel: PanelData;
-    let tab: TabData = DragState.getData('tab', DockContextType);
+    let tab: TabData = DragState.getData('tab', dockId);
     if (tab) {
       panel = tab.parent;
     } else {
-      panel = DragState.getData('panel', DockContextType);
+      panel = DragState.getData('panel', dockId);
     }
     if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);

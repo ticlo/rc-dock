@@ -164,7 +164,7 @@ interface State {
 
 }
 
-export class DockTabs extends React.Component<Props, any> {
+export class DockTabs extends React.PureComponent<Props, any> {
   static contextType = DockContextType;
 
   static readonly propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
@@ -172,12 +172,13 @@ export class DockTabs extends React.Component<Props, any> {
   context!: DockContext;
   _cache: Map<string, TabCache> = new Map();
 
-  constructor(props: Props, context: any) {
-    super(props, context);
-    this.updateTabs(props.panelData.tabs);
-  }
+  cachedTabs: TabData[];
 
   updateTabs(tabs: TabData[]) {
+    if (tabs === this.cachedTabs) {
+      return;
+    }
+    this.cachedTabs = tabs;
     let newCache = new Map<string, TabCache>();
     let reused = 0;
     for (let tabData of tabs) {
@@ -201,14 +202,6 @@ export class DockTabs extends React.Component<Props, any> {
       }
     }
     this._cache = newCache;
-  }
-
-  shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<any>, nextContext: any): boolean {
-    let {tabs} = nextProps.panelData;
-
-    // update tab cache
-    this.updateTabs(tabs);
-    return true;
   }
 
   onMaximizeClick = () => {
@@ -256,7 +249,9 @@ export class DockTabs extends React.Component<Props, any> {
   };
 
   render(): React.ReactNode {
-    let {group, activeId} = this.props.panelData;
+    let {group, tabs, activeId} = this.props.panelData;
+
+    this.updateTabs(tabs);
 
     let children: React.ReactNode[] = [];
     for (let [id, tab] of this._cache) {

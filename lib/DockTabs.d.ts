@@ -26,14 +26,13 @@ interface Props {
     onPanelDragMove: DragManager.DragHandler;
     onPanelDragEnd: DragManager.DragHandler;
 }
-export declare class DockTabs extends React.Component<Props, any> {
+export declare class DockTabs extends React.PureComponent<Props, any> {
     static contextType: React.Context<DockContext>;
     static readonly propKeys: string[];
     context: DockContext;
     _cache: Map<string, TabCache>;
-    constructor(props: Props, context: any);
+    cachedTabs: TabData[];
     updateTabs(tabs: TabData[]): void;
-    shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<any>, nextContext: any): boolean;
     onMaximizeClick: () => void;
     renderTabBar: () => JSX.Element;
     renderTabContent: () => JSX.Element;

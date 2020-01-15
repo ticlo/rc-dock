@@ -9524,9 +9524,9 @@ class TabCache {
 
 exports.TabCache = TabCache;
 
-class DockTabs extends react_1.default.Component {
-  constructor(props, context) {
-    super(props, context);
+class DockTabs extends react_1.default.PureComponent {
+  constructor() {
+    super(...arguments);
     this._cache = new Map();
 
     this.onMaximizeClick = () => {
@@ -9595,11 +9595,14 @@ class DockTabs extends react_1.default.Component {
       this.context.onSilentChange(activeId);
       this.forceUpdate();
     };
-
-    this.updateTabs(props.panelData.tabs);
   }
 
   updateTabs(tabs) {
+    if (tabs === this.cachedTabs) {
+      return;
+    }
+
+    this.cachedTabs = tabs;
     let newCache = new Map();
     let reused = 0;
 
@@ -9632,20 +9635,13 @@ class DockTabs extends react_1.default.Component {
     this._cache = newCache;
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    let {
-      tabs
-    } = nextProps.panelData; // update tab cache
-
-    this.updateTabs(tabs);
-    return true;
-  }
-
   render() {
     let {
       group,
+      tabs,
       activeId
     } = this.props.panelData;
+    this.updateTabs(tabs);
     let children = [];
 
     for (let [id, tab] of this._cache) {

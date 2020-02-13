@@ -10185,10 +10185,13 @@ class DockPanel extends react_1.default.PureComponent {
       let {
         panelData
       } = this.props;
-      DockPanel.droppingPanel = this;
       let dockId = this.context.getDockId();
       let tab = DragManager_1.DragState.getData('tab', dockId);
       let panel = DragManager_1.DragState.getData('panel', dockId);
+
+      if (tab || panel) {
+        DockPanel.droppingPanel = this;
+      }
 
       if (tab) {
         if (tab.parent) {

@@ -2716,7 +2716,7 @@ function getLeft(tabNode, wrapperNode) {
 function getTop(tabNode, wrapperNode) {
   return getTypeValue('top', 'offsetHeight', 'bottom', tabNode, wrapperNode);
 }
-},{"babel-runtime/helpers/defineProperty":"Xos8","react":"n8MK"}],"Imvn":[function(require,module,exports) {
+},{"babel-runtime/helpers/defineProperty":"Xos8","react":"n8MK"}],"iYnE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3446,7 +3446,7 @@ Sentinel.propTypes = {
 };
 var _default = Sentinel;
 exports.default = _default;
-},{"babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","rc-util/es/KeyCode":"Imvn"}],"ANrU":[function(require,module,exports) {
+},{"babel-runtime/helpers/classCallCheck":"dACh","babel-runtime/helpers/createClass":"jx4H","babel-runtime/helpers/possibleConstructorReturn":"VOrx","babel-runtime/helpers/inherits":"ZKjc","react":"n8MK","prop-types":"D9Od","rc-util/es/KeyCode":"iYnE"}],"ANrU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9358,6 +9358,8 @@ const DockTabPane_1 = __importStar(require("./DockTabPane"));
 
 const Algorithm_1 = require("./Algorithm");
 
+const KeyCode_1 = __importDefault(require("rc-util/lib/KeyCode"));
+
 function findParentPanel(element) {
   for (let i = 0; i < 10; ++i) {
     if (!element) {
@@ -9387,6 +9389,15 @@ class TabCache {
     this.onCloseClick = e => {
       this.context.dockMove(this.data, null, 'remove');
       e.stopPropagation();
+    };
+
+    this.onKeyDownCloseBtn = evt => {
+      if (!KeyCode_1.default.isTextModifyingKeyEvent(evt.nativeEvent) || evt.keyCode != KeyCode_1.default.ENTER && evt.keyCode != KeyCode_1.default.SPACE) {
+        return false;
+      }
+
+      this.context.dockMove(this.data, null, 'remove');
+      evt.stopPropagation();
     };
 
     this.onDragStart = e => {
@@ -9495,7 +9506,9 @@ class TabCache {
       onDragLeaveT: this.onDragLeave
     }, closable ? react_1.default.createElement("div", {
       className: 'dock-tab-close-btn',
-      onClick: this.onCloseClick
+      onClick: this.onCloseClick,
+      onKeyDown: this.onKeyDownCloseBtn,
+      tabIndex: 0
     }) : null));
 
     if (cacheContext) {
@@ -9536,6 +9549,18 @@ class DockTabs extends react_1.default.PureComponent {
       this.context.dockMove(panelData, null, 'maximize');
     };
 
+    this.onKeyDownMaximizeBtn = evt => {
+      if (!KeyCode_1.default.isTextModifyingKeyEvent(evt.nativeEvent) || evt.keyCode != KeyCode_1.default.ENTER && evt.keyCode != KeyCode_1.default.SPACE) {
+        return false;
+      }
+
+      evt.stopPropagation();
+      let {
+        panelData
+      } = this.props;
+      this.context.dockMove(panelData, null, 'maximize');
+    };
+
     this.renderTabBar = () => {
       let {
         panelData,
@@ -9565,7 +9590,9 @@ class DockTabs extends react_1.default.PureComponent {
       } else if (group.maximizable) {
         panelExtraContent = react_1.default.createElement("div", {
           className: 'dock-panel-max-btn',
-          onClick: this.onMaximizeClick
+          onClick: this.onMaximizeClick,
+          onKeyDown: this.onKeyDownMaximizeBtn,
+          tabIndex: 0
         });
       }
 
@@ -9662,7 +9689,7 @@ class DockTabs extends react_1.default.PureComponent {
 exports.DockTabs = DockTabs;
 DockTabs.contextType = DockData_1.DockContextType;
 DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
-},{"react":"n8MK","./DockData":"zh3I","rc-tabs":"FgVr","rc-tabs/lib/TabContent":"Bdxb","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./DockTabBar":"Ec16","./DockTabPane":"ZavB","./Algorithm":"wqok"}],"YpI8":[function(require,module,exports) {
+},{"react":"n8MK","./DockData":"zh3I","rc-tabs":"FgVr","rc-tabs/lib/TabContent":"Bdxb","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./DockTabBar":"Ec16","./DockTabPane":"ZavB","./Algorithm":"wqok","rc-util/lib/KeyCode":"iYnE"}],"YpI8":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

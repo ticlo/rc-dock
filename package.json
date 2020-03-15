@@ -62,7 +62,6 @@
     "react-dom": ">=15.0.0"
   },
   "resolutions": {
-    "**/mkdirp": "^1.0.3",
     "**/minimist": "^1.2.5"
   },
   "scripts": {

@@ -115,12 +115,12 @@
     height: 30px;
     text-align: center;
     transition: color 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-    padding: 0;
+    padding: 0 8px 0 0;
     font-weight: 500;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     float: left;
-    margin-right: 10px;
+    margin-right: 2px;
     background: #fafafd;
 
     &.dragging {
@@ -198,6 +198,11 @@
     flex: 0 0 auto;
     background: #fafafd;
     border-bottom: 1px solid #f3f3f3;
+
+    &[role=tablist]:focus,
+    &[role=tablist]:focus-within {
+        background-color: rgba(18, 141, 232, 0.15);
+    }
   }
 
   &-top &-nav-container-scrolling {
@@ -283,12 +288,13 @@
     cursor: pointer;
     font-family: 'Fredoka One', sans-serif;
     color: #bbb;
-    right: 2px;
+    right: 4px;
     font-size: 12px;
     width: 16px;
     text-align: center;
     top: 6px;
     opacity: 0.3;
+    outline: none;
     transition: all 0.25s ease-in-out;
 
     &:before {
@@ -296,13 +302,16 @@
     }
   }
 
-  &-tab-close-btn:hover {
+  &-tab-close-btn:hover,
+  &-tab-close-btn:focus {
     color: #666;
     transform: scale(1.1, 1.1);
   }
 
-  &-tab:hover &-tab-close-btn {
+  &-tab:hover &-tab-close-btn,
+  &-tab-close-btn:focus {
     opacity: 1;
+    color: #108ee9;
   }
 
   &-tab-hit-area {
@@ -316,6 +325,9 @@
   &-pane-cache {
     width: 100%;
     height: 100%;
+  }
+  > div[role=presentation]:empty {
+    display: none;
   }
 }
 

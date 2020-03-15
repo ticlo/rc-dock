@@ -12,6 +12,7 @@ export declare class TabCache {
     constructor(context: DockContext);
     setData(data: TabData): boolean;
     onCloseClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
+    onKeyDownCloseBtn: (evt: React.KeyboardEvent<Element>) => boolean;
     onDragStart: (e: DragManager.DragState) => void;
     onDragOver: (e: DragManager.DragState) => void;
     onDragLeave: (e: DragManager.DragState) => void;
@@ -34,6 +35,7 @@ export declare class DockTabs extends React.PureComponent<Props, any> {
     cachedTabs: TabData[];
     updateTabs(tabs: TabData[]): void;
     onMaximizeClick: () => void;
+    onKeyDownMaximizeBtn: (evt: React.KeyboardEvent<Element>) => boolean;
     renderTabBar: () => JSX.Element;
     renderTabContent: () => JSX.Element;
     onTabChange: (activeId: string) => void;

@@ -42,7 +42,7 @@ let box = {
     mode: 'vertical',
     children: [
       {
-        tabs: [{...cachedTab, id: 'cache1'}, {...cachedTab, id: 'cache2'}, jsxTab, htmlTab],
+        tabs: [{...cachedTab, closable: true, id: 'cache1'}, {...cachedTab, id: 'cache2'}, jsxTab, htmlTab],
       },
       {
         tabs: [{...nocachedTab, id: 'nocache1'}, {...nocachedTab, id: 'nocache2'}],

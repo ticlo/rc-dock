@@ -9,6 +9,7 @@ import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 import {getFloatPanelSize} from "./Algorithm";
+import KeyCode from 'rc-util/lib/KeyCode';
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -56,6 +57,18 @@ export class TabCache {
     this.context.dockMove(this.data, null, 'remove');
     e.stopPropagation();
   };
+
+  onKeyDownCloseBtn = (evt : React.KeyboardEvent) => {
+    if (!KeyCode.isTextModifyingKeyEvent(evt.nativeEvent) || (
+      evt.keyCode != KeyCode.ENTER && evt.keyCode != KeyCode.SPACE
+    )) {
+      return false;
+    }
+
+    this.context.dockMove(this.data, null, 'remove');
+    evt.stopPropagation();
+  };
+
   onDragStart = (e: DragState) => {
     let panel = findParentPanel(this._ref);
     let tabGroup = this.context.getGroup(this.data.group);
@@ -125,7 +138,8 @@ export class TabCache {
                      onDragStartT={this.onDragStart}
                      onDragOverT={this.onDragOver} onDropT={this.onDrop} onDragLeaveT={this.onDragLeave}>
           {closable ?
-            <div className='dock-tab-close-btn' onClick={this.onCloseClick}/>
+            <div className='dock-tab-close-btn' onClick={this.onCloseClick}
+                 onKeyDown={this.onKeyDownCloseBtn} tabIndex={0}/>
             : null
           }
         </DragDropDiv>
@@ -209,6 +223,18 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.context.dockMove(panelData, null, 'maximize');
   };
 
+  onKeyDownMaximizeBtn = (evt : React.KeyboardEvent) => {
+    if (!KeyCode.isTextModifyingKeyEvent(evt.nativeEvent) || (
+      evt.keyCode != KeyCode.ENTER && evt.keyCode != KeyCode.SPACE
+    )) {
+      return false;
+    }
+
+    evt.stopPropagation();
+    let {panelData} = this.props;
+    this.context.dockMove(panelData, null, 'maximize');
+  };
+
   renderTabBar = () => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
@@ -226,7 +252,8 @@ export class DockTabs extends React.PureComponent<Props, any> {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (group.maximizable) {
       panelExtraContent = (
-        <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}/>
+        <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
+             onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>
       );
     }
     return (

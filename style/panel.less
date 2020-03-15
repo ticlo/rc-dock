@@ -330,8 +330,10 @@ body.dock-dragging {
   opacity: 0.2;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
+  outline: none;
 
-  &:hover {
+  &:hover,
+  &:focus {
     opacity: 1;
     transform: scale(1.1, 1.1);
   }
@@ -344,16 +346,26 @@ body.dock-dragging {
     width: 9px;
     height: 9px;
   }
+  &:hover,
+  &:focus {
+    &:before {
+      border-color: #108ee9;
+    }
+  }
 }
 
 .dock-mbox .dock-panel-max-btn {
-
-
   &:before {
     border: none;
     content: "-";
     color: #666;
     font-size: 20px;
     line-height: 4px;
+  }
+  &:focus,
+  &:hover {
+    &:before {
+      color: #108ee9;
+    }
   }
 }

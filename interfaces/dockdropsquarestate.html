@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BoxData | rc-dock</title>
+	<title>DockDropSquareState | rc-dock</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,36 +54,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="boxdata.html">BoxData</a>
+					<a href="dockdropsquarestate.html">DockDropSquareState</a>
 				</li>
 			</ul>
-			<h1>Interface BoxData</h1>
+			<h1>Interface DockDropSquareState</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>a box is the layout element that contains other boxes or panels</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="boxbase.html" class="tsd-signature-type">BoxBase</a>
-					</li>
-					<li>
-						<span class="tsd-signature-type">DockDataBase</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">BoxData</span>
-							</li>
-						</ul>
+						<span class="target">DockDropSquareState</span>
 					</li>
 				</ul>
 			</section>
@@ -94,13 +79,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="boxdata.html#children" class="tsd-kind-icon">children</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="boxdata.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="boxdata.html#minheight" class="tsd-kind-icon">min<wbr>Height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="boxdata.html#minwidth" class="tsd-kind-icon">min<wbr>Width</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="boxdata.html#mode" class="tsd-kind-icon">mode</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxdata.html#parent" class="tsd-kind-icon">parent</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="boxdata.html#size" class="tsd-kind-icon">size</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dockdropsquarestate.html#dropping" class="tsd-kind-icon">dropping</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,92 +87,15 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="children" class="tsd-anchor"></a>
-					<h3>children</h3>
-					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="paneldata.html" class="tsd-signature-type">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="boxdata.html" class="tsd-signature-type">BoxData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides <a href="boxbase.html">BoxBase</a>.<a href="boxbase.html#children">children</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L146">src/DockData.ts:146</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="boxbase.html">BoxBase</a>.<a href="boxbase.html#id">id</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L123">src/DockData.ts:123</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>id will be auto generated if it&#39;s undefined</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="minheight" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> min<wbr>Height</h3>
-					<div class="tsd-signature tsd-kind-icon">min<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from DockDataBase.minHeight</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L77">src/DockData.ts:77</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="minwidth" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> min<wbr>Width</h3>
-					<div class="tsd-signature tsd-kind-icon">min<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from DockDataBase.minWidth</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L76">src/DockData.ts:76</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="mode" class="tsd-anchor"></a>
-					<h3>mode</h3>
-					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <a href="../globals.html#dockmode" class="tsd-signature-type">DockMode</a></div>
-					<aside class="tsd-sources">
-						<p>Overrides <a href="boxbase.html">BoxBase</a>.<a href="boxbase.html#mode">mode</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L145">src/DockData.ts:145</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="parent" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parent</h3>
-					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="boxdata.html" class="tsd-signature-type">BoxData</a></div>
+					<a name="dropping" class="tsd-anchor"></a>
+					<h3>dropping</h3>
+					<div class="tsd-signature tsd-kind-icon">dropping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L143">src/DockData.ts:143</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockDropLayer.tsx#L28">src/DockDropLayer.tsx:28</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="size" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> size</h3>
-					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="boxbase.html">BoxBase</a>.<a href="boxbase.html#size">size</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L129">src/DockData.ts:129</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>the size in dock box
-							width when in horizontal layout and height when in vertical layout</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -210,28 +112,10 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="boxdata.html" class="tsd-kind-icon">Box<wbr>Data</a>
+						<a href="dockdropsquarestate.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Square<wbr>State</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="boxdata.html#children" class="tsd-kind-icon">children</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="boxdata.html#id" class="tsd-kind-icon">id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="boxdata.html#minheight" class="tsd-kind-icon">min<wbr>Height</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="boxdata.html#minwidth" class="tsd-kind-icon">min<wbr>Width</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="boxdata.html#mode" class="tsd-kind-icon">mode</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxdata.html#parent" class="tsd-kind-icon">parent</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="boxdata.html#size" class="tsd-kind-icon">size</a>
+								<a href="dockdropsquarestate.html#dropping" class="tsd-kind-icon">dropping</a>
 							</li>
 						</ul>
 					</li>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PanelBase | rc-dock</title>
+	<title>GestureComponent | rc-dock</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="panelbase.html">PanelBase</a>
+					<a href="gesturecomponent.html">GestureComponent</a>
 				</li>
 			</ul>
-			<h1>Interface PanelBase</h1>
+			<h1>Interface GestureComponent</h1>
 		</div>
 	</div>
 </header>
@@ -68,12 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PanelBase</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="paneldata.html" class="tsd-signature-type">PanelData</a>
-							</li>
-						</ul>
+						<span class="target">GestureComponent</span>
 					</li>
 				</ul>
 			</section>
@@ -84,15 +79,16 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#activeid" class="tsd-kind-icon">active<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#h" class="tsd-kind-icon">h</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#size" class="tsd-kind-icon">size</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#tabs" class="tsd-kind-icon">tabs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#w" class="tsd-kind-icon">w</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#y" class="tsd-kind-icon">y</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#z" class="tsd-kind-icon">z</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#baseang" class="tsd-kind-icon">base<wbr>Ang</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#basedis" class="tsd-kind-icon">base<wbr>Dis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#basex" class="tsd-kind-icon">baseX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#basex2" class="tsd-kind-icon">base<wbr>X2</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#basey" class="tsd-kind-icon">baseY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#basey2" class="tsd-kind-icon">base<wbr>Y2</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#dragtype" class="tsd-kind-icon">drag<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#scalex" class="tsd-kind-icon">scaleX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="gesturecomponent.html#scaley" class="tsd-kind-icon">scaleY</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,135 +97,104 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="activeid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> active<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">active<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="baseang" class="tsd-anchor"></a>
+					<h3>base<wbr>Ang</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>Ang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L105">src/DockData.ts:105</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>the id of current tab</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="h" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> h</h3>
-					<div class="tsd-signature tsd-kind-icon">h<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L116">src/DockData.ts:116</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L94">src/DockData.ts:94</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>id will be auto generated if it&#39;s undefined</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="size" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> size</h3>
-					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L100">src/DockData.ts:100</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>the size in dock box
-							width when in horizontal layout and height when in vertical layout</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="tabs" class="tsd-anchor"></a>
-					<h3>tabs</h3>
-					<div class="tsd-signature tsd-kind-icon">tabs<span class="tsd-signature-symbol">:</span> <a href="tabbase.html" class="tsd-signature-type">TabBase</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L101">src/DockData.ts:101</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L13">src/dragdrop/GestureManager.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="w" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> w</h3>
-					<div class="tsd-signature tsd-kind-icon">w<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="basedis" class="tsd-anchor"></a>
+					<h3>base<wbr>Dis</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>Dis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L114">src/DockData.ts:114</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L12">src/dragdrop/GestureManager.ts:12</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="x" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="basex" class="tsd-anchor"></a>
+					<h3>baseX</h3>
+					<div class="tsd-signature tsd-kind-icon">baseX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L108">src/DockData.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L6">src/dragdrop/GestureManager.ts:6</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="y" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="basex2" class="tsd-anchor"></a>
+					<h3>base<wbr>X2</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>X2<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L110">src/DockData.ts:110</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L8">src/dragdrop/GestureManager.ts:8</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="z" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> z</h3>
-					<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="basey" class="tsd-anchor"></a>
+					<h3>baseY</h3>
+					<div class="tsd-signature tsd-kind-icon">baseY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L112">src/DockData.ts:112</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L7">src/dragdrop/GestureManager.ts:7</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="basey2" class="tsd-anchor"></a>
+					<h3>base<wbr>Y2</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>Y2<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L9">src/dragdrop/GestureManager.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="dragtype" class="tsd-anchor"></a>
+					<h3>drag<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">drag<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../globals.html#dragtype" class="tsd-signature-type">DragType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L5">src/dragdrop/GestureManager.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="element" class="tsd-anchor"></a>
+					<h3>element</h3>
+					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L4">src/dragdrop/GestureManager.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="scalex" class="tsd-anchor"></a>
+					<h3>scaleX</h3>
+					<div class="tsd-signature tsd-kind-icon">scaleX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L10">src/dragdrop/GestureManager.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="scaley" class="tsd-anchor"></a>
+					<h3>scaleY</h3>
+					<div class="tsd-signature tsd-kind-icon">scaleY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/dragdrop/GestureManager.ts#L11">src/dragdrop/GestureManager.ts:11</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -246,34 +211,37 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="panelbase.html" class="tsd-kind-icon">Panel<wbr>Base</a>
+						<a href="gesturecomponent.html" class="tsd-kind-icon">Gesture<wbr>Component</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#activeid" class="tsd-kind-icon">active<wbr>Id</a>
+								<a href="gesturecomponent.html#baseang" class="tsd-kind-icon">base<wbr>Ang</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#h" class="tsd-kind-icon">h</a>
+								<a href="gesturecomponent.html#basedis" class="tsd-kind-icon">base<wbr>Dis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#id" class="tsd-kind-icon">id</a>
+								<a href="gesturecomponent.html#basex" class="tsd-kind-icon">baseX</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#size" class="tsd-kind-icon">size</a>
+								<a href="gesturecomponent.html#basex2" class="tsd-kind-icon">base<wbr>X2</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#tabs" class="tsd-kind-icon">tabs</a>
+								<a href="gesturecomponent.html#basey" class="tsd-kind-icon">baseY</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#w" class="tsd-kind-icon">w</a>
+								<a href="gesturecomponent.html#basey2" class="tsd-kind-icon">base<wbr>Y2</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#x" class="tsd-kind-icon">x</a>
+								<a href="gesturecomponent.html#dragtype" class="tsd-kind-icon">drag<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#y" class="tsd-kind-icon">y</a>
+								<a href="gesturecomponent.html#element" class="tsd-kind-icon">element</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#z" class="tsd-kind-icon">z</a>
+								<a href="gesturecomponent.html#scalex" class="tsd-kind-icon">scaleX</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="gesturecomponent.html#scaley" class="tsd-kind-icon">scaleY</a>
 							</li>
 						</ul>
 					</li>

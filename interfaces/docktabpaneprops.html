@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PanelBase | rc-dock</title>
+	<title>DockTabPaneProps | rc-dock</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="panelbase.html">PanelBase</a>
+					<a href="docktabpaneprops.html">DockTabPaneProps</a>
 				</li>
 			</ul>
-			<h1>Interface PanelBase</h1>
+			<h1>Interface DockTabPaneProps</h1>
 		</div>
 	</div>
 </header>
@@ -68,12 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PanelBase</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="paneldata.html" class="tsd-signature-type">PanelData</a>
-							</li>
-						</ul>
+						<span class="target">DockTabPaneProps</span>
 					</li>
 				</ul>
 			</section>
@@ -84,15 +79,17 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#activeid" class="tsd-kind-icon">active<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#h" class="tsd-kind-icon">h</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#size" class="tsd-kind-icon">size</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#tabs" class="tsd-kind-icon">tabs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#w" class="tsd-kind-icon">w</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#y" class="tsd-kind-icon">y</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="panelbase.html#z" class="tsd-kind-icon">z</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#active" class="tsd-kind-icon">active</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#cached" class="tsd-kind-icon">cached</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#children" class="tsd-kind-icon">children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#classname" class="tsd-kind-icon">class<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#destroyinactivetabpane" class="tsd-kind-icon">destroy<wbr>Inactive<wbr>Tab<wbr>Pane</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#forcerender" class="tsd-kind-icon">force<wbr>Render</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#placeholder" class="tsd-kind-icon">placeholder</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#rootprefixcls" class="tsd-kind-icon">root<wbr>Prefix<wbr>Cls</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#style" class="tsd-kind-icon">style</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="docktabpaneprops.html#tab" class="tsd-kind-icon">tab</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,34 +98,64 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="activeid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> active<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">active<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="active" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> active</h3>
+					<div class="tsd-signature tsd-kind-icon">active<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L105">src/DockData.ts:105</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L7">src/DockTabPane.tsx:7</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>the id of current tab</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="h" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> h</h3>
-					<div class="tsd-signature tsd-kind-icon">h<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="cached" class="tsd-anchor"></a>
+					<h3>cached</h3>
+					<div class="tsd-signature tsd-kind-icon">cached<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L116">src/DockData.ts:116</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L16">src/DockTabPane.tsx:16</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="children" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> children</h3>
+					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReactElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L13">src/DockTabPane.tsx:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="classname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> class<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L6">src/DockTabPane.tsx:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="destroyinactivetabpane" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> destroy<wbr>Inactive<wbr>Tab<wbr>Pane</h3>
+					<div class="tsd-signature tsd-kind-icon">destroy<wbr>Inactive<wbr>Tab<wbr>Pane<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L9">src/DockTabPane.tsx:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="forcerender" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> force<wbr>Render</h3>
+					<div class="tsd-signature tsd-kind-icon">force<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L10">src/DockTabPane.tsx:10</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="id" class="tsd-anchor"></a>
@@ -136,100 +163,49 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L94">src/DockData.ts:94</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>id will be auto generated if it&#39;s undefined</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="size" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> size</h3>
-					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L100">src/DockData.ts:100</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>the size in dock box
-							width when in horizontal layout and height when in vertical layout</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="tabs" class="tsd-anchor"></a>
-					<h3>tabs</h3>
-					<div class="tsd-signature tsd-kind-icon">tabs<span class="tsd-signature-symbol">:</span> <a href="tabbase.html" class="tsd-signature-type">TabBase</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L101">src/DockData.ts:101</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L15">src/DockTabPane.tsx:15</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="w" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> w</h3>
-					<div class="tsd-signature tsd-kind-icon">w<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="placeholder" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> placeholder</h3>
+					<div class="tsd-signature tsd-kind-icon">placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">React.ReactNode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L114">src/DockData.ts:114</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L11">src/DockTabPane.tsx:11</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="x" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="rootprefixcls" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> root<wbr>Prefix<wbr>Cls</h3>
+					<div class="tsd-signature tsd-kind-icon">root<wbr>Prefix<wbr>Cls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L108">src/DockData.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L12">src/DockTabPane.tsx:12</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="y" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="style" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> style</h3>
+					<div class="tsd-signature tsd-kind-icon">style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CSSProperties</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L110">src/DockData.ts:110</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L8">src/DockTabPane.tsx:8</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="z" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> z</h3>
-					<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="tab" class="tsd-anchor"></a>
+					<h3>tab</h3>
+					<div class="tsd-signature tsd-kind-icon">tab<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">React.ReactNode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockData.ts#L112">src/DockData.ts:112</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/cf6f673/src/DockTabPane.tsx#L14">src/DockTabPane.tsx:14</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>float mode only</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -246,34 +222,40 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="panelbase.html" class="tsd-kind-icon">Panel<wbr>Base</a>
+						<a href="docktabpaneprops.html" class="tsd-kind-icon">Dock<wbr>Tab<wbr>Pane<wbr>Props</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#activeid" class="tsd-kind-icon">active<wbr>Id</a>
+								<a href="docktabpaneprops.html#active" class="tsd-kind-icon">active</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#h" class="tsd-kind-icon">h</a>
+								<a href="docktabpaneprops.html#cached" class="tsd-kind-icon">cached</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#id" class="tsd-kind-icon">id</a>
+								<a href="docktabpaneprops.html#children" class="tsd-kind-icon">children</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#size" class="tsd-kind-icon">size</a>
+								<a href="docktabpaneprops.html#classname" class="tsd-kind-icon">class<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#tabs" class="tsd-kind-icon">tabs</a>
+								<a href="docktabpaneprops.html#destroyinactivetabpane" class="tsd-kind-icon">destroy<wbr>Inactive<wbr>Tab<wbr>Pane</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#w" class="tsd-kind-icon">w</a>
+								<a href="docktabpaneprops.html#forcerender" class="tsd-kind-icon">force<wbr>Render</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#x" class="tsd-kind-icon">x</a>
+								<a href="docktabpaneprops.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#y" class="tsd-kind-icon">y</a>
+								<a href="docktabpaneprops.html#placeholder" class="tsd-kind-icon">placeholder</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="panelbase.html#z" class="tsd-kind-icon">z</a>
+								<a href="docktabpaneprops.html#rootprefixcls" class="tsd-kind-icon">root<wbr>Prefix<wbr>Cls</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="docktabpaneprops.html#style" class="tsd-kind-icon">style</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="docktabpaneprops.html#tab" class="tsd-kind-icon">tab</a>
 							</li>
 						</ul>
 					</li>

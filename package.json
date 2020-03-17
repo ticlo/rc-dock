@@ -29,7 +29,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
-    "rc-tabs": "^10.0.0",
+    "rc-tabs": "^10.1.0",
     "rc-util": "^4.20.1",
     "react-new-window": "^0.1.2"
   },
@@ -54,7 +54,7 @@
     "ts-node": "^8.6.2",
     "tslint": "^6.1.0",
     "tslint-react": "^4.2.0",
-    "typedoc": "^0.16.11",
+    "typedoc": "^0.17.0",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {

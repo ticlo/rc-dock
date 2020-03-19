@@ -9,7 +9,7 @@ interface DockTabPaneProps {
     rootPrefixCls?: string;
     children?: React.ReactElement;
     tab: React.ReactNode;
-    id?: string;
+    cacheId?: string;
     cached: boolean;
 }
 export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {

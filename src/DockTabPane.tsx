@@ -12,7 +12,7 @@ interface DockTabPaneProps {
   rootPrefixCls?: string;
   children?: React.ReactElement;
   tab: React.ReactNode;
-  id?: string;
+  cacheId?: string;
   cached: boolean;
 
 }
@@ -25,15 +25,15 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
   };
 
   updateCache() {
-    const {cached, children, id} = this.props;
+    const {cached, children, cacheId} = this.props;
     if (this._cache) {
-      if (!cached || id !== this._cache.id) {
+      if (!cached || cacheId !== this._cache.id) {
         TabPaneCache.remove(this._cache.id, this);
         this._cache = null;
       }
     }
     if (cached && this._ref) {
-      this._cache = TabPaneCache.create(id, this);
+      this._cache = TabPaneCache.create(cacheId, this);
       this._ref.appendChild(this._cache.div);
       this._cache.update(children as React.ReactElement);
     }
@@ -45,7 +45,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
 
   render() {
     const {
-      id, className, active, forceRender,
+      cacheId, className, active, forceRender,
       rootPrefixCls, style, children, placeholder, cached
     } = this.props;
     this._isActived = this._isActived || active;
@@ -74,7 +74,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
            role="tabpanel"
            aria-hidden={active ? 'false' : 'true'}
            className={cls}
-           id={id}>
+           id={cacheId}>
         {renderChildren}
       </div>
     );
@@ -176,15 +176,15 @@ export function getContextPaneClass(contextType: React.Context<any>) {
     }
 
     updateCache() {
-      const {cached, children, id} = this.props;
+      const {cached, children, cacheId} = this.props;
       if (this._cache) {
-        if (!cached || id !== this._cache.id) {
+        if (!cached || cacheId !== this._cache.id) {
           TabPaneCache.remove(this._cache.id, this);
           this._cache = null;
         }
       }
       if (cached && this._ref) {
-        this._cache = TabPaneCache.create(id, this);
+        this._cache = TabPaneCache.create(cacheId, this);
         this._ref.appendChild(this._cache.div);
         if (contextType) {
           let Provider = contextType.Provider;

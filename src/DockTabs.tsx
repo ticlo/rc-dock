@@ -152,7 +152,7 @@ export class TabCache {
       );
     } else {
       return (
-        <DockTabPane key={id} id={id} cached={cached} tab={tab}>
+        <DockTabPane key={id} cacheId={id} cached={cached} tab={tab}>
           {content}
         </DockTabPane>
       );

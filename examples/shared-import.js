@@ -7739,7 +7739,7 @@ class TabCache {
       let DockTabPaneClass = DockTabPane_1.getContextPaneClass(cacheContext);
       return react_1.default.createElement(DockTabPaneClass, {
         key: id,
-        id: id,
+        cacheId: id,
         cached: cached,
         tab: tab
       }, content);

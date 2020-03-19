@@ -212,7 +212,7 @@ body > .dragging-layer > div:last-child {
   border-bottom: 1px solid #f3f3f3;
 }
 .dock-top .dock-bar:focus-within {
-  box-shadow: 0 0 2px #108ee9;
+  box-shadow: 0 0 1px #108ee9;
 }
 .dock-top .dock-nav-container-scrolling {
   padding-left: 32px;
@@ -302,7 +302,7 @@ body > .dragging-layer > div:last-child {
 .dock-tab:hover .dock-tab-close-btn,
 .dock-tab-close-btn:focus {
   opacity: 1;
-  color: #108ee9;
+  color: #999;
 }
 .dock-tab-hit-area {
   position: absolute;
@@ -600,11 +600,11 @@ body.dock-dragging iframe {
 .dock-panel-max-btn:hover,
 .dock-panel-max-btn:focus {
   opacity: 1;
-  color: #108ee9;
+  color: #999;
 }
 .dock-panel-max-btn:hover:before,
 .dock-panel-max-btn:focus:before {
-  border-color: #108ee9;
+  border-color: #999;
 }
 .dock-panel-max-btn:hover {
   transform: scale(1.1);
@@ -618,7 +618,7 @@ body.dock-dragging iframe {
 }
 .dock-mbox .dock-panel-max-btn:hover:before,
 .dock-mbox .dock-panel-max-btn:focus:before {
-  color: #108ee9;
+  color: #999;
 }
 .dock-panel.dock-style-place-holder {
   border: none;

@@ -148,6 +148,7 @@ body > .dragging-layer > div:last-child {
   float: left;
   margin-right: 10px;
   background: #fafafd;
+  outline: none;
 }
 .dock-tab.dragging {
   opacity: 0.3;
@@ -210,7 +211,7 @@ body > .dragging-layer > div:last-child {
   background: #fafafd;
   border-bottom: 1px solid #f3f3f3;
 }
-.dock-top .dock-bar:focus {
+.dock-top .dock-bar:focus-within {
   box-shadow: 0 0 2px #108ee9;
 }
 .dock-top .dock-nav-container-scrolling {

@@ -146,7 +146,7 @@ export class TabCache {
       // allow DockTabPane to receive context
       let DockTabPaneClass = getContextPaneClass(cacheContext);
       return (
-        <DockTabPaneClass key={id} id={id} cached={cached} tab={tab}>
+        <DockTabPaneClass key={id} cacheId={id} cached={cached} tab={tab}>
           {content}
         </DockTabPaneClass>
       );

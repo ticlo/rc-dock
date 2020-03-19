@@ -4,12 +4,11 @@ import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {default as DragManager, DragState} from "./dragdrop/DragManager";
+import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane, {getContextPaneClass} from "./DockTabPane";
 import {getFloatPanelSize} from "./Algorithm";
-import KeyCode from 'rc-util/lib/KeyCode';
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -58,10 +57,8 @@ export class TabCache {
     e.stopPropagation();
   };
 
-  onKeyDownCloseBtn = (evt : React.KeyboardEvent) => {
-    if (!KeyCode.isTextModifyingKeyEvent(evt.nativeEvent) || (
-      evt.keyCode != KeyCode.ENTER && evt.keyCode != KeyCode.SPACE
-    )) {
+  onKeyDownCloseBtn = (evt: React.KeyboardEvent) => {
+    if (evt.key !== 'Enter' && evt.key !== ' ') {
       return false;
     }
 
@@ -69,7 +66,7 @@ export class TabCache {
     evt.stopPropagation();
   };
 
-  onDragStart = (e: DragState) => {
+  onDragStart = (e: DragManager.DragState) => {
     let panel = findParentPanel(this._ref);
     let tabGroup = this.context.getGroup(this.data.group);
     let [panelWidth, panelHeight] = getFloatPanelSize(panel, tabGroup);
@@ -77,10 +74,10 @@ export class TabCache {
     e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, this.context.getDockId());
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
-  onDragOver = (e: DragState) => {
+  onDragOver = (e: DragManager.DragState) => {
     let dockId = this.context.getDockId();
-    let tab: TabData = DragState.getData('tab', dockId);
-    let panel: PanelData = DragState.getData('panel', dockId);
+    let tab: TabData = DragManager.DragState.getData('tab', dockId);
+    let panel: PanelData = DragManager.DragState.getData('panel', dockId);
     if (tab) {
       panel = tab.parent;
     } else if (!panel) {
@@ -98,17 +95,17 @@ export class TabCache {
       e.accept('');
     }
   };
-  onDragLeave = (e: DragState) => {
+  onDragLeave = (e: DragManager.DragState) => {
     this.context.setDropRect(null, 'remove', this);
   };
-  onDrop = (e: DragState) => {
+  onDrop = (e: DragManager.DragState) => {
     let dockId = this.context.getDockId();
     let panel: PanelData;
-    let tab: TabData = DragState.getData('tab', dockId);
+    let tab: TabData = DragManager.DragState.getData('tab', dockId);
     if (tab) {
       panel = tab.parent;
     } else {
-      panel = DragState.getData('panel', dockId);
+      panel = DragManager.DragState.getData('panel', dockId);
     }
     if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);
@@ -119,7 +116,7 @@ export class TabCache {
     }
   };
 
-  getDropDirection(e: DragState): DropDirection {
+  getDropDirection(e: DragManager.DragState): DropDirection {
     let rect = this._hitAreaRef.getBoundingClientRect();
     let midx = rect.left + rect.width * 0.5;
     return e.clientX > midx ? 'after-tab' : 'before-tab';
@@ -223,10 +220,8 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.context.dockMove(panelData, null, 'maximize');
   };
 
-  onKeyDownMaximizeBtn = (evt : React.KeyboardEvent) => {
-    if (!KeyCode.isTextModifyingKeyEvent(evt.nativeEvent) || (
-      evt.keyCode != KeyCode.ENTER && evt.keyCode != KeyCode.SPACE
-    )) {
+  onKeyDownMaximizeBtn = (evt: React.KeyboardEvent) => {
+    if (evt.key !== 'Enter' && evt.key !== ' ') {
       return false;
     }
 

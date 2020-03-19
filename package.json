@@ -30,7 +30,6 @@
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
     "rc-tabs": "^10.1.0",
-    "rc-util": "^4.20.1",
     "react-new-window": "^0.1.2"
   },
   "devDependencies": {
@@ -68,7 +67,6 @@
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
     "build-less": "lessc style/index.less dist/rc-dock.css",
     "build-doc": "typedoc --options ./typedocconfig.js",
-    "build-www": "ts-node tool/build-www",
-    "build-ts": "tsc -p tsconfig.json"
+    "build-www": "ts-node tool/build-www"
   }
 }

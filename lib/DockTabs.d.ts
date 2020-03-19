@@ -1,6 +1,6 @@
 import React from "react";
 import { DockContext, DropDirection, PanelData, TabData } from "./DockData";
-import { default as DragManager, DragState } from "./dragdrop/DragManager";
+import * as DragManager from "./dragdrop/DragManager";
 export declare class TabCache {
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
@@ -17,7 +17,7 @@ export declare class TabCache {
     onDragOver: (e: DragManager.DragState) => void;
     onDragLeave: (e: DragManager.DragState) => void;
     onDrop: (e: DragManager.DragState) => void;
-    getDropDirection(e: DragState): DropDirection;
+    getDropDirection(e: DragManager.DragState): DropDirection;
     render(): React.ReactElement;
     destroy(): void;
 }

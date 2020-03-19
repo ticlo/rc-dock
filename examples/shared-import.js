@@ -6490,18 +6490,18 @@ class DockTabPane extends react_1.default.PureComponent {
     const {
       cached,
       children,
-      id
+      cacheId
     } = this.props;
 
     if (this._cache) {
-      if (!cached || id !== this._cache.id) {
+      if (!cached || cacheId !== this._cache.id) {
         TabPaneCache.remove(this._cache.id, this);
         this._cache = null;
       }
     }
 
     if (cached && this._ref) {
-      this._cache = TabPaneCache.create(id, this);
+      this._cache = TabPaneCache.create(cacheId, this);
 
       this._ref.appendChild(this._cache.div);
 
@@ -6511,7 +6511,7 @@ class DockTabPane extends react_1.default.PureComponent {
 
   render() {
     const {
-      id,
+      cacheId,
       className,
       active,
       forceRender,
@@ -6547,7 +6547,7 @@ class DockTabPane extends react_1.default.PureComponent {
       role: "tabpanel",
       "aria-hidden": active ? 'false' : 'true',
       className: cls,
-      id: id
+      id: cacheId
     }, renderChildren);
   }
 
@@ -6652,18 +6652,18 @@ function getContextPaneClass(contextType) {
       const {
         cached,
         children,
-        id
+        cacheId
       } = this.props;
 
       if (this._cache) {
-        if (!cached || id !== this._cache.id) {
+        if (!cached || cacheId !== this._cache.id) {
           TabPaneCache.remove(this._cache.id, this);
           this._cache = null;
         }
       }
 
       if (cached && this._ref) {
-        this._cache = TabPaneCache.create(id, this);
+        this._cache = TabPaneCache.create(cacheId, this);
 
         this._ref.appendChild(this._cache.div);
 
@@ -7746,7 +7746,7 @@ class TabCache {
     } else {
       return react_1.default.createElement(DockTabPane_1.default, {
         key: id,
-        id: id,
+        cacheId: id,
         cached: cached,
         tab: tab
       }, content);

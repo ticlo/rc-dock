@@ -2,7 +2,7 @@ import React, {CSSProperties, PointerEventHandler} from "react";
 import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
-import {default as DragManager, DragState} from "./dragdrop/DragManager";
+import {DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {getFloatPanelSize, nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";

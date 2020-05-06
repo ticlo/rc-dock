@@ -15,7 +15,7 @@ import {
   defaultGroup,
   LayoutBase,
   TabBase,
-  PanelBase, DockContextType
+  PanelBase, DockContextType, TabPaneCache
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -102,7 +102,65 @@ interface LayoutState {
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
 }
 
-export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> implements DockContext {
+class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
+  /** @ignore */
+  _caches = new Map<string, TabPaneCache>();
+
+  _pendingDestroy: any;
+
+  destroyRemovedPane = () => {
+    this._pendingDestroy = null;
+    let cacheRemoved = false;
+    for (let [id, cache] of this._caches) {
+      if (cache.owner == null) {
+        this._caches.delete(id);
+        cacheRemoved = true;
+      }
+    }
+    if (cacheRemoved) {
+      this.forceUpdate();
+    }
+  };
+
+
+  /** @ignore */
+  getTabCache(id: string, owner: any): TabPaneCache {
+    let cache = this._caches.get(id);
+    if (!cache) {
+      let div = document.createElement('div');
+      div.className = 'dock-pane-cache';
+      cache = {div, id, owner};
+      this._caches.set(id, cache);
+    } else {
+      cache.owner = owner;
+    }
+
+    return cache;
+  }
+
+  /** @ignore */
+  removeTabCache(id: string, owner: any): void {
+    let cache = this._caches.get(id);
+    if (cache && cache.owner === owner) {
+      cache.owner = null;
+      if (!this._pendingDestroy) {
+        // it could be reused by another component, so let's wait
+        this._pendingDestroy = setTimeout(this.destroyRemovedPane, 1);
+      }
+    }
+  }
+
+  /** @ignore */
+  updateTabCache(id: string, children: React.ReactElement): void {
+    let cache = this._caches.get(id);
+    if (cache) {
+      cache.portal = ReactDOM.createPortal(children, cache.div, cache.id);
+      this.forceUpdate();
+    }
+  }
+}
+
+export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore */
   _ref: HTMLDivElement;
   /** @ignore */
@@ -371,12 +429,20 @@ export class DockLayout extends React.PureComponent<LayoutProps, LayoutState> im
     }
     // }
 
+    let portals: React.ReactPortal[] = [];
+    for (let [key, cache] of this._caches) {
+      if (cache.portal) {
+        portals.push(cache.portal);
+      }
+    }
+
     return (
       <div ref={this.getRef} className='dock-layout' style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
           {maximize}
+          {portals}
         </DockContextProvider>
         <div className='dock-drop-indicator' style={dropRectStyle}/>
       </div>

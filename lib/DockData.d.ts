@@ -144,8 +144,7 @@ export interface TabData extends TabBase, DockDataBase {
      */
     cached?: boolean;
     /**
-     * cached tab is disconnected with parent react component
-     * if react context is needed in the cached tab, the context type need to be specified here
+     * @deprecated no longer needed
      */
     cacheContext?: React.Context<any>;
 }
@@ -178,6 +177,12 @@ export interface PanelData extends PanelBase, DockDataBase {
      * a locked panel can not be moved to float layer either
      */
     panelLock?: PanelLock;
+}
+export interface TabPaneCache {
+    id: string;
+    div: HTMLDivElement;
+    owner: any;
+    portal?: React.ReactPortal;
 }
 export interface LayoutData extends LayoutBase {
     /**
@@ -247,6 +252,12 @@ export interface DockContext {
      * @returns returns false if the tab is not found
      */
     updateTab(id: string, newTab: TabData): boolean;
+    /** @ignore */
+    getTabCache(id: string, owner: any): TabPaneCache;
+    /** @ignore */
+    removeTabCache(id: string, owner: any): void;
+    /** @ignore */
+    updateTabCache(id: string, portal: React.ReactElement): void;
 }
 /** @ignore */
 export declare const DockContextType: React.Context<DockContext>;

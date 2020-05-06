@@ -7,7 +7,7 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
-import DockTabPane, {getContextPaneClass} from "./DockTabPane";
+import DockTabPane from "./DockTabPane";
 import {getFloatPanelSize} from "./Algorithm";
 
 function findParentPanel(element: HTMLElement) {
@@ -142,22 +142,14 @@ export class TabCache {
         </DragDropDiv>
       </div>
     );
-    if (cacheContext) {
-      // allow DockTabPane to receive context
-      let DockTabPaneClass = getContextPaneClass(cacheContext);
-      return (
-        <DockTabPaneClass key={id} cacheId={id} cached={cached} tab={tab}>
-          {content}
-        </DockTabPaneClass>
-      );
-    } else {
-      return (
-        <DockTabPane key={id} cacheId={id} cached={cached} tab={tab}>
-          {content}
-        </DockTabPane>
-      );
-    }
+
+    return (
+      <DockTabPane key={id} cacheId={id} cached={cached} tab={tab}>
+        {content}
+      </DockTabPane>
+    );
   }
+
 
   destroy() {
     // place holder

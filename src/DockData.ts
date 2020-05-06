@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 
 export interface TabGroup {
   /**
@@ -172,8 +173,7 @@ export interface TabData extends TabBase, DockDataBase {
    */
   cached?: boolean;
   /**
-   * cached tab is disconnected with parent react component
-   * if react context is needed in the cached tab, the context type need to be specified here
+   * @deprecated no longer needed
    */
   cacheContext?: React.Context<any>;
 }
@@ -218,6 +218,14 @@ export interface PanelData extends PanelBase, DockDataBase {
 
 }
 
+export interface TabPaneCache {
+  id: string;
+  div: HTMLDivElement;
+  owner: any;
+  portal?: React.ReactPortal;
+}
+
+
 export interface LayoutData extends LayoutBase {
   /**
    * dock box
@@ -242,7 +250,17 @@ export interface LayoutData extends LayoutBase {
 }
 
 export type DropDirection =
-  'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize';
+  'left'
+  | 'right'
+  | 'bottom'
+  | 'top'
+  | 'middle'
+  | 'remove'
+  | 'before-tab'
+  | 'after-tab'
+  | 'float'
+  | 'front'
+  | 'maximize';
 
 export interface DockContext {
   /** @ignore */
@@ -293,6 +311,15 @@ export interface DockContext {
    * @returns returns false if the tab is not found
    */
   updateTab(id: string, newTab: TabData): boolean;
+
+  /** @ignore */
+  getTabCache(id: string, owner: any): TabPaneCache;
+
+  /** @ignore */
+  removeTabCache(id: string, owner: any): void;
+
+  /** @ignore */
+  updateTabCache(id: string, portal: React.ReactElement): void;
 }
 
 /** @ignore */

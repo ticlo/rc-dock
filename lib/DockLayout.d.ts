@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, TabGroup, LayoutBase, TabBase, PanelBase } from "./DockData";
+import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, TabGroup, LayoutBase, TabBase, PanelBase, TabPaneCache } from "./DockData";
 interface LayoutProps {
     /**
      * @ignore
@@ -74,7 +74,19 @@ interface LayoutState {
         direction?: DropDirection;
     };
 }
-export declare class DockLayout extends React.PureComponent<LayoutProps, LayoutState> implements DockContext {
+declare class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
+    /** @ignore */
+    _caches: Map<string, TabPaneCache>;
+    _pendingDestroy: any;
+    destroyRemovedPane: () => void;
+    /** @ignore */
+    getTabCache(id: string, owner: any): TabPaneCache;
+    /** @ignore */
+    removeTabCache(id: string, owner: any): void;
+    /** @ignore */
+    updateTabCache(id: string, children: React.ReactElement): void;
+}
+export declare class DockLayout extends DockPortalManager implements DockContext {
     /** @ignore */
     _ref: HTMLDivElement;
     /** @ignore */

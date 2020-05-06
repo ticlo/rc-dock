@@ -1,4 +1,5 @@
 import React from 'react';
+import { DockContext, TabPaneCache } from "./DockData";
 interface DockTabPaneProps {
     className?: string;
     active?: boolean;
@@ -13,6 +14,8 @@ interface DockTabPaneProps {
     cached: boolean;
 }
 export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {
+    static contextType: React.Context<DockContext>;
+    context: DockContext;
     _ref: HTMLDivElement;
     getRef: (r: HTMLDivElement) => void;
     updateCache(): void;
@@ -23,18 +26,4 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     componentDidUpdate(prevProps: Readonly<DockTabPaneProps>, prevState: Readonly<any>, snapshot?: any): void;
     componentWillUnmount(): void;
 }
-declare class TabPaneCache {
-    static _caches: Map<string, TabPaneCache>;
-    static remove(id: string, pane: DockTabPane): void;
-    static create(id: string, pane: DockTabPane): TabPaneCache;
-    static _pending: any;
-    static destroyRemovedPane(): void;
-    id: string;
-    div: HTMLDivElement;
-    pane: DockTabPane;
-    node: React.ReactElement;
-    update(node: React.ReactElement): void;
-    destroy(): void;
-}
-export declare function getContextPaneClass(contextType: React.Context<any>): any;
 export {};

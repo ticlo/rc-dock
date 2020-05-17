@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DockDropSquareState | rc-dock</title>
+	<title>TabPaneCache | rc-dock</title>
 	<meta name="description" content="Documentation for rc-dock">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="dockdropsquarestate.html">DockDropSquareState</a>
+					<a href="tabpanecache.html">TabPaneCache</a>
 				</li>
 			</ul>
-			<h1>Interface DockDropSquareState</h1>
+			<h1>Interface TabPaneCache</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">DockDropSquareState</span>
+						<span class="target">TabPaneCache</span>
 					</li>
 				</ul>
 			</section>
@@ -79,7 +79,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dockdropsquarestate.html#dropping" class="tsd-kind-icon">dropping</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabpanecache.html#div" class="tsd-kind-icon">div</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabpanecache.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabpanecache.html#owner" class="tsd-kind-icon">owner</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabpanecache.html#portal" class="tsd-kind-icon">portal</a></li>
 							</ul>
 						</section>
 					</div>
@@ -88,12 +91,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="dropping" class="tsd-anchor"></a>
-					<h3>dropping</h3>
-					<div class="tsd-signature tsd-kind-icon">dropping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="div" class="tsd-anchor"></a>
+					<h3>div</h3>
+					<div class="tsd-signature tsd-kind-icon">div<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLDivElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/55fe8b2/src/DockDropLayer.tsx#L28">src/DockDropLayer.tsx:28</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/55fe8b2/src/DockData.ts#L223">src/DockData.ts:223</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/55fe8b2/src/DockData.ts#L222">src/DockData.ts:222</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="owner" class="tsd-anchor"></a>
+					<h3>owner</h3>
+					<div class="tsd-signature tsd-kind-icon">owner<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/55fe8b2/src/DockData.ts#L224">src/DockData.ts:224</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="portal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> portal</h3>
+					<div class="tsd-signature tsd-kind-icon">portal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReactPortal</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/55fe8b2/src/DockData.ts#L225">src/DockData.ts:225</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -112,10 +145,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="dockdropsquarestate.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Square<wbr>State</a>
+						<a href="tabpanecache.html" class="tsd-kind-icon">Tab<wbr>Pane<wbr>Cache</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dockdropsquarestate.html#dropping" class="tsd-kind-icon">dropping</a>
+								<a href="tabpanecache.html#div" class="tsd-kind-icon">div</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabpanecache.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabpanecache.html#owner" class="tsd-kind-icon">owner</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabpanecache.html#portal" class="tsd-kind-icon">portal</a>
 							</li>
 						</ul>
 					</li>

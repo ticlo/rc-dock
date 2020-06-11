@@ -5,8 +5,7 @@ import {highlight, languages} from 'prismjs';
 let reg = /(.|[\n\r])*\{(.*)\} from '..\/lib';/m;
 
 function replacer(str: string, p1: string, p2: string) {
-  return `(async function () {
-  let {React, ReactDOM, jsxTab, htmlTab, ${p2}} = await import('./shared-import');`;
+  return `import('./shared-import').then(({React, ReactDOM, jsxTab, htmlTab, ${p2}})=>{`;
 }
 
 function exportCodeHtml(lan: string, file: string, data: string) {
@@ -34,7 +33,7 @@ function buildExample() {
 
     if (file.endsWith('.jsx')) {
       exportCodeHtml('javascript', file, data);
-      data = `${data.replace(reg, replacer)} \n})();`;
+      data = `${data.replace(reg, replacer)} \n});`;
     } else if (file.endsWith('.html')) {
       exportCodeHtml('html', file, data);
     }

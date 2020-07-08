@@ -451,10 +451,13 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   _onWindowResize: any = debounce(() => {
     let layout = this.tempLayout || this.state.layout;
-    let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
-    if (layout !== newLayout) {
-      newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
-      this.changeLayout(newLayout, null);
+
+    if (this._ref) {
+      let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+      if (layout !== newLayout) {
+        newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
+        this.changeLayout(newLayout, null);
+      }
     }
   }, 200);
 

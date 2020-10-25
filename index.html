@@ -69,31 +69,30 @@
 				<ul>
 					<li><strong>Examples:</strong> <a href="https://ticlo.github.io/rc-dock/examples">https://ticlo.github.io/rc-dock/examples</a></li>
 					<li><strong>Docs:</strong> <a href="https://ticlo.github.io/rc-dock">https://ticlo.github.io/rc-dock</a></li>
-					<li><strong>Discord:</strong> [![Discord](<a href="https://img.shields.io/discord/434106806503997445.svg?color=7289DA&amp;logo=discord&amp;logoColor=white">https://img.shields.io/discord/434106806503997445.svg?color=7289DA&amp;logo=discord&amp;logoColor=white</a>
-					)](<a href="https://discord.gg/G7pw9DR">https://discord.gg/G7pw9DR</a>)</li>
+					<li><strong>Discord:</strong> <a href="https://discord.gg/G7pw9DR"><img src="https://img.shields.io/discord/434106806503997445.svg?color=7289DA&logo=discord&logoColor=white" alt="Discord"></a></li>
 				</ul>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
 				<p><a href="https://npmjs.org/package/rc-dock"><img src="https://nodei.co/npm/rc-dock.png" alt="rc-tabs"></a></p>
-				<pre><code class="language-jsx"><span class="hljs-keyword">import</span> DockLayout <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-dock'</span>
+				<pre><code class="language-jsx"><span class="hljs-keyword">import</span> DockLayout <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rc-dock&#x27;</span>
 
 ...
 
 defaultLayout = {
   <span class="hljs-attr">dockbox</span>: {
-    <span class="hljs-attr">mode</span>: <span class="hljs-string">'horizontal'</span>,
+    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;horizontal&#x27;</span>,
     <span class="hljs-attr">children</span>: [
       {
         <span class="hljs-attr">tabs</span>: [
-          {<span class="hljs-attr">id</span>: <span class="hljs-string">'tab1'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'tab1'</span>, <span class="hljs-attr">content</span>: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello World<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>}
+          {<span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;tab1&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;tab1&#x27;</span>, <span class="hljs-attr">content</span>: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello World<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>}
         ]
       }
     ]
   }
 };
 
-render() {
+<span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
   <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">DockLayout</span> <span class="hljs-attr">defaultLayout</span>=<span class="hljs-string">{defaultLayout}/</span>&gt;</span></span>
 }
 </code></pre>
@@ -248,7 +247,7 @@ render() {
 					<h3>dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove">🗎</a></h3>
 				</a>
 				<p>move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first</p>
-				<pre><code class="language-typescript">dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): <span class="hljs-built_in">void</span>;</code></pre>
+				<pre><code class="language-typescript">dockMove(source: TabData | PanelData, <span class="hljs-attr">target</span>: TabData | PanelData | BoxData, <span class="hljs-attr">direction</span>: DropDirection): <span class="hljs-built_in">void</span>;</code></pre>
 				<a href="#find-🗎" id="find-🗎" style="color: inherit; text-decoration: none;">
 					<h3>find <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#find">🗎</a></h3>
 				</a>
@@ -259,7 +258,7 @@ render() {
 				</a>
 				<p>update a tab with new TabData</p>
 				<p>returns false if the tab is not found</p>
-				<pre><code class="language-typescript">updateTab(id: <span class="hljs-built_in">string</span>, newTab: TabData): <span class="hljs-built_in">boolean</span>;</code></pre>
+				<pre><code class="language-typescript">updateTab(id: <span class="hljs-built_in">string</span>, <span class="hljs-attr">newTab</span>: TabData): <span class="hljs-built_in">boolean</span>;</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -273,64 +272,10 @@ render() {
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="classes/boxdatacache.html" class="tsd-kind-icon">Box<wbr>Data<wbr>Cache</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/divider.html" class="tsd-kind-icon">Divider</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dividerbox.html" class="tsd-kind-icon">Divider<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dockbox.html" class="tsd-kind-icon">Dock<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dockdropedge.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Edge</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dockdroplayer.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Layer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dockdropsquare.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Square</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/docklayout.html" class="tsd-kind-icon">Dock<wbr>Layout</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dockpanel.html" class="tsd-kind-icon">Dock<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
+					<li class=" tsd-kind-class">
 						<a href="classes/dockportalmanager.html" class="tsd-kind-icon">Dock<wbr>Portal<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/docktabbar.html" class="tsd-kind-icon">Dock<wbr>Tab<wbr>Bar</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/docktabbarrootnode.html" class="tsd-kind-icon">Dock<wbr>Tab<wbr>Bar<wbr>Root<wbr>Node</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/docktabpane.html" class="tsd-kind-icon">Dock<wbr>Tab<wbr>Pane</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/docktabs.html" class="tsd-kind-icon">Dock<wbr>Tabs</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/dragdropdiv.html" class="tsd-kind-icon">Drag<wbr>Drop<wbr>Div</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/dragstate.html" class="tsd-kind-icon">Drag<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/floatbox.html" class="tsd-kind-icon">Float<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/gesturestate.html" class="tsd-kind-icon">Gesture<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/maxbox.html" class="tsd-kind-icon">Max<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/tabcache.html" class="tsd-kind-icon">Tab<wbr>Cache</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxbase.html" class="tsd-kind-icon">Box<wbr>Base</a>
@@ -339,49 +284,7 @@ render() {
 						<a href="interfaces/boxdata.html" class="tsd-kind-icon">Box<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/defaultlayoutcache.html" class="tsd-kind-icon">Default<wbr>Layout<wbr>Cache</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dividerchild.html" class="tsd-kind-icon">Divider<wbr>Child</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dividerdata.html" class="tsd-kind-icon">Divider<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dividerprops.html" class="tsd-kind-icon">Divider<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/dockcontext.html" class="tsd-kind-icon">Dock<wbr>Context</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dockdropedgeprops.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Edge<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dockdroplayerprops.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Layer<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dockdropsquareprops.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Square<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dockdropsquarestate.html" class="tsd-kind-icon">Dock<wbr>Drop<wbr>Square<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/docktabbarprops.html" class="tsd-kind-icon">Dock<wbr>Tab<wbr>Bar<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/docktabpaneprops.html" class="tsd-kind-icon">Dock<wbr>Tab<wbr>Pane<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dragdropcomponent.html" class="tsd-kind-icon">Drag<wbr>Drop<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/dragdropdivprops.html" class="tsd-kind-icon">Drag<wbr>Drop<wbr>Div<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/draghandlers.html" class="tsd-kind-icon">Drag<wbr>Handlers</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/gesturecomponent.html" class="tsd-kind-icon">Gesture<wbr>Component</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/layoutbase.html" class="tsd-kind-icon">Layout<wbr>Base</a>
@@ -405,15 +308,6 @@ render() {
 						<a href="interfaces/panellock.html" class="tsd-kind-icon">Panel<wbr>Lock</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/props.html" class="tsd-kind-icon">Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/state.html" class="tsd-kind-icon">State</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/tabbarrootnodeprops.html" class="tsd-kind-icon">Tab<wbr>Bar<wbr>Root<wbr>Node<wbr>Props</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/tabbase.html" class="tsd-kind-icon">Tab<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -426,205 +320,10 @@ render() {
 						<a href="interfaces/tabpanecache.html" class="tsd-kind-icon">Tab<wbr>Pane<wbr>Cache</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#abstractpointerevent" class="tsd-kind-icon">Abstract<wbr>Pointer<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#dockmode" class="tsd-kind-icon">Dock<wbr>Mode</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#draghandler" class="tsd-kind-icon">Drag<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#dragtype" class="tsd-kind-icon">Drag<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#dropdirection" class="tsd-kind-icon">Drop<wbr>Direction</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_data" class="tsd-kind-icon">_data</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_datascope" class="tsd-kind-icon">_data<wbr>Scope</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_draglisteners" class="tsd-kind-icon">_drag<wbr>Listeners</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_dragstatelistener" class="tsd-kind-icon">_drag<wbr>State<wbr>Listener</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_draggingdiv" class="tsd-kind-icon">_dragging<wbr>Div</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_draggingicon" class="tsd-kind-icon">_dragging<wbr>Icon</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_draggingstate" class="tsd-kind-icon">_dragging<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_droppinghandlers" class="tsd-kind-icon">_dropping<wbr>Handlers</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_idcount" class="tsd-kind-icon">_id<wbr>Count</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_lastpointerdownevent" class="tsd-kind-icon">_last<wbr>Pointer<wbr>Down<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_refelement" class="tsd-kind-icon">_ref<wbr>Element</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_watchobjectchange" class="tsd-kind-icon">_watch<wbr>Object<wbr>Change</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#_zcount" class="tsd-kind-icon">_z<wbr>Count</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#isarray" class="tsd-kind-icon">is<wbr>Array</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#_createdraggingdiv" class="tsd-kind-icon">_create<wbr>Dragging<wbr>Div</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addboxtocache" class="tsd-kind-icon">add<wbr>Box<wbr>ToCache</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#adddragstatelistener" class="tsd-kind-icon">add<wbr>Drag<wbr>State<wbr>Listener</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addhandlers" class="tsd-kind-icon">add<wbr>Handlers</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addnexttotab" class="tsd-kind-icon">add<wbr>Next<wbr>ToTab</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addpaneltocache" class="tsd-kind-icon">add<wbr>Panel<wbr>ToCache</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addtabtopanel" class="tsd-kind-icon">add<wbr>Tab<wbr>ToPanel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#checkpointerdownevent" class="tsd-kind-icon">check<wbr>Pointer<wbr>Down<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#clearobjectcache" class="tsd-kind-icon">clear<wbr>Object<wbr>Cache</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#clone" class="tsd-kind-icon">clone</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#comparearray" class="tsd-kind-icon">compare<wbr>Array</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#comparekeys" class="tsd-kind-icon">compare<wbr>Keys</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#convertopanel" class="tsd-kind-icon">conver<wbr>ToPanel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#createdraggingelement" class="tsd-kind-icon">create<wbr>Dragging<wbr>Element</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#createlayoutcache" class="tsd-kind-icon">create<wbr>Layout<wbr>Cache</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#destroydraggingelement" class="tsd-kind-icon">destroy<wbr>Dragging<wbr>Element</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#dockpaneltobox" class="tsd-kind-icon">dock<wbr>Panel<wbr>ToBox</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#dockpaneltopanel" class="tsd-kind-icon">dock<wbr>Panel<wbr>ToPanel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#find" class="tsd-kind-icon">find</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#findinbox" class="tsd-kind-icon">find<wbr>InBox</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#findinpanel" class="tsd-kind-icon">find<wbr>InPanel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#findparentpanel" class="tsd-kind-icon">find<wbr>Parent<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#fixfloatpanelpos" class="tsd-kind-icon">fix<wbr>Float<wbr>Panel<wbr>Pos</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#fixlayoutdata" class="tsd-kind-icon">fix<wbr>Layout<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#floatpanel" class="tsd-kind-icon">float<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getfloatpanelsize" class="tsd-kind-icon">get<wbr>Float<wbr>Panel<wbr>Size</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getupdatedobject" class="tsd-kind-icon">get<wbr>Updated<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#isdragging" class="tsd-kind-icon">is<wbr>Dragging</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#loadlayoutdata" class="tsd-kind-icon">load<wbr>Layout<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#maximize" class="tsd-kind-icon">maximize</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#maximizepanel" class="tsd-kind-icon">maximize<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#maximizetab" class="tsd-kind-icon">maximize<wbr>Tab</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#movedraggingelement" class="tsd-kind-icon">move<wbr>Dragging<wbr>Element</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#movetofront" class="tsd-kind-icon">move<wbr>ToFront</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#nextid" class="tsd-kind-icon">next<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#nextzindex" class="tsd-kind-icon">nextZIndex</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#preventdefault" class="tsd-kind-icon">prevent<wbr>Default</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#removedragstatelistener" class="tsd-kind-icon">remove<wbr>Drag<wbr>State<wbr>Listener</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#removefromlayout" class="tsd-kind-icon">remove<wbr>From<wbr>Layout</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#removehandlers" class="tsd-kind-icon">remove<wbr>Handlers</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#removepanel" class="tsd-kind-icon">remove<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#removetab" class="tsd-kind-icon">remove<wbr>Tab</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#replacebox" class="tsd-kind-icon">replace<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#replacepanel" class="tsd-kind-icon">replace<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#restorepanel" class="tsd-kind-icon">restore<wbr>Panel</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#savelayoutdata" class="tsd-kind-icon">save<wbr>Layout<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setdroppinghandler" class="tsd-kind-icon">set<wbr>Dropping<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#spiltsize" class="tsd-kind-icon">spilt<wbr>Size</a>
 					</li>
 				</ul>
 			</nav>
@@ -649,7 +348,6 @@ render() {
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
@@ -660,6 +358,5 @@ render() {
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

@@ -84,7 +84,7 @@ declare class DockPortalManager extends React.PureComponent<LayoutProps, LayoutS
     /** @ignore */
     removeTabCache(id: string, owner: any): void;
     /** @ignore */
-    updateTabCache(id: string, children: React.ReactElement): void;
+    updateTabCache(id: string, children: React.ReactNode): void;
 }
 export declare class DockLayout extends DockPortalManager implements DockContext {
     /** @ignore */

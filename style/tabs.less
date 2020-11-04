@@ -6,8 +6,7 @@
   overflow: hidden;
   display: flex;
 
-  &-bar,
-  &-nav-container {
+  &-bar {
     font-size: 14px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -16,12 +15,6 @@
     white-space: nowrap;
     outline: none;
     zoom: 1;
-    transition: padding .45s;
-  }
-
-  &-nav-container {
-    padding: 0 6px 0 12px;
-    height: 30px;
   }
 
   &-ink-bar {
@@ -38,74 +31,15 @@
     transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), left 0.25s cubic-bezier(0.35, 0, 0.25, 1), top 0.25s cubic-bezier(0.35, 0, 0.25, 1), height 0.25s cubic-bezier(0.35, 0, 0.25, 1), width 0.25s cubic-bezier(0.35, 0, 0.25, 1);
   }
 
-  &-tab-prev,
-  &-tab-next {
-    color: #888;
-    user-select: none;
-    -webkit-user-select: none;
-    z-index: 1;
-    line-height: 30px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    position: absolute;
-  }
-
-  &-tab-prev-icon,
-  &-tab-next-icon {
-    position: relative;
-    display: inline-block;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    line-height: inherit;
-    vertical-align: baseline;
-    text-align: center;
-    text-transform: none;
-    font-smoothing: antialiased;
-    text-stroke-width: 0;
-    font-family: sans-serif;
-  }
-
-  &-tab-prev-icon:before,
-  &-tab-next-icon:before {
-    display: block;
-  }
-
   &-tab-btn-disabled {
     cursor: default;
     color: #ccc;
-  }
-
-  &-nav-wrap {
-    overflow: hidden;
-    width: 100%;
-  }
-
-  &-nav {
-    box-sizing: border-box;
-    padding-left: 0;
-    position: relative;
-    margin: 0;
-    float: left;
-    list-style: none;
-    display: inline-block;
-    transform-origin: 0 0;
   }
 
   &-nav-animated {
     transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1);
   }
 
-  &-nav:before,
-  &-nav:after {
-    display: table;
-    content: " ";
-  }
-
-  &-nav:after {
-    clear: both;
-  }
 
   &-tab {
     box-sizing: border-box;
@@ -130,6 +64,7 @@
 
     & > div {
       padding: 4px 14px;
+      outline: none;
     }
   }
 
@@ -153,17 +88,7 @@
     color: #ccc;
   }
 
-  &-content {
-    zoom: 1;
-    flex: 1 1 0;
-  }
 
-  &-content &-tabpane {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-  }
 
   &-content-animated {
     transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-left 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-top 0.25s cubic-bezier(0.35, 0, 0.25, 1);
@@ -190,52 +115,17 @@
     flex-direction: column;
   }
 
-  &-top &-content {
-    width: 100%;
-    height: 0;
-  }
-
   &-top &-bar {
     flex: 0 0 auto;
     background: #fafafd;
     border-bottom: 1px solid #f3f3f3;
+    padding-left: 8px;
 
     &:focus-within {
       box-shadow: 0 0 1px #108ee9;
     }
   }
 
-  &-top &-nav-container-scrolling {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-
-  &-nav-scroll {
-    display: flex;
-
-    & > * {
-      flex: 0 0 auto;
-    }
-  }
-
-  &-top &-nav-swipe {
-    position: relative;
-    left: 0;
-  }
-
-  &-top &-nav-swipe &-nav {
-    display: flex;
-    flex: 1;
-    width: 100%;
-  }
-
-  &-top &-nav-swipe &-nav &-tab {
-    display: flex;
-    flex-shrink: 0;
-    margin-right: 0;
-    padding: 8px 0;
-    justify-content: center;
-  }
 
   &-top &-content-animated {
     flex-direction: row;
@@ -244,37 +134,6 @@
 
   &-top &-tab-next {
     right: 2px;
-  }
-
-  &-top &-tab-next-icon:before {
-    content: ">";
-    font-family: 'Fredoka One', sans-serif;
-  }
-
-  &-top &-tab-prev {
-    left: 0;
-  }
-
-  &-top &-tab-prev-icon:before {
-    content: "<";
-    font-family: 'Fredoka One', sans-serif;
-  }
-
-  &-top &-tab-prev,
-  &-top &-tab-next {
-    margin-right: -2px;
-    width: 0;
-    height: 0;
-    top: 0;
-    text-align: center;
-    opacity: 0;
-    transition: width .3s, height .3s, opacity .3s;
-  }
-
-  &-top &-tab-arrow-show {
-    opacity: 1;
-    width: 32px;
-    height: 100%;
   }
 
   &-top &-ink-bar {
@@ -325,6 +184,114 @@
   &-pane-cache {
     width: 100%;
     height: 100%;
+  }
+
+  &-content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-content-holder {
+    flex: auto;
+  }
+
+  &-content &-tabpane {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    flex: none;
+  }
+
+  &-nav {
+    display: flex;
+    flex: none;
+    position: relative;
+    height: 30px;
+  }
+
+  &-nav-measure, &-nav-wrap {
+    transform: translate(0);
+    position: relative;
+    flex: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+  }
+  &-nav-list {
+    display: flex;
+    position: relative;
+    transition: transform 0.3s;
+  }
+
+
+
+  &-dropdown {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0,0,0,.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: "tnum";
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    z-index: 1050;
+    display: block;
+
+    &-hidden {
+      display: none
+    }
+
+    &-menu {
+      max-height: 200px;
+      margin: 0;
+      padding: 4px 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align: left;
+      list-style-type: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border-radius: 2px;
+      outline: none;
+      box-shadow: 0 3px 6px -4px rgba(0,0,0,.12),0 6px 16px 0 rgba(0,0,0,.08),0 9px 28px 8px rgba(0,0,0,.05)
+    }
+
+    &-menu-item {
+      min-width: 120px;
+      margin: 0;
+      padding: 5px 12px;
+      overflow: hidden;
+      color: rgba(0,0,0,.85);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      transition: all .3s;
+      position: relative;
+      & .dock-tab-hit-area {
+        left: 0;
+        right: 0;
+      }
+    }
+
+    &-menu-item:hover {
+      background: #f5f5f5
+    }
+
+    &-menu-item-disabled,&-menu-item-disabled:hover {
+      color: rgba(0,0,0,.25);
+      background: 0 0;
+      cursor: not-allowed
+    }
   }
 }
 

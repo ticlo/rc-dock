@@ -45,8 +45,7 @@ body > .dragging-layer > div:last-child {
   overflow: hidden;
   display: flex;
 }
-.dock-bar,
-.dock-nav-container {
+.dock-bar {
   font-size: 14px;
   line-height: 1.5;
   box-sizing: border-box;
@@ -55,11 +54,6 @@ body > .dragging-layer > div:last-child {
   white-space: nowrap;
   outline: none;
   zoom: 1;
-  transition: padding 0.45s;
-}
-.dock-nav-container {
-  padding: 0 6px 0 12px;
-  height: 30px;
 }
 .dock-ink-bar {
   position: absolute;
@@ -73,65 +67,12 @@ body > .dragging-layer > div:last-child {
 .dock-ink-bar-animated {
   transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), left 0.25s cubic-bezier(0.35, 0, 0.25, 1), top 0.25s cubic-bezier(0.35, 0, 0.25, 1), height 0.25s cubic-bezier(0.35, 0, 0.25, 1), width 0.25s cubic-bezier(0.35, 0, 0.25, 1);
 }
-.dock-tab-prev,
-.dock-tab-next {
-  color: #888;
-  user-select: none;
-  -webkit-user-select: none;
-  z-index: 1;
-  line-height: 30px;
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  position: absolute;
-}
-.dock-tab-prev-icon,
-.dock-tab-next-icon {
-  position: relative;
-  display: inline-block;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  line-height: inherit;
-  vertical-align: baseline;
-  text-align: center;
-  text-transform: none;
-  font-smoothing: antialiased;
-  text-stroke-width: 0;
-  font-family: sans-serif;
-}
-.dock-tab-prev-icon:before,
-.dock-tab-next-icon:before {
-  display: block;
-}
 .dock-tab-btn-disabled {
   cursor: default;
   color: #ccc;
 }
-.dock-nav-wrap {
-  overflow: hidden;
-  width: 100%;
-}
-.dock-nav {
-  box-sizing: border-box;
-  padding-left: 0;
-  position: relative;
-  margin: 0;
-  float: left;
-  list-style: none;
-  display: inline-block;
-  transform-origin: 0 0;
-}
 .dock-nav-animated {
   transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-}
-.dock-nav:before,
-.dock-nav:after {
-  display: table;
-  content: " ";
-}
-.dock-nav:after {
-  clear: both;
 }
 .dock-tab {
   box-sizing: border-box;
@@ -155,6 +96,7 @@ body > .dragging-layer > div:last-child {
 }
 .dock-tab > div {
   padding: 4px 14px;
+  outline: none;
 }
 .dock-tab:hover {
   color: #23c0fa;
@@ -171,16 +113,6 @@ body > .dragging-layer > div:last-child {
 }
 .dock-tab-disabled:hover {
   color: #ccc;
-}
-.dock-content {
-  zoom: 1;
-  flex: 1 1 0;
-}
-.dock-content .dock-tabpane {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
 }
 .dock-content-animated {
   transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-left 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-top 0.25s cubic-bezier(0.35, 0, 0.25, 1);
@@ -202,75 +134,20 @@ body > .dragging-layer > div:last-child {
 .dock-top {
   flex-direction: column;
 }
-.dock-top .dock-content {
-  width: 100%;
-  height: 0;
-}
 .dock-top .dock-bar {
   flex: 0 0 auto;
   background: #fafafd;
   border-bottom: 1px solid #f3f3f3;
+  padding-left: 8px;
 }
 .dock-top .dock-bar:focus-within {
   box-shadow: 0 0 1px #108ee9;
-}
-.dock-top .dock-nav-container-scrolling {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-.dock-nav-scroll {
-  display: flex;
-}
-.dock-nav-scroll > * {
-  flex: 0 0 auto;
-}
-.dock-top .dock-nav-swipe {
-  position: relative;
-  left: 0;
-}
-.dock-top .dock-nav-swipe .dock-nav {
-  display: flex;
-  flex: 1;
-  width: 100%;
-}
-.dock-top .dock-nav-swipe .dock-nav .dock-tab {
-  display: flex;
-  flex-shrink: 0;
-  margin-right: 0;
-  padding: 8px 0;
-  justify-content: center;
 }
 .dock-top .dock-content-animated {
   flex-direction: row;
 }
 .dock-top .dock-tab-next {
   right: 2px;
-}
-.dock-top .dock-tab-next-icon:before {
-  content: ">";
-  font-family: 'Fredoka One', sans-serif;
-}
-.dock-top .dock-tab-prev {
-  left: 0;
-}
-.dock-top .dock-tab-prev-icon:before {
-  content: "<";
-  font-family: 'Fredoka One', sans-serif;
-}
-.dock-top .dock-tab-prev,
-.dock-top .dock-tab-next {
-  margin-right: -2px;
-  width: 0;
-  height: 0;
-  top: 0;
-  text-align: center;
-  opacity: 0;
-  transition: width 0.3s, height 0.3s, opacity 0.3s;
-}
-.dock-top .dock-tab-arrow-show {
-  opacity: 1;
-  width: 32px;
-  height: 100%;
 }
 .dock-top .dock-ink-bar {
   height: 2px;
@@ -314,6 +191,103 @@ body > .dragging-layer > div:last-child {
 .dock-pane-cache {
   width: 100%;
   height: 100%;
+}
+.dock-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.dock-content-holder {
+  flex: auto;
+}
+.dock-content .dock-tabpane {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  flex: none;
+}
+.dock-nav {
+  display: flex;
+  flex: none;
+  position: relative;
+  height: 30px;
+}
+.dock-nav-measure,
+.dock-nav-wrap {
+  transform: translate(0);
+  position: relative;
+  flex: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+}
+.dock-nav-list {
+  display: flex;
+  position: relative;
+  transition: transform 0.3s;
+}
+.dock-dropdown {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  z-index: 1050;
+  display: block;
+}
+.dock-dropdown-hidden {
+  display: none;
+}
+.dock-dropdown-menu {
+  max-height: 200px;
+  margin: 0;
+  padding: 4px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: left;
+  list-style-type: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-radius: 2px;
+  outline: none;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+.dock-dropdown-menu-item {
+  min-width: 120px;
+  margin: 0;
+  padding: 5px 12px;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.dock-dropdown-menu-item .dock-tab-hit-area {
+  left: 0;
+  right: 0;
+}
+.dock-dropdown-menu-item:hover {
+  background: #f5f5f5;
+}
+.dock-dropdown-menu-item-disabled,
+.dock-dropdown-menu-item-disabled:hover {
+  color: rgba(0, 0, 0, 0.25);
+  background: 0 0;
+  cursor: not-allowed;
 }
 body.dock-dragging {
   user-select: none;
@@ -668,13 +642,8 @@ body.dock-dragging iframe {
   border-bottom: 1px solid #ddd;
   overflow: visible;
 }
-.dock-panel.dock-style-card .dock-nav-container {
-  height: 35px;
-  overflow: visible;
-  max-width: calc(100% - 28px);
-}
 .dock-panel.dock-style-card .dock-nav-wrap {
-  overflow: visible;
+  overflow-y: visible;
   padding-top: 6px;
 }
 .dock-panel.dock-style-card .dock-ink-bar {

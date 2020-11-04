@@ -1,18 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import {DockContext, DockContextType, TabPaneCache} from "./DockData";
+import {TabPaneProps} from "rc-tabs";
 
-interface DockTabPaneProps {
-  className?: string;
-  active?: boolean;
-  style?: React.CSSProperties;
-  destroyInactiveTabPane?: boolean;
-  forceRender?: boolean;
-  placeholder?: React.ReactNode;
-  rootPrefixCls?: string;
-  children?: React.ReactElement;
-  tab: React.ReactNode;
+interface DockTabPaneProps extends TabPaneProps {
+
   cacheId?: string;
   cached: boolean;
 
@@ -43,28 +36,47 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     }
   }
 
-  _isActived: boolean;
+  visited: boolean;
 
   _cache: TabPaneCache;
 
   render() {
     const {
-      cacheId, className, active, forceRender,
-      rootPrefixCls, style, children, placeholder, cached
+      cacheId,
+      cached,
+      prefixCls,
+      forceRender,
+      className,
+      style,
+      id,
+      active,
+      animated,
+      destroyInactiveTabPane,
+      tabKey,
+      children,
     } = this.props;
-    this._isActived = this._isActived || active;
-    const prefixCls = `${rootPrefixCls}-tabpane`;
-    const cls = classnames({
-      [prefixCls]: 1,
-      [`${prefixCls}-inactive`]: !active,
-      [`${prefixCls}-active`]: active,
-      [className]: className,
-    });
+    if (active) {
+      this.visited = true;
+    } else if (destroyInactiveTabPane) {
+      this.visited = false;
+    }
+    const mergedStyle: React.CSSProperties = {};
+    if (!active) {
+      if (animated) {
+        mergedStyle.visibility = 'hidden';
+        mergedStyle.height = 0;
+        mergedStyle.overflowY = 'hidden';
+      } else {
+        mergedStyle.display = 'none';
+      }
+    }
+
+
     // when cached == undefined, it will still cache the children inside tabs component, but not across whole dock layout
     // when cached == false, children are destroyed when not active
-    const isRender = cached === false ? active : this._isActived;
+    const isRender = cached === false ? active : this.visited;
 
-    let renderChildren = placeholder;
+    let renderChildren: React.ReactNode = null;
     if (cached) {
       renderChildren = null;
     } else if (isRender || forceRender) {
@@ -74,12 +86,19 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     let getRef = cached ? this.getRef : null;
     return (
       <div ref={getRef}
-           style={style}
+           id={cacheId}
            role="tabpanel"
-           aria-hidden={active ? 'false' : 'true'}
-           className={cls}
-           id={cacheId}>
-        {renderChildren}
+           tabIndex={active ? 0 : -1}
+           aria-labelledby={id && `${id}-tab-${tabKey}`}
+           aria-hidden={!active}
+           style={{...mergedStyle, ...style}}
+           className={classNames(
+             `${prefixCls}-tabpane`,
+             active && `${prefixCls}-tabpane-active`,
+             className,
+           )}
+      >
+        {(active || this.visited || forceRender) && renderChildren}
       </div>
     );
   }
@@ -98,3 +117,4 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     }
   }
 }
+

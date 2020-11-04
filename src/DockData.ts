@@ -319,7 +319,7 @@ export interface DockContext {
   removeTabCache(id: string, owner: any): void;
 
   /** @ignore */
-  updateTabCache(id: string, portal: React.ReactElement): void;
+  updateTabCache(id: string, portal: React.ReactNode): void;
 }
 
 /** @ignore */

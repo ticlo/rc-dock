@@ -36,8 +36,7 @@ export declare class DockTabs extends React.PureComponent<Props, any> {
     updateTabs(tabs: TabData[]): void;
     onMaximizeClick: () => void;
     onKeyDownMaximizeBtn: (evt: React.KeyboardEvent) => boolean;
-    renderTabBar: () => JSX.Element;
-    renderTabContent: () => JSX.Element;
+    renderTabBar: (props: any, DefaultTabBar: React.ComponentType) => JSX.Element;
     onTabChange: (activeId: string) => void;
     render(): React.ReactNode;
 }

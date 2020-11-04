@@ -2,8 +2,6 @@ import React from "react";
 import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
 import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';
-import TabContent from 'rc-tabs/lib/TabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
@@ -222,7 +220,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.context.dockMove(panelData, null, 'maximize');
   };
 
-  renderTabBar = () => {
+  renderTabBar = (props: any, DefaultTabBar: React.ComponentType) => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
     let group = this.context.getGroup(groupName);
@@ -244,16 +242,9 @@ export class DockTabs extends React.PureComponent<Props, any> {
       );
     }
     return (
-      <DockTabBar extraContent={panelExtraContent} onDragStart={onPanelDragStart}
-                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}/>
+      <DockTabBar onDragStart={onPanelDragStart}
+                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd} {...props} extra={panelExtraContent}/>
     );
-  };
-
-  renderTabContent = () => {
-    let {group} = this.props.panelData;
-    let tabGroup = this.context.getGroup(group);
-    let {animated} = tabGroup;
-    return <TabContent animated={animated}/>;
   };
 
   onTabChange = (activeId: string) => {
@@ -264,6 +255,8 @@ export class DockTabs extends React.PureComponent<Props, any> {
 
   render(): React.ReactNode {
     let {group, tabs, activeId} = this.props.panelData;
+    let tabGroup = this.context.getGroup(group);
+    let {animated} = tabGroup;
 
     this.updateTabs(tabs);
 
@@ -274,8 +267,9 @@ export class DockTabs extends React.PureComponent<Props, any> {
 
     return (
       <Tabs prefixCls='dock'
+            moreIcon='...'
+            animated={animated}
             renderTabBar={this.renderTabBar}
-            renderTabContent={this.renderTabContent}
             activeKey={activeId}
             onChange={this.onTabChange}
       >

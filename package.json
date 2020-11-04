@@ -29,7 +29,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.20",
-    "rc-tabs": "10.1.1",
+    "rc-tabs": "^11.7.0",
     "react-new-window": "^0.1.2"
   },
   "devDependencies": {
@@ -38,13 +38,13 @@
     "@babel/preset-env": "^7.12.1",
     "@types/classnames": "^2.2.10",
     "@types/lodash": "^4.14.162",
-    "@types/node": "^14.14.2",
+    "@types/node": "^14.14.3",
     "@types/prismjs": "^1.16.1",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "@types/shelljs": "^0.8.8",
     "less": "^3.12.2",
-    "parcel-bundler": "^1.12.4",
+    "parcel": "^1.12.4",
     "prismjs": "^1.22.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

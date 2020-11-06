@@ -69,18 +69,18 @@ class Demo extends React.Component {
                     style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}}/>
         <div className='top-panel'>
           Save Layout:
-          <button style={{marginRight: 20}}
+          <button className='btn' style={{marginRight: 20}}
                   onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
             Save
           </button>
           Load Layout:
-          <button onClick={() => this.dockLayout.loadLayout(horizontalLayout)}>
+          <button className='btn' onClick={() => this.dockLayout.loadLayout(horizontalLayout)}>
             Horizontal
           </button>
-          <button onClick={() => this.dockLayout.loadLayout(panelLayout)}>
+          <button className='btn' onClick={() => this.dockLayout.loadLayout(panelLayout)}>
             Single Panel
           </button>
-          <button disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
+          <button className='btn' disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
             Saved Layout
           </button>
         </div>

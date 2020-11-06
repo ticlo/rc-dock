@@ -64,9 +64,6 @@ body > .dragging-layer > div:last-child {
   width: 0;
   height: 0;
 }
-.dock-ink-bar-animated {
-  transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), left 0.25s cubic-bezier(0.35, 0, 0.25, 1), top 0.25s cubic-bezier(0.35, 0, 0.25, 1), height 0.25s cubic-bezier(0.35, 0, 0.25, 1), width 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-}
 .dock-tab-btn-disabled {
   cursor: default;
   color: #ccc;
@@ -115,9 +112,13 @@ body > .dragging-layer > div:last-child {
   color: #ccc;
 }
 .dock-content-animated {
-  transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-left 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-top 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-  display: flex;
-  will-change: transform;
+  transition: margin 0.3s;
+}
+.dock-bottom > .dock-nav .dock-ink-bar-animated,
+.dock-top > .dock-nav .dock-ink-bar-animated,
+.dock-bottom > div > .dock-nav .dock-ink-bar-animated,
+.dock-top > div > .dock-nav .dock-ink-bar-animated {
+  transition: width 0.3s, left 0.3s, right 0.3s;
 }
 .dock-content-animated .dock-tabpane {
   flex-shrink: 0;
@@ -139,9 +140,6 @@ body > .dragging-layer > div:last-child {
   background: #fafafd;
   border-bottom: 1px solid #f3f3f3;
   padding-left: 8px;
-}
-.dock-top .dock-bar:focus-within {
-  box-shadow: 0 0 1px #108ee9;
 }
 .dock-top .dock-content-animated {
   flex-direction: row;
@@ -212,7 +210,16 @@ body > .dragging-layer > div:last-child {
   display: flex;
   flex: none;
   position: relative;
+}
+.dock-nav-operations {
   height: 30px;
+}
+.dock-nav-more {
+  height: 30px;
+  border: solid #ddd;
+  border-width: 0 1px 1px 0;
+  background: transparent;
+  cursor: pointer;
 }
 .dock-nav-measure,
 .dock-nav-wrap {
@@ -643,8 +650,8 @@ body.dock-dragging iframe {
   overflow: visible;
 }
 .dock-panel.dock-style-card .dock-nav-wrap {
-  overflow-y: visible;
-  padding-top: 6px;
+  padding-top: 5px;
+  transform: translate(0, 1px);
 }
 .dock-panel.dock-style-card .dock-ink-bar {
   /* hide animated ink bar */

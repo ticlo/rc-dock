@@ -101,11 +101,11 @@ class Demo extends React.Component {
                     saveTab={this.saveTab} loadTab={this.loadTab} afterPanelLoaded={this.afterPanelLoaded}
                     style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}}/>
         <div className='top-panel'>
-          <button style={{marginRight: 20}}
+          <button className='btn' style={{marginRight: 20}}
                   onClick={() => this.setState({saved: this.dockLayout.saveLayout()})}>
             Save Layout
           </button>
-          <button disabled={this.state.saved == null}
+          <button className='btn' disabled={this.state.saved == null}
                   onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
             Load Layout
           </button>

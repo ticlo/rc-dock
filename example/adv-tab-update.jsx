@@ -57,8 +57,8 @@ class Demo extends React.Component {
               id: 'id2', title: 'change', content: (
                 <div>
                   <p>Click here to change the other panel.</p>
-                  <button onClick={this.addValue}>Update Value</button>
-                  <button onClick={this.addTab}>Add Tab</button>
+                  <button className='btn' onClick={this.addValue}>Update Value</button>
+                  <button className='btn' onClick={this.addTab}>Add Tab</button>
                 </div>
               )
             },

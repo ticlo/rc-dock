@@ -27,9 +27,7 @@
     height: 0;
   }
 
-  &-ink-bar-animated {
-    transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), left 0.25s cubic-bezier(0.35, 0, 0.25, 1), top 0.25s cubic-bezier(0.35, 0, 0.25, 1), height 0.25s cubic-bezier(0.35, 0, 0.25, 1), width 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-  }
+
 
   &-tab-btn-disabled {
     cursor: default;
@@ -89,12 +87,17 @@
   }
 
 
-
   &-content-animated {
-    transition: transform 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-left 0.25s cubic-bezier(0.35, 0, 0.25, 1), margin-top 0.25s cubic-bezier(0.35, 0, 0.25, 1);
-    display: flex;
-    will-change: transform;
+    transition: margin .3s;
   }
+
+  &-bottom, &-top {
+    & > .dock-nav .dock-ink-bar-animated,
+    & > div > .dock-nav .dock-ink-bar-animated {
+      transition: width .3s, left .3s, right .3s
+    }
+  }
+
 
   &-content-animated &-tabpane {
     flex-shrink: 0;
@@ -120,10 +123,6 @@
     background: #fafafd;
     border-bottom: 1px solid #f3f3f3;
     padding-left: 8px;
-
-    &:focus-within {
-      box-shadow: 0 0 1px #108ee9;
-    }
   }
 
 
@@ -209,7 +208,18 @@
     display: flex;
     flex: none;
     position: relative;
-    height: 30px;
+
+    &-operations {
+      height: 30px;
+    }
+
+    &-more {
+      height: 30px;
+      border: solid #ddd;
+      border-width: 0 1px 1px 0;
+      background: transparent;
+      cursor: pointer;
+    }
   }
 
   &-nav-measure, &-nav-wrap {
@@ -220,6 +230,7 @@
     overflow: hidden;
     display: flex;
   }
+
   &-nav-list {
     display: flex;
     position: relative;
@@ -227,12 +238,11 @@
   }
 
 
-
   &-dropdown {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: rgba(0,0,0,.85);
+    color: rgba(0, 0, 0, .85);
     font-size: 14px;
     font-variant: tabular-nums;
     line-height: 1.5715;
@@ -260,7 +270,7 @@
       background-clip: padding-box;
       border-radius: 2px;
       outline: none;
-      box-shadow: 0 3px 6px -4px rgba(0,0,0,.12),0 6px 16px 0 rgba(0,0,0,.08),0 9px 28px 8px rgba(0,0,0,.05)
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05)
     }
 
     &-menu-item {
@@ -268,7 +278,7 @@
       margin: 0;
       padding: 5px 12px;
       overflow: hidden;
-      color: rgba(0,0,0,.85);
+      color: rgba(0, 0, 0, .85);
       font-weight: 400;
       font-size: 14px;
       line-height: 22px;
@@ -277,6 +287,7 @@
       cursor: pointer;
       transition: all .3s;
       position: relative;
+
       & .dock-tab-hit-area {
         left: 0;
         right: 0;
@@ -287,8 +298,8 @@
       background: #f5f5f5
     }
 
-    &-menu-item-disabled,&-menu-item-disabled:hover {
-      color: rgba(0,0,0,.25);
+    &-menu-item-disabled, &-menu-item-disabled:hover {
+      color: rgba(0, 0, 0, .25);
       background: 0 0;
       cursor: not-allowed
     }

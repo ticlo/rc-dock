@@ -257,6 +257,9 @@ export class DockTabs extends React.PureComponent<Props, any> {
     let {group, tabs, activeId} = this.props.panelData;
     let tabGroup = this.context.getGroup(group);
     let {animated} = tabGroup;
+    if (animated == null) {
+      animated = true;
+    }
 
     this.updateTabs(tabs);
 

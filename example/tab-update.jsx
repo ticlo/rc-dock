@@ -22,7 +22,7 @@ class Demo extends React.Component {
               id: 'id2', title: 'change', content: (
                 <div>
                   <p>Click here to change value in React Context.</p>
-                  <button onClick={this.addCtx}>Update Value</button>
+                  <button className='btn' onClick={this.addCtx}>Update Value</button>
                 </div>
               )
             },

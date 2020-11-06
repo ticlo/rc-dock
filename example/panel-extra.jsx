@@ -61,7 +61,7 @@ let box = {
             panelLock: {
               minWidth: 200,
               panelExtra: (panelData, context) => (
-                <button
+                <button className='btn'
                   onClick={() => context.dockMove(newTab(), panelData, 'middle')}>
                   add
                 </button>

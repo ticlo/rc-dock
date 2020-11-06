@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"FheM":[function(require,module,exports) {
+})({"CSru":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -149,7 +149,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"TUK3":[function(require,module,exports) {
+},{}],"Cm3W":[function(require,module,exports) {
 var getBundleURL = require('./bundle-url').getBundleURL;
 
 function loadBundlesLazy(bundles) {
@@ -232,7 +232,7 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"FheM"}],"vjXQ":[function(require,module,exports) {
+},{"./bundle-url":"CSru"}],"vjXQ":[function(require,module,exports) {
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
@@ -391,6 +391,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
       }), /*#__PURE__*/React.createElement("div", {
         className: "top-panel"
       }, /*#__PURE__*/React.createElement("button", {
+        className: "btn",
         style: {
           marginRight: 20
         },
@@ -398,6 +399,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
           saved: this.dockLayout.saveLayout()
         })
       }, "Save Layout"), /*#__PURE__*/React.createElement("button", {
+        className: "btn",
         disabled: this.state.saved == null,
         onClick: () => this.dockLayout.loadLayout(this.state.saved)
       }, "Load Layout")));
@@ -407,7 +409,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
 
   ReactDOM.render( /*#__PURE__*/React.createElement(Demo, null), document.getElementById('app'));
 });
-},{"_bundle_loader":"TUK3","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"Yi9z":[function(require,module,exports) {
+},{"_bundle_loader":"Cm3W","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"W28G":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {
   return new Promise(function (resolve, reject) {
     var script = document.createElement('script');
@@ -430,5 +432,5 @@ module.exports = function loadJSBundle(bundle) {
   });
 };
 },{}],0:[function(require,module,exports) {
-var b=require("TUK3");b.register("js",require("Yi9z"));
+var b=require("Cm3W");b.register("js",require("W28G"));
 },{}]},{},[0,"vjXQ"], null)

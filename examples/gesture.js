@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"FheM":[function(require,module,exports) {
+})({"CSru":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -149,7 +149,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"TUK3":[function(require,module,exports) {
+},{}],"Cm3W":[function(require,module,exports) {
 var getBundleURL = require('./bundle-url').getBundleURL;
 
 function loadBundlesLazy(bundles) {
@@ -232,7 +232,7 @@ LazyPromise.prototype.catch = function (onError) {
   if (this.promise === null) this.promise = new Promise(this.executor);
   return this.promise.catch(onError);
 };
-},{"./bundle-url":"FheM"}],"yh9p":[function(require,module,exports) {
+},{"./bundle-url":"CSru"}],"yh9p":[function(require,module,exports) {
 'use strict'
 
 exports.byteLength = byteLength
@@ -2339,7 +2339,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   ReactDOM.render( /*#__PURE__*/React.createElement(Demo, null), document.getElementById('app'));
   console.log(Buffer.from("Hello World").toString('base64'));
 });
-},{"_bundle_loader":"TUK3","./shared-import":[["shared-import.js","FeNK"],"FeNK"],"buffer":"dskh"}],"Yi9z":[function(require,module,exports) {
+},{"_bundle_loader":"Cm3W","./shared-import":[["shared-import.js","FeNK"],"FeNK"],"buffer":"dskh"}],"W28G":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {
   return new Promise(function (resolve, reject) {
     var script = document.createElement('script');
@@ -2362,5 +2362,5 @@ module.exports = function loadJSBundle(bundle) {
   });
 };
 },{}],0:[function(require,module,exports) {
-var b=require("TUK3");b.register("js",require("Yi9z"));
+var b=require("Cm3W");b.register("js",require("W28G"));
 },{}]},{},[0,"ipez"], null)

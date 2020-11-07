@@ -28,7 +28,6 @@
   }
 
 
-
   &-tab-btn-disabled {
     cursor: default;
     color: #ccc;
@@ -96,31 +95,6 @@
     & > div > .dock-nav .dock-ink-bar-animated {
       transition: width .3s, left .3s, right .3s
     }
-
-    .dock-nav-wrap {
-      // &::before,
-      &::after {
-        top: 0;
-        bottom: 0;
-        width: 30px;
-      }
-
-      //&::before {
-      //  left: 0;
-      //  box-shadow: inset 10px 0 8px -8px fade(#000, 8%);
-      //}
-      &::after {
-        right: 0;
-        box-shadow: inset -10px 0 8px -8px fade(#000, 8%);
-      }
-
-      &.dock-nav-wrap-ping-left::after {
-        opacity: 1;
-      }
-      &.dock-nav-wrap-ping-right::after {
-        opacity: 1;
-      }
-    }
   }
 
 
@@ -133,10 +107,22 @@
     overflow: auto;
   }
 
-  .no-csstransitions &-tabpane-inactive,
-  .no-flexbox &-tabpane-inactive,
-  &-content-no-animated &-tabpane-inactive {
-    display: none;
+
+  &-tabpane:not(&-tabpane-active) {
+    animation-name: dock-fadeOut;
+    animation-duration: 0.5s;
+  }
+
+  // delay the hiding
+  @keyframes dock-fadeOut {
+    from {
+      height: 100%;
+      visibility: visible;
+    }
+    to {
+      height: 100%;
+      visibility: visible;
+    }
   }
 
   &-top {
@@ -235,7 +221,7 @@
     position: relative;
 
     &-operations {
-      height: 30px;
+      display: flex;
     }
 
     &-more {
@@ -243,9 +229,22 @@
       border: none;
       background: transparent;
       cursor: pointer;
+      position: relative;
+      align-self: flex-end;
+
+      &::after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        pointer-events: none;
+        width: 30px;
+        height: 30px;
+        left: -30px;
+        top: 0;
+        box-shadow: inset -10px 0 8px -8px fade(#000, 8%);
+      }
     }
   }
-
 
 
   &-nav-wrap {
@@ -256,17 +255,6 @@
     overflow: hidden;
     white-space: nowrap;
     transform: translate(0); // Fix chrome render bug
-
-    // >>>>> Ping shadow, no need for a before shadow
-    // &::before,
-    &::after {
-      position: absolute;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity 0.5s;
-      content: '';
-      pointer-events: none;
-    }
   }
 
 

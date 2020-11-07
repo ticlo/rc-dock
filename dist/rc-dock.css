@@ -127,10 +127,19 @@ body > .dragging-layer > div:last-child {
   transform: none !important;
   overflow: auto;
 }
-.no-csstransitions .dock-tabpane-inactive,
-.no-flexbox .dock-tabpane-inactive,
-.dock-content-no-animated .dock-tabpane-inactive {
-  display: none;
+.dock-tabpane:not(.dock-tabpane-active) {
+  animation-name: dock-fadeOut;
+  animation-duration: 0.5s;
+}
+@keyframes dock-fadeOut {
+  from {
+    height: 100%;
+    visibility: visible;
+  }
+  to {
+    height: 100%;
+    visibility: visible;
+  }
 }
 .dock-top {
   flex-direction: column;
@@ -212,23 +221,35 @@ body > .dragging-layer > div:last-child {
   position: relative;
 }
 .dock-nav-operations {
-  height: 30px;
+  display: flex;
 }
 .dock-nav-more {
   height: 30px;
-  border: solid #ddd;
-  border-width: 0 1px 1px 0;
+  border: none;
   background: transparent;
   cursor: pointer;
-}
-.dock-nav-measure,
-.dock-nav-wrap {
-  transform: translate(0);
   position: relative;
-  flex: auto;
-  white-space: nowrap;
-  overflow: hidden;
+  align-self: flex-end;
+}
+.dock-nav-more::after {
+  position: absolute;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  width: 30px;
+  height: 30px;
+  left: -30px;
+  top: 0;
+  box-shadow: inset -10px 0 8px -8px rgba(0, 0, 0, 0.08);
+}
+.dock-nav-wrap {
+  position: relative;
   display: flex;
+  flex: auto;
+  align-self: stretch;
+  overflow: hidden;
+  white-space: nowrap;
+  transform: translate(0);
 }
 .dock-nav-list {
   display: flex;

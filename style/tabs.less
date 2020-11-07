@@ -96,6 +96,31 @@
     & > div > .dock-nav .dock-ink-bar-animated {
       transition: width .3s, left .3s, right .3s
     }
+
+    .dock-nav-wrap {
+      // &::before,
+      &::after {
+        top: 0;
+        bottom: 0;
+        width: 30px;
+      }
+
+      //&::before {
+      //  left: 0;
+      //  box-shadow: inset 10px 0 8px -8px fade(#000, 8%);
+      //}
+      &::after {
+        right: 0;
+        box-shadow: inset -10px 0 8px -8px fade(#000, 8%);
+      }
+
+      &.dock-nav-wrap-ping-left::after {
+        opacity: 1;
+      }
+      &.dock-nav-wrap-ping-right::after {
+        opacity: 1;
+      }
+    }
   }
 
 
@@ -215,21 +240,35 @@
 
     &-more {
       height: 30px;
-      border: solid #ddd;
-      border-width: 0 1px 1px 0;
+      border: none;
       background: transparent;
       cursor: pointer;
     }
   }
 
-  &-nav-measure, &-nav-wrap {
-    transform: translate(0);
+
+
+  &-nav-wrap {
     position: relative;
-    flex: auto;
-    white-space: nowrap;
-    overflow: hidden;
     display: flex;
+    flex: auto;
+    align-self: stretch;
+    overflow: hidden;
+    white-space: nowrap;
+    transform: translate(0); // Fix chrome render bug
+
+    // >>>>> Ping shadow, no need for a before shadow
+    // &::before,
+    &::after {
+      position: absolute;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.5s;
+      content: '';
+      pointer-events: none;
+    }
   }
+
 
   &-nav-list {
     display: flex;

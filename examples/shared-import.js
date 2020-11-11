@@ -17980,13 +17980,27 @@ function findParentPanel(element) {
   return null;
 }
 
+function isPopupDiv(r) {
+  var _a, _b;
+
+  return r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI';
+}
+
 class TabCache {
   constructor(context) {
     this.getRef = r => {
+      if (isPopupDiv(r)) {
+        return;
+      }
+
       this._ref = r;
     };
 
     this.getHitAreaRef = r => {
+      if (isPopupDiv(r)) {
+        return;
+      }
+
       this._hitAreaRef = r;
     };
 
@@ -18201,6 +18215,7 @@ class DockTabs extends react_1.default.PureComponent {
       this.props.panelData.activeId = activeId;
       this.context.onSilentChange(activeId);
       this.forceUpdate();
+      console.log(activeId);
     };
   }
 

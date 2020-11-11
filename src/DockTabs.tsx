@@ -21,15 +21,26 @@ function findParentPanel(element: HTMLElement) {
   return null;
 }
 
+function isPopupDiv(r: HTMLDivElement): boolean {
+  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement.tagName === 'LI');
+}
+
 export class TabCache {
+
 
   _ref: HTMLDivElement;
   getRef = (r: HTMLDivElement) => {
+    if (isPopupDiv(r)) {
+      return;
+    }
     this._ref = r;
   };
 
   _hitAreaRef: HTMLDivElement;
   getHitAreaRef = (r: HTMLDivElement) => {
+    if (isPopupDiv(r)) {
+      return;
+    }
     this._hitAreaRef = r;
   };
 
@@ -251,6 +262,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.props.panelData.activeId = activeId;
     this.context.onSilentChange(activeId);
     this.forceUpdate();
+    console.log(activeId);
   };
 
   render(): React.ReactNode {

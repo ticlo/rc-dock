@@ -10,6 +10,13 @@ export interface TabGroup {
   floatable?: boolean;
 
   /**
+   * whether tab can be converted to native window, only works when floatable is true
+   *
+   * default: false
+   */
+  nativeWindow?: boolean;
+
+  /**
    * disable dock, so the panel will only work in float mode
    *
    * default: false
@@ -78,7 +85,7 @@ interface DockDataBase {
   minHeight?: number;
 }
 
-export type DockMode = 'horizontal' | 'vertical' | 'float' | 'maximize';
+export type DockMode = 'horizontal' | 'vertical' | 'float' | 'window' | 'maximize';
 
 
 export interface TabBase {
@@ -134,6 +141,7 @@ export interface BoxBase {
 export interface LayoutBase {
   dockbox: BoxBase;
   floatbox?: BoxBase;
+  windowbox?: BoxBase;
   maxbox?: BoxBase;
 }
 
@@ -238,6 +246,13 @@ export interface LayoutData extends LayoutBase {
   floatbox?: BoxData;
 
   /**
+   * window box
+   * children must be PanelData, child box is not allowed
+   */
+  windowbox?: BoxData;
+
+
+  /**
    * the maximized panel
    * only one child allowed, child must be PanelData
    */
@@ -260,7 +275,8 @@ export type DropDirection =
   | 'after-tab'
   | 'float'
   | 'front'
-  | 'maximize';
+  | 'maximize'
+  | 'new-window';
 
 export interface DockContext {
   /** @ignore */

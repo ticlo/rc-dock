@@ -256,6 +256,9 @@ body > .dragging-layer > div:last-child {
   position: relative;
   transition: transform 0.3s;
 }
+.dock-extra-content {
+  display: flex;
+}
 .dock-dropdown {
   box-sizing: border-box;
   margin: 0;
@@ -579,6 +582,29 @@ body.dock-dragging iframe {
 }
 .dock-panel.dock-panel-dropping .dock-tab-close-btn {
   pointer-events: none;
+}
+.dock-panel-native-window-btn {
+  height: 15px;
+  width: 15px;
+  font-family: 'Fredoka One', sans-serif;
+  margin: 2px 2px 2px 0;
+  padding: 6px 4px 4px 2px;
+  opacity: 0.2;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  outline: none;
+}
+.dock-panel-native-window-btn:before {
+  content: "W";
+  color: #888;
+}
+.dock-panel-native-window-btn:hover,
+.dock-panel-native-window-btn:focus {
+  opacity: 1;
+  color: #999;
+}
+.dock-panel-native-window-btn:hover {
+  transform: scale(1.1);
 }
 .dock-panel-max-btn {
   height: 15px;

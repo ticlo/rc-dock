@@ -2,6 +2,8 @@ import React from "react";
 import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
 import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';
+import Menu, {MenuItem} from 'rc-menu';
+import Dropdown from 'rc-dropdown';
 import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
@@ -220,15 +222,17 @@ export class DockTabs extends React.PureComponent<Props, any> {
     let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'maximize');
   };
+  onNewWindowClick = () => {
+    let {panelData} = this.props;
+    this.context.dockMove(panelData, null, 'new-window');
+  };
 
   onKeyDownMaximizeBtn = (evt: React.KeyboardEvent) => {
     if (evt.key !== 'Enter' && evt.key !== ' ') {
       return false;
     }
-
     evt.stopPropagation();
-    let {panelData} = this.props;
-    this.context.dockMove(panelData, null, 'maximize');
+    this.onMaximizeClick();
   };
 
   renderTabBar = (props: any, DefaultTabBar: React.ComponentType) => {
@@ -247,9 +251,23 @@ export class DockTabs extends React.PureComponent<Props, any> {
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (group.maximizable) {
+      const nativeMenu = (
+        <Menu onClick={this.onNewWindowClick}>
+          <MenuItem>
+            New Window
+          </MenuItem>
+        </Menu>
+      );
       panelExtraContent = (
-        <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
-             onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>
+        <Dropdown
+          prefixCls="dock-dropdown"
+          overlay={nativeMenu}
+          trigger={['contextMenu']}
+          mouseEnterDelay={0.1}
+          mouseLeaveDelay={0.1}>
+          <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
+               onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>
+        </Dropdown>
       );
     }
     return (

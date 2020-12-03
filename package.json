@@ -29,6 +29,8 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.20",
+    "rc-dropdown": "^3.2.0",
+    "rc-menu": "^8.10.1",
     "rc-tabs": "^11.7.0",
     "react-new-window": "^0.1.2"
   },

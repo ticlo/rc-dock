@@ -24,6 +24,7 @@ import * as Algorithm from "./Algorithm";
 import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
 import {MaxBox} from "./MaxBox";
+import {WindowBox} from "./WindowBox";
 
 interface LayoutProps {
   /**
@@ -441,6 +442,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
+          <WindowBox boxData={layout.windowbox}/>
           {maximize}
           {portals}
         </DockContextProvider>

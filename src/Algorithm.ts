@@ -587,6 +587,12 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
     layout.floatbox.mode = 'float';
   }
 
+  if (!('windowbox' in layout)) {
+    layout.windowbox = {mode: 'window', children: [], size: 1};
+  } else {
+    layout.windowbox.mode = 'window';
+  }
+
   if (!('maxbox' in layout)) {
     layout.maxbox = {mode: 'maximize', children: [], size: 1};
   } else {

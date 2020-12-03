@@ -7,6 +7,12 @@ export interface TabGroup {
      */
     floatable?: boolean;
     /**
+     * whether tab can be converted to native window, only works when floatable is true
+     *
+     * default: false
+     */
+    nativeWindow?: boolean;
+    /**
      * disable dock, so the panel will only work in float mode
      *
      * default: false
@@ -63,7 +69,7 @@ interface DockDataBase {
     minWidth?: number;
     minHeight?: number;
 }
-export declare type DockMode = 'horizontal' | 'vertical' | 'float' | 'maximize';
+export declare type DockMode = 'horizontal' | 'vertical' | 'float' | 'window' | 'maximize';
 export interface TabBase {
     /**
      * id must be unique
@@ -112,6 +118,7 @@ export interface BoxBase {
 export interface LayoutBase {
     dockbox: BoxBase;
     floatbox?: BoxBase;
+    windowbox?: BoxBase;
     maxbox?: BoxBase;
 }
 /**
@@ -195,6 +202,11 @@ export interface LayoutData extends LayoutBase {
      */
     floatbox?: BoxData;
     /**
+     * window box
+     * children must be PanelData, child box is not allowed
+     */
+    windowbox?: BoxData;
+    /**
      * the maximized panel
      * only one child allowed, child must be PanelData
      */
@@ -204,7 +216,7 @@ export interface LayoutData extends LayoutBase {
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window';
 export interface DockContext {
     /** @ignore */
     getDockId(): any;

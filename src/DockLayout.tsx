@@ -222,6 +222,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
       let newPanel = Algorithm.converToPanel(source);
       newPanel.z = Algorithm.nextZIndex(null);
       layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+    } else if (direction === 'new-window') {
+      let newPanel = Algorithm.converToPanel(source);
+      layout = Algorithm.panelToWindow(layout, newPanel);
     } else if (target) {
       if ('tabs' in (target as PanelData)) {
         // pandel target

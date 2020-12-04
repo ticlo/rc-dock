@@ -1,7 +1,5 @@
 import React from "react";
 import {BoxData} from "./DockData";
-import {DockPanel} from "./DockPanel";
-import NewWindow from "react-new-window";
 import {WindowPanel} from "./WindowPanel";
 
 interface Props {
@@ -9,6 +7,8 @@ interface Props {
 }
 
 export class WindowBox extends React.PureComponent<Props, any> {
+
+  static enabled = window.navigator.platform === 'Win32' || window.navigator.platform === 'MacIntel';
 
   render(): React.ReactNode {
     let {children} = this.props.boxData;

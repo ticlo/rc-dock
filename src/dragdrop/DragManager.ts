@@ -101,9 +101,10 @@ export class DragState {
 
   _onMove() {
     if (_data) {
-      let searchElement = this.component.ownerDocument.elementFromPoint(this.clientX, this.clientY) as HTMLElement;
+      let ownerDocument = this.component.ownerDocument;
+      let searchElement = ownerDocument.elementFromPoint(this.clientX, this.clientY) as HTMLElement;
       let droppingHandlers: DragHandlers;
-      while (searchElement && searchElement !== document.body) {
+      while (searchElement && searchElement !== ownerDocument.body) {
         if (_dragListeners.has(searchElement)) {
           let handlers = _dragListeners.get(searchElement);
           if (handlers.onDragOverT) {

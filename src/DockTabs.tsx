@@ -9,6 +9,7 @@ import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
 import {getFloatPanelSize} from "./Algorithm";
+import {WindowBox} from "./WindowBox";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -134,7 +135,14 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached, cacheContext} = this.data;
+    let {id, title, group, content, closable, cached, cacheContext, parent} = this.data;
+    let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
+    if (parent.parent.mode === 'window') {
+      onDragStart = null;
+      onDragOver = null;
+      onDrop = null;
+      onDragLeave = null;
+    }
     let tabGroup = this.context.getGroup(group);
     if (typeof content === 'function') {
       content = content(this.data);
@@ -143,8 +151,8 @@ export class TabCache {
       <div ref={this.getRef}>
         {title}
         <DragDropDiv className='dock-tab-hit-area' getRef={this.getHitAreaRef}
-                     onDragStartT={this.onDragStart}
-                     onDragOverT={this.onDragOver} onDropT={this.onDrop} onDragLeaveT={this.onDragLeave}>
+                     onDragStartT={onDragStart}
+                     onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
           {closable ?
             <div className='dock-tab-close-btn' onClick={this.onCloseClick}
                  onKeyDown={this.onKeyDownCloseBtn} tabIndex={0}/>
@@ -235,11 +243,37 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.onMaximizeClick();
   };
 
+  addNewWindowMenu(element: React.ReactElement) {
+    const nativeMenu = (
+      <Menu onClick={this.onNewWindowClick}>
+        <MenuItem>
+          New Window
+        </MenuItem>
+      </Menu>
+    );
+    return (
+      <Dropdown
+        prefixCls="dock-dropdown"
+        overlay={nativeMenu}
+        trigger={['contextMenu']}
+        mouseEnterDelay={0.1}
+        mouseLeaveDelay={0.1}>
+        {element}
+      </Dropdown>
+    );
+  }
+
   renderTabBar = (props: any, DefaultTabBar: React.ComponentType) => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
     let group = this.context.getGroup(groupName);
     let {panelExtra} = group;
+
+    let maximizable = group.maximizable;
+    if (panelData.parent.mode === 'window') {
+      onPanelDragStart = null;
+      maximizable = false;
+    }
 
     if (panelLock) {
       if (panelLock.panelExtra) {
@@ -250,25 +284,12 @@ export class DockTabs extends React.PureComponent<Props, any> {
     let panelExtraContent: React.ReactElement;
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
-    } else if (group.maximizable) {
-      const nativeMenu = (
-        <Menu onClick={this.onNewWindowClick}>
-          <MenuItem>
-            New Window
-          </MenuItem>
-        </Menu>
-      );
-      panelExtraContent = (
-        <Dropdown
-          prefixCls="dock-dropdown"
-          overlay={nativeMenu}
-          trigger={['contextMenu']}
-          mouseEnterDelay={0.1}
-          mouseLeaveDelay={0.1}>
-          <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
-               onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>
-        </Dropdown>
-      );
+    } else if (maximizable) {
+      panelExtraContent = <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
+                               onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>;
+      if (WindowBox.enabled && panelData.parent.mode === 'float') {
+        panelExtraContent = this.addNewWindowMenu(panelExtraContent);
+      }
     }
     return (
       <DockTabBar onDragStart={onPanelDragStart}
@@ -280,7 +301,6 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.props.panelData.activeId = activeId;
     this.context.onSilentChange(activeId);
     this.forceUpdate();
-    console.log(activeId);
   };
 
   render(): React.ReactNode {

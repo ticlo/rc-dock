@@ -88,6 +88,9 @@ export function find(layout: LayoutData, id: string): PanelData | TabData {
     result = findInBox(layout.floatbox, id);
   }
   if (!result) {
+    result = findInBox(layout.windowbox, id);
+  }
+  if (!result) {
     result = findInBox(layout.maxbox, id);
   }
   return result;
@@ -265,6 +268,15 @@ export function floatPanel(
 
   newBox.children.push(newPanel);
   return replaceBox(layout, layout.floatbox, newBox);
+}
+
+export function panelToWindow(
+  layout: LayoutData, newPanel: PanelData
+): LayoutData {
+  let newBox = clone(layout.windowbox);
+
+  newBox.children.push(newPanel);
+  return replaceBox(layout, layout.windowbox, newBox);
 }
 
 export function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData {
@@ -601,6 +613,7 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
 
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
+  fixBoxData(layout.windowbox);
   fixBoxData(layout.maxbox);
 
   if (layout.dockbox.children.length === 0) {
@@ -620,6 +633,7 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
   }
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  layout.windowbox.parent = null;
   layout.maxbox.parent = null;
   clearObjectCache();
   return layout;
@@ -661,6 +675,8 @@ function replaceBox(layout: LayoutData, box: BoxData, newBox: BoxData): LayoutDa
       return {...layout, dockbox: newBox};
     } else if (box.id === layout.floatbox.id || box === layout.floatbox) {
       return {...layout, floatbox: newBox};
+    } else if (box.id === layout.windowbox.id || box === layout.windowbox) {
+      return {...layout, windowbox: newBox};
     } else if (box.id === layout.maxbox.id || box === layout.maxbox) {
       return {...layout, maxbox: newBox};
     }

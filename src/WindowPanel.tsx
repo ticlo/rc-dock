@@ -1,7 +1,9 @@
 import React from "react";
+import debounce from 'lodash/debounce';
+import NewWindow from "react-new-window";
 import {DockContext, DockContextType, PanelData} from "./DockData";
 import {DockPanel} from "./DockPanel";
-import NewWindow from "react-new-window";
+
 
 interface Props {
   panelData: PanelData;
@@ -14,22 +16,34 @@ export class WindowPanel extends React.PureComponent<Props, any> {
   _window: Window;
 
   onOpen = (w: Window) => {
-    if (!this._window) {
+    if (!this._window && w) {
       window.addEventListener('beforeunload', this.onMainWindowUnload);
+      w.addEventListener('resize', this.onNewWindowResize);
+      this._window = w;
     }
-    this._window = w;
-    console.log(w);
+
   };
   onUnload = () => {
     let {panelData} = this.props;
-    this.context.dockMove(panelData, null, 'float');
+    if (this.context.find(panelData.id)) {
+      this.context.dockMove(panelData, null, 'float');
+    }
   };
 
   onMainWindowUnload = () => {
     if (this._window) {
+      this.onNewWindowResize.cancel();
       this._window.close();
+
     }
   };
+
+
+  onNewWindowResize = debounce(() => {
+    let {panelData} = this.props;
+    panelData.w = this._window.innerWidth;
+    panelData.h = this._window.innerHeight;
+  }, 200);
 
   componentWillUnmount() {
     if (this._window) {
@@ -47,10 +61,10 @@ export class WindowPanel extends React.PureComponent<Props, any> {
                       onUnload={this.onUnload}
                       onBlock={this.onUnload}
                       features={{
-                        width: panelData.w + 16,
-                        height: panelData.h + 40,
+                        width: panelData.w ,
+                        height: panelData.h,
                         left: 0,
-                        top: panelData.y - 32,
+                        top: panelData.y,
                       }}>
       <div className='dock-wbox '>
         <DockPanel size={panelData.size} panelData={panelData} key={panelData.id}/>

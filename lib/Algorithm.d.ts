@@ -14,6 +14,7 @@ export declare function floatPanel(layout: LayoutData, newPanel: PanelData, rect
     width: number;
     height: number;
 }): LayoutData;
+export declare function panelToWindow(layout: LayoutData, newPanel: PanelData): LayoutData;
 export declare function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function moveToFront(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData;

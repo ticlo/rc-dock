@@ -3,19 +3,20 @@ import ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import {
   BoxData,
-  LayoutData,
-  PanelData,
-  DockContextProvider,
+  defaultGroup,
   DockContext,
+  DockContextProvider,
   DropDirection,
+  LayoutBase,
+  LayoutData,
+  PanelBase,
+  PanelData,
+  placeHolderGroup,
+  placeHolderStyle,
+  TabBase,
   TabData,
   TabGroup,
-  placeHolderStyle,
-  placeHolderGroup,
-  defaultGroup,
-  LayoutBase,
-  TabBase,
-  PanelBase, DockContextType, TabPaneCache
+  TabPaneCache
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -168,6 +169,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
+  /** @ignore */
+  getRootElement() {
+    return this._ref;
+  }
 
   /** @ignore */
   prepareInitData(data: LayoutData): LayoutData {
@@ -221,7 +226,14 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (direction === 'float') {
       let newPanel = Algorithm.converToPanel(source);
       newPanel.z = Algorithm.nextZIndex(null);
-      layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+      if (this.state.dropRect) {
+        layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+      } else {
+        layout = Algorithm.floatPanel(layout, newPanel);
+        if (this._ref) {
+          layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+        }
+      }
     } else if (direction === 'new-window') {
       let newPanel = Algorithm.converToPanel(source);
       layout = Algorithm.panelToWindow(layout, newPanel);
@@ -261,8 +273,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  find(id: string): PanelData | TabData {
-    return Algorithm.find(this.tempLayout || this.state.layout, id);
+  find(id: string, filter?: Algorithm.Filter): PanelData | TabData {
+    return Algorithm.find(this.tempLayout || this.state.layout, id, filter);
   }
 
   /** @ignore */
@@ -275,7 +287,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   /** @inheritDoc */
   updateTab(id: string, newTab: TabData): boolean {
-    let tab = this.find(id);
+    let tab = this.find(id, Algorithm.Filter.AnyTab);
     if (tab && !('tabs' in tab)) {
       let panelData = tab.parent;
       let idx = panelData.tabs.indexOf(tab);

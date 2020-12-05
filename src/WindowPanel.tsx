@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce';
 import NewWindow from "react-new-window";
 import {DockContext, DockContextType, PanelData} from "./DockData";
 import {DockPanel} from "./DockPanel";
+import {Filter} from "./Algorithm";
 
 
 interface Props {
@@ -25,7 +26,24 @@ export class WindowPanel extends React.PureComponent<Props, any> {
   };
   onUnload = () => {
     let {panelData} = this.props;
-    if (this.context.find(panelData.id)) {
+    if (this.context.find(panelData.id, Filter.Panel | Filter.Windowed)) {
+      let layoutRoot = this.context.getRootElement();
+      let layoutRect = layoutRoot.getBoundingClientRect();
+      panelData.w = this._window.innerWidth;
+      panelData.h = this._window.innerHeight;
+
+      let windowWidthDiff = (this._window.outerWidth - this._window.innerWidth) - (window.outerWidth - window.innerWidth);
+      let windowHeightDiff = (this._window.outerHeight - this._window.innerHeight) - (window.outerHeight - window.innerHeight);
+      if (windowWidthDiff > 0) {
+        // when window has a border but main window has no border
+        windowWidthDiff = Math.round(windowWidthDiff / 2);
+        windowHeightDiff -= windowWidthDiff;
+      } else {
+        windowWidthDiff = 0;
+      }
+
+      panelData.x = this._window.screenX - window.screenX + windowWidthDiff - layoutRect.x;
+      panelData.y = this._window.screenY - window.screenY + windowHeightDiff - layoutRect.y;
       this.context.dockMove(panelData, null, 'float');
     }
   };
@@ -38,11 +56,12 @@ export class WindowPanel extends React.PureComponent<Props, any> {
     }
   };
 
-
   onNewWindowResize = debounce(() => {
-    let {panelData} = this.props;
-    panelData.w = this._window.innerWidth;
-    panelData.h = this._window.innerHeight;
+    // add/remove element on main document, force it to dispatch resize observer event on the popup window
+    let div = document.createElement('div');
+    document.body.append(div);
+    div.remove();
+    // TODO update resize event
   }, 200);
 
   componentWillUnmount() {
@@ -61,12 +80,10 @@ export class WindowPanel extends React.PureComponent<Props, any> {
                       onUnload={this.onUnload}
                       onBlock={this.onUnload}
                       features={{
-                        width: panelData.w ,
+                        width: panelData.w,
                         height: panelData.h,
-                        left: 0,
-                        top: panelData.y,
                       }}>
-      <div className='dock-wbox '>
+      <div className='dock-wbox'>
         <DockPanel size={panelData.size} panelData={panelData} key={panelData.id}/>
       </div>
     </NewWindow>;

@@ -54,27 +54,29 @@ export function nextZIndex(current?: number): number {
 }
 
 
-function findInPanel(panel: PanelData, id: string): PanelData | TabData {
-  if (panel.id === id) {
+function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | TabData {
+  if (panel.id === id && (filter & Filter.Panel)) {
     return panel;
   }
-  for (let tab of panel.tabs) {
-    if (tab.id === id) {
-      return tab;
+  if (filter & Filter.Tab) {
+    for (let tab of panel.tabs) {
+      if (tab.id === id) {
+        return tab;
+      }
     }
   }
   return null;
 }
 
-function findInBox(box: BoxData, id: string): PanelData | TabData {
+function findInBox(box: BoxData, id: string, filter: Filter): PanelData | TabData {
   let result: PanelData | TabData;
   for (let child of box.children) {
     if ('children' in child) {
-      if (result = findInBox(child, id)) {
+      if (result = findInBox(child, id, filter)) {
         break;
       }
     } else if ('tabs' in child) {
-      if (result = findInPanel(child, id)) {
+      if (result = findInPanel(child, id, filter)) {
         break;
       }
     }
@@ -82,17 +84,43 @@ function findInBox(box: BoxData, id: string): PanelData | TabData {
   return result;
 }
 
-export function find(layout: LayoutData, id: string): PanelData | TabData {
-  let result = findInBox(layout.dockbox, id);
-  if (!result) {
-    result = findInBox(layout.floatbox, id);
+
+export enum Filter {
+  Tab = 1,
+  Panel = 1 << 1,
+  Docked = 1 << 2,
+  Floated = 1 << 3,
+  Windowed = 1 << 4,
+  Max = 1 << 5,
+  EveryWhere = Docked | Floated | Windowed | Max,
+  AnyTab = Tab | EveryWhere,
+  AnyPanel = Panel | EveryWhere,
+  All = Tab | Panel | EveryWhere,
+}
+
+
+export function find(layout: LayoutData, id: string, filter: Filter = Filter.All): PanelData | TabData {
+  let result: PanelData | TabData;
+
+  if (filter & Filter.Docked) {
+    result = findInBox(layout.dockbox, id, filter);
   }
-  if (!result) {
-    result = findInBox(layout.windowbox, id);
+  if (result) return result;
+
+  if (filter & Filter.Floated) {
+    result = findInBox(layout.floatbox, id, filter);
   }
-  if (!result) {
-    result = findInBox(layout.maxbox, id);
+  if (result) return result;
+
+  if (filter & Filter.Windowed) {
+    result = findInBox(layout.windowbox, id, filter);
   }
+  if (result) return result;
+
+  if (filter & Filter.Max) {
+    result = findInBox(layout.maxbox, id, filter);
+  }
+
   return result;
 }
 
@@ -348,7 +376,7 @@ export function moveToFront(layout: LayoutData, source: TabData | PanelData): La
       panelData = source.parent;
       if (panelData.activeId !== source.id) {
         // move tab to front
-        changes.activeId =  source.id;
+        changes.activeId = source.id;
         needUpdate = true;
       }
     }
@@ -356,7 +384,7 @@ export function moveToFront(layout: LayoutData, source: TabData | PanelData): La
       // move float panel to front
       let newZ = nextZIndex(panelData.z);
       if (newZ !== panelData.z) {
-        changes.z =  newZ;
+        changes.z = newZ;
         needUpdate = true;
       }
     }

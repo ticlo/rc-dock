@@ -1034,7 +1034,26 @@ function toArray(children) {
 
   return ret;
 }
-},{"react":"n8MK","react-is":"H1RQ"}],"zMpY":[function(require,module,exports) {
+},{"react":"n8MK","react-is":"H1RQ"}],"nb8J":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _default = function _default() {
+  var agent = navigator.userAgent || navigator.vendor || window.opera;
+
+  if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(agent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw-(n|u)|c55\/|capi|ccwa|cdm-|cell|chtm|cldc|cmd-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc-s|devi|dica|dmob|do(c|p)o|ds(12|-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(-|_)|g1 u|g560|gene|gf-5|g-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd-(m|p|t)|hei-|hi(pt|ta)|hp( i|ip)|hs-c|ht(c(-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i-(20|go|ma)|i230|iac( |-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|-[a-w])|libw|lynx|m1-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|-([1-8]|c))|phil|pire|pl(ay|uc)|pn-2|po(ck|rt|se)|prox|psio|pt-g|qa-a|qc(07|12|21|32|60|-[2-7]|i-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h-|oo|p-)|sdk\/|se(c(-|0|1)|47|mc|nd|ri)|sgh-|shar|sie(-|m)|sk-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h-|v-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl-|tdg-|tel(i|m)|tim-|t-mo|to(pl|sh)|ts(70|m-|m3|m5)|tx-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas-|your|zeto|zte-/i.test(agent.substr(0, 4))) {
+    return true;
+  }
+
+  return false;
+};
+
+exports.default = _default;
+},{}],"zMpY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1214,333 +1233,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _toConsumableArray(arr) {
   return (0, _arrayWithoutHoles.default)(arr) || (0, _iterableToArray.default)(arr) || (0, _unsupportedIterableToArray.default)(arr) || (0, _nonIterableSpread.default)();
 }
-},{"@babel/runtime/helpers/esm/arrayWithoutHoles":"vw6u","@babel/runtime/helpers/esm/iterableToArray":"bG0g","@babel/runtime/helpers/esm/unsupportedIterableToArray":"AOxl","@babel/runtime/helpers/esm/nonIterableSpread":"gdEH"}],"pBGv":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/arrayWithoutHoles":"vw6u","@babel/runtime/helpers/esm/iterableToArray":"bG0g","@babel/runtime/helpers/esm/unsupportedIterableToArray":"AOxl","@babel/runtime/helpers/esm/nonIterableSpread":"gdEH"}],"adDJ":[function(require,module,exports) {
+"use strict";
 
-// shim for using process in browser
-var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = wrapperRaf;
 
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-  throw new Error('setTimeout has not been defined');
-}
-
-function defaultClearTimeout() {
-  throw new Error('clearTimeout has not been defined');
-}
-
-(function () {
-  try {
-    if (typeof setTimeout === 'function') {
-      cachedSetTimeout = setTimeout;
-    } else {
-      cachedSetTimeout = defaultSetTimout;
-    }
-  } catch (e) {
-    cachedSetTimeout = defaultSetTimout;
-  }
-
-  try {
-    if (typeof clearTimeout === 'function') {
-      cachedClearTimeout = clearTimeout;
-    } else {
-      cachedClearTimeout = defaultClearTimeout;
-    }
-  } catch (e) {
-    cachedClearTimeout = defaultClearTimeout;
-  }
-})();
-
-function runTimeout(fun) {
-  if (cachedSetTimeout === setTimeout) {
-    //normal enviroments in sane situations
-    return setTimeout(fun, 0);
-  } // if setTimeout wasn't available but was latter defined
-
-
-  if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-    cachedSetTimeout = setTimeout;
-    return setTimeout(fun, 0);
-  }
-
-  try {
-    // when when somebody has screwed with setTimeout but no I.E. maddness
-    return cachedSetTimeout(fun, 0);
-  } catch (e) {
-    try {
-      // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-      return cachedSetTimeout.call(null, fun, 0);
-    } catch (e) {
-      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-      return cachedSetTimeout.call(this, fun, 0);
-    }
-  }
-}
-
-function runClearTimeout(marker) {
-  if (cachedClearTimeout === clearTimeout) {
-    //normal enviroments in sane situations
-    return clearTimeout(marker);
-  } // if clearTimeout wasn't available but was latter defined
-
-
-  if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-    cachedClearTimeout = clearTimeout;
-    return clearTimeout(marker);
-  }
-
-  try {
-    // when when somebody has screwed with setTimeout but no I.E. maddness
-    return cachedClearTimeout(marker);
-  } catch (e) {
-    try {
-      // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-      return cachedClearTimeout.call(null, marker);
-    } catch (e) {
-      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-      // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-      return cachedClearTimeout.call(this, marker);
-    }
-  }
-}
-
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-  if (!draining || !currentQueue) {
-    return;
-  }
-
-  draining = false;
-
-  if (currentQueue.length) {
-    queue = currentQueue.concat(queue);
-  } else {
-    queueIndex = -1;
-  }
-
-  if (queue.length) {
-    drainQueue();
-  }
-}
-
-function drainQueue() {
-  if (draining) {
-    return;
-  }
-
-  var timeout = runTimeout(cleanUpNextTick);
-  draining = true;
-  var len = queue.length;
-
-  while (len) {
-    currentQueue = queue;
-    queue = [];
-
-    while (++queueIndex < len) {
-      if (currentQueue) {
-        currentQueue[queueIndex].run();
-      }
-    }
-
-    queueIndex = -1;
-    len = queue.length;
-  }
-
-  currentQueue = null;
-  draining = false;
-  runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-  var args = new Array(arguments.length - 1);
-
-  if (arguments.length > 1) {
-    for (var i = 1; i < arguments.length; i++) {
-      args[i - 1] = arguments[i];
-    }
-  }
-
-  queue.push(new Item(fun, args));
-
-  if (queue.length === 1 && !draining) {
-    runTimeout(drainQueue);
-  }
-}; // v8 likes predictible objects
-
-
-function Item(fun, array) {
-  this.fun = fun;
-  this.array = array;
-}
-
-Item.prototype.run = function () {
-  this.fun.apply(null, this.array);
+var raf = function raf(callback) {
+  return +setTimeout(callback, 16);
 };
 
-process.title = 'browser';
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) {
-  return [];
+var caf = function caf(num) {
+  return clearTimeout(num);
 };
 
-process.binding = function (name) {
-  throw new Error('process.binding is not supported');
-};
+if (typeof window !== 'undefined' && 'requestAnimationFrame' in window) {
+  raf = function raf(callback) {
+    return window.requestAnimationFrame(callback);
+  };
 
-process.cwd = function () {
-  return '/';
-};
-
-process.chdir = function (dir) {
-  throw new Error('process.chdir is not supported');
-};
-
-process.umask = function () {
-  return 0;
-};
-},{}],"xNmf":[function(require,module,exports) {
-var process = require("process");
-// Generated by CoffeeScript 1.12.2
-(function() {
-  var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
-
-  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
-    module.exports = function() {
-      return performance.now();
-    };
-  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
-    module.exports = function() {
-      return (getNanoSeconds() - nodeLoadTime) / 1e6;
-    };
-    hrtime = process.hrtime;
-    getNanoSeconds = function() {
-      var hr;
-      hr = hrtime();
-      return hr[0] * 1e9 + hr[1];
-    };
-    moduleLoadTime = getNanoSeconds();
-    upTime = process.uptime() * 1e9;
-    nodeLoadTime = moduleLoadTime - upTime;
-  } else if (Date.now) {
-    module.exports = function() {
-      return Date.now() - loadTime;
-    };
-    loadTime = Date.now();
-  } else {
-    module.exports = function() {
-      return new Date().getTime() - loadTime;
-    };
-    loadTime = new Date().getTime();
-  }
-
-}).call(this);
-
-//# sourceMappingURL=performance-now.js.map
-
-},{"process":"pBGv"}],"oXMl":[function(require,module,exports) {
-var global = arguments[3];
-var now = require('performance-now')
-  , root = typeof window === 'undefined' ? global : window
-  , vendors = ['moz', 'webkit']
-  , suffix = 'AnimationFrame'
-  , raf = root['request' + suffix]
-  , caf = root['cancel' + suffix] || root['cancelRequest' + suffix]
-
-for(var i = 0; !raf && i < vendors.length; i++) {
-  raf = root[vendors[i] + 'Request' + suffix]
-  caf = root[vendors[i] + 'Cancel' + suffix]
-      || root[vendors[i] + 'CancelRequest' + suffix]
+  caf = function caf(handle) {
+    return window.cancelAnimationFrame(handle);
+  };
 }
 
-// Some versions of FF have rAF but not cAF
-if(!raf || !caf) {
-  var last = 0
-    , id = 0
-    , queue = []
-    , frameDuration = 1000 / 60
-
-  raf = function(callback) {
-    if(queue.length === 0) {
-      var _now = now()
-        , next = Math.max(0, frameDuration - (_now - last))
-      last = next + _now
-      setTimeout(function() {
-        var cp = queue.slice(0)
-        // Clear queue here to prevent
-        // callbacks from appending listeners
-        // to the current frame's queue
-        queue.length = 0
-        for(var i = 0; i < cp.length; i++) {
-          if(!cp[i].cancelled) {
-            try{
-              cp[i].callback(last)
-            } catch(e) {
-              setTimeout(function() { throw e }, 0)
-            }
-          }
-        }
-      }, Math.round(next))
-    }
-    queue.push({
-      handle: ++id,
-      callback: callback,
-      cancelled: false
-    })
-    return id
-  }
-
-  caf = function(handle) {
-    for(var i = 0; i < queue.length; i++) {
-      if(queue[i].handle === handle) {
-        queue[i].cancelled = true
-      }
-    }
-  }
+function wrapperRaf(callback) {
+  return raf(callback);
 }
 
-module.exports = function(fn) {
-  // Wrap in a new function to prevent
-  // `cancel` potentially being assigned
-  // to the native rAF function
-  return raf.call(root, fn)
-}
-module.exports.cancel = function() {
-  caf.apply(root, arguments)
-}
-module.exports.polyfill = function(object) {
-  if (!object) {
-    object = root;
-  }
-  object.requestAnimationFrame = raf
-  object.cancelAnimationFrame = caf
-}
-
-},{"performance-now":"xNmf"}],"VEjx":[function(require,module,exports) {
+wrapperRaf.cancel = caf;
+},{}],"VEjx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3559,7 +3283,7 @@ var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm
 
 var _react = require("react");
 
-var _raf = _interopRequireDefault(require("raf"));
+var _raf = _interopRequireDefault(require("rc-util/es/raf"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3616,7 +3340,7 @@ function useRafState(defaultState) {
 
   return [state.current, updater];
 }
-},{"@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","raf":"oXMl"}],"Imvn":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","rc-util/es/raf":"adDJ"}],"Imvn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4319,13 +4043,13 @@ function TabNode(_ref, ref) {
     });
   }
 
-  var node = React.createElement("div", {
+  var node = /*#__PURE__*/React.createElement("div", {
     key: key,
     ref: ref,
     className: (0, _classnames.default)(tabPrefix, (_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(tabPrefix, "-with-remove"), removable), (0, _defineProperty2.default)(_classNames, "".concat(tabPrefix, "-active"), active), (0, _defineProperty2.default)(_classNames, "".concat(tabPrefix, "-disabled"), disabled), _classNames)),
     style: nodeStyle,
     onClick: onInternalClick
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     role: "tab",
     "aria-selected": active,
     id: id && "".concat(id, "-tab-").concat(key),
@@ -4344,7 +4068,7 @@ function TabNode(_ref, ref) {
       }
     },
     onFocus: onFocus
-  }, tab), removable && React.createElement("button", {
+  }, tab), removable && /*#__PURE__*/React.createElement("button", {
     type: "button",
     "aria-label": removeAriaLabel || 'remove',
     tabIndex: 0,
@@ -4362,7 +4086,7 @@ function TabNode(_ref, ref) {
   return node;
 }
 
-var _default = React.forwardRef(TabNode);
+var _default = /*#__PURE__*/React.forwardRef(TabNode);
 
 exports.default = _default;
 },{"@babel/runtime/helpers/esm/defineProperty":"gpd2","react":"n8MK","classnames":"qb7c","rc-util/es/KeyCode":"Imvn"}],"uhKO":[function(require,module,exports) {
@@ -5271,38 +4995,7 @@ var isMobileDevice = function isMobileDevice() {
 };
 
 exports.isMobileDevice = isMobileDevice;
-},{"@babel/runtime/helpers/esm/typeof":"xLw6","react":"n8MK","./utils/isMobile":"P6vN"}],"adDJ":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = wrapperRaf;
-
-var raf = function raf(callback) {
-  return +setTimeout(callback, 16);
-};
-
-var caf = function caf(num) {
-  return clearTimeout(num);
-};
-
-if (typeof window !== 'undefined' && 'requestAnimationFrame' in window) {
-  raf = function raf(callback) {
-    return window.requestAnimationFrame(callback);
-  };
-
-  caf = function caf(handle) {
-    return window.cancelAnimationFrame(handle);
-  };
-}
-
-function wrapperRaf(callback) {
-  return raf(callback);
-}
-
-wrapperRaf.cancel = caf;
-},{}],"asZT":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/typeof":"xLw6","react":"n8MK","./utils/isMobile":"P6vN"}],"asZT":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5720,7 +5413,7 @@ function isActive(step) {
   return step === _interface.STEP_ACTIVE || step === _interface.STEP_ACTIVATED;
 }
 
-var _default = function _default(callback) {
+var _default = function _default(status, callback) {
   var _React$useState = React.useState(_interface.STEP_NONE),
       _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
       step = _React$useState2[0],
@@ -5762,7 +5455,7 @@ var _default = function _default(callback) {
         });
       }
     }
-  }, [step]);
+  }, [status, step]);
   React.useEffect(function () {
     return function () {
       cancelNextFrame();
@@ -5963,7 +5656,7 @@ function useStatus(supportMotion, visible, getElement, _ref) {
     }
   }, [status]);
 
-  var _useStepQueue = (0, _useStepQueue3.default)(function (newStep) {
+  var _useStepQueue = (0, _useStepQueue3.default)(status, function (newStep) {
     // Only prepare step can be skip
     if (newStep === _interface.STEP_PREPARE) {
       var onPrepare = eventHandlers[_interface.STEP_PREPARE];
@@ -6173,7 +5866,7 @@ function genCSSMotion(config) {
     return !!(props.motionName && transitionSupport);
   }
 
-  var CSSMotion = React.forwardRef(function (props, ref) {
+  var CSSMotion = /*#__PURE__*/React.forwardRef(function (props, ref) {
     var _props$visible = props.visible,
         visible = _props$visible === void 0 ? true : _props$visible,
         _props$removeOnLeave = props.removeOnLeave,
@@ -6214,6 +5907,9 @@ function genCSSMotion(config) {
     }, []); // ===================== Render =====================
 
     var motionChildren;
+    var mergedProps = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, eventProps), {}, {
+      visible: visible
+    });
 
     if (!children) {
       // No children
@@ -6221,13 +5917,13 @@ function genCSSMotion(config) {
     } else if (status === _interface.STATUS_NONE || !isSupportTransition(props)) {
       // Stable children
       if (mergedVisible) {
-        motionChildren = children((0, _objectSpread2.default)({}, eventProps), setNodeRef);
+        motionChildren = children((0, _objectSpread2.default)({}, mergedProps), setNodeRef);
       } else if (!removeOnLeave) {
-        motionChildren = children((0, _objectSpread2.default)((0, _objectSpread2.default)({}, eventProps), {}, {
+        motionChildren = children((0, _objectSpread2.default)((0, _objectSpread2.default)({}, mergedProps), {}, {
           className: leavedClassName
         }), setNodeRef);
       } else if (forceRender) {
-        motionChildren = children((0, _objectSpread2.default)((0, _objectSpread2.default)({}, eventProps), {}, {
+        motionChildren = children((0, _objectSpread2.default)((0, _objectSpread2.default)({}, mergedProps), {}, {
           style: {
             display: 'none'
           }
@@ -6249,13 +5945,13 @@ function genCSSMotion(config) {
         statusSuffix = 'start';
       }
 
-      motionChildren = children((0, _objectSpread2.default)((0, _objectSpread2.default)({}, eventProps), {}, {
+      motionChildren = children((0, _objectSpread2.default)((0, _objectSpread2.default)({}, mergedProps), {}, {
         className: (0, _classnames.default)((0, _motion.getTransitionName)(motionName, status), (_classNames = {}, (0, _defineProperty2.default)(_classNames, (0, _motion.getTransitionName)(motionName, "".concat(status, "-").concat(statusSuffix)), statusSuffix), (0, _defineProperty2.default)(_classNames, motionName, typeof motionName === 'string'), _classNames)),
         style: statusStyle
       }), setNodeRef);
     }
 
-    return React.createElement(_DomWrapper.default, {
+    return /*#__PURE__*/React.createElement(_DomWrapper.default, {
       ref: wrapperNodeRef
     }, motionChildren);
   });
@@ -6489,11 +6185,11 @@ function genCSSMotionList(transitionSupport) {
           delete restProps[prop];
         });
         delete restProps.keys;
-        return React.createElement(Component, Object.assign({}, restProps), keyEntities.map(function (_ref2) {
+        return /*#__PURE__*/React.createElement(Component, Object.assign({}, restProps), keyEntities.map(function (_ref2) {
           var status = _ref2.status,
               eventProps = (0, _objectWithoutProperties2.default)(_ref2, ["status"]);
           var visible = status === _diff.STATUS_ADD || status === _diff.STATUS_KEEP;
-          return React.createElement(CSSMotion, Object.assign({}, motionProps, {
+          return /*#__PURE__*/React.createElement(CSSMotion, Object.assign({}, motionProps, {
             key: eventProps.key,
             visible: visible,
             eventProps: eventProps,
@@ -8248,7 +7944,8 @@ var Align = function Align(_ref, ref) {
   var _useBuffer = (0, _useBuffer3.default)(function () {
     var _forceAlignPropsRef$c = forceAlignPropsRef.current,
         latestDisabled = _forceAlignPropsRef$c.disabled,
-        latestTarget = _forceAlignPropsRef$c.target;
+        latestTarget = _forceAlignPropsRef$c.target,
+        latestOnAlign = _forceAlignPropsRef$c.onAlign;
 
     if (!latestDisabled && latestTarget) {
       var source = nodeRef.current;
@@ -8270,8 +7967,8 @@ var Align = function Align(_ref, ref) {
 
       (0, _util.restoreFocus)(activeElement, source);
 
-      if (onAlign && result) {
-        onAlign(source, result);
+      if (latestOnAlign && result) {
+        latestOnAlign(source, result);
       }
 
       return true;
@@ -9292,12 +8989,16 @@ exports.default = void 0;
 
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/slicedToArray"));
 
-var _react = _interopRequireDefault(require("react"));
+var React = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = function _default(stretch) {
-  var _React$useState = _react.default.useState({
+  var _React$useState = React.useState({
     width: 0,
     height: 0
   }),
@@ -9313,7 +9014,7 @@ var _default = function _default(stretch) {
   } // Merge stretch style
 
 
-  var style = _react.default.useMemo(function () {
+  var style = React.useMemo(function () {
     var sizeStyle = {};
 
     if (stretch) {
@@ -9335,7 +9036,6 @@ var _default = function _default(stretch) {
 
     return sizeStyle;
   }, [stretch, targetSize]);
-
   return [style, measureStretch];
 };
 
@@ -9511,12 +9211,12 @@ var PopupInner = React.forwardRef(function (props, ref) {
 
   return React.createElement(_rcMotion.default, Object.assign({
     visible: visible,
-    ref: elementRef
+    ref: elementRef,
+    leavedClassName: "".concat(prefixCls, "-hidden")
   }, motion, {
     onAppearPrepare: onShowPrepare,
     onEnterPrepare: onShowPrepare,
-    removeOnLeave: destroyPopupOnHide,
-    leavedClassName: "".concat(prefixCls, "-hidden")
+    removeOnLeave: destroyPopupOnHide
   }), function (_ref, motionRef) {
     var motionClassName = _ref.className,
         motionStyle = _ref.style;
@@ -9543,7 +9243,7 @@ var PopupInner = React.forwardRef(function (props, ref) {
 PopupInner.displayName = 'PopupInner';
 var _default = PopupInner;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/objectSpread2":"UKeT","@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","rc-align":"AVA2","rc-motion":"VTMl","classnames":"qb7c","./useVisibleStatus":"rCyv","../utils/legacyUtil":"uFoq","./useStretchStyle":"sDvT"}],"Pprj":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/objectSpread2":"UKeT","@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","rc-align":"AVA2","rc-motion":"VTMl","classnames":"qb7c","./useVisibleStatus":"rCyv","../utils/legacyUtil":"uFoq","./useStretchStyle":"sDvT"}],"NMjy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9551,13 +9251,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 
 var React = _interopRequireWildcard(require("react"));
 
-var _Mask = _interopRequireDefault(require("./Mask"));
+var _rcMotion = _interopRequireDefault(require("rc-motion"));
 
-var _PopupInner = _interopRequireDefault(require("./PopupInner"));
+var _classnames = _interopRequireDefault(require("classnames"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -9565,17 +9265,133 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Popup = React.forwardRef(function (props, ref) {
-  var cloneProps = (0, _extends2.default)({}, props); // We can use fragment directly but this may failed some selector usage. Keep as origin logic
+var MobilePopupInner = React.forwardRef(function (props, ref) {
+  var prefixCls = props.prefixCls,
+      visible = props.visible,
+      zIndex = props.zIndex,
+      children = props.children,
+      _props$mobile = props.mobile;
+  _props$mobile = _props$mobile === void 0 ? {} : _props$mobile;
+  var popupClassName = _props$mobile.popupClassName,
+      popupStyle = _props$mobile.popupStyle,
+      _props$mobile$popupMo = _props$mobile.popupMotion,
+      popupMotion = _props$mobile$popupMo === void 0 ? {} : _props$mobile$popupMo,
+      popupRender = _props$mobile.popupRender;
+  var elementRef = React.useRef(); // ========================= Refs =========================
 
-  return React.createElement("div", null, React.createElement(_Mask.default, Object.assign({}, cloneProps)), React.createElement(_PopupInner.default, Object.assign({}, cloneProps, {
+  React.useImperativeHandle(ref, function () {
+    return {
+      forceAlign: function forceAlign() {},
+      getElement: function getElement() {
+        return elementRef.current;
+      }
+    };
+  }); // ======================== Render ========================
+
+  var mergedStyle = (0, _objectSpread2.default)({
+    zIndex: zIndex
+  }, popupStyle);
+  var childNode = children; // Wrapper when multiple children
+
+  if (React.Children.count(children) > 1) {
+    childNode = React.createElement("div", {
+      className: "".concat(prefixCls, "-content")
+    }, children);
+  } // Mobile support additional render
+
+
+  if (popupRender) {
+    childNode = popupRender(childNode);
+  }
+
+  return React.createElement(_rcMotion.default, Object.assign({
+    visible: visible,
+    ref: elementRef,
+    removeOnLeave: true
+  }, popupMotion), function (_ref, motionRef) {
+    var motionClassName = _ref.className,
+        motionStyle = _ref.style;
+    var mergedClassName = (0, _classnames.default)(prefixCls, popupClassName, motionClassName);
+    return React.createElement("div", {
+      ref: motionRef,
+      className: mergedClassName,
+      style: (0, _objectSpread2.default)((0, _objectSpread2.default)({}, motionStyle), mergedStyle)
+    }, childNode);
+  });
+});
+MobilePopupInner.displayName = 'MobilePopupInner';
+var _default = MobilePopupInner;
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/objectSpread2":"UKeT","react":"n8MK","rc-motion":"VTMl","classnames":"qb7c"}],"Pprj":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
+
+var React = _interopRequireWildcard(require("react"));
+
+var _isMobile = _interopRequireDefault(require("rc-util/es/isMobile"));
+
+var _Mask = _interopRequireDefault(require("./Mask"));
+
+var _PopupInner = _interopRequireDefault(require("./PopupInner"));
+
+var _MobilePopupInner = _interopRequireDefault(require("./MobilePopupInner"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Popup = React.forwardRef(function (_ref, ref) {
+  var visible = _ref.visible,
+      mobile = _ref.mobile,
+      props = (0, _objectWithoutProperties2.default)(_ref, ["visible", "mobile"]);
+
+  var _useState = (0, React.useState)(visible),
+      _useState2 = (0, _slicedToArray2.default)(_useState, 2),
+      innerVisible = _useState2[0],
+      serInnerVisible = _useState2[1];
+
+  var _useState3 = (0, React.useState)(false),
+      _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
+      inMobile = _useState4[0],
+      setInMobile = _useState4[1];
+
+  var cloneProps = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
+    visible: innerVisible
+  }); // We check mobile in visible changed here.
+  // And this also delay set `innerVisible` to avoid popup component render flash
+
+  (0, React.useEffect)(function () {
+    serInnerVisible(visible);
+
+    if (visible && mobile) {
+      setInMobile((0, _isMobile.default)());
+    }
+  }, [visible, !!mobile]);
+  var popupNode = inMobile ? React.createElement(_MobilePopupInner.default, Object.assign({}, cloneProps, {
+    mobile: mobile,
     ref: ref
-  })));
+  })) : React.createElement(_PopupInner.default, Object.assign({}, cloneProps, {
+    ref: ref
+  })); // We can use fragment directly but this may failed some selector usage. Keep as origin logic
+
+  return React.createElement("div", null, React.createElement(_Mask.default, Object.assign({}, cloneProps)), popupNode);
 });
 Popup.displayName = 'Popup';
 var _default = Popup;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"SpjQ","react":"n8MK","./Mask":"haQR","./PopupInner":"r56U"}],"f2pu":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/objectSpread2":"UKeT","@babel/runtime/helpers/esm/slicedToArray":"T12H","@babel/runtime/helpers/esm/objectWithoutProperties":"tuNH","react":"n8MK","rc-util/es/isMobile":"nb8J","./Mask":"haQR","./PopupInner":"r56U","./MobilePopupInner":"NMjy"}],"f2pu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9613,7 +9429,7 @@ var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inhe
 
 var _createSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createSuper"));
 
-var _react = _interopRequireDefault(require("react"));
+var React = _interopRequireWildcard(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
@@ -9637,6 +9453,10 @@ var _Popup = _interopRequireDefault(require("./Popup"));
 
 var _context = _interopRequireDefault(require("./context"));
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function noop() {}
@@ -9645,7 +9465,11 @@ function returnEmptyString() {
   return '';
 }
 
-function returnDocument() {
+function returnDocument(element) {
+  if (element) {
+    return element.ownerDocument;
+  }
+
   return window.document;
 }
 
@@ -9665,8 +9489,8 @@ function generateTrigger(PortalComponent) {
 
       (0, _classCallCheck2.default)(this, Trigger);
       _this = _super.call(this, props);
-      _this.popupRef = _react.default.createRef();
-      _this.triggerRef = _react.default.createRef();
+      _this.popupRef = React.createRef();
+      _this.triggerRef = React.createRef();
 
       _this.onMouseEnter = function (e) {
         var mouseEnterDelay = _this.props.mouseEnterDelay;
@@ -9877,7 +9701,8 @@ function generateTrigger(PortalComponent) {
             zIndex = _this$props2.zIndex,
             popup = _this$props2.popup,
             stretch = _this$props2.stretch,
-            alignPoint = _this$props2.alignPoint;
+            alignPoint = _this$props2.alignPoint,
+            mobile = _this$props2.mobile;
         var _this$state = _this.state,
             popupVisible = _this$state.popupVisible,
             point = _this$state.point;
@@ -9896,7 +9721,7 @@ function generateTrigger(PortalComponent) {
 
         mouseProps.onMouseDown = _this.onPopupMouseDown;
         mouseProps.onTouchStart = _this.onPopupMouseDown;
-        return _react.default.createElement(_Popup.default, Object.assign({
+        return React.createElement(_Popup.default, Object.assign({
           prefixCls: prefixCls,
           destroyPopupOnHide: destroyPopupOnHide,
           visible: popupVisible,
@@ -9917,7 +9742,8 @@ function generateTrigger(PortalComponent) {
           maskTransitionName: maskTransitionName,
           maskMotion: maskMotion,
           ref: _this.popupRef,
-          motion: popupMotion
+          motion: popupMotion,
+          mobile: mobile
         }), typeof popup === 'function' ? popup() : popup);
       };
 
@@ -9933,7 +9759,7 @@ function generateTrigger(PortalComponent) {
         var mountNode;
 
         if (!getPopupContainer) {
-          mountNode = getDocument().body;
+          mountNode = getDocument(_this.getRootDomNode()).body;
         } else if (domNode || getPopupContainer.length === 0) {
           // Compatible for legacy getPopupContainer with domNode argument.
           // If no need `domNode` argument, will call directly.
@@ -9952,7 +9778,8 @@ function generateTrigger(PortalComponent) {
       };
 
       _this.getContainer = function () {
-        var popupContainer = document.createElement('div'); // Make sure default popup container will never cause scrollbar appearing
+        var getDocument = _this.props.getDocument;
+        var popupContainer = getDocument(_this.getRootDomNode()).createElement('div'); // Make sure default popup container will never cause scrollbar appearing
         // https://github.com/react-component/trigger/issues/41
 
         popupContainer.style.position = 'absolute';
@@ -10021,19 +9848,19 @@ function generateTrigger(PortalComponent) {
           var currentDocument;
 
           if (!this.clickOutsideHandler && (this.isClickToHide() || this.isContextMenuToShow())) {
-            currentDocument = props.getDocument();
+            currentDocument = props.getDocument(this.getRootDomNode());
             this.clickOutsideHandler = (0, _addEventListener.default)(currentDocument, 'mousedown', this.onDocumentClick);
           } // always hide on mobile
 
 
           if (!this.touchOutsideHandler) {
-            currentDocument = currentDocument || props.getDocument();
+            currentDocument = currentDocument || props.getDocument(this.getRootDomNode());
             this.touchOutsideHandler = (0, _addEventListener.default)(currentDocument, 'touchstart', this.onDocumentClick);
           } // close popup when trigger type contains 'onContextMenu' and document is scrolling.
 
 
           if (!this.contextMenuOutsideHandler1 && this.isContextMenuToShow()) {
-            currentDocument = currentDocument || props.getDocument();
+            currentDocument = currentDocument || props.getDocument(this.getRootDomNode());
             this.contextMenuOutsideHandler1 = (0, _addEventListener.default)(currentDocument, 'scroll', this.onContextMenuClose);
           } // close popup when trigger type contains 'onContextMenu' and window is blur.
 
@@ -10266,18 +10093,18 @@ function generateTrigger(PortalComponent) {
             alignPoint = _this$props11.alignPoint,
             className = _this$props11.className,
             autoDestroy = _this$props11.autoDestroy;
-
-        var child = _react.default.Children.only(children);
-
+        var child = React.Children.only(children);
         var newChildProps = {
           key: 'trigger'
-        };
+        }; // ============================== Visible Handlers ==============================
+        // >>> ContextMenu
 
         if (this.isContextMenuToShow()) {
           newChildProps.onContextMenu = this.onContextMenu;
         } else {
           newChildProps.onContextMenu = this.createTwoChains('onContextMenu');
-        }
+        } // >>> Click
+
 
         if (this.isClickToHide() || this.isClickToShow()) {
           newChildProps.onClick = this.onClick;
@@ -10287,23 +10114,26 @@ function generateTrigger(PortalComponent) {
           newChildProps.onClick = this.createTwoChains('onClick');
           newChildProps.onMouseDown = this.createTwoChains('onMouseDown');
           newChildProps.onTouchStart = this.createTwoChains('onTouchStart');
-        }
+        } // >>> Hover(enter)
+
 
         if (this.isMouseEnterToShow()) {
-          newChildProps.onMouseEnter = this.onMouseEnter;
+          newChildProps.onMouseEnter = this.onMouseEnter; // Point align
 
           if (alignPoint) {
             newChildProps.onMouseMove = this.onMouseMove;
           }
         } else {
           newChildProps.onMouseEnter = this.createTwoChains('onMouseEnter');
-        }
+        } // >>> Hover(leave)
+
 
         if (this.isMouseLeaveToHide()) {
           newChildProps.onMouseLeave = this.onMouseLeave;
         } else {
           newChildProps.onMouseLeave = this.createTwoChains('onMouseLeave');
-        }
+        } // >>> Focus
+
 
         if (this.isFocusToShow() || this.isBlurToHide()) {
           newChildProps.onFocus = this.onFocus;
@@ -10311,7 +10141,8 @@ function generateTrigger(PortalComponent) {
         } else {
           newChildProps.onFocus = this.createTwoChains('onFocus');
           newChildProps.onBlur = this.createTwoChains('onBlur');
-        }
+        } // =================================== Render ===================================
+
 
         var childrenClassName = (0, _classnames.default)(child && child.props && child.props.className, className);
 
@@ -10325,12 +10156,11 @@ function generateTrigger(PortalComponent) {
           cloneProps.ref = (0, _ref2.composeRef)(this.triggerRef, child.ref);
         }
 
-        var trigger = _react.default.cloneElement(child, cloneProps);
-
+        var trigger = React.cloneElement(child, cloneProps);
         var portal; // prevent unmounting after it's rendered
 
         if (popupVisible || this.popupRef.current || forceRender) {
-          portal = _react.default.createElement(PortalComponent, {
+          portal = React.createElement(PortalComponent, {
             key: "portal",
             getContainer: this.getContainer,
             didUpdate: this.handlePortalUpdate
@@ -10341,7 +10171,7 @@ function generateTrigger(PortalComponent) {
           portal = null;
         }
 
-        return _react.default.createElement(_context.default.Provider, {
+        return React.createElement(_context.default.Provider, {
           value: {
             onPopupMouseDown: this.onPopupMouseDown
           }
@@ -10362,7 +10192,7 @@ function generateTrigger(PortalComponent) {
       }
     }]);
     return Trigger;
-  }(_react.default.Component);
+  }(React.Component);
 
   Trigger.contextType = _context.default;
   Trigger.defaultProps = {
@@ -10481,6 +10311,8 @@ var ReactDOM = _interopRequireWildcard(require("react-dom"));
 
 var _rcTrigger = _interopRequireDefault(require("rc-trigger"));
 
+var _raf = _interopRequireDefault(require("rc-util/es/raf"));
+
 var _KeyCode = _interopRequireDefault(require("rc-util/es/KeyCode"));
 
 var _rcMotion = _interopRequireDefault(require("rc-motion"));
@@ -10541,9 +10373,9 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     _this.onKeyDown = function (e) {
       var keyCode = e.keyCode;
       var menu = _this.menuInstance;
-      var _this$props = _this.props,
-          isOpen = _this$props.isOpen,
-          store = _this$props.store;
+      var store = _this.props.store;
+
+      var visible = _this.getVisible();
 
       if (keyCode === _KeyCode.default.ENTER) {
         _this.onTitleClick(e);
@@ -10553,7 +10385,7 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       }
 
       if (keyCode === _KeyCode.default.RIGHT) {
-        if (isOpen) {
+        if (visible) {
           menu.onKeyDown(e);
         } else {
           _this.triggerOpenChange(true); // need to update current menu's defaultActiveFirst value
@@ -10568,7 +10400,7 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       if (keyCode === _KeyCode.default.LEFT) {
         var handled;
 
-        if (isOpen) {
+        if (visible) {
           handled = menu.onKeyDown(e);
         } else {
           return undefined;
@@ -10583,7 +10415,7 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
         return handled;
       }
 
-      if (isOpen && (keyCode === _KeyCode.default.UP || keyCode === _KeyCode.default.DOWN)) {
+      if (visible && (keyCode === _KeyCode.default.UP || keyCode === _KeyCode.default.DOWN)) {
         return menu.onKeyDown(e);
       }
 
@@ -10599,10 +10431,10 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.onMouseEnter = function (e) {
-      var _this$props2 = _this.props,
-          key = _this$props2.eventKey,
-          onMouseEnter = _this$props2.onMouseEnter,
-          store = _this$props2.store;
+      var _this$props = _this.props,
+          key = _this$props.eventKey,
+          onMouseEnter = _this$props.onMouseEnter,
+          store = _this$props.store;
       updateDefaultActiveFirst(store, _this.props.eventKey, false);
       onMouseEnter({
         key: key,
@@ -10611,10 +10443,10 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.onMouseLeave = function (e) {
-      var _this$props3 = _this.props,
-          parentMenu = _this$props3.parentMenu,
-          eventKey = _this$props3.eventKey,
-          onMouseLeave = _this$props3.onMouseLeave;
+      var _this$props2 = _this.props,
+          parentMenu = _this$props2.parentMenu,
+          eventKey = _this$props2.eventKey,
+          onMouseLeave = _this$props2.onMouseLeave;
       parentMenu.subMenuInstance = (0, _assertThisInitialized2.default)(_this);
       onMouseLeave({
         key: eventKey,
@@ -10623,10 +10455,10 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.onTitleMouseEnter = function (domEvent) {
-      var _this$props4 = _this.props,
-          key = _this$props4.eventKey,
-          onItemHover = _this$props4.onItemHover,
-          onTitleMouseEnter = _this$props4.onTitleMouseEnter;
+      var _this$props3 = _this.props,
+          key = _this$props3.eventKey,
+          onItemHover = _this$props3.onItemHover,
+          onTitleMouseEnter = _this$props3.onTitleMouseEnter;
       onItemHover({
         key: key,
         hover: true
@@ -10638,11 +10470,11 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.onTitleMouseLeave = function (e) {
-      var _this$props5 = _this.props,
-          parentMenu = _this$props5.parentMenu,
-          eventKey = _this$props5.eventKey,
-          onItemHover = _this$props5.onItemHover,
-          onTitleMouseLeave = _this$props5.onTitleMouseLeave;
+      var _this$props4 = _this.props,
+          parentMenu = _this$props4.parentMenu,
+          eventKey = _this$props4.eventKey,
+          onItemHover = _this$props4.onItemHover,
+          onTitleMouseLeave = _this$props4.onTitleMouseLeave;
       parentMenu.subMenuInstance = (0, _assertThisInitialized2.default)(_this);
       onItemHover({
         key: eventKey,
@@ -10667,7 +10499,7 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
         return;
       }
 
-      _this.triggerOpenChange(!props.isOpen, 'click');
+      _this.triggerOpenChange(!_this.getVisible(), 'click');
 
       updateDefaultActiveFirst(props.store, _this.props.eventKey, false);
     };
@@ -10706,6 +10538,14 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
 
     _this.getOpenClassName = function () {
       return "".concat(_this.props.rootPrefixCls, "-submenu-open");
+    };
+
+    _this.getVisible = function () {
+      return _this.state.isOpen;
+    };
+
+    _this.getMode = function () {
+      return _this.state.mode;
     };
 
     _this.saveMenuInstance = function (c) {
@@ -10749,8 +10589,8 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       return ret.find;
     };
 
-    _this.isOpen = function () {
-      return _this.props.openKeys.indexOf(_this.props.eventKey) !== -1;
+    _this.isInlineMode = function () {
+      return _this.getMode() === 'inline';
     };
 
     _this.adjustWidth = function () {
@@ -10778,9 +10618,11 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       var _assertThisInitialize2 = (0, _assertThisInitialized2.default)(_this),
           props = _assertThisInitialize2.props;
 
+      var mergedMode = _this.getMode();
+
       return {
-        mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
-        visible: _this.props.isOpen,
+        mode: mergedMode === 'horizontal' ? 'vertical' : mergedMode,
+        visible: _this.getVisible(),
         level: props.level + 1,
         inlineIndent: props.inlineIndent,
         focusable: false,
@@ -10814,9 +10656,9 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       var _assertThisInitialize3 = (0, _assertThisInitialized2.default)(_this),
           haveRendered = _assertThisInitialize3.haveRendered;
 
-      var _this$props6 = _this.props,
-          motion = _this$props6.motion,
-          rootPrefixCls = _this$props6.rootPrefixCls; // don't show transition on first rendering (no animation for opened menu)
+      var _this$props5 = _this.props,
+          motion = _this$props5.motion,
+          rootPrefixCls = _this$props5.rootPrefixCls; // don't show transition on first rendering (no animation for opened menu)
       // show appear transition if it's not visible (not sure why)
       // show appear transition if it's not inline mode
 
@@ -10842,6 +10684,10 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     }
 
     updateDefaultActiveFirst(store, eventKey, value);
+    _this.state = {
+      mode: props.mode,
+      isOpen: props.isOpen
+    };
     return _this;
   }
 
@@ -10855,11 +10701,33 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate() {
       var _this2 = this;
 
-      var _this$props7 = this.props,
-          mode = _this$props7.mode,
-          parentMenu = _this$props7.parentMenu,
-          manualRef = _this$props7.manualRef,
-          isOpen = _this$props7.isOpen; // invoke customized ref to expose component to mixin
+      var _this$props6 = this.props,
+          mode = _this$props6.mode,
+          parentMenu = _this$props6.parentMenu,
+          manualRef = _this$props6.manualRef,
+          isOpen = _this$props6.isOpen;
+
+      var updateState = function updateState() {
+        _this2.setState({
+          mode: mode,
+          isOpen: isOpen
+        });
+      }; // Delay sync when mode changed in case openKeys change not sync
+
+
+      var isOpenChanged = isOpen !== this.state.isOpen;
+      var isModeChanged = mode !== this.state.mode;
+
+      if (isModeChanged || isOpenChanged) {
+        _raf.default.cancel(this.updateStateRaf);
+
+        if (isModeChanged) {
+          this.updateStateRaf = (0, _raf.default)(updateState);
+        } else {
+          updateState();
+        }
+      } // invoke customized ref to expose component to mixin
+
 
       if (manualRef) {
         manualRef(this);
@@ -10876,9 +10744,9 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      var _this$props8 = this.props,
-          onDestroy = _this$props8.onDestroy,
-          eventKey = _this$props8.eventKey;
+      var _this$props7 = this.props,
+          onDestroy = _this$props7.onDestroy,
+          eventKey = _this$props7.eventKey;
 
       if (onDestroy) {
         onDestroy(eventKey);
@@ -10895,46 +10763,70 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       if (this.mouseenterTimeout) {
         clearTimeout(this.mouseenterTimeout);
       }
+
+      _raf.default.cancel(this.updateStateRaf);
+    }
+  }, {
+    key: "renderPopupMenu",
+    value: function renderPopupMenu(className, style) {
+      var baseProps = this.getBaseProps();
+      /**
+       * zombiej: Why SubPopupMenu here?
+       * Seems whatever popup or inline mode both will render SubPopupMenu.
+       * It's controlled by Trigger for popup or not.
+       */
+
+      return React.createElement(_SubPopupMenu.default, Object.assign({}, baseProps, {
+        id: this.internalMenuId,
+        className: className,
+        style: style
+      }), this.props.children);
     }
   }, {
     key: "renderChildren",
-    value: function renderChildren(children) {
+    value: function renderChildren() {
       var _this3 = this;
 
-      var baseProps = this.getBaseProps(); // [Legacy] getMotion must be called before `haveRendered`
+      var baseProps = this.getBaseProps();
+      var mode = baseProps.mode,
+          visible = baseProps.visible,
+          forceSubMenuRender = baseProps.forceSubMenuRender,
+          direction = baseProps.direction; // [Legacy] getMotion must be called before `haveRendered`
 
-      var mergedMotion = this.getMotion(baseProps.mode, baseProps.visible);
+      var mergedMotion = this.getMotion(mode, visible);
       this.haveRendered = true;
-      this.haveOpened = this.haveOpened || baseProps.visible || baseProps.forceSubMenuRender; // never rendered not planning to, don't render
+      this.haveOpened = this.haveOpened || visible || forceSubMenuRender; // never rendered not planning to, don't render
 
       if (!this.haveOpened) {
         return React.createElement("div", null);
       }
 
-      var direction = baseProps.direction;
+      var sharedClassName = (0, _classnames.default)("".concat(baseProps.prefixCls, "-sub"), (0, _defineProperty2.default)({}, "".concat(baseProps.prefixCls, "-rtl"), direction === 'rtl'));
+
+      if (!this.isInlineMode()) {
+        return this.renderPopupMenu(sharedClassName);
+      }
+
       return React.createElement(_rcMotion.default, Object.assign({
         visible: baseProps.visible
       }, mergedMotion), function (_ref) {
         var className = _ref.className,
             style = _ref.style;
-        var mergedClassName = (0, _classnames.default)("".concat(baseProps.prefixCls, "-sub"), className, (0, _defineProperty2.default)({}, "".concat(baseProps.prefixCls, "-rtl"), direction === 'rtl'));
-        return React.createElement(_SubPopupMenu.default, Object.assign({}, baseProps, {
-          id: _this3.internalMenuId,
-          className: mergedClassName,
-          style: style
-        }), children);
+        var mergedClassName = (0, _classnames.default)(sharedClassName, className);
+        return _this3.renderPopupMenu(mergedClassName, style);
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _classNames2, _props$parentMenu;
+      var _classNames2, _props$parentMenu, _classNames3;
 
       var props = (0, _objectSpread2.default)({}, this.props);
-      var isOpen = props.isOpen;
+      var visible = this.getVisible();
       var prefixCls = this.getPrefixCls();
-      var isInlineMode = props.mode === 'inline';
-      var className = (0, _classnames.default)(prefixCls, "".concat(prefixCls, "-").concat(props.mode), (_classNames2 = {}, (0, _defineProperty2.default)(_classNames2, props.className, !!props.className), (0, _defineProperty2.default)(_classNames2, this.getOpenClassName(), isOpen), (0, _defineProperty2.default)(_classNames2, this.getActiveClassName(), props.active || isOpen && !isInlineMode), (0, _defineProperty2.default)(_classNames2, this.getDisabledClassName(), props.disabled), (0, _defineProperty2.default)(_classNames2, this.getSelectedClassName(), this.isChildrenSelected()), _classNames2));
+      var inline = this.isInlineMode();
+      var mergedMode = this.getMode();
+      var className = (0, _classnames.default)(prefixCls, "".concat(prefixCls, "-").concat(mergedMode), (_classNames2 = {}, (0, _defineProperty2.default)(_classNames2, props.className, !!props.className), (0, _defineProperty2.default)(_classNames2, this.getOpenClassName(), visible), (0, _defineProperty2.default)(_classNames2, this.getActiveClassName(), props.active || visible && !inline), (0, _defineProperty2.default)(_classNames2, this.getDisabledClassName(), props.disabled), (0, _defineProperty2.default)(_classNames2, this.getSelectedClassName(), this.isChildrenSelected()), _classNames2));
 
       if (!this.internalMenuId) {
         if (props.eventKey) {
@@ -10966,9 +10858,10 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
 
       var style = {};
       var direction = props.direction;
+      var isRTL = direction === 'rtl';
 
-      if (isInlineMode) {
-        if (direction === 'rtl') {
+      if (inline) {
+        if (isRTL) {
           style.paddingRight = props.inlineIndent * props.level;
         } else {
           style.paddingLeft = props.inlineIndent * props.level;
@@ -10979,7 +10872,7 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
       // otherwise it would be an invalid aria-owns value
       // since corresponding node cannot be found
 
-      if (this.props.isOpen) {
+      if (this.getVisible()) {
         ariaOwns = {
           'aria-owns': this.internalMenuId
         };
@@ -10988,7 +10881,7 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
 
       var icon = null;
 
-      if (props.mode !== 'horizontal') {
+      if (mergedMode !== 'horizontal') {
         icon = this.props.expandIcon; // ReactNode
 
         if (typeof this.props.expandIcon === 'function') {
@@ -11002,23 +10895,22 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
         className: "".concat(prefixCls, "-title"),
         role: "button"
       }, titleMouseEvents, titleClickEvents, {
-        "aria-expanded": isOpen
+        "aria-expanded": visible
       }, ariaOwns, {
         "aria-haspopup": "true",
         title: typeof props.title === 'string' ? props.title : undefined
       }), props.title, icon || React.createElement("i", {
         className: "".concat(prefixCls, "-arrow")
       }));
-      var children = this.renderChildren(props.children);
+      var children = this.renderChildren();
       var getPopupContainer = ((_props$parentMenu = props.parentMenu) === null || _props$parentMenu === void 0 ? void 0 : _props$parentMenu.isRootMenu) ? props.parentMenu.props.getPopupContainer : function (triggerNode) {
         return triggerNode.parentNode;
       };
-      var popupPlacement = popupPlacementMap[props.mode];
+      var popupPlacement = popupPlacementMap[mergedMode];
       var popupAlign = props.popupOffset ? {
         offset: props.popupOffset
       } : {};
-      var popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
-      popupClassName += direction === 'rtl' ? " ".concat(prefixCls, "-rtl") : '';
+      var popupClassName = (0, _classnames.default)((_classNames3 = {}, (0, _defineProperty2.default)(_classNames3, props.popupClassName, props.popupClassName && !inline), (0, _defineProperty2.default)(_classNames3, "".concat(prefixCls, "-rtl"), isRTL), _classNames3));
       var disabled = props.disabled,
           triggerSubMenuAction = props.triggerSubMenuAction,
           subMenuOpenDelay = props.subMenuOpenDelay,
@@ -11032,8 +10924,12 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
 
 
       delete props.onClick;
-      var placement = direction === 'rtl' ? Object.assign({}, _placements.placementsRtl, builtinPlacements) : Object.assign({}, _placements.placements, builtinPlacements);
-      delete props.direction;
+      var placement = isRTL ? Object.assign({}, _placements.placementsRtl, builtinPlacements) : Object.assign({}, _placements.placements, builtinPlacements);
+      delete props.direction; // [Legacy] It's a fast fix,
+      // but we should check if we can refactor this to make code more easy to understand
+
+      var baseProps = this.getBaseProps();
+      var mergedMotion = inline ? null : this.getMotion(baseProps.mode, baseProps.visible);
       return React.createElement("li", Object.assign({}, props, mouseEvents, {
         className: className,
         role: "menuitem"
@@ -11043,15 +10939,16 @@ var SubMenu = /*#__PURE__*/function (_React$Component) {
         getPopupContainer: getPopupContainer,
         builtinPlacements: placement,
         popupPlacement: popupPlacement,
-        popupVisible: isInlineMode ? false : isOpen,
+        popupVisible: inline ? false : visible,
         popupAlign: popupAlign,
-        popup: isInlineMode ? null : children,
-        action: disabled || isInlineMode ? [] : [triggerSubMenuAction],
+        popup: inline ? null : children,
+        action: disabled || inline ? [] : [triggerSubMenuAction],
         mouseEnterDelay: subMenuOpenDelay,
         mouseLeaveDelay: subMenuCloseDelay,
         onPopupVisibleChange: this.onPopupVisibleChange,
-        forceRender: forceSubMenuRender
-      }, title), isInlineMode ? children : null);
+        forceRender: forceSubMenuRender,
+        popupMotion: mergedMotion
+      }, title), inline ? children : null);
     }
   }]);
   return SubMenu;
@@ -11083,7 +10980,7 @@ var connected = (0, _miniStore.connect)(function (_ref2, _ref3) {
 connected.isSubMenu = true;
 var _default = connected;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/classCallCheck":"VEjx","@babel/runtime/helpers/esm/createClass":"l5p4","@babel/runtime/helpers/esm/assertThisInitialized":"bk0i","@babel/runtime/helpers/esm/inherits":"NT06","@babel/runtime/helpers/esm/createSuper":"m5aa","@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/objectSpread2":"UKeT","react":"n8MK","react-dom":"NKHc","rc-trigger":"PZMl","rc-util/es/KeyCode":"Imvn","rc-motion":"VTMl","classnames":"qb7c","mini-store":"vhHG","./SubPopupMenu":"uihZ","./placements":"OUxT","./util":"OcqA"}],"Bmg6":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/classCallCheck":"VEjx","@babel/runtime/helpers/esm/createClass":"l5p4","@babel/runtime/helpers/esm/assertThisInitialized":"bk0i","@babel/runtime/helpers/esm/inherits":"NT06","@babel/runtime/helpers/esm/createSuper":"m5aa","@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/objectSpread2":"UKeT","react":"n8MK","react-dom":"NKHc","rc-trigger":"PZMl","rc-util/es/raf":"adDJ","rc-util/es/KeyCode":"Imvn","rc-motion":"VTMl","classnames":"qb7c","mini-store":"vhHG","./SubPopupMenu":"uihZ","./placements":"OUxT","./util":"OcqA"}],"Bmg6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11975,7 +11872,6 @@ var Menu = /*#__PURE__*/function (_React$Component) {
 
     (0, _classCallCheck2.default)(this, Menu);
     _this = _super.call(this, props);
-    _this.inlineOpenKeys = [];
 
     _this.onSelect = function (selectInfo) {
       var _assertThisInitialize = (0, _assertThisInitialized2.default)(_this),
@@ -12163,7 +12059,10 @@ var Menu = /*#__PURE__*/function (_React$Component) {
       }
     });
     _this.state = {
-      switchingModeFromInline: false
+      switchingModeFromInline: false,
+      prevProps: props,
+      inlineOpenKeys: [],
+      store: _this.store
     };
     return _this;
   }
@@ -12177,8 +12076,6 @@ var Menu = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      this.updateOpentKeysWhenSwitchMode(prevProps);
-      this.updateMiniStore();
       var _this$props = this.props,
           siderCollapsed = _this$props.siderCollapsed,
           inlineCollapsed = _this$props.inlineCollapsed,
@@ -12188,43 +12085,8 @@ var Menu = /*#__PURE__*/function (_React$Component) {
         onOpenChange([]);
       }
 
+      this.updateMiniStore();
       this.updateMenuDisplay();
-    }
-  }, {
-    key: "updateOpentKeysWhenSwitchMode",
-    value: function updateOpentKeysWhenSwitchMode(prevProps) {
-      var nextProps = this.props,
-          store = this.store,
-          inlineOpenKeys = this.inlineOpenKeys;
-      var prevState = store.getState();
-      var newState = {};
-
-      if (prevProps.mode === 'inline' && nextProps.mode !== 'inline') {
-        this.setState({
-          switchingModeFromInline: true
-        });
-      }
-
-      if (!('openKeys' in nextProps)) {
-        // [Legacy] Old code will return after `openKeys` changed.
-        // Not sure the reason, we should keep this logic still.
-        if (nextProps.inlineCollapsed && !prevProps.inlineCollapsed || nextProps.siderCollapsed && !prevProps.siderCollapsed) {
-          this.setState({
-            switchingModeFromInline: true
-          });
-          this.inlineOpenKeys = prevState.openKeys.concat();
-          newState.openKeys = [];
-        }
-
-        if (!nextProps.inlineCollapsed && prevProps.inlineCollapsed || !nextProps.siderCollapsed && prevProps.siderCollapsed) {
-          newState.openKeys = inlineOpenKeys;
-          this.inlineOpenKeys = [];
-        }
-      }
-
-      if (Object.keys(newState).length) {
-        store.setState(newState);
-      }
     }
   }, {
     key: "updateMenuDisplay",
@@ -12328,6 +12190,44 @@ var Menu = /*#__PURE__*/function (_React$Component) {
       }, React.createElement(_SubPopupMenu.default, Object.assign({}, props, {
         ref: this.setInnerMenu
       }), this.props.children));
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      var prevProps = prevState.prevProps,
+          store = prevState.store;
+      var prevStoreState = store.getState();
+      var newStoreState = {};
+      var newState = {
+        prevProps: nextProps
+      };
+
+      if (prevProps.mode === 'inline' && nextProps.mode !== 'inline') {
+        newState.switchingModeFromInline = true;
+      }
+
+      if ('openKeys' in nextProps) {
+        newStoreState.openKeys = nextProps.openKeys;
+      } else {
+        // [Legacy] Old code will return after `openKeys` changed.
+        // Not sure the reason, we should keep this logic still.
+        if (nextProps.inlineCollapsed && !prevProps.inlineCollapsed || nextProps.siderCollapsed && !prevProps.siderCollapsed) {
+          newState.switchingModeFromInline = true;
+          newState.inlineOpenKeys = prevStoreState.openKeys;
+          newStoreState.openKeys = [];
+        }
+
+        if (!nextProps.inlineCollapsed && prevProps.inlineCollapsed || !nextProps.siderCollapsed && prevProps.siderCollapsed) {
+          newStoreState.openKeys = prevState.inlineOpenKeys;
+          newState.inlineOpenKeys = [];
+        }
+      }
+
+      if (Object.keys(newStoreState).length) {
+        store.setState(newStoreState);
+      }
+
+      return newState;
     }
   }]);
   return Menu;
@@ -13064,7 +12964,7 @@ function AddButton(_ref, ref) {
     return null;
   }
 
-  return React.createElement("button", {
+  return /*#__PURE__*/React.createElement("button", {
     ref: ref,
     type: "button",
     className: "".concat(prefixCls, "-nav-add"),
@@ -13078,7 +12978,7 @@ function AddButton(_ref, ref) {
   }, editable.addIcon || '+');
 }
 
-var _default = React.forwardRef(AddButton);
+var _default = /*#__PURE__*/React.forwardRef(AddButton);
 
 exports.default = _default;
 },{"react":"n8MK"}],"MhTA":[function(require,module,exports) {
@@ -13141,7 +13041,7 @@ function OperationNode(_ref, ref) {
   var dropdownPrefix = "".concat(prefixCls, "-dropdown");
   var selectedItemId = selectedKey !== null ? "".concat(popupId, "-").concat(selectedKey) : null;
   var dropdownAriaLabel = locale === null || locale === void 0 ? void 0 : locale.dropdownAriaLabel;
-  var menu = React.createElement(_rcMenu.default, {
+  var menu = /*#__PURE__*/React.createElement(_rcMenu.default, {
     onClick: function onClick(_ref2) {
       var key = _ref2.key,
           domEvent = _ref2.domEvent;
@@ -13155,7 +13055,7 @@ function OperationNode(_ref, ref) {
     selectedKeys: [selectedKey],
     "aria-label": dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'
   }, tabs.map(function (tab) {
-    return React.createElement(_rcMenu.MenuItem, {
+    return /*#__PURE__*/React.createElement(_rcMenu.MenuItem, {
       key: tab.key,
       id: "".concat(popupId, "-").concat(tab.key),
       role: "option",
@@ -13241,7 +13141,7 @@ function OperationNode(_ref, ref) {
   }
 
   var overlayClassName = (0, _classnames.default)((0, _defineProperty2.default)({}, "".concat(dropdownPrefix, "-rtl"), rtl));
-  var moreNode = mobile ? null : React.createElement(_rcDropdown.default, {
+  var moreNode = mobile ? null : /*#__PURE__*/React.createElement(_rcDropdown.default, {
     prefixCls: dropdownPrefix,
     overlay: menu,
     trigger: ['hover'],
@@ -13251,7 +13151,7 @@ function OperationNode(_ref, ref) {
     overlayClassName: overlayClassName,
     mouseEnterDelay: 0.1,
     mouseLeaveDelay: 0.1
-  }, React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "".concat(prefixCls, "-nav-more"),
     style: moreStyle,
@@ -13263,18 +13163,18 @@ function OperationNode(_ref, ref) {
     "aria-expanded": open,
     onKeyDown: onKeyDown
   }, moreIcon));
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)("".concat(prefixCls, "-nav-operations"), className),
     style: style,
     ref: ref
-  }, moreNode, React.createElement(_AddButton.default, {
+  }, moreNode, /*#__PURE__*/React.createElement(_AddButton.default, {
     prefixCls: prefixCls,
     locale: locale,
     editable: editable
   }));
 }
 
-var _default = React.forwardRef(OperationNode);
+var _default = /*#__PURE__*/React.forwardRef(OperationNode);
 
 exports.default = _default;
 },{"@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","classnames":"qb7c","rc-util/es/KeyCode":"Imvn","rc-menu":"VH7R","rc-dropdown":"SyQB","./AddButton":"kT7Q"}],"vHWa":[function(require,module,exports) {
@@ -13287,7 +13187,7 @@ exports.default = void 0;
 
 var _react = require("react");
 
-var _default = (0, _react.createContext)(null);
+var _default = /*#__PURE__*/(0, _react.createContext)(null);
 
 exports.default = _default;
 },{"react":"n8MK"}],"MZjt":[function(require,module,exports) {
@@ -13296,7 +13196,6 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isMobile = isMobile;
 exports.default = useTouchMove;
 
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/slicedToArray"));
@@ -13312,18 +13211,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MIN_SWIPE_DISTANCE = 0.1;
 var STOP_SWIPE_DISTANCE = 0.01;
 var REFRESH_INTERVAL = 20;
-var SPEED_OFF_MULTIPLE = Math.pow(0.995, REFRESH_INTERVAL); // ========================= Check if is a mobile =========================
-
-function isMobile() {
-  var agent = navigator.userAgent || navigator.vendor || window.opera;
-
-  if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(agent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw-(n|u)|c55\/|capi|ccwa|cdm-|cell|chtm|cldc|cmd-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc-s|devi|dica|dmob|do(c|p)o|ds(12|-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(-|_)|g1 u|g560|gene|gf-5|g-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd-(m|p|t)|hei-|hi(pt|ta)|hp( i|ip)|hs-c|ht(c(-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i-(20|go|ma)|i230|iac( |-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|-[a-w])|libw|lynx|m1-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|-([1-8]|c))|phil|pire|pl(ay|uc)|pn-2|po(ck|rt|se)|prox|psio|pt-g|qa-a|qc(07|12|21|32|60|-[2-7]|i-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h-|oo|p-)|sdk\/|se(c(-|0|1)|47|mc|nd|ri)|sgh-|shar|sie(-|m)|sk-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h-|v-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl-|tdg-|tel(i|m)|tim-|t-mo|to(pl|sh)|ts(70|m-|m3|m5)|tx-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas-|your|zeto|zte-/i.test(agent.substr(0, 4))) {
-    return true;
-  }
-
-  return false;
-} // ================================= Hook =================================
-
+var SPEED_OFF_MULTIPLE = Math.pow(0.995, REFRESH_INTERVAL); // ================================= Hook =================================
 
 function useTouchMove(ref, onOffset) {
   var _useState = (0, React.useState)(),
@@ -13410,8 +13298,6 @@ function useTouchMove(ref, onOffset) {
   } // >>> Wheel event
 
 
-  var lastWheelTimestampRef = (0, React.useRef)(0);
-  var lastWheelPreventRef = (0, React.useRef)(false);
   var lastWheelDirectionRef = (0, React.useRef)();
 
   function onWheel(e) {
@@ -13430,21 +13316,11 @@ function useTouchMove(ref, onOffset) {
     } else {
       mixed = deltaY;
       lastWheelDirectionRef.current = 'y';
-    } // Optimize mac touch scroll
-
-
-    var now = Date.now();
-
-    if (now - lastWheelTimestampRef.current > 100) {
-      lastWheelPreventRef.current = false;
     }
 
-    if (onOffset(-mixed, -mixed) || lastWheelPreventRef.current) {
+    if (onOffset(-mixed, -mixed)) {
       e.preventDefault();
-      lastWheelPreventRef.current = true;
     }
-
-    lastWheelTimestampRef.current = now;
   } // ========================= Effect =========================
 
 
@@ -13508,7 +13384,7 @@ function useRefs() {
 
   function getRef(key) {
     if (!cacheRefs.current.has(key)) {
-      cacheRefs.current.set(key, React.createRef());
+      cacheRefs.current.set(key, /*#__PURE__*/React.createRef());
     }
 
     return cacheRefs.current.get(key);
@@ -13578,7 +13454,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _raf = _interopRequireDefault(require("raf"));
+var _raf = _interopRequireDefault(require("rc-util/es/raf"));
 
 var _rcResizeObserver = _interopRequireDefault(require("rc-resize-observer"));
 
@@ -13624,7 +13500,7 @@ var ExtraContent = function ExtraContent(_ref) {
     content = assertExtra.left || null;
   }
 
-  return content ? React.createElement("div", {
+  return content ? /*#__PURE__*/React.createElement("div", {
     className: "".concat(prefixCls, "-extra-content")
   }, content) : null;
 };
@@ -13748,14 +13624,14 @@ function TabNavList(props, ref) {
 
   function alignInRange(value) {
     if (value < transformMin) {
-      return [transformMin, false];
+      return transformMin;
     }
 
     if (value > transformMax) {
-      return [transformMax, false];
+      return transformMax;
     }
 
-    return [value, true];
+    return value;
   } // ========================= Mobile ========================
 
 
@@ -13775,16 +13651,9 @@ function TabNavList(props, ref) {
   }
 
   (0, _useTouchMove.default)(tabsWrapperRef, function (offsetX, offsetY) {
-    var preventDefault = false;
-
     function doMove(setState, offset) {
       setState(function (value) {
-        var _alignInRange = alignInRange(value + offset),
-            _alignInRange2 = (0, _slicedToArray2.default)(_alignInRange, 2),
-            newValue = _alignInRange2[0],
-            needPrevent = _alignInRange2[1];
-
-        preventDefault = needPrevent;
+        var newValue = alignInRange(value + offset);
         return newValue;
       });
     }
@@ -13792,13 +13661,13 @@ function TabNavList(props, ref) {
     if (tabPositionTopOrBottom) {
       // Skip scroll if place is enough
       if (wrapperWidth >= wrapperScrollWidth) {
-        return preventDefault;
+        return false;
       }
 
       doMove(setTransformLeft, offsetX);
     } else {
       if (wrapperHeight >= wrapperScrollHeight) {
-        return preventDefault;
+        return false;
       }
 
       doMove(setTransformTop, offsetY);
@@ -13806,7 +13675,7 @@ function TabNavList(props, ref) {
 
     clearTouchMoving();
     doLockAnimation();
-    return preventDefault;
+    return true;
   });
   (0, React.useEffect)(function () {
     clearTouchMoving();
@@ -13822,8 +13691,13 @@ function TabNavList(props, ref) {
 
   function scrollToTab() {
     var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : activeKey;
-    var tabOffset = tabOffsets.get(key);
-    if (!tabOffset) return;
+    var tabOffset = tabOffsets.get(key) || {
+      width: 0,
+      height: 0,
+      left: 0,
+      right: 0,
+      top: 0
+    };
 
     if (tabPositionTopOrBottom) {
       // ============ Align with top & bottom ============
@@ -13843,7 +13717,7 @@ function TabNavList(props, ref) {
         }
 
       setTransformTop(0);
-      setTransformLeft(alignInRange(newTransform)[0]);
+      setTransformLeft(alignInRange(newTransform));
     } else {
       // ============ Align with left & right ============
       var _newTransform = transformTop;
@@ -13855,7 +13729,7 @@ function TabNavList(props, ref) {
       }
 
       setTransformLeft(0);
-      setTransformTop(alignInRange(_newTransform)[0]);
+      setTransformTop(alignInRange(_newTransform));
     }
   } // ========================== Tab ==========================
   // Render tab node & collect tab offset
@@ -13881,7 +13755,7 @@ function TabNavList(props, ref) {
 
   var tabNodes = tabs.map(function (tab) {
     var key = tab.key;
-    return React.createElement(_TabNode.default, {
+    return /*#__PURE__*/React.createElement(_TabNode.default, {
       id: id,
       prefixCls: prefixCls,
       key: key,
@@ -14028,7 +13902,7 @@ function TabNavList(props, ref) {
   /* eslint-disable jsx-a11y/interactive-supports-focus */
 
 
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     ref: ref,
     role: "tablist",
     className: (0, _classnames.default)("".concat(prefixCls, "-nav"), className),
@@ -14037,25 +13911,25 @@ function TabNavList(props, ref) {
       // No need animation when use keyboard
       doLockAnimation();
     }
-  }, React.createElement(ExtraContent, {
+  }, /*#__PURE__*/React.createElement(ExtraContent, {
     position: "left",
     extra: extra,
     prefixCls: prefixCls
-  }), React.createElement(_rcResizeObserver.default, {
+  }), /*#__PURE__*/React.createElement(_rcResizeObserver.default, {
     onResize: onListHolderResize
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)(wrapPrefix, (_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-left"), pingLeft), (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-right"), pingRight), (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-top"), pingTop), (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-bottom"), pingBottom), _classNames)),
     ref: tabsWrapperRef
-  }, React.createElement(_rcResizeObserver.default, {
+  }, /*#__PURE__*/React.createElement(_rcResizeObserver.default, {
     onResize: onListHolderResize
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     ref: tabListRef,
     className: "".concat(prefixCls, "-nav-list"),
     style: {
       transform: "translate(".concat(transformLeft, "px, ").concat(transformTop, "px)"),
       transition: lockAnimation ? 'none' : undefined
     }
-  }, tabNodes, React.createElement(_AddButton.default, {
+  }, tabNodes, /*#__PURE__*/React.createElement(_AddButton.default, {
     ref: innerAddButtonRef,
     prefixCls: prefixCls,
     locale: locale,
@@ -14063,15 +13937,15 @@ function TabNavList(props, ref) {
     style: {
       visibility: hasDropdown ? 'hidden' : null
     }
-  }), React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)("".concat(prefixCls, "-ink-bar"), (0, _defineProperty2.default)({}, "".concat(prefixCls, "-ink-bar-animated"), animated.inkBar)),
     style: inkStyle
-  }))))), React.createElement(_OperationNode.default, Object.assign({}, props, {
+  }))))), /*#__PURE__*/React.createElement(_OperationNode.default, Object.assign({}, props, {
     ref: operationsRef,
     prefixCls: prefixCls,
     tabs: hiddenTabs,
     className: !hasDropdown && operationsHiddenClassName
-  })), React.createElement(ExtraContent, {
+  })), /*#__PURE__*/React.createElement(ExtraContent, {
     position: "right",
     extra: extra,
     prefixCls: prefixCls
@@ -14079,10 +13953,10 @@ function TabNavList(props, ref) {
   /* eslint-enable */
 }
 
-var _default = React.forwardRef(TabNavList);
+var _default = /*#__PURE__*/React.forwardRef(TabNavList);
 
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/toConsumableArray":"Qv3s","@babel/runtime/helpers/esm/objectSpread2":"UKeT","@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","classnames":"qb7c","raf":"oXMl","rc-resize-observer":"q9L5","../hooks/useRaf":"LCWf","./TabNode":"VleC","../hooks/useOffsets":"uhKO","../hooks/useVisibleRange":"eQ4Y","./OperationNode":"MhTA","../TabContext":"vHWa","../hooks/useTouchMove":"MZjt","../hooks/useRefs":"Sb61","./AddButton":"kT7Q","../hooks/useSyncState":"AAQN"}],"om2l":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/toConsumableArray":"Qv3s","@babel/runtime/helpers/esm/objectSpread2":"UKeT","@babel/runtime/helpers/esm/slicedToArray":"T12H","react":"n8MK","classnames":"qb7c","rc-util/es/raf":"adDJ","rc-resize-observer":"q9L5","../hooks/useRaf":"LCWf","./TabNode":"VleC","../hooks/useOffsets":"uhKO","../hooks/useVisibleRange":"eQ4Y","./OperationNode":"MhTA","../TabContext":"vHWa","../hooks/useTouchMove":"MZjt","../hooks/useRefs":"Sb61","./AddButton":"kT7Q","../hooks/useSyncState":"AAQN"}],"om2l":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14120,13 +13994,13 @@ function TabPanelList(_ref) {
   var activeIndex = tabs.findIndex(function (tab) {
     return tab.key === activeKey;
   });
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)("".concat(prefixCls, "-content-holder"))
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)("".concat(prefixCls, "-content"), "".concat(prefixCls, "-content-").concat(tabPosition), (0, _defineProperty2.default)({}, "".concat(prefixCls, "-content-animated"), tabPaneAnimated)),
     style: activeIndex && tabPaneAnimated ? (0, _defineProperty2.default)({}, rtl ? 'marginRight' : 'marginLeft', "-".concat(activeIndex, "00%")) : null
   }, tabs.map(function (tab) {
-    return React.cloneElement(tab.node, {
+    return /*#__PURE__*/React.cloneElement(tab.node, {
       key: tab.key,
       prefixCls: prefixCls,
       tabKey: tab.key,
@@ -14195,7 +14069,7 @@ function TabPane(_ref) {
     }
   }
 
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     id: id && "".concat(id, "-panel-").concat(tabKey),
     role: "tabpanel",
     tabIndex: active ? 0 : -1,
@@ -14229,6 +14103,8 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _toArray = _interopRequireDefault(require("rc-util/es/Children/toArray"));
 
+var _isMobile = _interopRequireDefault(require("rc-util/es/isMobile"));
+
 var _useMergedState5 = _interopRequireDefault(require("rc-util/es/hooks/useMergedState"));
 
 var _TabNavList = _interopRequireDefault(require("./TabNavList"));
@@ -14238,8 +14114,6 @@ var _TabPanelList = _interopRequireDefault(require("./TabPanelList"));
 var _TabPane = _interopRequireDefault(require("./TabPanelList/TabPane"));
 
 var _TabContext = _interopRequireDefault(require("./TabContext"));
-
-var _useTouchMove = require("./hooks/useTouchMove");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -14263,7 +14137,7 @@ var uuid = 0;
 
 function parseTabList(children) {
   return (0, _toArray.default)(children).map(function (node) {
-    if (React.isValidElement(node)) {
+    if ( /*#__PURE__*/React.isValidElement(node)) {
       var key = node.key !== undefined ? String(node.key) : undefined;
       return (0, _objectSpread2.default)((0, _objectSpread2.default)({
         key: key
@@ -14338,7 +14212,7 @@ function Tabs(_ref, ref) {
 
   (0, React.useEffect)(function () {
     // Only update on the client side
-    setMobile((0, _useTouchMove.isMobile)());
+    setMobile((0, _isMobile.default)());
   }, []); // ====================== Active Key ======================
 
   var _useMergedState = (0, _useMergedState5.default)(function () {
@@ -14433,30 +14307,30 @@ function Tabs(_ref, ref) {
   if (renderTabBar) {
     tabNavBar = renderTabBar(tabNavBarProps, _TabNavList.default);
   } else {
-    tabNavBar = React.createElement(_TabNavList.default, Object.assign({}, tabNavBarProps));
+    tabNavBar = /*#__PURE__*/React.createElement(_TabNavList.default, Object.assign({}, tabNavBarProps));
   }
 
-  return React.createElement(_TabContext.default.Provider, {
+  return /*#__PURE__*/React.createElement(_TabContext.default.Provider, {
     value: {
       tabs: tabs,
       prefixCls: prefixCls
     }
-  }, React.createElement("div", Object.assign({
+  }, /*#__PURE__*/React.createElement("div", Object.assign({
     ref: ref,
     id: id,
     className: (0, _classnames.default)(prefixCls, "".concat(prefixCls, "-").concat(mergedTabPosition), (_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-mobile"), mobile), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-editable"), editable), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-rtl"), rtl), _classNames), className)
-  }, restProps), tabNavBar, React.createElement(_TabPanelList.default, Object.assign({
+  }, restProps), tabNavBar, /*#__PURE__*/React.createElement(_TabPanelList.default, Object.assign({
     destroyInactiveTabPane: destroyInactiveTabPane
   }, sharedProps, {
     animated: mergedAnimated
   }))));
 }
 
-var ForwardTabs = React.forwardRef(Tabs);
+var ForwardTabs = /*#__PURE__*/React.forwardRef(Tabs);
 ForwardTabs.TabPane = _TabPane.default;
 var _default = ForwardTabs;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/slicedToArray":"T12H","@babel/runtime/helpers/esm/typeof":"xLw6","@babel/runtime/helpers/esm/objectWithoutProperties":"tuNH","@babel/runtime/helpers/esm/objectSpread2":"UKeT","react":"n8MK","classnames":"qb7c","rc-util/es/Children/toArray":"artt","rc-util/es/hooks/useMergedState":"zMpY","./TabNavList":"Piyq","./TabPanelList":"om2l","./TabPanelList/TabPane":"Fb5J","./TabContext":"vHWa","./hooks/useTouchMove":"MZjt"}],"FgVr":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/defineProperty":"gpd2","@babel/runtime/helpers/esm/slicedToArray":"T12H","@babel/runtime/helpers/esm/typeof":"xLw6","@babel/runtime/helpers/esm/objectWithoutProperties":"tuNH","@babel/runtime/helpers/esm/objectSpread2":"UKeT","react":"n8MK","classnames":"qb7c","rc-util/es/Children/toArray":"artt","rc-util/es/isMobile":"nb8J","rc-util/es/hooks/useMergedState":"zMpY","./TabNavList":"Piyq","./TabPanelList":"om2l","./TabPanelList/TabPane":"Fb5J","./TabContext":"vHWa"}],"FgVr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14577,10 +14451,11 @@ class DragState {
 
   _onMove() {
     if (_data) {
-      let searchElement = this.component.ownerDocument.elementFromPoint(this.clientX, this.clientY);
+      let ownerDocument = this.component.ownerDocument;
+      let searchElement = ownerDocument.elementFromPoint(this.clientX, this.clientY);
       let droppingHandlers;
 
-      while (searchElement && searchElement !== document.body) {
+      while (searchElement && searchElement !== ownerDocument.body) {
         if (_dragListeners.has(searchElement)) {
           let handlers = _dragListeners.get(searchElement);
 
@@ -15631,7 +15506,7 @@ var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/sli
 
 var _react = require("react");
 
-var _raf = _interopRequireDefault(require("raf"));
+var _raf = _interopRequireDefault(require("rc-util/lib/raf"));
 
 function useRaf(callback) {
   var rafRef = (0, _react.useRef)();
@@ -15686,7 +15561,7 @@ function useRafState(defaultState) {
 
   return [state.current, updater];
 }
-},{"@babel/runtime/helpers/interopRequireDefault":"SpGf","@babel/runtime/helpers/slicedToArray":"HETk","react":"n8MK","raf":"oXMl"}],"aqV6":[function(require,module,exports) {
+},{"@babel/runtime/helpers/interopRequireDefault":"SpGf","@babel/runtime/helpers/slicedToArray":"HETk","react":"n8MK","rc-util/lib/raf":"adDJ"}],"aqV6":[function(require,module,exports) {
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -15755,13 +15630,13 @@ function TabNode(_ref, ref) {
     });
   }
 
-  var node = React.createElement("div", {
+  var node = /*#__PURE__*/React.createElement("div", {
     key: key,
     ref: ref,
     className: (0, _classnames.default)(tabPrefix, (_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(tabPrefix, "-with-remove"), removable), (0, _defineProperty2.default)(_classNames, "".concat(tabPrefix, "-active"), active), (0, _defineProperty2.default)(_classNames, "".concat(tabPrefix, "-disabled"), disabled), _classNames)),
     style: nodeStyle,
     onClick: onInternalClick
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     role: "tab",
     "aria-selected": active,
     id: id && "".concat(id, "-tab-").concat(key),
@@ -15780,7 +15655,7 @@ function TabNode(_ref, ref) {
       }
     },
     onFocus: onFocus
-  }, tab), removable && React.createElement("button", {
+  }, tab), removable && /*#__PURE__*/React.createElement("button", {
     type: "button",
     "aria-label": removeAriaLabel || 'remove',
     tabIndex: 0,
@@ -15798,7 +15673,7 @@ function TabNode(_ref, ref) {
   return node;
 }
 
-var _default = React.forwardRef(TabNode);
+var _default = /*#__PURE__*/React.forwardRef(TabNode);
 
 exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireWildcard":"t7py","@babel/runtime/helpers/interopRequireDefault":"SpGf","@babel/runtime/helpers/defineProperty":"IxO8","react":"n8MK","classnames":"qb7c","rc-util/lib/KeyCode":"Imvn"}],"JL3Q":[function(require,module,exports) {
@@ -15874,7 +15749,7 @@ function AddButton(_ref, ref) {
     return null;
   }
 
-  return React.createElement("button", {
+  return /*#__PURE__*/React.createElement("button", {
     ref: ref,
     type: "button",
     className: "".concat(prefixCls, "-nav-add"),
@@ -15888,7 +15763,7 @@ function AddButton(_ref, ref) {
   }, editable.addIcon || '+');
 }
 
-var _default = React.forwardRef(AddButton);
+var _default = /*#__PURE__*/React.forwardRef(AddButton);
 
 exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireWildcard":"t7py","react":"n8MK"}],"vc65":[function(require,module,exports) {
@@ -15949,7 +15824,7 @@ function OperationNode(_ref, ref) {
   var dropdownPrefix = "".concat(prefixCls, "-dropdown");
   var selectedItemId = selectedKey !== null ? "".concat(popupId, "-").concat(selectedKey) : null;
   var dropdownAriaLabel = locale === null || locale === void 0 ? void 0 : locale.dropdownAriaLabel;
-  var menu = React.createElement(_rcMenu.default, {
+  var menu = /*#__PURE__*/React.createElement(_rcMenu.default, {
     onClick: function onClick(_ref2) {
       var key = _ref2.key,
           domEvent = _ref2.domEvent;
@@ -15963,7 +15838,7 @@ function OperationNode(_ref, ref) {
     selectedKeys: [selectedKey],
     "aria-label": dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'
   }, tabs.map(function (tab) {
-    return React.createElement(_rcMenu.MenuItem, {
+    return /*#__PURE__*/React.createElement(_rcMenu.MenuItem, {
       key: tab.key,
       id: "".concat(popupId, "-").concat(tab.key),
       role: "option",
@@ -16049,7 +15924,7 @@ function OperationNode(_ref, ref) {
   }
 
   var overlayClassName = (0, _classnames.default)((0, _defineProperty2.default)({}, "".concat(dropdownPrefix, "-rtl"), rtl));
-  var moreNode = mobile ? null : React.createElement(_rcDropdown.default, {
+  var moreNode = mobile ? null : /*#__PURE__*/React.createElement(_rcDropdown.default, {
     prefixCls: dropdownPrefix,
     overlay: menu,
     trigger: ['hover'],
@@ -16059,7 +15934,7 @@ function OperationNode(_ref, ref) {
     overlayClassName: overlayClassName,
     mouseEnterDelay: 0.1,
     mouseLeaveDelay: 0.1
-  }, React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "".concat(prefixCls, "-nav-more"),
     style: moreStyle,
@@ -16071,18 +15946,18 @@ function OperationNode(_ref, ref) {
     "aria-expanded": open,
     onKeyDown: onKeyDown
   }, moreIcon));
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)("".concat(prefixCls, "-nav-operations"), className),
     style: style,
     ref: ref
-  }, moreNode, React.createElement(_AddButton.default, {
+  }, moreNode, /*#__PURE__*/React.createElement(_AddButton.default, {
     prefixCls: prefixCls,
     locale: locale,
     editable: editable
   }));
 }
 
-var _default = React.forwardRef(OperationNode);
+var _default = /*#__PURE__*/React.forwardRef(OperationNode);
 
 exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireWildcard":"t7py","@babel/runtime/helpers/interopRequireDefault":"SpGf","@babel/runtime/helpers/defineProperty":"IxO8","@babel/runtime/helpers/slicedToArray":"HETk","react":"n8MK","classnames":"qb7c","rc-util/lib/KeyCode":"Imvn","rc-menu":"VH7R","rc-dropdown":"SyQB","./AddButton":"m6LL"}],"YfB7":[function(require,module,exports) {
@@ -16095,7 +15970,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isMobile = isMobile;
 exports.default = useTouchMove;
 
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
@@ -16105,18 +15979,7 @@ var React = _interopRequireWildcard(require("react"));
 var MIN_SWIPE_DISTANCE = 0.1;
 var STOP_SWIPE_DISTANCE = 0.01;
 var REFRESH_INTERVAL = 20;
-var SPEED_OFF_MULTIPLE = Math.pow(0.995, REFRESH_INTERVAL); // ========================= Check if is a mobile =========================
-
-function isMobile() {
-  var agent = navigator.userAgent || navigator.vendor || window.opera;
-
-  if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(agent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw-(n|u)|c55\/|capi|ccwa|cdm-|cell|chtm|cldc|cmd-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc-s|devi|dica|dmob|do(c|p)o|ds(12|-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(-|_)|g1 u|g560|gene|gf-5|g-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd-(m|p|t)|hei-|hi(pt|ta)|hp( i|ip)|hs-c|ht(c(-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i-(20|go|ma)|i230|iac( |-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|-[a-w])|libw|lynx|m1-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|-([1-8]|c))|phil|pire|pl(ay|uc)|pn-2|po(ck|rt|se)|prox|psio|pt-g|qa-a|qc(07|12|21|32|60|-[2-7]|i-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h-|oo|p-)|sdk\/|se(c(-|0|1)|47|mc|nd|ri)|sgh-|shar|sie(-|m)|sk-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h-|v-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl-|tdg-|tel(i|m)|tim-|t-mo|to(pl|sh)|ts(70|m-|m3|m5)|tx-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas-|your|zeto|zte-/i.test(agent.substr(0, 4))) {
-    return true;
-  }
-
-  return false;
-} // ================================= Hook =================================
-
+var SPEED_OFF_MULTIPLE = Math.pow(0.995, REFRESH_INTERVAL); // ================================= Hook =================================
 
 function useTouchMove(ref, onOffset) {
   var _useState = (0, React.useState)(),
@@ -16203,8 +16066,6 @@ function useTouchMove(ref, onOffset) {
   } // >>> Wheel event
 
 
-  var lastWheelTimestampRef = (0, React.useRef)(0);
-  var lastWheelPreventRef = (0, React.useRef)(false);
   var lastWheelDirectionRef = (0, React.useRef)();
 
   function onWheel(e) {
@@ -16223,21 +16084,11 @@ function useTouchMove(ref, onOffset) {
     } else {
       mixed = deltaY;
       lastWheelDirectionRef.current = 'y';
-    } // Optimize mac touch scroll
-
-
-    var now = Date.now();
-
-    if (now - lastWheelTimestampRef.current > 100) {
-      lastWheelPreventRef.current = false;
     }
 
-    if (onOffset(-mixed, -mixed) || lastWheelPreventRef.current) {
+    if (onOffset(-mixed, -mixed)) {
       e.preventDefault();
-      lastWheelPreventRef.current = true;
     }
-
-    lastWheelTimestampRef.current = now;
   } // ========================= Effect =========================
 
 
@@ -16299,7 +16150,7 @@ function useRefs() {
 
   function getRef(key) {
     if (!cacheRefs.current.has(key)) {
-      cacheRefs.current.set(key, React.createRef());
+      cacheRefs.current.set(key, /*#__PURE__*/React.createRef());
     }
 
     return cacheRefs.current.get(key);
@@ -16371,7 +16222,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _raf = _interopRequireDefault(require("raf"));
+var _raf = _interopRequireDefault(require("rc-util/lib/raf"));
 
 var _rcResizeObserver = _interopRequireDefault(require("rc-resize-observer"));
 
@@ -16411,7 +16262,7 @@ var ExtraContent = function ExtraContent(_ref) {
     content = assertExtra.left || null;
   }
 
-  return content ? React.createElement("div", {
+  return content ? /*#__PURE__*/React.createElement("div", {
     className: "".concat(prefixCls, "-extra-content")
   }, content) : null;
 };
@@ -16535,14 +16386,14 @@ function TabNavList(props, ref) {
 
   function alignInRange(value) {
     if (value < transformMin) {
-      return [transformMin, false];
+      return transformMin;
     }
 
     if (value > transformMax) {
-      return [transformMax, false];
+      return transformMax;
     }
 
-    return [value, true];
+    return value;
   } // ========================= Mobile ========================
 
 
@@ -16562,16 +16413,9 @@ function TabNavList(props, ref) {
   }
 
   (0, _useTouchMove.default)(tabsWrapperRef, function (offsetX, offsetY) {
-    var preventDefault = false;
-
     function doMove(setState, offset) {
       setState(function (value) {
-        var _alignInRange = alignInRange(value + offset),
-            _alignInRange2 = (0, _slicedToArray2.default)(_alignInRange, 2),
-            newValue = _alignInRange2[0],
-            needPrevent = _alignInRange2[1];
-
-        preventDefault = needPrevent;
+        var newValue = alignInRange(value + offset);
         return newValue;
       });
     }
@@ -16579,13 +16423,13 @@ function TabNavList(props, ref) {
     if (tabPositionTopOrBottom) {
       // Skip scroll if place is enough
       if (wrapperWidth >= wrapperScrollWidth) {
-        return preventDefault;
+        return false;
       }
 
       doMove(setTransformLeft, offsetX);
     } else {
       if (wrapperHeight >= wrapperScrollHeight) {
-        return preventDefault;
+        return false;
       }
 
       doMove(setTransformTop, offsetY);
@@ -16593,7 +16437,7 @@ function TabNavList(props, ref) {
 
     clearTouchMoving();
     doLockAnimation();
-    return preventDefault;
+    return true;
   });
   (0, React.useEffect)(function () {
     clearTouchMoving();
@@ -16609,8 +16453,13 @@ function TabNavList(props, ref) {
 
   function scrollToTab() {
     var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : activeKey;
-    var tabOffset = tabOffsets.get(key);
-    if (!tabOffset) return;
+    var tabOffset = tabOffsets.get(key) || {
+      width: 0,
+      height: 0,
+      left: 0,
+      right: 0,
+      top: 0
+    };
 
     if (tabPositionTopOrBottom) {
       // ============ Align with top & bottom ============
@@ -16630,7 +16479,7 @@ function TabNavList(props, ref) {
         }
 
       setTransformTop(0);
-      setTransformLeft(alignInRange(newTransform)[0]);
+      setTransformLeft(alignInRange(newTransform));
     } else {
       // ============ Align with left & right ============
       var _newTransform = transformTop;
@@ -16642,7 +16491,7 @@ function TabNavList(props, ref) {
       }
 
       setTransformLeft(0);
-      setTransformTop(alignInRange(_newTransform)[0]);
+      setTransformTop(alignInRange(_newTransform));
     }
   } // ========================== Tab ==========================
   // Render tab node & collect tab offset
@@ -16668,7 +16517,7 @@ function TabNavList(props, ref) {
 
   var tabNodes = tabs.map(function (tab) {
     var key = tab.key;
-    return React.createElement(_TabNode.default, {
+    return /*#__PURE__*/React.createElement(_TabNode.default, {
       id: id,
       prefixCls: prefixCls,
       key: key,
@@ -16815,7 +16664,7 @@ function TabNavList(props, ref) {
   /* eslint-disable jsx-a11y/interactive-supports-focus */
 
 
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     ref: ref,
     role: "tablist",
     className: (0, _classnames.default)("".concat(prefixCls, "-nav"), className),
@@ -16824,25 +16673,25 @@ function TabNavList(props, ref) {
       // No need animation when use keyboard
       doLockAnimation();
     }
-  }, React.createElement(ExtraContent, {
+  }, /*#__PURE__*/React.createElement(ExtraContent, {
     position: "left",
     extra: extra,
     prefixCls: prefixCls
-  }), React.createElement(_rcResizeObserver.default, {
+  }), /*#__PURE__*/React.createElement(_rcResizeObserver.default, {
     onResize: onListHolderResize
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)(wrapPrefix, (_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-left"), pingLeft), (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-right"), pingRight), (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-top"), pingTop), (0, _defineProperty2.default)(_classNames, "".concat(wrapPrefix, "-ping-bottom"), pingBottom), _classNames)),
     ref: tabsWrapperRef
-  }, React.createElement(_rcResizeObserver.default, {
+  }, /*#__PURE__*/React.createElement(_rcResizeObserver.default, {
     onResize: onListHolderResize
-  }, React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     ref: tabListRef,
     className: "".concat(prefixCls, "-nav-list"),
     style: {
       transform: "translate(".concat(transformLeft, "px, ").concat(transformTop, "px)"),
       transition: lockAnimation ? 'none' : undefined
     }
-  }, tabNodes, React.createElement(_AddButton.default, {
+  }, tabNodes, /*#__PURE__*/React.createElement(_AddButton.default, {
     ref: innerAddButtonRef,
     prefixCls: prefixCls,
     locale: locale,
@@ -16850,15 +16699,15 @@ function TabNavList(props, ref) {
     style: {
       visibility: hasDropdown ? 'hidden' : null
     }
-  }), React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: (0, _classnames.default)("".concat(prefixCls, "-ink-bar"), (0, _defineProperty2.default)({}, "".concat(prefixCls, "-ink-bar-animated"), animated.inkBar)),
     style: inkStyle
-  }))))), React.createElement(_OperationNode.default, Object.assign({}, props, {
+  }))))), /*#__PURE__*/React.createElement(_OperationNode.default, Object.assign({}, props, {
     ref: operationsRef,
     prefixCls: prefixCls,
     tabs: hiddenTabs,
     className: !hasDropdown && operationsHiddenClassName
-  })), React.createElement(ExtraContent, {
+  })), /*#__PURE__*/React.createElement(ExtraContent, {
     position: "right",
     extra: extra,
     prefixCls: prefixCls
@@ -16866,10 +16715,10 @@ function TabNavList(props, ref) {
   /* eslint-enable */
 }
 
-var _default = React.forwardRef(TabNavList);
+var _default = /*#__PURE__*/React.forwardRef(TabNavList);
 
 exports.default = _default;
-},{"@babel/runtime/helpers/interopRequireWildcard":"t7py","@babel/runtime/helpers/interopRequireDefault":"SpGf","@babel/runtime/helpers/defineProperty":"IxO8","@babel/runtime/helpers/toConsumableArray":"Fhqp","@babel/runtime/helpers/objectSpread2":"NgBR","@babel/runtime/helpers/slicedToArray":"HETk","react":"n8MK","classnames":"qb7c","raf":"oXMl","rc-resize-observer":"q9L5","../hooks/useRaf":"mMJ1","./TabNode":"aqV6","../hooks/useOffsets":"JL3Q","../hooks/useVisibleRange":"eQ4Y","./OperationNode":"vc65","../TabContext":"vHWa","../hooks/useTouchMove":"YfB7","../hooks/useRefs":"lL3n","./AddButton":"m6LL","../hooks/useSyncState":"cB3w"}],"Ec16":[function(require,module,exports) {
+},{"@babel/runtime/helpers/interopRequireWildcard":"t7py","@babel/runtime/helpers/interopRequireDefault":"SpGf","@babel/runtime/helpers/defineProperty":"IxO8","@babel/runtime/helpers/toConsumableArray":"Fhqp","@babel/runtime/helpers/objectSpread2":"NgBR","@babel/runtime/helpers/slicedToArray":"HETk","react":"n8MK","classnames":"qb7c","rc-util/lib/raf":"adDJ","rc-resize-observer":"q9L5","../hooks/useRaf":"mMJ1","./TabNode":"aqV6","../hooks/useOffsets":"JL3Q","../hooks/useVisibleRange":"eQ4Y","./OperationNode":"vc65","../TabContext":"vHWa","../hooks/useTouchMove":"YfB7","../hooks/useRefs":"lL3n","./AddButton":"m6LL","../hooks/useSyncState":"cB3w"}],"Ec16":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -17052,7 +16901,7 @@ DockTabPane.contextType = DockData_1.DockContextType;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getFloatPanelSize = exports.fixLayoutData = exports.fixFloatPanelPos = exports.maximize = exports.moveToFront = exports.removeFromLayout = exports.floatPanel = exports.dockPanelToBox = exports.dockPanelToPanel = exports.converToPanel = exports.addTabToPanel = exports.addNextToTab = exports.find = exports.nextZIndex = exports.nextId = exports.getUpdatedObject = void 0;
+exports.getFloatPanelSize = exports.fixLayoutData = exports.fixFloatPanelPos = exports.maximize = exports.moveToFront = exports.removeFromLayout = exports.panelToWindow = exports.floatPanel = exports.dockPanelToBox = exports.dockPanelToPanel = exports.converToPanel = exports.addTabToPanel = exports.addNextToTab = exports.find = exports.Filter = exports.nextZIndex = exports.nextId = exports.getUpdatedObject = void 0;
 
 const DockData_1 = require("./DockData");
 
@@ -17111,30 +16960,32 @@ function nextZIndex(current) {
 
 exports.nextZIndex = nextZIndex;
 
-function findInPanel(panel, id) {
-  if (panel.id === id) {
+function findInPanel(panel, id, filter) {
+  if (panel.id === id && filter & Filter.Panel) {
     return panel;
   }
 
-  for (let tab of panel.tabs) {
-    if (tab.id === id) {
-      return tab;
+  if (filter & Filter.Tab) {
+    for (let tab of panel.tabs) {
+      if (tab.id === id) {
+        return tab;
+      }
     }
   }
 
   return null;
 }
 
-function findInBox(box, id) {
+function findInBox(box, id, filter) {
   let result;
 
   for (let child of box.children) {
     if ('children' in child) {
-      if (result = findInBox(child, id)) {
+      if (result = findInBox(child, id, filter)) {
         break;
       }
     } else if ('tabs' in child) {
-      if (result = findInPanel(child, id)) {
+      if (result = findInPanel(child, id, filter)) {
         break;
       }
     }
@@ -17143,15 +16994,44 @@ function findInBox(box, id) {
   return result;
 }
 
-function find(layout, id) {
-  let result = findInBox(layout.dockbox, id);
+var Filter;
 
-  if (!result) {
-    result = findInBox(layout.floatbox, id);
+(function (Filter) {
+  Filter[Filter["Tab"] = 1] = "Tab";
+  Filter[Filter["Panel"] = 2] = "Panel";
+  Filter[Filter["Docked"] = 4] = "Docked";
+  Filter[Filter["Floated"] = 8] = "Floated";
+  Filter[Filter["Windowed"] = 16] = "Windowed";
+  Filter[Filter["Max"] = 32] = "Max";
+  Filter[Filter["EveryWhere"] = 60] = "EveryWhere";
+  Filter[Filter["AnyTab"] = 61] = "AnyTab";
+  Filter[Filter["AnyPanel"] = 62] = "AnyPanel";
+  Filter[Filter["All"] = 63] = "All";
+})(Filter = exports.Filter || (exports.Filter = {}));
+
+function find(layout, id, filter = Filter.All) {
+  let result;
+
+  if (filter & Filter.Docked) {
+    result = findInBox(layout.dockbox, id, filter);
   }
 
-  if (!result) {
-    result = findInBox(layout.maxbox, id);
+  if (result) return result;
+
+  if (filter & Filter.Floated) {
+    result = findInBox(layout.floatbox, id, filter);
+  }
+
+  if (result) return result;
+
+  if (filter & Filter.Windowed) {
+    result = findInBox(layout.windowbox, id, filter);
+  }
+
+  if (result) return result;
+
+  if (filter & Filter.Max) {
+    result = findInBox(layout.maxbox, id, filter);
   }
 
   return result;
@@ -17375,6 +17255,14 @@ function floatPanel(layout, newPanel, rect) {
 }
 
 exports.floatPanel = floatPanel;
+
+function panelToWindow(layout, newPanel) {
+  let newBox = clone(layout.windowbox);
+  newBox.children.push(newPanel);
+  return replaceBox(layout, layout.windowbox, newBox);
+}
+
+exports.panelToWindow = panelToWindow;
 
 function removeFromLayout(layout, source) {
   if (source) {
@@ -17776,6 +17664,16 @@ function fixLayoutData(layout, loadTab) {
     layout.floatbox.mode = 'float';
   }
 
+  if (!('windowbox' in layout)) {
+    layout.windowbox = {
+      mode: 'window',
+      children: [],
+      size: 1
+    };
+  } else {
+    layout.windowbox.mode = 'window';
+  }
+
   if (!('maxbox' in layout)) {
     layout.maxbox = {
       mode: 'maximize',
@@ -17788,6 +17686,7 @@ function fixLayoutData(layout, loadTab) {
 
   fixBoxData(layout.dockbox);
   fixBoxData(layout.floatbox);
+  fixBoxData(layout.windowbox);
   fixBoxData(layout.maxbox);
 
   if (layout.dockbox.children.length === 0) {
@@ -17815,6 +17714,7 @@ function fixLayoutData(layout, loadTab) {
 
   layout.dockbox.parent = null;
   layout.floatbox.parent = null;
+  layout.windowbox.parent = null;
   layout.maxbox.parent = null;
   clearObjectCache();
   return layout;
@@ -17866,6 +17766,10 @@ function replaceBox(layout, box, newBox) {
       return Object.assign(Object.assign({}, layout), {
         floatbox: newBox
       });
+    } else if (box.id === layout.windowbox.id || box === layout.windowbox) {
+      return Object.assign(Object.assign({}, layout), {
+        windowbox: newBox
+      });
     } else if (box.id === layout.maxbox.id || box === layout.maxbox) {
       return Object.assign(Object.assign({}, layout), {
         maxbox: newBox
@@ -17902,399 +17806,521 @@ function getFloatPanelSize(panel, tabGroup) {
 }
 
 exports.getFloatPanelSize = getFloatPanelSize;
-},{"./DockData":"zh3I"}],"nskJ":[function(require,module,exports) {
-"use strict";
+},{"./DockData":"zh3I"}],"u9vI":[function(require,module,exports) {
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
 
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
+module.exports = isObject;
+
+},{}],"j3D9":[function(require,module,exports) {
+var global = arguments[3];
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+module.exports = freeGlobal;
+
+},{}],"MIhM":[function(require,module,exports) {
+var freeGlobal = require('./_freeGlobal');
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+},{"./_freeGlobal":"j3D9"}],"pJf5":[function(require,module,exports) {
+var root = require('./_root');
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+},{"./_root":"MIhM"}],"wppe":[function(require,module,exports) {
+var root = require('./_root');
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+},{"./_root":"MIhM"}],"uiOY":[function(require,module,exports) {
+var Symbol = require('./_Symbol');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
     }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-
-  __setModuleDefault(result, mod);
-
+  }
   return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DockTabs = exports.TabCache = void 0;
-
-const react_1 = __importDefault(require("react"));
-
-const DockData_1 = require("./DockData");
-
-const rc_tabs_1 = __importDefault(require("rc-tabs"));
-
-const DragManager = __importStar(require("./dragdrop/DragManager"));
-
-const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
-
-const DockTabBar_1 = require("./DockTabBar");
-
-const DockTabPane_1 = __importDefault(require("./DockTabPane"));
-
-const Algorithm_1 = require("./Algorithm");
-
-function findParentPanel(element) {
-  for (let i = 0; i < 10; ++i) {
-    if (!element) {
-      return null;
-    }
-
-    if (element.classList.contains('dock-panel')) {
-      return element;
-    }
-
-    element = element.parentElement;
-  }
-
-  return null;
 }
 
-function isPopupDiv(r) {
-  var _a, _b;
+module.exports = getRawTag;
 
-  return r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI';
+},{"./_Symbol":"wppe"}],"lPmd":[function(require,module,exports) {
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
 }
 
-class TabCache {
-  constructor(context) {
-    this.getRef = r => {
-      if (isPopupDiv(r)) {
-        return;
-      }
+module.exports = objectToString;
 
-      this._ref = r;
-    };
+},{}],"e5TX":[function(require,module,exports) {
+var Symbol = require('./_Symbol'),
+    getRawTag = require('./_getRawTag'),
+    objectToString = require('./_objectToString');
 
-    this.getHitAreaRef = r => {
-      if (isPopupDiv(r)) {
-        return;
-      }
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
 
-      this._hitAreaRef = r;
-    };
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
 
-    this.onCloseClick = e => {
-      this.context.dockMove(this.data, null, 'remove');
-      e.stopPropagation();
-    };
-
-    this.onKeyDownCloseBtn = evt => {
-      if (evt.key !== 'Enter' && evt.key !== ' ') {
-        return false;
-      }
-
-      this.context.dockMove(this.data, null, 'remove');
-      evt.stopPropagation();
-    };
-
-    this.onDragStart = e => {
-      let panel = findParentPanel(this._ref);
-      let tabGroup = this.context.getGroup(this.data.group);
-      let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panel, tabGroup);
-      e.setData({
-        tab: this.data,
-        panelSize: [panelWidth, panelHeight]
-      }, this.context.getDockId());
-      e.startDrag(this._ref.parentElement, this._ref.parentElement);
-    };
-
-    this.onDragOver = e => {
-      let dockId = this.context.getDockId();
-      let tab = DragManager.DragState.getData('tab', dockId);
-      let panel = DragManager.DragState.getData('panel', dockId);
-
-      if (tab) {
-        panel = tab.parent;
-      } else if (!panel) {
-        return;
-      }
-
-      if (panel.group !== this.data.group) {
-        e.reject();
-      } else if (tab && tab !== this.data) {
-        let direction = this.getDropDirection(e);
-        this.context.setDropRect(this._hitAreaRef, direction, this);
-        e.accept('');
-      } else if (panel && panel !== this.data.parent) {
-        let direction = this.getDropDirection(e);
-        this.context.setDropRect(this._hitAreaRef, direction, this);
-        e.accept('');
-      }
-    };
-
-    this.onDragLeave = e => {
-      this.context.setDropRect(null, 'remove', this);
-    };
-
-    this.onDrop = e => {
-      let dockId = this.context.getDockId();
-      let panel;
-      let tab = DragManager.DragState.getData('tab', dockId);
-
-      if (tab) {
-        panel = tab.parent;
-      } else {
-        panel = DragManager.DragState.getData('panel', dockId);
-      }
-
-      if (tab && tab !== this.data) {
-        let direction = this.getDropDirection(e);
-        this.context.dockMove(tab, this.data, direction);
-      } else if (panel && panel !== this.data.parent) {
-        let direction = this.getDropDirection(e);
-        this.context.dockMove(panel, this.data, direction);
-      }
-    };
-
-    this.context = context;
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
   }
-
-  setData(data) {
-    if (data !== this.data) {
-      this.data = data;
-      this.content = this.render();
-      return true;
-    }
-
-    return false;
-  }
-
-  getDropDirection(e) {
-    let rect = this._hitAreaRef.getBoundingClientRect();
-
-    let midx = rect.left + rect.width * 0.5;
-    return e.clientX > midx ? 'after-tab' : 'before-tab';
-  }
-
-  render() {
-    let {
-      id,
-      title,
-      group,
-      content,
-      closable,
-      cached,
-      cacheContext
-    } = this.data;
-    let tabGroup = this.context.getGroup(group);
-
-    if (typeof content === 'function') {
-      content = content(this.data);
-    }
-
-    let tab = react_1.default.createElement("div", {
-      ref: this.getRef
-    }, title, react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
-      className: 'dock-tab-hit-area',
-      getRef: this.getHitAreaRef,
-      onDragStartT: this.onDragStart,
-      onDragOverT: this.onDragOver,
-      onDropT: this.onDrop,
-      onDragLeaveT: this.onDragLeave
-    }, closable ? react_1.default.createElement("div", {
-      className: 'dock-tab-close-btn',
-      onClick: this.onCloseClick,
-      onKeyDown: this.onKeyDownCloseBtn,
-      tabIndex: 0
-    }) : null));
-    return react_1.default.createElement(DockTabPane_1.default, {
-      key: id,
-      cacheId: id,
-      cached: cached,
-      tab: tab
-    }, content);
-  }
-
-  destroy() {// place holder
-  }
-
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
 }
 
-exports.TabCache = TabCache;
+module.exports = baseGetTag;
 
-class DockTabs extends react_1.default.PureComponent {
-  constructor() {
-    super(...arguments);
-    this._cache = new Map();
-
-    this.onMaximizeClick = () => {
-      let {
-        panelData
-      } = this.props;
-      this.context.dockMove(panelData, null, 'maximize');
-    };
-
-    this.onKeyDownMaximizeBtn = evt => {
-      if (evt.key !== 'Enter' && evt.key !== ' ') {
-        return false;
-      }
-
-      evt.stopPropagation();
-      let {
-        panelData
-      } = this.props;
-      this.context.dockMove(panelData, null, 'maximize');
-    };
-
-    this.renderTabBar = (props, DefaultTabBar) => {
-      let {
-        panelData,
-        onPanelDragStart,
-        onPanelDragMove,
-        onPanelDragEnd
-      } = this.props;
-      let {
-        group: groupName,
-        panelLock
-      } = panelData;
-      let group = this.context.getGroup(groupName);
-      let {
-        panelExtra
-      } = group;
-
-      if (panelLock) {
-        if (panelLock.panelExtra) {
-          panelExtra = panelLock.panelExtra;
-        }
-      }
-
-      let panelExtraContent;
-
-      if (panelExtra) {
-        panelExtraContent = panelExtra(panelData, this.context);
-      } else if (group.maximizable) {
-        panelExtraContent = react_1.default.createElement("div", {
-          className: 'dock-panel-max-btn',
-          onClick: this.onMaximizeClick,
-          onKeyDown: this.onKeyDownMaximizeBtn,
-          tabIndex: 0
-        });
-      }
-
-      return react_1.default.createElement(DockTabBar_1.DockTabBar, Object.assign({
-        onDragStart: onPanelDragStart,
-        onDragMove: onPanelDragMove,
-        onDragEnd: onPanelDragEnd
-      }, props, {
-        extra: panelExtraContent
-      }));
-    };
-
-    this.onTabChange = activeId => {
-      this.props.panelData.activeId = activeId;
-      this.context.onSilentChange(activeId);
-      this.forceUpdate();
-      console.log(activeId);
-    };
-  }
-
-  updateTabs(tabs) {
-    if (tabs === this.cachedTabs) {
-      return;
-    }
-
-    this.cachedTabs = tabs;
-    let newCache = new Map();
-    let reused = 0;
-
-    for (let tabData of tabs) {
-      let {
-        id
-      } = tabData;
-
-      if (this._cache.has(id)) {
-        let tab = this._cache.get(id);
-
-        newCache.set(id, tab);
-        tab.setData(tabData);
-        ++reused;
-      } else {
-        let tab = new TabCache(this.context);
-        newCache.set(id, tab);
-        tab.setData(tabData);
-      }
-    }
-
-    if (reused !== this._cache.size) {
-      for (let [id, tab] of this._cache) {
-        if (!newCache.has(id)) {
-          tab.destroy();
-        }
-      }
-    }
-
-    this._cache = newCache;
-  }
-
-  render() {
-    let {
-      group,
-      tabs,
-      activeId
-    } = this.props.panelData;
-    let tabGroup = this.context.getGroup(group);
-    let {
-      animated
-    } = tabGroup;
-
-    if (animated == null) {
-      animated = true;
-    }
-
-    this.updateTabs(tabs);
-    let children = [];
-
-    for (let [id, tab] of this._cache) {
-      children.push(tab.content);
-    }
-
-    return react_1.default.createElement(rc_tabs_1.default, {
-      prefixCls: 'dock',
-      moreIcon: '...',
-      animated: animated,
-      renderTabBar: this.renderTabBar,
-      activeKey: activeId,
-      onChange: this.onTabChange
-    }, children);
-  }
-
+},{"./_Symbol":"wppe","./_getRawTag":"uiOY","./_objectToString":"lPmd"}],"OuyB":[function(require,module,exports) {
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
 }
 
-exports.DockTabs = DockTabs;
-DockTabs.contextType = DockData_1.DockContextType;
-DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
-},{"react":"n8MK","./DockData":"zh3I","rc-tabs":"FgVr","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./DockTabBar":"Ec16","./DockTabPane":"ZavB","./Algorithm":"wqok"}],"YpI8":[function(require,module,exports) {
+module.exports = isObjectLike;
+
+},{}],"bgO7":[function(require,module,exports) {
+var baseGetTag = require('./_baseGetTag'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+},{"./_baseGetTag":"e5TX","./isObjectLike":"OuyB"}],"iS0Z":[function(require,module,exports) {
+var isObject = require('./isObject'),
+    isSymbol = require('./isSymbol');
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+},{"./isObject":"u9vI","./isSymbol":"bgO7"}],"CXfR":[function(require,module,exports) {
+var isObject = require('./isObject'),
+    now = require('./now'),
+    toNumber = require('./toNumber');
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId);
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+},{"./isObject":"u9vI","./now":"pJf5","./toNumber":"iS0Z"}],"U7Gc":[function(require,module,exports) {
+var define;
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t(require("react"),require("react-dom")):"function"==typeof define&&define.amd?define(["react","react-dom"],t):e.ReactNewWindow=t(e.React,e.ReactDOM)}(this,function(e,t){"use strict";e=e&&e.hasOwnProperty("default")?e.default:e,t=t&&t.hasOwnProperty("default")?t.default:t;var n=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")};function o(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}var r=function(e,t,n){return t&&o(e.prototype,t),n&&o(e,n),e};function i(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}function c(e,t){return e(t={exports:{}},t.exports),t.exports}var s=c(function(e){function t(e){return(t="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function n(o){return"function"==typeof Symbol&&"symbol"===t(Symbol.iterator)?e.exports=n=function(e){return t(e)}:e.exports=n=function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":t(e)},n(o)}e.exports=n});var u=function(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e};var a=function(e,t){return!t||"object"!==s(t)&&"function"!=typeof t?u(e):t},l=c(function(e){function t(n){return e.exports=t=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)},t(n)}e.exports=t}),f=c(function(e){function t(n,o){return e.exports=t=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e},t(n,o)}e.exports=t});var p=function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&f(e,t)};var d=function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e},y=c(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n="function"==typeof Symbol&&Symbol.for,o=n?Symbol.for("react.element"):60103,r=n?Symbol.for("react.portal"):60106,i=n?Symbol.for("react.fragment"):60107,c=n?Symbol.for("react.strict_mode"):60108,s=n?Symbol.for("react.profiler"):60114,u=n?Symbol.for("react.provider"):60109,a=n?Symbol.for("react.context"):60110,l=n?Symbol.for("react.async_mode"):60111,f=n?Symbol.for("react.concurrent_mode"):60111,p=n?Symbol.for("react.forward_ref"):60112,d=n?Symbol.for("react.suspense"):60113,y=n?Symbol.for("react.memo"):60115,m=n?Symbol.for("react.lazy"):60116;function w(e){if("object"==typeof e&&null!==e){var t=e.$$typeof;switch(t){case o:switch(e=e.type){case l:case f:case i:case s:case c:case d:return e;default:switch(e=e&&e.$$typeof){case a:case p:case u:return e;default:return t}}case m:case y:case r:return t}}}function h(e){return w(e)===f}t.typeOf=w,t.AsyncMode=l,t.ConcurrentMode=f,t.ContextConsumer=a,t.ContextProvider=u,t.Element=o,t.ForwardRef=p,t.Fragment=i,t.Lazy=m,t.Memo=y,t.Portal=r,t.Profiler=s,t.StrictMode=c,t.Suspense=d,t.isValidElementType=function(e){return"string"==typeof e||"function"==typeof e||e===i||e===f||e===s||e===c||e===d||"object"==typeof e&&null!==e&&(e.$$typeof===m||e.$$typeof===y||e.$$typeof===u||e.$$typeof===a||e.$$typeof===p)},t.isAsyncMode=function(e){return h(e)||w(e)===l},t.isConcurrentMode=h,t.isContextConsumer=function(e){return w(e)===a},t.isContextProvider=function(e){return w(e)===u},t.isElement=function(e){return"object"==typeof e&&null!==e&&e.$$typeof===o},t.isForwardRef=function(e){return w(e)===p},t.isFragment=function(e){return w(e)===i},t.isLazy=function(e){return w(e)===m},t.isMemo=function(e){return w(e)===y},t.isPortal=function(e){return w(e)===r},t.isProfiler=function(e){return w(e)===s},t.isStrictMode=function(e){return w(e)===c},t.isSuspense=function(e){return w(e)===d}});i(y);y.typeOf,y.AsyncMode,y.ConcurrentMode,y.ContextConsumer,y.ContextProvider,y.Element,y.ForwardRef,y.Fragment,y.Lazy,y.Memo,y.Portal,y.Profiler,y.StrictMode,y.Suspense,y.isValidElementType,y.isAsyncMode,y.isConcurrentMode,y.isContextConsumer,y.isContextProvider,y.isElement,y.isForwardRef,y.isFragment,y.isLazy,y.isMemo,y.isPortal,y.isProfiler,y.isStrictMode,y.isSuspense;var m=c(function(e,t){});i(m);m.typeOf,m.AsyncMode,m.ConcurrentMode,m.ContextConsumer,m.ContextProvider,m.Element,m.ForwardRef,m.Fragment,m.Lazy,m.Memo,m.Portal,m.Profiler,m.StrictMode,m.Suspense,m.isValidElementType,m.isAsyncMode,m.isConcurrentMode,m.isContextConsumer,m.isContextProvider,m.isElement,m.isForwardRef,m.isFragment,m.isLazy,m.isMemo,m.isPortal,m.isProfiler,m.isStrictMode,m.isSuspense,c(function(e){e.exports=y});var w=Object.getOwnPropertySymbols,h=Object.prototype.hasOwnProperty,b=Object.prototype.propertyIsEnumerable;(function(){try{if(!Object.assign)return!1;var e=new String("abc");if(e[5]="de","5"===Object.getOwnPropertyNames(e)[0])return!1;for(var t={},n=0;n<10;n++)t["_"+String.fromCharCode(n)]=n;if("0123456789"!==Object.getOwnPropertyNames(t).map(function(e){return t[e]}).join(""))return!1;var o={};return"abcdefghijklmnopqrst".split("").forEach(function(e){o[e]=e}),"abcdefghijklmnopqrst"===Object.keys(Object.assign({},o)).join("")}catch(e){return!1}})()&&Object.assign;var v="SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";Function.call.bind(Object.prototype.hasOwnProperty);function S(){}function O(){}O.resetWarningCache=S;var g=c(function(e){e.exports=function(){function e(e,t,n,o,r,i){if(i!==v){var c=new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");throw c.name="Invariant Violation",c}}function t(){return e}e.isRequired=e;var n={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:t,element:e,elementType:e,instanceOf:t,node:e,objectOf:t,oneOf:t,oneOfType:t,shape:t,exact:t,checkPropTypes:O,resetWarningCache:S};return n.PropTypes=n,n}()}),P=function(e){function o(e){var t;return n(this,o),(t=a(this,l(o).call(this,e))).container=document.createElement("div"),t.window=null,t.windowCheckerInterval=null,t.released=!1,t.state={mounted:!1},t}return p(o,e),r(o,[{key:"render",value:function(){return this.state.mounted?t.createPortal(this.props.children,this.container):null}},{key:"componentDidMount",value:function(){this.openChild(),this.setState({mounted:!0})}},{key:"openChild",value:function(){var e,t=this,n=this.props,o=n.url,r=n.title,i=n.name,c=n.features,s=n.onBlock,u=n.onOpen,a=n.center;if("string"!=typeof a||void 0!==c.width&&void 0!==c.height){if("parent"===a)c.left=window.top.outerWidth/2+window.top.screenX-c.width/2,c.top=window.top.outerHeight/2+window.top.screenY-c.height/2;else if("screen"===a){var l=void 0!==window.screenLeft?window.screenLeft:window.screen.left,f=void 0!==window.screenTop?window.screenTop:window.screen.top,p=window.innerWidth?window.innerWidth:document.documentElement.clientWidth?document.documentElement.clientWidth:window.screen.width,d=window.innerHeight?window.innerHeight:document.documentElement.clientHeight?document.documentElement.clientHeight:window.screen.height;c.left=p/2-c.width/2+l,c.top=d/2-c.height/2+f}}else console.warn("width and height window features must be present when a center prop is provided");this.window=window.open(o,i,(e=c,Object.keys(e).reduce(function(t,n){var o=e[n];return"boolean"==typeof o?t.push("".concat(n,"=").concat(o?"yes":"no")):t.push("".concat(n,"=").concat(o)),t},[]).join(","))),this.windowCheckerInterval=setInterval(function(){t.window&&!t.window.closed||t.release()},50),this.window?(this.window.document.title=r,this.window.document.body.appendChild(this.container),this.props.copyStyles&&setTimeout(function(){return e=document,n=t.window.document,void Array.from(e.styleSheets).forEach(function(t){var o;try{o=t.cssRules}catch(e){console.error(e)}if(o){var r=e.createElement("style");Array.from(t.cssRules).forEach(function(t){var n=t.cssText,o=t.type,i=n;[3,5].includes(o)&&(i=n.split("url(").map(function(e){return"/"===e[1]?"".concat(e.slice(0,1)).concat(window.location.origin).concat(e.slice(1)):e}).join("url(")),r.appendChild(e.createTextNode(i))}),n.head.appendChild(r)}else if(t.href){var i=e.createElement("link");i.rel="stylesheet",i.href=t.href,n.head.appendChild(i)}});var e,n},0),"function"==typeof u&&u(this.window),this.window.addEventListener("beforeunload",function(){return t.release()})):"function"==typeof s?s(null):console.warn("A new window could not be opened. Maybe it was blocked.")}},{key:"componentWillUnmount",value:function(){this.window&&this.window.close()}},{key:"release",value:function(){if(!this.released){this.released=!0,clearInterval(this.windowCheckerInterval);var e=this.props.onUnload;"function"==typeof e&&e(null)}}}]),o}(e.PureComponent);return d(P,"defaultProps",{url:"",name:"",title:"",features:{width:"600px",height:"640px"},onBlock:null,onOpen:null,onUnload:null,center:"parent",copyStyles:!0}),P.propTypes={children:g.node,url:g.string,name:g.string,title:g.string,features:g.object,onUnload:g.func,onBlock:g.func,onOpen:g.func,center:g.oneOf(["parent","screen"]),copyStyles:g.bool},P});
+//# sourceMappingURL=react-new-window.js.map
+
+},{"react":"n8MK","react-dom":"NKHc"}],"YpI8":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -19189,7 +19215,603 @@ class DockPanel extends react_1.default.PureComponent {
 
 exports.DockPanel = DockPanel;
 DockPanel.contextType = DockData_1.DockContextType;
-},{"react":"n8MK","./DockData":"zh3I","./DockTabs":"nskJ","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb","./DockDropLayer":"YpI8","./Algorithm":"wqok","./DockDropEdge":"QpCJ"}],"Lzzn":[function(require,module,exports) {
+},{"react":"n8MK","./DockData":"zh3I","./DockTabs":"nskJ","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb","./DockDropLayer":"YpI8","./Algorithm":"wqok","./DockDropEdge":"QpCJ"}],"IpWq":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WindowPanel = void 0;
+
+const react_1 = __importDefault(require("react"));
+
+const debounce_1 = __importDefault(require("lodash/debounce"));
+
+const react_new_window_1 = __importDefault(require("react-new-window"));
+
+const DockData_1 = require("./DockData");
+
+const DockPanel_1 = require("./DockPanel");
+
+const Algorithm_1 = require("./Algorithm");
+
+class WindowPanel extends react_1.default.PureComponent {
+  constructor() {
+    super(...arguments);
+
+    this.onOpen = w => {
+      if (!this._window && w) {
+        window.addEventListener('beforeunload', this.onMainWindowUnload);
+        w.addEventListener('resize', this.onNewWindowResize);
+        this._window = w;
+      }
+    };
+
+    this.onUnload = () => {
+      let {
+        panelData
+      } = this.props;
+
+      if (this.context.find(panelData.id, Algorithm_1.Filter.Panel | Algorithm_1.Filter.Windowed)) {
+        let layoutRoot = this.context.getRootElement();
+        let layoutRect = layoutRoot.getBoundingClientRect();
+        panelData.w = this._window.innerWidth;
+        panelData.h = this._window.innerHeight;
+        let windowWidthDiff = this._window.outerWidth - this._window.innerWidth - (window.outerWidth - window.innerWidth);
+        let windowHeightDiff = this._window.outerHeight - this._window.innerHeight - (window.outerHeight - window.innerHeight);
+
+        if (windowWidthDiff > 0) {
+          // when window has a border but main window has no border
+          windowWidthDiff = Math.round(windowWidthDiff / 2);
+          windowHeightDiff -= windowWidthDiff;
+        } else {
+          windowWidthDiff = 0;
+        }
+
+        panelData.x = this._window.screenX - window.screenX + windowWidthDiff - layoutRect.x;
+        panelData.y = this._window.screenY - window.screenY + windowHeightDiff - layoutRect.y;
+        this.context.dockMove(panelData, null, 'float');
+      }
+    };
+
+    this.onMainWindowUnload = () => {
+      if (this._window) {
+        this.onNewWindowResize.cancel();
+
+        this._window.close();
+      }
+    };
+
+    this.onNewWindowResize = debounce_1.default(() => {
+      // add/remove element on main document, force it to dispatch resize observer event on the popup window
+      let div = document.createElement('div');
+      document.body.append(div);
+      div.remove(); // TODO update resize event
+    }, 200);
+  }
+
+  componentWillUnmount() {
+    if (this._window) {
+      window.removeEventListener('beforeunload', this.onMainWindowUnload);
+      this._window = null;
+    }
+  }
+
+  render() {
+    let {
+      panelData
+    } = this.props;
+    return react_1.default.createElement(react_new_window_1.default, {
+      copyStyles: true,
+      title: document.title,
+      onOpen: this.onOpen,
+      onUnload: this.onUnload,
+      onBlock: this.onUnload,
+      features: {
+        width: panelData.w,
+        height: panelData.h
+      }
+    }, react_1.default.createElement("div", {
+      className: 'dock-wbox'
+    }, react_1.default.createElement(DockPanel_1.DockPanel, {
+      size: panelData.size,
+      panelData: panelData,
+      key: panelData.id
+    })));
+  }
+
+}
+
+exports.WindowPanel = WindowPanel;
+WindowPanel.contextType = DockData_1.DockContextType;
+},{"react":"n8MK","lodash/debounce":"CXfR","react-new-window":"U7Gc","./DockData":"zh3I","./DockPanel":"ohUB","./Algorithm":"wqok"}],"ObQG":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WindowBox = void 0;
+
+const react_1 = __importDefault(require("react"));
+
+const WindowPanel_1 = require("./WindowPanel");
+
+class WindowBox extends react_1.default.PureComponent {
+  render() {
+    let {
+      children
+    } = this.props.boxData;
+    let childrenRender = [];
+
+    for (let child of children) {
+      if ('tabs' in child) {
+        childrenRender.push(react_1.default.createElement(WindowPanel_1.WindowPanel, {
+          key: child.id,
+          panelData: child
+        }));
+      }
+    }
+
+    return react_1.default.createElement(react_1.default.Fragment, null, childrenRender);
+  }
+
+}
+
+exports.WindowBox = WindowBox;
+WindowBox.enabled = window.navigator.platform === 'Win32' || window.navigator.platform === 'MacIntel';
+},{"react":"n8MK","./WindowPanel":"IpWq"}],"nskJ":[function(require,module,exports) {
+"use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DockTabs = exports.TabCache = void 0;
+
+const react_1 = __importDefault(require("react"));
+
+const DockData_1 = require("./DockData");
+
+const rc_tabs_1 = __importDefault(require("rc-tabs"));
+
+const rc_menu_1 = __importStar(require("rc-menu"));
+
+const rc_dropdown_1 = __importDefault(require("rc-dropdown"));
+
+const DragManager = __importStar(require("./dragdrop/DragManager"));
+
+const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
+
+const DockTabBar_1 = require("./DockTabBar");
+
+const DockTabPane_1 = __importDefault(require("./DockTabPane"));
+
+const Algorithm_1 = require("./Algorithm");
+
+const WindowBox_1 = require("./WindowBox");
+
+function findParentPanel(element) {
+  for (let i = 0; i < 10; ++i) {
+    if (!element) {
+      return null;
+    }
+
+    if (element.classList.contains('dock-panel')) {
+      return element;
+    }
+
+    element = element.parentElement;
+  }
+
+  return null;
+}
+
+function isPopupDiv(r) {
+  var _a, _b;
+
+  return r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI';
+}
+
+class TabCache {
+  constructor(context) {
+    this.getRef = r => {
+      if (isPopupDiv(r)) {
+        return;
+      }
+
+      this._ref = r;
+    };
+
+    this.getHitAreaRef = r => {
+      if (isPopupDiv(r)) {
+        return;
+      }
+
+      this._hitAreaRef = r;
+    };
+
+    this.onCloseClick = e => {
+      this.context.dockMove(this.data, null, 'remove');
+      e.stopPropagation();
+    };
+
+    this.onKeyDownCloseBtn = evt => {
+      if (evt.key !== 'Enter' && evt.key !== ' ') {
+        return false;
+      }
+
+      this.context.dockMove(this.data, null, 'remove');
+      evt.stopPropagation();
+    };
+
+    this.onDragStart = e => {
+      let panel = findParentPanel(this._ref);
+      let tabGroup = this.context.getGroup(this.data.group);
+      let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panel, tabGroup);
+      e.setData({
+        tab: this.data,
+        panelSize: [panelWidth, panelHeight]
+      }, this.context.getDockId());
+      e.startDrag(this._ref.parentElement, this._ref.parentElement);
+    };
+
+    this.onDragOver = e => {
+      let dockId = this.context.getDockId();
+      let tab = DragManager.DragState.getData('tab', dockId);
+      let panel = DragManager.DragState.getData('panel', dockId);
+
+      if (tab) {
+        panel = tab.parent;
+      } else if (!panel) {
+        return;
+      }
+
+      if (panel.group !== this.data.group) {
+        e.reject();
+      } else if (tab && tab !== this.data) {
+        let direction = this.getDropDirection(e);
+        this.context.setDropRect(this._hitAreaRef, direction, this);
+        e.accept('');
+      } else if (panel && panel !== this.data.parent) {
+        let direction = this.getDropDirection(e);
+        this.context.setDropRect(this._hitAreaRef, direction, this);
+        e.accept('');
+      }
+    };
+
+    this.onDragLeave = e => {
+      this.context.setDropRect(null, 'remove', this);
+    };
+
+    this.onDrop = e => {
+      let dockId = this.context.getDockId();
+      let panel;
+      let tab = DragManager.DragState.getData('tab', dockId);
+
+      if (tab) {
+        panel = tab.parent;
+      } else {
+        panel = DragManager.DragState.getData('panel', dockId);
+      }
+
+      if (tab && tab !== this.data) {
+        let direction = this.getDropDirection(e);
+        this.context.dockMove(tab, this.data, direction);
+      } else if (panel && panel !== this.data.parent) {
+        let direction = this.getDropDirection(e);
+        this.context.dockMove(panel, this.data, direction);
+      }
+    };
+
+    this.context = context;
+  }
+
+  setData(data) {
+    if (data !== this.data) {
+      this.data = data;
+      this.content = this.render();
+      return true;
+    }
+
+    return false;
+  }
+
+  getDropDirection(e) {
+    let rect = this._hitAreaRef.getBoundingClientRect();
+
+    let midx = rect.left + rect.width * 0.5;
+    return e.clientX > midx ? 'after-tab' : 'before-tab';
+  }
+
+  render() {
+    let {
+      id,
+      title,
+      group,
+      content,
+      closable,
+      cached,
+      parent
+    } = this.data;
+    let {
+      onDragStart,
+      onDragOver,
+      onDrop,
+      onDragLeave
+    } = this;
+
+    if (parent.parent.mode === 'window') {
+      onDragStart = null;
+      onDragOver = null;
+      onDrop = null;
+      onDragLeave = null;
+    }
+
+    let tabGroup = this.context.getGroup(group);
+
+    if (typeof content === 'function') {
+      content = content(this.data);
+    }
+
+    let tab = react_1.default.createElement("div", {
+      ref: this.getRef
+    }, title, react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+      className: 'dock-tab-hit-area',
+      getRef: this.getHitAreaRef,
+      onDragStartT: onDragStart,
+      onDragOverT: onDragOver,
+      onDropT: onDrop,
+      onDragLeaveT: onDragLeave
+    }, closable ? react_1.default.createElement("div", {
+      className: 'dock-tab-close-btn',
+      onClick: this.onCloseClick,
+      onKeyDown: this.onKeyDownCloseBtn,
+      tabIndex: 0
+    }) : null));
+    return react_1.default.createElement(DockTabPane_1.default, {
+      key: id,
+      cacheId: id,
+      cached: cached,
+      tab: tab
+    }, content);
+  }
+
+  destroy() {// place holder
+  }
+
+}
+
+exports.TabCache = TabCache;
+
+class DockTabs extends react_1.default.PureComponent {
+  constructor() {
+    super(...arguments);
+    this._cache = new Map();
+
+    this.onMaximizeClick = () => {
+      let {
+        panelData
+      } = this.props;
+      this.context.dockMove(panelData, null, 'maximize');
+    };
+
+    this.onNewWindowClick = () => {
+      let {
+        panelData
+      } = this.props;
+      this.context.dockMove(panelData, null, 'new-window');
+    };
+
+    this.onKeyDownMaximizeBtn = evt => {
+      if (evt.key !== 'Enter' && evt.key !== ' ') {
+        return false;
+      }
+
+      evt.stopPropagation();
+      this.onMaximizeClick();
+    };
+
+    this.renderTabBar = (props, DefaultTabBar) => {
+      let {
+        panelData,
+        onPanelDragStart,
+        onPanelDragMove,
+        onPanelDragEnd
+      } = this.props;
+      let {
+        group: groupName,
+        panelLock
+      } = panelData;
+      let group = this.context.getGroup(groupName);
+      let {
+        panelExtra
+      } = group;
+      let maximizable = group.maximizable;
+
+      if (panelData.parent.mode === 'window') {
+        onPanelDragStart = null;
+        maximizable = false;
+      }
+
+      if (panelLock) {
+        if (panelLock.panelExtra) {
+          panelExtra = panelLock.panelExtra;
+        }
+      }
+
+      let showNewWindowButton = group.newWindow && WindowBox_1.WindowBox.enabled && panelData.parent.mode === 'float';
+      let panelExtraContent;
+
+      if (panelExtra) {
+        panelExtraContent = panelExtra(panelData, this.context);
+      } else if (maximizable || showNewWindowButton) {
+        panelExtraContent = react_1.default.createElement("div", {
+          className: 'dock-panel-max-btn',
+          onClick: maximizable ? this.onMaximizeClick : null,
+          onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null,
+          tabIndex: 0
+        });
+
+        if (showNewWindowButton) {
+          panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
+        }
+      }
+
+      return react_1.default.createElement(DockTabBar_1.DockTabBar, Object.assign({
+        onDragStart: onPanelDragStart,
+        onDragMove: onPanelDragMove,
+        onDragEnd: onPanelDragEnd
+      }, props, {
+        extra: panelExtraContent
+      }));
+    };
+
+    this.onTabChange = activeId => {
+      this.props.panelData.activeId = activeId;
+      this.context.onSilentChange(activeId);
+      this.forceUpdate();
+    };
+  }
+
+  updateTabs(tabs) {
+    if (tabs === this.cachedTabs) {
+      return;
+    }
+
+    this.cachedTabs = tabs;
+    let newCache = new Map();
+    let reused = 0;
+
+    for (let tabData of tabs) {
+      let {
+        id
+      } = tabData;
+
+      if (this._cache.has(id)) {
+        let tab = this._cache.get(id);
+
+        newCache.set(id, tab);
+        tab.setData(tabData);
+        ++reused;
+      } else {
+        let tab = new TabCache(this.context);
+        newCache.set(id, tab);
+        tab.setData(tabData);
+      }
+    }
+
+    if (reused !== this._cache.size) {
+      for (let [id, tab] of this._cache) {
+        if (!newCache.has(id)) {
+          tab.destroy();
+        }
+      }
+    }
+
+    this._cache = newCache;
+  }
+
+  addNewWindowMenu(element, showWithLeftClick) {
+    const nativeMenu = react_1.default.createElement(rc_menu_1.default, {
+      onClick: this.onNewWindowClick
+    }, react_1.default.createElement(rc_menu_1.MenuItem, null, "New Window"));
+    let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
+    return react_1.default.createElement(rc_dropdown_1.default, {
+      prefixCls: "dock-dropdown",
+      overlay: nativeMenu,
+      trigger: trigger,
+      mouseEnterDelay: 0.1,
+      mouseLeaveDelay: 0.1
+    }, element);
+  }
+
+  render() {
+    let {
+      group,
+      tabs,
+      activeId
+    } = this.props.panelData;
+    let tabGroup = this.context.getGroup(group);
+    let {
+      animated
+    } = tabGroup;
+
+    if (animated == null) {
+      animated = true;
+    }
+
+    this.updateTabs(tabs);
+    let children = [];
+
+    for (let [id, tab] of this._cache) {
+      children.push(tab.content);
+    }
+
+    return react_1.default.createElement(rc_tabs_1.default, {
+      prefixCls: 'dock',
+      moreIcon: '...',
+      animated: animated,
+      renderTabBar: this.renderTabBar,
+      activeKey: activeId,
+      onChange: this.onTabChange
+    }, children);
+  }
+
+}
+
+exports.DockTabs = DockTabs;
+DockTabs.contextType = DockData_1.DockContextType;
+DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
+},{"react":"n8MK","./DockData":"zh3I","rc-tabs":"FgVr","rc-menu":"VH7R","rc-dropdown":"SyQB","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./DockTabBar":"Ec16","./DockTabPane":"ZavB","./Algorithm":"wqok","./WindowBox":"ObQG"}],"Lzzn":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -19536,516 +20158,7 @@ class DockBox extends react_1.default.PureComponent {
 
 exports.DockBox = DockBox;
 DockBox.contextType = DockData_1.DockContextType;
-},{"react":"n8MK","./DockData":"zh3I","./Divider":"Lzzn","./DockPanel":"ohUB"}],"u9vI":[function(require,module,exports) {
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-},{}],"j3D9":[function(require,module,exports) {
-var global = arguments[3];
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-module.exports = freeGlobal;
-
-},{}],"MIhM":[function(require,module,exports) {
-var freeGlobal = require('./_freeGlobal');
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-},{"./_freeGlobal":"j3D9"}],"pJf5":[function(require,module,exports) {
-var root = require('./_root');
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-module.exports = now;
-
-},{"./_root":"MIhM"}],"wppe":[function(require,module,exports) {
-var root = require('./_root');
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-},{"./_root":"MIhM"}],"uiOY":[function(require,module,exports) {
-var Symbol = require('./_Symbol');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
-      tag = value[symToStringTag];
-
-  try {
-    value[symToStringTag] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-
-module.exports = getRawTag;
-
-},{"./_Symbol":"wppe"}],"lPmd":[function(require,module,exports) {
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString.call(value);
-}
-
-module.exports = objectToString;
-
-},{}],"e5TX":[function(require,module,exports) {
-var Symbol = require('./_Symbol'),
-    getRawTag = require('./_getRawTag'),
-    objectToString = require('./_objectToString');
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-},{"./_Symbol":"wppe","./_getRawTag":"uiOY","./_objectToString":"lPmd"}],"OuyB":[function(require,module,exports) {
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-},{}],"bgO7":[function(require,module,exports) {
-var baseGetTag = require('./_baseGetTag'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-},{"./_baseGetTag":"e5TX","./isObjectLike":"OuyB"}],"iS0Z":[function(require,module,exports) {
-var isObject = require('./isObject'),
-    isSymbol = require('./isSymbol');
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
-
-},{"./isObject":"u9vI","./isSymbol":"bgO7"}],"CXfR":[function(require,module,exports) {
-var isObject = require('./isObject'),
-    now = require('./now'),
-    toNumber = require('./toNumber');
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        timeWaiting = wait - timeSinceLastCall;
-
-    return maxing
-      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        clearTimeout(timerId);
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-},{"./isObject":"u9vI","./now":"pJf5","./toNumber":"iS0Z"}],"tXcC":[function(require,module,exports) {
+},{"react":"n8MK","./DockData":"zh3I","./Divider":"Lzzn","./DockPanel":"ohUB"}],"tXcC":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -20493,6 +20606,8 @@ const DragManager = __importStar(require("./dragdrop/DragManager"));
 
 const MaxBox_1 = require("./MaxBox");
 
+const WindowBox_1 = require("./WindowBox");
+
 class DockPortalManager extends react_1.default.PureComponent {
   constructor() {
     super(...arguments);
@@ -20636,6 +20751,12 @@ class DockLayout extends DockPortalManager {
   /** @ignore */
 
 
+  getRootElement() {
+    return this._ref;
+  }
+  /** @ignore */
+
+
   prepareInitData(data) {
     let layout = Object.assign({}, data);
     Algorithm.fixLayoutData(layout, this.props.loadTab);
@@ -20695,7 +20816,19 @@ class DockLayout extends DockPortalManager {
     if (direction === 'float') {
       let newPanel = Algorithm.converToPanel(source);
       newPanel.z = Algorithm.nextZIndex(null);
-      layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+
+      if (this.state.dropRect) {
+        layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+      } else {
+        layout = Algorithm.floatPanel(layout, newPanel);
+
+        if (this._ref) {
+          layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+        }
+      }
+    } else if (direction === 'new-window') {
+      let newPanel = Algorithm.converToPanel(source);
+      layout = Algorithm.panelToWindow(layout, newPanel);
     } else if (target) {
       if ('tabs' in target) {
         // pandel target
@@ -20736,8 +20869,8 @@ class DockLayout extends DockPortalManager {
   /** @inheritDoc */
 
 
-  find(id) {
-    return Algorithm.find(this.tempLayout || this.state.layout, id);
+  find(id, filter) {
+    return Algorithm.find(this.tempLayout || this.state.layout, id, filter);
   }
   /** @ignore */
 
@@ -20759,7 +20892,7 @@ class DockLayout extends DockPortalManager {
 
 
   updateTab(id, newTab) {
-    let tab = this.find(id);
+    let tab = this.find(id, Algorithm.Filter.AnyTab);
 
     if (tab && !('tabs' in tab)) {
       let panelData = tab.parent;
@@ -20963,6 +21096,8 @@ class DockLayout extends DockPortalManager {
       boxData: layout.dockbox
     }), react_1.default.createElement(FloatBox_1.FloatBox, {
       boxData: layout.floatbox
+    }), react_1.default.createElement(WindowBox_1.WindowBox, {
+      boxData: layout.windowbox
     }), maximize, portals), react_1.default.createElement("div", {
       className: 'dock-drop-indicator',
       style: dropRectStyle
@@ -21079,7 +21214,7 @@ class DockLayout extends DockPortalManager {
 }
 
 exports.DockLayout = DockLayout;
-},{"react":"n8MK","react-dom":"NKHc","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"tXcC","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb","./MaxBox":"Lojd"}],"yQx6":[function(require,module,exports) {
+},{"react":"n8MK","react-dom":"NKHc","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"tXcC","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb","./MaxBox":"Lojd","./WindowBox":"ObQG"}],"yQx6":[function(require,module,exports) {
 "use strict";
 
 var __rest = this && this.__rest || function (s, e) {
@@ -21310,12 +21445,7 @@ exports.htmlTab = {
     src: `./${name}.html.html`
   })
 };
-},{"react":"n8MK"}],"U7Gc":[function(require,module,exports) {
-var define;
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t(require("react"),require("react-dom")):"function"==typeof define&&define.amd?define(["react","react-dom"],t):e.ReactNewWindow=t(e.React,e.ReactDOM)}(this,function(e,t){"use strict";e=e&&e.hasOwnProperty("default")?e.default:e,t=t&&t.hasOwnProperty("default")?t.default:t;var n=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")};function o(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}var r=function(e,t,n){return t&&o(e.prototype,t),n&&o(e,n),e};function i(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}function c(e,t){return e(t={exports:{}},t.exports),t.exports}var s=c(function(e){function t(e){return(t="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function n(o){return"function"==typeof Symbol&&"symbol"===t(Symbol.iterator)?e.exports=n=function(e){return t(e)}:e.exports=n=function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":t(e)},n(o)}e.exports=n});var u=function(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e};var a=function(e,t){return!t||"object"!==s(t)&&"function"!=typeof t?u(e):t},l=c(function(e){function t(n){return e.exports=t=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)},t(n)}e.exports=t}),f=c(function(e){function t(n,o){return e.exports=t=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e},t(n,o)}e.exports=t});var p=function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&f(e,t)};var d=function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e},y=c(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n="function"==typeof Symbol&&Symbol.for,o=n?Symbol.for("react.element"):60103,r=n?Symbol.for("react.portal"):60106,i=n?Symbol.for("react.fragment"):60107,c=n?Symbol.for("react.strict_mode"):60108,s=n?Symbol.for("react.profiler"):60114,u=n?Symbol.for("react.provider"):60109,a=n?Symbol.for("react.context"):60110,l=n?Symbol.for("react.async_mode"):60111,f=n?Symbol.for("react.concurrent_mode"):60111,p=n?Symbol.for("react.forward_ref"):60112,d=n?Symbol.for("react.suspense"):60113,y=n?Symbol.for("react.memo"):60115,m=n?Symbol.for("react.lazy"):60116;function w(e){if("object"==typeof e&&null!==e){var t=e.$$typeof;switch(t){case o:switch(e=e.type){case l:case f:case i:case s:case c:case d:return e;default:switch(e=e&&e.$$typeof){case a:case p:case u:return e;default:return t}}case m:case y:case r:return t}}}function h(e){return w(e)===f}t.typeOf=w,t.AsyncMode=l,t.ConcurrentMode=f,t.ContextConsumer=a,t.ContextProvider=u,t.Element=o,t.ForwardRef=p,t.Fragment=i,t.Lazy=m,t.Memo=y,t.Portal=r,t.Profiler=s,t.StrictMode=c,t.Suspense=d,t.isValidElementType=function(e){return"string"==typeof e||"function"==typeof e||e===i||e===f||e===s||e===c||e===d||"object"==typeof e&&null!==e&&(e.$$typeof===m||e.$$typeof===y||e.$$typeof===u||e.$$typeof===a||e.$$typeof===p)},t.isAsyncMode=function(e){return h(e)||w(e)===l},t.isConcurrentMode=h,t.isContextConsumer=function(e){return w(e)===a},t.isContextProvider=function(e){return w(e)===u},t.isElement=function(e){return"object"==typeof e&&null!==e&&e.$$typeof===o},t.isForwardRef=function(e){return w(e)===p},t.isFragment=function(e){return w(e)===i},t.isLazy=function(e){return w(e)===m},t.isMemo=function(e){return w(e)===y},t.isPortal=function(e){return w(e)===r},t.isProfiler=function(e){return w(e)===s},t.isStrictMode=function(e){return w(e)===c},t.isSuspense=function(e){return w(e)===d}});i(y);y.typeOf,y.AsyncMode,y.ConcurrentMode,y.ContextConsumer,y.ContextProvider,y.Element,y.ForwardRef,y.Fragment,y.Lazy,y.Memo,y.Portal,y.Profiler,y.StrictMode,y.Suspense,y.isValidElementType,y.isAsyncMode,y.isConcurrentMode,y.isContextConsumer,y.isContextProvider,y.isElement,y.isForwardRef,y.isFragment,y.isLazy,y.isMemo,y.isPortal,y.isProfiler,y.isStrictMode,y.isSuspense;var m=c(function(e,t){});i(m);m.typeOf,m.AsyncMode,m.ConcurrentMode,m.ContextConsumer,m.ContextProvider,m.Element,m.ForwardRef,m.Fragment,m.Lazy,m.Memo,m.Portal,m.Profiler,m.StrictMode,m.Suspense,m.isValidElementType,m.isAsyncMode,m.isConcurrentMode,m.isContextConsumer,m.isContextProvider,m.isElement,m.isForwardRef,m.isFragment,m.isLazy,m.isMemo,m.isPortal,m.isProfiler,m.isStrictMode,m.isSuspense,c(function(e){e.exports=y});var w=Object.getOwnPropertySymbols,h=Object.prototype.hasOwnProperty,b=Object.prototype.propertyIsEnumerable;(function(){try{if(!Object.assign)return!1;var e=new String("abc");if(e[5]="de","5"===Object.getOwnPropertyNames(e)[0])return!1;for(var t={},n=0;n<10;n++)t["_"+String.fromCharCode(n)]=n;if("0123456789"!==Object.getOwnPropertyNames(t).map(function(e){return t[e]}).join(""))return!1;var o={};return"abcdefghijklmnopqrst".split("").forEach(function(e){o[e]=e}),"abcdefghijklmnopqrst"===Object.keys(Object.assign({},o)).join("")}catch(e){return!1}})()&&Object.assign;var v="SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";Function.call.bind(Object.prototype.hasOwnProperty);function S(){}function O(){}O.resetWarningCache=S;var g=c(function(e){e.exports=function(){function e(e,t,n,o,r,i){if(i!==v){var c=new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");throw c.name="Invariant Violation",c}}function t(){return e}e.isRequired=e;var n={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:t,element:e,elementType:e,instanceOf:t,node:e,objectOf:t,oneOf:t,oneOfType:t,shape:t,exact:t,checkPropTypes:O,resetWarningCache:S};return n.PropTypes=n,n}()}),P=function(e){function o(e){var t;return n(this,o),(t=a(this,l(o).call(this,e))).container=document.createElement("div"),t.window=null,t.windowCheckerInterval=null,t.released=!1,t.state={mounted:!1},t}return p(o,e),r(o,[{key:"render",value:function(){return this.state.mounted?t.createPortal(this.props.children,this.container):null}},{key:"componentDidMount",value:function(){this.openChild(),this.setState({mounted:!0})}},{key:"openChild",value:function(){var e,t=this,n=this.props,o=n.url,r=n.title,i=n.name,c=n.features,s=n.onBlock,u=n.onOpen,a=n.center;if("string"!=typeof a||void 0!==c.width&&void 0!==c.height){if("parent"===a)c.left=window.top.outerWidth/2+window.top.screenX-c.width/2,c.top=window.top.outerHeight/2+window.top.screenY-c.height/2;else if("screen"===a){var l=void 0!==window.screenLeft?window.screenLeft:window.screen.left,f=void 0!==window.screenTop?window.screenTop:window.screen.top,p=window.innerWidth?window.innerWidth:document.documentElement.clientWidth?document.documentElement.clientWidth:window.screen.width,d=window.innerHeight?window.innerHeight:document.documentElement.clientHeight?document.documentElement.clientHeight:window.screen.height;c.left=p/2-c.width/2+l,c.top=d/2-c.height/2+f}}else console.warn("width and height window features must be present when a center prop is provided");this.window=window.open(o,i,(e=c,Object.keys(e).reduce(function(t,n){var o=e[n];return"boolean"==typeof o?t.push("".concat(n,"=").concat(o?"yes":"no")):t.push("".concat(n,"=").concat(o)),t},[]).join(","))),this.windowCheckerInterval=setInterval(function(){t.window&&!t.window.closed||t.release()},50),this.window?(this.window.document.title=r,this.window.document.body.appendChild(this.container),this.props.copyStyles&&setTimeout(function(){return e=document,n=t.window.document,void Array.from(e.styleSheets).forEach(function(t){var o;try{o=t.cssRules}catch(e){console.error(e)}if(o){var r=e.createElement("style");Array.from(t.cssRules).forEach(function(t){var n=t.cssText,o=t.type,i=n;[3,5].includes(o)&&(i=n.split("url(").map(function(e){return"/"===e[1]?"".concat(e.slice(0,1)).concat(window.location.origin).concat(e.slice(1)):e}).join("url(")),r.appendChild(e.createTextNode(i))}),n.head.appendChild(r)}else if(t.href){var i=e.createElement("link");i.rel="stylesheet",i.href=t.href,n.head.appendChild(i)}});var e,n},0),"function"==typeof u&&u(this.window),this.window.addEventListener("beforeunload",function(){return t.release()})):"function"==typeof s?s(null):console.warn("A new window could not be opened. Maybe it was blocked.")}},{key:"componentWillUnmount",value:function(){this.window&&this.window.close()}},{key:"release",value:function(){if(!this.released){this.released=!0,clearInterval(this.windowCheckerInterval);var e=this.props.onUnload;"function"==typeof e&&e(null)}}}]),o}(e.PureComponent);return d(P,"defaultProps",{url:"",name:"",title:"",features:{width:"600px",height:"640px"},onBlock:null,onOpen:null,onUnload:null,center:"parent",copyStyles:!0}),P.propTypes={children:g.node,url:g.string,name:g.string,title:g.string,features:g.object,onUnload:g.func,onBlock:g.func,onOpen:g.func,center:g.oneOf(["parent","screen"]),copyStyles:g.bool},P});
-//# sourceMappingURL=react-new-window.js.map
-
-},{"react":"n8MK","react-dom":"NKHc"}],"FeNK":[function(require,module,exports) {
+},{"react":"n8MK"}],"FeNK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

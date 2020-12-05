@@ -240,109 +240,61 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   ReactDOM,
   jsxTab,
   htmlTab,
-  DockLayout,
-  DockContextType
+  DockLayout
 }) => {
-  let tab = {
-    content: /*#__PURE__*/React.createElement("div", null, "Tab Content"),
-    closable: true
-  };
-  let layout = {
-    dockbox: {
-      mode: 'horizontal',
-      children: [{
-        mode: 'vertical',
-        size: 200,
-        children: [{
-          tabs: [{ ...tab,
-            id: 't1',
-            title: 'Tab 1'
-          }, { ...tab,
-            id: 't2',
-            title: 'Tab 2'
-          }]
-        }, {
-          tabs: [{ ...tab,
-            id: 't3',
-            title: 'Min Size',
-            content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "This tab has a minimal size"), "150 x 150 px"),
-            minWidth: 150,
-            minHeight: 150
-          }, { ...tab,
-            id: 't4',
-            title: 'Tab 4'
-          }]
-        }]
-      }, {
-        size: 1000,
-        tabs: [{ ...tab,
-          id: 't5',
-          title: 'basic demo',
-          content: /*#__PURE__*/React.createElement("div", null, "This panel won't be removed from layout even when last Tab is closed")
-        }, jsxTab, htmlTab],
-        panelLock: {
-          panelStyle: 'main'
-        }
-      }, {
-        size: 200,
-        tabs: [{ ...tab,
-          id: 't8',
-          title: 'Tab 8'
-        }]
-      }]
-    },
-    floatbox: {
-      mode: 'float',
-      children: [{
-        tabs: [{ ...tab,
-          id: 't9',
-          title: 'Tab 9',
-          content: /*#__PURE__*/React.createElement("div", null, "Float")
-        }, { ...tab,
-          id: 't10',
-          title: 'Tab 10'
-        }],
-        x: 300,
-        y: 150,
-        w: 400,
-        h: 300
-      }]
+  let groups = {
+    allowWindow: {
+      floatable: true,
+      newWindow: true
     }
   };
-
-  if (window.innerWidth < 600) {
-    // remove a column for mobile
-    layout.dockbox.children.pop();
-  }
-
-  let count = 0;
+  let floatTab = {
+    id: 'float',
+    title: 'New Window',
+    content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Right click on the max button \u21D7")),
+    group: 'allowWindow'
+  };
 
   class Demo extends React.Component {
     constructor(...args) {
       super(...args);
 
-      _defineProperty(this, "onDragNewTab", e => {
-        let content = `New Tab ${count++}`;
-        DragStore.dragStart(DockContextType, {
-          tab: {
-            id: content,
-            content: /*#__PURE__*/React.createElement("div", {
-              style: {
-                padding: 20
+      _defineProperty(this, "mainTab", {
+        id: 'main',
+        title: 'Info',
+        content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Although rc-dock supports new window, a lot of packages will have error when controlling components in popup window."), /*#__PURE__*/React.createElement("p", null, "Please avoid complex mouse event handling and popup layers in the tab that allows popup window."))
+      });
+
+      _defineProperty(this, "layoutData", {
+        dockbox: {
+          mode: 'horizontal',
+          children: [{
+            mode: 'vertical',
+            children: [{
+              tabs: [this.mainTab, jsxTab, htmlTab],
+              panelLock: {
+                panelStyle: 'main'
               }
-            }, content),
-            title: content,
-            closable: true
-          }
-        }, e.nativeEvent);
+            }]
+          }]
+        },
+        floatbox: {
+          mode: 'float',
+          children: [{
+            tabs: [floatTab],
+            x: 60,
+            y: 60,
+            w: 320,
+            h: 300
+          }]
+        }
       });
     }
 
     render() {
-      return /*#__PURE__*/React.createElement(NewWindow, {
-        copyStyles: true
-      }, /*#__PURE__*/React.createElement(DockLayout, {
-        defaultLayout: layout,
+      return /*#__PURE__*/React.createElement(DockLayout, {
+        defaultLayout: this.layoutData,
+        groups: groups,
         style: {
           position: 'absolute',
           left: 10,
@@ -350,16 +302,12 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
           right: 10,
           bottom: 10
         }
-      }));
+      });
     }
 
   }
 
   ReactDOM.render( /*#__PURE__*/React.createElement(Demo, null), document.getElementById('app'));
-  window.addEventListener('beforeunload', function (e) {
-    // make sure popup get closed
-    ReactDOM.unmountComponentAtNode(document.getElementById('app'));
-  });
 });
 },{"_bundle_loader":"Cm3W","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"W28G":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {

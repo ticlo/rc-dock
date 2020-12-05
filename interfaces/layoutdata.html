@@ -87,6 +87,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="layoutdata.html#dockbox" class="tsd-kind-icon">dockbox</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="layoutdata.html#floatbox" class="tsd-kind-icon">floatbox</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="layoutdata.html#maxbox" class="tsd-kind-icon">maxbox</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="layoutdata.html#windowbox" class="tsd-kind-icon">windowbox</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,7 +102,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="layoutbase.html">LayoutBase</a>.<a href="layoutbase.html#dockbox">dockbox</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/49d1fb5/src/DockData.ts#L233">src/DockData.ts:233</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8ca9b85/src/DockData.ts#L242">src/DockData.ts:242</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -117,7 +118,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="layoutbase.html">LayoutBase</a>.<a href="layoutbase.html#floatbox">floatbox</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/49d1fb5/src/DockData.ts#L238">src/DockData.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8ca9b85/src/DockData.ts#L247">src/DockData.ts:247</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,13 +135,30 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="layoutbase.html">LayoutBase</a>.<a href="layoutbase.html#maxbox">maxbox</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/49d1fb5/src/DockData.ts#L244">src/DockData.ts:244</a></li>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8ca9b85/src/DockData.ts#L260">src/DockData.ts:260</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>the maximized panel
 							only one child allowed, child must be PanelData</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="windowbox" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> windowbox</h3>
+					<div class="tsd-signature tsd-kind-icon">windowbox<span class="tsd-signature-symbol">:</span> <a href="boxdata.html" class="tsd-signature-type">BoxData</a></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="layoutbase.html">LayoutBase</a>.<a href="layoutbase.html#windowbox">windowbox</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8ca9b85/src/DockData.ts#L253">src/DockData.ts:253</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>window box
+							children must be PanelData, child box is not allowed</p>
 						</div>
 					</div>
 				</section>
@@ -187,6 +205,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="layoutdata.html#maxbox" class="tsd-kind-icon">maxbox</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="layoutdata.html#windowbox" class="tsd-kind-icon">windowbox</a>
 							</li>
 						</ul>
 					</li>

@@ -1,5 +1,6 @@
 import React, { CSSProperties } from "react";
-import { BoxData, LayoutData, PanelData, DockContext, DropDirection, TabData, TabGroup, LayoutBase, TabBase, PanelBase, TabPaneCache } from "./DockData";
+import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
+import * as Algorithm from "./Algorithm";
 interface LayoutProps {
     /**
      * @ignore
@@ -92,6 +93,8 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     /** @ignore */
     getRef: (r: HTMLDivElement) => void;
     /** @ignore */
+    getRootElement(): HTMLDivElement;
+    /** @ignore */
     prepareInitData(data: LayoutData): LayoutData;
     /** @ignore */
     getDockId(): any;
@@ -105,7 +108,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
      */
     dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection): void;
     /** @inheritDoc */
-    find(id: string): PanelData | TabData;
+    find(id: string, filter?: Algorithm.Filter): PanelData | TabData;
     /** @ignore */
     getLayoutSize(): {
         width: number;

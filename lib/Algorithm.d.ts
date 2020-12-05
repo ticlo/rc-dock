@@ -2,7 +2,19 @@ import { BoxData, DropDirection, LayoutData, PanelData, TabBase, TabData, TabGro
 export declare function getUpdatedObject(obj: any): any;
 export declare function nextId(): string;
 export declare function nextZIndex(current?: number): number;
-export declare function find(layout: LayoutData, id: string): PanelData | TabData;
+export declare enum Filter {
+    Tab = 1,
+    Panel = 2,
+    Docked = 4,
+    Floated = 8,
+    Windowed = 16,
+    Max = 32,
+    EveryWhere = 60,
+    AnyTab = 61,
+    AnyPanel = 62,
+    All = 63
+}
+export declare function find(layout: LayoutData, id: string, filter?: Filter): PanelData | TabData;
 export declare function addNextToTab(layout: LayoutData, source: TabData | PanelData, target: TabData, direction: DropDirection): LayoutData;
 export declare function addTabToPanel(layout: LayoutData, source: TabData | PanelData, panel: PanelData, idx?: number): LayoutData;
 export declare function converToPanel(source: TabData | PanelData): PanelData;

@@ -20,9 +20,6 @@
     "outDir": "./lib"
   },
   "compileOnSave": true,
-  "files": [
-    "typings/rc-tabs.d.ts"
-  ],
   "include": [
     "src/**/*"
   ],

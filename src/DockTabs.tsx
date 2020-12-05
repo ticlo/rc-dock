@@ -135,7 +135,7 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached, cacheContext, parent} = this.data;
+    let {id, title, group, content, closable, cached, parent} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
     if (parent.parent.mode === 'window') {
       onDragStart = null;
@@ -287,7 +287,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     } else if (maximizable) {
       panelExtraContent = <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
                                onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>;
-      if (WindowBox.enabled && panelData.parent.mode === 'float') {
+      if (group.newWindow && WindowBox.enabled && panelData.parent.mode === 'float') {
         panelExtraContent = this.addNewWindowMenu(panelExtraContent);
       }
     }

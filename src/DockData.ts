@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from "react-dom";
+import {Filter} from "./Algorithm";
 
 export interface TabGroup {
   /**
@@ -14,7 +15,7 @@ export interface TabGroup {
    *
    * default: false
    */
-  nativeWindow?: boolean;
+  newWindow?: boolean;
 
   /**
    * disable dock, so the panel will only work in float mode
@@ -320,7 +321,7 @@ export interface DockContext {
   /**
    * find PanelData or TabData by id
    */
-  find(id: string): PanelData | TabData;
+  find(id: string, filter?: Filter): PanelData | TabData;
 
   /**
    * update a tab with new TabData
@@ -336,6 +337,9 @@ export interface DockContext {
 
   /** @ignore */
   updateTabCache(id: string, portal: React.ReactNode): void;
+
+  /** @ignore */
+  getRootElement(): HTMLDivElement;
 }
 
 /** @ignore */

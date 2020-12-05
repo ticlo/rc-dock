@@ -2,6 +2,9 @@
 
 ![alt text](https://ticlo.github.io/rc-dock/images/demo.gif)
 
+#### Popup panel as new browser window
+![alt text](https://ticlo.github.io/rc-dock/images/new-window.gif)
+
 - **Examples:** https://ticlo.github.io/rc-dock/examples
 - **Docs:** https://ticlo.github.io/rc-dock
 - **Discord:** [![Discord](https://img.shields.io/discord/434106806503997445.svg?color=7289DA&logo=discord&logoColor=white

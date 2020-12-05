@@ -243,7 +243,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.onMaximizeClick();
   };
 
-  addNewWindowMenu(element: React.ReactElement) {
+  addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean) {
     const nativeMenu = (
       <Menu onClick={this.onNewWindowClick}>
         <MenuItem>
@@ -251,11 +251,12 @@ export class DockTabs extends React.PureComponent<Props, any> {
         </MenuItem>
       </Menu>
     );
+    let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
     return (
       <Dropdown
         prefixCls="dock-dropdown"
         overlay={nativeMenu}
-        trigger={['contextMenu']}
+        trigger={trigger}
         mouseEnterDelay={0.1}
         mouseLeaveDelay={0.1}>
         {element}
@@ -281,14 +282,16 @@ export class DockTabs extends React.PureComponent<Props, any> {
       }
     }
 
+    let showNewWindowButton = group.newWindow && WindowBox.enabled && panelData.parent.mode === 'float';
+
     let panelExtraContent: React.ReactElement;
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
-    } else if (maximizable) {
-      panelExtraContent = <div className='dock-panel-max-btn' onClick={this.onMaximizeClick}
-                               onKeyDown={this.onKeyDownMaximizeBtn} tabIndex={0}/>;
-      if (group.newWindow && WindowBox.enabled && panelData.parent.mode === 'float') {
-        panelExtraContent = this.addNewWindowMenu(panelExtraContent);
+    } else if (maximizable || showNewWindowButton) {
+      panelExtraContent = <div className='dock-panel-max-btn' onClick={maximizable ? this.onMaximizeClick : null}
+                               onKeyDown={maximizable ? this.onKeyDownMaximizeBtn : null} tabIndex={0}/>;
+      if (showNewWindowButton) {
+        panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
       }
     }
     return (

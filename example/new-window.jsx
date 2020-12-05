@@ -5,9 +5,7 @@ import {DockLayout} from '../lib';
 
 let groups = {
   allowWindow: {
-    // these 3 properties must all be true
     floatable: true,
-    maximizable: true,
     newWindow: true,
   }
 };

@@ -52,8 +52,8 @@ let layout = {
         },
       ]
     },
-    windowbox: {
-      mode: 'window',
+    floatbox: {
+      mode: 'float',
       children: [
         {
           tabs: [

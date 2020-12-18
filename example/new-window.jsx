@@ -7,6 +7,7 @@ let groups = {
   allowWindow: {
     floatable: true,
     newWindow: true,
+    maximizable: true,
   }
 };
 

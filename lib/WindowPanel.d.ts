@@ -1,4 +1,3 @@
-/// <reference types="lodash" />
 import React from "react";
 import { DockContext, PanelData } from "./DockData";
 interface Props {
@@ -10,9 +9,7 @@ export declare class WindowPanel extends React.PureComponent<Props, any> {
     _window: Window;
     onOpen: (w: Window) => void;
     onUnload: () => void;
-    onMainWindowUnload: () => void;
-    onNewWindowResize: import("lodash").DebouncedFunc<() => void>;
-    componentWillUnmount(): void;
+    initPopupInnerRect: () => any;
     render(): React.ReactNode;
 }
 export {};

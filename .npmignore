@@ -6,6 +6,7 @@ node_modules
 /playground
 /.idea
 /.cache
+/.babelrc
 build
 /src/**/*.js
 /test/**/*.js

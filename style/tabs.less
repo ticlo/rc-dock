@@ -205,6 +205,10 @@
   &-content-holder {
     flex: auto;
   }
+  &-top > &-content-holder {
+    /* work around for the height issue in content holder*/
+    height: 0;
+  }
 
   &-content &-tabpane {
     position: relative;

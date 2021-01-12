@@ -276,16 +276,9 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
       });
 
       _defineProperty(this, "addTab", () => {
-        {
-          ++this.count;
-          let newTab = getTab(`tab${this.count}`, this.count);
-          this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
-        }
-        {
-          ++this.count;
-          let newTab = getTab(`tab${this.count}`, this.count);
-          this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
-        }
+        ++this.count;
+        let newTab = getTab(`tab${this.count}`, this.count);
+        this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
       });
 
       _defineProperty(this, "defaultLayout", {

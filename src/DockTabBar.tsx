@@ -1,17 +1,18 @@
 import React, {CSSProperties, ReactElement} from "react";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import * as DragManager from "./dragdrop/DragManager";
-import TabNavList, {TabNavListProps} from "rc-tabs/lib/TabNavList";
+import type {TabNavListProps} from "rc-tabs/lib/TabNavList";
 
 interface DockTabBarProps  extends TabNavListProps {
   onDragStart?: DragManager.DragHandler;
   onDragMove?: DragManager.DragHandler;
   onDragEnd?: DragManager.DragHandler;
+  TabNavList: React.ComponentType;
 }
 
-export function DockTabBar (props: DockTabBarProps){
+export function DockTabBar (props: DockTabBarProps) {
   const {
-    onDragStart, onDragMove, onDragEnd,
+    onDragStart, onDragMove, onDragEnd, TabNavList,
     ...restProps
   } = props;
   return (

@@ -38,7 +38,7 @@ export declare class DockTabs extends React.PureComponent<Props, any> {
     onNewWindowClick: () => void;
     onKeyDownMaximizeBtn: (evt: React.KeyboardEvent) => boolean;
     addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean): JSX.Element;
-    renderTabBar: (props: any, DefaultTabBar: React.ComponentType) => JSX.Element;
+    renderTabBar: (props: any, TabNavList: React.ComponentType) => JSX.Element;
     onTabChange: (activeId: string) => void;
     render(): React.ReactNode;
 }

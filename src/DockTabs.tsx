@@ -264,7 +264,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     );
   }
 
-  renderTabBar = (props: any, DefaultTabBar: React.ComponentType) => {
+  renderTabBar = (props: any, TabNavList: React.ComponentType) => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
     let group = this.context.getGroup(groupName);
@@ -296,7 +296,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     }
     return (
       <DockTabBar onDragStart={onPanelDragStart}
-                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd} {...props} extra={panelExtraContent}/>
+                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd} TabNavList={TabNavList} {...props} extra={panelExtraContent}/>
     );
   };
 

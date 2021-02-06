@@ -242,6 +242,14 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   htmlTab,
   DockLayout
 }) => {
+  let groups = {
+    allowWindow: {
+      floatable: true,
+      newWindow: true,
+      maximizable: true
+    }
+  };
+
   class InputTab extends React.PureComponent {
     constructor(...args) {
       super(...args);
@@ -356,7 +364,8 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
               id,
               title: id,
               content: InputTab.create,
-              inputValue: savedTab.inputValue
+              inputValue: savedTab.inputValue,
+              group: 'allowWindow'
             };
         }
       });
@@ -378,6 +387,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(DockLayout, {
         ref: this.getRef,
         defaultLayout: this.defaultLayout,
+        groups: groups,
         saveTab: this.saveTab,
         loadTab: this.loadTab,
         afterPanelLoaded: this.afterPanelLoaded,

@@ -16145,34 +16145,34 @@ function fixLayoutData(layout, loadTab) {
     return box;
   }
 
-  if (!('floatbox' in layout)) {
+  if (layout.floatbox) {
+    layout.floatbox.mode = 'float';
+  } else {
     layout.floatbox = {
       mode: 'float',
       children: [],
       size: 1
     };
-  } else {
-    layout.floatbox.mode = 'float';
   }
 
-  if (!('windowbox' in layout)) {
+  if (layout.windowbox) {
+    layout.windowbox.mode = 'window';
+  } else {
     layout.windowbox = {
       mode: 'window',
       children: [],
       size: 1
     };
-  } else {
-    layout.windowbox.mode = 'window';
   }
 
-  if (!('maxbox' in layout)) {
+  if (layout.maxbox) {
+    layout.maxbox.mode = 'maximize';
+  } else {
     layout.maxbox = {
       mode: 'maximize',
       children: [],
       size: 1
     };
-  } else {
-    layout.maxbox.mode = 'maximize';
   }
 
   fixBoxData(layout.dockbox);
@@ -19658,7 +19658,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
     } = panelData;
     let savedPanel;
 
-    if (panelData.parent.mode === 'float') {
+    if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
       let {
         x,
         y,
@@ -19720,6 +19720,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
   return {
     dockbox: saveBoxData(layout.dockbox),
     floatbox: saveBoxData(layout.floatbox),
+    windowbox: saveBoxData(layout.windowbox),
     maxbox: saveBoxData(layout.maxbox)
   };
 }
@@ -19817,6 +19818,10 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
   }
 
   function loadBoxData(savedBox) {
+    if (!savedBox) {
+      return null;
+    }
+
     let children = [];
 
     for (let child of savedBox.children) {
@@ -19843,6 +19848,7 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
   return {
     dockbox: loadBoxData(savedLayout.dockbox),
     floatbox: loadBoxData(savedLayout.floatbox),
+    windowbox: loadBoxData(savedLayout.windowbox),
     maxbox: loadBoxData(savedLayout.maxbox)
   };
 }

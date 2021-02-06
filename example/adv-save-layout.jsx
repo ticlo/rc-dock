@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout} from '../lib';
 
+let groups = {
+  allowWindow: {
+    floatable: true,
+    newWindow: true,
+    maximizable: true,
+  }
+};
+
 class InputTab extends React.PureComponent {
 
   onChange = (e) => {
@@ -78,7 +86,7 @@ class Demo extends React.Component {
       case 'htmlTab':
         return htmlTab;
       default:
-        return {id, title: id, content: InputTab.create, inputValue: savedTab.inputValue};
+        return {id, title: id, content: InputTab.create, inputValue: savedTab.inputValue, group: 'allowWindow'};
     }
   };
 
@@ -97,7 +105,7 @@ class Demo extends React.Component {
   render() {
     return (
       <div>
-        <DockLayout ref={this.getRef} defaultLayout={this.defaultLayout}
+        <DockLayout ref={this.getRef} defaultLayout={this.defaultLayout} groups={groups}
                     saveTab={this.saveTab} loadTab={this.loadTab} afterPanelLoaded={this.afterPanelLoaded}
                     style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}}/>
         <div className='top-panel'>

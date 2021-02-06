@@ -77,7 +77,7 @@ export function saveLayoutData(
     }
     let {id, size, activeId} = panelData;
     let savedPanel: PanelBase;
-    if (panelData.parent.mode === 'float') {
+    if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
       let {x, y, z, w, h} = panelData;
       savedPanel = {id, size, tabs, activeId, x, y, z, w, h};
     } else {
@@ -105,6 +105,7 @@ export function saveLayoutData(
   return {
     dockbox: saveBoxData(layout.dockbox),
     floatbox: saveBoxData(layout.floatbox),
+    windowbox: saveBoxData(layout.windowbox),
     maxbox: saveBoxData(layout.maxbox),
   };
 }
@@ -177,6 +178,7 @@ export function loadLayoutData(
   return {
     dockbox: loadBoxData(savedLayout.dockbox),
     floatbox: loadBoxData(savedLayout.floatbox),
+    windowbox: loadBoxData(savedLayout.windowbox),
     maxbox: loadBoxData(savedLayout.maxbox),
   };
 }

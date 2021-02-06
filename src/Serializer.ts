@@ -163,6 +163,9 @@ export function loadLayoutData(
   }
 
   function loadBoxData(savedBox: BoxBase): BoxData {
+    if (!savedBox) {
+      return null;
+    }
     let children: (BoxData | PanelData)[] = [];
     for (let child of savedBox.children) {
       if ('tabs' in child) {

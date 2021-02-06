@@ -621,22 +621,22 @@ export function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => Ta
     return box;
   }
 
-  if (!('floatbox' in layout)) {
-    layout.floatbox = {mode: 'float', children: [], size: 1};
-  } else {
+  if (layout.floatbox) {
     layout.floatbox.mode = 'float';
+  } else {
+    layout.floatbox = {mode: 'float', children: [], size: 1};
   }
 
-  if (!('windowbox' in layout)) {
-    layout.windowbox = {mode: 'window', children: [], size: 1};
-  } else {
+  if (layout.windowbox) {
     layout.windowbox.mode = 'window';
+  } else {
+    layout.windowbox = {mode: 'window', children: [], size: 1};
   }
 
-  if (!('maxbox' in layout)) {
-    layout.maxbox = {mode: 'maximize', children: [], size: 1};
-  } else {
+  if (layout.maxbox) {
     layout.maxbox.mode = 'maximize';
+  } else {
+    layout.maxbox = {mode: 'maximize', children: [], size: 1};
   }
 
   fixBoxData(layout.dockbox);

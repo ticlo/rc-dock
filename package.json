@@ -35,17 +35,17 @@
     "rc-tabs": "^11.7.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-export-default-from": "^7.12.1",
-    "@babel/preset-env": "^7.12.11",
+    "@babel/core": "^7.12.13",
+    "@babel/plugin-proposal-export-default-from": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
     "@types/classnames": "^2.2.11",
     "@types/lodash": "^4.14.168",
-    "@types/node": "^14.14.22",
+    "@types/node": "^14.14.25",
     "@types/prismjs": "^1.16.2",
-    "@types/react": "^17.0.0",
+    "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
     "@types/shelljs": "^0.8.8",
-    "less": "^4.1.0",
+    "less": "^4.1.1",
     "parcel": "^1.12.4",
     "prismjs": "^1.23.0",
     "react": "^17.0.1",
@@ -54,7 +54,7 @@
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",
     "tslint-react": "^5.0.0",
-    "typedoc": "^0.20.16",
+    "typedoc": "^0.20.23",
     "typescript": "^4.1.3"
   },
   "peerDependencies": {
@@ -62,13 +62,14 @@
     "react-dom": ">=15.0.0"
   },
   "resolutions": {
+    "**/marked": "^2.0.0",
     "**/minimist": "^1.2.5",
     "**/node-forge": "^0.10.0"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
     "build-less": "lessc style/index.less dist/rc-dock.css",
-    "build-doc": "typedoc --options ./typedocconfig.js",
+    "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www"
   }
 }

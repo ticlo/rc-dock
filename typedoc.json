@@ -1,0 +1,14 @@
+{
+  "entryPoints": [
+    "./src/DockLayout.tsx",
+    "./src/DockData.ts"
+  ],
+  "tsconfig": "tsconfig.json",
+  "out": "./temp-doc",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "readme": "README.md",
+  "name": "rc-dock",
+  "plugin": []
+}

@@ -43,7 +43,7 @@ function buildExample() {
 }
 
 function buildDocs() {
-  shell.exec('yarn typedoc --options ./typedocconfig.js');
+  shell.exec('yarn typedoc');
   shell.mv('./temp-doc/*', './www');
 }
 

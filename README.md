@@ -16,6 +16,7 @@
 
 ```jsx
 import DockLayout from 'rc-dock'
+import "rc-dock/dist/rc-dock.css";
 
 ...
 
@@ -33,7 +34,18 @@ defaultLayout = {
 };
 
 render() {
-  return <DockLayout defaultLayout={defaultLayout}/>
+  return (
+    <DockLayout
+      defaultLayout={defaultLayout}
+      style={{
+        position: "absolute",
+        left: 10,
+        top: 10,
+        right: 10,
+        bottom: 10,
+      }}
+    />
+  )
 }
 
 ```

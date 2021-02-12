@@ -74,6 +74,7 @@
 				</a>
 				<p><a href="https://npmjs.org/package/rc-dock"><img src="https://nodei.co/npm/rc-dock.png" alt="rc-tabs"></a></p>
 				<pre><code class="language-jsx"><span style="color: #000000">import DockLayout from &#039;rc-dock&#039;</span>
+<span style="color: #000000">import &quot;rc-dock/dist/rc-dock.css&quot;;</span>
 
 <span style="color: #000000">...</span>
 
@@ -91,7 +92,18 @@
 <span style="color: #000000">};</span>
 
 <span style="color: #000000">render() {</span>
-<span style="color: #000000">  return &lt;DockLayout defaultLayout={defaultLayout}/&gt;</span>
+<span style="color: #000000">  return (</span>
+<span style="color: #000000">    &lt;DockLayout</span>
+<span style="color: #000000">      defaultLayout={defaultLayout}</span>
+<span style="color: #000000">      style={{</span>
+<span style="color: #000000">        position: &quot;absolute&quot;,</span>
+<span style="color: #000000">        left: 10,</span>
+<span style="color: #000000">        top: 10,</span>
+<span style="color: #000000">        right: 10,</span>
+<span style="color: #000000">        bottom: 10,</span>
+<span style="color: #000000">      }}</span>
+<span style="color: #000000">    /&gt;</span>
+<span style="color: #000000">  )</span>
 <span style="color: #000000">}</span>
 
 </code></pre>

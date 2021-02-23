@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
@@ -24,14 +24,15 @@
     "name": "Rick Zhou",
     "email": "rinick@gmail.com"
   },
-  "main": "lib/index.js",
+  "main": "lib/index",
+  "module": "es/index",
   "license": "Apache-2.0",
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.20",
     "rc-dropdown": "^3.2.0",
     "rc-menu": "^8.10.5",
-    "rc-new-window": "^0.1.4",
+    "rc-new-window": "^0.1.5",
     "rc-tabs": "^11.7.3"
   },
   "devDependencies": {
@@ -70,6 +71,7 @@
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
     "build-less": "lessc style/index.less dist/rc-dock.css",
     "build-doc": "typedoc",
-    "build-www": "ts-node tool/build-www"
+    "build-www": "ts-node tool/build-www",
+    "build-es": "tsc --build tsconfig_es.json"
   }
 }

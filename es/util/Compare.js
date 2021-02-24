@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.compareArray = exports.compareKeys = void 0;
-function compareKeys(a, b, keys) {
+export function compareKeys(a, b, keys) {
     if (a === b) {
         return true;
     }
@@ -15,9 +12,8 @@ function compareKeys(a, b, keys) {
     }
     return false;
 }
-exports.compareKeys = compareKeys;
 const isArray = Array.isArray;
-function compareArray(a, b) {
+export function compareArray(a, b) {
     if (a === b) {
         return true;
     }
@@ -35,4 +31,3 @@ function compareArray(a, b) {
     }
     return false;
 }
-exports.compareArray = compareArray;

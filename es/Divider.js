@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Divider = void 0;
-const react_1 = __importDefault(require("react"));
-const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
+import React from 'react';
+import { DragDropDiv } from "./dragdrop/DragDropDiv";
 class BoxDataCache {
     constructor(data) {
         this.beforeSize = 0;
@@ -53,7 +47,7 @@ function spiltSize(newSize, oldSize, children) {
     }
     return sizes;
 }
-class Divider extends react_1.default.PureComponent {
+export class Divider extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.startDrag = (e) => {
@@ -128,7 +122,6 @@ class Divider extends react_1.default.PureComponent {
         if (!className) {
             className = 'dock-divider';
         }
-        return (react_1.default.createElement(DragDropDiv_1.DragDropDiv, { className: className, onDragStartT: this.startDrag, onDragMoveT: this.dragMove, onDragEndT: this.dragEnd }));
+        return (React.createElement(DragDropDiv, { className: className, onDragStartT: this.startDrag, onDragMoveT: this.dragMove, onDragEndT: this.dragEnd }));
     }
 }
-exports.Divider = Divider;

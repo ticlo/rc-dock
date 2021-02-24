@@ -1,4 +1,3 @@
-"use strict";
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -10,16 +9,10 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockTabBar = void 0;
-const react_1 = __importDefault(require("react"));
-const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
-function DockTabBar(props) {
+import React from "react";
+import { DragDropDiv } from "./dragdrop/DragDropDiv";
+export function DockTabBar(props) {
     const { onDragStart, onDragMove, onDragEnd, TabNavList } = props, restProps = __rest(props, ["onDragStart", "onDragMove", "onDragEnd", "TabNavList"]);
-    return (react_1.default.createElement(DragDropDiv_1.DragDropDiv, { onDragStartT: onDragStart, onDragMoveT: onDragMove, onDragEndT: onDragEnd, role: "tablist", className: 'dock-bar', tabIndex: 0 },
-        react_1.default.createElement(TabNavList, Object.assign({}, restProps))));
+    return (React.createElement(DragDropDiv, { onDragStartT: onDragStart, onDragMoveT: onDragMove, onDragEndT: onDragEnd, role: "tablist", className: 'dock-bar', tabIndex: 0 },
+        React.createElement(TabNavList, Object.assign({}, restProps))));
 }
-exports.DockTabBar = DockTabBar;

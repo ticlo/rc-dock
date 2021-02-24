@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
     "lodash": "^4.17.20",
     "rc-dropdown": "^3.2.0",
     "rc-menu": "^8.10.5",
-    "rc-new-window": "^0.1.5",
+    "rc-new-window": "^0.1.6",
     "rc-tabs": "^11.7.3"
   },
   "devDependencies": {

@@ -1,12 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = __importDefault(require("react"));
-const classnames_1 = __importDefault(require("classnames"));
-const DockData_1 = require("./DockData");
-class DockTabPane extends react_1.default.PureComponent {
+import React from 'react';
+import classNames from 'classnames';
+import { DockContextType } from "./DockData";
+export default class DockTabPane extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.getRef = (r) => {
@@ -57,7 +52,7 @@ class DockTabPane extends react_1.default.PureComponent {
             renderChildren = children;
         }
         let getRef = cached ? this.getRef : null;
-        return (react_1.default.createElement("div", { ref: getRef, id: cacheId, role: "tabpanel", tabIndex: active ? 0 : -1, "aria-labelledby": id && `${id}-tab-${tabKey}`, "aria-hidden": !active, style: Object.assign(Object.assign({}, mergedStyle), style), className: classnames_1.default(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className) }, (active || this.visited || forceRender) && renderChildren));
+        return (React.createElement("div", { ref: getRef, id: cacheId, role: "tabpanel", tabIndex: active ? 0 : -1, "aria-labelledby": id && `${id}-tab-${tabKey}`, "aria-hidden": !active, style: Object.assign(Object.assign({}, mergedStyle), style), className: classNames(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className) }, (active || this.visited || forceRender) && renderChildren));
     }
     componentDidMount() {
         this.updateCache();
@@ -71,5 +66,4 @@ class DockTabPane extends react_1.default.PureComponent {
         }
     }
 }
-exports.default = DockTabPane;
-DockTabPane.contextType = DockData_1.DockContextType;
+DockTabPane.contextType = DockContextType;

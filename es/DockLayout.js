@@ -1,23 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -29,24 +9,19 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockLayout = void 0;
-const react_1 = __importDefault(require("react"));
-const react_dom_1 = __importDefault(require("react-dom"));
-const debounce_1 = __importDefault(require("lodash/debounce"));
-const DockData_1 = require("./DockData");
-const DockBox_1 = require("./DockBox");
-const FloatBox_1 = require("./FloatBox");
-const DockPanel_1 = require("./DockPanel");
-const Algorithm = __importStar(require("./Algorithm"));
-const Serializer = __importStar(require("./Serializer"));
-const DragManager = __importStar(require("./dragdrop/DragManager"));
-const MaxBox_1 = require("./MaxBox");
-const WindowBox_1 = require("./WindowBox");
-class DockPortalManager extends react_1.default.PureComponent {
+import React from "react";
+import ReactDOM from "react-dom";
+import debounce from 'lodash/debounce';
+import { defaultGroup, DockContextProvider, placeHolderGroup, placeHolderStyle } from "./DockData";
+import { DockBox } from "./DockBox";
+import { FloatBox } from "./FloatBox";
+import { DockPanel } from "./DockPanel";
+import * as Algorithm from "./Algorithm";
+import * as Serializer from "./Serializer";
+import * as DragManager from "./dragdrop/DragManager";
+import { MaxBox } from "./MaxBox";
+import { WindowBox } from "./WindowBox";
+class DockPortalManager extends React.PureComponent {
     constructor() {
         super(...arguments);
         /** @ignore */
@@ -94,12 +69,12 @@ class DockPortalManager extends react_1.default.PureComponent {
     updateTabCache(id, children) {
         let cache = this._caches.get(id);
         if (cache) {
-            cache.portal = react_dom_1.default.createPortal(children, cache.div, cache.id);
+            cache.portal = ReactDOM.createPortal(children, cache.div, cache.id);
             this.forceUpdate();
         }
     }
 }
-class DockLayout extends DockPortalManager {
+export class DockLayout extends DockPortalManager {
     constructor(props) {
         super(props);
         /** @ignore */
@@ -109,13 +84,13 @@ class DockLayout extends DockPortalManager {
         /** @ignore */
         this.onDragStateChange = (draggingScope) => {
             if (draggingScope == null) {
-                DockPanel_1.DockPanel.droppingPanel = null;
+                DockPanel.droppingPanel = null;
                 if (this.state.dropRect) {
                     this.setState({ dropRect: null });
                 }
             }
         };
-        this._onWindowResize = debounce_1.default(() => {
+        this._onWindowResize = debounce(() => {
             let layout = this.tempLayout || this.state.layout;
             if (this._ref) {
                 let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
@@ -170,11 +145,11 @@ class DockLayout extends DockPortalManager {
             if (groups && name in groups) {
                 return groups[name];
             }
-            if (name === DockData_1.placeHolderStyle) {
-                return DockData_1.placeHolderGroup;
+            if (name === placeHolderStyle) {
+                return placeHolderGroup;
             }
         }
-        return DockData_1.defaultGroup;
+        return defaultGroup;
     }
     /**
      * @inheritDoc
@@ -372,10 +347,10 @@ class DockLayout extends DockPortalManager {
             if (typeof maximizeTo === 'string') {
                 maximizeTo = document.getElementById(maximizeTo);
             }
-            maximize = react_dom_1.default.createPortal(react_1.default.createElement(MaxBox_1.MaxBox, { boxData: layout.maxbox }), maximizeTo);
+            maximize = ReactDOM.createPortal(React.createElement(MaxBox, { boxData: layout.maxbox }), maximizeTo);
         }
         else {
-            maximize = react_1.default.createElement(MaxBox_1.MaxBox, { boxData: layout.maxbox });
+            maximize = React.createElement(MaxBox, { boxData: layout.maxbox });
         }
         // }
         let portals = [];
@@ -384,14 +359,14 @@ class DockLayout extends DockPortalManager {
                 portals.push(cache.portal);
             }
         }
-        return (react_1.default.createElement("div", { ref: this.getRef, className: 'dock-layout', style: style },
-            react_1.default.createElement(DockData_1.DockContextProvider, { value: this },
-                react_1.default.createElement(DockBox_1.DockBox, { size: 1, boxData: layout.dockbox }),
-                react_1.default.createElement(FloatBox_1.FloatBox, { boxData: layout.floatbox }),
-                react_1.default.createElement(WindowBox_1.WindowBox, { boxData: layout.windowbox }),
+        return (React.createElement("div", { ref: this.getRef, className: 'dock-layout', style: style },
+            React.createElement(DockContextProvider, { value: this },
+                React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
+                React.createElement(FloatBox, { boxData: layout.floatbox }),
+                React.createElement(WindowBox, { boxData: layout.windowbox }),
                 maximize,
                 portals),
-            react_1.default.createElement("div", { className: 'dock-drop-indicator', style: dropRectStyle })));
+            React.createElement("div", { className: 'dock-drop-indicator', style: dropRectStyle })));
     }
     /** @ignore */
     componentWillUnmount() {
@@ -462,4 +437,3 @@ class DockLayout extends DockPortalManager {
         return null;
     }
 }
-exports.DockLayout = DockLayout;

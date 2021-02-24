@@ -1,39 +1,14 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockTabs = exports.TabCache = void 0;
-const react_1 = __importDefault(require("react"));
-const DockData_1 = require("./DockData");
-const rc_tabs_1 = __importDefault(require("rc-tabs"));
-const rc_menu_1 = __importStar(require("rc-menu"));
-const rc_dropdown_1 = __importDefault(require("rc-dropdown"));
-const DragManager = __importStar(require("./dragdrop/DragManager"));
-const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
-const DockTabBar_1 = require("./DockTabBar");
-const DockTabPane_1 = __importDefault(require("./DockTabPane"));
-const Algorithm_1 = require("./Algorithm");
-const WindowBox_1 = require("./WindowBox");
+import React from "react";
+import { DockContextType } from "./DockData";
+import Tabs from 'rc-tabs';
+import Menu, { MenuItem } from 'rc-menu';
+import Dropdown from 'rc-dropdown';
+import * as DragManager from "./dragdrop/DragManager";
+import { DragDropDiv } from "./dragdrop/DragDropDiv";
+import { DockTabBar } from "./DockTabBar";
+import DockTabPane from "./DockTabPane";
+import { getFloatPanelSize } from "./Algorithm";
+import { WindowBox } from "./WindowBox";
 function findParentPanel(element) {
     for (let i = 0; i < 10; ++i) {
         if (!element) {
@@ -50,7 +25,7 @@ function isPopupDiv(r) {
     var _a, _b;
     return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI');
 }
-class TabCache {
+export class TabCache {
     constructor(context) {
         this.getRef = (r) => {
             if (isPopupDiv(r)) {
@@ -78,7 +53,7 @@ class TabCache {
         this.onDragStart = (e) => {
             let panel = findParentPanel(this._ref);
             let tabGroup = this.context.getGroup(this.data.group);
-            let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panel, tabGroup);
+            let [panelWidth, panelHeight] = getFloatPanelSize(panel, tabGroup);
             e.setData({ tab: this.data, panelSize: [panelWidth, panelHeight] }, this.context.getDockId());
             e.startDrag(this._ref.parentElement, this._ref.parentElement);
         };
@@ -156,19 +131,18 @@ class TabCache {
         if (typeof content === 'function') {
             content = content(this.data);
         }
-        let tab = (react_1.default.createElement("div", { ref: this.getRef },
+        let tab = (React.createElement("div", { ref: this.getRef },
             title,
-            react_1.default.createElement(DragDropDiv_1.DragDropDiv, { className: 'dock-tab-hit-area', getRef: this.getHitAreaRef, onDragStartT: onDragStart, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave }, closable ?
-                react_1.default.createElement("div", { className: 'dock-tab-close-btn', onClick: this.onCloseClick, onKeyDown: this.onKeyDownCloseBtn, tabIndex: 0 })
+            React.createElement(DragDropDiv, { className: 'dock-tab-hit-area', getRef: this.getHitAreaRef, onDragStartT: onDragStart, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave }, closable ?
+                React.createElement("div", { className: 'dock-tab-close-btn', onClick: this.onCloseClick, onKeyDown: this.onKeyDownCloseBtn, tabIndex: 0 })
                 : null)));
-        return (react_1.default.createElement(DockTabPane_1.default, { key: id, cacheId: id, cached: cached, tab: tab }, content));
+        return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab }, content));
     }
     destroy() {
         // place holder
     }
 }
-exports.TabCache = TabCache;
-class DockTabs extends react_1.default.PureComponent {
+export class DockTabs extends React.PureComponent {
     constructor() {
         super(...arguments);
         this._cache = new Map();
@@ -202,18 +176,18 @@ class DockTabs extends react_1.default.PureComponent {
                     panelExtra = panelLock.panelExtra;
                 }
             }
-            let showNewWindowButton = group.newWindow && WindowBox_1.WindowBox.enabled && panelData.parent.mode === 'float';
+            let showNewWindowButton = group.newWindow && WindowBox.enabled && panelData.parent.mode === 'float';
             let panelExtraContent;
             if (panelExtra) {
                 panelExtraContent = panelExtra(panelData, this.context);
             }
             else if (maximizable || showNewWindowButton) {
-                panelExtraContent = react_1.default.createElement("div", { className: 'dock-panel-max-btn', onClick: maximizable ? this.onMaximizeClick : null, onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null, tabIndex: 0 });
+                panelExtraContent = React.createElement("div", { className: 'dock-panel-max-btn', onClick: maximizable ? this.onMaximizeClick : null, onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null, tabIndex: 0 });
                 if (showNewWindowButton) {
                     panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
                 }
             }
-            return (react_1.default.createElement(DockTabBar_1.DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList }, props, { extra: panelExtraContent })));
+            return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList }, props, { extra: panelExtraContent })));
         };
         this.onTabChange = (activeId) => {
             this.props.panelData.activeId = activeId;
@@ -252,10 +226,10 @@ class DockTabs extends react_1.default.PureComponent {
         this._cache = newCache;
     }
     addNewWindowMenu(element, showWithLeftClick) {
-        const nativeMenu = (react_1.default.createElement(rc_menu_1.default, { onClick: this.onNewWindowClick },
-            react_1.default.createElement(rc_menu_1.MenuItem, null, "New Window")));
+        const nativeMenu = (React.createElement(Menu, { onClick: this.onNewWindowClick },
+            React.createElement(MenuItem, null, "New Window")));
         let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
-        return (react_1.default.createElement(rc_dropdown_1.default, { prefixCls: "dock-dropdown", overlay: nativeMenu, trigger: trigger, mouseEnterDelay: 0.1, mouseLeaveDelay: 0.1 }, element));
+        return (React.createElement(Dropdown, { prefixCls: "dock-dropdown", overlay: nativeMenu, trigger: trigger, mouseEnterDelay: 0.1, mouseLeaveDelay: 0.1 }, element));
     }
     render() {
         let { group, tabs, activeId } = this.props.panelData;
@@ -269,9 +243,8 @@ class DockTabs extends react_1.default.PureComponent {
         for (let [id, tab] of this._cache) {
             children.push(tab.content);
         }
-        return (react_1.default.createElement(rc_tabs_1.default, { prefixCls: 'dock', moreIcon: '...', animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
+        return (React.createElement(Tabs, { prefixCls: 'dock', moreIcon: '...', animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
     }
 }
-exports.DockTabs = DockTabs;
-DockTabs.contextType = DockData_1.DockContextType;
+DockTabs.contextType = DockContextType;
 DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];

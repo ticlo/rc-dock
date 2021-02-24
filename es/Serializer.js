@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadLayoutData = exports.saveLayoutData = exports.createLayoutCache = void 0;
-const DockData_1 = require("./DockData");
+import { maximePlaceHolderId } from "./DockData";
 function addPanelToCache(panelData, cache) {
     cache.panels.set(panelData.id, panelData);
     for (let tab of panelData.tabs) {
@@ -18,7 +15,7 @@ function addBoxToCache(boxData, cache) {
         }
     }
 }
-function createLayoutCache(defaultLayout) {
+export function createLayoutCache(defaultLayout) {
     let cache = {
         panels: new Map(),
         tabs: new Map(),
@@ -40,8 +37,7 @@ function createLayoutCache(defaultLayout) {
     }
     return cache;
 }
-exports.createLayoutCache = createLayoutCache;
-function saveLayoutData(layout, saveTab, afterPanelSaved) {
+export function saveLayoutData(layout, saveTab, afterPanelSaved) {
     function saveTabData(tabData) {
         if (saveTab) {
             return saveTab(tabData);
@@ -90,8 +86,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
         maxbox: saveBoxData(layout.maxbox),
     };
 }
-exports.saveLayoutData = saveLayoutData;
-function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
+export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
     if (!savedLayout.floatbox) {
         savedLayout.floatbox = { mode: 'float', children: [], size: 0 };
     }
@@ -125,7 +120,7 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
         else {
             panelData = { id, size, activeId, tabs };
         }
-        if (savedPanel.id === DockData_1.maximePlaceHolderId) {
+        if (savedPanel.id === maximePlaceHolderId) {
             panelData.panelLock = {};
         }
         else if (afterPanelLoaded) {
@@ -159,4 +154,3 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
         maxbox: loadBoxData(savedLayout.maxbox),
     };
 }
-exports.loadLayoutData = loadLayoutData;

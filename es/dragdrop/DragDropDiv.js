@@ -1,23 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -29,15 +9,10 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DragDropDiv = void 0;
-const react_1 = __importDefault(require("react"));
-const DragManager = __importStar(require("./DragManager"));
-const GestureManager_1 = require("./GestureManager");
-class DragDropDiv extends react_1.default.PureComponent {
+import React from "react";
+import * as DragManager from "./DragManager";
+import { GestureState } from "./GestureManager";
+export class DragDropDiv extends React.PureComponent {
     constructor() {
         super(...arguments);
         this._getRef = (r) => {
@@ -144,7 +119,7 @@ class DragDropDiv extends react_1.default.PureComponent {
         };
         this.onGestureMove = (e) => {
             let { onGestureMoveT, gestureSensitivity } = this.props;
-            let state = new GestureManager_1.GestureState(e, this);
+            let state = new GestureState(e, this);
             if (this.waitingMove) {
                 if (!(gestureSensitivity > 0)) {
                     gestureSensitivity = 10; // default sensitivity
@@ -257,7 +232,7 @@ class DragDropDiv extends react_1.default.PureComponent {
         this.scaleY = baseElement.offsetHeight / Math.round(rect.height);
         this.baseDis = Math.sqrt(Math.pow(this.baseX - this.baseX2, 2) + Math.pow(this.baseY - this.baseY2, 2));
         this.baseAng = Math.atan2(this.baseY2 - this.baseY, this.baseX2 - this.baseX);
-        let state = new GestureManager_1.GestureState(event, this, true);
+        let state = new GestureState(event, this, true);
         if (onGestureStartT(state)) {
             this.addGestureListeners(event);
             event.preventDefault();
@@ -314,7 +289,7 @@ class DragDropDiv extends react_1.default.PureComponent {
                 className = 'drag-initiator';
             }
         }
-        return (react_1.default.createElement("div", Object.assign({ ref: this._getRef, className: className }, others, { onMouseDown: onMouseDown, onTouchStart: onTouchDown }), children));
+        return (React.createElement("div", Object.assign({ ref: this._getRef, className: className }, others, { onMouseDown: onMouseDown, onTouchStart: onTouchDown }), children));
     }
     componentDidUpdate(prevProps) {
         let { onDragOverT, onDragEndT, onDragLeaveT } = this.props;
@@ -338,4 +313,3 @@ class DragDropDiv extends react_1.default.PureComponent {
         this.cancel();
     }
 }
-exports.DragDropDiv = DragDropDiv;

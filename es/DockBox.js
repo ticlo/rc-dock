@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockBox = void 0;
-const react_1 = __importDefault(require("react"));
-const DockData_1 = require("./DockData");
-const Divider_1 = require("./Divider");
-const DockPanel_1 = require("./DockPanel");
-class DockBox extends react_1.default.PureComponent {
+import React from "react";
+import { DockContextType } from "./DockData";
+import { Divider } from "./Divider";
+import { DockPanel } from "./DockPanel";
+export class DockBox extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.getRef = (r) => {
@@ -57,15 +51,15 @@ class DockBox extends react_1.default.PureComponent {
         let childrenRender = [];
         for (let i = 0; i < children.length; ++i) {
             if (i > 0) {
-                childrenRender.push(react_1.default.createElement(Divider_1.Divider, { idx: i, key: i, isVertical: isVertical, onDragEnd: this.onDragEnd, getDividerData: this.getDividerData, changeSizes: this.changeSizes }));
+                childrenRender.push(React.createElement(Divider, { idx: i, key: i, isVertical: isVertical, onDragEnd: this.onDragEnd, getDividerData: this.getDividerData, changeSizes: this.changeSizes }));
             }
             let child = children[i];
             if ('tabs' in child) {
-                childrenRender.push(react_1.default.createElement(DockPanel_1.DockPanel, { size: child.size, panelData: child, key: child.id }));
+                childrenRender.push(React.createElement(DockPanel, { size: child.size, panelData: child, key: child.id }));
                 // render DockPanel
             }
             else if ('children' in child) {
-                childrenRender.push(react_1.default.createElement(DockBox, { size: child.size, boxData: child, key: child.id }));
+                childrenRender.push(React.createElement(DockBox, { size: child.size, boxData: child, key: child.id }));
             }
         }
         let cls;
@@ -75,8 +69,7 @@ class DockBox extends react_1.default.PureComponent {
         else {
             cls = 'dock-box dock-hbox';
         }
-        return (react_1.default.createElement("div", { ref: this.getRef, className: cls, "data-dockid": id, style: { minWidth, minHeight, flex: `${size} 1 ${size}px` } }, childrenRender));
+        return (React.createElement("div", { ref: this.getRef, className: cls, "data-dockid": id, style: { minWidth, minHeight, flex: `${size} 1 ${size}px` } }, childrenRender));
     }
 }
-exports.DockBox = DockBox;
-DockBox.contextType = DockData_1.DockContextType;
+DockBox.contextType = DockContextType;

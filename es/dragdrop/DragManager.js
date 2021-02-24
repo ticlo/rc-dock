@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkPointerDownEvent = exports.removeDragStateListener = exports.addDragStateListener = exports.destroyDraggingElement = exports.removeHandlers = exports.addHandlers = exports.isDragging = exports.DragState = void 0;
-class DragState {
+export class DragState {
     constructor(event, component, init = false) {
         this.pageX = 0;
         this.pageY = 0;
@@ -110,7 +107,6 @@ class DragState {
         }
     }
 }
-exports.DragState = DragState;
 function preventDefault(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -131,22 +127,19 @@ function setDroppingHandler(handlers, state) {
     _droppingHandlers = handlers;
 }
 let _dragListeners = new WeakMap();
-function isDragging() {
+export function isDragging() {
     return _draggingState != null;
 }
-exports.isDragging = isDragging;
-function addHandlers(element, handlers) {
+export function addHandlers(element, handlers) {
     _dragListeners.set(element, handlers);
 }
-exports.addHandlers = addHandlers;
-function removeHandlers(element) {
+export function removeHandlers(element) {
     let handlers = _dragListeners.get(element);
     if (handlers === _droppingHandlers) {
         _droppingHandlers = null;
     }
     _dragListeners.delete(element);
 }
-exports.removeHandlers = removeHandlers;
 let _draggingDiv;
 let _draggingIcon;
 function _createDraggingDiv(doc) {
@@ -213,7 +206,7 @@ function moveDraggingElement(state) {
         _draggingIcon.className = '';
     }
 }
-function destroyDraggingElement(e) {
+export function destroyDraggingElement(e) {
     if (_refElement) {
         _refElement.classList.remove('dragging');
         _refElement = null;
@@ -230,18 +223,15 @@ function destroyDraggingElement(e) {
         callback(null);
     }
 }
-exports.destroyDraggingElement = destroyDraggingElement;
 let _dragStateListener = new Set();
-function addDragStateListener(callback) {
+export function addDragStateListener(callback) {
     _dragStateListener.add(callback);
 }
-exports.addDragStateListener = addDragStateListener;
-function removeDragStateListener(callback) {
+export function removeDragStateListener(callback) {
     _dragStateListener.delete(callback);
 }
-exports.removeDragStateListener = removeDragStateListener;
 let _lastPointerDownEvent;
-function checkPointerDownEvent(e) {
+export function checkPointerDownEvent(e) {
     if (e instanceof MouseEvent && e.button !== 0 && e.button !== 2) {
         // only allows left right button drag
         return false;
@@ -253,7 +243,6 @@ function checkPointerDownEvent(e) {
     }
     return false;
 }
-exports.checkPointerDownEvent = checkPointerDownEvent;
 // work around for drag scroll issue on IOS
 if (typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform)) {
     document.addEventListener('touchmove', (e) => {

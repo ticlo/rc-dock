@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockDropEdge = void 0;
-const react_1 = __importDefault(require("react"));
-const DockData_1 = require("./DockData");
-const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
-const DragManager_1 = require("./dragdrop/DragManager");
-class DockDropEdge extends react_1.default.PureComponent {
+import React from "react";
+import { DockContextType } from "./DockData";
+import { DragDropDiv } from "./dragdrop/DragDropDiv";
+import { DragState } from "./dragdrop/DragManager";
+export class DockDropEdge extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.getRef = (r) => {
@@ -17,7 +11,7 @@ class DockDropEdge extends react_1.default.PureComponent {
         this.onDragOver = (e) => {
             let { panelData, panelElement, dropFromPanel } = this.props;
             let dockId = this.context.getDockId();
-            let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
+            let draggingPanel = DragState.getData('panel', dockId);
             let fromGroup = this.context.getGroup(dropFromPanel.group);
             if (draggingPanel && draggingPanel.parent.mode === 'float') {
                 // ignore float panel in edge mode
@@ -33,7 +27,7 @@ class DockDropEdge extends react_1.default.PureComponent {
             for (let i = 0; i < depth; ++i) {
                 targetElement = targetElement.parentElement;
             }
-            let panelSize = DragManager_1.DragState.getData('panelSize', dockId);
+            let panelSize = DragState.getData('panelSize', dockId);
             this.context.setDropRect(targetElement, direction, this, e, panelSize);
             e.accept('');
         };
@@ -44,8 +38,8 @@ class DockDropEdge extends react_1.default.PureComponent {
             let { panelData, dropFromPanel } = this.props;
             let dockId = this.context.getDockId();
             let fromGroup = this.context.getGroup(dropFromPanel.group);
-            let source = DragManager_1.DragState.getData('tab', dockId);
-            let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
+            let source = DragState.getData('tab', dockId);
+            let draggingPanel = DragState.getData('panel', dockId);
             if (!source) {
                 source = draggingPanel;
             }
@@ -146,11 +140,10 @@ class DockDropEdge extends react_1.default.PureComponent {
         return depth;
     }
     render() {
-        return (react_1.default.createElement(DragDropDiv_1.DragDropDiv, { getRef: this.getRef, className: 'dock-drop-edge', onDragOverT: this.onDragOver, onDragLeaveT: this.onDragLeave, onDropT: this.onDrop }));
+        return (React.createElement(DragDropDiv, { getRef: this.getRef, className: 'dock-drop-edge', onDragOverT: this.onDragOver, onDragLeaveT: this.onDragLeave, onDropT: this.onDrop }));
     }
     componentWillUnmount() {
         this.context.setDropRect(null, 'remove', this);
     }
 }
-exports.DockDropEdge = DockDropEdge;
-DockDropEdge.contextType = DockData_1.DockContextType;
+DockDropEdge.contextType = DockContextType;

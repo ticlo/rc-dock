@@ -1,26 +1,20 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockContextConsumer = exports.DockContextProvider = exports.DockContextType = exports.placeHolderGroup = exports.maximePlaceHolderId = exports.placeHolderStyle = exports.defaultGroup = void 0;
-const react_1 = __importDefault(require("react"));
+import React from 'react';
 /** @ignore */
-exports.defaultGroup = {
+export const defaultGroup = {
     floatable: true,
     maximizable: true,
 };
 /** @ignore */
-exports.placeHolderStyle = 'place-holder';
+export const placeHolderStyle = 'place-holder';
 /** @ignore */
-exports.maximePlaceHolderId = '-maximized-placeholder-';
+export const maximePlaceHolderId = '-maximized-placeholder-';
 /** @ignore */
-exports.placeHolderGroup = {
+export const placeHolderGroup = {
     floatable: false,
 };
 /** @ignore */
-exports.DockContextType = react_1.default.createContext(null);
+export const DockContextType = React.createContext(null);
 /** @ignore */
-exports.DockContextProvider = exports.DockContextType.Provider;
+export const DockContextProvider = DockContextType.Provider;
 /** @ignore */
-exports.DockContextConsumer = exports.DockContextType.Consumer;
+export const DockContextConsumer = DockContextType.Consumer;

@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DockDropLayer = exports.DockDropSquare = void 0;
-const react_1 = __importDefault(require("react"));
-const DockData_1 = require("./DockData");
-const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
-const DragManager_1 = require("./dragdrop/DragManager");
-class DockDropSquare extends react_1.default.PureComponent {
+import React from "react";
+import { DockContextType, placeHolderStyle } from "./DockData";
+import { DragDropDiv } from "./dragdrop/DragDropDiv";
+import { DragState } from "./dragdrop/DragManager";
+export class DockDropSquare extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.state = { dropping: false };
@@ -18,13 +12,13 @@ class DockDropSquare extends react_1.default.PureComponent {
             for (let i = 0; i < depth; ++i) {
                 targetElement = targetElement.parentElement;
             }
-            if (panelData.group === DockData_1.placeHolderStyle && direction !== 'float') {
+            if (panelData.group === placeHolderStyle && direction !== 'float') {
                 // place holder panel should always have full size drop rect
                 this.context.setDropRect(targetElement, 'middle', this, e);
             }
             else {
                 let dockId = this.context.getDockId();
-                let panelSize = DragManager_1.DragState.getData('panelSize', dockId);
+                let panelSize = DragState.getData('panelSize', dockId);
                 this.context.setDropRect(targetElement, direction, this, e, panelSize);
             }
             e.accept('');
@@ -36,9 +30,9 @@ class DockDropSquare extends react_1.default.PureComponent {
         };
         this.onDrop = (e) => {
             let dockId = this.context.getDockId();
-            let source = DragManager_1.DragState.getData('tab', dockId);
+            let source = DragState.getData('tab', dockId);
             if (!source) {
-                source = DragManager_1.DragState.getData('panel', dockId);
+                source = DragState.getData('panel', dockId);
             }
             if (source) {
                 let { panelData, direction, depth } = this.props;
@@ -61,24 +55,23 @@ class DockDropSquare extends react_1.default.PureComponent {
         if (dropping) {
             classes.push('dock-drop-square-dropping');
         }
-        return (react_1.default.createElement(DragDropDiv_1.DragDropDiv, { className: classes.join(' '), onDragOverT: this.onDragOver, onDragLeaveT: this.onDragLeave, onDropT: this.onDrop },
-            react_1.default.createElement("div", { className: 'dock-drop-square-box' })));
+        return (React.createElement(DragDropDiv, { className: classes.join(' '), onDragOverT: this.onDragOver, onDragLeaveT: this.onDragLeave, onDropT: this.onDrop },
+            React.createElement("div", { className: 'dock-drop-square-box' })));
     }
     componentWillUnmount() {
         this.context.setDropRect(null, 'remove', this);
     }
 }
-exports.DockDropSquare = DockDropSquare;
-DockDropSquare.contextType = DockData_1.DockContextType;
-class DockDropLayer extends react_1.default.PureComponent {
+DockDropSquare.contextType = DockContextType;
+export class DockDropLayer extends React.PureComponent {
     static addDepthSquare(children, mode, panelData, panelElement, depth) {
         if (mode === 'horizontal') {
-            children.push(react_1.default.createElement(DockDropSquare, { key: `top${depth}`, direction: 'top', depth: depth, panelData: panelData, panelElement: panelElement }));
-            children.push(react_1.default.createElement(DockDropSquare, { key: `bottom${depth}`, direction: 'bottom', depth: depth, panelData: panelData, panelElement: panelElement }));
+            children.push(React.createElement(DockDropSquare, { key: `top${depth}`, direction: 'top', depth: depth, panelData: panelData, panelElement: panelElement }));
+            children.push(React.createElement(DockDropSquare, { key: `bottom${depth}`, direction: 'bottom', depth: depth, panelData: panelData, panelElement: panelElement }));
         }
         else {
-            children.push(react_1.default.createElement(DockDropSquare, { key: `left${depth}`, direction: 'left', depth: depth, panelData: panelData, panelElement: panelElement }));
-            children.push(react_1.default.createElement(DockDropSquare, { key: `right${depth}`, direction: 'right', depth: depth, panelData: panelData, panelElement: panelElement }));
+            children.push(React.createElement(DockDropSquare, { key: `left${depth}`, direction: 'left', depth: depth, panelData: panelData, panelElement: panelElement }));
+            children.push(React.createElement(DockDropSquare, { key: `right${depth}`, direction: 'right', depth: depth, panelData: panelData, panelElement: panelElement }));
         }
     }
     render() {
@@ -86,12 +79,12 @@ class DockDropLayer extends react_1.default.PureComponent {
         let dockId = this.context.getDockId();
         let children = [];
         // check if it's whole panel dragging
-        let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
+        let draggingPanel = DragState.getData('panel', dockId);
         let fromGroup = this.context.getGroup(dropFromPanel.group);
         if (fromGroup.floatable !== false &&
             (!draggingPanel ||
                 (!draggingPanel.panelLock && draggingPanel.parent.mode !== 'float'))) {
-            children.push(react_1.default.createElement(DockDropSquare, { key: 'float', direction: 'float', panelData: panelData, panelElement: panelElement }));
+            children.push(React.createElement(DockDropSquare, { key: 'float', direction: 'float', panelData: panelData, panelElement: panelElement }));
         }
         if (draggingPanel !== panelData && !fromGroup.disableDock) { // don't drop panel to itself
             // 4 direction base drag square
@@ -99,7 +92,7 @@ class DockDropLayer extends react_1.default.PureComponent {
             DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
             if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
                 // dock to tabs
-                children.push(react_1.default.createElement(DockDropSquare, { key: 'middle', direction: 'middle', panelData: panelData, panelElement: panelElement }));
+                children.push(React.createElement(DockDropSquare, { key: 'middle', direction: 'middle', panelData: panelData, panelElement: panelElement }));
             }
             let box = panelData.parent;
             if (box && box.children.length > 1) {
@@ -110,8 +103,7 @@ class DockDropLayer extends react_1.default.PureComponent {
                 }
             }
         }
-        return (react_1.default.createElement("div", { className: 'dock-drop-layer' }, children));
+        return (React.createElement("div", { className: 'dock-drop-layer' }, children));
     }
 }
-exports.DockDropLayer = DockDropLayer;
-DockDropLayer.contextType = DockData_1.DockContextType;
+DockDropLayer.contextType = DockContextType;

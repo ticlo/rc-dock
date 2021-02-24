@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GestureState = void 0;
-class GestureState {
+export class GestureState {
     constructor(event, component, init = false) {
         this.dx1 = 0;
         this.dy1 = 0;
@@ -53,4 +50,3 @@ class GestureState {
         return [(touch1.clientX + touch2.clientX) / 2, (touch1.clientY + touch2.clientY) / 2];
     }
 }
-exports.GestureState = GestureState;

@@ -148,18 +148,16 @@ export class TabCache {
       content = content(this.data);
     }
     let tab = (
-      <div ref={this.getRef}>
+      <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart}
+                   onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
+        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} />
         {title}
-        <DragDropDiv className='dock-tab-hit-area' getRef={this.getHitAreaRef}
-                     onDragStartT={onDragStart}
-                     onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
-          {closable ?
-            <div className='dock-tab-close-btn' onClick={this.onCloseClick}
-                 onKeyDown={this.onKeyDownCloseBtn} tabIndex={0}/>
-            : null
-          }
-        </DragDropDiv>
-      </div>
+        {closable ?
+          <div className='dock-tab-close-btn' onClick={this.onCloseClick}
+               onKeyDown={this.onKeyDownCloseBtn} tabIndex={0}/>
+          : null
+        }
+      </DragDropDiv>
     );
 
     return (

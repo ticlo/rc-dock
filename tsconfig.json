@@ -18,7 +18,7 @@
     "sourceMap": false,
     "declaration": true,
     "newLine": "lf",
-    "outDir": "./es"
+    "outDir": "./lib"
   },
   "include": [
     "src/**/*"

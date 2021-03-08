@@ -131,7 +131,12 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     _onWindowResize: any;
     /** @ignore */
     componentWillUnmount(): void;
+    /** @ignore
+     * layout state doesn't change instantly after setState, use this to make sure the correct layout is
+     */
     tempLayout: LayoutData;
+    setLayout(layout: LayoutData): void;
+    getLayout(): LayoutData;
     /** @ignore
      * change layout
      */

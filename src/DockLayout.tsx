@@ -169,6 +169,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
+
   /** @ignore */
   getRootElement() {
     return this._ref;
@@ -207,7 +208,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * @param direction @inheritDoc
    */
   dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection) {
-    let layout = this.tempLayout || this.state.layout;
+    let layout = this.getLayout();
 
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
@@ -256,7 +257,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         layout = Algorithm.addNextToTab(layout, source, target as TabData, direction);
       }
     }
-    if (layout !== this.state.layout) {
+    if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout);
       let currentTabId: string = null;
       if (direction !== 'remove') {
@@ -274,7 +275,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   /** @inheritDoc */
   find(id: string, filter?: Algorithm.Filter): PanelData | TabData {
-    return Algorithm.find(this.tempLayout || this.state.layout, id, filter);
+    return Algorithm.find(this.getLayout(), id, filter);
   }
 
   /** @ignore */
@@ -296,12 +297,12 @@ export class DockLayout extends DockPortalManager implements DockContext {
         if (loadTab && !('content' in newTab && 'title' in newTab)) {
           newTab = loadTab(newTab);
         }
-        let {layout} = this.state;
+        let layout = this.getLayout();
         layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
         panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
         layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
         layout = Algorithm.fixLayoutData(layout);
-        this.setState({layout});
+        this.changeLayout(layout, newTab.id);
         return true;
       }
     }
@@ -467,7 +468,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   _onWindowResize: any = debounce(() => {
-    let layout = this.tempLayout || this.state.layout;
+    let layout = this.getLayout();
 
     if (this._ref) {
       let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
@@ -485,7 +486,19 @@ export class DockLayout extends DockPortalManager implements DockContext {
     this._onWindowResize.cancel();
   }
 
+  /** @ignore
+   * layout state doesn't change instantly after setState, use this to make sure the correct layout is
+   */
   tempLayout: LayoutData;
+
+  setLayout(layout: LayoutData) {
+    this.tempLayout = layout;
+    this.setState({layout});
+  }
+
+  getLayout() {
+    return this.tempLayout || this.state.layout;
+  }
 
   /** @ignore
    * change layout
@@ -500,8 +513,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
     if (!layout) {
       // uncontrolled layout when Props.layout is not defined
-      this.tempLayout = layoutData;
-      this.setState({layout: layoutData});
+      this.setLayout(layoutData);
     }
   }
 
@@ -512,7 +524,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   onSilentChange(currentTabId: string = null) {
     let {onLayoutChange} = this.props;
     if (onLayoutChange) {
-      let layout = this.tempLayout || this.state.layout;
+      let layout = this.getLayout();
       let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
       layout.loadedFrom = savedLayout;
       onLayoutChange(savedLayout, currentTabId);
@@ -522,7 +534,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   // public api
 
   saveLayout(): LayoutBase {
-    return Serializer.saveLayoutData(this.tempLayout || this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+    return Serializer.saveLayoutData(this.getLayout(), this.props.saveTab, this.props.afterPanelSaved);
   }
 
   /**
@@ -531,7 +543,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
    */
   loadLayout(savedLayout: LayoutBase) {
     let {defaultLayout, loadTab, afterPanelLoaded} = this.props;
-    this.setState({layout: DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight)});
+    this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight));
   }
 
   /** @ignore */

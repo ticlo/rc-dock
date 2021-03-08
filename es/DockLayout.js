@@ -91,7 +91,7 @@ export class DockLayout extends DockPortalManager {
             }
         };
         this._onWindowResize = debounce(() => {
-            let layout = this.tempLayout || this.state.layout;
+            let layout = this.getLayout();
             if (this._ref) {
                 let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
                 if (layout !== newLayout) {
@@ -158,7 +158,7 @@ export class DockLayout extends DockPortalManager {
      * @param direction @inheritDoc
      */
     dockMove(source, target, direction) {
-        let layout = this.tempLayout || this.state.layout;
+        let layout = this.getLayout();
         if (direction === 'maximize') {
             layout = Algorithm.maximize(layout, source);
         }
@@ -212,7 +212,7 @@ export class DockLayout extends DockPortalManager {
                 layout = Algorithm.addNextToTab(layout, source, target, direction);
             }
         }
-        if (layout !== this.state.layout) {
+        if (layout !== this.getLayout()) {
             layout = Algorithm.fixLayoutData(layout);
             let currentTabId = null;
             if (direction !== 'remove') {
@@ -230,7 +230,7 @@ export class DockLayout extends DockPortalManager {
     }
     /** @inheritDoc */
     find(id, filter) {
-        return Algorithm.find(this.tempLayout || this.state.layout, id, filter);
+        return Algorithm.find(this.getLayout(), id, filter);
     }
     /** @ignore */
     getLayoutSize() {
@@ -250,12 +250,12 @@ export class DockLayout extends DockPortalManager {
                 if (loadTab && !('content' in newTab && 'title' in newTab)) {
                     newTab = loadTab(newTab);
                 }
-                let { layout } = this.state;
+                let layout = this.getLayout();
                 layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
                 panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
                 layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
                 layout = Algorithm.fixLayoutData(layout);
-                this.setState({ layout });
+                this.changeLayout(layout, newTab.id);
                 return true;
             }
         }
@@ -374,6 +374,13 @@ export class DockLayout extends DockPortalManager {
         DragManager.removeDragStateListener(this.onDragStateChange);
         this._onWindowResize.cancel();
     }
+    setLayout(layout) {
+        this.tempLayout = layout;
+        this.setState({ layout });
+    }
+    getLayout() {
+        return this.tempLayout || this.state.layout;
+    }
     /** @ignore
      * change layout
      */
@@ -387,8 +394,7 @@ export class DockLayout extends DockPortalManager {
         }
         if (!layout) {
             // uncontrolled layout when Props.layout is not defined
-            this.tempLayout = layoutData;
-            this.setState({ layout: layoutData });
+            this.setLayout(layoutData);
         }
     }
     /** @ignore
@@ -398,7 +404,7 @@ export class DockLayout extends DockPortalManager {
     onSilentChange(currentTabId = null) {
         let { onLayoutChange } = this.props;
         if (onLayoutChange) {
-            let layout = this.tempLayout || this.state.layout;
+            let layout = this.getLayout();
             let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
             layout.loadedFrom = savedLayout;
             onLayoutChange(savedLayout, currentTabId);
@@ -406,7 +412,7 @@ export class DockLayout extends DockPortalManager {
     }
     // public api
     saveLayout() {
-        return Serializer.saveLayoutData(this.tempLayout || this.state.layout, this.props.saveTab, this.props.afterPanelSaved);
+        return Serializer.saveLayoutData(this.getLayout(), this.props.saveTab, this.props.afterPanelSaved);
     }
     /**
      * load layout
@@ -414,7 +420,7 @@ export class DockLayout extends DockPortalManager {
      */
     loadLayout(savedLayout) {
         let { defaultLayout, loadTab, afterPanelLoaded } = this.props;
-        this.setState({ layout: DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight) });
+        this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight));
     }
     /** @ignore */
     static loadLayoutData(savedLayout, props, width = 0, height = 0) {

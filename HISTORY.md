@@ -1,6 +1,10 @@
 # History
 ----
 
+## 3.0.5 / 2021-03-08
+- allow mouse event handler on tab title
+- fix the issue that calling updateTab() doesn't trigger onLayoutChange #71
+
 ## 3.0.2 / 2021-02-06
 - fix serialization of popup window
 

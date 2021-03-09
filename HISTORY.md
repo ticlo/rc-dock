@@ -1,8 +1,9 @@
 # History
 ----
 
-## 3.0.6 / 2021-03-09
+## 3.0.7 / 2021-03-09
 - add direction parameter to onLayoutChange callback
+  - onLayoutChange callback now gives the tabId when tab is removed, this is changed from previous version where tabId=null when it's removed
 
 ## 3.0.5 / 2021-03-08
 - allow mouse event handler on tab title

@@ -50,9 +50,9 @@ render() {
 
 ```
 - use as **uncontrolled layout**
-  - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html#defaultlayout)**
+  - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#defaultlayout)**
 - use as **controlled layout**
-  - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html#layout)** 
+  - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#layout)** 
 
 
 ## types
@@ -94,14 +94,14 @@ a panel is a visiaul container with tabs button in the title bar
 
 get the `ref` of the DockLayout component to use the following API
 
-### saveLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html)
+### saveLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html)
 save layout
 
 ```typescript
 saveLayout(): SavedLayout 
 ```
 
-### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutprops.html)
+### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html)
 load layout
 
 ```typescript

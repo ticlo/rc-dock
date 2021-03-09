@@ -1,11 +1,10 @@
 import React, { CSSProperties } from "react";
 import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
-interface LayoutProps {
+export interface LayoutProps {
     /**
-     * @ignore
      * when there are multiple DockLayout, by default, you can't drag panel between them
-     * but if you assign same dockId, it will allow panels to be from one layout to another
+     * but if you assign same dockId, it will allow panels to be dragged from one layout to another
      */
     dockId?: string;
     /**

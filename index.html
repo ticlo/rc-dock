@@ -121,7 +121,7 @@
 					<h2>types</h2>
 				</a>
 				<a href="#layoutdata-🗎" id="layoutdata-🗎" style="color: inherit; text-decoration: none;">
-					<h3>LayoutData <a href="https://ticlo.github.io/rc-dock/interfaces/layoutdata.html">🗎</a></h3>
+					<h3>LayoutData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.layoutdata.html">🗎</a></h3>
 				</a>
 				<table>
 					<thead>
@@ -146,7 +146,7 @@
 						</tr>
 				</tbody></table>
 				<a href="#boxdata-🗎" id="boxdata-🗎" style="color: inherit; text-decoration: none;">
-					<h3>BoxData <a href="https://ticlo.github.io/rc-dock/interfaces/boxdata.html">🗎</a></h3>
+					<h3>BoxData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.boxdata.html">🗎</a></h3>
 				</a>
 				<p>a box is the layout element that contains other boxes or panels</p>
 				<table>
@@ -172,7 +172,7 @@
 						</tr>
 				</tbody></table>
 				<a href="#paneldata-🗎" id="paneldata-🗎" style="color: inherit; text-decoration: none;">
-					<h3>PanelData <a href="https://ticlo.github.io/rc-dock/interfaces/paneldata.html">🗎</a></h3>
+					<h3>PanelData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.paneldata.html">🗎</a></h3>
 				</a>
 				<p>a panel is a visiaul container with tabs button in the title bar</p>
 				<table>
@@ -198,7 +198,7 @@
 						</tr>
 				</tbody></table>
 				<a href="#tabdata-🗎" id="tabdata-🗎" style="color: inherit; text-decoration: none;">
-					<h3>TabData <a href="https://ticlo.github.io/rc-dock/interfaces/tabdata.html">🗎</a></h3>
+					<h3>TabData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.tabdata.html">🗎</a></h3>
 				</a>
 				<table>
 					<thead>
@@ -257,19 +257,19 @@
 				<pre><code class="language-typescript"><span style="color: #000000"> </span><span style="color: #795E26">loadLayout</span><span style="color: #000000">(</span><span style="color: #001080">savedLayout</span><span style="color: #000000">: </span><span style="color: #001080">SavedLayout</span><span style="color: #000000">): </span><span style="color: #0000FF">void</span>
 </code></pre>
 				<a href="#dockmove-🗎" id="dockmove-🗎" style="color: inherit; text-decoration: none;">
-					<h3>dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove">🗎</a></h3>
+					<h3>dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#dockmove">🗎</a></h3>
 				</a>
-				<p>move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first</p>
-				<pre><code class="language-typescript"><span style="color: #795E26">dockMove</span><span style="color: #000000">(</span><span style="color: #001080">source</span><span style="color: #000000">: </span><span style="color: #001080">TabData</span><span style="color: #000000"> | </span><span style="color: #001080">PanelData</span><span style="color: #000000">, </span><span style="color: #001080">target</span><span style="color: #000000">: </span><span style="color: #001080">TabData</span><span style="color: #000000"> | </span><span style="color: #001080">PanelData</span><span style="color: #000000"> | </span><span style="color: #001080">BoxData</span><span style="color: #000000">, </span><span style="color: #001080">direction</span><span style="color: #000000">: </span><span style="color: #001080">DropDirection</span><span style="color: #000000">): </span><span style="color: #0000FF">void</span><span style="color: #000000">;</span>
+				<p>move a tab or a panel, if source is already in the layout, you can use the find method to get it with id first</p>
+				<pre><code class="language-typescript"><span style="color: #795E26">dockMove</span><span style="color: #000000">(</span><span style="color: #001080">source</span><span style="color: #000000">: </span><span style="color: #001080">TabData</span><span style="color: #000000"> | </span><span style="color: #001080">PanelData</span><span style="color: #000000">, </span><span style="color: #001080">target</span><span style="color: #000000">: </span><span style="color: #001080">string</span><span style="color: #000000"> | </span><span style="color: #001080">TabData</span><span style="color: #000000"> | </span><span style="color: #001080">PanelData</span><span style="color: #000000"> | </span><span style="color: #001080">BoxData</span><span style="color: #000000">, </span><span style="color: #001080">direction</span><span style="color: #000000">: </span><span style="color: #001080">DropDirection</span><span style="color: #000000">): </span><span style="color: #0000FF">void</span><span style="color: #000000">;</span>
 </code></pre>
 				<a href="#find-🗎" id="find-🗎" style="color: inherit; text-decoration: none;">
-					<h3>find <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#find">🗎</a></h3>
+					<h3>find <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#find">🗎</a></h3>
 				</a>
 				<p>find PanelData or TabData by id</p>
 				<pre><code class="language-typescript"><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">id</span><span style="color: #000000">: </span><span style="color: #001080">string</span><span style="color: #000000">): </span><span style="color: #001080">PanelData</span><span style="color: #000000"> | </span><span style="color: #001080">TabData</span><span style="color: #000000">;</span>
 </code></pre>
 				<a href="#updatetab-🗎" id="updatetab-🗎" style="color: inherit; text-decoration: none;">
-					<h3>updateTab <a href="https://ticlo.github.io/rc-dock/classes/docklayout.html#updatetab">🗎</a></h3>
+					<h3>updateTab <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#updatetab">🗎</a></h3>
 				</a>
 				<p>update a tab with new TabData</p>
 				<p>returns false if the tab is not found</p>

@@ -17778,7 +17778,7 @@ class DockPanel extends react_1.default.PureComponent {
         this.setState({
           draggingHeader: false
         });
-        this.context.onSilentChange(this.props.panelData.activeId);
+        this.context.onSilentChange(this.props.panelData.activeId, 'move');
       }
     };
 
@@ -17859,7 +17859,7 @@ class DockPanel extends react_1.default.PureComponent {
     };
 
     this.onPanelCornerDragEnd = e => {
-      this.context.onSilentChange();
+      this.context.onSilentChange(this.props.panelData.activeId, 'move');
     };
 
     this.onFloatPointerDown = () => {
@@ -18734,7 +18734,7 @@ class DockTabs extends react_1.default.PureComponent {
 
     this.onTabChange = activeId => {
       this.props.panelData.activeId = activeId;
-      this.context.onSilentChange(activeId);
+      this.context.onSilentChange(activeId, 'active');
       this.forceUpdate();
     };
   }
@@ -19103,7 +19103,7 @@ class DockBox extends react_1.default.PureComponent {
     };
 
     this.onDragEnd = () => {
-      this.context.onSilentChange();
+      this.context.onSilentChange(null, 'move');
     };
   }
 
@@ -19738,7 +19738,7 @@ class DockLayout extends DockPortalManager {
         if (layout !== newLayout) {
           newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
 
-          this.changeLayout(newLayout, null);
+          this.changeLayout(newLayout, null, 'move');
         }
       }
     }, 200);
@@ -19884,7 +19884,7 @@ class DockLayout extends DockPortalManager {
         }
       }
 
-      this.changeLayout(layout, currentTabId);
+      this.changeLayout(layout, currentTabId, direction);
     }
 
     this.onDragStateChange(false);
@@ -19938,7 +19938,7 @@ class DockLayout extends DockPortalManager {
         layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
 
         layout = Algorithm.fixLayoutData(layout);
-        this.changeLayout(layout, newTab.id);
+        this.changeLayout(layout, newTab.id, 'update');
         return true;
       }
     }
@@ -20147,7 +20147,7 @@ class DockLayout extends DockPortalManager {
    */
 
 
-  changeLayout(layoutData, currentTabId) {
+  changeLayout(layoutData, currentTabId, direction) {
     let {
       layout,
       onLayoutChange
@@ -20157,7 +20157,7 @@ class DockLayout extends DockPortalManager {
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       layoutData.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout, currentTabId);
+      onLayoutChange(savedLayout, currentTabId, direction);
     }
 
     if (!layout) {
@@ -20171,7 +20171,7 @@ class DockLayout extends DockPortalManager {
    */
 
 
-  onSilentChange(currentTabId = null) {
+  onSilentChange(currentTabId = null, direction) {
     let {
       onLayoutChange
     } = this.props;
@@ -20180,7 +20180,7 @@ class DockLayout extends DockPortalManager {
       let layout = this.getLayout();
       let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
       layout.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout, currentTabId);
+      onLayoutChange(savedLayout, currentTabId, direction);
     }
   } // public api
 
@@ -20195,11 +20195,6 @@ class DockLayout extends DockPortalManager {
 
 
   loadLayout(savedLayout) {
-    let {
-      defaultLayout,
-      loadTab,
-      afterPanelLoaded
-    } = this.props;
     this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight));
   }
   /** @ignore */

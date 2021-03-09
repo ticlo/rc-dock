@@ -58,13 +58,13 @@ render() {
 ## types
 
 
-### LayoutData [🗎](https://ticlo.github.io/rc-dock/interfaces/layoutdata.html)
+### LayoutData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.layoutdata.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
 | dockbox | BoxData | main dock box | empty BoxData |
 | floatbox | BoxData | main float box, children can only be PanelData  | empty BoxData |
 
-### BoxData [🗎](https://ticlo.github.io/rc-dock/interfaces/boxdata.html)
+### BoxData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.boxdata.html)
 a box is the layout element that contains other boxes or panels
 
 | Property | Type | Comments | Default |
@@ -72,7 +72,7 @@ a box is the layout element that contains other boxes or panels
 | mode | 'horizontal' &#x7c; 'vertical' &#x7c; 'float' | layout mode of the box | |
 | children | (BoxData &#x7c; PanelData)[] | children boxes or panels | **required** |
 
-### PanelData [🗎](https://ticlo.github.io/rc-dock/interfaces/paneldata.html)
+### PanelData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.paneldata.html)
 a panel is a visiaul container with tabs button in the title bar
 
 | Property | Type | Comments | Default |
@@ -81,7 +81,7 @@ a panel is a visiaul container with tabs button in the title bar
 | panelLock | PanelLock | addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either | |
 
 
-### TabData [🗎](https://ticlo.github.io/rc-dock/interfaces/tabdata.html)
+### TabData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.tabdata.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
 | id | string | unique id | **required** |
@@ -108,21 +108,21 @@ load layout
  loadLayout(savedLayout: SavedLayout): void
 ```
 
-### dockMove [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#dockmove)
-move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
+### dockMove [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#dockmove)
+move a tab or a panel, if source is already in the layout, you can use the find method to get it with id first
 
 ```typescript
-dockMove(source: TabData | PanelData, target: TabData | PanelData | BoxData, direction: DropDirection): void;
+dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection): void;
 ```
 
-### find [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#find)
+### find [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#find)
 find PanelData or TabData by id
 
 ```typescript
 find(id: string): PanelData | TabData;
 ```
 
-### updateTab [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.html#updatetab)
+### updateTab [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#updatetab)
 update a tab with new TabData
 
 returns false if the tab is not found

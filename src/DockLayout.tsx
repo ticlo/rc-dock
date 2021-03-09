@@ -27,11 +27,10 @@ import * as DragManager from "./dragdrop/DragManager";
 import {MaxBox} from "./MaxBox";
 import {WindowBox} from "./WindowBox";
 
-interface LayoutProps {
+export interface LayoutProps {
   /**
-   * @ignore
    * when there are multiple DockLayout, by default, you can't drag panel between them
-   * but if you assign same dockId, it will allow panels to be from one layout to another
+   * but if you assign same dockId, it will allow panels to be dragged from one layout to another
    */
   dockId?: string;
 

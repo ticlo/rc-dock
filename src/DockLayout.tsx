@@ -261,13 +261,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout);
       let currentTabId: string = null;
-      if (direction !== 'remove') {
-        if (source.hasOwnProperty('tabs')) {
-          currentTabId = (source as PanelData).activeId;
-        } else {
-          // when source is tab
-          currentTabId = (source as TabData).id;
-        }
+      if (source.hasOwnProperty('tabs')) {
+        currentTabId = (source as PanelData).activeId;
+      } else {
+        // when source is tab
+        currentTabId = (source as TabData).id;
       }
       this.changeLayout(layout, currentTabId, direction);
     }

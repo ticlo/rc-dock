@@ -24,7 +24,7 @@ let box = {
             tabs: [{id: 't0'}, htmlTab, jsxTab],
           },
           {
-            tabs: [{id: 't4'}, {id: 't5'}, {id: 't6'}],
+            tabs: [{id: 'protect1'}, {id: 't4'}, {id: 't5'}, {id: 't6'}],
           }
         ]
       },
@@ -43,6 +43,15 @@ class Demo extends React.Component {
     switch (id) {
       case 't0':
         return {...tab0, id};
+      case 'protect1' :
+        return {
+          id, title: 'Protect',
+          closable: true,
+          content: <div>
+            <p>Removal of this tab will be rejected</p>
+            This is done in the onLayoutChange callback
+          </div>
+        };
       case jsxTab.id:
         return jsxTab;
       case htmlTab.id:
@@ -58,7 +67,14 @@ class Demo extends React.Component {
   onLayoutChange = (newLayout, currentTabId, direction) => {
     // control DockLayout from state
     console.log(currentTabId, newLayout, direction);
-    this.setState({layout: newLayout});
+    if (currentTabId === 'protect1' && direction === 'remove') {
+      alert('removal of this tab is rejected');
+      let {layout} = this.state;
+      this.setState({layout: {...layout}});
+    } else {
+      this.setState({layout: newLayout});
+    }
+
   };
 
   render() {

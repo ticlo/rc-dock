@@ -217,7 +217,7 @@ export interface LayoutData extends LayoutBase {
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
 export interface DockContext {
     /** @ignore */
     getDockId(): any;
@@ -238,7 +238,7 @@ export interface DockContext {
      * it still need to tell the context there is a change so DockLayout can call onLayoutChange callback
      * this usually happens on dragEnd event of size/location change
      */
-    onSilentChange(currentTabId?: string): void;
+    onSilentChange(currentTabId?: string, direction?: DropDirection): void;
     /**
      * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
      * @param source the source TabData or PanelData being moved

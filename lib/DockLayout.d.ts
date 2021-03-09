@@ -26,8 +26,10 @@ interface LayoutProps {
     };
     /**
      * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
+     * @param currentTabId id of current tab
+     * @param direction direction of the dock change
      */
-    onLayoutChange?(newLayout: LayoutBase, currentTabId: string): void;
+    onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection): void;
     /**
      * - default mode: showing 4 to 9 squares to help picking drop areas
      * - edge mode: using the distance between mouse and panel border to pick drop area
@@ -140,12 +142,12 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     /** @ignore
      * change layout
      */
-    changeLayout(layoutData: LayoutData, currentTabId: string): void;
+    changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection): void;
     /** @ignore
      * some layout change were handled by component silently
      * but they should still call this function to trigger onLayoutChange
      */
-    onSilentChange(currentTabId?: string): void;
+    onSilentChange(currentTabId?: string, direction?: DropDirection): void;
     saveLayout(): LayoutBase;
     /**
      * load layout

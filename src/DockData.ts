@@ -277,7 +277,11 @@ export type DropDirection =
   | 'float'
   | 'front'
   | 'maximize'
-  | 'new-window';
+  | 'new-window'
+  | 'move' // dockbox or float panel moved, or float panel resized
+  | 'active' // become active tab
+  | 'update' // tab updated with updateTab
+  ;
 
 export interface DockContext {
   /** @ignore */
@@ -297,7 +301,7 @@ export interface DockContext {
    * it still need to tell the context there is a change so DockLayout can call onLayoutChange callback
    * this usually happens on dragEnd event of size/location change
    */
-  onSilentChange(currentTabId?: string): void;
+  onSilentChange(currentTabId?: string, direction?: DropDirection): void;
 
   /**
    * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first

@@ -54,8 +54,10 @@ interface LayoutProps {
 
   /**
    * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
+   * @param currentTabId id of current tab
+   * @param direction direction of the dock change
    */
-  onLayoutChange?(newLayout: LayoutBase, currentTabId: string): void;
+  onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection): void;
 
   /**
    * - default mode: showing 4 to 9 squares to help picking drop areas
@@ -268,7 +270,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
           currentTabId = (source as TabData).id;
         }
       }
-      this.changeLayout(layout, currentTabId);
+      this.changeLayout(layout, currentTabId, direction);
     }
     this.onDragStateChange(false);
   }
@@ -302,7 +304,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
         layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
         layout = Algorithm.fixLayoutData(layout);
-        this.changeLayout(layout, newTab.id);
+        this.changeLayout(layout, newTab.id, 'update');
         return true;
       }
     }
@@ -474,7 +476,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
       let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
       if (layout !== newLayout) {
         newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
-        this.changeLayout(newLayout, null);
+        this.changeLayout(newLayout, null, 'move');
       }
     }
   }, 200);
@@ -503,13 +505,13 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore
    * change layout
    */
-  changeLayout(layoutData: LayoutData, currentTabId: string) {
+  changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection) {
     let {layout, onLayoutChange} = this.props;
     let savedLayout: LayoutBase;
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       layoutData.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout, currentTabId);
+      onLayoutChange(savedLayout, currentTabId, direction);
     }
     if (!layout) {
       // uncontrolled layout when Props.layout is not defined
@@ -521,13 +523,13 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * some layout change were handled by component silently
    * but they should still call this function to trigger onLayoutChange
    */
-  onSilentChange(currentTabId: string = null) {
+  onSilentChange(currentTabId: string = null, direction?: DropDirection) {
     let {onLayoutChange} = this.props;
     if (onLayoutChange) {
       let layout = this.getLayout();
       let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
       layout.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout, currentTabId);
+      onLayoutChange(savedLayout, currentTabId, direction);
     }
   }
 
@@ -542,7 +544,6 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * calling this api won't trigger the [[LayoutProps.onLayoutChange]] callback
    */
   loadLayout(savedLayout: LayoutBase) {
-    let {defaultLayout, loadTab, afterPanelLoaded} = this.props;
     this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight));
   }
 

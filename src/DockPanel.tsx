@@ -116,7 +116,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onPanelHeaderDragEnd = (e: DragState) => {
     if (!this._unmounted) {
       this.setState({draggingHeader: false});
-      this.context.onSilentChange(this.props.panelData.activeId);
+      this.context.onSilentChange(this.props.panelData.activeId, 'move');
     }
   };
 
@@ -193,7 +193,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.forceUpdate();
   };
   onPanelCornerDragEnd = (e: DragState) => {
-    this.context.onSilentChange();
+    this.context.onSilentChange(this.props.panelData.activeId, 'move');
   };
 
   onFloatPointerDown = () => {

@@ -150,7 +150,7 @@ export class TabCache {
     let tab = (
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
-        <div className='dock-tab-hit-area' ref={this.getHitAreaRef} />
+        <div className='dock-tab-hit-area' ref={this.getHitAreaRef}/>
         {title}
         {closable ?
           <div className='dock-tab-close-btn' onClick={this.onCloseClick}
@@ -294,13 +294,14 @@ export class DockTabs extends React.PureComponent<Props, any> {
     }
     return (
       <DockTabBar onDragStart={onPanelDragStart}
-                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd} TabNavList={TabNavList} {...props} extra={panelExtraContent}/>
+                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd} TabNavList={TabNavList} {...props}
+                  extra={panelExtraContent}/>
     );
   };
 
   onTabChange = (activeId: string) => {
     this.props.panelData.activeId = activeId;
-    this.context.onSilentChange(activeId);
+    this.context.onSilentChange(activeId, 'active');
     this.forceUpdate();
   };
 

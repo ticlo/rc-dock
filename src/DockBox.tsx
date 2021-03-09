@@ -52,7 +52,7 @@ export class DockBox extends React.PureComponent<Props, any> {
   };
 
   onDragEnd = () => {
-    this.context.onSilentChange();
+    this.context.onSilentChange(null, 'move');
   };
 
   render(): React.ReactNode {

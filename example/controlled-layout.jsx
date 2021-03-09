@@ -55,9 +55,9 @@ class Demo extends React.Component {
     };
   };
 
-  onLayoutChange = (newLayout, currentTabId) => {
+  onLayoutChange = (newLayout, currentTabId, direction) => {
     // control DockLayout from state
-    console.log(currentTabId, newLayout);
+    console.log(currentTabId, newLayout, direction);
     this.setState({layout: newLayout});
   };
 

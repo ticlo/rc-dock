@@ -257,6 +257,8 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
           }, htmlTab, jsxTab]
         }, {
           tabs: [{
+            id: 'protect1'
+          }, {
             id: 't4'
           }, {
             id: 't5'
@@ -295,6 +297,14 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
               id
             };
 
+          case 'protect1':
+            return {
+              id,
+              title: 'Protect',
+              closable: true,
+              content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Removal of this tab will be rejected"), "This is done in the onLayoutChange callback")
+            };
+
           case jsxTab.id:
             return jsxTab;
 
@@ -309,12 +319,24 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
         };
       });
 
-      _defineProperty(this, "onLayoutChange", (newLayout, currentTabId) => {
+      _defineProperty(this, "onLayoutChange", (newLayout, currentTabId, direction) => {
         // control DockLayout from state
-        console.log(currentTabId, newLayout);
-        this.setState({
-          layout: newLayout
-        });
+        console.log(currentTabId, newLayout, direction);
+
+        if (currentTabId === 'protect1' && direction === 'remove') {
+          alert('removal of this tab is rejected');
+          let {
+            layout
+          } = this.state;
+          this.setState({
+            layout: { ...layout
+            }
+          });
+        } else {
+          this.setState({
+            layout: newLayout
+          });
+        }
       });
     }
 

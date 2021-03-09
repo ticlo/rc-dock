@@ -19875,13 +19875,11 @@ class DockLayout extends DockPortalManager {
       layout = Algorithm.fixLayoutData(layout);
       let currentTabId = null;
 
-      if (direction !== 'remove') {
-        if (source.hasOwnProperty('tabs')) {
-          currentTabId = source.activeId;
-        } else {
-          // when source is tab
-          currentTabId = source.id;
-        }
+      if (source.hasOwnProperty('tabs')) {
+        currentTabId = source.activeId;
+      } else {
+        // when source is tab
+        currentTabId = source.id;
       }
 
       this.changeLayout(layout, currentTabId, direction);

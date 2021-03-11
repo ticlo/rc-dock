@@ -325,13 +325,6 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
 
         if (currentTabId === 'protect1' && direction === 'remove') {
           alert('removal of this tab is rejected');
-          let {
-            layout
-          } = this.state;
-          this.setState({
-            layout: { ...layout
-            }
-          });
         } else {
           this.setState({
             layout: newLayout

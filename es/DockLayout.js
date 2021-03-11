@@ -382,15 +382,19 @@ export class DockLayout extends DockPortalManager {
     /** @ignore
      * change layout
      */
-    changeLayout(layoutData, currentTabId, direction) {
+    changeLayout(layoutData, currentTabId, direction, silent = false) {
         let { layout, onLayoutChange } = this.props;
         let savedLayout;
         if (onLayoutChange) {
             savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
             layoutData.loadedFrom = savedLayout;
             onLayoutChange(savedLayout, currentTabId, direction);
+            if (layout) {
+                // if layout prop is defined, we need to force an update to make sure it's either updated or reverted back
+                this.forceUpdate();
+            }
         }
-        if (!layout) {
+        if (!layout && !silent) {
             // uncontrolled layout when Props.layout is not defined
             this.setLayout(layoutData);
         }
@@ -403,9 +407,7 @@ export class DockLayout extends DockPortalManager {
         let { onLayoutChange } = this.props;
         if (onLayoutChange) {
             let layout = this.getLayout();
-            let savedLayout = Serializer.saveLayoutData(layout, this.props.saveTab, this.props.afterPanelSaved);
-            layout.loadedFrom = savedLayout;
-            onLayoutChange(savedLayout, currentTabId, direction);
+            this.changeLayout(layout, currentTabId, direction, true);
         }
     }
     // public api

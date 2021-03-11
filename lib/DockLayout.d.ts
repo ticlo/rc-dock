@@ -141,7 +141,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     /** @ignore
      * change layout
      */
-    changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection): void;
+    changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection, silent?: boolean): void;
     /** @ignore
      * some layout change were handled by component silently
      * but they should still call this function to trigger onLayoutChange

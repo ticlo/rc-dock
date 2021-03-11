@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.0.8 / 2021-03-10
+- when controlled layout is used and onLayoutChange callback doesn't set new layout prop, there should be a forceUpdate() so the original layout prop is re-rendered 
+
 ## 3.0.7 / 2021-03-09
 - add direction parameter to onLayoutChange callback
   - onLayoutChange callback now gives the tabId when tab is removed, this is changed from previous version where tabId=null when it's removed

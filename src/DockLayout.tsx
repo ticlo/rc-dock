@@ -208,7 +208,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * @param target @inheritDoc
    * @param direction @inheritDoc
    */
-  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection) {
+  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection) {
     let layout = this.getLayout();
 
     if (direction === 'maximize') {

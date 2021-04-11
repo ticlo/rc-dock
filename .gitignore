@@ -16,3 +16,4 @@ build
 /tool/**/*.js
 /temp*
 /www
+/yarn-error.log

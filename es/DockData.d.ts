@@ -262,9 +262,12 @@ export interface DockContext {
     find(id: string, filter?: Filter): PanelData | TabData;
     /**
      * update a tab with new TabData
+     * @param id tab id to update
+     * @param newTab new tab data, if newTab is null, it only changes the active tab of parent panel
+     * @param makeActive whether to make the tab the active child of parent panel
      * @returns returns false if the tab is not found
      */
-    updateTab(id: string, newTab: TabData): boolean;
+    updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
     /** @ignore */
     getTabCache(id: string, owner: any): TabPaneCache;
     /** @ignore */

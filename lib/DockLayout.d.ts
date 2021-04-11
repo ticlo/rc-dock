@@ -116,7 +116,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
         height: number;
     };
     /** @inheritDoc */
-    updateTab(id: string, newTab: TabData): boolean;
+    updateTab(id: string, newTab: TabData, makeActive?: boolean): boolean;
     constructor(props: LayoutProps);
     /** @ignore */
     onDragStateChange: (draggingScope: any) => void;

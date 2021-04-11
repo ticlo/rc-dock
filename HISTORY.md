@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.0.10 / 2021-04-11
+- make it possible for Docklayout.updateTab to update tab without changing activeId
+
 ## 3.0.8 / 2021-03-10
 - when controlled layout is used and onLayoutChange callback doesn't set new layout prop, there should be a forceUpdate() so the original layout prop is re-rendered 
 

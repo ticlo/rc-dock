@@ -29,6 +29,7 @@
       border: 1px solid #d88;
       background: #d88;
       color: #fff;
+      border-radius: 16px 16px 0 0;
     }
 
     .dock-panel.dock-style-custom .dock-tab.dock-tab-active {
@@ -70,6 +71,14 @@
     .dock-panel.dock-style-custom .dock-panel-max-btn:before {
       border-color: #fff;
       color: #fff;
+    }
+
+    /* tab buttons take all the space */
+    .dock-panel.dock-style-custom .dock-nav-list {
+        min-width: 100%;
+    }
+    .dock-panel.dock-style-custom .dock-tab {
+        flex: 1 0 auto;
     }</style>
 </head>
 <body>

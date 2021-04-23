@@ -19912,7 +19912,7 @@ class DockLayout extends DockPortalManager {
   /** @inheritDoc */
 
 
-  updateTab(id, newTab) {
+  updateTab(id, newTab, makeActive = true) {
     let tab = this.find(id, Algorithm.Filter.AnyTab);
 
     if (tab && !('tabs' in tab)) {
@@ -19923,17 +19923,26 @@ class DockLayout extends DockPortalManager {
         let {
           loadTab
         } = this.props;
+        let layout = this.getLayout();
+        let activeId = panelData.activeId;
 
-        if (loadTab && !('content' in newTab && 'title' in newTab)) {
-          newTab = loadTab(newTab);
+        if (newTab) {
+          if (loadTab && !('content' in newTab && 'title' in newTab)) {
+            newTab = loadTab(newTab);
+          }
+
+          layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
+
+          panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
+
+          layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+
+          panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
         }
 
-        let layout = this.getLayout();
-        layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
-
-        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
-
-        layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+        if (!makeActive) {
+          panelData.activeId = activeId;
+        }
 
         layout = Algorithm.fixLayoutData(layout);
         this.changeLayout(layout, newTab.id, 'update');

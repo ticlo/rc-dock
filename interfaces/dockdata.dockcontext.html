@@ -108,7 +108,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/4a4aace/src/DockData.ts#L318">src/DockData.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/0b9835e/src/DockData.ts#L318">src/DockData.ts:318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,7 +160,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/4a4aace/src/DockData.ts#L328">src/DockData.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/0b9835e/src/DockData.ts#L328">src/DockData.ts:328</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -191,7 +191,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/4a4aace/src/DockData.ts#L323">src/DockData.ts:323</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/0b9835e/src/DockData.ts#L323">src/DockData.ts:323</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,13 +213,13 @@
 					<a name="updatetab" class="tsd-anchor"></a>
 					<h3>update<wbr>Tab</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Tab<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, newTab<span class="tsd-signature-symbol">: </span><a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Tab<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, newTab<span class="tsd-signature-symbol">: </span><a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a>, makeActive<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/4a4aace/src/DockData.ts#L334">src/DockData.ts:334</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/0b9835e/src/DockData.ts#L337">src/DockData.ts:337</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -231,9 +231,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>tab id to update</p>
+									</div>
 								</li>
 								<li>
 									<h5>newTab: <a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>new tab data, if newTab is null, it only changes the active tab of parent panel</p>
+									</div>
+								</li>
+								<li>
+									<h5>makeActive: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>whether to make the tab the active child of parent panel</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>

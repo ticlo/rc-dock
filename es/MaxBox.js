@@ -4,7 +4,7 @@ export class MaxBox extends React.PureComponent {
     render() {
         let panelData = this.props.boxData.children[0];
         if (panelData) {
-            this.hidePanelData = Object.assign(Object.assign({}, panelData), { tabs: [] });
+            this.hidePanelData = { ...panelData, tabs: [] };
             return (React.createElement("div", { className: 'dock-box dock-mbox dock-mbox-show' },
                 React.createElement(DockPanel, { size: 100, panelData: panelData })));
         }

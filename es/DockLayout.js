@@ -1,14 +1,3 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import React from "react";
 import ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
@@ -130,7 +119,7 @@ export class DockLayout extends DockPortalManager {
     }
     /** @ignore */
     prepareInitData(data) {
-        let layout = Object.assign({}, data);
+        let layout = { ...data };
         Algorithm.fixLayoutData(layout, this.props.loadTab);
         return layout;
     }
@@ -340,8 +329,8 @@ export class DockLayout extends DockPortalManager {
         let { layout, dropRect } = this.state;
         let dropRectStyle;
         if (dropRect) {
-            let { element, direction } = dropRect, rect = __rest(dropRect, ["element", "direction"]);
-            dropRectStyle = Object.assign(Object.assign({}, rect), { display: 'block' });
+            let { element, direction, ...rect } = dropRect;
+            dropRectStyle = { ...rect, display: 'block' };
             if (direction === 'float') {
                 dropRectStyle.transition = 'none';
             }

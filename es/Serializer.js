@@ -87,12 +87,6 @@ export function saveLayoutData(layout, saveTab, afterPanelSaved) {
     };
 }
 export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
-    if (!savedLayout.floatbox) {
-        savedLayout.floatbox = { mode: 'float', children: [], size: 0 };
-    }
-    if (!savedLayout.maxbox) {
-        savedLayout.maxbox = { mode: 'maximize', children: [], size: 1 };
-    }
     let cache = createLayoutCache(defaultLayout);
     function loadTabData(savedTab) {
         if (loadTab) {
@@ -127,7 +121,7 @@ export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLo
             afterPanelLoaded(savedPanel, panelData);
         }
         else if (cache.panels.has(id)) {
-            panelData = Object.assign(Object.assign({}, cache.panels.get(id)), panelData);
+            panelData = { ...cache.panels.get(id), ...panelData };
         }
         return panelData;
     }
@@ -149,8 +143,8 @@ export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLo
     }
     return {
         dockbox: loadBoxData(savedLayout.dockbox),
-        floatbox: loadBoxData(savedLayout.floatbox),
-        windowbox: loadBoxData(savedLayout.windowbox),
-        maxbox: loadBoxData(savedLayout.maxbox),
+        floatbox: loadBoxData(savedLayout.floatbox ?? { mode: 'float', children: [], size: 0 }),
+        windowbox: loadBoxData(savedLayout.windowbox ?? { mode: 'window', children: [], size: 0 }),
+        maxbox: loadBoxData(savedLayout.maxbox ?? { mode: 'maximize', children: [], size: 1 }),
     };
 }

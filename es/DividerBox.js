@@ -1,14 +1,3 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
@@ -62,7 +51,7 @@ export class DividerBox extends React.PureComponent {
         };
     }
     render() {
-        let _a = this.props, { children, mode, className } = _a, others = __rest(_a, ["children", "mode", "className"]);
+        let { children, mode, className, ...others } = this.props;
         let isVertical = mode === 'vertical';
         let childrenRender = [];
         if (Array.isArray((children))) {

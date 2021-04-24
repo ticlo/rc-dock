@@ -74,6 +74,6 @@
     "build-less": "lessc style/index.less dist/rc-dock.css",
     "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www",
-    "build-es": "tsc --module es2020 --outDir ./es"
+    "build-es": "tsc --target es2020 --module es2020 --outDir ./es"
   }
 }

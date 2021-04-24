@@ -116,13 +116,6 @@ export function loadLayoutData(
   loadTab?: (savedTab: TabBase) => TabData,
   afterPanelLoaded?: (savedPanel: PanelBase, panel: PanelData) => void
 ): LayoutData {
-  if (!savedLayout.floatbox) {
-    savedLayout.floatbox = {mode: 'float', children: [], size: 0} as BoxBase;
-  }
-  if (!savedLayout.maxbox) {
-    savedLayout.maxbox = {mode: 'maximize', children: [], size: 1} as BoxBase;
-  }
-
   let cache = createLayoutCache(defaultLayout);
 
   function loadTabData(savedTab: TabBase): TabData {
@@ -180,8 +173,8 @@ export function loadLayoutData(
 
   return {
     dockbox: loadBoxData(savedLayout.dockbox),
-    floatbox: loadBoxData(savedLayout.floatbox),
-    windowbox: loadBoxData(savedLayout.windowbox),
-    maxbox: loadBoxData(savedLayout.maxbox),
+    floatbox: loadBoxData(savedLayout.floatbox ?? {mode: 'float', children: [], size: 0}),
+    windowbox: loadBoxData(savedLayout.windowbox ?? {mode: 'window', children: [], size: 0}),
+    maxbox: loadBoxData(savedLayout.maxbox ?? {mode: 'maximize', children: [], size: 1}),
   };
 }

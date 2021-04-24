@@ -19372,21 +19372,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
 exports.saveLayoutData = saveLayoutData;
 
 function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
-  if (!savedLayout.floatbox) {
-    savedLayout.floatbox = {
-      mode: 'float',
-      children: [],
-      size: 0
-    };
-  }
-
-  if (!savedLayout.maxbox) {
-    savedLayout.maxbox = {
-      mode: 'maximize',
-      children: [],
-      size: 1
-    };
-  }
+  var _a, _b, _c;
 
   let cache = createLayoutCache(defaultLayout);
 
@@ -19491,9 +19477,21 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
 
   return {
     dockbox: loadBoxData(savedLayout.dockbox),
-    floatbox: loadBoxData(savedLayout.floatbox),
-    windowbox: loadBoxData(savedLayout.windowbox),
-    maxbox: loadBoxData(savedLayout.maxbox)
+    floatbox: loadBoxData((_a = savedLayout.floatbox) !== null && _a !== void 0 ? _a : {
+      mode: 'float',
+      children: [],
+      size: 0
+    }),
+    windowbox: loadBoxData((_b = savedLayout.windowbox) !== null && _b !== void 0 ? _b : {
+      mode: 'window',
+      children: [],
+      size: 0
+    }),
+    maxbox: loadBoxData((_c = savedLayout.maxbox) !== null && _c !== void 0 ? _c : {
+      mode: 'maximize',
+      children: [],
+      size: 1
+    })
   };
 }
 

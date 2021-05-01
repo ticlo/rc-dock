@@ -87,6 +87,7 @@ export function saveLayoutData(layout, saveTab, afterPanelSaved) {
     };
 }
 export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
+    var _a, _b, _c;
     let cache = createLayoutCache(defaultLayout);
     function loadTabData(savedTab) {
         if (loadTab) {
@@ -121,7 +122,7 @@ export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLo
             afterPanelLoaded(savedPanel, panelData);
         }
         else if (cache.panels.has(id)) {
-            panelData = { ...cache.panels.get(id), ...panelData };
+            panelData = Object.assign(Object.assign({}, cache.panels.get(id)), panelData);
         }
         return panelData;
     }
@@ -143,8 +144,8 @@ export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLo
     }
     return {
         dockbox: loadBoxData(savedLayout.dockbox),
-        floatbox: loadBoxData(savedLayout.floatbox ?? { mode: 'float', children: [], size: 0 }),
-        windowbox: loadBoxData(savedLayout.windowbox ?? { mode: 'window', children: [], size: 0 }),
-        maxbox: loadBoxData(savedLayout.maxbox ?? { mode: 'maximize', children: [], size: 1 }),
+        floatbox: loadBoxData((_a = savedLayout.floatbox) !== null && _a !== void 0 ? _a : { mode: 'float', children: [], size: 0 }),
+        windowbox: loadBoxData((_b = savedLayout.windowbox) !== null && _b !== void 0 ? _b : { mode: 'window', children: [], size: 0 }),
+        maxbox: loadBoxData((_c = savedLayout.maxbox) !== null && _c !== void 0 ? _c : { mode: 'maximize', children: [], size: 1 }),
     };
 }

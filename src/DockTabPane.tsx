@@ -88,7 +88,6 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
       <div ref={getRef}
            id={cacheId}
            role="tabpanel"
-           tabIndex={active ? 0 : -1}
            aria-labelledby={id && `${id}-tab-${tabKey}`}
            aria-hidden={!active}
            style={{...mergedStyle, ...style}}

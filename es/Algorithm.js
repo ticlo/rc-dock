@@ -11,7 +11,7 @@ function clearObjectCache() {
     _watchObjectChange = new WeakMap();
 }
 function clone(value, extra) {
-    let newValue = { ...value, ...extra };
+    let newValue = Object.assign(Object.assign({}, value), extra);
     if (Array.isArray(newValue.tabs)) {
         newValue.tabs = newValue.tabs.concat();
     }
@@ -377,12 +377,7 @@ function maximizePanel(layout, panel) {
         // invalid maximize
         return layout;
     }
-    let placeHodlerPanel = {
-        ...panel,
-        id: maximePlaceHolderId,
-        tabs: [],
-        panelLock: {}
-    };
+    let placeHodlerPanel = Object.assign(Object.assign({}, panel), { id: maximePlaceHolderId, tabs: [], panelLock: {} });
     layout = replacePanel(layout, panel, placeHodlerPanel);
     layout = dockPanelToBox(layout, panel, layout.maxbox, 'middle');
     return layout;
@@ -392,7 +387,7 @@ function restorePanel(layout, panel) {
     let placeHolder = find(layout, maximePlaceHolderId);
     if (placeHolder) {
         let { x, y, z, w, h } = placeHolder;
-        panel = { ...panel, x, y, z, w, h };
+        panel = Object.assign(Object.assign({}, panel), { x, y, z, w, h });
         return replacePanel(layout, placeHolder, panel);
     }
     else {
@@ -659,16 +654,16 @@ function replaceBox(layout, box, newBox) {
     }
     else {
         if (box.id === layout.dockbox.id || box === layout.dockbox) {
-            return { ...layout, dockbox: newBox };
+            return Object.assign(Object.assign({}, layout), { dockbox: newBox });
         }
         else if (box.id === layout.floatbox.id || box === layout.floatbox) {
-            return { ...layout, floatbox: newBox };
+            return Object.assign(Object.assign({}, layout), { floatbox: newBox });
         }
         else if (box.id === layout.windowbox.id || box === layout.windowbox) {
-            return { ...layout, windowbox: newBox };
+            return Object.assign(Object.assign({}, layout), { windowbox: newBox });
         }
         else if (box.id === layout.maxbox.id || box === layout.maxbox) {
-            return { ...layout, maxbox: newBox };
+            return Object.assign(Object.assign({}, layout), { maxbox: newBox });
         }
     }
     return layout;

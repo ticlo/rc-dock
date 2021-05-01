@@ -21,7 +21,6 @@ export function DockTabBar (props: DockTabBarProps) {
                  onDragEndT={onDragEnd}
                  role="tablist"
                  className='dock-bar'
-                 tabIndex={0}
     >
       <TabNavList {...restProps}/>
     </DragDropDiv>

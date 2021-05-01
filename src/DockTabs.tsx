@@ -154,7 +154,7 @@ export class TabCache {
         {title}
         {closable ?
           <div className='dock-tab-close-btn' onClick={this.onCloseClick}
-               onKeyDown={this.onKeyDownCloseBtn} tabIndex={0}/>
+               onKeyDown={this.onKeyDownCloseBtn} />
           : null
         }
       </DragDropDiv>
@@ -287,7 +287,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (maximizable || showNewWindowButton) {
       panelExtraContent = <div className='dock-panel-max-btn' onClick={maximizable ? this.onMaximizeClick : null}
-                               onKeyDown={maximizable ? this.onKeyDownMaximizeBtn : null} tabIndex={0}/>;
+                               onKeyDown={maximizable ? this.onKeyDownMaximizeBtn : null} />;
       if (showNewWindowButton) {
         panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
       }

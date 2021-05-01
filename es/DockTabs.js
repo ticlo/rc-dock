@@ -22,7 +22,8 @@ function findParentPanel(element) {
     return null;
 }
 function isPopupDiv(r) {
-    return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement.tagName === 'LI');
+    var _a, _b;
+    return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI');
 }
 export class TabCache {
     constructor(context) {
@@ -134,7 +135,7 @@ export class TabCache {
             React.createElement("div", { className: 'dock-tab-hit-area', ref: this.getHitAreaRef }),
             title,
             closable ?
-                React.createElement("div", { className: 'dock-tab-close-btn', onClick: this.onCloseClick, onKeyDown: this.onKeyDownCloseBtn, tabIndex: 0 })
+                React.createElement("div", { className: 'dock-tab-close-btn', onClick: this.onCloseClick, onKeyDown: this.onKeyDownCloseBtn })
                 : null));
         return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab }, content));
     }
@@ -182,7 +183,7 @@ export class DockTabs extends React.PureComponent {
                 panelExtraContent = panelExtra(panelData, this.context);
             }
             else if (maximizable || showNewWindowButton) {
-                panelExtraContent = React.createElement("div", { className: 'dock-panel-max-btn', onClick: maximizable ? this.onMaximizeClick : null, onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null, tabIndex: 0 });
+                panelExtraContent = React.createElement("div", { className: 'dock-panel-max-btn', onClick: maximizable ? this.onMaximizeClick : null, onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null });
                 if (showNewWindowButton) {
                     panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
                 }

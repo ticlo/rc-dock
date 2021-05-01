@@ -4520,10 +4520,10 @@ rc-motion@^2.0.0, rc-motion@^2.0.1:
     classnames "^2.2.1"
     rc-util "^5.2.1"
 
-rc-new-window@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/rc-new-window/-/rc-new-window-0.1.7.tgz#40698e30d92c1543e2d2fff52989a2c0ec4b36f6"
-  integrity sha512-47YSjv63mxtqmymHiQGfhU5ObuP+oFt4CFJGu9AsEVgLC3B+K9jSOJoiKfvozhmxlqeSejlQIVUQ8vhleFXSFw==
+rc-new-window@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/rc-new-window/-/rc-new-window-0.1.10.tgz#b9c74df14f28bbfac332eac274b9ce14776f7544"
+  integrity sha512-f6xmW22GJoxlf5MbZhgPMUhCNxgrtICP5E5EHThlNp/uvoI/Q9nZsfwbfbMQvBS9cqSbdimn8QDhFPhxadRK5Q==
   dependencies:
     "@babel/runtime" "^7.10.1"
     bowser "^2.11.0"

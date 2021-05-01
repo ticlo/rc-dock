@@ -15253,8 +15253,7 @@ function DockTabBar(props) {
     onDragMoveT: onDragMove,
     onDragEndT: onDragEnd,
     role: "tablist",
-    className: 'dock-bar',
-    tabIndex: 0
+    className: 'dock-bar'
   }, react_1.default.createElement(TabNavList, Object.assign({}, restProps)));
 }
 
@@ -15360,7 +15359,6 @@ class DockTabPane extends react_1.default.PureComponent {
       ref: getRef,
       id: cacheId,
       role: "tabpanel",
-      tabIndex: active ? 0 : -1,
       "aria-labelledby": id && `${id}-tab-${tabKey}`,
       "aria-hidden": !active,
       style: Object.assign(Object.assign({}, mergedStyle), style),
@@ -16937,6 +16935,12 @@ class NewWindow extends _react.default.PureComponent {
       }
 
       this.released = true;
+
+      if (this.windowCheckerInterval) {
+        clearInterval(this.windowCheckerInterval);
+        this.windowCheckerInterval = null;
+      }
+
       window.removeEventListener('beforeunload', this.onMainWindowUnload);
       this.window.removeEventListener('beforeunload', this.release);
 
@@ -16983,7 +16987,8 @@ class NewWindow extends _react.default.PureComponent {
       initPopupInnerRect,
       initPopupOuterRect,
       onBlock,
-      onOpen
+      onOpen,
+      onClose
     } = this.props;
     let features = {
       width,
@@ -17027,6 +17032,14 @@ class NewWindow extends _react.default.PureComponent {
 
       if (typeof onOpen === 'function') {
         onOpen(this.window);
+      }
+
+      if (url && onClose) {
+        this.windowCheckerInterval = setInterval(() => {
+          if (!this.window || this.window.closed) {
+            this.release(true);
+          }
+        }, 50);
       } // Release anything bound to this component before the new window unload.
 
 
@@ -18121,7 +18134,6 @@ function estimateBrowserZoom(_window) {
     else {
         zoomRatio = 2 / Math.round(2 / zoomRatio);
     }
-    console.log(`zoom ${zoomRatio}`);
     return zoomRatio;
 }
 exports.estimateBrowserZoom = estimateBrowserZoom;
@@ -18630,8 +18642,7 @@ class TabCache {
     }), title, closable ? react_1.default.createElement("div", {
       className: 'dock-tab-close-btn',
       onClick: this.onCloseClick,
-      onKeyDown: this.onKeyDownCloseBtn,
-      tabIndex: 0
+      onKeyDown: this.onKeyDownCloseBtn
     }) : null);
     return react_1.default.createElement(DockTabPane_1.default, {
       key: id,
@@ -18713,8 +18724,7 @@ class DockTabs extends react_1.default.PureComponent {
         panelExtraContent = react_1.default.createElement("div", {
           className: 'dock-panel-max-btn',
           onClick: maximizable ? this.onMaximizeClick : null,
-          onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null,
-          tabIndex: 0
+          onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null
         });
 
         if (showNewWindowButton) {

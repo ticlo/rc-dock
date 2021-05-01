@@ -93,7 +93,7 @@ body > .dragging-layer > div:last-child {
 }
 .dock-tab > div {
   padding: 4px 14px;
-  outline: none;
+  outline-color: #108ee9;
 }
 .dock-tab:hover {
   color: #23c0fa;

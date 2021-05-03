@@ -9,6 +9,7 @@ let groups = {
     // this is a pre-defined style, defined here:
     // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
     floatable: true,
+    maximizable: true,
   },
   'card custom': {
     // the css class for this would be dock-panel-custom
@@ -56,7 +57,6 @@ let customTab = {
       Custom style
     </div>
   ),
-  closable: true,
   // you can mix predefined style with you own style
   // separate 2 styles with space
   // the panel class will contain both dock-style-car and dock-style-custom

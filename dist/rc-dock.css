@@ -611,6 +611,7 @@ body.dock-dragging iframe {
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   outline: none;
+  user-select: none;
 }
 .dock-panel-max-btn:before {
   position: absolute;

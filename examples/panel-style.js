@@ -245,7 +245,8 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
       // the css class for this would be dock-panel-headless
       // this is a pre-defined style, defined here:
       // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
-      floatable: true
+      floatable: true,
+      maximizable: true
     },
     'card custom': {
       // the css class for this would be dock-panel-custom
@@ -282,7 +283,6 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   let customTab = {
     title: 'custom-style',
     content: /*#__PURE__*/React.createElement("div", null, "Custom style"),
-    closable: true,
     // you can mix predefined style with you own style
     // separate 2 styles with space
     // the panel class will contain both dock-style-car and dock-style-custom

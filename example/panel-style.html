@@ -51,13 +51,6 @@
       right: -1px;
     }
 
-    /* global dock layout styles */
-    .dock-layout > .dock-drop-indicator {
-      border: solid 1px red;
-      box-shadow: inset 0 0 10px red;
-      background: none;
-    }
-
     .dock-panel.dock-style-custom .dock-panel-max-btn {
       opacity: 1;
     }
@@ -67,6 +60,11 @@
       color: #fff;
     }
 
+    /* different color for the focused panel */
+    .dock-panel.dock-style-custom:focus-within {
+        border: 1px dashed #f00;
+    }
+
     /* tab buttons take all the space */
     .dock-panel.dock-style-custom .dock-nav-list {
         flex-grow: 1;
@@ -74,6 +72,14 @@
     .dock-panel.dock-style-custom .dock-tab {
         flex: 1 0 auto;
     }
+
+    /* global dock layout styles */
+    .dock-layout > .dock-drop-indicator {
+        border: solid 1px red;
+        box-shadow: inset 0 0 10px red;
+        background: none;
+    }
+
   </style>
 </head>
 <body>

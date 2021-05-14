@@ -723,7 +723,8 @@ body {
   margin: 0;
 }
 .dock-tabpane > div {
-  margin: 20px;
+  padding: 20px;
+  height: 100%;
 }
 .top-panel {
   position: absolute;

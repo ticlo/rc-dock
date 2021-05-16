@@ -15239,26 +15239,80 @@ const react_1 = __importDefault(require("react"));
 
 const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
+const DockData_1 = require("./DockData");
+/**
+ * @return returns true if navigation is handled in local tab move, otherwise returns false
+ */
+
+
+function checkLocalTabMove(key, tabbar, tabBtn) {
+  if (key === 'ArrowLeft' || key === 'ArrowRight') {
+    let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
+    let i = tabs.indexOf(tabBtn);
+
+    if (i >= 0) {
+      if (key === 'ArrowLeft') {
+        if (i > 0) {
+          tabs[i - 1].click();
+          tabs[i - 1].focus();
+          return true;
+        }
+      } else {
+        if (i < tabs.length - 1) {
+          tabs[i + 1].click();
+          tabs[i + 1].focus();
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
 function DockTabBar(props) {
   const {
+    panelId,
     onDragStart,
     onDragMove,
     onDragEnd,
     TabNavList
   } = props,
-        restProps = __rest(props, ["onDragStart", "onDragMove", "onDragEnd", "TabNavList"]);
+        restProps = __rest(props, ["panelId", "onDragStart", "onDragMove", "onDragEnd", "TabNavList"]);
+
+  const layout = react_1.default.useContext(DockData_1.DockContextType);
+  const ref = react_1.default.useRef();
+
+  const getRef = div => {
+    ref.current = div;
+  };
+
+  const onKeyDown = e => {
+    let tabBtn = e.target;
+
+    if (tabBtn.classList.contains('dock-tab-btn') && e.key.startsWith('Arrow')) {
+      if (!checkLocalTabMove(e.key, ref.current, tabBtn)) {
+        layout.navigateToPanel(tabBtn, e.key);
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  };
 
   return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
     onDragStartT: onDragStart,
     onDragMoveT: onDragMove,
     onDragEndT: onDragEnd,
     role: "tablist",
-    className: 'dock-bar'
+    className: "dock-bar",
+    onKeyDown: onKeyDown,
+    getRef: getRef
   }, react_1.default.createElement(TabNavList, Object.assign({}, restProps)));
 }
 
 exports.DockTabBar = DockTabBar;
-},{"react":"n8MK","./dragdrop/DragDropDiv":"HyIX"}],"ZavB":[function(require,module,exports) {
+},{"react":"n8MK","./dragdrop/DragDropDiv":"HyIX","./DockData":"zh3I"}],"ZavB":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -15390,7 +15444,7 @@ DockTabPane.contextType = DockData_1.DockContextType;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getFloatPanelSize = exports.fixLayoutData = exports.fixFloatPanelPos = exports.maximize = exports.moveToFront = exports.removeFromLayout = exports.panelToWindow = exports.floatPanel = exports.dockPanelToBox = exports.dockPanelToPanel = exports.converToPanel = exports.addTabToPanel = exports.addNextToTab = exports.find = exports.Filter = exports.nextZIndex = exports.nextId = exports.getUpdatedObject = void 0;
+exports.findNearestPanel = exports.getFloatPanelSize = exports.fixLayoutData = exports.fixFloatPanelPos = exports.maximize = exports.moveToFront = exports.removeFromLayout = exports.panelToWindow = exports.floatPanel = exports.dockPanelToBox = exports.dockPanelToPanel = exports.converToPanel = exports.addTabToPanel = exports.addNextToTab = exports.find = exports.Filter = exports.nextZIndex = exports.nextId = exports.getUpdatedObject = void 0;
 
 const DockData_1 = require("./DockData");
 
@@ -16295,6 +16349,52 @@ function getFloatPanelSize(panel, tabGroup) {
 }
 
 exports.getFloatPanelSize = getFloatPanelSize;
+
+function findNearestPanel(rectFrom, rectTo, direction) {
+  let distance = -1;
+  let overlap = -1;
+  let alignment = 0;
+
+  switch (direction) {
+    case 'ArrowUp':
+      {
+        distance = rectFrom.top - rectTo.bottom + rectFrom.height;
+        overlap = Math.min(rectFrom.right, rectTo.right) - Math.max(rectFrom.left, rectTo.left);
+        break;
+      }
+
+    case 'ArrowDown':
+      {
+        distance = rectTo.top - rectFrom.bottom + rectFrom.height;
+        overlap = Math.min(rectFrom.right, rectTo.right) - Math.max(rectFrom.left, rectTo.left);
+        break;
+      }
+
+    case 'ArrowLeft':
+      {
+        distance = rectFrom.left - rectTo.right + rectFrom.width;
+        overlap = Math.min(rectFrom.bottom, rectTo.bottom) - Math.max(rectFrom.top, rectTo.top);
+        alignment = Math.abs(rectFrom.top - rectTo.top);
+        break;
+      }
+
+    case 'ArrowRight':
+      {
+        distance = rectTo.left - rectFrom.right + rectFrom.width;
+        overlap = Math.min(rectFrom.bottom, rectTo.bottom) - Math.max(rectFrom.top, rectTo.top);
+        alignment = Math.abs(rectFrom.top - rectTo.top);
+        break;
+      }
+  }
+
+  if (distance < 0 || overlap <= 0) {
+    return -1;
+  }
+
+  return distance * (alignment + 1) / overlap;
+}
+
+exports.findNearestPanel = findNearestPanel;
 },{"./DockData":"zh3I"}],"u9vI":[function(require,module,exports) {
 /**
  * Checks if `value` is the
@@ -18552,15 +18652,6 @@ class TabCache {
       e.stopPropagation();
     };
 
-    this.onKeyDownCloseBtn = evt => {
-      if (evt.key !== 'Enter' && evt.key !== ' ') {
-        return false;
-      }
-
-      this.context.dockMove(this.data, null, 'remove');
-      evt.stopPropagation();
-    };
-
     this.onDragStart = e => {
       let panel = findParentPanel(this._ref);
       let tabGroup = this.context.getGroup(this.data.group);
@@ -18677,12 +18768,11 @@ class TabCache {
       onDropT: onDrop,
       onDragLeaveT: onDragLeave
     }, react_1.default.createElement("div", {
-      className: 'dock-tab-hit-area',
+      className: "dock-tab-hit-area",
       ref: this.getHitAreaRef
     }), title, closable ? react_1.default.createElement("div", {
-      className: 'dock-tab-close-btn',
-      onClick: this.onCloseClick,
-      onKeyDown: this.onKeyDownCloseBtn
+      className: "dock-tab-close-btn",
+      onClick: this.onCloseClick
     }) : null);
     return react_1.default.createElement(DockTabPane_1.default, {
       key: id,
@@ -18762,7 +18852,7 @@ class DockTabs extends react_1.default.PureComponent {
         panelExtraContent = panelExtra(panelData, this.context);
       } else if (maximizable || showNewWindowButton) {
         panelExtraContent = react_1.default.createElement("div", {
-          className: 'dock-panel-max-btn',
+          className: "dock-panel-max-btn",
           onClick: maximizable ? this.onMaximizeClick : null,
           onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null
         });
@@ -18864,8 +18954,8 @@ class DockTabs extends react_1.default.PureComponent {
     }
 
     return react_1.default.createElement(rc_tabs_1.default, {
-      prefixCls: 'dock',
-      moreIcon: '...',
+      prefixCls: "dock",
+      moreIcon: "...",
       animated: animated,
       renderTabBar: this.renderTabBar,
       activeKey: activeId,
@@ -20000,6 +20090,56 @@ class DockLayout extends DockPortalManager {
 
     return false;
   }
+  /** @inheritDoc */
+
+
+  navigateToPanel(fromTab, direction) {
+    if (!direction) {
+      if (!fromTab) {
+        fromTab = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
+      }
+
+      fromTab.focus();
+      return;
+    }
+
+    let targetTab; // use panel rect when move left/right, and use tabbar rect for up/down
+
+    let selector = direction === 'ArrowUp' || direction === 'ArrowDown' ? 'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
+    let panels = Array.from(this._ref.querySelectorAll(selector));
+    let currentPanel = panels.find(panel => panel.contains(fromTab));
+    let currentRect = currentPanel.getBoundingClientRect();
+    let matches = [];
+
+    for (let panel of panels) {
+      if (panel !== currentPanel) {
+        let rect = panel.getBoundingClientRect();
+        let distance = Algorithm.findNearestPanel(currentRect, rect, direction);
+
+        if (distance >= 0) {
+          matches.push({
+            panel,
+            rect,
+            distance
+          });
+        }
+      }
+    }
+
+    matches.sort((a, b) => a.distance - b.distance);
+
+    for (let match of matches) {
+      targetTab = match.panel.querySelector('div.dock-tab-active>div.dock-tab-btn');
+
+      if (targetTab) {
+        break;
+      }
+    }
+
+    if (targetTab) {
+      targetTab.focus();
+    }
+  }
   /** @ignore */
 
 
@@ -20161,7 +20301,7 @@ class DockLayout extends DockPortalManager {
 
     return react_1.default.createElement("div", {
       ref: this.getRef,
-      className: 'dock-layout',
+      className: "dock-layout",
       style: style
     }, react_1.default.createElement(DockData_1.DockContextProvider, {
       value: this
@@ -20173,7 +20313,7 @@ class DockLayout extends DockPortalManager {
     }), react_1.default.createElement(WindowBox_1.WindowBox, {
       boxData: layout.windowbox
     }), maximize, portals), react_1.default.createElement("div", {
-      className: 'dock-drop-indicator',
+      className: "dock-drop-indicator",
       style: dropRectStyle
     }));
   }

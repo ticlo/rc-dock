@@ -15245,10 +15245,11 @@ const DockData_1 = require("./DockData");
  */
 
 
-function checkLocalTabMove(key, tabbar, tabBtn) {
+function checkLocalTabMove(key, tabbar) {
   if (key === 'ArrowLeft' || key === 'ArrowRight') {
-    let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
-    let i = tabs.indexOf(tabBtn);
+    let tabs = Array.from(tabbar.querySelectorAll('div.dock-tab-btn'));
+    let activeTab = tabbar.querySelector('div.dock-tab-active>div.dock-tab-btn');
+    let i = tabs.indexOf(activeTab);
 
     if (i >= 0) {
       if (key === 'ArrowLeft') {
@@ -15288,11 +15289,9 @@ function DockTabBar(props) {
   };
 
   const onKeyDown = e => {
-    let tabBtn = e.target;
-
-    if (tabBtn.classList.contains('dock-tab-btn') && e.key.startsWith('Arrow')) {
-      if (!checkLocalTabMove(e.key, ref.current, tabBtn)) {
-        layout.navigateToPanel(tabBtn, e.key);
+    if (e.key.startsWith('Arrow')) {
+      if (!checkLocalTabMove(e.key, ref.current)) {
+        layout.navigateToPanel(ref.current, e.key);
       }
 
       e.stopPropagation();
@@ -15307,7 +15306,8 @@ function DockTabBar(props) {
     role: "tablist",
     className: "dock-bar",
     onKeyDown: onKeyDown,
-    getRef: getRef
+    getRef: getRef,
+    tabIndex: -1
   }, react_1.default.createElement(TabNavList, Object.assign({}, restProps)));
 }
 
@@ -18030,6 +18030,12 @@ class DockPanel extends react_1.default.PureComponent {
       }
     };
 
+    this.onPanelClicked = () => {
+      if (!this._ref.contains(this._ref.ownerDocument.activeElement)) {
+        this._ref.querySelector('div.dock-bar').focus();
+      }
+    };
+
     this._unmounted = false;
   }
 
@@ -18155,33 +18161,34 @@ class DockPanel extends react_1.default.PureComponent {
       "data-dockid": id,
       onMouseDownCapture: pointerDownCallback,
       onTouchStartCapture: pointerDownCallback,
-      onDragOverT: isFloat ? null : this.onDragOver
+      onDragOverT: isFloat ? null : this.onDragOver,
+      onClick: this.onPanelClicked
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,
       onPanelDragStart: onPanelHeaderDragStart,
       onPanelDragMove: this.onPanelHeaderDragMove,
       onPanelDragEnd: this.onPanelHeaderDragEnd
     }), isFloat ? [react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
-      key: 'drag-size-t-l',
-      className: 'dock-panel-drag-size dock-panel-drag-size-t-l',
+      key: "drag-size-t-l",
+      className: "dock-panel-drag-size dock-panel-drag-size-t-l",
       onDragStartT: this.onPanelCornerDragTL,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
     }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
-      key: 'drag-size-t-r',
-      className: 'dock-panel-drag-size dock-panel-drag-size-t-r',
+      key: "drag-size-t-r",
+      className: "dock-panel-drag-size dock-panel-drag-size-t-r",
       onDragStartT: this.onPanelCornerDragTR,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
     }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
-      key: 'drag-size-b-l',
-      className: 'dock-panel-drag-size dock-panel-drag-size-b-l',
+      key: "drag-size-b-l",
+      className: "dock-panel-drag-size dock-panel-drag-size-b-l",
       onDragStartT: this.onPanelCornerDragBL,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
     }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
-      key: 'drag-size-b-r',
-      className: 'dock-panel-drag-size dock-panel-drag-size-b-r',
+      key: "drag-size-b-r",
+      className: "dock-panel-drag-size dock-panel-drag-size-b-r",
       onDragStartT: this.onPanelCornerDragBR,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
@@ -20093,13 +20100,13 @@ class DockLayout extends DockPortalManager {
   /** @inheritDoc */
 
 
-  navigateToPanel(fromTab, direction) {
+  navigateToPanel(fromElement, direction) {
     if (!direction) {
-      if (!fromTab) {
-        fromTab = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
+      if (!fromElement) {
+        fromElement = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
       }
 
-      fromTab.focus();
+      fromElement.focus();
       return;
     }
 
@@ -20107,7 +20114,7 @@ class DockLayout extends DockPortalManager {
 
     let selector = direction === 'ArrowUp' || direction === 'ArrowDown' ? 'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
     let panels = Array.from(this._ref.querySelectorAll(selector));
-    let currentPanel = panels.find(panel => panel.contains(fromTab));
+    let currentPanel = panels.find(panel => panel.contains(fromElement));
     let currentRect = currentPanel.getBoundingClientRect();
     let matches = [];
 

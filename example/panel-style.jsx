@@ -53,7 +53,7 @@ let cardTab = {
 let customTab = {
   title: 'custom-style',
   content: (
-    <div tabIndex={0}>
+    <div>
       Custom style
     </div>
   ),

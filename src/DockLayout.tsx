@@ -213,6 +213,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
+      this.panelToFocus = source.id;
     } else if (direction === 'front') {
       layout = Algorithm.moveToFront(layout, source);
     } else {
@@ -320,7 +321,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   navigateToPanel(fromElement?: HTMLElement, direction?: string) {
     if (!direction) {
       if (!fromElement) {
-        fromElement = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
+        fromElement = this._ref.querySelector('.dock-tab-active>.dock-tab-btn');
       }
       fromElement.focus();
       return;
@@ -328,7 +329,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     let targetTab: HTMLElement;
     // use panel rect when move left/right, and use tabbar rect for up/down
     let selector = (direction === 'ArrowUp' || direction === 'ArrowDown') ?
-      'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
+      '.dock>.dock-bar' : '.dock-box>.dock-panel';
     let panels = Array.from(this._ref.querySelectorAll(selector));
 
     let currentPanel = panels.find((panel) => panel.contains(fromElement));
@@ -345,7 +346,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
     matches.sort((a, b) => a.distance - b.distance);
     for (let match of matches) {
-      targetTab = match.panel.querySelector('div.dock-tab-active>div.dock-tab-btn');
+      targetTab = match.panel.querySelector('.dock-tab-active>.dock-tab-btn');
       if (targetTab) {
         break;
       }
@@ -525,6 +526,20 @@ export class DockLayout extends DockPortalManager implements DockContext {
       }
     }
   }, 200);
+
+
+  /** @ignore */
+  panelToFocus: string;
+
+  /** @ignore
+   * move focus to panelToFocus
+   */
+  componentDidUpdate(prevProps: Readonly<LayoutProps>, prevState: Readonly<LayoutState>, snapshot?: any) {
+    if (this.panelToFocus) {
+      (this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"] .dock-bar`) as HTMLElement)?.focus();
+      this.panelToFocus = null;
+    }
+  }
 
   /** @ignore */
   componentWillUnmount(): void {

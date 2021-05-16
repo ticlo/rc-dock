@@ -214,21 +214,15 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this._cache = newCache;
   }
 
-  onMaximizeClick = () => {
+  onMaximizeClick = (e: React.MouseEvent) => {
     let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'maximize');
+    // prevent the focus change logic
+    e.stopPropagation();
   };
   onNewWindowClick = () => {
     let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'new-window');
-  };
-
-  onKeyDownMaximizeBtn = (evt: React.KeyboardEvent) => {
-    if (evt.key !== 'Enter' && evt.key !== ' ') {
-      return false;
-    }
-    evt.stopPropagation();
-    this.onMaximizeClick();
   };
 
   addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean) {
@@ -276,8 +270,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (maximizable || showNewWindowButton) {
-      panelExtraContent = <div className="dock-panel-max-btn" onClick={maximizable ? this.onMaximizeClick : null}
-                               onKeyDown={maximizable ? this.onKeyDownMaximizeBtn : null}/>;
+      panelExtraContent = <div className="dock-panel-max-btn" onClick={maximizable ? this.onMaximizeClick : null}/>;
       if (showNewWindowButton) {
         panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
       }

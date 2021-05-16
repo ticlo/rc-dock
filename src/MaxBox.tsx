@@ -15,9 +15,9 @@ export class MaxBox extends React.PureComponent<Props, any> {
     let panelData = this.props.boxData.children[0] as PanelData;
 
     if (panelData) {
-      this.hidePanelData = {...panelData, tabs: []};
+      this.hidePanelData = {...panelData, id: '', tabs: []};
       return (
-        <div className='dock-box dock-mbox dock-mbox-show'>
+        <div className="dock-box dock-mbox dock-mbox-show">
           <DockPanel size={100} panelData={panelData}/>
         </div>
       );
@@ -26,13 +26,13 @@ export class MaxBox extends React.PureComponent<Props, any> {
       let hidePanelData = this.hidePanelData;
       this.hidePanelData = null;
       return (
-        <div className='dock-box dock-mbox dock-mbox-hide'>
+        <div className="dock-box dock-mbox dock-mbox-hide">
           <DockPanel size={100} panelData={hidePanelData}/>
         </div>
       );
     } else {
       return (
-        <div className='dock-box dock-mbox dock-mbox-hide'/>
+        <div className="dock-box dock-mbox dock-mbox-hide"/>
       );
     }
   }

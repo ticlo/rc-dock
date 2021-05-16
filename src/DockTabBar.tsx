@@ -9,8 +9,8 @@ import {DockContextType} from "./DockData";
  */
 function checkLocalTabMove(key: string, tabbar: HTMLDivElement): boolean {
   if (key === 'ArrowLeft' || key === 'ArrowRight') {
-    let tabs = Array.from(tabbar.querySelectorAll('div.dock-tab-btn'));
-    let activeTab = tabbar.querySelector('div.dock-tab-active>div.dock-tab-btn');
+    let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
+    let activeTab = tabbar.querySelector('.dock-tab-active>.dock-tab-btn');
     let i = tabs.indexOf(activeTab);
     if (i >= 0) {
       if (key === 'ArrowLeft') {

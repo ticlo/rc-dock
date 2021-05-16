@@ -767,5 +767,5 @@ export function findNearestPanel(rectFrom: DOMRect, rectTo: DOMRect, direction: 
     return -1;
   }
 
-  return distance * (alignment + 1) / overlap;
+  return distance * (alignment + 1) - overlap * 0.001;
 }

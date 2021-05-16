@@ -721,5 +721,5 @@ export function findNearestPanel(rectFrom, rectTo, direction) {
     if (distance < 0 || overlap <= 0) {
         return -1;
     }
-    return distance * (alignment + 1) / overlap;
+    return distance * (alignment + 1) - overlap * 0.001;
 }

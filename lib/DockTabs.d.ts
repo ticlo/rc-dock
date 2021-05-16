@@ -12,7 +12,6 @@ export declare class TabCache {
     constructor(context: DockContext);
     setData(data: TabData): boolean;
     onCloseClick: (e: React.MouseEvent) => void;
-    onKeyDownCloseBtn: (evt: React.KeyboardEvent) => boolean;
     onDragStart: (e: DragManager.DragState) => void;
     onDragOver: (e: DragManager.DragState) => void;
     onDragLeave: (e: DragManager.DragState) => void;

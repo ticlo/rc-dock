@@ -266,6 +266,43 @@ export class DockLayout extends DockPortalManager {
         }
         return false;
     }
+    /** @inheritDoc */
+    navigateToPanel(fromTab, direction) {
+        if (!direction) {
+            if (!fromTab) {
+                fromTab = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
+            }
+            fromTab.focus();
+            return;
+        }
+        let targetTab;
+        // use panel rect when move left/right, and use tabbar rect for up/down
+        let selector = (direction === 'ArrowUp' || direction === 'ArrowDown') ?
+            'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
+        let panels = Array.from(this._ref.querySelectorAll(selector));
+        let currentPanel = panels.find((panel) => panel.contains(fromTab));
+        let currentRect = currentPanel.getBoundingClientRect();
+        let matches = [];
+        for (let panel of panels) {
+            if (panel !== currentPanel) {
+                let rect = panel.getBoundingClientRect();
+                let distance = Algorithm.findNearestPanel(currentRect, rect, direction);
+                if (distance >= 0) {
+                    matches.push({ panel, rect, distance });
+                }
+            }
+        }
+        matches.sort((a, b) => a.distance - b.distance);
+        for (let match of matches) {
+            targetTab = match.panel.querySelector('div.dock-tab-active>div.dock-tab-btn');
+            if (targetTab) {
+                break;
+            }
+        }
+        if (targetTab) {
+            targetTab.focus();
+        }
+    }
     /** @ignore */
     useEdgeDrop() {
         return this.props.dropMode === 'edge';
@@ -364,14 +401,14 @@ export class DockLayout extends DockPortalManager {
                 portals.push(cache.portal);
             }
         }
-        return (React.createElement("div", { ref: this.getRef, className: 'dock-layout', style: style },
+        return (React.createElement("div", { ref: this.getRef, className: "dock-layout", style: style },
             React.createElement(DockContextProvider, { value: this },
                 React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
                 React.createElement(FloatBox, { boxData: layout.floatbox }),
                 React.createElement(WindowBox, { boxData: layout.windowbox }),
                 maximize,
                 portals),
-            React.createElement("div", { className: 'dock-drop-indicator', style: dropRectStyle })));
+            React.createElement("div", { className: "dock-drop-indicator", style: dropRectStyle })));
     }
     /** @ignore */
     componentWillUnmount() {

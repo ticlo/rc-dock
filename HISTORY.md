@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.0.14 / 2021-05-15
+- panel navigation with arrow keys
+
 ## 3.0.10 / 2021-04-11
 - make it possible for Docklayout.updateTab to update tab without changing activeId
 

@@ -662,6 +662,7 @@ body.dock-dragging iframe {
   transition: all 0.15s ease-in-out;
 }
 .dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-bar:hover,
+.dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless .dock-bar:focus-within,
 .dock-layout > :not(.dock-fbox) .dock-panel.dock-style-headless.dock-panel-dropping .dock-bar {
   opacity: 1;
   height: 31px;

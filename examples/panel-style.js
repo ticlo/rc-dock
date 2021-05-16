@@ -282,9 +282,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
   let customTab = {
     title: 'custom-style',
-    content: /*#__PURE__*/React.createElement("div", {
-      tabIndex: 0
-    }, "Custom style"),
+    content: /*#__PURE__*/React.createElement("div", null, "Custom style"),
     // you can mix predefined style with you own style
     // separate 2 styles with space
     // the panel class will contain both dock-style-car and dock-style-custom

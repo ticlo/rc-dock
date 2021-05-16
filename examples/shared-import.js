@@ -16391,7 +16391,7 @@ function findNearestPanel(rectFrom, rectTo, direction) {
     return -1;
   }
 
-  return distance * (alignment + 1) / overlap;
+  return distance * (alignment + 1) - overlap * 0.001;
 }
 
 exports.findNearestPanel = findNearestPanel;

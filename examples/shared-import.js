@@ -15247,8 +15247,8 @@ const DockData_1 = require("./DockData");
 
 function checkLocalTabMove(key, tabbar) {
   if (key === 'ArrowLeft' || key === 'ArrowRight') {
-    let tabs = Array.from(tabbar.querySelectorAll('div.dock-tab-btn'));
-    let activeTab = tabbar.querySelector('div.dock-tab-active>div.dock-tab-btn');
+    let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
+    let activeTab = tabbar.querySelector('.dock-tab-active>.dock-tab-btn');
     let i = tabs.indexOf(activeTab);
 
     if (i >= 0) {
@@ -15273,13 +15273,13 @@ function checkLocalTabMove(key, tabbar) {
 
 function DockTabBar(props) {
   const {
-    panelId,
     onDragStart,
     onDragMove,
     onDragEnd,
-    TabNavList
+    TabNavList,
+    isMaximized
   } = props,
-        restProps = __rest(props, ["panelId", "onDragStart", "onDragMove", "onDragEnd", "TabNavList"]);
+        restProps = __rest(props, ["onDragStart", "onDragMove", "onDragEnd", "TabNavList", "isMaximized"]);
 
   const layout = react_1.default.useContext(DockData_1.DockContextType);
   const ref = react_1.default.useRef();
@@ -15290,7 +15290,7 @@ function DockTabBar(props) {
 
   const onKeyDown = e => {
     if (e.key.startsWith('Arrow')) {
-      if (!checkLocalTabMove(e.key, ref.current)) {
+      if (!checkLocalTabMove(e.key, ref.current) && !isMaximized) {
         layout.navigateToPanel(ref.current, e.key);
       }
 
@@ -18032,7 +18032,7 @@ class DockPanel extends react_1.default.PureComponent {
 
     this.onPanelClicked = () => {
       if (!this._ref.contains(this._ref.ownerDocument.activeElement)) {
-        this._ref.querySelector('div.dock-bar').focus();
+        this._ref.querySelector('.dock-bar').focus();
       }
     };
 
@@ -18801,11 +18801,13 @@ class DockTabs extends react_1.default.PureComponent {
     super(...arguments);
     this._cache = new Map();
 
-    this.onMaximizeClick = () => {
+    this.onMaximizeClick = e => {
       let {
         panelData
       } = this.props;
-      this.context.dockMove(panelData, null, 'maximize');
+      this.context.dockMove(panelData, null, 'maximize'); // prevent the focus change logic
+
+      e.stopPropagation();
     };
 
     this.onNewWindowClick = () => {
@@ -18813,15 +18815,6 @@ class DockTabs extends react_1.default.PureComponent {
         panelData
       } = this.props;
       this.context.dockMove(panelData, null, 'new-window');
-    };
-
-    this.onKeyDownMaximizeBtn = evt => {
-      if (evt.key !== 'Enter' && evt.key !== ' ') {
-        return false;
-      }
-
-      evt.stopPropagation();
-      this.onMaximizeClick();
     };
 
     this.renderTabBar = (props, TabNavList) => {
@@ -18860,8 +18853,7 @@ class DockTabs extends react_1.default.PureComponent {
       } else if (maximizable || showNewWindowButton) {
         panelExtraContent = react_1.default.createElement("div", {
           className: "dock-panel-max-btn",
-          onClick: maximizable ? this.onMaximizeClick : null,
-          onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null
+          onClick: maximizable ? this.onMaximizeClick : null
         });
 
         if (showNewWindowButton) {
@@ -18873,7 +18865,8 @@ class DockTabs extends react_1.default.PureComponent {
         onDragStart: onPanelDragStart,
         onDragMove: onPanelDragMove,
         onDragEnd: onPanelDragEnd,
-        TabNavList: TabNavList
+        TabNavList: TabNavList,
+        isMaximized: panelData.parent.mode === 'maximize'
       }, props, {
         extra: panelExtraContent
       }));
@@ -19667,10 +19660,11 @@ class MaxBox extends react_1.default.PureComponent {
 
     if (panelData) {
       this.hidePanelData = Object.assign(Object.assign({}, panelData), {
+        id: '',
         tabs: []
       });
       return react_1.default.createElement("div", {
-        className: 'dock-box dock-mbox dock-mbox-show'
+        className: "dock-box dock-mbox dock-mbox-show"
       }, react_1.default.createElement(DockPanel_1.DockPanel, {
         size: 100,
         panelData: panelData
@@ -19680,14 +19674,14 @@ class MaxBox extends react_1.default.PureComponent {
       let hidePanelData = this.hidePanelData;
       this.hidePanelData = null;
       return react_1.default.createElement("div", {
-        className: 'dock-box dock-mbox dock-mbox-hide'
+        className: "dock-box dock-mbox dock-mbox-hide"
       }, react_1.default.createElement(DockPanel_1.DockPanel, {
         size: 100,
         panelData: hidePanelData
       }));
     } else {
       return react_1.default.createElement("div", {
-        className: 'dock-box dock-mbox dock-mbox-hide'
+        className: "dock-box dock-mbox dock-mbox-hide"
       });
     }
   }
@@ -19969,6 +19963,7 @@ class DockLayout extends DockPortalManager {
 
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
+      this.panelToFocus = source.id;
     } else if (direction === 'front') {
       layout = Algorithm.moveToFront(layout, source);
     } else {
@@ -20103,7 +20098,7 @@ class DockLayout extends DockPortalManager {
   navigateToPanel(fromElement, direction) {
     if (!direction) {
       if (!fromElement) {
-        fromElement = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
+        fromElement = this._ref.querySelector('.dock-tab-active>.dock-tab-btn');
       }
 
       fromElement.focus();
@@ -20112,7 +20107,7 @@ class DockLayout extends DockPortalManager {
 
     let targetTab; // use panel rect when move left/right, and use tabbar rect for up/down
 
-    let selector = direction === 'ArrowUp' || direction === 'ArrowDown' ? 'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
+    let selector = direction === 'ArrowUp' || direction === 'ArrowDown' ? '.dock>.dock-bar' : '.dock-box>.dock-panel';
     let panels = Array.from(this._ref.querySelectorAll(selector));
     let currentPanel = panels.find(panel => panel.contains(fromElement));
     let currentRect = currentPanel.getBoundingClientRect();
@@ -20136,7 +20131,7 @@ class DockLayout extends DockPortalManager {
     matches.sort((a, b) => a.distance - b.distance);
 
     for (let match of matches) {
-      targetTab = match.panel.querySelector('div.dock-tab-active>div.dock-tab-btn');
+      targetTab = match.panel.querySelector('.dock-tab-active>.dock-tab-btn');
 
       if (targetTab) {
         break;
@@ -20323,6 +20318,19 @@ class DockLayout extends DockPortalManager {
       className: "dock-drop-indicator",
       style: dropRectStyle
     }));
+  }
+  /** @ignore
+   * move focus to panelToFocus
+   */
+
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    var _a;
+
+    if (this.panelToFocus) {
+      (_a = this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"] .dock-bar`)) === null || _a === void 0 ? void 0 : _a.focus();
+      this.panelToFocus = null;
+    }
   }
   /** @ignore */
 

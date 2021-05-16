@@ -206,6 +206,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   };
 
+  onPanelClicked = () => {
+    if (!this._ref.contains(this._ref.ownerDocument.activeElement)) {
+      (this._ref.querySelector('div.dock-bar') as HTMLElement).focus();
+    }
+  };
 
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
@@ -261,21 +266,21 @@ export class DockPanel extends React.PureComponent<Props, State> {
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
                    onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
-                   onDragOverT={isFloat ? null : this.onDragOver}>
+                   onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
         {isFloat ?
           [
-            <DragDropDiv key='drag-size-t-l' className='dock-panel-drag-size dock-panel-drag-size-t-l'
+            <DragDropDiv key="drag-size-t-l" className="dock-panel-drag-size dock-panel-drag-size-t-l"
                          onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
                          onDragEndT={this.onPanelCornerDragEnd}/>,
-            <DragDropDiv key='drag-size-t-r' className='dock-panel-drag-size dock-panel-drag-size-t-r'
+            <DragDropDiv key="drag-size-t-r" className="dock-panel-drag-size dock-panel-drag-size-t-r"
                          onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
                          onDragEndT={this.onPanelCornerDragEnd}/>,
-            <DragDropDiv key='drag-size-b-l' className='dock-panel-drag-size dock-panel-drag-size-b-l'
+            <DragDropDiv key="drag-size-b-l" className="dock-panel-drag-size dock-panel-drag-size-b-l"
                          onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
                          onDragEndT={this.onPanelCornerDragEnd}/>,
-            <DragDropDiv key='drag-size-b-r' className='dock-panel-drag-size dock-panel-drag-size-b-r'
+            <DragDropDiv key="drag-size-b-r" className="dock-panel-drag-size dock-panel-drag-size-b-r"
                          onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
                          onDragEndT={this.onPanelCornerDragEnd}/>
           ]

@@ -7,10 +7,11 @@ import {DockContextType} from "./DockData";
 /**
  * @return returns true if navigation is handled in local tab move, otherwise returns false
  */
-function checkLocalTabMove(key: string, tabbar: HTMLDivElement, tabBtn: HTMLElement): boolean {
+function checkLocalTabMove(key: string, tabbar: HTMLDivElement): boolean {
   if (key === 'ArrowLeft' || key === 'ArrowRight') {
-    let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
-    let i = tabs.indexOf(tabBtn);
+    let tabs = Array.from(tabbar.querySelectorAll('div.dock-tab-btn'));
+    let activeTab = tabbar.querySelector('div.dock-tab-active>div.dock-tab-btn');
+    let i = tabs.indexOf(activeTab);
     if (i >= 0) {
       if (key === 'ArrowLeft') {
         if (i > 0) {
@@ -54,11 +55,9 @@ export function DockTabBar(props: DockTabBarProps) {
 
 
   const onKeyDown = (e: React.KeyboardEvent) => {
-    let tabBtn = e.target as HTMLElement;
-
-    if (tabBtn.classList.contains('dock-tab-btn') && e.key.startsWith('Arrow')) {
-      if (!checkLocalTabMove(e.key, ref.current, tabBtn)) {
-        layout.navigateToPanel(tabBtn, e.key);
+    if (e.key.startsWith('Arrow')) {
+      if (!checkLocalTabMove(e.key, ref.current)) {
+        layout.navigateToPanel(ref.current, e.key);
       }
       e.stopPropagation();
       e.preventDefault();
@@ -73,6 +72,7 @@ export function DockTabBar(props: DockTabBarProps) {
                  className="dock-bar"
                  onKeyDown={onKeyDown}
                  getRef={getRef}
+                 tabIndex={-1}
     >
       <TabNavList {...restProps}/>
     </DragDropDiv>

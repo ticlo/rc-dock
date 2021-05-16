@@ -15,10 +15,11 @@ import { DockContextType } from "./DockData";
 /**
  * @return returns true if navigation is handled in local tab move, otherwise returns false
  */
-function checkLocalTabMove(key, tabbar, tabBtn) {
+function checkLocalTabMove(key, tabbar) {
     if (key === 'ArrowLeft' || key === 'ArrowRight') {
-        let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
-        let i = tabs.indexOf(tabBtn);
+        let tabs = Array.from(tabbar.querySelectorAll('div.dock-tab-btn'));
+        let activeTab = tabbar.querySelector('div.dock-tab-active>div.dock-tab-btn');
+        let i = tabs.indexOf(activeTab);
         if (i >= 0) {
             if (key === 'ArrowLeft') {
                 if (i > 0) {
@@ -46,15 +47,14 @@ export function DockTabBar(props) {
         ref.current = div;
     };
     const onKeyDown = (e) => {
-        let tabBtn = e.target;
-        if (tabBtn.classList.contains('dock-tab-btn') && e.key.startsWith('Arrow')) {
-            if (!checkLocalTabMove(e.key, ref.current, tabBtn)) {
-                layout.navigateToPanel(tabBtn, e.key);
+        if (e.key.startsWith('Arrow')) {
+            if (!checkLocalTabMove(e.key, ref.current)) {
+                layout.navigateToPanel(ref.current, e.key);
             }
             e.stopPropagation();
             e.preventDefault();
         }
     };
-    return (React.createElement(DragDropDiv, { onDragStartT: onDragStart, onDragMoveT: onDragMove, onDragEndT: onDragEnd, role: "tablist", className: "dock-bar", onKeyDown: onKeyDown, getRef: getRef },
+    return (React.createElement(DragDropDiv, { onDragStartT: onDragStart, onDragMoveT: onDragMove, onDragEndT: onDragEnd, role: "tablist", className: "dock-bar", onKeyDown: onKeyDown, getRef: getRef, tabIndex: -1 },
         React.createElement(TabNavList, Object.assign({}, restProps))));
 }

@@ -118,7 +118,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     /** @inheritDoc */
     updateTab(id: string, newTab: TabData, makeActive?: boolean): boolean;
     /** @inheritDoc */
-    navigateToPanel(fromTab?: HTMLElement, direction?: string): void;
+    navigateToPanel(fromElement?: HTMLElement, direction?: string): void;
     constructor(props: LayoutProps);
     /** @ignore */
     onDragStateChange: (draggingScope: any) => void;

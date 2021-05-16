@@ -317,12 +317,12 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  navigateToPanel(fromTab?: HTMLElement, direction?: string) {
+  navigateToPanel(fromElement?: HTMLElement, direction?: string) {
     if (!direction) {
-      if (!fromTab) {
-        fromTab = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
+      if (!fromElement) {
+        fromElement = this._ref.querySelector('div.dock-tab-active>div.dock-tab-btn');
       }
-      fromTab.focus();
+      fromElement.focus();
       return;
     }
     let targetTab: HTMLElement;
@@ -331,7 +331,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
       'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
     let panels = Array.from(this._ref.querySelectorAll(selector));
 
-    let currentPanel = panels.find((panel) => panel.contains(fromTab));
+    let currentPanel = panels.find((panel) => panel.contains(fromElement));
     let currentRect = currentPanel.getBoundingClientRect();
     let matches: any[] = [];
     for (let panel of panels) {

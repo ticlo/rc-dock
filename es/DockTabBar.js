@@ -17,8 +17,8 @@ import { DockContextType } from "./DockData";
  */
 function checkLocalTabMove(key, tabbar) {
     if (key === 'ArrowLeft' || key === 'ArrowRight') {
-        let tabs = Array.from(tabbar.querySelectorAll('div.dock-tab-btn'));
-        let activeTab = tabbar.querySelector('div.dock-tab-active>div.dock-tab-btn');
+        let tabs = Array.from(tabbar.querySelectorAll('.dock-tab-btn'));
+        let activeTab = tabbar.querySelector('.dock-tab-active>.dock-tab-btn');
         let i = tabs.indexOf(activeTab);
         if (i >= 0) {
             if (key === 'ArrowLeft') {
@@ -40,7 +40,7 @@ function checkLocalTabMove(key, tabbar) {
     return false;
 }
 export function DockTabBar(props) {
-    const { panelId, onDragStart, onDragMove, onDragEnd, TabNavList } = props, restProps = __rest(props, ["panelId", "onDragStart", "onDragMove", "onDragEnd", "TabNavList"]);
+    const { onDragStart, onDragMove, onDragEnd, TabNavList, isMaximized } = props, restProps = __rest(props, ["onDragStart", "onDragMove", "onDragEnd", "TabNavList", "isMaximized"]);
     const layout = React.useContext(DockContextType);
     const ref = React.useRef();
     const getRef = (div) => {
@@ -48,7 +48,7 @@ export function DockTabBar(props) {
     };
     const onKeyDown = (e) => {
         if (e.key.startsWith('Arrow')) {
-            if (!checkLocalTabMove(e.key, ref.current)) {
+            if (!checkLocalTabMove(e.key, ref.current) && !isMaximized) {
                 layout.navigateToPanel(ref.current, e.key);
             }
             e.stopPropagation();

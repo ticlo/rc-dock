@@ -152,7 +152,7 @@ export class DockPanel extends React.PureComponent {
         };
         this.onPanelClicked = () => {
             if (!this._ref.contains(this._ref.ownerDocument.activeElement)) {
-                this._ref.querySelector('div.dock-bar').focus();
+                this._ref.querySelector('.dock-bar').focus();
             }
         };
         this._unmounted = false;

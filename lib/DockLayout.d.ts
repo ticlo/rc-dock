@@ -133,6 +133,12 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     render(): React.ReactNode;
     _onWindowResize: any;
     /** @ignore */
+    panelToFocus: string;
+    /** @ignore
+     * move focus to panelToFocus
+     */
+    componentDidUpdate(prevProps: Readonly<LayoutProps>, prevState: Readonly<LayoutState>, snapshot?: any): void;
+    /** @ignore */
     componentWillUnmount(): void;
     /** @ignore
      * layout state doesn't change instantly after setState, use this to make sure the correct layout is

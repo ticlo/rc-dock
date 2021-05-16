@@ -140,20 +140,15 @@ export class DockTabs extends React.PureComponent {
     constructor() {
         super(...arguments);
         this._cache = new Map();
-        this.onMaximizeClick = () => {
+        this.onMaximizeClick = (e) => {
             let { panelData } = this.props;
             this.context.dockMove(panelData, null, 'maximize');
+            // prevent the focus change logic
+            e.stopPropagation();
         };
         this.onNewWindowClick = () => {
             let { panelData } = this.props;
             this.context.dockMove(panelData, null, 'new-window');
-        };
-        this.onKeyDownMaximizeBtn = (evt) => {
-            if (evt.key !== 'Enter' && evt.key !== ' ') {
-                return false;
-            }
-            evt.stopPropagation();
-            this.onMaximizeClick();
         };
         this.renderTabBar = (props, TabNavList) => {
             let { panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd } = this.props;
@@ -176,12 +171,12 @@ export class DockTabs extends React.PureComponent {
                 panelExtraContent = panelExtra(panelData, this.context);
             }
             else if (maximizable || showNewWindowButton) {
-                panelExtraContent = React.createElement("div", { className: "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null, onKeyDown: maximizable ? this.onKeyDownMaximizeBtn : null });
+                panelExtraContent = React.createElement("div", { className: "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
                 if (showNewWindowButton) {
                     panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
                 }
             }
-            return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList }, props, { extra: panelExtraContent })));
+            return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent })));
         };
         this.onTabChange = (activeId) => {
             this.props.panelData.activeId = activeId;

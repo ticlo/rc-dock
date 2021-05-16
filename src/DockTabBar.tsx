@@ -33,7 +33,7 @@ function checkLocalTabMove(key: string, tabbar: HTMLDivElement): boolean {
 
 
 interface DockTabBarProps extends TabNavListProps {
-  panelId: string,
+  isMaximized: boolean;
   onDragStart?: DragManager.DragHandler;
   onDragMove?: DragManager.DragHandler;
   onDragEnd?: DragManager.DragHandler;
@@ -42,7 +42,7 @@ interface DockTabBarProps extends TabNavListProps {
 
 export function DockTabBar(props: DockTabBarProps) {
   const {
-    panelId, onDragStart, onDragMove, onDragEnd, TabNavList,
+    onDragStart, onDragMove, onDragEnd, TabNavList, isMaximized,
     ...restProps
   } = props;
 
@@ -56,7 +56,7 @@ export function DockTabBar(props: DockTabBarProps) {
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key.startsWith('Arrow')) {
-      if (!checkLocalTabMove(e.key, ref.current)) {
+      if (!checkLocalTabMove(e.key, ref.current) && !isMaximized) {
         layout.navigateToPanel(ref.current, e.key);
       }
       e.stopPropagation();

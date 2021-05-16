@@ -284,7 +284,8 @@ export class DockTabs extends React.PureComponent<Props, any> {
     }
     return (
       <DockTabBar onDragStart={onPanelDragStart} onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}
-                  TabNavList={TabNavList} {...props} extra={panelExtraContent}/>
+                  TabNavList={TabNavList} isMaximized={panelData.parent.mode === 'maximize'} {...props}
+                  extra={panelExtraContent}/>
     );
   };
 

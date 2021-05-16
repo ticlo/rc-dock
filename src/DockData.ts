@@ -336,6 +336,13 @@ export interface DockContext {
    */
   updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
 
+  /**
+   * move focus to a dockpanel near by
+   * @param fromTab
+   * @param direction
+   */
+  navigateToPanel(fromTab: HTMLElement, direction?: string): void;
+
   /** @ignore */
   getTabCache(id: string, owner: any): TabPaneCache;
 

@@ -69,15 +69,6 @@ export class TabCache {
     e.stopPropagation();
   };
 
-  onKeyDownCloseBtn = (evt: React.KeyboardEvent) => {
-    if (evt.key !== 'Enter' && evt.key !== ' ') {
-      return false;
-    }
-
-    this.context.dockMove(this.data, null, 'remove');
-    evt.stopPropagation();
-  };
-
   onDragStart = (e: DragManager.DragState) => {
     let panel = findParentPanel(this._ref);
     let tabGroup = this.context.getGroup(this.data.group);
@@ -150,11 +141,10 @@ export class TabCache {
     let tab = (
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
-        <div className='dock-tab-hit-area' ref={this.getHitAreaRef}/>
+        <div className="dock-tab-hit-area" ref={this.getHitAreaRef}/>
         {title}
         {closable ?
-          <div className='dock-tab-close-btn' onClick={this.onCloseClick}
-               onKeyDown={this.onKeyDownCloseBtn} />
+          <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>
           : null
         }
       </DragDropDiv>
@@ -286,16 +276,15 @@ export class DockTabs extends React.PureComponent<Props, any> {
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (maximizable || showNewWindowButton) {
-      panelExtraContent = <div className='dock-panel-max-btn' onClick={maximizable ? this.onMaximizeClick : null}
-                               onKeyDown={maximizable ? this.onKeyDownMaximizeBtn : null} />;
+      panelExtraContent = <div className="dock-panel-max-btn" onClick={maximizable ? this.onMaximizeClick : null}
+                               onKeyDown={maximizable ? this.onKeyDownMaximizeBtn : null}/>;
       if (showNewWindowButton) {
         panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
       }
     }
     return (
-      <DockTabBar onDragStart={onPanelDragStart}
-                  onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd} TabNavList={TabNavList} {...props}
-                  extra={panelExtraContent}/>
+      <DockTabBar onDragStart={onPanelDragStart} onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}
+                  TabNavList={TabNavList} {...props} extra={panelExtraContent}/>
     );
   };
 
@@ -321,8 +310,8 @@ export class DockTabs extends React.PureComponent<Props, any> {
     }
 
     return (
-      <Tabs prefixCls='dock'
-            moreIcon='...'
+      <Tabs prefixCls="dock"
+            moreIcon="..."
             animated={animated}
             renderTabBar={this.renderTabBar}
             activeKey={activeId}

@@ -316,6 +316,43 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return false;
   }
 
+  /** @inheritDoc */
+  navigateToPanel(fromTab: HTMLElement, direction?: string) {
+    if (!direction) {
+      fromTab.focus();
+      return;
+    }
+    let targetTab: HTMLElement;
+    // use panel rect when move left/right, and use tabbar rect for up/down
+    let selector = (direction === 'ArrowUp' || direction === 'ArrowDown') ?
+      'div.dock>div.dock-bar' : 'div.dock-box>div.dock-panel';
+    let panels = Array.from(this._ref.querySelectorAll(selector));
+
+    let currentPanel = panels.find((panel) => panel.contains(fromTab));
+    let currentRect = currentPanel.getBoundingClientRect();
+    let matches: any[] = [];
+    for (let panel of panels) {
+      if (panel !== currentPanel) {
+        let rect = panel.getBoundingClientRect();
+        let distance = Algorithm.findNearestPanel(currentRect, rect, direction);
+        if (distance >= 0) {
+          matches.push({panel, rect, distance});
+        }
+      }
+    }
+    matches.sort((a, b) => a.distance - b.distance);
+    for (let match of matches) {
+      targetTab = match.panel.querySelector('div.dock-tab-active>div.dock-tab-btn');
+      if (targetTab) {
+        break;
+      }
+    }
+
+    if (targetTab) {
+      targetTab.focus();
+    }
+  }
+
   constructor(props: LayoutProps) {
     super(props);
     let {layout, defaultLayout, loadTab} = props;
@@ -461,7 +498,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
 
     return (
-      <div ref={this.getRef} className='dock-layout' style={style}>
+      <div ref={this.getRef} className="dock-layout" style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
@@ -469,7 +506,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
           {maximize}
           {portals}
         </DockContextProvider>
-        <div className='dock-drop-indicator' style={dropRectStyle}/>
+        <div className="dock-drop-indicator" style={dropRectStyle}/>
       </div>
     );
   }

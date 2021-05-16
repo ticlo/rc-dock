@@ -734,3 +734,38 @@ export function getFloatPanelSize(panel: HTMLElement, tabGroup: TabGroup) {
 
   return [panelWidth, panelHeight];
 }
+
+export function findNearestPanel(rectFrom: DOMRect, rectTo: DOMRect, direction: string): number {
+  let distance = -1;
+  let overlap = -1;
+  let alignment = 0;
+  switch (direction) {
+    case 'ArrowUp': {
+      distance = rectFrom.top - rectTo.bottom + rectFrom.height;
+      overlap = Math.min(rectFrom.right, rectTo.right) - Math.max(rectFrom.left, rectTo.left);
+      break;
+    }
+    case 'ArrowDown': {
+      distance = rectTo.top - rectFrom.bottom + rectFrom.height;
+      overlap = Math.min(rectFrom.right, rectTo.right) - Math.max(rectFrom.left, rectTo.left);
+      break;
+    }
+    case 'ArrowLeft': {
+      distance = rectFrom.left - rectTo.right + rectFrom.width;
+      overlap = Math.min(rectFrom.bottom, rectTo.bottom) - Math.max(rectFrom.top, rectTo.top);
+      alignment = Math.abs(rectFrom.top - rectTo.top);
+      break;
+    }
+    case 'ArrowRight': {
+      distance = rectTo.left - rectFrom.right + rectFrom.width;
+      overlap = Math.min(rectFrom.bottom, rectTo.bottom) - Math.max(rectFrom.top, rectTo.top);
+      alignment = Math.abs(rectFrom.top - rectTo.top);
+      break;
+    }
+  }
+  if (distance < 0 || overlap <= 0) {
+    return -1;
+  }
+
+  return distance * (alignment + 1) / overlap;
+}

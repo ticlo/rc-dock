@@ -307,6 +307,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         }
         if (!makeActive) {
           panelData.activeId = activeId;
+          this.panelToFocus = panelData.id;
         }
 
         layout = Algorithm.fixLayoutData(layout);
@@ -536,7 +537,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
    */
   componentDidUpdate(prevProps: Readonly<LayoutProps>, prevState: Readonly<LayoutState>, snapshot?: any) {
     if (this.panelToFocus) {
-      (this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"] .dock-bar`) as HTMLElement)?.focus();
+      let panel = this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"]`) as HTMLElement;
+      if (panel && !panel.contains(this._ref.ownerDocument.activeElement)) {
+        (panel.querySelector('.dock-bar') as HTMLElement)?.focus();
+      }
       this.panelToFocus = null;
     }
   }

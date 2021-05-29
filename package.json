@@ -68,7 +68,8 @@
     "**/minimist": "^1.2.5",
     "**/node-forge": "^0.10.0",
     "**/is-svg": "^4.2.2",
-    "**/postcss": "^8.2.15"
+    "**/postcss": "^8.2.15",
+    "**/ws": "^7.4.6"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",

@@ -300,7 +300,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
             id: 't8',
             title: /*#__PURE__*/React.createElement("div", {
               className: "github-icon"
-            }, "custom-tab"),
+            }, /*#__PURE__*/React.createElement("button", null, "custom-tab")),
             content: /*#__PURE__*/React.createElement("div", null, "Tab title can be any react component")
           }, jsxTab, htmlTab]
         }, {

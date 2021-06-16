@@ -18774,13 +18774,13 @@ class TabCache {
       onDragOverT: onDragOver,
       onDropT: onDrop,
       onDragLeaveT: onDragLeave
-    }, react_1.default.createElement("div", {
-      className: "dock-tab-hit-area",
-      ref: this.getHitAreaRef
-    }), title, closable ? react_1.default.createElement("div", {
+    }, title, closable ? react_1.default.createElement("div", {
       className: "dock-tab-close-btn",
       onClick: this.onCloseClick
-    }) : null);
+    }) : null, react_1.default.createElement("div", {
+      className: "dock-tab-hit-area",
+      ref: this.getHitAreaRef
+    }));
     return react_1.default.createElement(DockTabPane_1.default, {
       key: id,
       cacheId: id,
@@ -20082,6 +20082,7 @@ class DockLayout extends DockPortalManager {
 
         if (!makeActive) {
           panelData.activeId = activeId;
+          this.panelToFocus = panelData.id;
         }
 
         layout = Algorithm.fixLayoutData(layout);
@@ -20328,7 +20329,12 @@ class DockLayout extends DockPortalManager {
     var _a;
 
     if (this.panelToFocus) {
-      (_a = this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"] .dock-bar`)) === null || _a === void 0 ? void 0 : _a.focus();
+      let panel = this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"]`);
+
+      if (panel && !panel.contains(this._ref.ownerDocument.activeElement)) {
+        (_a = panel.querySelector('.dock-bar')) === null || _a === void 0 ? void 0 : _a.focus();
+      }
+
       this.panelToFocus = null;
     }
   }

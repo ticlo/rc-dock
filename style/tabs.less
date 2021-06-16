@@ -185,6 +185,7 @@
 
   &-tab-hit-area {
     position: absolute;
+    pointer-events: none;
     top: 0;
     bottom: 0;
     left: -5px;
@@ -343,5 +344,8 @@
       cursor: not-allowed
     }
   }
+}
+body.dock-dragging .dock-tab-hit-area {
+  pointer-events: inherit;
 }
 

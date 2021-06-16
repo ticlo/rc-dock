@@ -141,12 +141,12 @@ export class TabCache {
     let tab = (
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
-        <div className="dock-tab-hit-area" ref={this.getHitAreaRef}/>
         {title}
         {closable ?
           <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>
           : null
         }
+        <div className="dock-tab-hit-area" ref={this.getHitAreaRef}/>
       </DragDropDiv>
     );
 

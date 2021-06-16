@@ -75,7 +75,7 @@ let box = {
               {
                 ...defaultTab, id: 't8', title: (
                   <div className='github-icon'>
-                    custom-tab
+                    <button>custom-tab</button>
                   </div>
                 ), content: (
                   <div>

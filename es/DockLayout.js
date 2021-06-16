@@ -259,6 +259,7 @@ export class DockLayout extends DockPortalManager {
                 }
                 if (!makeActive) {
                     panelData.activeId = activeId;
+                    this.panelToFocus = panelData.id;
                 }
                 layout = Algorithm.fixLayoutData(layout);
                 this.changeLayout(layout, newTab.id, 'update');
@@ -417,7 +418,10 @@ export class DockLayout extends DockPortalManager {
     componentDidUpdate(prevProps, prevState, snapshot) {
         var _a;
         if (this.panelToFocus) {
-            (_a = this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"] .dock-bar`)) === null || _a === void 0 ? void 0 : _a.focus();
+            let panel = this._ref.querySelector(`.dock-panel[data-dockid="${this.panelToFocus}"]`);
+            if (panel && !panel.contains(this._ref.ownerDocument.activeElement)) {
+                (_a = panel.querySelector('.dock-bar')) === null || _a === void 0 ? void 0 : _a.focus();
+            }
             this.panelToFocus = null;
         }
     }

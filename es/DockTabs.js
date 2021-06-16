@@ -125,11 +125,11 @@ export class TabCache {
             content = content(this.data);
         }
         let tab = (React.createElement(DragDropDiv, { getRef: this.getRef, onDragStartT: onDragStart, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave },
-            React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef }),
             title,
             closable ?
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })
-                : null));
+                : null,
+            React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef })));
         return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab }, content));
     }
     destroy() {

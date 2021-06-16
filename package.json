@@ -69,7 +69,9 @@
     "**/node-forge": "^0.10.0",
     "**/is-svg": "^4.2.2",
     "**/postcss": "^8.2.15",
-    "**/ws": "^7.4.6"
+    "**/ws": "^7.4.6",
+    "**/normalize-url": "^4.5.1",
+    "**/glob-parent": "^5.1.2"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",

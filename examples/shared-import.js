@@ -15024,7 +15024,6 @@ class DragDropDiv extends react_1.default.PureComponent {
       }
     }
 
-    this.ownerDocument.body.classList.add('dock-dragging');
     this.waitingMove = true;
     this.listening = true;
   } // return true for a valid move
@@ -15052,6 +15051,8 @@ class DragDropDiv extends react_1.default.PureComponent {
       this.onDragEnd();
       return false;
     }
+
+    this.ownerDocument.body.classList.add('dock-dragging');
 
     state._onMove();
 

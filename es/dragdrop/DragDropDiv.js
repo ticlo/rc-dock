@@ -183,7 +183,6 @@ export class DragDropDiv extends React.PureComponent {
                 this.dragType = 'left';
             }
         }
-        this.ownerDocument.body.classList.add('dock-dragging');
         this.waitingMove = true;
         this.listening = true;
     }
@@ -204,6 +203,7 @@ export class DragDropDiv extends React.PureComponent {
             this.onDragEnd();
             return false;
         }
+        this.ownerDocument.body.classList.add('dock-dragging');
         state._onMove();
         this.ownerDocument.addEventListener('keydown', this.onKeyDown);
         return true;

@@ -16961,10 +16961,10 @@ var _bowser = _interopRequireDefault(require("bowser"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const browser = _bowser.default.getParser(window.navigator.userAgent);
+const browser = typeof window === 'object' && _bowser.default.getParser(window.navigator.userAgent);
 
 function gerWindowBorder() {
-  switch (browser.getOSName(true)) {
+  switch (browser === null || browser === void 0 ? void 0 : browser.getOSName(true)) {
     case 'windows':
       {
         let result;
@@ -17011,9 +17011,9 @@ function gerWindowBorder() {
   return [60, 8, 8];
 }
 
-const isSafari = browser.getBrowserName(true) === 'safari';
+const isSafari = (browser === null || browser === void 0 ? void 0 : browser.getBrowserName(true)) === 'safari';
 exports.isSafari = isSafari;
-const popupSupported = browser.getPlatformType() === 'desktop';
+const popupSupported = (browser === null || browser === void 0 ? void 0 : browser.getPlatformType()) === 'desktop';
 exports.popupSupported = popupSupported;
 const popupWindowBorder = gerWindowBorder();
 exports.popupWindowBorder = popupWindowBorder;
@@ -18216,9 +18216,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.popupWindowBorder = exports.popupSupported = exports.isSafari = exports.gerWindowBorder = void 0;
 const bowser_1 = __importDefault(require("bowser"));
-const browser = bowser_1.default.getParser(window.navigator.userAgent);
+const browser = typeof window === 'object' && bowser_1.default.getParser(window.navigator.userAgent);
 function gerWindowBorder() {
-    switch (browser.getOSName(true)) {
+    switch (browser === null || browser === void 0 ? void 0 : browser.getOSName(true)) {
         case 'windows': {
             let result;
             switch (browser.getBrowserName(true)) {
@@ -18254,8 +18254,8 @@ function gerWindowBorder() {
     return [60, 8, 8];
 }
 exports.gerWindowBorder = gerWindowBorder;
-exports.isSafari = browser.getBrowserName(true) === 'safari';
-exports.popupSupported = browser.getPlatformType() === 'desktop';
+exports.isSafari = (browser === null || browser === void 0 ? void 0 : browser.getBrowserName(true)) === 'safari';
+exports.popupSupported = (browser === null || browser === void 0 ? void 0 : browser.getPlatformType()) === 'desktop';
 exports.popupWindowBorder = gerWindowBorder();
 
 },{"bowser":"fIh9"}],"js5E":[function(require,module,exports) {
@@ -18546,7 +18546,7 @@ class WindowBox extends react_1.default.PureComponent {
 }
 
 exports.WindowBox = WindowBox;
-WindowBox.enabled = window.navigator.platform === 'Win32' || window.navigator.platform === 'MacIntel';
+WindowBox.enabled = typeof window === 'object' && ((window === null || window === void 0 ? void 0 : window.navigator.platform) === 'Win32' || (window === null || window === void 0 ? void 0 : window.navigator.platform) === 'MacIntel');
 },{"react":"n8MK","./WindowPanel":"IpWq"}],"nskJ":[function(require,module,exports) {
 "use strict";
 

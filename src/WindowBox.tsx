@@ -8,7 +8,7 @@ interface Props {
 
 export class WindowBox extends React.PureComponent<Props, any> {
 
-  static enabled = window.navigator.platform === 'Win32' || window.navigator.platform === 'MacIntel';
+  static enabled = typeof window === 'object' && (window?.navigator.platform === 'Win32' || window?.navigator.platform === 'MacIntel');
 
   render(): React.ReactNode {
     let {children} = this.props.boxData;

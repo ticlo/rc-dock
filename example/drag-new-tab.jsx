@@ -58,7 +58,6 @@ class Demo extends React.Component {
         <DockLayout ref={this.getRef} defaultLayout={box}
                     style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}}/>
         <div className='top-panel'>
-          Save Layout:
           <DragDropDiv ref={this.getButtonRef} onDragStartT={this.onDragStart}>
             <button className='btn'>
               Drag Me to Create New Tab

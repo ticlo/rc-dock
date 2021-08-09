@@ -86,7 +86,7 @@ export class TabCache {
     } else if (!panel) {
       return;
     }
-    if (panel.group !== this.data.group) {
+    if (panel?.group !== this.data.group) {
       e.reject();
     } else if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);

@@ -42,10 +42,9 @@ class Demo extends React.Component {
     console.log(this.dockLayout, this.buttonRef)
     e.setData({
       tab: {...tab, id: `newTab-${++this.newTabId}`},
-      panel: { // panel object
-        parent: {},
-        // group: '', // define your tab group here
-      },
+      // panel: {
+      //   group: '', // define your tab group here if needed
+      // },
       panelSize: [400, 300]
     }, this.dockLayout.getDockId());
     e.startDrag(this.buttonRef.element, this.buttonRef.element);

@@ -143,7 +143,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     let fromGroup = this.context.getGroup(dropFromPanel.group);
     if (fromGroup.floatable !== false &&
       (!draggingPanel ||
-        (!draggingPanel.panelLock && draggingPanel.parent.mode !== 'float')
+        (!draggingPanel.panelLock && draggingPanel.parent?.mode !== 'float')
       )
     ) {
       children.push(

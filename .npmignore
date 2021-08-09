@@ -25,3 +25,4 @@ build
 /.travis.yml
 /.vscode
 /yarn.lock
+/yarn-error.log

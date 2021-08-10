@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout, DragDropDiv} from '../lib';
-import {getFloatPanelSize} from "../src/Algorithm";
 
 let tab = {
   title: 'Tab',

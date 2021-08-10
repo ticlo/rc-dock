@@ -221,7 +221,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
 
     if (typeof target === 'string') {
-      target = this.find(target);
+      target = this.find(target, Algorithm.Filter.All);
     } else {
       target = Algorithm.getUpdatedObject(target); // target might change during removeTab
     }
@@ -274,7 +274,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  find(id: string, filter?: Algorithm.Filter): PanelData | TabData {
+  find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData {
     return Algorithm.find(this.getLayout(), id, filter);
   }
 
@@ -288,8 +288,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   /** @inheritDoc */
   updateTab(id: string, newTab: TabData, makeActive: boolean = true): boolean {
-    let tab = this.find(id, Algorithm.Filter.AnyTab);
-    if (tab && !('tabs' in tab)) {
+    let tab = this.find(id, Algorithm.Filter.AnyTab) as TabData;
+    if (tab) {
       let panelData = tab.parent;
       let idx = panelData.tabs.indexOf(tab);
       if (idx >= 0) {

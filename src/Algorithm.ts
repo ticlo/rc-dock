@@ -68,8 +68,11 @@ function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | 
   return null;
 }
 
-function findInBox(box: BoxData, id: string, filter: Filter): PanelData | TabData {
-  let result: PanelData | TabData;
+function findInBox(box: BoxData, id: string, filter: Filter): PanelData | TabData | BoxData {
+  let result: PanelData | TabData | BoxData;
+  if ((filter | Filter.Box) && box.id === id) {
+    return box;
+  }
   for (let child of box.children) {
     if ('children' in child) {
       if (result = findInBox(child, id, filter)) {
@@ -88,19 +91,21 @@ function findInBox(box: BoxData, id: string, filter: Filter): PanelData | TabDat
 export enum Filter {
   Tab = 1,
   Panel = 1 << 1,
-  Docked = 1 << 2,
-  Floated = 1 << 3,
-  Windowed = 1 << 4,
-  Max = 1 << 5,
+  Box = 1 << 2,
+  Docked = 1 << 3,
+  Floated = 1 << 4,
+  Windowed = 1 << 5,
+  Max = 1 << 6,
   EveryWhere = Docked | Floated | Windowed | Max,
   AnyTab = Tab | EveryWhere,
   AnyPanel = Panel | EveryWhere,
-  All = Tab | Panel | EveryWhere,
+  AnyTabPanel = Tab | Panel | EveryWhere,
+  All = Tab | Panel | Box | EveryWhere,
 }
 
 
-export function find(layout: LayoutData, id: string, filter: Filter = Filter.All): PanelData | TabData {
-  let result: PanelData | TabData;
+export function find(layout: LayoutData, id: string, filter: Filter = Filter.AnyTabPanel): PanelData | TabData | BoxData {
+  let result: PanelData | TabData | BoxData;
 
   if (filter & Filter.Docked) {
     result = findInBox(layout.dockbox, id, filter);

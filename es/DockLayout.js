@@ -170,7 +170,7 @@ export class DockLayout extends DockPortalManager {
             layout = Algorithm.removeFromLayout(layout, source);
         }
         if (typeof target === 'string') {
-            target = this.find(target);
+            target = this.find(target, Algorithm.Filter.All);
         }
         else {
             target = Algorithm.getUpdatedObject(target); // target might change during removeTab
@@ -241,7 +241,7 @@ export class DockLayout extends DockPortalManager {
     /** @inheritDoc */
     updateTab(id, newTab, makeActive = true) {
         let tab = this.find(id, Algorithm.Filter.AnyTab);
-        if (tab && !('tabs' in tab)) {
+        if (tab) {
             let panelData = tab.parent;
             let idx = panelData.tabs.indexOf(tab);
             if (idx >= 0) {

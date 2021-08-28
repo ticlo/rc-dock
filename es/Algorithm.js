@@ -49,6 +49,9 @@ function findInPanel(panel, id, filter) {
 }
 function findInBox(box, id, filter) {
     let result;
+    if ((filter | Filter.Box) && box.id === id) {
+        return box;
+    }
     for (let child of box.children) {
         if ('children' in child) {
             if (result = findInBox(child, id, filter)) {
@@ -67,16 +70,18 @@ export var Filter;
 (function (Filter) {
     Filter[Filter["Tab"] = 1] = "Tab";
     Filter[Filter["Panel"] = 2] = "Panel";
-    Filter[Filter["Docked"] = 4] = "Docked";
-    Filter[Filter["Floated"] = 8] = "Floated";
-    Filter[Filter["Windowed"] = 16] = "Windowed";
-    Filter[Filter["Max"] = 32] = "Max";
-    Filter[Filter["EveryWhere"] = 60] = "EveryWhere";
-    Filter[Filter["AnyTab"] = 61] = "AnyTab";
-    Filter[Filter["AnyPanel"] = 62] = "AnyPanel";
-    Filter[Filter["All"] = 63] = "All";
+    Filter[Filter["Box"] = 4] = "Box";
+    Filter[Filter["Docked"] = 8] = "Docked";
+    Filter[Filter["Floated"] = 16] = "Floated";
+    Filter[Filter["Windowed"] = 32] = "Windowed";
+    Filter[Filter["Max"] = 64] = "Max";
+    Filter[Filter["EveryWhere"] = 120] = "EveryWhere";
+    Filter[Filter["AnyTab"] = 121] = "AnyTab";
+    Filter[Filter["AnyPanel"] = 122] = "AnyPanel";
+    Filter[Filter["AnyTabPanel"] = 123] = "AnyTabPanel";
+    Filter[Filter["All"] = 127] = "All";
 })(Filter || (Filter = {}));
-export function find(layout, id, filter = Filter.All) {
+export function find(layout, id, filter = Filter.AnyTabPanel) {
     let result;
     if (filter & Filter.Docked) {
         result = findInBox(layout.dockbox, id, filter);

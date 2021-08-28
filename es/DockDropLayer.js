@@ -75,6 +75,7 @@ export class DockDropLayer extends React.PureComponent {
         }
     }
     render() {
+        var _a;
         let { panelData, panelElement, dropFromPanel } = this.props;
         let dockId = this.context.getDockId();
         let children = [];
@@ -83,14 +84,14 @@ export class DockDropLayer extends React.PureComponent {
         let fromGroup = this.context.getGroup(dropFromPanel.group);
         if (fromGroup.floatable !== false &&
             (!draggingPanel ||
-                (!draggingPanel.panelLock && draggingPanel.parent.mode !== 'float'))) {
+                (!draggingPanel.panelLock && ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) !== 'float'))) {
             children.push(React.createElement(DockDropSquare, { key: 'float', direction: 'float', panelData: panelData, panelElement: panelElement }));
         }
         if (draggingPanel !== panelData && !fromGroup.disableDock) { // don't drop panel to itself
             // 4 direction base drag square
             DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
             DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
-            if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
+            if (!(draggingPanel === null || draggingPanel === void 0 ? void 0 : draggingPanel.panelLock) && panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
                 // dock to tabs
                 children.push(React.createElement(DockDropSquare, { key: 'middle', direction: 'middle', panelData: panelData, panelElement: panelElement }));
             }

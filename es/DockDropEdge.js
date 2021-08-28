@@ -9,11 +9,12 @@ export class DockDropEdge extends React.PureComponent {
             this._ref = r;
         };
         this.onDragOver = (e) => {
+            var _a;
             let { panelData, panelElement, dropFromPanel } = this.props;
             let dockId = this.context.getDockId();
             let draggingPanel = DragState.getData('panel', dockId);
             let fromGroup = this.context.getGroup(dropFromPanel.group);
-            if (draggingPanel && draggingPanel.parent.mode === 'float') {
+            if (draggingPanel && ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) === 'float') {
                 // ignore float panel in edge mode
                 return;
             }

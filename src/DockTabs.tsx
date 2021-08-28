@@ -81,12 +81,22 @@ export class TabCache {
     let dockId = this.context.getDockId();
     let tab: TabData = DragManager.DragState.getData('tab', dockId);
     let panel: PanelData = DragManager.DragState.getData('panel', dockId);
+    let group: string;
     if (tab) {
       panel = tab.parent;
-    } else if (!panel) {
-      return;
+      group = tab.group;
+    } else {
+      // drag whole panel
+      if (!panel) {
+        return;
+      }
+      if (panel?.panelLock) {
+        e.reject();
+        return;
+      }
+      group = panel.group;
     }
-    if (panel?.group !== this.data.group) {
+    if (group !== this.data.group) {
       e.reject();
     } else if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);

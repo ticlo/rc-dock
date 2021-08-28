@@ -295,11 +295,6 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
           tab: { ...tab,
             id: `newTab-${++this.newTabId}`
           },
-          panel: {
-            // panel object
-            parent: {} // group: '', // define your tab group here
-
-          },
           panelSize: [400, 300]
         }, this.dockLayout.getDockId());
         e.startDrag(this.buttonRef.element, this.buttonRef.element);

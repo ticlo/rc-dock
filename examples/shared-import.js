@@ -15523,6 +15523,10 @@ function findInPanel(panel, id, filter) {
 function findInBox(box, id, filter) {
   let result;
 
+  if (filter | Filter.Box && box.id === id) {
+    return box;
+  }
+
   for (let child of box.children) {
     if ('children' in child) {
       if (result = findInBox(child, id, filter)) {
@@ -15543,17 +15547,19 @@ var Filter;
 (function (Filter) {
   Filter[Filter["Tab"] = 1] = "Tab";
   Filter[Filter["Panel"] = 2] = "Panel";
-  Filter[Filter["Docked"] = 4] = "Docked";
-  Filter[Filter["Floated"] = 8] = "Floated";
-  Filter[Filter["Windowed"] = 16] = "Windowed";
-  Filter[Filter["Max"] = 32] = "Max";
-  Filter[Filter["EveryWhere"] = 60] = "EveryWhere";
-  Filter[Filter["AnyTab"] = 61] = "AnyTab";
-  Filter[Filter["AnyPanel"] = 62] = "AnyPanel";
-  Filter[Filter["All"] = 63] = "All";
+  Filter[Filter["Box"] = 4] = "Box";
+  Filter[Filter["Docked"] = 8] = "Docked";
+  Filter[Filter["Floated"] = 16] = "Floated";
+  Filter[Filter["Windowed"] = 32] = "Windowed";
+  Filter[Filter["Max"] = 64] = "Max";
+  Filter[Filter["EveryWhere"] = 120] = "EveryWhere";
+  Filter[Filter["AnyTab"] = 121] = "AnyTab";
+  Filter[Filter["AnyPanel"] = 122] = "AnyPanel";
+  Filter[Filter["AnyTabPanel"] = 123] = "AnyTabPanel";
+  Filter[Filter["All"] = 127] = "All";
 })(Filter = exports.Filter || (exports.Filter = {}));
 
-function find(layout, id, filter = Filter.All) {
+function find(layout, id, filter = Filter.AnyTabPanel) {
   let result;
 
   if (filter & Filter.Docked) {
@@ -17472,6 +17478,8 @@ class DockDropLayer extends react_1.default.PureComponent {
   }
 
   render() {
+    var _a;
+
     let {
       panelData,
       panelElement,
@@ -17483,7 +17491,7 @@ class DockDropLayer extends react_1.default.PureComponent {
     let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
     let fromGroup = this.context.getGroup(dropFromPanel.group);
 
-    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock && draggingPanel.parent.mode !== 'float')) {
+    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock && ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) !== 'float')) {
       children.push(react_1.default.createElement(DockDropSquare, {
         key: 'float',
         direction: 'float',
@@ -17498,7 +17506,7 @@ class DockDropLayer extends react_1.default.PureComponent {
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);
       DockDropLayer.addDepthSquare(children, 'vertical', panelData, panelElement, 0);
 
-      if (panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
+      if (!(draggingPanel === null || draggingPanel === void 0 ? void 0 : draggingPanel.panelLock) && panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
         // dock to tabs
         children.push(react_1.default.createElement(DockDropSquare, {
           key: 'middle',
@@ -17560,6 +17568,8 @@ class DockDropEdge extends react_1.default.PureComponent {
     };
 
     this.onDragOver = e => {
+      var _a;
+
       let {
         panelData,
         panelElement,
@@ -17569,7 +17579,7 @@ class DockDropEdge extends react_1.default.PureComponent {
       let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
       let fromGroup = this.context.getGroup(dropFromPanel.group);
 
-      if (draggingPanel && draggingPanel.parent.mode === 'float') {
+      if (draggingPanel && ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) === 'float') {
         // ignore float panel in edge mode
         return;
       }
@@ -18675,14 +18685,26 @@ class TabCache {
       let dockId = this.context.getDockId();
       let tab = DragManager.DragState.getData('tab', dockId);
       let panel = DragManager.DragState.getData('panel', dockId);
+      let group;
 
       if (tab) {
         panel = tab.parent;
-      } else if (!panel) {
-        return;
+        group = tab.group;
+      } else {
+        // drag whole panel
+        if (!panel) {
+          return;
+        }
+
+        if (panel === null || panel === void 0 ? void 0 : panel.panelLock) {
+          e.reject();
+          return;
+        }
+
+        group = panel.group;
       }
 
-      if (panel.group !== this.data.group) {
+      if (group !== this.data.group) {
         e.reject();
       } else if (tab && tab !== this.data) {
         let direction = this.getDropDirection(e);
@@ -19972,7 +19994,7 @@ class DockLayout extends DockPortalManager {
     }
 
     if (typeof target === 'string') {
-      target = this.find(target);
+      target = this.find(target, Algorithm.Filter.All);
     } else {
       target = Algorithm.getUpdatedObject(target); // target might change during removeTab
     }
@@ -20056,7 +20078,7 @@ class DockLayout extends DockPortalManager {
   updateTab(id, newTab, makeActive = true) {
     let tab = this.find(id, Algorithm.Filter.AnyTab);
 
-    if (tab && !('tabs' in tab)) {
+    if (tab) {
       let panelData = tab.parent;
       let idx = panelData.tabs.indexOf(tab);
 

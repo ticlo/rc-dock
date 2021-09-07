@@ -6,7 +6,7 @@
 ![](https://ticlo.github.io/rc-dock/images/new-window.gif)
 
 #### Dark Theme
-![](https://ticlo.github.io/rc-dock/images/dark-theme.gif)
+![](https://ticlo.github.io/rc-dock/images/dark-theme.png)
 
 - **Examples:** https://ticlo.github.io/rc-dock/examples
 - **Docs:** https://ticlo.github.io/rc-dock

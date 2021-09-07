@@ -33,6 +33,10 @@ function buildExample() {
 
     if (file.endsWith('.jsx')) {
       exportCodeHtml('javascript', file, data);
+      if (file.startsWith('dark-theme')) {
+        // don't build dark theme js
+        continue;
+      }
       data = `${data.replace(reg, replacer)} \n});`;
     } else if (file.endsWith('.html')) {
       exportCodeHtml('html', file, data);

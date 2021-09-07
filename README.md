@@ -1,9 +1,12 @@
 # Dock Layout for React Component
 
-![alt text](https://ticlo.github.io/rc-dock/images/demo.gif)
+![](https://ticlo.github.io/rc-dock/images/demo.gif)
 
 #### Popup panel as new browser window
-![alt text](https://ticlo.github.io/rc-dock/images/new-window.gif)
+![](https://ticlo.github.io/rc-dock/images/new-window.gif)
+
+#### Dark Theme
+![](https://ticlo.github.io/rc-dock/images/dark-theme.gif)
 
 - **Examples:** https://ticlo.github.io/rc-dock/examples
 - **Docs:** https://ticlo.github.io/rc-dock

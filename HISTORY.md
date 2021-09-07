@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.1.0 / 2021-09-06
+- add dark theme
+
 ## 3.0.14 / 2021-05-15
 - panel navigation with arrow keys
 

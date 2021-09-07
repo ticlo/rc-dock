@@ -26,3 +26,4 @@ build
 /.vscode
 /yarn.lock
 /yarn-error.log
+/.parcel-cache

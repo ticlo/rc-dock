@@ -39,11 +39,11 @@
 
   .dock-bar {
     background: none;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @nav-color-split-main;
   }
 
   .dock-tab {
-    background: #fff;
+    background: @component-background;
   }
 }
 
@@ -52,17 +52,17 @@
 
   .dock-tab {
     margin-right: 2px;
-    border: 1px solid #ddd;
+    border: 1px solid @panel-border-color;
     border-radius: 5px 5px 0 0;
   }
 
   .dock-tab.dock-tab-active {
-    border-bottom: 1px solid #fff;
-    background: #fff;
+    border-bottom: 1px solid @component-background;
+    background: @component-background;
   }
 
   .dock-bar {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid @panel-border-color;
     overflow: visible;
   }
 
@@ -73,7 +73,7 @@
 
   .dock-ink-bar {
     /* hide animated ink bar */
-    background: #fff;
+    background: @component-background;
     opacity: 0;
   }
 

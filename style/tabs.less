@@ -21,7 +21,7 @@
     position: absolute;
     box-sizing: border-box;
     margin-top: -3px;
-    background-color: #108ee9;
+    background-color: @primary-color;
     transform-origin: 0 0;
     width: 0;
     height: 0;
@@ -30,7 +30,7 @@
 
   &-tab-btn-disabled {
     cursor: default;
-    color: #ccc;
+    color: @disabled-color;
   }
 
   &-nav-animated {
@@ -48,11 +48,11 @@
     transition: color 0.25s cubic-bezier(0.35, 0, 0.25, 1);
     padding: 0;
     font-weight: 500;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid @panel-border-color;
     cursor: pointer;
     float: left;
     margin-right: 10px;
-    background: #fafafd;
+    background: @tab-background;
     outline: none;
 
     &.dragging {
@@ -61,28 +61,28 @@
 
     & > div {
       padding: 4px 14px;
-      outline-color: #108ee9;
+      outline-color: @primary-color;
     }
   }
 
   &-tab:hover {
-    color: #23c0fa;
+    color: @primary-highlight;
   }
 
   &-tab-active,
   &-tab-active:hover {
-    color: #108ee9;
+    color: @primary-color;
     cursor: default;
     transform: translateZ(0);
   }
 
   &-tab-disabled {
     cursor: default;
-    color: #ccc;
+    color: @disabled-color;
   }
 
   &-tab-disabled:hover {
-    color: #ccc;
+    color: @disabled-color;
   }
 
 
@@ -131,8 +131,8 @@
 
   &-top &-bar {
     flex: 0 0 auto;
-    background: #fafafd;
-    border-bottom: 1px solid #f3f3f3;
+    background: @tab-background;
+    border-bottom: 1px solid @nav-color-split;
     padding-left: 8px;
   }
 
@@ -156,13 +156,12 @@
     position: absolute;
     cursor: pointer;
     font-family: 'Fredoka One', sans-serif;
-    color: #bbb;
+    color: @button-text-color;
     right: -3px;
     font-size: 12px;
     width: 16px;
     text-align: center;
     top: 6px;
-    opacity: 0.3;
     outline: none;
     transition: all 0.25s ease-in-out;
 
@@ -173,14 +172,14 @@
 
   &-tab-close-btn:hover,
   &-tab-close-btn:focus {
-    color: #666;
+    color: @button-text-focus-color;
     transform: scale(1.1, 1.1);
   }
 
   &-tab:hover &-tab-close-btn,
   &-tab-close-btn:focus {
     opacity: 1;
-    color: #999;
+    color: @button-text-middle-color;
   }
 
   &-tab-hit-area {
@@ -232,6 +231,7 @@
     &-more {
       height: 30px;
       border: none;
+      color: @text-color;
       background: transparent;
       cursor: pointer;
       position: relative;
@@ -246,7 +246,7 @@
         height: 30px;
         left: -30px;
         top: 0;
-        box-shadow: inset -10px 0 8px -8px fade(#000, 8%);
+        box-shadow: @nav-more-shadow;
       }
     }
   }
@@ -278,7 +278,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: rgba(0, 0, 0, .85);
+    color: @text-color;
     font-size: 14px;
     font-variant: tabular-nums;
     line-height: 1.5715;
@@ -302,11 +302,11 @@
       overflow-y: auto;
       text-align: left;
       list-style-type: none;
-      background-color: #fff;
+      background-color: @dropdown-menu-bg;
       background-clip: padding-box;
       border-radius: 2px;
       outline: none;
-      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05)
+      box-shadow: @box-shadow-base;
     }
 
     &-menu-item {
@@ -314,7 +314,7 @@
       margin: 0;
       padding: 5px 12px;
       overflow: hidden;
-      color: rgba(0, 0, 0, .85);
+      color: @text-color;
       font-weight: 400;
       font-size: 14px;
       line-height: 22px;
@@ -335,11 +335,11 @@
     }
 
     &-menu-item:hover {
-      background: #f5f5f5
+      background: @item-hover-bg;
     }
 
     &-menu-item-disabled, &-menu-item-disabled:hover {
-      color: rgba(0, 0, 0, .25);
+      color: @disabled-color;
       background: 0 0;
       cursor: not-allowed
     }

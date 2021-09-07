@@ -75,7 +75,7 @@
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
-    "build-less": "lessc style/index.less dist/rc-dock.css",
+    "build-less": "lessc style/index-light.less dist/rc-dock.css & lessc style/index-dark.less dist/rc-dock-dark.css ",
     "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www",
     "build-es": "tsc --module es2020 --outDir ./es"

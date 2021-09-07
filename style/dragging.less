@@ -10,14 +10,14 @@ body > .dragging-layer {
   font-size: 14px;
   line-height: 1.5;
   white-space: nowrap;
-  --default-background-color: white;
+  --default-background-color: @component-background;
   /* dragging element */
 
   & > *:first-child {
     pointer-events: none !important;
     overflow: hidden !important;
     transform: translate(-50%, -50%) !important;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: @dragging-layer-shadow;
   }
 
   & > .dragging {

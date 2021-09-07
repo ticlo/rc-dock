@@ -10,7 +10,7 @@ body > .dragging-layer {
   font-size: 14px;
   line-height: 1.5;
   white-space: nowrap;
-  --default-background-color: #fff;
+  --default-background-color: #141414;
   /* dragging element */
   /* icon */
 }
@@ -18,7 +18,7 @@ body > .dragging-layer > *:first-child {
   pointer-events: none !important;
   overflow: hidden !important;
   transform: translate(-50%, -50%) !important;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1), inset 0 0 8px rgba(255, 255, 255, 0.1);
 }
 body > .dragging-layer > .dragging {
   /* prevent double translucent layers */
@@ -81,11 +81,11 @@ body > .dragging-layer > div:last-child {
   transition: color 0.25s cubic-bezier(0.35, 0, 0.25, 1);
   padding: 0;
   font-weight: 500;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #434343;
   cursor: pointer;
   float: left;
   margin-right: 10px;
-  background: #fafafd;
+  background: #141414;
   outline: none;
 }
 .dock-tab.dragging {
@@ -96,7 +96,7 @@ body > .dragging-layer > div:last-child {
   outline-color: #108ee9;
 }
 .dock-tab:hover {
-  color: #349fec;
+  color: #40a5ed;
 }
 .dock-tab-active,
 .dock-tab-active:hover {
@@ -146,8 +146,8 @@ body > .dragging-layer > div:last-child {
 }
 .dock-top .dock-bar {
   flex: 0 0 auto;
-  background: #fafafd;
-  border-bottom: 1px solid #f3f3f3;
+  background: #141414;
+  border-bottom: 1px solid #282828;
   padding-left: 8px;
 }
 .dock-top .dock-content-animated {
@@ -165,7 +165,7 @@ body > .dragging-layer > div:last-child {
   position: absolute;
   cursor: pointer;
   font-family: 'Fredoka One', sans-serif;
-  color: #ddd;
+  color: #444;
   right: -3px;
   font-size: 12px;
   width: 16px;
@@ -179,7 +179,7 @@ body > .dragging-layer > div:last-child {
 }
 .dock-tab-close-btn:hover,
 .dock-tab-close-btn:focus {
-  color: #666;
+  color: #fff;
   transform: scale(1.1, 1.1);
 }
 .dock-tab:hover .dock-tab-close-btn,
@@ -230,7 +230,7 @@ body > .dragging-layer > div:last-child {
 .dock-nav-more {
   height: 30px;
   border: none;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(255, 255, 255, 0.85);
   background: transparent;
   cursor: pointer;
   position: relative;
@@ -269,7 +269,7 @@ body > .dragging-layer > div:last-child {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 14px;
   font-variant: tabular-nums;
   line-height: 1.5715;
@@ -292,7 +292,7 @@ body > .dragging-layer > div:last-child {
   overflow-y: auto;
   text-align: left;
   list-style-type: none;
-  background-color: #fff;
+  background-color: #141414;
   background-clip: padding-box;
   border-radius: 2px;
   outline: none;
@@ -303,7 +303,7 @@ body > .dragging-layer > div:last-child {
   margin: 0;
   padding: 5px 12px;
   overflow: hidden;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -321,7 +321,7 @@ body > .dragging-layer > div:last-child {
   right: 2px;
 }
 .dock-dropdown-menu-item:hover {
-  background: #f5f5f5;
+  background: #2b2b2b;
 }
 .dock-dropdown-menu-item-disabled,
 .dock-dropdown-menu-item-disabled:hover {
@@ -342,9 +342,9 @@ body.dock-dragging iframe {
 .dock-panel {
   box-sizing: border-box;
   position: relative;
-  color: rgba(0, 0, 0, 0.85);
-  background: #fff;
-  border: 1px solid #ddd;
+  color: rgba(255, 255, 255, 0.85);
+  background: #141414;
+  border: 1px solid #434343;
 }
 .dock-panel.dragging {
   opacity: 0.3;
@@ -415,7 +415,7 @@ body.dock-dragging iframe {
 .dock-fbox > .dock-panel {
   position: absolute;
   pointer-events: visible;
-  box-shadow: 0 0 4px #aaaaaa;
+  box-shadow: 0 0 4px #444;
 }
 .dock-fbox > .dock-panel.dragging {
   opacity: 0.8;
@@ -429,7 +429,7 @@ body.dock-dragging iframe {
 .dock-mbox > .dock-panel {
   width: 100%;
   height: 100%;
-  box-shadow: 0 0 4px #aaaaaa;
+  box-shadow: 0 0 4px #444;
 }
 .dock-mbox.dock-mbox-show {
   visibility: visible;
@@ -488,9 +488,9 @@ body.dock-dragging iframe {
   pointer-events: none;
   z-index: 400;
   border: solid 1px #fff;
-  background: #88c7f4;
+  background: #125d94;
   opacity: 0.5;
-  box-shadow: 0 0 4px #ddd;
+  box-shadow: 0 0 4px #434343;
   display: none;
   transition: all 0.1s ease-out;
 }
@@ -521,15 +521,15 @@ body.dock-dragging iframe {
   width: 32px;
   height: 32px;
   font-family: 'Fredoka One', sans-serif;
-  color: #ddd;
-  background: #fff;
+  color: #444;
+  background: #141414;
   border: 1px solid transparent;
   left: calc(50% - 16px);
   top: calc(50% - 16px);
 }
 .dock-drop-layer .dock-drop-square .dock-drop-square-box {
   box-sizing: border-box;
-  border: 1px solid #ddd;
+  border: 1px solid #434343;
   width: 100%;
   height: 100%;
 }
@@ -600,7 +600,7 @@ body.dock-dragging iframe {
   transform: rotate(90deg);
 }
 .dock-drop-layer .dock-drop-square-dropping {
-  background: #88c7f4;
+  background: #125d94;
   color: white;
 }
 .dock-panel.dock-panel-dropping .dock-tab-close-btn {
@@ -620,7 +620,7 @@ body.dock-dragging iframe {
 .dock-panel-max-btn:before {
   position: absolute;
   content: " ";
-  border: 2px solid #ddd;
+  border: 2px solid #444;
   border-radius: 1px;
   width: 9px;
   height: 9px;
@@ -678,22 +678,22 @@ body.dock-dragging iframe {
 }
 .dock-panel.dock-style-main .dock-bar {
   background: none;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #282828;
 }
 .dock-panel.dock-style-main .dock-tab {
-  background: #fff;
+  background: #141414;
 }
 .dock-panel.dock-style-card .dock-tab {
   margin-right: 2px;
-  border: 1px solid #ddd;
+  border: 1px solid #434343;
   border-radius: 5px 5px 0 0;
 }
 .dock-panel.dock-style-card .dock-tab.dock-tab-active {
-  border-bottom: 1px solid #fff;
-  background: #fff;
+  border-bottom: 1px solid #141414;
+  background: #141414;
 }
 .dock-panel.dock-style-card .dock-bar {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #434343;
   overflow: visible;
 }
 .dock-panel.dock-style-card .dock-nav-wrap {
@@ -702,7 +702,7 @@ body.dock-dragging iframe {
 }
 .dock-panel.dock-style-card .dock-ink-bar {
   /* hide animated ink bar */
-  background: #fff;
+  background: #141414;
   opacity: 0;
 }
 .dock-panel.dock-style-card .dock-tab-hit-area {

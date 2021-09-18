@@ -263,7 +263,6 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
     title: 'headless',
     content: /*#__PURE__*/React.createElement("div", {
       style: {
-        background: '#f6f6f6',
         height: '100%',
         margin: 0,
         padding: 30

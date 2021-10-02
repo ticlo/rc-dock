@@ -133,6 +133,7 @@ export class DragState {
         this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
       }, 0);
     }
+    destroyDraggingElement(this);
   }
 }
 
@@ -289,21 +290,6 @@ export function addDragStateListener(callback: (scope: any) => void) {
 
 export function removeDragStateListener(callback: (scope: any) => void) {
   _dragStateListener.delete(callback);
-}
-
-let _lastPointerDownEvent: any;
-
-export function checkPointerDownEvent(e: any) {
-  if (e instanceof MouseEvent && e.button !== 0 && e.button !== 2) {
-    // only allows left right button drag
-    return false;
-  }
-  if (e !== _lastPointerDownEvent) {
-    // same event can't trigger drag twice
-    _lastPointerDownEvent = e;
-    return true;
-  }
-  return false;
 }
 
 // work around for drag scroll issue on IOS

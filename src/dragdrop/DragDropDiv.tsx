@@ -94,7 +94,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   };
 
   onDragStart(event: MouseEvent | TouchEvent) {
-    if (!DragManager.checkPointerDownEvent(event)) {
+    if (DragManager.isDragging()) {
       // same pointer event shouldn't trigger 2 drag start
       return;
     }
@@ -151,6 +151,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       this.onDragEnd();
       return false;
     }
+    // drag started, dont allow this event to trigger another drag
     this.ownerDocument.body.classList.add('dock-dragging');
     state._onMove();
     this.ownerDocument.addEventListener('keydown', this.onKeyDown);
@@ -161,6 +162,10 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   onMouseMove = (e: MouseEvent) => {
     let {onDragMoveT} = this.props;
     if (this.waitingMove) {
+      if (DragManager.isDragging()) {
+        this.onDragEnd();
+        return;
+      }
       if (!this.checkFirstMove(e)) {
         return;
       }
@@ -177,6 +182,10 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   onTouchMove = (e: TouchEvent) => {
     let {onDragMoveT} = this.props;
     if (this.waitingMove) {
+      if (DragManager.isDragging()) {
+        this.onDragEnd();
+        return;
+      }
       if (!this.checkFirstMove(e)) {
         return;
       }
@@ -193,6 +202,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   };
 
   onDragEnd = (e?: TouchEvent | MouseEvent) => {
+    console.log('drag end');
     let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
 
@@ -221,7 +231,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   }
 
   onGestureStart(event: TouchEvent) {
-    if (!DragManager.checkPointerDownEvent(event)) {
+    if (!DragManager.isDragging()) {
       // same pointer event shouldn't trigger 2 drag start
       return;
     }
@@ -309,7 +319,6 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   cleanupDrag(state: DragManager.DragState) {
     this.dragType = null;
     this.waitingMove = false;
-    DragManager.destroyDraggingElement(state);
   }
 
   render(): React.ReactNode {

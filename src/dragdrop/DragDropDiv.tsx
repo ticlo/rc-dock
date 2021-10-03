@@ -276,7 +276,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       onGestureEndT();
     }
   };
-  onKeyDown = (e?: KeyboardEvent) => {
+  onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       this.cancel();
     }

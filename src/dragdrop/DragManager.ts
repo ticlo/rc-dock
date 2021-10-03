@@ -126,7 +126,7 @@ export class DragState {
   _onDragEnd(canceled: boolean = false) {
     if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
       _droppingHandlers.onDropT(this);
-      
+
       if (this.component.dragType === 'right') {
         // prevent the next menu event if drop handler is called on right mouse button
         this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);

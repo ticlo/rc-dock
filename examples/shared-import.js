@@ -14328,7 +14328,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.checkPointerDownEvent = exports.removeDragStateListener = exports.addDragStateListener = exports.destroyDraggingElement = exports.removeHandlers = exports.addHandlers = exports.isDragging = exports.DragState = void 0;
+exports.removeDragStateListener = exports.addDragStateListener = exports.destroyDraggingElement = exports.removeHandlers = exports.addHandlers = exports.isDragging = exports.DragState = void 0;
 
 class DragState {
   constructor(event, component, init = false) {
@@ -14387,6 +14387,7 @@ class DragState {
     }
 
     createDraggingElement(this, refElement, draggingHtml);
+    this.component.ownerDocument.body.classList.add('dock-dragging');
   }
 
   setData(data, scope) {
@@ -14448,18 +14449,21 @@ class DragState {
     moveDraggingElement(this);
   }
 
-  _onDragEnd() {
-    if (_droppingHandlers && _droppingHandlers.onDropT) {
+  _onDragEnd(canceled = false) {
+    if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
       _droppingHandlers.onDropT(this);
+
+      if (this.component.dragType === 'right') {
+        // prevent the next menu event if drop handler is called on right mouse button
+        this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
+        setTimeout(() => {
+          this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
+        }, 0);
+      }
     }
 
-    if (this.component.dragType === 'right') {
-      // prevent the next menu event if drop handler is called on right mouse button
-      this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
-      setTimeout(() => {
-        this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
-      }, 0);
-    }
+    destroyDraggingElement(this);
+    this.component.ownerDocument.body.classList.remove('dock-dragging');
   }
 
 }
@@ -14636,26 +14640,7 @@ function removeDragStateListener(callback) {
   _dragStateListener.delete(callback);
 }
 
-exports.removeDragStateListener = removeDragStateListener;
-
-let _lastPointerDownEvent;
-
-function checkPointerDownEvent(e) {
-  if (e instanceof MouseEvent && e.button !== 0 && e.button !== 2) {
-    // only allows left right button drag
-    return false;
-  }
-
-  if (e !== _lastPointerDownEvent) {
-    // same event can't trigger drag twice
-    _lastPointerDownEvent = e;
-    return true;
-  }
-
-  return false;
-}
-
-exports.checkPointerDownEvent = checkPointerDownEvent; // work around for drag scroll issue on IOS
+exports.removeDragStateListener = removeDragStateListener; // work around for drag scroll issue on IOS
 
 if (typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform)) {
   document.addEventListener('touchmove', e => {
@@ -14880,6 +14865,11 @@ class DragDropDiv extends react_1.default.PureComponent {
       } = this.props;
 
       if (this.waitingMove) {
+        if (DragManager.isDragging()) {
+          this.onDragEnd();
+          return;
+        }
+
         if (!this.checkFirstMove(e)) {
           return;
         }
@@ -14902,6 +14892,11 @@ class DragDropDiv extends react_1.default.PureComponent {
       } = this.props;
 
       if (this.waitingMove) {
+        if (DragManager.isDragging()) {
+          this.onDragEnd();
+          return;
+        }
+
         if (!this.checkFirstMove(e)) {
           return;
         }
@@ -14928,10 +14923,8 @@ class DragDropDiv extends react_1.default.PureComponent {
       this.removeListeners();
 
       if (!this.waitingMove) {
-        if (e) {
-          // e=null means drag is canceled
-          state._onDragEnd();
-        }
+        // e=null means drag is canceled
+        state._onDragEnd(e == null);
 
         if (onDragEndT) {
           onDragEndT(state);
@@ -14985,7 +14978,7 @@ class DragDropDiv extends react_1.default.PureComponent {
   }
 
   onDragStart(event) {
-    if (!DragManager.checkPointerDownEvent(event)) {
+    if (DragManager.isDragging()) {
       // same pointer event shouldn't trigger 2 drag start
       return;
     }
@@ -15052,8 +15045,6 @@ class DragDropDiv extends react_1.default.PureComponent {
       return false;
     }
 
-    this.ownerDocument.body.classList.add('dock-dragging');
-
     state._onMove();
 
     this.ownerDocument.addEventListener('keydown', this.onKeyDown);
@@ -15064,13 +15055,12 @@ class DragDropDiv extends react_1.default.PureComponent {
     this.ownerDocument.addEventListener('touchmove', this.onGestureMove);
     this.ownerDocument.addEventListener('touchend', this.onGestureEnd);
     this.ownerDocument.addEventListener('keydown', this.onKeyDown);
-    this.ownerDocument.body.classList.add('dock-dragging');
     this.gesturing = true;
     this.waitingMove = true;
   }
 
   onGestureStart(event) {
-    if (!DragManager.checkPointerDownEvent(event)) {
+    if (!DragManager.isDragging()) {
       // same pointer event shouldn't trigger 2 drag start
       return;
     }
@@ -15120,7 +15110,6 @@ class DragDropDiv extends react_1.default.PureComponent {
       }
     }
 
-    this.ownerDocument.body.classList.remove('dock-dragging');
     this.ownerDocument.removeEventListener('keydown', this.onKeyDown);
     this.listening = false;
     this.gesturing = false;
@@ -15129,7 +15118,6 @@ class DragDropDiv extends react_1.default.PureComponent {
   cleanupDrag(state) {
     this.dragType = null;
     this.waitingMove = false;
-    DragManager.destroyDraggingElement(state);
   }
 
   render() {
@@ -18673,9 +18661,16 @@ class TabCache {
     };
 
     this.onDragStart = e => {
-      let panel = findParentPanel(this._ref);
+      let panel = this.data.parent;
+
+      if (panel.parent.mode === 'float' && panel.tabs.length === 1) {
+        // when it's the only tab in a float panel, skip this drag, let parent tab bar handle it
+        return;
+      }
+
+      let panelElement = findParentPanel(this._ref);
       let tabGroup = this.context.getGroup(this.data.group);
-      let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panel, tabGroup);
+      let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panelElement, tabGroup);
       e.setData({
         tab: this.data,
         panelSize: [panelWidth, panelHeight]

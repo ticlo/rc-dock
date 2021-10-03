@@ -151,8 +151,6 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       this.onDragEnd();
       return false;
     }
-    // drag started, dont allow this event to trigger another drag
-    this.ownerDocument.body.classList.add('dock-dragging');
     state._onMove();
     this.ownerDocument.addEventListener('keydown', this.onKeyDown);
     return true;
@@ -202,17 +200,14 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   };
 
   onDragEnd = (e?: TouchEvent | MouseEvent) => {
-    console.log('drag end');
     let {onDragEndT} = this.props;
     let state = new DragManager.DragState(e, this);
 
     this.removeListeners();
 
     if (!this.waitingMove) {
-      if (e) {
-        // e=null means drag is canceled
-        state._onDragEnd();
-      }
+      // e=null means drag is canceled
+      state._onDragEnd(e == null);
       if (onDragEndT) {
         onDragEndT(state);
       }
@@ -225,7 +220,6 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     this.ownerDocument.addEventListener('touchmove', this.onGestureMove);
     this.ownerDocument.addEventListener('touchend', this.onGestureEnd);
     this.ownerDocument.addEventListener('keydown', this.onKeyDown);
-    this.ownerDocument.body.classList.add('dock-dragging');
     this.gesturing = true;
     this.waitingMove = true;
   }
@@ -310,7 +304,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
         this.ownerDocument.removeEventListener('mouseup', this.onDragEnd);
       }
     }
-    this.ownerDocument.body.classList.remove('dock-dragging');
+
     this.ownerDocument.removeEventListener('keydown', this.onKeyDown);
     this.listening = false;
     this.gesturing = false;

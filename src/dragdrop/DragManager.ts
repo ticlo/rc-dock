@@ -66,6 +66,7 @@ export class DragState {
     }
 
     createDraggingElement(this, refElement, draggingHtml);
+    this.component.ownerDocument.body.classList.add('dock-dragging');
   }
 
   setData(data?: {[key: string]: any}, scope?: any) {
@@ -122,18 +123,21 @@ export class DragState {
     moveDraggingElement(this);
   }
 
-  _onDragEnd() {
-    if (_droppingHandlers && _droppingHandlers.onDropT) {
+  _onDragEnd(canceled: boolean = false) {
+    if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
       _droppingHandlers.onDropT(this);
+      
+      if (this.component.dragType === 'right') {
+        // prevent the next menu event if drop handler is called on right mouse button
+        this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
+        setTimeout(() => {
+          this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
+        }, 0);
+      }
     }
-    if (this.component.dragType === 'right') {
-      // prevent the next menu event if drop handler is called on right mouse button
-      this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
-      setTimeout(() => {
-        this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
-      }, 0);
-    }
+
     destroyDraggingElement(this);
+    this.component.ownerDocument.body.classList.remove('dock-dragging');
   }
 }
 
@@ -268,7 +272,6 @@ export function destroyDraggingElement(e: DragState) {
     _draggingDiv.remove();
     _draggingDiv = null;
   }
-
 
   _draggingState = null;
   setDroppingHandler(null, e);

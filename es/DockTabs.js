@@ -44,9 +44,14 @@ export class TabCache {
             e.stopPropagation();
         };
         this.onDragStart = (e) => {
-            let panel = findParentPanel(this._ref);
+            let panel = this.data.parent;
+            if (panel.parent.mode === 'float' && panel.tabs.length === 1) {
+                // when it's the only tab in a float panel, skip this drag, let parent tab bar handle it
+                return;
+            }
+            let panelElement = findParentPanel(this._ref);
             let tabGroup = this.context.getGroup(this.data.group);
-            let [panelWidth, panelHeight] = getFloatPanelSize(panel, tabGroup);
+            let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
             e.setData({ tab: this.data, panelSize: [panelWidth, panelHeight] }, this.context.getDockId());
             e.startDrag(this._ref.parentElement, this._ref.parentElement);
         };

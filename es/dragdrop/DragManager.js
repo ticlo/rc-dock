@@ -48,6 +48,7 @@ export class DragState {
             refElement = this.component.element;
         }
         createDraggingElement(this, refElement, draggingHtml);
+        this.component.ownerDocument.body.classList.add('dock-dragging');
     }
     setData(data, scope) {
         if (!this._init) {
@@ -94,17 +95,19 @@ export class DragState {
         }
         moveDraggingElement(this);
     }
-    _onDragEnd() {
-        if (_droppingHandlers && _droppingHandlers.onDropT) {
+    _onDragEnd(canceled = false) {
+        if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
             _droppingHandlers.onDropT(this);
+            if (this.component.dragType === 'right') {
+                // prevent the next menu event if drop handler is called on right mouse button
+                this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
+                setTimeout(() => {
+                    this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
+                }, 0);
+            }
         }
-        if (this.component.dragType === 'right') {
-            // prevent the next menu event if drop handler is called on right mouse button
-            this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
-            setTimeout(() => {
-                this.component.ownerDocument.removeEventListener('contextmenu', preventDefault, true);
-            }, 0);
-        }
+        destroyDraggingElement(this);
+        this.component.ownerDocument.body.classList.remove('dock-dragging');
     }
 }
 function preventDefault(e) {
@@ -229,19 +232,6 @@ export function addDragStateListener(callback) {
 }
 export function removeDragStateListener(callback) {
     _dragStateListener.delete(callback);
-}
-let _lastPointerDownEvent;
-export function checkPointerDownEvent(e) {
-    if (e instanceof MouseEvent && e.button !== 0 && e.button !== 2) {
-        // only allows left right button drag
-        return false;
-    }
-    if (e !== _lastPointerDownEvent) {
-        // same event can't trigger drag twice
-        _lastPointerDownEvent = e;
-        return true;
-    }
-    return false;
 }
 // work around for drag scroll issue on IOS
 if (typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform)) {

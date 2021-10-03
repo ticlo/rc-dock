@@ -70,6 +70,10 @@ export class DragDropDiv extends React.PureComponent {
         this.onMouseMove = (e) => {
             let { onDragMoveT } = this.props;
             if (this.waitingMove) {
+                if (DragManager.isDragging()) {
+                    this.onDragEnd();
+                    return;
+                }
                 if (!this.checkFirstMove(e)) {
                     return;
                 }
@@ -86,6 +90,10 @@ export class DragDropDiv extends React.PureComponent {
         this.onTouchMove = (e) => {
             let { onDragMoveT } = this.props;
             if (this.waitingMove) {
+                if (DragManager.isDragging()) {
+                    this.onDragEnd();
+                    return;
+                }
                 if (!this.checkFirstMove(e)) {
                     return;
                 }
@@ -107,10 +115,8 @@ export class DragDropDiv extends React.PureComponent {
             let state = new DragManager.DragState(e, this);
             this.removeListeners();
             if (!this.waitingMove) {
-                if (e) {
-                    // e=null means drag is canceled
-                    state._onDragEnd();
-                }
+                // e=null means drag is canceled
+                state._onDragEnd(e == null);
                 if (onDragEndT) {
                     onDragEndT(state);
                 }
@@ -150,7 +156,7 @@ export class DragDropDiv extends React.PureComponent {
         };
     }
     onDragStart(event) {
-        if (!DragManager.checkPointerDownEvent(event)) {
+        if (DragManager.isDragging()) {
             // same pointer event shouldn't trigger 2 drag start
             return;
         }
@@ -203,7 +209,6 @@ export class DragDropDiv extends React.PureComponent {
             this.onDragEnd();
             return false;
         }
-        this.ownerDocument.body.classList.add('dock-dragging');
         state._onMove();
         this.ownerDocument.addEventListener('keydown', this.onKeyDown);
         return true;
@@ -212,12 +217,11 @@ export class DragDropDiv extends React.PureComponent {
         this.ownerDocument.addEventListener('touchmove', this.onGestureMove);
         this.ownerDocument.addEventListener('touchend', this.onGestureEnd);
         this.ownerDocument.addEventListener('keydown', this.onKeyDown);
-        this.ownerDocument.body.classList.add('dock-dragging');
         this.gesturing = true;
         this.waitingMove = true;
     }
     onGestureStart(event) {
-        if (!DragManager.checkPointerDownEvent(event)) {
+        if (!DragManager.isDragging()) {
             // same pointer event shouldn't trigger 2 drag start
             return;
         }
@@ -261,7 +265,6 @@ export class DragDropDiv extends React.PureComponent {
                 this.ownerDocument.removeEventListener('mouseup', this.onDragEnd);
             }
         }
-        this.ownerDocument.body.classList.remove('dock-dragging');
         this.ownerDocument.removeEventListener('keydown', this.onKeyDown);
         this.listening = false;
         this.gesturing = false;
@@ -269,7 +272,6 @@ export class DragDropDiv extends React.PureComponent {
     cleanupDrag(state) {
         this.dragType = null;
         this.waitingMove = false;
-        DragManager.destroyDraggingElement(state);
     }
     render() {
         let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT"]);

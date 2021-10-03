@@ -49,7 +49,7 @@ export declare class DragDropDiv extends React.PureComponent<DragDropDivProps, a
     onGestureStart(event: TouchEvent): void;
     onGestureMove: (e: TouchEvent) => void;
     onGestureEnd: (e?: TouchEvent) => void;
-    onKeyDown: (e?: KeyboardEvent) => void;
+    onKeyDown: (e: KeyboardEvent) => void;
     cancel(): void;
     removeListeners(): void;
     cleanupDrag(state: DragManager.DragState): void;

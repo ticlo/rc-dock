@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.2.0 / 2021-10-03
+- in a float panel with single tab, dragging the tab should work the same way as dragging the panel header
+
 ## 3.1.0 / 2021-09-06
 - add dark theme
 

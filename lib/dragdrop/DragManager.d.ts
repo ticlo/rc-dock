@@ -35,7 +35,7 @@ export declare class DragState {
     accept(message?: string): void;
     reject(): void;
     _onMove(): void;
-    _onDragEnd(): void;
+    _onDragEnd(canceled?: boolean): void;
 }
 export declare type DragHandler = (state: DragState) => void;
 interface DragHandlers {
@@ -49,5 +49,4 @@ export declare function removeHandlers(element: HTMLElement): void;
 export declare function destroyDraggingElement(e: DragState): void;
 export declare function addDragStateListener(callback: (scope: any) => void): void;
 export declare function removeDragStateListener(callback: (scope: any) => void): void;
-export declare function checkPointerDownEvent(e: any): boolean;
 export {};

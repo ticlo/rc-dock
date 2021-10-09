@@ -216,10 +216,20 @@ export class DockPanel extends React.PureComponent<Props, State> {
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
     let {panelData, size} = this.props;
-    let {minWidth, minHeight, group: styleName, id, parent, panelLock} = panelData;
+    let {minWidth, minHeight, group, id, parent, panelLock} = panelData;
+    let styleName = group;
+    let tabGroup = this.context.getGroup(group);
+    let {widthFlex, heightFlex} = tabGroup;
     if (panelLock) {
-      if (panelLock.panelStyle) {
-        styleName = panelLock.panelStyle;
+      let {panelStyle, widthFlex: panelWidthFlex, heightFlex: panelHeightFlex} = panelLock;
+      if (panelStyle) {
+        styleName = panelStyle;
+      }
+      if (typeof panelWidthFlex === 'number') {
+        widthFlex = panelWidthFlex;
+      }
+      if (typeof panelHeightFlex === 'number') {
+        heightFlex = panelHeightFlex;
       }
     }
     let panelClass: string;
@@ -229,8 +239,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
         .map((name) => `dock-style-${name}`)
         .join(' ');
     }
-    let isMax = parent && parent.mode === 'maximize';
-    let isFloat = parent && parent.mode === 'float';
+    let isMax = parent?.mode === 'maximize';
+    let isFloat = parent?.mode === 'float';
+    let isHBox = parent?.mode === 'horizontal';
+    let isVBox = parent?.mode === 'vertical';
+
     let pointerDownCallback = this.onFloatPointerDown;
     let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
     if (!isFloat || isMax) {
@@ -245,7 +258,18 @@ export class DockPanel extends React.PureComponent<Props, State> {
       dropFromPanel ? ' dock-panel-dropping' : ''}${
       draggingHeader ? ' dragging' : ''
     }`;
-    let style: React.CSSProperties = {minWidth, minHeight, flex: `${size} 1 ${size}px`};
+    let flex = 1;
+    if (isHBox && widthFlex != null) {
+      flex = widthFlex;
+    } else if (isVBox && heightFlex != null) {
+      flex = heightFlex;
+    }
+    let flexGrow = flex * size;
+    let flexShrink = flex * 1000000;
+    if (flexShrink < 1) {
+      flexShrink = 1;
+    }
+    let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
     if (isFloat) {
       style.left = panelData.x;
       style.top = panelData.y;
@@ -255,9 +279,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     let droppingLayer: React.ReactNode;
     if (dropFromPanel) {
-      let tabGroup = this.context.getGroup(dropFromPanel.group);
+      let dropFromGroup = this.context.getGroup(dropFromPanel.group);
       let dockId = this.context.getDockId();
-      if (!tabGroup.tabLocked || DragState.getData('tab', dockId) == null) {
+      if (!dropFromGroup.tabLocked || DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
         droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;

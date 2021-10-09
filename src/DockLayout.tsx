@@ -179,7 +179,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore */
   prepareInitData(data: LayoutData): LayoutData {
     let layout = {...data};
-    Algorithm.fixLayoutData(layout, this.props.loadTab);
+    Algorithm.fixLayoutData(layout, this.props.groups, this.props.loadTab);
     return layout;
   }
 
@@ -260,7 +260,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
       }
     }
     if (layout !== this.getLayout()) {
-      layout = Algorithm.fixLayoutData(layout);
+      layout = Algorithm.fixLayoutData(layout, this.props.groups);
       let currentTabId: string = null;
       if (source.hasOwnProperty('tabs')) {
         currentTabId = (source as PanelData).activeId;
@@ -310,7 +310,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
           this.panelToFocus = panelData.id;
         }
 
-        layout = Algorithm.fixLayoutData(layout);
+        layout = Algorithm.fixLayoutData(layout, this.props.groups);
         this.changeLayout(layout, newTab.id, 'update');
         return true;
       }
@@ -522,7 +522,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (this._ref) {
       let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
       if (layout !== newLayout) {
-        newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
+        newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
         this.changeLayout(newLayout, null, 'move');
       }
     }
@@ -615,7 +615,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   /** @ignore */
   static loadLayoutData(savedLayout: LayoutBase, props: LayoutProps, width = 0, height = 0): LayoutData {
-    let {defaultLayout, loadTab, afterPanelLoaded} = props;
+    let {defaultLayout, loadTab, afterPanelLoaded, groups} = props;
     let layout = Serializer.loadLayoutData(
       savedLayout,
       defaultLayout,
@@ -623,7 +623,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
       afterPanelLoaded
     );
     layout = Algorithm.fixFloatPanelPos(layout, width, height);
-    layout = Algorithm.fixLayoutData(layout);
+    layout = Algorithm.fixLayoutData(layout, groups);
     layout.loadedFrom = savedLayout;
     return layout;
   }

@@ -57,7 +57,7 @@ export class DockBox extends React.PureComponent<Props, any> {
 
   render(): React.ReactNode {
     let {boxData} = this.props;
-    let {minWidth, minHeight, size, children, mode, id} = boxData;
+    let {minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex} = boxData;
     let isVertical = mode === 'vertical';
     let childrenRender: React.ReactNode[] = [];
     for (let i = 0; i < children.length; ++i) {
@@ -76,14 +76,28 @@ export class DockBox extends React.PureComponent<Props, any> {
       }
     }
     let cls: string;
+    let flex = 1;
     if (mode === 'vertical') {
       cls = 'dock-box dock-vbox';
+      if (widthFlex != null) {
+        flex = widthFlex;
+      }
     } else {
+      // since special boxes dont reuse this render function, this can only be horizontal box
       cls = 'dock-box dock-hbox';
+      if (heightFlex != null) {
+        flex = heightFlex;
+      }
     }
+    let flexGrow = flex * size;
+    let flexShrink = flex * 1000000;
+    if (flexShrink < 1) {
+      flexShrink = 1;
+    }
+
     return (
       <div ref={this.getRef} className={cls} data-dockid={id}
-           style={{minWidth, minHeight, flex: `${size} 1 ${size}px`}}>
+           style={{minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`}}>
         {childrenRender}
       </div>
     );

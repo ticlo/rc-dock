@@ -661,11 +661,9 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
           if (child.minHeight > 0) box.minHeight += child.minHeight;
           if (child.heightFlex != null) {
             box.heightFlex = maxFlex(box.heightFlex, child.heightFlex);
-            console.log('heightFlex', box.heightFlex, child.heightFlex);
           }
           if (child.widthFlex != null) {
             box.widthFlex = mergeFlex(box.widthFlex, child.widthFlex);
-            console.log('widthFlex', box.widthFlex, child.widthFlex);
           }
           break;
       }

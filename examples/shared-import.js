@@ -15471,6 +15471,38 @@ function clone(value, extra) {
   return newValue;
 }
 
+function maxFlex(currentFlex, newFlex) {
+  if (currentFlex == null) {
+    return newFlex;
+  }
+
+  return Math.max(currentFlex, newFlex);
+}
+
+function mergeFlex(currentFlex, newFlex) {
+  if (currentFlex == null) {
+    return newFlex;
+  }
+
+  if (currentFlex === newFlex) {
+    return newFlex;
+  }
+
+  if (currentFlex >= 1) {
+    if (newFlex <= 1) {
+      return 1;
+    }
+
+    return Math.min(currentFlex, newFlex);
+  } else {
+    if (newFlex >= 1) {
+      return 1;
+    }
+
+    return Math.max(currentFlex, newFlex);
+  }
+}
+
 let _idCount = 0;
 
 function nextId() {
@@ -16028,8 +16060,8 @@ function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
 
 exports.fixFloatPanelPos = fixFloatPanelPos;
 
-function fixLayoutData(layout, loadTab) {
-  function fixpanelOrBox(d) {
+function fixLayoutData(layout, groups, loadTab) {
+  function fixPanelOrBox(d) {
     if (d.id == null) {
       d.id = nextId();
     } else if (d.id.startsWith('+')) {
@@ -16047,15 +16079,33 @@ function fixLayoutData(layout, loadTab) {
 
     d.minWidth = 0;
     d.minHeight = 0;
+    d.widthFlex = null;
+    d.heightFlex = null;
   }
 
   function fixPanelData(panel) {
-    fixpanelOrBox(panel);
+    fixPanelOrBox(panel);
     let findActiveId = false;
 
     if (loadTab) {
       for (let i = 0; i < panel.tabs.length; ++i) {
         panel.tabs[i] = loadTab(panel.tabs[i]);
+      }
+    }
+
+    if (panel.group == null && panel.tabs.length) {
+      panel.group = panel.tabs[0].group;
+    }
+
+    let tabGroup = groups === null || groups === void 0 ? void 0 : groups[panel.group];
+
+    if (tabGroup) {
+      if (tabGroup.widthFlex != null) {
+        panel.widthFlex = tabGroup.widthFlex;
+      }
+
+      if (tabGroup.heightFlex != null) {
+        panel.heightFlex = tabGroup.heightFlex;
       }
     }
 
@@ -16082,18 +16132,26 @@ function fixLayoutData(layout, loadTab) {
       panel.minHeight = 1;
     }
 
-    if (panel.panelLock) {
-      if (panel.minWidth < panel.panelLock.minWidth) {
-        panel.minWidth = panel.panelLock.minWidth;
+    let {
+      panelLock
+    } = panel;
+
+    if (panelLock) {
+      if (panel.minWidth < panelLock.minWidth) {
+        panel.minWidth = panelLock.minWidth;
       }
 
-      if (panel.minHeight < panel.panelLock.minHeight) {
-        panel.minHeight = panel.panelLock.minHeight;
+      if (panel.minHeight < panelLock.minHeight) {
+        panel.minHeight = panelLock.minHeight;
       }
-    }
 
-    if (panel.group == null && panel.tabs.length) {
-      panel.group = panel.tabs[0].group;
+      if (panel.panelLock.widthFlex != null) {
+        panel.widthFlex = panelLock.widthFlex;
+      }
+
+      if (panel.panelLock.heightFlex != null) {
+        panel.heightFlex = panelLock.heightFlex;
+      }
     }
 
     if (panel.z > _zCount) {
@@ -16105,7 +16163,7 @@ function fixLayoutData(layout, loadTab) {
   }
 
   function fixBoxData(box) {
-    fixpanelOrBox(box);
+    fixPanelOrBox(box);
 
     for (let i = 0; i < box.children.length; ++i) {
       let child = box.children[i];
@@ -16167,11 +16225,31 @@ function fixLayoutData(layout, loadTab) {
         case 'horizontal':
           if (child.minWidth > 0) box.minWidth += child.minWidth;
           if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
+
+          if (child.widthFlex != null) {
+            box.widthFlex = maxFlex(box.widthFlex, child.widthFlex);
+          }
+
+          if (child.heightFlex != null) {
+            box.heightFlex = mergeFlex(box.heightFlex, child.heightFlex);
+          }
+
           break;
 
         case 'vertical':
           if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
           if (child.minHeight > 0) box.minHeight += child.minHeight;
+
+          if (child.heightFlex != null) {
+            box.heightFlex = maxFlex(box.heightFlex, child.heightFlex);
+            console.log('heightFlex', box.heightFlex, child.heightFlex);
+          }
+
+          if (child.widthFlex != null) {
+            box.widthFlex = mergeFlex(box.widthFlex, child.widthFlex);
+            console.log('widthFlex', box.widthFlex, child.widthFlex);
+          }
+
           break;
       }
     } // add divider size
@@ -18091,15 +18169,35 @@ class DockPanel extends react_1.default.PureComponent {
     let {
       minWidth,
       minHeight,
-      group: styleName,
+      group,
       id,
       parent,
       panelLock
     } = panelData;
+    let styleName = group;
+    let tabGroup = this.context.getGroup(group);
+    let {
+      widthFlex,
+      heightFlex
+    } = tabGroup;
 
     if (panelLock) {
-      if (panelLock.panelStyle) {
-        styleName = panelLock.panelStyle;
+      let {
+        panelStyle,
+        widthFlex: panelWidthFlex,
+        heightFlex: panelHeightFlex
+      } = panelLock;
+
+      if (panelStyle) {
+        styleName = panelStyle;
+      }
+
+      if (typeof panelWidthFlex === 'number') {
+        widthFlex = panelWidthFlex;
+      }
+
+      if (typeof panelHeightFlex === 'number') {
+        heightFlex = panelHeightFlex;
       }
     }
 
@@ -18109,8 +18207,10 @@ class DockPanel extends react_1.default.PureComponent {
       panelClass = styleName.split(' ').map(name => `dock-style-${name}`).join(' ');
     }
 
-    let isMax = parent && parent.mode === 'maximize';
-    let isFloat = parent && parent.mode === 'float';
+    let isMax = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'maximize';
+    let isFloat = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'float';
+    let isHBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'horizontal';
+    let isVBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'vertical';
     let pointerDownCallback = this.onFloatPointerDown;
     let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
 
@@ -18124,10 +18224,25 @@ class DockPanel extends react_1.default.PureComponent {
     }
 
     let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}${draggingHeader ? ' dragging' : ''}`;
+    let flex = 1;
+
+    if (isHBox && widthFlex != null) {
+      flex = widthFlex;
+    } else if (isVBox && heightFlex != null) {
+      flex = heightFlex;
+    }
+
+    let flexGrow = flex * size;
+    let flexShrink = flex * 1000000;
+
+    if (flexShrink < 1) {
+      flexShrink = 1;
+    }
+
     let style = {
       minWidth,
       minHeight,
-      flex: `${size} 1 ${size}px`
+      flex: `${flexGrow} ${flexShrink} ${size}px`
     };
 
     if (isFloat) {
@@ -18141,10 +18256,10 @@ class DockPanel extends react_1.default.PureComponent {
     let droppingLayer;
 
     if (dropFromPanel) {
-      let tabGroup = this.context.getGroup(dropFromPanel.group);
+      let dropFromGroup = this.context.getGroup(dropFromPanel.group);
       let dockId = this.context.getDockId();
 
-      if (!tabGroup.tabLocked || DragManager_1.DragState.getData('tab', dockId) == null) {
+      if (!dropFromGroup.tabLocked || DragManager_1.DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge_1.DockDropEdge : DockDropLayer_1.DockDropLayer;
         droppingLayer = react_1.default.createElement(DockDropClass, {
@@ -19277,7 +19392,9 @@ class DockBox extends react_1.default.PureComponent {
       size,
       children,
       mode,
-      id
+      id,
+      widthFlex,
+      heightFlex
     } = boxData;
     let isVertical = mode === 'vertical';
     let childrenRender = [];
@@ -19312,11 +19429,28 @@ class DockBox extends react_1.default.PureComponent {
     }
 
     let cls;
+    let flex = 1;
 
     if (mode === 'vertical') {
       cls = 'dock-box dock-vbox';
+
+      if (widthFlex != null) {
+        flex = widthFlex;
+      }
     } else {
+      // since special boxes dont reuse this render function, this can only be horizontal box
       cls = 'dock-box dock-hbox';
+
+      if (heightFlex != null) {
+        flex = heightFlex;
+      }
+    }
+
+    let flexGrow = flex * size;
+    let flexShrink = flex * 1000000;
+
+    if (flexShrink < 1) {
+      flexShrink = 1;
     }
 
     return react_1.default.createElement("div", {
@@ -19326,7 +19460,7 @@ class DockBox extends react_1.default.PureComponent {
       style: {
         minWidth,
         minHeight,
-        flex: `${size} 1 ${size}px`
+        flex: `${flexGrow} ${flexShrink} ${size}px`
       }
     }, childrenRender);
   }
@@ -19895,7 +20029,7 @@ class DockLayout extends DockPortalManager {
         let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
 
         if (layout !== newLayout) {
-          newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
+          newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
 
           this.changeLayout(newLayout, null, 'move');
         }
@@ -19941,7 +20075,7 @@ class DockLayout extends DockPortalManager {
 
   prepareInitData(data) {
     let layout = Object.assign({}, data);
-    Algorithm.fixLayoutData(layout, this.props.loadTab);
+    Algorithm.fixLayoutData(layout, this.props.groups, this.props.loadTab);
     return layout;
   }
   /** @ignore */
@@ -20032,7 +20166,7 @@ class DockLayout extends DockPortalManager {
     }
 
     if (layout !== this.getLayout()) {
-      layout = Algorithm.fixLayoutData(layout);
+      layout = Algorithm.fixLayoutData(layout, this.props.groups);
       let currentTabId = null;
 
       if (source.hasOwnProperty('tabs')) {
@@ -20105,7 +20239,7 @@ class DockLayout extends DockPortalManager {
           this.panelToFocus = panelData.id;
         }
 
-        layout = Algorithm.fixLayoutData(layout);
+        layout = Algorithm.fixLayoutData(layout, this.props.groups);
         this.changeLayout(layout, newTab.id, 'update');
         return true;
       }
@@ -20443,11 +20577,12 @@ class DockLayout extends DockPortalManager {
     let {
       defaultLayout,
       loadTab,
-      afterPanelLoaded
+      afterPanelLoaded,
+      groups
     } = props;
     let layout = Serializer.loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded);
     layout = Algorithm.fixFloatPanelPos(layout, width, height);
-    layout = Algorithm.fixLayoutData(layout);
+    layout = Algorithm.fixLayoutData(layout, groups);
     layout.loadedFrom = savedLayout;
     return layout;
   }

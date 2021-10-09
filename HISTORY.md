@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.2.1 / 2021-10-09
+- TabGroup and panelLock now have 2 new properties: widthFlex and heightFlex, this allows panel to stretch at different ratio during window resize
+
 ## 3.2.0 / 2021-10-03
 - in a float panel with single tab, dragging the tab should work the same way as dragging the panel header
 

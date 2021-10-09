@@ -33,6 +33,8 @@ export declare function removeFromLayout(layout: LayoutData, source: TabData | P
 export declare function moveToFront(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData;
-export declare function fixLayoutData(layout: LayoutData, loadTab?: (tab: TabBase) => TabData): LayoutData;
+export declare function fixLayoutData(layout: LayoutData, groups?: {
+    [key: string]: TabGroup;
+}, loadTab?: (tab: TabBase) => TabData): LayoutData;
 export declare function getFloatPanelSize(panel: HTMLElement, tabGroup: TabGroup): number[];
 export declare function findNearestPanel(rectFrom: DOMRect, rectTo: DOMRect, direction: string): number;

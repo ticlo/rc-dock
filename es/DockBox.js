@@ -46,7 +46,7 @@ export class DockBox extends React.PureComponent {
     }
     render() {
         let { boxData } = this.props;
-        let { minWidth, minHeight, size, children, mode, id } = boxData;
+        let { minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex } = boxData;
         let isVertical = mode === 'vertical';
         let childrenRender = [];
         for (let i = 0; i < children.length; ++i) {
@@ -63,13 +63,26 @@ export class DockBox extends React.PureComponent {
             }
         }
         let cls;
+        let flex = 1;
         if (mode === 'vertical') {
             cls = 'dock-box dock-vbox';
+            if (widthFlex != null) {
+                flex = widthFlex;
+            }
         }
         else {
+            // since special boxes dont reuse this render function, this can only be horizontal box
             cls = 'dock-box dock-hbox';
+            if (heightFlex != null) {
+                flex = heightFlex;
+            }
         }
-        return (React.createElement("div", { ref: this.getRef, className: cls, "data-dockid": id, style: { minWidth, minHeight, flex: `${size} 1 ${size}px` } }, childrenRender));
+        let flexGrow = flex * size;
+        let flexShrink = flex * 1000000;
+        if (flexShrink < 1) {
+            flexShrink = 1;
+        }
+        return (React.createElement("div", { ref: this.getRef, className: cls, "data-dockid": id, style: { minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px` } }, childrenRender));
     }
 }
 DockBox.contextType = DockContextType;

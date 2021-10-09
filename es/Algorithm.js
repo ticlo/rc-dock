@@ -21,6 +21,32 @@ function clone(value, extra) {
     _watchObjectChange.set(value, newValue);
     return newValue;
 }
+function maxFlex(currentFlex, newFlex) {
+    if (currentFlex == null) {
+        return newFlex;
+    }
+    return Math.max(currentFlex, newFlex);
+}
+function mergeFlex(currentFlex, newFlex) {
+    if (currentFlex == null) {
+        return newFlex;
+    }
+    if (currentFlex === newFlex) {
+        return newFlex;
+    }
+    if (currentFlex >= 1) {
+        if (newFlex <= 1) {
+            return 1;
+        }
+        return Math.min(currentFlex, newFlex);
+    }
+    else {
+        if (newFlex >= 1) {
+            return 1;
+        }
+        return Math.max(currentFlex, newFlex);
+    }
+}
 let _idCount = 0;
 export function nextId() {
     ++_idCount;
@@ -442,8 +468,8 @@ export function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
     }
     return layout;
 }
-export function fixLayoutData(layout, loadTab) {
-    function fixpanelOrBox(d) {
+export function fixLayoutData(layout, groups, loadTab) {
+    function fixPanelOrBox(d) {
         if (d.id == null) {
             d.id = nextId();
         }
@@ -459,13 +485,27 @@ export function fixLayoutData(layout, loadTab) {
         }
         d.minWidth = 0;
         d.minHeight = 0;
+        d.widthFlex = null;
+        d.heightFlex = null;
     }
     function fixPanelData(panel) {
-        fixpanelOrBox(panel);
+        fixPanelOrBox(panel);
         let findActiveId = false;
         if (loadTab) {
             for (let i = 0; i < panel.tabs.length; ++i) {
                 panel.tabs[i] = loadTab(panel.tabs[i]);
+            }
+        }
+        if (panel.group == null && panel.tabs.length) {
+            panel.group = panel.tabs[0].group;
+        }
+        let tabGroup = groups === null || groups === void 0 ? void 0 : groups[panel.group];
+        if (tabGroup) {
+            if (tabGroup.widthFlex != null) {
+                panel.widthFlex = tabGroup.widthFlex;
+            }
+            if (tabGroup.heightFlex != null) {
+                panel.heightFlex = tabGroup.heightFlex;
             }
         }
         for (let child of panel.tabs) {
@@ -487,16 +527,20 @@ export function fixLayoutData(layout, loadTab) {
         if (panel.minHeight <= 0) {
             panel.minHeight = 1;
         }
-        if (panel.panelLock) {
-            if (panel.minWidth < panel.panelLock.minWidth) {
-                panel.minWidth = panel.panelLock.minWidth;
+        let { panelLock } = panel;
+        if (panelLock) {
+            if (panel.minWidth < panelLock.minWidth) {
+                panel.minWidth = panelLock.minWidth;
             }
-            if (panel.minHeight < panel.panelLock.minHeight) {
-                panel.minHeight = panel.panelLock.minHeight;
+            if (panel.minHeight < panelLock.minHeight) {
+                panel.minHeight = panelLock.minHeight;
             }
-        }
-        if (panel.group == null && panel.tabs.length) {
-            panel.group = panel.tabs[0].group;
+            if (panel.panelLock.widthFlex != null) {
+                panel.widthFlex = panelLock.widthFlex;
+            }
+            if (panel.panelLock.heightFlex != null) {
+                panel.heightFlex = panelLock.heightFlex;
+            }
         }
         if (panel.z > _zCount) {
             // make sure next zIndex is on top
@@ -505,7 +549,7 @@ export function fixLayoutData(layout, loadTab) {
         return panel;
     }
     function fixBoxData(box) {
-        fixpanelOrBox(box);
+        fixPanelOrBox(box);
         for (let i = 0; i < box.children.length; ++i) {
             let child = box.children[i];
             child.parent = box;
@@ -562,12 +606,26 @@ export function fixLayoutData(layout, loadTab) {
                         box.minWidth += child.minWidth;
                     if (child.minHeight > box.minHeight)
                         box.minHeight = child.minHeight;
+                    if (child.widthFlex != null) {
+                        box.widthFlex = maxFlex(box.widthFlex, child.widthFlex);
+                    }
+                    if (child.heightFlex != null) {
+                        box.heightFlex = mergeFlex(box.heightFlex, child.heightFlex);
+                    }
                     break;
                 case 'vertical':
                     if (child.minWidth > box.minWidth)
                         box.minWidth = child.minWidth;
                     if (child.minHeight > 0)
                         box.minHeight += child.minHeight;
+                    if (child.heightFlex != null) {
+                        box.heightFlex = maxFlex(box.heightFlex, child.heightFlex);
+                        console.log('heightFlex', box.heightFlex, child.heightFlex);
+                    }
+                    if (child.widthFlex != null) {
+                        box.widthFlex = mergeFlex(box.widthFlex, child.widthFlex);
+                        console.log('widthFlex', box.widthFlex, child.widthFlex);
+                    }
                     break;
             }
         }

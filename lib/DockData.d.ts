@@ -56,6 +56,14 @@ export interface TabGroup {
      * if not specified, minHeight = 50, maxHeight = 500
      */
     preferredFloatHeight?: [number, number];
+    /**
+     * override the default flex grow and flex shrink for panel width
+     */
+    widthFlex?: number;
+    /**
+     * override the default flex grow and flex shrink for panel height
+     */
+    heightFlex?: number;
 }
 /** @ignore */
 export declare const defaultGroup: TabGroup;
@@ -122,11 +130,15 @@ export interface LayoutBase {
     windowbox?: BoxBase;
     maxbox?: BoxBase;
 }
+interface BoxChild extends DockDataBase {
+    parent?: BoxData;
+    widthFlex?: number;
+    heightFlex?: number;
+}
 /**
  * a box is the layout element that contains other boxes or panels
  */
-export interface BoxData extends BoxBase, DockDataBase {
-    parent?: BoxData;
+export interface BoxData extends BoxBase, BoxChild {
     mode: DockMode;
     children: (BoxData | PanelData)[];
 }
@@ -168,11 +180,19 @@ interface PanelLock {
      * if you don't need to show extra content in this case, just return null
      */
     panelExtra?: (panel: PanelData) => React.ReactElement;
+    /**
+     * override the default flex grow and flex shrink for panel width
+     */
+    widthFlex?: number;
+    /**
+     * override the default flex grow and flex shrink for panel height
+     */
+    heightFlex?: number;
 }
 /**
  * a panel is a visiaul container with tabs button in the title bar
  */
-export interface PanelData extends PanelBase, DockDataBase {
+export interface PanelData extends PanelBase, BoxChild {
     parent?: BoxData;
     tabs: TabData[];
     /**

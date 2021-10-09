@@ -95,7 +95,7 @@ export class DockLayout extends DockPortalManager {
             if (this._ref) {
                 let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
                 if (layout !== newLayout) {
-                    newLayout = Algorithm.fixLayoutData(newLayout); // panel parent might need a fix
+                    newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
                     this.changeLayout(newLayout, null, 'move');
                 }
             }
@@ -131,7 +131,7 @@ export class DockLayout extends DockPortalManager {
     /** @ignore */
     prepareInitData(data) {
         let layout = Object.assign({}, data);
-        Algorithm.fixLayoutData(layout, this.props.loadTab);
+        Algorithm.fixLayoutData(layout, this.props.groups, this.props.loadTab);
         return layout;
     }
     /** @ignore */
@@ -214,7 +214,7 @@ export class DockLayout extends DockPortalManager {
             }
         }
         if (layout !== this.getLayout()) {
-            layout = Algorithm.fixLayoutData(layout);
+            layout = Algorithm.fixLayoutData(layout, this.props.groups);
             let currentTabId = null;
             if (source.hasOwnProperty('tabs')) {
                 currentTabId = source.activeId;
@@ -261,7 +261,7 @@ export class DockLayout extends DockPortalManager {
                     panelData.activeId = activeId;
                     this.panelToFocus = panelData.id;
                 }
-                layout = Algorithm.fixLayoutData(layout);
+                layout = Algorithm.fixLayoutData(layout, this.props.groups);
                 this.changeLayout(layout, newTab.id, 'update');
                 return true;
             }
@@ -482,10 +482,10 @@ export class DockLayout extends DockPortalManager {
     }
     /** @ignore */
     static loadLayoutData(savedLayout, props, width = 0, height = 0) {
-        let { defaultLayout, loadTab, afterPanelLoaded } = props;
+        let { defaultLayout, loadTab, afterPanelLoaded, groups } = props;
         let layout = Serializer.loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded);
         layout = Algorithm.fixFloatPanelPos(layout, width, height);
-        layout = Algorithm.fixLayoutData(layout);
+        layout = Algorithm.fixLayoutData(layout, groups);
         layout.loadedFrom = savedLayout;
         return layout;
     }

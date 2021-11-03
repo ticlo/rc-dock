@@ -240,6 +240,7 @@ export class DockLayout extends DockPortalManager {
     }
     /** @inheritDoc */
     updateTab(id, newTab, makeActive = true) {
+        var _a;
         let tab = this.find(id, Algorithm.Filter.AnyTab);
         if (tab) {
             let panelData = tab.parent;
@@ -262,7 +263,7 @@ export class DockLayout extends DockPortalManager {
                     this.panelToFocus = panelData.id;
                 }
                 layout = Algorithm.fixLayoutData(layout, this.props.groups);
-                this.changeLayout(layout, newTab.id, 'update');
+                this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, 'update');
                 return true;
             }
         }

@@ -311,7 +311,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         }
 
         layout = Algorithm.fixLayoutData(layout, this.props.groups);
-        this.changeLayout(layout, newTab.id, 'update');
+        this.changeLayout(layout, newTab?.id ?? id, 'update');
         return true;
       }
     }

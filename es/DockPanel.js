@@ -97,6 +97,48 @@ export class DockPanel extends React.PureComponent {
         this.onPanelCornerDragBR = (e) => {
             this.onPanelCornerDrag(e, 'br');
         };
+        this.onPanelEdgeDragR = (e) => {
+            this.onPanelEdgeDrag(e, "r");
+        };
+        this.onPanelEdgeDragMove = (e) => {
+            let { panelData } = this.props;
+            let { dx, dy } = e;
+            if (this._movingEdge == 't') {
+                // when moving top corners, dont let it move header out of screen
+                let { width, height } = this.context.getLayoutSize();
+                if (this._movingY + dy < 0) {
+                    dy = -this._movingY;
+                }
+                else if (this._movingY + dy > height - 16) {
+                    dy = height - 16 - this._movingY;
+                }
+            }
+            switch (this._movingEdge) {
+                case 't': {
+                    panelData.y = this._movingY + dy;
+                    panelData.h = this._movingH - dy;
+                    break;
+                }
+                case 'r': {
+                    panelData.w = this._movingW + dx;
+                    panelData.y = this._movingY + dy;
+                    panelData.h = this._movingH - dy;
+                    break;
+                }
+                case 'b': {
+                    panelData.x = this._movingX + dx;
+                    panelData.w = this._movingW - dx;
+                    panelData.h = this._movingH + dy;
+                    break;
+                }
+                case 'l': {
+                    panelData.w = this._movingW + dx;
+                    panelData.h = this._movingH + dy;
+                    break;
+                }
+            }
+            this.forceUpdate();
+        };
         this.onPanelCornerDragMove = (e) => {
             let { panelData } = this.props;
             let { dx, dy } = e;
@@ -170,6 +212,17 @@ export class DockPanel extends React.PureComponent {
     onDragOverOtherPanel() {
         if (this.state.dropFromPanel) {
             this.setState({ dropFromPanel: null });
+        }
+    }
+    onPanelEdgeDrag(e, edge) {
+        let { parent, x, y, w, h } = this.props.panelData;
+        if (parent && parent.mode === 'float') {
+            this._movingEdge = edge;
+            this._movingX = x;
+            this._movingY = y;
+            this._movingW = w;
+            this._movingH = h;
+            e.startDrag(null, null);
         }
     }
     onPanelCornerDrag(e, corner) {
@@ -260,9 +313,10 @@ export class DockPanel extends React.PureComponent {
                     React.createElement(DragDropDiv, { key: "drag-size-t-l", className: "dock-panel-drag-size dock-panel-drag-size-t-l", onDragStartT: this.onPanelCornerDragTL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-t-r", className: "dock-panel-drag-size dock-panel-drag-size-t-r", onDragStartT: this.onPanelCornerDragTR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-b-l", className: "dock-panel-drag-size dock-panel-drag-size-b-l", onDragStartT: this.onPanelCornerDragBL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-b-r", className: "dock-panel-drag-size dock-panel-drag-size-b-r", onDragStartT: this.onPanelCornerDragBR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd })
+                    React.createElement(DragDropDiv, { key: "drag-size-b-r", className: "dock-panel-drag-size dock-panel-drag-size-b-r", onDragStartT: this.onPanelCornerDragBR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                 ]
                 : null,
+            React.createElement("div", { id: "bruhh", "data-id": "bruhh", style: { background: 'pink', height: 200, width: 200 } }, "bruhh"),
             droppingLayer));
     }
     componentWillUnmount() {

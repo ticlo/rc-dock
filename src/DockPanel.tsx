@@ -124,6 +124,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
   _movingW: number;
   _movingH: number;
   _movingCorner: string;
+  _movingEdge: 'r' | 'l' | 't' | 'b';
   onPanelCornerDragTL = (e: DragState) => {
     this.onPanelCornerDrag(e, 'tl');
   };
@@ -135,6 +136,62 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
   onPanelCornerDragBR = (e: DragState) => {
     this.onPanelCornerDrag(e, 'br');
+  };
+
+  onPanelEdgeDragR = (e: DragState) => {
+    this.onPanelEdgeDrag(e, "r");
+  }
+  onPanelEdgeDrag(e: DragState, edge: "r" | "l" | "t" | "b") {
+    let {parent, x, y, w, h} = this.props.panelData;
+    if (parent && parent.mode === 'float') {
+      this._movingEdge = edge;
+      this._movingX = x;
+      this._movingY = y;
+      this._movingW = w;
+      this._movingH = h;
+      e.startDrag(null, null);
+    }
+  }
+  onPanelEdgeDragMove = (e: DragState) => {
+    let {panelData} = this.props;
+    let {dx, dy} = e;
+
+    if (this._movingEdge == 't') {
+      // when moving top corners, dont let it move header out of screen
+      let {width, height} = this.context.getLayoutSize();
+      if (this._movingY + dy < 0) {
+        dy = -this._movingY;
+      } else if (this._movingY + dy > height - 16) {
+        dy = height - 16 - this._movingY;
+      }
+    }
+
+    switch (this._movingEdge) {
+      case 't': {
+        panelData.y = this._movingY + dy;
+        panelData.h = this._movingH - dy;
+        break;
+      }
+      case 'r': {
+        panelData.w = this._movingW + dx;
+        panelData.y = this._movingY + dy;
+        panelData.h = this._movingH - dy;
+        break;
+      }
+      case 'b': {
+        panelData.x = this._movingX + dx;
+        panelData.w = this._movingW - dx;
+        panelData.h = this._movingH + dy;
+        break;
+      }
+      case 'l': {
+        panelData.w = this._movingW + dx;
+        panelData.h = this._movingH + dy;
+        break;
+      }
+    }
+
+    this.forceUpdate();
   };
 
   onPanelCornerDrag(e: DragState, corner: string) {
@@ -253,11 +310,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
       dropFromPanel = null;
       onPanelHeaderDragStart = null;
     }
-    let cls = `dock-panel ${
-      panelClass ? panelClass : ''}${
-      dropFromPanel ? ' dock-panel-dropping' : ''}${
-      draggingHeader ? ' dragging' : ''
-    }`;
+    let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}${draggingHeader ? ' dragging' : ''
+      }`;
     let flex = 1;
     if (isHBox && widthFlex != null) {
       flex = widthFlex;
@@ -284,33 +338,35 @@ export class DockPanel extends React.PureComponent<Props, State> {
       if (!dropFromGroup.tabLocked || DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
-        droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
+        droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel} />;
       }
     }
 
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
-                   onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
-                   onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
+        onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
+        onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
-                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
+          onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd} />
         {isFloat ?
           [
             <DragDropDiv key="drag-size-t-l" className="dock-panel-drag-size dock-panel-drag-size-t-l"
-                         onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>,
+              onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
             <DragDropDiv key="drag-size-t-r" className="dock-panel-drag-size dock-panel-drag-size-t-r"
-                         onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>,
+              onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
             <DragDropDiv key="drag-size-b-l" className="dock-panel-drag-size dock-panel-drag-size-b-l"
-                         onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>,
+              onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
             <DragDropDiv key="drag-size-b-r" className="dock-panel-drag-size dock-panel-drag-size-b-r"
-                         onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>
+              onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
           ]
           : null
         }
+        <div id={"bruhh"} data-id={"bruhh"} style={{background: 'pink', height: 200, width: 200}}>bruhh</div>
+
         {droppingLayer}
       </DragDropDiv>
     );

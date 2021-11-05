@@ -85,6 +85,8 @@ export class DockPanel extends React.PureComponent {
                 this.context.onSilentChange(this.props.panelData.activeId, 'move');
             }
         };
+        this._initX = 0;
+        this._initY = 0;
         this.onPanelCornerDragTL = (e) => {
             this.onPanelCornerDrag(e, 'tl');
         };
@@ -97,14 +99,18 @@ export class DockPanel extends React.PureComponent {
         this.onPanelCornerDragBR = (e) => {
             this.onPanelCornerDrag(e, 'br');
         };
-        this.onPanelEdgeDragR = (e) => {
-            this.onPanelEdgeDrag(e, "r");
-        };
+        this.onPanelEdgeStartDragR = (e) => this.onPanelEdgeDragStart(e, "r");
+        this.onPanelEdgeStartDragB = (e) => this.onPanelEdgeDragStart(e, "b");
+        this.onPanelEdgeStartDragL = (e) => this.onPanelEdgeDragStart(e, "l");
+        this.onPanelEdgeStartDragT = (e) => this.onPanelEdgeDragStart(e, "t");
         this.onPanelEdgeDragMove = (e) => {
             let { panelData } = this.props;
-            let { dx, dy } = e;
+            if (e.screenX <= 0 || e.screenY <= 0)
+                return; // no idea why this happens, but eh
+            let dx = e.screenX - this._initX;
+            let dy = e.screenY - this._initY;
             if (this._movingEdge == 't') {
-                // when moving top corners, dont let it move header out of screen
+                // when moving top edge, dont let it move header out of screen
                 let { width, height } = this.context.getLayoutSize();
                 if (this._movingY + dy < 0) {
                     dy = -this._movingY;
@@ -116,28 +122,30 @@ export class DockPanel extends React.PureComponent {
             switch (this._movingEdge) {
                 case 't': {
                     panelData.y = this._movingY + dy;
-                    panelData.h = this._movingH - dy;
+                    panelData.h = Math.max(this._movingH - dy, 0);
                     break;
                 }
                 case 'r': {
-                    panelData.w = this._movingW + dx;
-                    panelData.y = this._movingY + dy;
-                    panelData.h = this._movingH - dy;
+                    panelData.w = Math.max(this._movingW + dx, 0);
                     break;
                 }
                 case 'b': {
-                    panelData.x = this._movingX + dx;
-                    panelData.w = this._movingW - dx;
-                    panelData.h = this._movingH + dy;
+                    panelData.h = Math.max(this._movingH + dy, 0);
                     break;
                 }
                 case 'l': {
-                    panelData.w = this._movingW + dx;
-                    panelData.h = this._movingH + dy;
+                    panelData.x = this._movingX + dx;
+                    panelData.w = Math.max(this._movingW - dx, 0);
                     break;
                 }
             }
             this.forceUpdate();
+        };
+        this.onPanelEdgeDragEnd = (e) => {
+            this._movingEdge = null;
+            this._initX = 0;
+            this._initY = 0;
+            this.context.onSilentChange(this.props.panelData.activeId, 'move');
         };
         this.onPanelCornerDragMove = (e) => {
             let { panelData } = this.props;
@@ -198,6 +206,12 @@ export class DockPanel extends React.PureComponent {
                 this._ref.querySelector('.dock-bar').focus();
             }
         };
+        this._baseEdgeDragStyle = {
+            opacity: 0,
+            position: 'absolute',
+            zIndex: 299,
+            userSelect: 'none',
+        };
         this._unmounted = false;
     }
     static set droppingPanel(panel) {
@@ -214,15 +228,21 @@ export class DockPanel extends React.PureComponent {
             this.setState({ dropFromPanel: null });
         }
     }
-    onPanelEdgeDrag(e, edge) {
+    onPanelEdgeDragStart(e, edge) {
         let { parent, x, y, w, h } = this.props.panelData;
         if (parent && parent.mode === 'float') {
             this._movingEdge = edge;
+            this._initX = e.screenX;
+            this._initY = e.screenY;
             this._movingX = x;
             this._movingY = y;
             this._movingW = w;
             this._movingH = h;
-            e.startDrag(null, null);
+            // hide drag image preview
+            var dummyDragImage = new Image();
+            dummyDragImage.style.display = "none"; /* or visibility: hidden, or any of the above */
+            document.body.appendChild(dummyDragImage);
+            e.dataTransfer.setDragImage(dummyDragImage, 0, 0);
         }
     }
     onPanelCornerDrag(e, corner) {
@@ -314,9 +334,12 @@ export class DockPanel extends React.PureComponent {
                     React.createElement(DragDropDiv, { key: "drag-size-t-r", className: "dock-panel-drag-size dock-panel-drag-size-t-r", onDragStartT: this.onPanelCornerDragTR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-b-l", className: "dock-panel-drag-size dock-panel-drag-size-b-l", onDragStartT: this.onPanelCornerDragBL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-b-r", className: "dock-panel-drag-size dock-panel-drag-size-b-r", onDragStartT: this.onPanelCornerDragBR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
+                    React.createElement("div", { key: 'DragEdgeR', style: Object.assign(Object.assign({}, this._baseEdgeDragStyle), { right: -3.5, height: '100%', width: 7, cursor: 'e-resize' }), draggable: true, onDragStart: this.onPanelEdgeStartDragR, onDrag: this.onPanelEdgeDragMove, onDragEnd: this.onPanelEdgeDragEnd, onMouseUp: this.onPanelEdgeDragEnd }),
+                    React.createElement("div", { key: 'DragEdgeB', style: Object.assign(Object.assign({}, this._baseEdgeDragStyle), { bottom: -3.5, width: '100%', height: 7, cursor: 's-resize' }), draggable: true, onDragStart: this.onPanelEdgeStartDragB, onDrag: this.onPanelEdgeDragMove, onDragEnd: this.onPanelEdgeDragEnd, onMouseUp: this.onPanelEdgeDragEnd }),
+                    React.createElement("div", { key: 'DragEdgeL', style: Object.assign(Object.assign({}, this._baseEdgeDragStyle), { left: -3.5, height: '100%', width: 7, cursor: 'w-resize' }), draggable: true, onDragStart: this.onPanelEdgeStartDragL, onDrag: this.onPanelEdgeDragMove, onDragEnd: this.onPanelEdgeDragEnd, onMouseUp: this.onPanelEdgeDragEnd }),
+                    React.createElement("div", { key: 'DragEdgeT', style: Object.assign(Object.assign({}, this._baseEdgeDragStyle), { top: -3.5, width: '100%', height: 7, cursor: 'n-resize' }), draggable: true, onDragStart: this.onPanelEdgeStartDragT, onDrag: this.onPanelEdgeDragMove, onDragEnd: this.onPanelEdgeDragEnd, onMouseUp: this.onPanelEdgeDragEnd })
                 ]
                 : null,
-            React.createElement("div", { id: "bruhh", "data-id": "bruhh", style: { background: 'pink', height: 200, width: 200 } }, "bruhh"),
             droppingLayer));
     }
     componentWillUnmount() {

@@ -140,27 +140,34 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
 
   onPanelEdgeStartDragR = (e: React.DragEvent<HTMLDivElement>) => {
-    this.onPanelEdgeDrag(e, "r");
+    this.onPanelEdgeDragStart(e, "r");
   }
-  onPanelEdgeDrag(e: React.DragEvent<HTMLDivElement>, edge: "r" | "l" | "t" | "b") {
+  onPanelEdgeDragStart(e: React.DragEvent<HTMLDivElement>, edge: "r" | "l" | "t" | "b") {
     let {parent, x, y, w, h} = this.props.panelData;
-    console.log('start');
     if (parent && parent.mode === 'float') {
       this._movingEdge = edge;
-      this._initX = e.pageX;
-      this._initY = e.pageY;
+      this._initX = e.screenX;
+      this._initY = e.screenY;
       this._movingX = x;
       this._movingY = y;
       this._movingW = w;
       this._movingH = h;
+      var crt = new Image();
+      crt.style.backgroundColor = "red";
+      crt.style.display = "none"; /* or visibility: hidden, or any of the above */
+      document.body.appendChild(crt);
+      e.dataTransfer.setDragImage(crt, 0, 0);
+      console.log('start', this._movingEdge, this._initX, this._initY, this._movingX, this._movingY, this._movingW, this._movingH);
+
       // e.startDrag(null, null);
     }
   }
   onPanelEdgeDragMove = (e: React.DragEvent<HTMLDivElement>) => {
     let {panelData} = this.props;
-    let dx = e.pageX - this._initX;
-    let dy = e.pageY - this._initY;
-    console.log(dx, dy);
+    if (e.screenX <= 0 || e.screenY <= 0) return; // no idea why this happens, but eh
+    let dx = e.screenX - this._initX;
+    let dy = e.screenY - this._initY;
+    console.log(e.screenX, this._initX, this._movingW, dx);
 
     if (this._movingEdge == 't') {
       // when moving top corners, dont let it move header out of screen
@@ -390,6 +397,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
               onDragStart={this.onPanelEdgeStartDragR}
               onDrag={this.onPanelEdgeDragMove}
               onDragEnd={this.onPanelEdgeDragEnd}
+              onMouseUp={this.onPanelEdgeDragEnd}
             />
           ]
           : null

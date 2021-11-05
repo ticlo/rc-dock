@@ -265,6 +265,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     this.forceUpdate();
   };
+
   onPanelCornerDragEnd = (e: DragState) => {
     this.context.onSilentChange(this.props.panelData.activeId, 'move');
   };
@@ -285,6 +286,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
       (this._ref.querySelector('.dock-bar') as HTMLElement).focus();
     }
   };
+
+  _baseEdgeDragStyle: React.CSSProperties = {
+    opacity: 0,
+    position: 'absolute',
+    zIndex: 299,
+    userSelect: 'none',
+  }
 
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
@@ -381,15 +389,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
             <div key={'DragEdgeR'}
               style={
                 {
-                  background: 'pink',
-                  opacity: 0,
+                  ...this._baseEdgeDragStyle,
                   right: -3.5,
                   height: '100%',
                   width: 7,
                   cursor: 'e-resize',
-                  position: 'absolute',
-                  zIndex: 299,
-                  userSelect: 'none',
                 }}
               draggable={true}
               onDragStart={this.onPanelEdgeStartDragR}
@@ -400,15 +404,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
             <div key={'DragEdgeB'}
               style={
                 {
-                  background: 'pink',
-                  opacity: 0,
+                  ...this._baseEdgeDragStyle,
                   bottom: -3.5,
                   width: '100%',
                   height: 7,
                   cursor: 's-resize',
-                  position: 'absolute',
-                  zIndex: 299,
-                  userSelect: 'none',
                 }}
               draggable={true}
               onDragStart={this.onPanelEdgeStartDragB}
@@ -419,15 +419,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
             <div key={'DragEdgeL'}
               style={
                 {
-                  background: 'pink',
-                  opacity: 0,
+                  ...this._baseEdgeDragStyle,
                   left: -3.5,
                   height: '100%',
                   width: 7,
                   cursor: 'w-resize',
-                  position: 'absolute',
-                  zIndex: 299,
-                  userSelect: 'none',
                 }}
               draggable={true}
               onDragStart={this.onPanelEdgeStartDragL}
@@ -438,15 +434,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
             <div key={'DragEdgeT'}
               style={
                 {
-                  background: 'pink',
-                  opacity: 0,
+                  ...this._baseEdgeDragStyle,
                   top: -3.5,
                   width: '100%',
                   height: 7,
                   cursor: 'n-resize',
-                  position: 'absolute',
-                  zIndex: 299,
-                  userSelect: 'none',
                 }}
               draggable={true}
               onDragStart={this.onPanelEdgeStartDragT}

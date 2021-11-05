@@ -138,10 +138,10 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.onPanelCornerDrag(e, 'br');
   };
 
-  onPanelEdgeDragR = (e: DragState) => {
+  onPanelEdgeDragR = (e: React.DragEvent<HTMLDivElement>) => {
     this.onPanelEdgeDrag(e, "r");
   }
-  onPanelEdgeDrag(e: DragState, edge: "r" | "l" | "t" | "b") {
+  onPanelEdgeDrag(e: React.DragEvent<HTMLDivElement>, edge: "r" | "l" | "t" | "b") {
     let {parent, x, y, w, h} = this.props.panelData;
     if (parent && parent.mode === 'float') {
       this._movingEdge = edge;
@@ -149,12 +149,14 @@ export class DockPanel extends React.PureComponent<Props, State> {
       this._movingY = y;
       this._movingW = w;
       this._movingH = h;
-      e.startDrag(null, null);
+      // e.startDrag(null, null);
     }
   }
-  onPanelEdgeDragMove = (e: DragState) => {
+  onPanelEdgeDragMove = (e: React.DragEvent<HTMLDivElement>) => {
     let {panelData} = this.props;
-    let {dx, dy} = e;
+    // let {dx, dy} = e;
+    let dx = 1;
+    let dy = 1;
 
     if (this._movingEdge == 't') {
       // when moving top corners, dont let it move header out of screen
@@ -362,10 +364,25 @@ export class DockPanel extends React.PureComponent<Props, State> {
             <DragDropDiv key="drag-size-b-r" className="dock-panel-drag-size dock-panel-drag-size-b-r"
               onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
               onDragEndT={this.onPanelCornerDragEnd} />,
+            <div key={'DragEdgeR'} id={"bruhh"} data-id={"bruhh"}
+              style={
+                {
+                  background: 'pink',
+                  right: 0,
+                  height: '100%',
+                  width: 5,
+                  cursor: 'e-resize',
+                  position: 'absolute',
+                  zIndex: 299,
+                  userSelect: 'none',
+                }}
+              onDragStart={e => this.onPanelEdgeDragR(e)}
+              onDrag={this.onPanelEdgeDragMove}
+            // onDragEnd={this.onPanelCornerDragEnd}
+            >bruhh</div>
           ]
           : null
         }
-        <div id={"bruhh"} data-id={"bruhh"} style={{background: 'pink', height: 200, width: 200}}>bruhh</div>
 
         {droppingLayer}
       </DragDropDiv>

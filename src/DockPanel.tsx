@@ -120,11 +120,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   };
 
-
+  _initX: number = 0;
+  _initY: number = 0;
   _movingW: number;
   _movingH: number;
   _movingCorner: string;
-  _movingEdge: 'r' | 'l' | 't' | 'b';
+  _movingEdge: 'r' | 'l' | 't' | 'b' | null;
   onPanelCornerDragTL = (e: DragState) => {
     this.onPanelCornerDrag(e, 'tl');
   };
@@ -138,13 +139,16 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.onPanelCornerDrag(e, 'br');
   };
 
-  onPanelEdgeDragR = (e: React.DragEvent<HTMLDivElement>) => {
+  onPanelEdgeStartDragR = (e: React.DragEvent<HTMLDivElement>) => {
     this.onPanelEdgeDrag(e, "r");
   }
   onPanelEdgeDrag(e: React.DragEvent<HTMLDivElement>, edge: "r" | "l" | "t" | "b") {
     let {parent, x, y, w, h} = this.props.panelData;
+    console.log('start');
     if (parent && parent.mode === 'float') {
       this._movingEdge = edge;
+      this._initX = e.pageX;
+      this._initY = e.pageY;
       this._movingX = x;
       this._movingY = y;
       this._movingW = w;
@@ -154,9 +158,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
   }
   onPanelEdgeDragMove = (e: React.DragEvent<HTMLDivElement>) => {
     let {panelData} = this.props;
-    // let {dx, dy} = e;
-    let dx = 1;
-    let dy = 1;
+    let dx = e.pageX - this._initX;
+    let dy = e.pageY - this._initY;
+    console.log(dx, dy);
 
     if (this._movingEdge == 't') {
       // when moving top corners, dont let it move header out of screen
@@ -176,8 +180,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       }
       case 'r': {
         panelData.w = this._movingW + dx;
-        panelData.y = this._movingY + dy;
-        panelData.h = this._movingH - dy;
+        console.log(panelData.w);
         break;
       }
       case 'b': {
@@ -194,6 +197,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
 
     this.forceUpdate();
+  };
+  onPanelEdgeDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    console.log('end');
+    this._movingEdge = null;
+    this._initX = 0;
+    this._initY = 0;
+    this.context.onSilentChange(this.props.panelData.activeId, 'move');
   };
 
   onPanelCornerDrag(e: DragState, corner: string) {
@@ -364,22 +374,23 @@ export class DockPanel extends React.PureComponent<Props, State> {
             <DragDropDiv key="drag-size-b-r" className="dock-panel-drag-size dock-panel-drag-size-b-r"
               onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
               onDragEndT={this.onPanelCornerDragEnd} />,
-            <div key={'DragEdgeR'} id={"bruhh"} data-id={"bruhh"}
+            <div key={'DragEdgeR'}
               style={
                 {
                   background: 'pink',
                   right: 0,
                   height: '100%',
-                  width: 5,
+                  width: 20,
                   cursor: 'e-resize',
                   position: 'absolute',
                   zIndex: 299,
                   userSelect: 'none',
                 }}
-              onDragStart={e => this.onPanelEdgeDragR(e)}
+              draggable={true}
+              onDragStart={this.onPanelEdgeStartDragR}
               onDrag={this.onPanelEdgeDragMove}
-            // onDragEnd={this.onPanelCornerDragEnd}
-            >bruhh</div>
+              onDragEnd={this.onPanelEdgeDragEnd}
+            />
           ]
           : null
         }

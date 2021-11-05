@@ -385,9 +385,10 @@ export class DockPanel extends React.PureComponent<Props, State> {
               style={
                 {
                   background: 'pink',
+                  opacity: 0,
                   right: 0,
                   height: '100%',
-                  width: 20,
+                  width: 7,
                   cursor: 'e-resize',
                   position: 'absolute',
                   zIndex: 299,

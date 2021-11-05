@@ -730,7 +730,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
 }
 
 
-function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData {
+export function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData {
   for (let tab of newPanel.tabs) {
     tab.parent = newPanel;
   }

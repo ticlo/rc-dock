@@ -248,8 +248,8 @@ export class DockLayout extends DockPortalManager {
             if (idx >= 0) {
                 let { loadTab } = this.props;
                 let layout = this.getLayout();
-                let activeId = panelData.activeId;
                 if (newTab) {
+                    let activeId = panelData.activeId;
                     if (loadTab && !('content' in newTab && 'title' in newTab)) {
                         newTab = loadTab(newTab);
                     }
@@ -257,10 +257,14 @@ export class DockLayout extends DockPortalManager {
                     panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
                     layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
                     panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
+                    if (!makeActive) {
+                        // restore the previous activeId
+                        panelData.activeId = activeId;
+                        this.panelToFocus = panelData.id;
+                    }
                 }
-                if (!makeActive) {
-                    panelData.activeId = activeId;
-                    this.panelToFocus = panelData.id;
+                else if (makeActive && panelData.activeId !== id) {
+                    layout = Algorithm.replacePanel(layout, panelData, Object.assign(Object.assign({}, panelData), { activeId: id }));
                 }
                 layout = Algorithm.fixLayoutData(layout, this.props.groups);
                 this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, 'update');

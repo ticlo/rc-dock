@@ -685,7 +685,7 @@ export function fixLayoutData(layout, groups, loadTab) {
     clearObjectCache();
     return layout;
 }
-function replacePanel(layout, panel, newPanel) {
+export function replacePanel(layout, panel, newPanel) {
     for (let tab of newPanel.tabs) {
         tab.parent = newPanel;
     }

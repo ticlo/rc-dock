@@ -36,5 +36,6 @@ export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: numbe
 export declare function fixLayoutData(layout: LayoutData, groups?: {
     [key: string]: TabGroup;
 }, loadTab?: (tab: TabBase) => TabData): LayoutData;
+export declare function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData;
 export declare function getFloatPanelSize(panel: HTMLElement, tabGroup: TabGroup): number[];
 export declare function findNearestPanel(rectFrom: DOMRect, rectTo: DOMRect, direction: string): number;

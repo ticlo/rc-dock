@@ -139,7 +139,7 @@ export class TabCache {
         if (typeof content === 'function') {
             content = content(this.data);
         }
-        let tab = (React.createElement(DragDropDiv, { getRef: this.getRef, onDragStartT: onDragStart, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave },
+        let tab = (React.createElement(DragDropDiv, { getRef: this.getRef, onDragStartT: onDragStart, role: "tab", "aria-selected": parent.activeId === id, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave },
             title,
             closable ?
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })

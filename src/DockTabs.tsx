@@ -154,7 +154,7 @@ export class TabCache {
       content = content(this.data);
     }
     let tab = (
-      <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart}
+      <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart} role="tab" aria-selected={parent.activeId === id}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
         {title}
         {closable ?

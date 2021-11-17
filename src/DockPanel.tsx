@@ -120,10 +120,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   };
 
-
+  _initX: number = 0;
+  _initY: number = 0;
   _movingW: number;
   _movingH: number;
   _movingCorner: string;
+  _movingEdge: 'r' | 'l' | 't' | 'b' | null;
   onPanelCornerDragTL = (e: DragState) => {
     this.onPanelCornerDrag(e, 'tl');
   };
@@ -135,6 +137,77 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
   onPanelCornerDragBR = (e: DragState) => {
     this.onPanelCornerDrag(e, 'br');
+  };
+
+  onPanelEdgeStartDragR = (e: React.DragEvent<HTMLDivElement>) => this.onPanelEdgeDragStart(e, "r");
+  onPanelEdgeStartDragB = (e: React.DragEvent<HTMLDivElement>) => this.onPanelEdgeDragStart(e, "b");
+  onPanelEdgeStartDragL = (e: React.DragEvent<HTMLDivElement>) => this.onPanelEdgeDragStart(e, "l");
+  onPanelEdgeStartDragT = (e: React.DragEvent<HTMLDivElement>) => this.onPanelEdgeDragStart(e, "t");
+
+  onPanelEdgeDragStart(e: React.DragEvent<HTMLDivElement>, edge: "r" | "l" | "t" | "b") {
+    let {parent, x, y, w, h} = this.props.panelData;
+    if (parent && parent.mode === 'float') {
+      this._movingEdge = edge;
+      this._initX = e.screenX;
+      this._initY = e.screenY;
+      this._movingX = x;
+      this._movingY = y;
+      this._movingW = w;
+      this._movingH = h;
+
+      // hide drag image preview
+      var dummyDragImage = new Image();
+      dummyDragImage.style.display = "none"; /* or visibility: hidden, or any of the above */
+      document.body.appendChild(dummyDragImage);
+      e.dataTransfer.setDragImage(dummyDragImage, 0, 0);
+    }
+  }
+
+  onPanelEdgeDragMove = (e: React.DragEvent<HTMLDivElement>) => {
+    let {panelData} = this.props;
+    if (e.screenX <= 0 || e.screenY <= 0) return; // no idea why this happens, but eh
+    let dx = e.screenX - this._initX;
+    let dy = e.screenY - this._initY;
+
+    if (this._movingEdge == 't') {
+      // when moving top edge, dont let it move header out of screen
+      let {width, height} = this.context.getLayoutSize();
+      if (this._movingY + dy < 0) {
+        dy = -this._movingY;
+      } else if (this._movingY + dy > height - 16) {
+        dy = height - 16 - this._movingY;
+      }
+    }
+
+    switch (this._movingEdge) {
+      case 't': {
+        panelData.y = this._movingY + dy;
+        panelData.h = Math.max(this._movingH - dy, 0);
+        break;
+      }
+      case 'r': {
+        panelData.w = Math.max(this._movingW + dx, 0);
+        break;
+      }
+      case 'b': {
+        panelData.h = Math.max(this._movingH + dy, 0);
+        break;
+      }
+      case 'l': {
+        panelData.x = this._movingX + dx;
+        panelData.w = Math.max(this._movingW - dx, 0);
+        break;
+      }
+    }
+
+    this.forceUpdate();
+  };
+
+  onPanelEdgeDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    this._movingEdge = null;
+    this._initX = 0;
+    this._initY = 0;
+    this.context.onSilentChange(this.props.panelData.activeId, 'move');
   };
 
   onPanelCornerDrag(e: DragState, corner: string) {
@@ -192,6 +265,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     this.forceUpdate();
   };
+
   onPanelCornerDragEnd = (e: DragState) => {
     this.context.onSilentChange(this.props.panelData.activeId, 'move');
   };
@@ -212,6 +286,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
       (this._ref.querySelector('.dock-bar') as HTMLElement).focus();
     }
   };
+
+  _baseEdgeDragStyle: React.CSSProperties = {
+    opacity: 0,
+    position: 'absolute',
+    zIndex: 299,
+    userSelect: 'none',
+  }
 
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
@@ -253,11 +334,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
       dropFromPanel = null;
       onPanelHeaderDragStart = null;
     }
-    let cls = `dock-panel ${
-      panelClass ? panelClass : ''}${
-      dropFromPanel ? ' dock-panel-dropping' : ''}${
-      draggingHeader ? ' dragging' : ''
-    }`;
+    let cls = `dock-panel ${panelClass ? panelClass : ''}${dropFromPanel ? ' dock-panel-dropping' : ''}${draggingHeader ? ' dragging' : ''
+      }`;
     let flex = 1;
     if (isHBox && widthFlex != null) {
       flex = widthFlex;
@@ -284,33 +362,94 @@ export class DockPanel extends React.PureComponent<Props, State> {
       if (!dropFromGroup.tabLocked || DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge : DockDropLayer;
-        droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel}/>;
+        droppingLayer = <DockDropClass panelData={panelData} panelElement={this._ref} dropFromPanel={dropFromPanel} />;
       }
     }
 
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
-                   onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
-                   onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
+        onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
+        onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
-                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
+          onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd} />
         {isFloat ?
           [
             <DragDropDiv key="drag-size-t-l" className="dock-panel-drag-size dock-panel-drag-size-t-l"
-                         onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>,
+              onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
             <DragDropDiv key="drag-size-t-r" className="dock-panel-drag-size dock-panel-drag-size-t-r"
-                         onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>,
+              onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
             <DragDropDiv key="drag-size-b-l" className="dock-panel-drag-size dock-panel-drag-size-b-l"
-                         onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>,
+              onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
             <DragDropDiv key="drag-size-b-r" className="dock-panel-drag-size dock-panel-drag-size-b-r"
-                         onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd}/>
+              onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
+              onDragEndT={this.onPanelCornerDragEnd} />,
+            <div key={'DragEdgeR'}
+              style={
+                {
+                  ...this._baseEdgeDragStyle,
+                  right: -3.5,
+                  height: '100%',
+                  width: 7,
+                  cursor: 'e-resize',
+                }}
+              draggable={true}
+              onDragStart={this.onPanelEdgeStartDragR}
+              onDrag={this.onPanelEdgeDragMove}
+              onDragEnd={this.onPanelEdgeDragEnd}
+              onMouseUp={this.onPanelEdgeDragEnd}
+            />,
+            <div key={'DragEdgeB'}
+              style={
+                {
+                  ...this._baseEdgeDragStyle,
+                  bottom: -3.5,
+                  width: '100%',
+                  height: 7,
+                  cursor: 's-resize',
+                }}
+              draggable={true}
+              onDragStart={this.onPanelEdgeStartDragB}
+              onDrag={this.onPanelEdgeDragMove}
+              onDragEnd={this.onPanelEdgeDragEnd}
+              onMouseUp={this.onPanelEdgeDragEnd}
+            />,
+            <div key={'DragEdgeL'}
+              style={
+                {
+                  ...this._baseEdgeDragStyle,
+                  left: -3.5,
+                  height: '100%',
+                  width: 7,
+                  cursor: 'w-resize',
+                }}
+              draggable={true}
+              onDragStart={this.onPanelEdgeStartDragL}
+              onDrag={this.onPanelEdgeDragMove}
+              onDragEnd={this.onPanelEdgeDragEnd}
+              onMouseUp={this.onPanelEdgeDragEnd}
+            />,
+            <div key={'DragEdgeT'}
+              style={
+                {
+                  ...this._baseEdgeDragStyle,
+                  top: -3.5,
+                  width: '100%',
+                  height: 7,
+                  cursor: 'n-resize',
+                }}
+              draggable={true}
+              onDragStart={this.onPanelEdgeStartDragT}
+              onDrag={this.onPanelEdgeDragMove}
+              onDragEnd={this.onPanelEdgeDragEnd}
+              onMouseUp={this.onPanelEdgeDragEnd}
+            />
           ]
           : null
         }
+
         {droppingLayer}
       </DragDropDiv>
     );

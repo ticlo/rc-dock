@@ -1,0 +1,90 @@
+@tabs-prefix-cls: dock;
+
+.@{tabs-prefix-cls} {
+  display: flex;
+
+  // ========================== Vertical ==========================
+  &-top,
+  &-bottom {
+    flex-direction: column;
+
+    .@{tabs-prefix-cls}-ink-bar {
+      height: 3px;
+    }
+  }
+
+  &-top {
+    .@{tabs-prefix-cls}-ink-bar {
+      bottom: 0;
+    }
+  }
+
+  &-bottom {
+    .@{tabs-prefix-cls}-nav {
+      order: 1;
+    }
+
+    .@{tabs-prefix-cls}-bar {
+      order: 1;
+    }
+
+    .@{tabs-prefix-cls}-content {
+      order: 0;
+    }
+
+    .@{tabs-prefix-cls}-ink-bar {
+      top: 0;
+    }
+  }
+
+  // ========================= Horizontal =========================
+  &-left,
+  &-right {
+    &.@{tabs-prefix-cls}-editable .@{tabs-prefix-cls}-tab {
+      padding-right: 32px;
+    }
+
+    .@{tabs-prefix-cls}-nav-wrap {
+      flex-direction: column;
+    }
+
+    .@{tabs-prefix-cls}-ink-bar {
+      width: 3px;
+    }
+
+    .@{tabs-prefix-cls}-nav {
+      flex-direction: column;
+      min-width: 50px;
+      height: 100%;
+
+      &-list, &-operations {
+        flex: 1 0 auto; // fix safari scroll problem
+        flex-direction: column;
+      }
+    }
+  }
+
+  &-left {
+    .@{tabs-prefix-cls}-ink-bar {
+      right: 0;
+    }
+  }
+
+  &-right {
+    .@{tabs-prefix-cls}-nav {
+      order: 1;
+    }
+
+    .@{tabs-prefix-cls}-bar {
+      order: 1;
+    }
+
+    .@{tabs-prefix-cls}-content {
+      order: 0;
+    }
+
+    .@{tabs-prefix-cls}-ink-bar {
+      left: 0;
+    }
+  }
+}

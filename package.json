@@ -1,10 +1,10 @@
 {
   "name": "rc-dock",
-  "version": "3.2.5",
+  "version": "3.2.5+agg.1",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ticlo/rc-dock.git"
+    "url": "https://github.com/slavamuravey/rc-dock.git"
   },
   "keywords": [
     "react",
@@ -24,6 +24,12 @@
     "name": "Rick Zhou",
     "email": "rinick@gmail.com"
   },
+  "maintainers": [
+    {
+      "name": "Viacheslav Muravyev",
+      "email": "slavamuravey@mail.ru"
+    }
+  ],
   "main": "lib/index",
   "module": "es/index",
   "types": "lib/index.d.ts",

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from "react-dom";
+import { TabPosition } from "rc-tabs/lib/interface";
 import {Filter} from "./Algorithm";
 
 export interface TabGroup {
@@ -121,6 +122,8 @@ export interface PanelBase {
    * the id of current tab
    */
   activeId?: string;
+
+  tabPosition?: TabPosition;
 
   /** float mode only */
   x?: number;
@@ -297,6 +300,8 @@ export type DropDirection =
   | 'remove'
   | 'before-tab'
   | 'after-tab'
+  | 'under-tab'
+  | 'above-tab'
   | 'float'
   | 'front'
   | 'maximize'

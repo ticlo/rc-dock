@@ -463,6 +463,12 @@ export class DockLayout extends DockPortalManager implements DockContext {
         left -= 15;
         width = 30;
         break;
+      case 'under-tab':
+        top += height - 15;
+        break;
+      case 'above-tab':
+        top -= 15;
+        break;
     }
 
     this.setState({dropRect: {left, top, width, height, element, source, direction}});

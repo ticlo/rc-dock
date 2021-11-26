@@ -1,3 +1,75 @@
+.dock {
+  display: flex;
+}
+.dock-top,
+.dock-bottom {
+  flex-direction: column;
+}
+.dock-top .dock-ink-bar,
+.dock-bottom .dock-ink-bar {
+  height: 3px;
+}
+.dock-top .dock-ink-bar {
+  bottom: 0;
+}
+.dock-bottom .dock-nav {
+  order: 1;
+}
+.dock-bottom .dock-bar {
+  order: 1;
+}
+.dock-bottom .dock-content {
+  order: 0;
+}
+.dock-bottom .dock-ink-bar {
+  top: 0;
+}
+.dock-left.dock-editable .dock-tab,
+.dock-right.dock-editable .dock-tab {
+  padding-right: 32px;
+}
+.dock-left .dock-nav-wrap,
+.dock-right .dock-nav-wrap {
+  flex-direction: column;
+}
+.dock-left .dock-ink-bar,
+.dock-right .dock-ink-bar {
+  width: 3px;
+}
+.dock-left .dock-nav,
+.dock-right .dock-nav {
+  flex-direction: column;
+  min-width: 50px;
+  height: 100%;
+}
+.dock-left .dock-nav-list,
+.dock-right .dock-nav-list,
+.dock-left .dock-nav-operations,
+.dock-right .dock-nav-operations {
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+.dock-left .dock-ink-bar {
+  right: 0;
+}
+.dock-right .dock-nav {
+  order: 1;
+}
+.dock-right .dock-bar {
+  order: 1;
+}
+.dock-right .dock-content {
+  order: 0;
+}
+.dock-right .dock-ink-bar {
+  left: 0;
+}
+.dock-rtl {
+  direction: rtl;
+}
+.dock-dropdown-rtl {
+  direction: rtl;
+}
 body > .dragging-layer {
   position: absolute !important;
   z-index: 9999;
@@ -58,7 +130,6 @@ body > .dragging-layer > div:last-child {
 .dock-ink-bar {
   position: absolute;
   box-sizing: border-box;
-  margin-top: -3px;
   background-color: #108ee9;
   transform-origin: 0 0;
   width: 0;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { TabPosition } from "rc-tabs/lib/interface";
 import { Filter } from "./Algorithm";
 export interface TabGroup {
     /**
@@ -100,6 +101,7 @@ export interface PanelBase {
      * the id of current tab
      */
     activeId?: string;
+    tabPosition?: TabPosition;
     /** float mode only */
     x?: number;
     /** float mode only */
@@ -237,7 +239,7 @@ export interface LayoutData extends LayoutBase {
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'under-tab' | 'above-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
 export interface DockContext {
     /** @ignore */
     getDockId(): any;

@@ -136,6 +136,12 @@ export class TabCache {
 
   getDropDirection(e: DragManager.DragState): DropDirection {
     let rect = this._hitAreaRef.getBoundingClientRect();
+
+    if (["left", "right"].includes(this.data.parent!.tabPosition)) {
+      let midy = rect.top + rect.height * 0.5;
+      return e.clientY > midy ? 'under-tab' : 'above-tab';
+    }
+
     let midx = rect.left + rect.width * 0.5;
     return e.clientX > midx ? 'after-tab' : 'before-tab';
   }
@@ -304,7 +310,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
   };
 
   render(): React.ReactNode {
-    let {group, tabs, activeId} = this.props.panelData;
+    let {group, tabs, activeId, tabPosition} = this.props.panelData;
     let tabGroup = this.context.getGroup(group);
     let {animated} = tabGroup;
     if (animated == null) {
@@ -324,6 +330,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
             animated={animated}
             renderTabBar={this.renderTabBar}
             activeKey={activeId}
+            tabPosition={tabPosition}
             onChange={this.onTabChange}
       >
         {children}

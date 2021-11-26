@@ -123,6 +123,10 @@ export class TabCache {
     }
     getDropDirection(e) {
         let rect = this._hitAreaRef.getBoundingClientRect();
+        if (["left", "right"].includes(this.data.parent.tabPosition)) {
+            let midy = rect.top + rect.height * 0.5;
+            return e.clientY > midy ? 'under-tab' : 'above-tab';
+        }
         let midx = rect.left + rect.width * 0.5;
         return e.clientX > midx ? 'after-tab' : 'before-tab';
     }
@@ -236,7 +240,7 @@ export class DockTabs extends React.PureComponent {
         return (React.createElement(Dropdown, { prefixCls: "dock-dropdown", overlay: nativeMenu, trigger: trigger, mouseEnterDelay: 0.1, mouseLeaveDelay: 0.1 }, element));
     }
     render() {
-        let { group, tabs, activeId } = this.props.panelData;
+        let { group, tabs, activeId, tabPosition } = this.props.panelData;
         let tabGroup = this.context.getGroup(group);
         let { animated } = tabGroup;
         if (animated == null) {
@@ -247,7 +251,7 @@ export class DockTabs extends React.PureComponent {
         for (let [id, tab] of this._cache) {
             children.push(tab.content);
         }
-        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: "...", animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
+        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: "...", animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, tabPosition: tabPosition, onChange: this.onTabChange }, children));
     }
 }
 DockTabs.contextType = DockContextType;

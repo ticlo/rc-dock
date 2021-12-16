@@ -175,11 +175,11 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       }
     }
 
-    const dockBarRect = this.props.panelElement.getElementsByClassName("dock-bar")[0].getBoundingClientRect();
+    const dockBarRect = this.props.panelElement.getElementsByClassName("dock-bar")[0]?.getBoundingClientRect();
 
     const styles: { [pos: string]: React.CSSProperties } = {
       top: {
-        top: dockBarRect.height,
+        top: dockBarRect?.height,
         left: 0,
         right: 0,
         bottom: 0
@@ -188,18 +188,18 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
         top: 0,
         left: 0,
         right: 0,
-        bottom: dockBarRect.height
+        bottom: dockBarRect?.height
       },
       left: {
         top: 0,
-        left: dockBarRect.width,
+        left: dockBarRect?.width,
         right: 0,
         bottom: 0
       },
       right: {
         top: 0,
         left: 0,
-        right: dockBarRect.width,
+        right: dockBarRect?.width,
         bottom: 0
       }
     };

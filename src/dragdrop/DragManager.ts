@@ -10,7 +10,7 @@ interface DragDropComponent {
   scaleY: number;
 }
 
-export class DragState {
+class RcDragState {
   _init: boolean;
   event: MouseEvent | TouchEvent;
   component: DragDropComponent;
@@ -263,7 +263,7 @@ function moveDraggingElement(state: DragState) {
 }
 
 
-export function destroyDraggingElement(e: DragState) {
+function destroyDraggingElement(e: DragState) {
   if (_refElement) {
     _refElement.classList.remove('dragging');
     _refElement = null;
@@ -303,3 +303,70 @@ if (typeof window !== 'undefined' && window.navigator && window.navigator.platfo
     }
   }, {passive: false});
 }
+
+let _dataScopeDnd: any;
+let _dataDnd: {[key: string]: any};
+
+class DndDragState {
+  event: MouseEvent | TouchEvent | undefined;
+  component: DragDropComponent;
+  pageX = 0;
+  pageY = 0;
+  clientX = 0;
+  clientY = 0;
+  dx = 0;
+  dy = 0;
+
+  acceptMessage: string;
+  rejected: boolean;
+
+  constructor(event: MouseEvent | TouchEvent | undefined, component: DragDropComponent, init = false) {
+    this.component = component;
+  }
+
+  // tslint:disable-next-line:no-empty
+  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {}
+
+  setData(data?: {[key: string]: any}, scope?: any) {
+    _dataScopeDnd = scope;
+    _dataDnd = data;
+  }
+
+  static getData(field: string, scope?: any) {
+    if (scope === _dataScopeDnd && _dataDnd) {
+      return _dataDnd[field];
+    }
+    return null;
+  }
+
+  // tslint:disable-next-line:no-empty
+  accept(message: string = '') {}
+
+  // tslint:disable-next-line:no-empty
+  reject() {}
+
+  moved(): boolean {
+    throw new Error("should not be invoked");
+  }
+
+  _onDragEnd(canceled: boolean = false) {
+    throw new Error("should not be invoked");
+  }
+
+  _onMove() {
+    throw new Error("should not be invoked");
+  }
+}
+
+export function dragEnd() {
+  _dataScopeDnd = null;
+  _dataDnd = null;
+
+  for (let callback of _dragStateListener) {
+    callback(null);
+  }
+}
+
+const DragStateImpl = DndDragState;
+
+export class DragState extends DragStateImpl {}

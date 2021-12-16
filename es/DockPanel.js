@@ -59,6 +59,9 @@ export class DockPanel extends React.PureComponent {
             this.setState({ draggingHeader: true });
         };
         this.onPanelHeaderDragMove = (e) => {
+            if (!this._movingX || !this._movingY) {
+                return;
+            }
             let { width, height } = this.context.getLayoutSize();
             let { panelData } = this.props;
             panelData.x = this._movingX + e.dx;
@@ -77,7 +80,9 @@ export class DockPanel extends React.PureComponent {
                     panelData.x = width - 16;
                 }
             }
-            this.forceUpdate();
+            if (!this._unmounted) {
+                this.forceUpdate();
+            }
         };
         this.onPanelHeaderDragEnd = (e) => {
             if (!this._unmounted) {

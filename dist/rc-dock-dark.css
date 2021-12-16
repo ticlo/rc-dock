@@ -490,7 +490,6 @@ body.dock-dragging iframe {
 }
 .dock-fbox > .dock-panel.dragging {
   opacity: 0.8;
-  pointer-events: none;
 }
 .dock-mbox {
   z-index: 250;

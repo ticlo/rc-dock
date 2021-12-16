@@ -19,8 +19,8 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     state: State;
     onDragOver: (e: DragState) => void;
     onDragOverOtherPanel(): void;
-    _movingX: number;
-    _movingY: number;
+    _movingX?: number;
+    _movingY?: number;
     onPanelHeaderDragStart: (event: DragState) => void;
     onPanelHeaderDragMove: (e: DragState) => void;
     onPanelHeaderDragEnd: (e: DragState) => void;

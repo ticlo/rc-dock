@@ -70,8 +70,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
   }
 
   // used both by dragging head and corner
-  _movingX: number;
-  _movingY: number;
+  _movingX?: number;
+  _movingY?: number;
   // drop to move in float mode
   onPanelHeaderDragStart = (event: DragState) => {
     let {panelData} = this.props;
@@ -94,6 +94,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.setState({draggingHeader: true});
   };
   onPanelHeaderDragMove = (e: DragState) => {
+    if (!this._movingX || !this._movingY) {
+      return;
+    }
     let {width, height} = this.context.getLayoutSize();
     let {panelData} = this.props;
     panelData.x = this._movingX + e.dx;
@@ -111,7 +114,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
         panelData.x = width - 16;
       }
     }
-    this.forceUpdate();
+    if (!this._unmounted) {
+      this.forceUpdate();
+    }
   };
   onPanelHeaderDragEnd = (e: DragState) => {
     if (!this._unmounted) {

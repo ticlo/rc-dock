@@ -1,4 +1,4 @@
-export class DragState {
+class RcDragState {
     constructor(event, component, init = false) {
         this.pageX = 0;
         this.pageY = 0;
@@ -209,7 +209,7 @@ function moveDraggingElement(state) {
         _draggingIcon.className = '';
     }
 }
-export function destroyDraggingElement(e) {
+function destroyDraggingElement(e) {
     if (_refElement) {
         _refElement.classList.remove('dragging');
         _refElement = null;
@@ -240,4 +240,52 @@ if (typeof window !== 'undefined' && window.navigator && window.navigator.platfo
             e.preventDefault();
         }
     }, { passive: false });
+}
+let _dataScopeDnd;
+let _dataDnd;
+class DndDragState {
+    constructor(event, component, init = false) {
+        this.pageX = 0;
+        this.pageY = 0;
+        this.clientX = 0;
+        this.clientY = 0;
+        this.dx = 0;
+        this.dy = 0;
+        this.component = component;
+    }
+    // tslint:disable-next-line:no-empty
+    startDrag(refElement, draggingHtml) { }
+    setData(data, scope) {
+        _dataScopeDnd = scope;
+        _dataDnd = data;
+    }
+    static getData(field, scope) {
+        if (scope === _dataScopeDnd && _dataDnd) {
+            return _dataDnd[field];
+        }
+        return null;
+    }
+    // tslint:disable-next-line:no-empty
+    accept(message = '') { }
+    // tslint:disable-next-line:no-empty
+    reject() { }
+    moved() {
+        throw new Error("should not be invoked");
+    }
+    _onDragEnd(canceled = false) {
+        throw new Error("should not be invoked");
+    }
+    _onMove() {
+        throw new Error("should not be invoked");
+    }
+}
+export function dragEnd() {
+    _dataScopeDnd = null;
+    _dataDnd = null;
+    for (let callback of _dragStateListener) {
+        callback(null);
+    }
+}
+const DragStateImpl = DndDragState;
+export class DragState extends DragStateImpl {
 }

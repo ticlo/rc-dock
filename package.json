@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "3.2.5+agg.1",
+  "version": "3.2.5+agg.2",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
@@ -40,19 +40,24 @@
     "rc-dropdown": "^3.2.0",
     "rc-menu": "^8.10.5",
     "rc-new-window": "^0.1.12",
-    "rc-tabs": "^11.7.3"
+    "rc-tabs": "^11.7.3",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
     "@babel/plugin-proposal-export-default-from": "^7.12.13",
     "@babel/preset-env": "^7.12.13",
     "@types/classnames": "^2.2.11",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.25",
     "@types/prismjs": "^1.16.2",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
     "@types/shelljs": "^0.8.8",
+    "@types/uuid": "^8.3.3",
     "less": "^4.1.1",
     "parcel": "^1.12.4",
     "prismjs": "^1.23.0",
@@ -84,6 +89,8 @@
     "build-less": "lessc style/index-light.less dist/rc-dock.css & lessc style/index-dark.less dist/rc-dock-dark.css ",
     "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www",
-    "build-es": "tsc --module es2020 --outDir ./es"
+    "build-es": "tsc --module es2020 --outDir ./es",
+    "build-lib": "tsc",
+    "build": "npm run build-less && npm run build-es && npm run build-lib"
   }
 }

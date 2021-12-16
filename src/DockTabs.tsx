@@ -161,7 +161,7 @@ export class TabCache {
     }
     let tab = (
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart} role="tab" aria-selected={parent.activeId === id}
-                   onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
+                   onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave} extraData={this.data}>
         {title}
         {closable ?
           <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>

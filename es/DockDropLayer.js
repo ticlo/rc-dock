@@ -75,7 +75,7 @@ export class DockDropLayer extends React.PureComponent {
         }
     }
     render() {
-        var _a;
+        var _a, _b;
         let { panelData, panelElement, dropFromPanel } = this.props;
         let dockId = this.context.getDockId();
         let children = [];
@@ -104,10 +104,10 @@ export class DockDropLayer extends React.PureComponent {
                 }
             }
         }
-        const dockBarRect = this.props.panelElement.getElementsByClassName("dock-bar")[0].getBoundingClientRect();
+        const dockBarRect = (_b = this.props.panelElement.getElementsByClassName("dock-bar")[0]) === null || _b === void 0 ? void 0 : _b.getBoundingClientRect();
         const styles = {
             top: {
-                top: dockBarRect.height,
+                top: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.height,
                 left: 0,
                 right: 0,
                 bottom: 0
@@ -116,18 +116,18 @@ export class DockDropLayer extends React.PureComponent {
                 top: 0,
                 left: 0,
                 right: 0,
-                bottom: dockBarRect.height
+                bottom: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.height
             },
             left: {
                 top: 0,
-                left: dockBarRect.width,
+                left: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.width,
                 right: 0,
                 bottom: 0
             },
             right: {
                 top: 0,
                 left: 0,
-                right: dockBarRect.width,
+                right: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.width,
                 bottom: 0
             }
         };

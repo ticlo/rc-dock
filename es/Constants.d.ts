@@ -1,0 +1,1 @@
+export declare const ITEM_TYPE_COMPONENT = "ITEM_TYPE_COMPONENT";

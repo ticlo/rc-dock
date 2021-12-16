@@ -1,6 +1,21 @@
 import React, {CSSProperties} from "react";
 import * as DragManager from "./DragManager";
 import {GestureState} from "./GestureManager";
+import { DragSource, DropTarget } from "react-dnd";
+import { ITEM_TYPE_COMPONENT } from "../Constants";
+// tslint:disable-next-line:no-duplicate-imports
+import { dragEnd, DragState } from "./DragManager";
+import _ from "lodash";
+import { DockContext, DockContextType, PanelData, TabData } from "../DockData";
+import { v4 as uuid } from "uuid";
+import { ConnectDragSource, ConnectDropTarget, DragSourceMonitor, DropTargetMonitor } from "react-dnd/lib/types";
+import {
+  DragSourceConnector,
+  DragSourceSpec,
+  DropTargetConnector,
+  DropTargetSpec
+} from "react-dnd/lib/decorators/types";
+import { XYCoord } from "react-dnd/lib/types/monitors";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
@@ -24,9 +39,21 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   onGestureEndT?: () => void;
 
   gestureSensitivity?: number;
+
+  extraData?: any;
 }
 
-export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
+interface DndDragDropDivProps extends DragDropDivProps {
+  isOver: boolean;
+  isOverCurrent: boolean;
+  isDragging: boolean;
+  canDrop: boolean;
+  itemType: string;
+  connectDragSource: ConnectDragSource;
+  connectDropTarget: ConnectDropTarget;
+}
+
+class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
 
   element: HTMLElement;
   ownerDocument: Document;
@@ -319,7 +346,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData,
       ...others
     } = this.props;
     let onTouchDown = this.onPointerDown;
@@ -371,3 +398,282 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     this.cancel();
   }
 }
+
+class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
+  element: HTMLElement;
+
+  static contextType = DockContextType;
+
+  context!: DockContext;
+
+  _getRef = (r: HTMLDivElement) => {
+    let { getRef } = this.props;
+    this.element = r;
+
+    if (getRef) {
+      getRef(r);
+    }
+  };
+
+  componentDidUpdate(prevProps: Readonly<DndDragDropDivProps>, prevState: Readonly<any>, snapshot?: any) {
+    if (prevProps.isOver === true && this.props.isOver === false) {
+      if (this.props.onDragLeaveT) {
+        const state = new DragManager.DragState(undefined, this as any);
+        this.props.onDragLeaveT(state);
+      }
+    }
+  }
+
+  render(): React.ReactNode {
+    let {
+      getRef, children, className,
+      directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData,
+      // drag props
+      isDragging, connectDragSource,
+      // drop props
+      isOver, canDrop, connectDropTarget, isOverCurrent, itemType,
+      ...others
+    } = this.props;
+
+    if (canDrag(this.props)) {
+      if (className) {
+        className = `${className} drag-initiator`;
+      } else {
+        className = 'drag-initiator';
+      }
+    }
+
+    return (
+      connectDragSource(
+        connectDropTarget(
+          <div ref={this._getRef} className={className} {...others}>
+            {children}
+          </div>
+        )
+      )
+    );
+  }
+}
+
+interface DragObject {
+  baseX: number;
+  baseY: number;
+  element: HTMLElement;
+  scaleX: number;
+  scaleY: number;
+  externalData?: any;
+}
+
+interface DropResult {
+  state: DragManager.DragState;
+}
+
+const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
+  canDrop(props, monitor) {
+    return true;
+  },
+
+  hover(props, monitor, component) {
+    const state = createDragState(monitor, component);
+    const dockId = component.context.getDockId();
+    const tab: TabData | null = getTabByDockId(dockId);
+
+    if (!tab && monitor.getItem().externalData) {
+      const tab = monitor.getItem().externalData.tab.id ?
+        monitor.getItem().externalData.tab :
+        { id: uuid(), ...monitor.getItem().externalData.tab};
+      state.setData({
+        tab,
+        panelSize: [400, 300]
+      }, dockId);
+    }
+
+    if (props.onDragOverT) {
+      props.onDragOverT(state);
+    }
+  },
+
+  drop(props, monitor, component) {
+    if (monitor.didDrop()) {
+      return;
+    }
+
+    const currentDockId = component?.decoratedRef?.current?.context?.getDockId();
+    const externalDockId = monitor?.getItem()?.externalData?.context?.getDockId();
+
+    if (currentDockId && externalDockId && currentDockId !== externalDockId && props.onDropT) {
+      const tab = DragManager.DragState.getData('tab', currentDockId);
+      externalDockId.dockMove(tab, null, 'remove');
+    }
+
+    const state = createDragState(monitor, component);
+
+    if (props.onDropT) {
+      props.onDropT(state);
+    }
+
+    if (props.onDragEndT) {
+      props.onDragEndT(state);
+    }
+
+    dragEnd();
+
+    return { state };
+  }
+};
+
+interface DragMonitor {
+  getClientOffset(): XYCoord | null;
+  getItem(): DragObject;
+}
+
+function createDragState(monitor: DragMonitor, component: any): DragManager.DragState {
+  const clientOffset = monitor.getClientOffset();
+  const state = new DragManager.DragState(undefined, component);
+
+  if (!clientOffset) {
+    return state;
+  }
+
+  state.clientX = clientOffset.x;
+  state.clientY = clientOffset.y;
+  state.pageX = clientOffset.x;
+  state.pageY = clientOffset.y;
+  state.dx = (state.pageX - monitor.getItem().baseX) * monitor.getItem().scaleX;
+  state.dy = (state.pageY - monitor.getItem().baseY) * monitor.getItem().scaleY;
+
+  return state;
+}
+
+function canDrag(props: DndDragDropDivProps): boolean {
+  if (props.role === "tab" &&
+    props.extraData?.parent?.parent?.mode === 'float' &&
+    props.extraData?.parent?.tabs?.length === 1
+  ) {
+    return false;
+  }
+
+  return props.onDragStartT !== undefined || props.onGestureStartT !== undefined;
+}
+
+function getTabByDockId(dockId: any) {
+  const tab: TabData = DragState.getData('tab', dockId);
+  const panel: PanelData = DragState.getData('panel', dockId);
+
+  if (tab) {
+    return tab;
+  }
+
+  if (panel?.tabs?.length === 1) {
+    return panel.tabs[0];
+  }
+
+  return null;
+}
+
+function dropCollect(connect: DropTargetConnector, monitor: DropTargetMonitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    isOverCurrent: monitor.isOver({ shallow: true }),
+    canDrop: monitor.canDrop(),
+    itemType: monitor.getItemType()
+  };
+}
+
+const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
+  canDrag(props) {
+    return canDrag(props);
+  },
+
+  isDragging(props, monitor) {
+    return true;
+  },
+
+  beginDrag(props, monitor, component) {
+    const clientOffset = monitor.getClientOffset();
+    const state = new DragManager.DragState(undefined, component);
+
+    if (props.onDragEndT) {
+      props.onDragEndT(state);
+    }
+
+    dragEnd();
+
+    if (props.onDragStartT) {
+      props.onDragStartT(state);
+    }
+
+    const dockId = component.context.getDockId();
+    const tab: TabData | null = getTabByDockId(dockId);
+
+    let baseElement = component.element.parentElement;
+    let rect = baseElement.getBoundingClientRect();
+
+    const item: DragObject = {
+      baseX: clientOffset.x,
+      baseY: clientOffset.y,
+      element: component.element,
+      scaleX: baseElement.offsetWidth / Math.round(rect.width),
+      scaleY: baseElement.offsetHeight / Math.round(rect.height),
+    };
+
+    if (tab) {
+      item.externalData = {
+        tab,
+        context: component.context
+      };
+    }
+
+    return item;
+  },
+
+  endDrag(props, monitor, component) {
+    if (!monitor.didDrop()) {
+      const state = createDragState(monitor, component);
+
+      if (props.onDragEndT) {
+        props.onDragEndT(state);
+      }
+
+      dragEnd();
+
+      return;
+    }
+
+    const { state } = monitor.getDropResult();
+
+    if (props.onDragMoveT) {
+      props.onDragMoveT(state);
+    }
+
+    if (props.onDragEndT) {
+      props.onDragEndT(state);
+    }
+
+    dragEnd();
+  }
+};
+
+function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+const EnhancedDndDragDropDiv = _.flow(
+  DragSource(
+    ITEM_TYPE_COMPONENT,
+    dragSpec,
+    dragCollect
+  ),
+  DropTarget(
+    ITEM_TYPE_COMPONENT,
+    dropSpec,
+    dropCollect
+  ))
+(DndDragDropDiv);
+
+export { EnhancedDndDragDropDiv as DragDropDiv };

@@ -385,7 +385,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
 
     DragManager.addDragStateListener(this.onDragStateChange);
-    window.addEventListener('resize', this._onWindowResize);
+    globalThis.addEventListener?.('resize', this._onWindowResize);
   }
 
   /** @ignore */
@@ -550,7 +550,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   /** @ignore */
   componentWillUnmount(): void {
-    window.removeEventListener('resize', this._onWindowResize);
+    globalThis.removeEventListener?.('resize', this._onWindowResize);
     DragManager.removeDragStateListener(this.onDragStateChange);
     this._onWindowResize.cancel();
   }

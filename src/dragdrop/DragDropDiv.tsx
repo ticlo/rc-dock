@@ -467,6 +467,7 @@ interface DragObject {
 
 interface DropResult {
   state: DragManager.DragState;
+  didDrop: boolean;
 }
 
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
@@ -509,8 +510,11 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const state = createDragState(monitor, component);
 
+    let didDrop = false;
+
     if (props.onDropT) {
       props.onDropT(state);
+      didDrop = true;
     }
 
     if (props.onDragEndT) {
@@ -519,7 +523,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    return { state };
+    return { state, didDrop };
   }
 };
 

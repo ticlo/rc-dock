@@ -63,7 +63,7 @@ export function saveLayoutData(
     if (saveTab) {
       return saveTab(tabData);
     }
-    return {id: tabData.id};
+    return {...tabData};
 
   }
 

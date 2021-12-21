@@ -391,14 +391,16 @@ const dropSpec = {
             externalDockId.dockMove(tab, null, 'remove');
         }
         const state = createDragState(monitor, component);
+        let didDrop = false;
         if (props.onDropT) {
             props.onDropT(state);
+            didDrop = true;
         }
         if (props.onDragEndT) {
             props.onDragEndT(state);
         }
         dragEnd();
-        return { state };
+        return { state, didDrop };
     }
 };
 function createDragState(monitor, component) {

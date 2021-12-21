@@ -42,7 +42,7 @@ export function saveLayoutData(layout, saveTab, afterPanelSaved) {
         if (saveTab) {
             return saveTab(tabData);
         }
-        return { id: tabData.id };
+        return Object.assign({}, tabData);
     }
     function savePanelData(panelData) {
         let tabs = [];

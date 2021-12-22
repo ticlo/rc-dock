@@ -26,5 +26,6 @@ jobs:
           ref: gh-pages
           path: www
           fetch-depth: 1
+      - run: yarn install
       - run: yarn build-www
 

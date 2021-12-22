@@ -1,23 +1,31 @@
-import React, {CSSProperties} from "react";
+import React, { useContext } from "react";
 import * as DragManager from "./DragManager";
-import {GestureState} from "./GestureManager";
-import { DragSource, DropTarget } from "react-dnd";
-import { ITEM_TYPE_COMPONENT } from "../Constants";
 // tslint:disable-next-line:no-duplicate-imports
 import { dragEnd, DragState } from "./DragManager";
+import { GestureState } from "./GestureManager";
+import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _ from "lodash";
 import { DockContext, DockContextType, PanelData, TabData } from "../DockData";
 import { v4 as uuid } from "uuid";
-import { ConnectDragSource, ConnectDropTarget, DragSourceMonitor, DropTargetMonitor } from "react-dnd/lib/types";
 import {
+  DragSource,
+  DropTarget,
   DragSourceConnector,
   DragSourceSpec,
   DropTargetConnector,
-  DropTargetSpec
-} from "react-dnd/lib/decorators/types";
-import { XYCoord } from "react-dnd/lib/types/monitors";
+  DropTargetSpec,
+  ConnectDragSource,
+  ConnectDropTarget,
+  DragSourceMonitor,
+  DropTargetMonitor,
+  XYCoord
+} from "react-dnd";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
+
+export declare type Identifier = string | symbol;
+export declare type SourceType = Identifier;
+export declare type TargetType = Identifier | Identifier[];
 
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: (ref: HTMLDivElement) => void;
@@ -41,6 +49,8 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   gestureSensitivity?: number;
 
   extraData?: any;
+  sourceItemType?: SourceType;
+  targetItemType?: TargetType;
 }
 
 interface DndDragDropDivProps extends DragDropDivProps {
@@ -407,7 +417,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   context!: DockContext;
 
   _getRef = (r: HTMLDivElement) => {
-    let { getRef } = this.props;
+    let {getRef} = this.props;
     this.element = r;
 
     if (getRef) {
@@ -428,7 +438,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData, sourceItemType, targetItemType,
       // drag props
       isDragging, connectDragSource,
       // drop props
@@ -483,7 +493,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (!tab && monitor.getItem().externalData) {
       const tab = monitor.getItem().externalData.tab.id ?
         monitor.getItem().externalData.tab :
-        { id: uuid(), ...monitor.getItem().externalData.tab};
+        {id: uuid(), ...monitor.getItem().externalData.tab};
       state.setData({
         tab,
         panelSize: [400, 300]
@@ -523,12 +533,13 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    return { state, didDrop };
+    return {state, didDrop};
   }
 };
 
 interface DragMonitor {
   getClientOffset(): XYCoord | null;
+
   getItem(): DragObject;
 }
 
@@ -580,7 +591,7 @@ function dropCollect(connect: DropTargetConnector, monitor: DropTargetMonitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    isOverCurrent: monitor.isOver({ shallow: true }),
+    isOverCurrent: monitor.isOver({shallow: true}),
     canDrop: monitor.canDrop(),
     itemType: monitor.getItemType()
   };
@@ -646,7 +657,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       return;
     }
 
-    const { state } = monitor.getDropResult();
+    const {state} = monitor.getDropResult();
 
     if (props.onDragMoveT) {
       props.onDragMoveT(state);
@@ -667,17 +678,37 @@ function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
   };
 }
 
-const EnhancedDndDragDropDiv = _.flow(
-  DragSource(
-    ITEM_TYPE_COMPONENT,
-    dragSpec,
-    dragCollect
-  ),
-  DropTarget(
-    ITEM_TYPE_COMPONENT,
-    dropSpec,
-    dropCollect
-  ))
-(DndDragDropDiv);
+const withDefaultItemTypes = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
+  return (props: P & DragDropDivProps) => {
+    // @ts-ignore
+    const {props: {
+      defaultSourceItemType,
+      defaultTargetItemType
+    }} = useContext(DockContextType);
+
+    return (
+      <WrappedComponent
+        {...props}
+        sourceItemType={defaultSourceItemType}
+        targetItemType={defaultTargetItemType}
+      />
+    );
+  };
+};
+
+const EnhancedDndDragDropDiv = withDefaultItemTypes(
+  _.flow(
+    DragSource(
+      ({sourceItemType}) => sourceItemType !== undefined ? sourceItemType : ITEM_TYPE_DEFAULT,
+      dragSpec,
+      dragCollect
+    ),
+    DropTarget(
+      ({targetItemType}) => targetItemType !== undefined ? targetItemType : ITEM_TYPE_DEFAULT,
+      dropSpec,
+      dropCollect
+    )
+  )(DndDragDropDiv)
+);
 
 export { EnhancedDndDragDropDiv as DragDropDiv };

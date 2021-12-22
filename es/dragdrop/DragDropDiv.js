@@ -9,16 +9,16 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from "react";
+import React, { useContext } from "react";
 import * as DragManager from "./DragManager";
-import { GestureState } from "./GestureManager";
-import { DragSource, DropTarget } from "react-dnd";
-import { ITEM_TYPE_COMPONENT } from "../Constants";
 // tslint:disable-next-line:no-duplicate-imports
 import { dragEnd, DragState } from "./DragManager";
+import { GestureState } from "./GestureManager";
+import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _ from "lodash";
 import { DockContextType } from "../DockData";
 import { v4 as uuid } from "uuid";
+import { DragSource, DropTarget } from "react-dnd";
 class RcDragDropDiv extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -342,11 +342,11 @@ class DndDragDropDiv extends React.PureComponent {
         }
     }
     render() {
-        let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData, 
+        let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData, sourceItemType, targetItemType, 
         // drag props
         isDragging, connectDragSource, 
         // drop props
-        isOver, canDrop, connectDropTarget, isOverCurrent, itemType } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType"]);
+        isOver, canDrop, connectDropTarget, isOverCurrent, itemType } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "sourceItemType", "targetItemType", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType"]);
         if (canDrag(this.props)) {
             if (className) {
                 className = `${className} drag-initiator`;
@@ -508,5 +508,12 @@ function dragCollect(connect, monitor) {
         isDragging: monitor.isDragging()
     };
 }
-const EnhancedDndDragDropDiv = _.flow(DragSource(ITEM_TYPE_COMPONENT, dragSpec, dragCollect), DropTarget(ITEM_TYPE_COMPONENT, dropSpec, dropCollect))(DndDragDropDiv);
+const withDefaultItemTypes = (WrappedComponent) => {
+    return (props) => {
+        // @ts-ignore
+        const { props: { defaultSourceItemType, defaultTargetItemType } } = useContext(DockContextType);
+        return (React.createElement(WrappedComponent, Object.assign({}, props, { sourceItemType: defaultSourceItemType, targetItemType: defaultTargetItemType })));
+    };
+};
+const EnhancedDndDragDropDiv = withDefaultItemTypes(_.flow(DragSource(({ sourceItemType }) => sourceItemType !== undefined ? sourceItemType : ITEM_TYPE_DEFAULT, dragSpec, dragCollect), DropTarget(({ targetItemType }) => targetItemType !== undefined ? targetItemType : ITEM_TYPE_DEFAULT, dropSpec, dropCollect))(DndDragDropDiv));
 export { EnhancedDndDragDropDiv as DragDropDiv };

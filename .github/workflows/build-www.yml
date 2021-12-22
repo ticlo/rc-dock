@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,4 +27,7 @@ jobs:
           fetch-depth: 1
       - run: yarn install
       - run: yarn build-www
-
+      - run: git commit -m "Deploy Github Action"
+        working-directory: ./www
+      - run: git push
+        working-directory: ./www

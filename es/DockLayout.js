@@ -76,6 +76,7 @@ class DockPortalManager extends React.PureComponent {
 }
 export class DockLayout extends DockPortalManager {
     constructor(props) {
+        var _a;
         super(props);
         /** @ignore */
         this.getRef = (r) => {
@@ -122,7 +123,7 @@ export class DockLayout extends DockPortalManager {
             };
         }
         DragManager.addDragStateListener(this.onDragStateChange);
-        window.addEventListener('resize', this._onWindowResize);
+        (_a = globalThis.addEventListener) === null || _a === void 0 ? void 0 : _a.call(globalThis, 'resize', this._onWindowResize);
     }
     /** @ignore */
     getRootElement() {
@@ -432,7 +433,8 @@ export class DockLayout extends DockPortalManager {
     }
     /** @ignore */
     componentWillUnmount() {
-        window.removeEventListener('resize', this._onWindowResize);
+        var _a;
+        (_a = globalThis.removeEventListener) === null || _a === void 0 ? void 0 : _a.call(globalThis, 'resize', this._onWindowResize);
         DragManager.removeDragStateListener(this.onDragStateChange);
         this._onWindowResize.cancel();
     }

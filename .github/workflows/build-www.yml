@@ -30,6 +30,7 @@ jobs:
       - run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "noreply@ticlo.com"
+          git add -A
           git commit -m "Deploy Github Action"
         working-directory: ./www
       - run: git push

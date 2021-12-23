@@ -5,7 +5,7 @@ import { dragEnd, DragState } from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _ from "lodash";
-import { DockContext, DockContextType, PanelData, TabData } from "../DockData";
+import { DockContext, DockContextType, PanelData, SourceType, TabData, TargetType } from "../DockData";
 import { v4 as uuid } from "uuid";
 import {
   DragSource,
@@ -22,10 +22,6 @@ import {
 } from "react-dnd";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
-
-export declare type Identifier = string | symbol;
-export declare type SourceType = Identifier;
-export declare type TargetType = Identifier | Identifier[];
 
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: (ref: HTMLDivElement) => void;
@@ -49,11 +45,14 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   gestureSensitivity?: number;
 
   extraData?: any;
+}
+
+interface ItemTypeProps {
   sourceItemType?: SourceType;
   targetItemType?: TargetType;
 }
 
-interface DndDragDropDivProps extends DragDropDivProps {
+interface DndDragDropDivProps extends DragDropDivProps, ItemTypeProps {
   isOver: boolean;
   isOverCurrent: boolean;
   isDragging: boolean;
@@ -438,7 +437,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData, sourceItemType, targetItemType,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData,
       // drag props
       isDragging, connectDragSource,
       // drop props
@@ -678,8 +677,8 @@ function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
   };
 }
 
-const withDefaultItemTypes = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
-  return (props: P & DragDropDivProps) => {
+const withDefaultItemTypes = <P extends DragDropDivProps>(WrappedComponent: React.ComponentType<P>) => {
+  return (props: P & ItemTypeProps) => {
     // @ts-ignore
     const {props: {
       defaultSourceItemType,

@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
+import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, SourceType, TabBase, TabData, TabGroup, TabPaneCache, TargetType } from "./DockData";
 import * as Algorithm from "./Algorithm";
 export interface LayoutProps {
     /**
@@ -62,6 +62,8 @@ export interface LayoutProps {
      * use dom element as the value, or use the element's id
      */
     maximizeTo?: string | HTMLElement;
+    defaultSourceItemType?: SourceType;
+    defaultTargetItemType?: TargetType;
 }
 interface LayoutState {
     layout: LayoutData;

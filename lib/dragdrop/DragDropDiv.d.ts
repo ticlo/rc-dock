@@ -1,10 +1,8 @@
 import React from "react";
 import * as DragManager from "./DragManager";
 import { GestureState } from "./GestureManager";
+import { SourceType, TargetType } from "../DockData";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
-export declare type Identifier = string | symbol;
-export declare type SourceType = Identifier;
-export declare type TargetType = Identifier | Identifier[];
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     getRef?: (ref: HTMLDivElement) => void;
     onDragStartT?: DragManager.DragHandler;
@@ -24,8 +22,10 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     onGestureEndT?: () => void;
     gestureSensitivity?: number;
     extraData?: any;
+}
+interface ItemTypeProps {
     sourceItemType?: SourceType;
     targetItemType?: TargetType;
 }
-declare const EnhancedDndDragDropDiv: (props: DragDropDivProps) => JSX.Element;
+declare const EnhancedDndDragDropDiv: (props: DragDropDivProps & ItemTypeProps) => JSX.Element;
 export { EnhancedDndDragDropDiv as DragDropDiv };

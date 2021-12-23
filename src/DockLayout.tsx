@@ -12,11 +12,11 @@ import {
   PanelBase,
   PanelData,
   placeHolderGroup,
-  placeHolderStyle,
+  placeHolderStyle, SourceType,
   TabBase,
   TabData,
   TabGroup,
-  TabPaneCache
+  TabPaneCache, TargetType
 } from "./DockData";
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
@@ -97,6 +97,9 @@ export interface LayoutProps {
    * use dom element as the value, or use the element's id
    */
   maximizeTo?: string | HTMLElement;
+
+  defaultSourceItemType?: SourceType;
+  defaultTargetItemType?: TargetType;
 }
 
 interface LayoutState {

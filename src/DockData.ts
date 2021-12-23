@@ -390,3 +390,10 @@ export const DockContextType = React.createContext<DockContext>(null);
 export const DockContextProvider = DockContextType.Provider;
 /** @ignore */
 export const DockContextConsumer = DockContextType.Consumer;
+
+/**
+ * DnD item types
+ */
+export type Identifier = string | symbol;
+export type SourceType = Identifier;
+export type TargetType = Identifier | Identifier[];

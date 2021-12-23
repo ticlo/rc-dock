@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import * as DragManager from "./DragManager";
 // tslint:disable-next-line:no-duplicate-imports
 import { dragEnd, DragState } from "./DragManager";
@@ -442,6 +442,8 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
       isDragging, connectDragSource,
       // drop props
       isOver, canDrop, connectDropTarget, isOverCurrent, itemType,
+      // item types props
+      sourceItemType, targetItemType,
       ...others
     } = this.props;
 
@@ -477,6 +479,7 @@ interface DragObject {
 interface DropResult {
   state: DragManager.DragState;
   didDrop: boolean;
+  externalData?: any;
 }
 
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
@@ -532,7 +535,13 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    return {state, didDrop};
+    const result: DropResult = {state, didDrop};
+
+    if (currentDockId?.props?.externalData) {
+      result.externalData = currentDockId.props.externalData;
+    }
+
+    return result;
   }
 };
 
@@ -685,11 +694,14 @@ const withDefaultItemTypes = <P extends DragDropDivProps>(WrappedComponent: Reac
       defaultTargetItemType
     }} = useContext(DockContextType);
 
+    const sourceItemType = useMemo(() => defaultSourceItemType, []);
+    const targetItemType = useMemo(() => defaultTargetItemType, []);
+
     return (
       <WrappedComponent
         {...props}
-        sourceItemType={defaultSourceItemType}
-        targetItemType={defaultTargetItemType}
+        sourceItemType={sourceItemType}
+        targetItemType={targetItemType}
       />
     );
   };

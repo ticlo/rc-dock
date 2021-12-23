@@ -100,6 +100,11 @@ export interface LayoutProps {
 
   defaultSourceItemType?: SourceType;
   defaultTargetItemType?: TargetType;
+
+  /**
+   * externalData contains any data you can pass from the external environment
+   */
+  externalData?: any;
 }
 
 interface LayoutState {

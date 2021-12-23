@@ -9,7 +9,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import * as DragManager from "./DragManager";
 // tslint:disable-next-line:no-duplicate-imports
 import { dragEnd, DragState } from "./DragManager";
@@ -346,7 +346,9 @@ class DndDragDropDiv extends React.PureComponent {
         // drag props
         isDragging, connectDragSource, 
         // drop props
-        isOver, canDrop, connectDropTarget, isOverCurrent, itemType } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType"]);
+        isOver, canDrop, connectDropTarget, isOverCurrent, itemType, 
+        // item types props
+        sourceItemType, targetItemType } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "sourceItemType", "targetItemType"]);
         if (canDrag(this.props)) {
             if (className) {
                 className = `${className} drag-initiator`;
@@ -380,7 +382,7 @@ const dropSpec = {
         }
     },
     drop(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         if (monitor.didDrop()) {
             return;
         }
@@ -400,7 +402,11 @@ const dropSpec = {
             props.onDragEndT(state);
         }
         dragEnd();
-        return { state, didDrop };
+        const result = { state, didDrop };
+        if ((_g = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _g === void 0 ? void 0 : _g.externalData) {
+            result.externalData = currentDockId.props.externalData;
+        }
+        return result;
     }
 };
 function createDragState(monitor, component) {
@@ -512,7 +518,9 @@ const withDefaultItemTypes = (WrappedComponent) => {
     return (props) => {
         // @ts-ignore
         const { props: { defaultSourceItemType, defaultTargetItemType } } = useContext(DockContextType);
-        return (React.createElement(WrappedComponent, Object.assign({}, props, { sourceItemType: defaultSourceItemType, targetItemType: defaultTargetItemType })));
+        const sourceItemType = useMemo(() => defaultSourceItemType, []);
+        const targetItemType = useMemo(() => defaultTargetItemType, []);
+        return (React.createElement(WrappedComponent, Object.assign({}, props, { sourceItemType: sourceItemType, targetItemType: targetItemType })));
     };
 };
 const EnhancedDndDragDropDiv = withDefaultItemTypes(_.flow(DragSource(({ sourceItemType }) => sourceItemType !== undefined ? sourceItemType : ITEM_TYPE_DEFAULT, dragSpec, dragCollect), DropTarget(({ targetItemType }) => targetItemType !== undefined ? targetItemType : ITEM_TYPE_DEFAULT, dropSpec, dropCollect))(DndDragDropDiv));

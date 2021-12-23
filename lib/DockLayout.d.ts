@@ -64,6 +64,10 @@ export interface LayoutProps {
     maximizeTo?: string | HTMLElement;
     defaultSourceItemType?: SourceType;
     defaultTargetItemType?: TargetType;
+    /**
+     * externalData contains any data you can pass from the external environment
+     */
+    externalData?: any;
 }
 interface LayoutState {
     layout: LayoutData;

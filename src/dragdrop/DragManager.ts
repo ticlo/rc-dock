@@ -1,3 +1,5 @@
+import { PanelData, TabData } from "../DockData";
+
 export type DragType = 'left' | 'right' | 'touch';
 
 interface DragDropComponent {
@@ -365,6 +367,21 @@ export function dragEnd() {
   for (let callback of _dragStateListener) {
     callback(null);
   }
+}
+
+export function getTabByDockId(dockId: any) {
+  const tab: TabData = DragState.getData('tab', dockId);
+  const panel: PanelData = DragState.getData('panel', dockId);
+
+  if (tab) {
+    return tab;
+  }
+
+  if (panel?.tabs?.length === 1) {
+    return panel.tabs[0];
+  }
+
+  return null;
 }
 
 const DragStateImpl = DndDragState;

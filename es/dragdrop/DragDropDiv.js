@@ -12,7 +12,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import React, { useContext, useMemo } from "react";
 import * as DragManager from "./DragManager";
 // tslint:disable-next-line:no-duplicate-imports
-import { dragEnd, DragState } from "./DragManager";
+import { dragEnd, getTabByDockId } from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _ from "lodash";
@@ -382,15 +382,18 @@ const dropSpec = {
         }
     },
     drop(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (monitor.didDrop()) {
             return;
         }
         const currentDockId = (_c = (_b = (_a = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.context) === null || _c === void 0 ? void 0 : _c.getDockId();
         const externalDockId = (_f = (_e = (_d = monitor === null || monitor === void 0 ? void 0 : monitor.getItem()) === null || _d === void 0 ? void 0 : _d.externalData) === null || _e === void 0 ? void 0 : _e.context) === null || _f === void 0 ? void 0 : _f.getDockId();
         if (currentDockId && externalDockId && currentDockId !== externalDockId && props.onDropT) {
-            const tab = DragManager.DragState.getData('tab', currentDockId);
+            const tab = (_h = (_g = monitor === null || monitor === void 0 ? void 0 : monitor.getItem()) === null || _g === void 0 ? void 0 : _g.externalData) === null || _h === void 0 ? void 0 : _h.tab;
             externalDockId.dockMove(tab, null, 'remove');
+            if ((_j = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _j === void 0 ? void 0 : _j.onDockTabLayoutChange) {
+                currentDockId.props.onDockTabLayoutChange((_k = externalDockId === null || externalDockId === void 0 ? void 0 : externalDockId.props) === null || _k === void 0 ? void 0 : _k.externalData, (_l = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _l === void 0 ? void 0 : _l.externalData);
+            }
         }
         const state = createDragState(monitor, component);
         let didDrop = false;
@@ -398,12 +401,9 @@ const dropSpec = {
             props.onDropT(state);
             didDrop = true;
         }
-        if (props.onDragEndT) {
-            props.onDragEndT(state);
-        }
         dragEnd();
         const result = { state, didDrop };
-        if ((_g = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _g === void 0 ? void 0 : _g.externalData) {
+        if ((_m = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _m === void 0 ? void 0 : _m.externalData) {
             result.externalData = currentDockId.props.externalData;
         }
         return result;
@@ -415,10 +415,10 @@ function createDragState(monitor, component) {
     if (!clientOffset) {
         return state;
     }
-    state.clientX = clientOffset.x;
-    state.clientY = clientOffset.y;
-    state.pageX = clientOffset.x;
-    state.pageY = clientOffset.y;
+    state.clientX = clientOffset.x || 0;
+    state.clientY = clientOffset.y || 0;
+    state.pageX = clientOffset.x || 0;
+    state.pageY = clientOffset.y || 0;
     state.dx = (state.pageX - monitor.getItem().baseX) * monitor.getItem().scaleX;
     state.dy = (state.pageY - monitor.getItem().baseY) * monitor.getItem().scaleY;
     return state;
@@ -431,18 +431,6 @@ function canDrag(props) {
         return false;
     }
     return props.onDragStartT !== undefined || props.onGestureStartT !== undefined;
-}
-function getTabByDockId(dockId) {
-    var _a;
-    const tab = DragState.getData('tab', dockId);
-    const panel = DragState.getData('panel', dockId);
-    if (tab) {
-        return tab;
-    }
-    if (((_a = panel === null || panel === void 0 ? void 0 : panel.tabs) === null || _a === void 0 ? void 0 : _a.length) === 1) {
-        return panel.tabs[0];
-    }
-    return null;
 }
 function dropCollect(connect, monitor) {
     return {
@@ -490,20 +478,22 @@ const dragSpec = {
         return item;
     },
     endDrag(props, monitor, component) {
-        if (!monitor.didDrop()) {
-            const state = createDragState(monitor, component);
-            if (props.onDragEndT) {
-                props.onDragEndT(state);
-            }
-            dragEnd();
-            return;
-        }
-        const { state } = monitor.getDropResult();
-        if (props.onDragMoveT) {
+        var _a, _b, _c, _d, _e, _f;
+        const state = monitor.didDrop() && ((_a = monitor.getDropResult()) === null || _a === void 0 ? void 0 : _a.state) ?
+            monitor.getDropResult().state :
+            createDragState(monitor, component);
+        if (props.onDragMoveT && monitor.didDrop()) {
             props.onDragMoveT(state);
         }
         if (props.onDragEndT) {
             props.onDragEndT(state);
+        }
+        if ((_b = monitor.getDropResult()) === null || _b === void 0 ? void 0 : _b.dropOutside) {
+            const externalDockId = (_e = (_d = (_c = monitor.getItem()) === null || _c === void 0 ? void 0 : _c.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
+            if (externalDockId) {
+                const tab = (_f = monitor.getItem()) === null || _f === void 0 ? void 0 : _f.externalData.tab;
+                externalDockId.dockMove(tab, null, 'remove');
+            }
         }
         dragEnd();
     }

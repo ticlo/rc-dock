@@ -105,6 +105,13 @@ export interface LayoutProps {
    * externalData contains any data you can pass from the external environment
    */
   externalData?: any;
+
+  /**
+   * onDockTabLayoutChange invokes when tabs are transferred from one dockable layout to another
+   * @param sourceExternalData is data related with source layout
+   * @param targetExternalData is data related with target layout
+   */
+  onDockTabLayoutChange?(sourceExternalData?: any, targetExternalData?: any): void;
 }
 
 interface LayoutState {

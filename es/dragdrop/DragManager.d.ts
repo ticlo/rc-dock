@@ -1,3 +1,4 @@
+import { TabData } from "../DockData";
 export declare type DragType = 'left' | 'right' | 'touch';
 interface DragDropComponent {
     element: HTMLElement;
@@ -43,6 +44,7 @@ declare class DndDragState {
     _onMove(): void;
 }
 export declare function dragEnd(): void;
+export declare function getTabByDockId(dockId: any): TabData;
 declare const DragStateImpl: typeof DndDragState;
 export declare class DragState extends DragStateImpl {
 }

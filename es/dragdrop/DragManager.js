@@ -286,6 +286,18 @@ export function dragEnd() {
         callback(null);
     }
 }
+export function getTabByDockId(dockId) {
+    var _a;
+    const tab = DragState.getData('tab', dockId);
+    const panel = DragState.getData('panel', dockId);
+    if (tab) {
+        return tab;
+    }
+    if (((_a = panel === null || panel === void 0 ? void 0 : panel.tabs) === null || _a === void 0 ? void 0 : _a.length) === 1) {
+        return panel.tabs[0];
+    }
+    return null;
+}
 const DragStateImpl = DndDragState;
 export class DragState extends DragStateImpl {
 }

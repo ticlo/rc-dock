@@ -521,10 +521,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       externalDockId.dockMove(tab, null, 'remove');
 
       if (currentDockId?.props?.onDockTabLayoutChange) {
-        currentDockId.props.onDockTabLayoutChange(
-          externalDockId?.props?.externalData,
-          currentDockId?.props?.externalData
-        );
+        currentDockId.props.onDockTabLayoutChange(monitor, component);
       }
     }
 

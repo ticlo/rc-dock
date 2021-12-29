@@ -26,6 +26,7 @@ import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
 import {MaxBox} from "./MaxBox";
 import {WindowBox} from "./WindowBox";
+import { DropTargetMonitor } from "react-dnd/dist/types/types";
 
 export interface LayoutProps {
   /**
@@ -108,10 +109,8 @@ export interface LayoutProps {
 
   /**
    * onDockTabLayoutChange invokes when tabs are transferred from one dockable layout to another
-   * @param sourceExternalData is data related with source layout
-   * @param targetExternalData is data related with target layout
    */
-  onDockTabLayoutChange?(sourceExternalData?: any, targetExternalData?: any): void;
+  onDockTabLayoutChange?<DragObject = any, DropResult = any>(monitor: DropTargetMonitor<DragObject, DropResult>, component: any): void;
 }
 
 interface LayoutState {

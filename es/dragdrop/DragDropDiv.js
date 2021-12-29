@@ -382,7 +382,7 @@ const dropSpec = {
         }
     },
     drop(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         if (monitor.didDrop()) {
             return;
         }
@@ -392,7 +392,7 @@ const dropSpec = {
             const tab = (_h = (_g = monitor === null || monitor === void 0 ? void 0 : monitor.getItem()) === null || _g === void 0 ? void 0 : _g.externalData) === null || _h === void 0 ? void 0 : _h.tab;
             externalDockId.dockMove(tab, null, 'remove');
             if ((_j = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _j === void 0 ? void 0 : _j.onDockTabLayoutChange) {
-                currentDockId.props.onDockTabLayoutChange((_k = externalDockId === null || externalDockId === void 0 ? void 0 : externalDockId.props) === null || _k === void 0 ? void 0 : _k.externalData, (_l = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _l === void 0 ? void 0 : _l.externalData);
+                currentDockId.props.onDockTabLayoutChange(monitor, component);
             }
         }
         const state = createDragState(monitor, component);
@@ -403,7 +403,7 @@ const dropSpec = {
         }
         dragEnd();
         const result = { state, didDrop };
-        if ((_m = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _m === void 0 ? void 0 : _m.externalData) {
+        if ((_k = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _k === void 0 ? void 0 : _k.externalData) {
             result.externalData = currentDockId.props.externalData;
         }
         return result;

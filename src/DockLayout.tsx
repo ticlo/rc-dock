@@ -1,9 +1,10 @@
-import React, {CSSProperties} from "react";
+import React, { CSSProperties } from "react";
 import ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import {
   BoxData,
   defaultGroup,
+  DndSpec,
   DockContext,
   DockContextProvider,
   DropDirection,
@@ -12,21 +13,20 @@ import {
   PanelBase,
   PanelData,
   placeHolderGroup,
-  placeHolderStyle, SourceType,
+  placeHolderStyle,
   TabBase,
   TabData,
   TabGroup,
-  TabPaneCache, TargetType
+  TabPaneCache
 } from "./DockData";
-import {DockBox} from "./DockBox";
-import {FloatBox} from "./FloatBox";
-import {DockPanel} from "./DockPanel";
+import { DockBox } from "./DockBox";
+import { FloatBox } from "./FloatBox";
+import { DockPanel } from "./DockPanel";
 import * as Algorithm from "./Algorithm";
 import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
-import {MaxBox} from "./MaxBox";
-import {WindowBox} from "./WindowBox";
-import { DropTargetMonitor } from "react-dnd/dist/types/types";
+import { MaxBox } from "./MaxBox";
+import { WindowBox } from "./WindowBox";
 
 export interface LayoutProps {
   /**
@@ -99,18 +99,12 @@ export interface LayoutProps {
    */
   maximizeTo?: string | HTMLElement;
 
-  defaultSourceItemType?: SourceType;
-  defaultTargetItemType?: TargetType;
-
   /**
    * externalData contains any data you can pass from the external environment
    */
   externalData?: any;
 
-  /**
-   * onDockTabLayoutChange invokes when tabs are transferred from one dockable layout to another
-   */
-  onDockTabLayoutChange?<DragObject = any, DropResult = any>(monitor: DropTargetMonitor<DragObject, DropResult>, component: any): void;
+  defaultDndSpec?: DndSpec;
 }
 
 interface LayoutState {

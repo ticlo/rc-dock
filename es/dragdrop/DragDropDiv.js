@@ -347,8 +347,10 @@ class DndDragDropDiv extends React.PureComponent {
         isDragging, connectDragSource, 
         // drop props
         isOver, canDrop, connectDropTarget, isOverCurrent, itemType, 
-        // item types props
-        sourceItemType, targetItemType } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "sourceItemType", "targetItemType"]);
+        // dnd spec props
+        dndSpec, 
+        // dnd spec props
+        externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
         if (canDrag(this.props)) {
             if (className) {
                 className = `${className} drag-initiator`;
@@ -391,8 +393,8 @@ const dropSpec = {
         if (currentDockId && externalDockId && currentDockId !== externalDockId && props.onDropT) {
             const tab = (_h = (_g = monitor === null || monitor === void 0 ? void 0 : monitor.getItem()) === null || _g === void 0 ? void 0 : _g.externalData) === null || _h === void 0 ? void 0 : _h.tab;
             externalDockId.dockMove(tab, null, 'remove');
-            if ((_j = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _j === void 0 ? void 0 : _j.onDockTabLayoutChange) {
-                currentDockId.props.onDockTabLayoutChange(monitor, component);
+            if ((_k = (_j = props.dndSpec) === null || _j === void 0 ? void 0 : _j.dropTargetSpec) === null || _k === void 0 ? void 0 : _k.drop) {
+                props.dndSpec.dropTargetSpec.drop(monitor, component);
             }
         }
         const state = createDragState(monitor, component);
@@ -403,8 +405,8 @@ const dropSpec = {
         }
         dragEnd();
         const result = { state, didDrop };
-        if ((_k = currentDockId === null || currentDockId === void 0 ? void 0 : currentDockId.props) === null || _k === void 0 ? void 0 : _k.externalData) {
-            result.externalData = currentDockId.props.externalData;
+        if (props.externalData) {
+            result.externalData = props.externalData;
         }
         return result;
     }
@@ -472,7 +474,8 @@ const dragSpec = {
         if (tab) {
             item.externalData = {
                 tab,
-                context: component.context
+                context: component.context,
+                extra: props.externalData
             };
         }
         return item;
@@ -504,14 +507,19 @@ function dragCollect(connect, monitor) {
         isDragging: monitor.isDragging()
     };
 }
-const withDefaultItemTypes = (WrappedComponent) => {
+const withDndSpec = (WrappedComponent) => {
     return (props) => {
         // @ts-ignore
-        const { props: { defaultSourceItemType, defaultTargetItemType } } = useContext(DockContextType);
-        const sourceItemType = useMemo(() => defaultSourceItemType, []);
-        const targetItemType = useMemo(() => defaultTargetItemType, []);
-        return (React.createElement(WrappedComponent, Object.assign({}, props, { sourceItemType: sourceItemType, targetItemType: targetItemType })));
+        const { props: { defaultDndSpec } } = useContext(DockContextType);
+        return (React.createElement(WrappedComponent, Object.assign({ dndSpec: useMemo(() => defaultDndSpec, []) }, props)));
     };
 };
-const EnhancedDndDragDropDiv = withDefaultItemTypes(_.flow(DragSource(({ sourceItemType }) => sourceItemType !== undefined ? sourceItemType : ITEM_TYPE_DEFAULT, dragSpec, dragCollect), DropTarget(({ targetItemType }) => targetItemType !== undefined ? targetItemType : ITEM_TYPE_DEFAULT, dropSpec, dropCollect))(DndDragDropDiv));
+const withExternalData = (WrappedComponent) => {
+    return (props) => {
+        // @ts-ignore
+        const { props: { externalData } } = useContext(DockContextType);
+        return (React.createElement(WrappedComponent, Object.assign({ externalData: externalData }, props)));
+    };
+};
+const EnhancedDndDragDropDiv = withExternalData(withDndSpec(_.flow(DragSource(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dragSourceSpec) === null || _a === void 0 ? void 0 : _a.itemType) !== undefined ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT; }, dragSpec, dragCollect), DropTarget(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dropTargetSpec) === null || _a === void 0 ? void 0 : _a.itemType) !== undefined ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT; }, dropSpec, dropCollect))(DndDragDropDiv)));
 export { EnhancedDndDragDropDiv as DragDropDiv };

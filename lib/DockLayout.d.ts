@@ -1,7 +1,6 @@
 import React, { CSSProperties } from "react";
-import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, SourceType, TabBase, TabData, TabGroup, TabPaneCache, TargetType } from "./DockData";
+import { BoxData, DndSpec, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
-import { DropTargetMonitor } from "react-dnd/dist/types/types";
 export interface LayoutProps {
     /**
      * when there are multiple DockLayout, by default, you can't drag panel between them
@@ -63,16 +62,11 @@ export interface LayoutProps {
      * use dom element as the value, or use the element's id
      */
     maximizeTo?: string | HTMLElement;
-    defaultSourceItemType?: SourceType;
-    defaultTargetItemType?: TargetType;
     /**
      * externalData contains any data you can pass from the external environment
      */
     externalData?: any;
-    /**
-     * onDockTabLayoutChange invokes when tabs are transferred from one dockable layout to another
-     */
-    onDockTabLayoutChange?<DragObject = any, DropResult = any>(monitor: DropTargetMonitor<DragObject, DropResult>, component: any): void;
+    defaultDndSpec?: DndSpec;
 }
 interface LayoutState {
     layout: LayoutData;

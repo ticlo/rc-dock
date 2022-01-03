@@ -397,3 +397,21 @@ export const DockContextConsumer = DockContextType.Consumer;
 export type Identifier = string | symbol;
 export type SourceType = Identifier;
 export type TargetType = Identifier | Identifier[];
+
+export interface DropTargetMonitor {
+  getItem<T = any>(): T;
+}
+
+export interface DragSourceSpec {
+  itemType?: SourceType;
+}
+
+export interface DropTargetSpec {
+  itemType?: TargetType;
+  drop?(monitor: DropTargetMonitor, component: any): void;
+}
+
+export interface DndSpec {
+  dragSourceSpec?: DragSourceSpec;
+  dropTargetSpec?: DropTargetSpec;
+}

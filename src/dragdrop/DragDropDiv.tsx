@@ -5,19 +5,19 @@ import { dragEnd, getTabByDockId } from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _ from "lodash";
-import { DockContext, DockContextType, PanelData, SourceType, TabData, TargetType } from "../DockData";
+import { DndSpec, DockContext, DockContextType, TabData } from "../DockData";
 import { v4 as uuid } from "uuid";
 import {
-  DragSource,
-  DropTarget,
-  DragSourceConnector,
-  DragSourceSpec,
-  DropTargetConnector,
-  DropTargetSpec,
   ConnectDragSource,
   ConnectDropTarget,
+  DragSource,
+  DragSourceConnector,
   DragSourceMonitor,
+  DragSourceSpec,
+  DropTarget,
+  DropTargetConnector,
   DropTargetMonitor,
+  DropTargetSpec,
   XYCoord
 } from "react-dnd";
 
@@ -47,12 +47,15 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   extraData?: any;
 }
 
-interface ItemTypeProps {
-  sourceItemType?: SourceType;
-  targetItemType?: TargetType;
+interface DndSpecProps {
+  dndSpec?: DndSpec;
 }
 
-interface DndDragDropDivProps extends DragDropDivProps, ItemTypeProps {
+interface ExternalDataProps {
+  externalData?: any;
+}
+
+interface DndDragDropDivProps extends DragDropDivProps, DndSpecProps, ExternalDataProps {
   isOver: boolean;
   isOverCurrent: boolean;
   isDragging: boolean;
@@ -442,8 +445,10 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
       isDragging, connectDragSource,
       // drop props
       isOver, canDrop, connectDropTarget, isOverCurrent, itemType,
-      // item types props
-      sourceItemType, targetItemType,
+      // dnd spec props
+      dndSpec,
+      // dnd spec props
+      externalData,
       ...others
     } = this.props;
 
@@ -520,8 +525,8 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       const tab = monitor?.getItem()?.externalData?.tab;
       externalDockId.dockMove(tab, null, 'remove');
 
-      if (currentDockId?.props?.onDockTabLayoutChange) {
-        currentDockId.props.onDockTabLayoutChange(monitor, component);
+      if (props.dndSpec?.dropTargetSpec?.drop) {
+        props.dndSpec.dropTargetSpec.drop(monitor, component);
       }
     }
 
@@ -538,8 +543,8 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const result: DropResult = {state, didDrop};
 
-    if (currentDockId?.props?.externalData) {
-      result.externalData = currentDockId.props.externalData;
+    if (props.externalData) {
+      result.externalData = props.externalData;
     }
 
     return result;
@@ -631,7 +636,8 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (tab) {
       item.externalData = {
         tab,
-        context: component.context
+        context: component.context,
+        extra: props.externalData
       };
     }
 
@@ -671,40 +677,47 @@ function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
   };
 }
 
-const withDefaultItemTypes = <P extends DragDropDivProps>(WrappedComponent: React.ComponentType<P>) => {
-  return (props: P & ItemTypeProps) => {
+const withDndSpec = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
+  return (props: P & DndSpecProps) => {
     // @ts-ignore
-    const {props: {
-      defaultSourceItemType,
-      defaultTargetItemType
-    }} = useContext(DockContextType);
-
-    const sourceItemType = useMemo(() => defaultSourceItemType, []);
-    const targetItemType = useMemo(() => defaultTargetItemType, []);
+    const {props: {defaultDndSpec}} = useContext(DockContextType);
 
     return (
       <WrappedComponent
+        dndSpec={useMemo(() => defaultDndSpec, [])}
         {...props}
-        sourceItemType={sourceItemType}
-        targetItemType={targetItemType}
       />
     );
   };
 };
 
-const EnhancedDndDragDropDiv = withDefaultItemTypes(
+const withExternalData = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
+  return (props: P & ExternalDataProps) => {
+    // @ts-ignore
+    const {props: {externalData}} = useContext(DockContextType);
+
+    return (
+      <WrappedComponent
+        externalData={externalData}
+        {...props}
+      />
+    );
+  };
+};
+
+const EnhancedDndDragDropDiv = withExternalData<DragDropDivProps>(withDndSpec(
   _.flow(
     DragSource(
-      ({sourceItemType}) => sourceItemType !== undefined ? sourceItemType : ITEM_TYPE_DEFAULT,
+      ({dndSpec}) => dndSpec?.dragSourceSpec?.itemType !== undefined ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT,
       dragSpec,
       dragCollect
     ),
     DropTarget(
-      ({targetItemType}) => targetItemType !== undefined ? targetItemType : ITEM_TYPE_DEFAULT,
+      ({dndSpec}) => dndSpec?.dropTargetSpec?.itemType !== undefined ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT,
       dropSpec,
       dropCollect
     )
   )(DndDragDropDiv)
-);
+));
 
 export { EnhancedDndDragDropDiv as DragDropDiv };

@@ -317,4 +317,18 @@ export declare const DockContextConsumer: React.Consumer<DockContext>;
 export declare type Identifier = string | symbol;
 export declare type SourceType = Identifier;
 export declare type TargetType = Identifier | Identifier[];
+export interface DropTargetMonitor {
+    getItem<T = any>(): T;
+}
+export interface DragSourceSpec {
+    itemType?: SourceType;
+}
+export interface DropTargetSpec {
+    itemType?: TargetType;
+    drop?(monitor: DropTargetMonitor, component: any): void;
+}
+export interface DndSpec {
+    dragSourceSpec?: DragSourceSpec;
+    dropTargetSpec?: DropTargetSpec;
+}
 export {};

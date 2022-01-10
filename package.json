@@ -67,7 +67,7 @@
   "resolutions": {
     "**/marked": "^2.0.0",
     "**/minimist": "^1.2.5",
-    "**/node-forge": "^0.10.0",
+    "**/node-forge": "^1.2.0",
     "**/is-svg": "^4.2.2",
     "**/postcss": "^8.2.15",
     "**/ws": "^7.4.6",

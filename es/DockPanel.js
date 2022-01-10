@@ -85,6 +85,18 @@ export class DockPanel extends React.PureComponent {
                 this.context.onSilentChange(this.props.panelData.activeId, 'move');
             }
         };
+        this.onPanelCornerDragT = (e) => {
+            this.onPanelCornerDrag(e, 't');
+        };
+        this.onPanelCornerDragB = (e) => {
+            this.onPanelCornerDrag(e, 'b');
+        };
+        this.onPanelCornerDragL = (e) => {
+            this.onPanelCornerDrag(e, 'l');
+        };
+        this.onPanelCornerDragR = (e) => {
+            this.onPanelCornerDrag(e, 'r');
+        };
         this.onPanelCornerDragTL = (e) => {
             this.onPanelCornerDrag(e, 'tl');
         };
@@ -111,6 +123,24 @@ export class DockPanel extends React.PureComponent {
                 }
             }
             switch (this._movingCorner) {
+                case 't': {
+                    panelData.y = this._movingY + dy;
+                    panelData.h = this._movingH - dy;
+                    break;
+                }
+                case 'b': {
+                    panelData.h = this._movingH + dy;
+                    break;
+                }
+                case 'l': {
+                    panelData.x = this._movingX + dx;
+                    panelData.w = this._movingW - dx;
+                    break;
+                }
+                case 'r': {
+                    panelData.w = this._movingW + dx;
+                    break;
+                }
                 case 'tl': {
                     panelData.x = this._movingX + dx;
                     panelData.w = this._movingW - dx;
@@ -257,6 +287,10 @@ export class DockPanel extends React.PureComponent {
             React.createElement(DockTabs, { panelData: panelData, onPanelDragStart: onPanelHeaderDragStart, onPanelDragMove: this.onPanelHeaderDragMove, onPanelDragEnd: this.onPanelHeaderDragEnd }),
             isFloat ?
                 [
+                    React.createElement(DragDropDiv, { key: "drag-size-t", className: "dock-panel-drag-size dock-panel-drag-size-t", onDragStartT: this.onPanelCornerDragT, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
+                    React.createElement(DragDropDiv, { key: "drag-size-b", className: "dock-panel-drag-size dock-panel-drag-size-b", onDragStartT: this.onPanelCornerDragB, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
+                    React.createElement(DragDropDiv, { key: "drag-size-l", className: "dock-panel-drag-size dock-panel-drag-size-l", onDragStartT: this.onPanelCornerDragL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
+                    React.createElement(DragDropDiv, { key: "drag-size-r", className: "dock-panel-drag-size dock-panel-drag-size-r", onDragStartT: this.onPanelCornerDragR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-t-l", className: "dock-panel-drag-size dock-panel-drag-size-t-l", onDragStartT: this.onPanelCornerDragTL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-t-r", className: "dock-panel-drag-size dock-panel-drag-size-t-r", onDragStartT: this.onPanelCornerDragTR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
                     React.createElement(DragDropDiv, { key: "drag-size-b-l", className: "dock-panel-drag-size dock-panel-drag-size-b-l", onDragStartT: this.onPanelCornerDragBL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),

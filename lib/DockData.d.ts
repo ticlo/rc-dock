@@ -319,6 +319,7 @@ export declare type SourceType = Identifier;
 export declare type TargetType = Identifier | Identifier[];
 export interface DropTargetMonitor {
     getItem<T = any>(): T;
+    getItemType(): TargetType;
 }
 export interface DragSourceSpec {
     itemType?: SourceType;

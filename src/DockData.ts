@@ -400,6 +400,7 @@ export type TargetType = Identifier | Identifier[];
 
 export interface DropTargetMonitor {
   getItem<T = any>(): T;
+  getItemType(): TargetType;
 }
 
 export interface DragSourceSpec {

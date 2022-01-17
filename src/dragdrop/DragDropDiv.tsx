@@ -483,7 +483,6 @@ interface DragObject {
 
 interface DropResult {
   state: DragManager.DragState;
-  didDrop: boolean;
   externalData?: any;
   dropOutside?: boolean;
 }
@@ -524,24 +523,21 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (currentDockId && externalDockId && currentDockId !== externalDockId && props.onDropT) {
       const tab = monitor?.getItem()?.externalData?.tab;
       externalDockId.dockMove(tab, null, 'remove');
+    }
+
+    const state = createDragState(monitor, component);
+
+    if (props.onDropT) {
+      props.onDropT(state);
 
       if (props.dndSpec?.dropTargetSpec?.drop) {
         props.dndSpec.dropTargetSpec.drop(monitor, component);
       }
     }
 
-    const state = createDragState(monitor, component);
-
-    let didDrop = false;
-
-    if (props.onDropT) {
-      props.onDropT(state);
-      didDrop = true;
-    }
-
     dragEnd();
 
-    const result: DropResult = {state, didDrop};
+    const result: DropResult = {state};
 
     if (props.externalData) {
       result.externalData = props.externalData;

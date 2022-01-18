@@ -2,67 +2,67 @@ import React from 'react';
 import { Filter } from "./Algorithm";
 export interface TabGroup {
     /**
-     * whether tab can be dragged into float layer
-     * If value is "singleTab", float panel can't have multiple tabs
+     * Whether tab can be dragged into float layer.
+     * If value is "singleTab", float panel can't have multiple tabs.
      *
      * default: false
      */
     floatable?: boolean | 'singleTab';
     /**
-     * whether tab can be converted to native window, only works when floatable is true
+     * Whether tab can be converted to native window, only works when floatable is true.
      *
      * default: false
      */
     newWindow?: boolean;
     /**
-     * disable dock, so the panel will only work in float mode
+     * Disable dock, so the panel will only work in float mode.
      *
      * default: false
      */
     disableDock?: boolean;
     /**
-     * whether tab can be maximized
+     * Whether tab can be maximized
      *
      * default: false
      */
     maximizable?: boolean;
     /**
-     * when tabs are locked, you can not drag tab to create new panel, but it can still be dropped into a different panel if they have the same tab group.
+     * When tabs are locked, you can not drag tab to create new panel, but it can still be dropped into a different panel if they have the same tab group.
      *
      * default false
      */
     tabLocked?: boolean;
     /**
-     * whether to show animation effect when switch tabs
+     * Whether to show animation effect when switch tabs.
      *
      * default true
      */
     animated?: boolean;
     /**
-     * generate extra content show in the right side of tab bar
+     * Generate extra content show in the right side of tab bar.
      *
      * panelExtra can also be used as a listener on panel state changes,
-     * if you don't need to show extra content in this case, just return null
+     * If you don't need to show extra content in this case, just return null.
      */
     panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
     /**
-     * when creating float panel from dragging, DockLayout would use the original panel's size
-     * use this to defined the [min, max] allowed with for the default size of a float panel
-     * if not specified, minWidth = 100, maxWidth = 600
+     * When creating float panel from dragging, DockLayout would use the original panel's size.
+     * Use this to defined the [min, max] allowed with for the default size of a float panel.
+     * If not specified, minWidth = 100, maxWidth = 600
      */
     preferredFloatWidth?: [number, number];
     /**
-     * when creating float panel from dragging, DockLayout would use the original panel's size
-     * use this to defined the [min, max] allowed height for the default size of a float panel
-     * if not specified, minHeight = 50, maxHeight = 500
+     * When creating float panel from dragging, DockLayout would use the original panel's size.
+     * Use this to defined the [min, max] allowed height for the default size of a float panel.
+     * If not specified, minHeight = 50, maxHeight = 500
      */
     preferredFloatHeight?: [number, number];
     /**
-     * override the default flex grow and flex shrink for panel width
+     * Override the default flex grow and flex shrink for panel width
      */
     widthFlex?: number;
     /**
-     * override the default flex grow and flex shrink for panel height
+     * Override the default flex grow and flex shrink for panel height
      */
     heightFlex?: number;
 }
@@ -92,13 +92,13 @@ export interface PanelBase {
      */
     id?: string;
     /**
-     * the size in dock box
+     * The size in dock box,
      * width when in horizontal layout and height when in vertical layout
      */
     size?: number;
     tabs: TabBase[];
     /**
-     * the id of current tab
+     * The id of current tab
      */
     activeId?: string;
     /** float mode only */
@@ -119,7 +119,7 @@ export interface BoxBase {
     id?: string;
     mode: DockMode;
     /**
-     * the size in dock box
+     * The size in dock box,
      * width when in horizontal layout and height when in vertical layout
      */
     size?: number;
@@ -175,7 +175,7 @@ interface PanelLock {
     minWidth?: number;
     minHeight?: number;
     /**
-     * override the default extra content from TabGroup.panelExtra
+     * override the default extra content from TabGroup.panelExtra,
      *
      * panelExtra can also be used as a listener on panel state changes,
      * if you don't need to show extra content in this case, just return null
@@ -201,8 +201,8 @@ export interface PanelData extends PanelBase, BoxChild {
      */
     group?: string;
     /**
-     * addition information of a panel
-     * this prevents the panel from being removed when there is no tab inside
+     * addition information of a panel,
+     * This prevents the panel from being removed when there is no tab inside
      * a locked panel can not be moved to float layer either
      */
     panelLock?: PanelLock;
@@ -219,17 +219,17 @@ export interface LayoutData extends LayoutBase {
      */
     dockbox: BoxData;
     /**
-     * float box
-     * children must be PanelData, child box is not allowed
+     * float box,
+     * Children must be PanelData, child box is not allowed
      */
     floatbox?: BoxData;
     /**
-     * window box
-     * children must be PanelData, child box is not allowed
+     * window box,
+     * Children must be PanelData, child box is not allowed
      */
     windowbox?: BoxData;
     /**
-     * the maximized panel
+     * The maximized panel,
      * only one child allowed, child must be PanelData
      */
     maxbox?: BoxData;
@@ -255,13 +255,13 @@ export interface DockContext {
         height: number;
     };
     /** @ignore
-     * when a state change happen to the layout that's handled locally, like inside DockPanel or DockBox
-     * it still need to tell the context there is a change so DockLayout can call onLayoutChange callback
-     * this usually happens on dragEnd event of size/location change
+     * When a state change happen to the layout that's handled locally, like inside DockPanel or DockBox.
+     * It still need to tell the context there is a change so DockLayout can call onLayoutChange callback.
+     * This usually happens on dragEnd event of size/location change.
      */
     onSilentChange(currentTabId?: string, direction?: DropDirection): void;
     /**
-     * move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
+     * Move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
      * @param source the source TabData or PanelData being moved
      *  - it can exist in the layout already
      *  - or can be a new tab or new panel that you want to add to the layout
@@ -274,15 +274,15 @@ export interface DockContext {
      */
     dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection): void;
     /**
-     * get the TabGroup defined in defaultLayout
+     * Get the TabGroup defined in defaultLayout
      */
     getGroup(name: string): TabGroup;
     /**
-     * find PanelData or TabData by id
+     * Find PanelData or TabData by id
      */
     find(id: string, filter?: Filter): PanelData | TabData | BoxData;
     /**
-     * update a tab with new TabData
+     * Update a tab with new TabData
      * @param id tab id to update
      * @param newTab new tab data, if newTab is null, it only changes the active tab of parent panel
      * @param makeActive whether to make the tab the active child of parent panel
@@ -290,7 +290,7 @@ export interface DockContext {
      */
     updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
     /**
-     * move focus to a dockpanel near by
+     * Move focus to a dockpanel near by
      * @param fromElement
      * @param direction
      */

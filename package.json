@@ -29,12 +29,12 @@
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "classnames": "^2.2.6",
+    "classnames": "^2.3.1",
     "lodash": "^4.17.21",
-    "rc-dropdown": "^3.2.0",
-    "rc-menu": "^8.10.8",
+    "rc-dropdown": "^3.2.2",
+    "rc-menu": "^9.3.0",
     "rc-new-window": "^0.1.13",
-    "rc-tabs": "^11.7.3"
+    "rc-tabs": "^11.10.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
@@ -49,7 +49,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/shelljs": "^0.8.8",
     "less": "^4.1.1",
-    "parcel": "^1.12.4",
+    "parcel": "1.12.4",
     "prismjs": "^1.23.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -65,14 +65,7 @@
     "react-dom": ">=15.0.0"
   },
   "resolutions": {
-    "**/marked": "^2.0.0",
-    "**/minimist": "^1.2.5",
-    "**/node-forge": "^1.2.0",
-    "**/is-svg": "^4.2.2",
-    "**/postcss": "^8.2.15",
-    "**/ws": "^7.4.6",
-    "**/normalize-url": "^4.5.1",
-    "**/glob-parent": "^5.1.2"
+
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",

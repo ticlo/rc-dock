@@ -56,6 +56,7 @@ export class TabCache {
             e.startDrag(this._ref.parentElement, this._ref.parentElement);
         };
         this.onDragOver = (e) => {
+            var _a, _b;
             let dockId = this.context.getDockId();
             let tab = DragManager.DragState.getData('tab', dockId);
             let panel = DragManager.DragState.getData('panel', dockId);
@@ -75,7 +76,11 @@ export class TabCache {
                 }
                 group = panel.group;
             }
+            let tabGroup = this.context.getGroup(group);
             if (group !== this.data.group) {
+                e.reject();
+            }
+            else if ((tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.floatable) === 'singleTab' && ((_b = (_a = this.data.parent) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.mode) === 'float') {
                 e.reject();
             }
             else if (tab && tab !== this.data) {

@@ -1,207 +1,327 @@
-<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>rc-dock</title><meta name="description" content="Documentation for rc-dock"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">rc-dock</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> rc-dock</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
-<a href="#dock-layout-for-react-component" id="dock-layout-for-react-component" style="color: inherit; text-decoration: none;">
-  <h1>Dock Layout for React Component</h1>
-</a>
-<p><img src="https://ticlo.github.io/rc-dock/images/demo.gif" alt=""></p>
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>rc-dock</title>
+	<meta name="description" content="Documentation for rc-dock">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">rc-dock</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>rc-dock</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#dock-layout-for-react-component" id="dock-layout-for-react-component" style="color: inherit; text-decoration: none;">
+					<h1>Dock Layout for React Component</h1>
+				</a>
+				<p><img src="https://ticlo.github.io/rc-dock/images/demo.gif" alt=""></p>
+				<a href="#popup-panel-as-new-browser-window" id="popup-panel-as-new-browser-window" style="color: inherit; text-decoration: none;">
+					<h4>Popup panel as new browser window</h4>
+				</a>
+				<p><img src="https://ticlo.github.io/rc-dock/images/new-window.gif" alt=""></p>
+				<a href="#dark-theme" id="dark-theme" style="color: inherit; text-decoration: none;">
+					<h4>Dark Theme</h4>
+				</a>
+				<p><img src="https://ticlo.github.io/rc-dock/images/dark-theme.png" alt=""></p>
+				<ul>
+					<li><strong>Examples:</strong> <a href="https://ticlo.github.io/rc-dock/examples">https://ticlo.github.io/rc-dock/examples</a></li>
+					<li><strong>Docs:</strong> <a href="https://ticlo.github.io/rc-dock">https://ticlo.github.io/rc-dock</a></li>
+					<li><strong>Discord:</strong> <a href="https://discord.gg/G7pw9DR"><img src="https://img.shields.io/discord/434106806503997445.svg?color=7289DA&logo=discord&logoColor=white" alt="Discord"></a></li>
+				</ul>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p><a href="https://npmjs.org/package/rc-dock"><img src="https://nodei.co/npm/rc-dock.png" alt="rc-tabs"></a></p>
+				<pre><code class="language-jsx"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">DockLayout</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;rc-dock&#039;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;rc-dock/dist/rc-dock.css&quot;</span><span style="color: #000000">;</span>
 
-<a href="#popup-panel-as-new-browser-window" id="popup-panel-as-new-browser-window" style="color: inherit; text-decoration: none;">
-  <h4>Popup panel as new browser window</h4>
-</a>
-<p><img src="https://ticlo.github.io/rc-dock/images/new-window.gif" alt=""></p>
+<span style="color: #000000">...</span>
 
-<a href="#dark-theme" id="dark-theme" style="color: inherit; text-decoration: none;">
-  <h4>Dark Theme</h4>
-</a>
-<p><img src="https://ticlo.github.io/rc-dock/images/dark-theme.png" alt=""></p>
-<ul>
-<li><strong>Examples:</strong> <a href="https://ticlo.github.io/rc-dock/examples">https://ticlo.github.io/rc-dock/examples</a></li>
-<li><strong>Docs:</strong> <a href="https://ticlo.github.io/rc-dock">https://ticlo.github.io/rc-dock</a></li>
-<li><strong>Discord:</strong> <a href="https://discord.gg/G7pw9DR"><img src="https://img.shields.io/discord/434106806503997445.svg?color=7289DA&logo=discord&logoColor=white" alt="Discord"></a></li>
-</ul>
+<span style="color: #001080">defaultLayout</span><span style="color: #000000"> = {</span>
+<span style="color: #000000">  </span><span style="color: #001080">dockbox:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">mode:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;horizontal&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">children:</span><span style="color: #000000"> [</span>
+<span style="color: #000000">      {</span>
+<span style="color: #000000">        </span><span style="color: #001080">tabs:</span><span style="color: #000000"> [</span>
+<span style="color: #000000">          {</span><span style="color: #001080">id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;tab1&#039;</span><span style="color: #000000">, </span><span style="color: #001080">title:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;tab1&#039;</span><span style="color: #000000">, </span><span style="color: #001080">content:</span><span style="color: #000000"> </span><span style="color: #800000">&lt;div&gt;</span><span style="color: #000000">Hello World</span><span style="color: #800000">&lt;/div&gt;</span><span style="color: #000000">}</span>
+<span style="color: #000000">        ]</span>
+<span style="color: #000000">      }</span>
+<span style="color: #000000">    ]</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">};</span>
 
-<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-  <h2>Usage</h2>
-</a>
-<p><a href="https://npmjs.org/package/rc-dock"><img src="https://nodei.co/npm/rc-dock.png" alt="rc-tabs"></a></p>
-<pre><code class="language-jsx"><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-2">DockLayout</span><span class="hl-1"> </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&#39;rc-dock&#39;</span><br/><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-3">&quot;rc-dock/dist/rc-dock.css&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-1">...</span><br/><br/><span class="hl-2">defaultLayout</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-2">dockbox:</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-2">mode:</span><span class="hl-1"> </span><span class="hl-3">&#39;horizontal&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">children:</span><span class="hl-1"> [</span><br/><span class="hl-1">      {</span><br/><span class="hl-1">        </span><span class="hl-2">tabs:</span><span class="hl-1"> [</span><br/><span class="hl-1">          {</span><span class="hl-2">id:</span><span class="hl-1"> </span><span class="hl-3">&#39;tab1&#39;</span><span class="hl-1">, </span><span class="hl-2">title:</span><span class="hl-1"> </span><span class="hl-3">&#39;tab1&#39;</span><span class="hl-1">, </span><span class="hl-2">content:</span><span class="hl-1"> </span><span class="hl-4">&lt;</span><span class="hl-5">div</span><span class="hl-4">&gt;</span><span class="hl-1">Hello World</span><span class="hl-4">&lt;/</span><span class="hl-5">div</span><span class="hl-4">&gt;</span><span class="hl-1">}</span><br/><span class="hl-1">        ]</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">    ]</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-6">render</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-0">return</span><span class="hl-1"> (</span><br/><span class="hl-1">    </span><span class="hl-4">&lt;</span><span class="hl-7">DockLayout</span><br/><span class="hl-1">      </span><span class="hl-8">defaultLayout</span><span class="hl-1">=</span><span class="hl-9">{</span><span class="hl-2">defaultLayout</span><span class="hl-9">}</span><br/><span class="hl-1">      </span><span class="hl-8">style</span><span class="hl-1">=</span><span class="hl-9">{</span><span class="hl-10">{</span><br/><span class="hl-10">        </span><span class="hl-2">position:</span><span class="hl-10"> </span><span class="hl-3">&quot;absolute&quot;</span><span class="hl-10">,</span><br/><span class="hl-10">        </span><span class="hl-2">left:</span><span class="hl-10"> </span><span class="hl-11">10</span><span class="hl-10">,</span><br/><span class="hl-10">        </span><span class="hl-2">top:</span><span class="hl-10"> </span><span class="hl-11">10</span><span class="hl-10">,</span><br/><span class="hl-10">        </span><span class="hl-2">right:</span><span class="hl-10"> </span><span class="hl-11">10</span><span class="hl-10">,</span><br/><span class="hl-10">        </span><span class="hl-2">bottom:</span><span class="hl-10"> </span><span class="hl-11">10</span><span class="hl-10">,</span><br/><span class="hl-10">      }</span><span class="hl-9">}</span><br/><span class="hl-1">    </span><span class="hl-4">/&gt;</span><br/><span class="hl-1">  )</span><br/><span class="hl-1">}</span><br/>
+<span style="color: #795E26">render</span><span style="color: #000000">() {</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;</span><span style="color: #267F99">DockLayout</span>
+<span style="color: #000000">      </span><span style="color: #FF0000">defaultLayout</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">defaultLayout</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">      </span><span style="color: #FF0000">style</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #000000FF">{</span>
+<span style="color: #000000FF">        </span><span style="color: #001080">position:</span><span style="color: #000000FF"> </span><span style="color: #A31515">&quot;absolute&quot;</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">        </span><span style="color: #001080">left:</span><span style="color: #000000FF"> </span><span style="color: #098658">10</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">        </span><span style="color: #001080">top:</span><span style="color: #000000FF"> </span><span style="color: #098658">10</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">        </span><span style="color: #001080">right:</span><span style="color: #000000FF"> </span><span style="color: #098658">10</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">        </span><span style="color: #001080">bottom:</span><span style="color: #000000FF"> </span><span style="color: #098658">10</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">      }</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">    </span><span style="color: #800000">/&gt;</span>
+<span style="color: #000000">  )</span>
+<span style="color: #000000">}</span>
+
 </code></pre>
-<ul>
-<li>use as <strong>uncontrolled layout</strong><ul>
-<li>set layout object in <strong><a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#defaultlayout">DockLayout.defaultLayout</a></strong></li>
-</ul>
-</li>
-<li>use as <strong>controlled layout</strong><ul>
-<li>set layout object in <strong><a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#layout">DockLayout.layout</a></strong></li>
-</ul>
-</li>
-</ul>
-
-<a href="#types" id="types" style="color: inherit; text-decoration: none;">
-  <h2>types</h2>
-</a>
-
-<a href="#layoutdata-🗎" id="layoutdata-🗎" style="color: inherit; text-decoration: none;">
-  <h3>LayoutData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.layoutdata.html">🗎</a></h3>
-</a>
-<table>
-<thead>
-<tr>
-<th align="center">Property</th>
-<th align="center">Type</th>
-<th align="center">Comments</th>
-<th align="center">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">dockbox</td>
-<td align="center">BoxData</td>
-<td align="center">main dock box</td>
-<td align="center">empty BoxData</td>
-</tr>
-<tr>
-<td align="center">floatbox</td>
-<td align="center">BoxData</td>
-<td align="center">main float box, children can only be PanelData</td>
-<td align="center">empty BoxData</td>
-</tr>
-</tbody></table>
-
-<a href="#boxdata-🗎" id="boxdata-🗎" style="color: inherit; text-decoration: none;">
-  <h3>BoxData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.boxdata.html">🗎</a></h3>
-</a>
-<p>a box is the layout element that contains other boxes or panels</p>
-<table>
-<thead>
-<tr>
-<th align="center">Property</th>
-<th align="center">Type</th>
-<th align="center">Comments</th>
-<th align="center">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">mode</td>
-<td align="center">&#39;horizontal&#39; &#x7c; &#39;vertical&#39; &#x7c; &#39;float&#39;</td>
-<td align="center">layout mode of the box</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">children</td>
-<td align="center">(BoxData &#x7c; PanelData)[]</td>
-<td align="center">children boxes or panels</td>
-<td align="center"><strong>required</strong></td>
-</tr>
-</tbody></table>
-
-<a href="#paneldata-🗎" id="paneldata-🗎" style="color: inherit; text-decoration: none;">
-  <h3>PanelData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.paneldata.html">🗎</a></h3>
-</a>
-<p>a panel is a visiaul container with tabs button in the title bar</p>
-<table>
-<thead>
-<tr>
-<th align="center">Property</th>
-<th align="center">Type</th>
-<th align="center">Comments</th>
-<th align="center">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">tabs</td>
-<td align="center">TabData[]</td>
-<td align="center">children tabs</td>
-<td align="center"><strong>required</strong></td>
-</tr>
-<tr>
-<td align="center">panelLock</td>
-<td align="center">PanelLock</td>
-<td align="center">addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-
-<a href="#tabdata-🗎" id="tabdata-🗎" style="color: inherit; text-decoration: none;">
-  <h3>TabData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.tabdata.html">🗎</a></h3>
-</a>
-<table>
-<thead>
-<tr>
-<th align="center">Property</th>
-<th align="center">Type</th>
-<th align="center">Comments</th>
-<th align="center">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">id</td>
-<td align="center">string</td>
-<td align="center">unique id</td>
-<td align="center"><strong>required</strong></td>
-</tr>
-<tr>
-<td align="center">title</td>
-<td align="center">string &#x7c; ReactElement</td>
-<td align="center">tab title</td>
-<td align="center"><strong>required</strong></td>
-</tr>
-<tr>
-<td align="center">content</td>
-<td align="center">ReactElement &#x7c; (tab: TabData) =&gt; ReactElement</td>
-<td align="center">tab content</td>
-<td align="center"><strong>required</strong></td>
-</tr>
-<tr>
-<td align="center">closable</td>
-<td align="center">bool</td>
-<td align="center">whether tab can be closed</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">group</td>
-<td align="center">string</td>
-<td align="center">tabs with different tab group can not be put in same panel, more options for the group can be defined as TabGroup in DefaultLayout.groups</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-
-<a href="#docklayout-api" id="docklayout-api" style="color: inherit; text-decoration: none;">
-  <h2>DockLayout API</h2>
-</a>
-<p>get the <code>ref</code> of the DockLayout component to use the following API</p>
-
-<a href="#savelayout-🗎" id="savelayout-🗎" style="color: inherit; text-decoration: none;">
-  <h3>saveLayout <a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html">🗎</a></h3>
-</a>
-<p>save layout</p>
-<pre><code class="language-typescript"><span class="hl-6">saveLayout</span><span class="hl-1">(): </span><span class="hl-2">SavedLayout</span><span class="hl-1"> </span>
+				<ul>
+					<li>use as <strong>uncontrolled layout</strong><ul>
+							<li>set layout object in <strong><a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#defaultlayout">DockLayout.defaultLayout</a></strong></li>
+						</ul>
+					</li>
+					<li>use as <strong>controlled layout</strong><ul>
+							<li>set layout object in <strong><a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#layout">DockLayout.layout</a></strong> </li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#types" id="types" style="color: inherit; text-decoration: none;">
+					<h2>types</h2>
+				</a>
+				<a href="#layoutdata-🗎" id="layoutdata-🗎" style="color: inherit; text-decoration: none;">
+					<h3>LayoutData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.layoutdata.html">🗎</a></h3>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th align="center">Property</th>
+							<th align="center">Type</th>
+							<th align="center">Comments</th>
+							<th align="center">Default</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="center">dockbox</td>
+							<td align="center">BoxData</td>
+							<td align="center">main dock box</td>
+							<td align="center">empty BoxData</td>
+						</tr>
+						<tr>
+							<td align="center">floatbox</td>
+							<td align="center">BoxData</td>
+							<td align="center">main float box, children can only be PanelData</td>
+							<td align="center">empty BoxData</td>
+						</tr>
+				</tbody></table>
+				<a href="#boxdata-🗎" id="boxdata-🗎" style="color: inherit; text-decoration: none;">
+					<h3>BoxData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.boxdata.html">🗎</a></h3>
+				</a>
+				<p>a box is the layout element that contains other boxes or panels</p>
+				<table>
+					<thead>
+						<tr>
+							<th align="center">Property</th>
+							<th align="center">Type</th>
+							<th align="center">Comments</th>
+							<th align="center">Default</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="center">mode</td>
+							<td align="center">&#39;horizontal&#39; &#x7c; &#39;vertical&#39; &#x7c; &#39;float&#39;</td>
+							<td align="center">layout mode of the box</td>
+							<td align="center"></td>
+						</tr>
+						<tr>
+							<td align="center">children</td>
+							<td align="center">(BoxData &#x7c; PanelData)[]</td>
+							<td align="center">children boxes or panels</td>
+							<td align="center"><strong>required</strong></td>
+						</tr>
+				</tbody></table>
+				<a href="#paneldata-🗎" id="paneldata-🗎" style="color: inherit; text-decoration: none;">
+					<h3>PanelData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.paneldata.html">🗎</a></h3>
+				</a>
+				<p>a panel is a visiaul container with tabs button in the title bar</p>
+				<table>
+					<thead>
+						<tr>
+							<th align="center">Property</th>
+							<th align="center">Type</th>
+							<th align="center">Comments</th>
+							<th align="center">Default</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="center">tabs</td>
+							<td align="center">TabData[]</td>
+							<td align="center">children tabs</td>
+							<td align="center"><strong>required</strong></td>
+						</tr>
+						<tr>
+							<td align="center">panelLock</td>
+							<td align="center">PanelLock</td>
+							<td align="center">addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either</td>
+							<td align="center"></td>
+						</tr>
+				</tbody></table>
+				<a href="#tabdata-🗎" id="tabdata-🗎" style="color: inherit; text-decoration: none;">
+					<h3>TabData <a href="https://ticlo.github.io/rc-dock/interfaces/dockdata.tabdata.html">🗎</a></h3>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th align="center">Property</th>
+							<th align="center">Type</th>
+							<th align="center">Comments</th>
+							<th align="center">Default</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="center">id</td>
+							<td align="center">string</td>
+							<td align="center">unique id</td>
+							<td align="center"><strong>required</strong></td>
+						</tr>
+						<tr>
+							<td align="center">title</td>
+							<td align="center">string &#x7c; ReactElement</td>
+							<td align="center">tab title</td>
+							<td align="center"><strong>required</strong></td>
+						</tr>
+						<tr>
+							<td align="center">content</td>
+							<td align="center">ReactElement &#x7c; (tab: TabData) =&gt; ReactElement</td>
+							<td align="center">tab content</td>
+							<td align="center"><strong>required</strong></td>
+						</tr>
+						<tr>
+							<td align="center">closable</td>
+							<td align="center">bool</td>
+							<td align="center">whether tab can be closed</td>
+							<td align="center">false</td>
+						</tr>
+						<tr>
+							<td align="center">group</td>
+							<td align="center">string</td>
+							<td align="center">tabs with different tab group can not be put in same panel, more options for the group can be defined as TabGroup in DefaultLayout.groups</td>
+							<td align="center"></td>
+						</tr>
+				</tbody></table>
+				<a href="#docklayout-api" id="docklayout-api" style="color: inherit; text-decoration: none;">
+					<h2>DockLayout API</h2>
+				</a>
+				<p>get the <code>ref</code> of the DockLayout component to use the following API</p>
+				<a href="#savelayout-🗎" id="savelayout-🗎" style="color: inherit; text-decoration: none;">
+					<h3>saveLayout <a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html">🗎</a></h3>
+				</a>
+				<p>save layout</p>
+				<pre><code class="language-typescript"><span style="color: #795E26">saveLayout</span><span style="color: #000000">(): </span><span style="color: #001080">SavedLayout</span><span style="color: #000000"> </span>
 </code></pre>
-
-<a href="#loadlayout-🗎" id="loadlayout-🗎" style="color: inherit; text-decoration: none;">
-  <h3>loadLayout <a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html">🗎</a></h3>
-</a>
-<p>load layout</p>
-<pre><code class="language-typescript"><span class="hl-1"> </span><span class="hl-6">loadLayout</span><span class="hl-1">(</span><span class="hl-2">savedLayout</span><span class="hl-1">: </span><span class="hl-2">SavedLayout</span><span class="hl-1">): </span><span class="hl-9">void</span>
+				<a href="#loadlayout-🗎" id="loadlayout-🗎" style="color: inherit; text-decoration: none;">
+					<h3>loadLayout <a href="https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html">🗎</a></h3>
+				</a>
+				<p>load layout</p>
+				<pre><code class="language-typescript"><span style="color: #000000"> </span><span style="color: #795E26">loadLayout</span><span style="color: #000000">(</span><span style="color: #001080">savedLayout</span><span style="color: #000000">: </span><span style="color: #001080">SavedLayout</span><span style="color: #000000">): </span><span style="color: #0000FF">void</span>
 </code></pre>
-
-<a href="#dockmove-🗎" id="dockmove-🗎" style="color: inherit; text-decoration: none;">
-  <h3>dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#dockmove">🗎</a></h3>
-</a>
-<p>move a tab or a panel, if source is already in the layout, you can use the find method to get it with id first</p>
-<pre><code class="language-typescript"><span class="hl-6">dockMove</span><span class="hl-1">(</span><span class="hl-2">source</span><span class="hl-1">: </span><span class="hl-2">TabData</span><span class="hl-1"> | </span><span class="hl-2">PanelData</span><span class="hl-1">, </span><span class="hl-2">target</span><span class="hl-1">: </span><span class="hl-2">string</span><span class="hl-1"> | </span><span class="hl-2">TabData</span><span class="hl-1"> | </span><span class="hl-2">PanelData</span><span class="hl-1"> | </span><span class="hl-2">BoxData</span><span class="hl-1">, </span><span class="hl-2">direction</span><span class="hl-1">: </span><span class="hl-2">DropDirection</span><span class="hl-1">): </span><span class="hl-9">void</span><span class="hl-1">;</span>
+				<a href="#dockmove-🗎" id="dockmove-🗎" style="color: inherit; text-decoration: none;">
+					<h3>dockMove <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#dockmove">🗎</a></h3>
+				</a>
+				<p>move a tab or a panel, if source is already in the layout, you can use the find method to get it with id first</p>
+				<pre><code class="language-typescript"><span style="color: #795E26">dockMove</span><span style="color: #000000">(</span><span style="color: #001080">source</span><span style="color: #000000">: </span><span style="color: #001080">TabData</span><span style="color: #000000"> | </span><span style="color: #001080">PanelData</span><span style="color: #000000">, </span><span style="color: #001080">target</span><span style="color: #000000">: </span><span style="color: #001080">string</span><span style="color: #000000"> | </span><span style="color: #001080">TabData</span><span style="color: #000000"> | </span><span style="color: #001080">PanelData</span><span style="color: #000000"> | </span><span style="color: #001080">BoxData</span><span style="color: #000000">, </span><span style="color: #001080">direction</span><span style="color: #000000">: </span><span style="color: #001080">DropDirection</span><span style="color: #000000">): </span><span style="color: #0000FF">void</span><span style="color: #000000">;</span>
 </code></pre>
-
-<a href="#find-🗎" id="find-🗎" style="color: inherit; text-decoration: none;">
-  <h3>find <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#find">🗎</a></h3>
-</a>
-<p>find PanelData or TabData by id</p>
-<pre><code class="language-typescript"><span class="hl-6">find</span><span class="hl-1">(</span><span class="hl-2">id</span><span class="hl-1">: </span><span class="hl-2">string</span><span class="hl-1">): </span><span class="hl-2">PanelData</span><span class="hl-1"> | </span><span class="hl-2">TabData</span><span class="hl-1">;</span>
+				<a href="#find-🗎" id="find-🗎" style="color: inherit; text-decoration: none;">
+					<h3>find <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#find">🗎</a></h3>
+				</a>
+				<p>find PanelData or TabData by id</p>
+				<pre><code class="language-typescript"><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">id</span><span style="color: #000000">: </span><span style="color: #001080">string</span><span style="color: #000000">): </span><span style="color: #001080">PanelData</span><span style="color: #000000"> | </span><span style="color: #001080">TabData</span><span style="color: #000000">;</span>
 </code></pre>
-
-<a href="#updatetab-🗎" id="updatetab-🗎" style="color: inherit; text-decoration: none;">
-  <h3>updateTab <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#updatetab">🗎</a></h3>
-</a>
-<p>update a tab with new TabData</p>
-<p>returns false if the tab is not found</p>
-<pre><code class="language-typescript"><span class="hl-6">updateTab</span><span class="hl-1">(</span><span class="hl-2">id</span><span class="hl-1">: </span><span class="hl-2">string</span><span class="hl-1">, </span><span class="hl-2">newTab</span><span class="hl-1">: </span><span class="hl-2">TabData</span><span class="hl-1">): </span><span class="hl-2">boolean</span><span class="hl-1">;</span>
+				<a href="#updatetab-🗎" id="updatetab-🗎" style="color: inherit; text-decoration: none;">
+					<h3>updateTab <a href="https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#updatetab">🗎</a></h3>
+				</a>
+				<p>update a tab with new TabData</p>
+				<p>returns false if the tab is not found</p>
+				<pre><code class="language-typescript"><span style="color: #795E26">updateTab</span><span style="color: #000000">(</span><span style="color: #001080">id</span><span style="color: #000000">: </span><span style="color: #001080">string</span><span style="color: #000000">, </span><span style="color: #001080">newTab</span><span style="color: #000000">: </span><span style="color: #001080">TabData</span><span style="color: #000000">): </span><span style="color: #001080">boolean</span><span style="color: #000000">;</span>
 </code></pre>
-</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/DockData.html">Dock<wbr/>Data</a></li><li class=" tsd-kind-module"><a href="modules/DockLayout.html">Dock<wbr/>Layout</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/dockdata.html">Dock<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/docklayout.html">Dock<wbr>Layout</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

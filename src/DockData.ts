@@ -5,10 +5,11 @@ import {Filter} from "./Algorithm";
 export interface TabGroup {
   /**
    * whether tab can be dragged into float layer
+   * If value is "singleTab", float panel can't have multiple tabs
    *
    * default: false
    */
-  floatable?: boolean;
+  floatable?: boolean | 'singleTab';
 
   /**
    * whether tab can be converted to native window, only works when floatable is true

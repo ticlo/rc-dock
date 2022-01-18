@@ -20068,7 +20068,7 @@ class DockDropSquare extends react_1.default.PureComponent {
       onDragLeaveT: this.onDragLeave,
       onDropT: this.onDrop
     }, react_1.default.createElement("div", {
-      className: 'dock-drop-square-box'
+      className: "dock-drop-square-box"
     }));
   }
 
@@ -20086,14 +20086,14 @@ class DockDropLayer extends react_1.default.PureComponent {
     if (mode === 'horizontal') {
       children.push(react_1.default.createElement(DockDropSquare, {
         key: `top${depth}`,
-        direction: 'top',
+        direction: "top",
         depth: depth,
         panelData: panelData,
         panelElement: panelElement
       }));
       children.push(react_1.default.createElement(DockDropSquare, {
         key: `bottom${depth}`,
-        direction: 'bottom',
+        direction: "bottom",
         depth: depth,
         panelData: panelData,
         panelElement: panelElement
@@ -20101,14 +20101,14 @@ class DockDropLayer extends react_1.default.PureComponent {
     } else {
       children.push(react_1.default.createElement(DockDropSquare, {
         key: `left${depth}`,
-        direction: 'left',
+        direction: "left",
         depth: depth,
         panelData: panelData,
         panelElement: panelElement
       }));
       children.push(react_1.default.createElement(DockDropSquare, {
         key: `right${depth}`,
-        direction: 'right',
+        direction: "right",
         depth: depth,
         panelData: panelData,
         panelElement: panelElement
@@ -20130,10 +20130,13 @@ class DockDropLayer extends react_1.default.PureComponent {
     let draggingPanel = DragManager_1.DragState.getData('panel', dockId);
     let fromGroup = this.context.getGroup(dropFromPanel.group);
 
-    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock && ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) !== 'float')) {
+    if (fromGroup.floatable !== false && (!draggingPanel || !draggingPanel.panelLock && // panel with panelLock can't float
+    ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) !== 'float' && // don't show float drop when over a float panel
+    !(fromGroup.floatable === 'singleTab' && draggingPanel.tabs.length > 1) // singleTab can float only with one tab
+    )) {
       children.push(react_1.default.createElement(DockDropSquare, {
-        key: 'float',
-        direction: 'float',
+        key: "float",
+        direction: "float",
         panelData: panelData,
         panelElement: panelElement
       }));
@@ -20148,8 +20151,8 @@ class DockDropLayer extends react_1.default.PureComponent {
       if (!(draggingPanel === null || draggingPanel === void 0 ? void 0 : draggingPanel.panelLock) && panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
         // dock to tabs
         children.push(react_1.default.createElement(DockDropSquare, {
-          key: 'middle',
-          direction: 'middle',
+          key: "middle",
+          direction: "middle",
           panelData: panelData,
           panelElement: panelElement
         }));
@@ -20168,7 +20171,7 @@ class DockDropLayer extends react_1.default.PureComponent {
     }
 
     return react_1.default.createElement("div", {
-      className: 'dock-drop-layer'
+      className: "dock-drop-layer"
     }, children);
   }
 
@@ -20207,7 +20210,7 @@ class DockDropEdge extends react_1.default.PureComponent {
     };
 
     this.onDragOver = e => {
-      var _a;
+      var _a, _b, _c;
 
       let {
         panelData,
@@ -20227,7 +20230,7 @@ class DockDropEdge extends react_1.default.PureComponent {
         direction,
         mode,
         depth
-      } = this.getDirection(e, fromGroup, draggingPanel === panelData);
+      } = this.getDirection(e, fromGroup, draggingPanel === panelData, (_c = (_b = draggingPanel === null || draggingPanel === void 0 ? void 0 : draggingPanel.tabs) === null || _b === void 0 ? void 0 : _b.length) !== null && _c !== void 0 ? _c : 1);
       depth = this.getActualDepth(depth, mode, direction);
 
       if (!direction || direction === 'float' && dropFromPanel.panelLock) {
@@ -20251,6 +20254,8 @@ class DockDropEdge extends react_1.default.PureComponent {
     };
 
     this.onDrop = e => {
+      var _a, _b;
+
       let {
         panelData,
         dropFromPanel
@@ -20269,7 +20274,7 @@ class DockDropEdge extends react_1.default.PureComponent {
           direction,
           mode,
           depth
-        } = this.getDirection(e, fromGroup, draggingPanel === panelData);
+        } = this.getDirection(e, fromGroup, draggingPanel === panelData, (_b = (_a = draggingPanel === null || draggingPanel === void 0 ? void 0 : draggingPanel.tabs) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 1);
         depth = this.getActualDepth(depth, mode, direction);
 
         if (!direction) {
@@ -20287,7 +20292,7 @@ class DockDropEdge extends react_1.default.PureComponent {
     };
   }
 
-  getDirection(e, group, samePanel) {
+  getDirection(e, group, samePanel, tabLength) {
     let rect = this._ref.getBoundingClientRect();
 
     let widthRate = Math.min(rect.width, 500);
@@ -20315,11 +20320,22 @@ class DockDropEdge extends react_1.default.PureComponent {
       depth = 1; // depth 1 or 2
     } else if (min < 0.3) {// default
     } else if (group.floatable) {
-      return {
-        direction: 'float',
-        mode: 'float',
-        depth: 0
-      };
+      if (group.floatable === 'singleTab') {
+        if (tabLength === 1) {
+          // singleTab can float only with one tab
+          return {
+            direction: 'float',
+            mode: 'float',
+            depth: 0
+          };
+        }
+      } else {
+        return {
+          direction: 'float',
+          mode: 'float',
+          depth: 0
+        };
+      }
     }
 
     switch (min) {
@@ -20415,7 +20431,7 @@ class DockDropEdge extends react_1.default.PureComponent {
   render() {
     return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
       getRef: this.getRef,
-      className: 'dock-drop-edge',
+      className: "dock-drop-edge",
       onDragOverT: this.onDragOver,
       onDragLeaveT: this.onDragLeave,
       onDropT: this.onDrop
@@ -21433,6 +21449,8 @@ class TabCache {
     };
 
     this.onDragOver = e => {
+      var _a, _b;
+
       let dockId = this.context.getDockId();
       let tab = DragManager.DragState.getData('tab', dockId);
       let panel = DragManager.DragState.getData('panel', dockId);
@@ -21455,7 +21473,11 @@ class TabCache {
         group = panel.group;
       }
 
+      let tabGroup = this.context.getGroup(group);
+
       if (group !== this.data.group) {
+        e.reject();
+      } else if ((tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.floatable) === 'singleTab' && ((_b = (_a = this.data.parent) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.mode) === 'float') {
         e.reject();
       } else if (tab && tab !== this.data) {
         let direction = this.getDropDirection(e);

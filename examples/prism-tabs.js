@@ -214,7 +214,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   return to;
 };
 },{}],"awqi":[function(require,module,exports) {
-/** @license React v17.0.1
+/** @license React v17.0.2
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -613,7 +613,7 @@ exports.useState = function (a) {
   return S().useState(a);
 };
 
-exports.version = "17.0.1";
+exports.version = "17.0.2";
 },{"object-assign":"J4Nk"}],"n8MK":[function(require,module,exports) {
 'use strict';
 

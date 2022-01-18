@@ -10,16 +10,16 @@
 <span class="token keyword">import</span> <span class="token punctuation">{</span>DockLayout<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../lib'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">let</span> groups <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token string">'locked'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    floatable<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    tabLocked<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token string-property property">'locked'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">floatable</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">tabLocked</span><span class="token operator">:</span> <span class="token boolean">true</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token keyword">function</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token parameter">id<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token punctuation">{</span>
     id<span class="token punctuation">,</span>
-    content<span class="token operator">:</span> <span class="token punctuation">(</span>
+    <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token punctuation">(</span>
       <span class="token operator">&lt;</span>div<span class="token operator">></span>
         <span class="token operator">&lt;</span>p<span class="token operator">></span>It's easier to use React Context to update tab<span class="token punctuation">,</span><span class="token operator">&lt;</span>br<span class="token operator">/</span><span class="token operator">></span>
           but <span class="token keyword">in</span> some use cases you might need to directly update the tab<span class="token punctuation">.</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
@@ -31,8 +31,8 @@
         value is <span class="token punctuation">{</span>value<span class="token punctuation">}</span>
       <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
     <span class="token punctuation">)</span><span class="token punctuation">,</span>
-    title<span class="token operator">:</span> id<span class="token punctuation">,</span>
-    group<span class="token operator">:</span> <span class="token string">'locked'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">title</span><span class="token operator">:</span> id<span class="token punctuation">,</span>
+    <span class="token literal-property property">group</span><span class="token operator">:</span> <span class="token string">'locked'</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
@@ -54,13 +54,13 @@
     <span class="token keyword">this</span><span class="token punctuation">.</span>dockLayout<span class="token punctuation">.</span><span class="token function">dockMove</span><span class="token punctuation">(</span>newTab<span class="token punctuation">,</span> <span class="token string">'my_panel'</span><span class="token punctuation">,</span> <span class="token string">'middle'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
   defaultLayout <span class="token operator">=</span> <span class="token punctuation">{</span>
-    dockbox<span class="token operator">:</span> <span class="token punctuation">{</span>
-      mode<span class="token operator">:</span> <span class="token string">'vertical'</span><span class="token punctuation">,</span>
-      children<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token literal-property property">dockbox</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'vertical'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token punctuation">[</span>
         <span class="token punctuation">{</span>
-          tabs<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token literal-property property">tabs</span><span class="token operator">:</span> <span class="token punctuation">[</span>
             <span class="token punctuation">{</span>
-              id<span class="token operator">:</span> <span class="token string">'id2'</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'change'</span><span class="token punctuation">,</span> content<span class="token operator">:</span> <span class="token punctuation">(</span>
+              <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'id2'</span><span class="token punctuation">,</span> <span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token string">'change'</span><span class="token punctuation">,</span> <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token punctuation">(</span>
                 <span class="token operator">&lt;</span>div<span class="token operator">></span>
                   <span class="token operator">&lt;</span>p<span class="token operator">></span>Click here to change the other panel<span class="token punctuation">.</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
                   <span class="token operator">&lt;</span>button className<span class="token operator">=</span><span class="token string">'btn'</span> onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>addValue<span class="token punctuation">}</span><span class="token operator">></span>Update Value<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
@@ -73,19 +73,19 @@
           <span class="token punctuation">]</span><span class="token punctuation">,</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">{</span>
-          id<span class="token operator">:</span> <span class="token string">'my_panel'</span><span class="token punctuation">,</span>
-          tabs<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab1'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab2'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab3'</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab4'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'my_panel'</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">tabs</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab1'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab2'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab3'</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getTab</span><span class="token punctuation">(</span><span class="token string">'tab4'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
       <span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-  state <span class="token operator">=</span> <span class="token punctuation">{</span>saved<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">saved</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 
   <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token punctuation">(</span>
       <span class="token operator">&lt;</span>DockLayout ref<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>getRef<span class="token punctuation">}</span> defaultLayout<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>defaultLayout<span class="token punctuation">}</span> groups<span class="token operator">=</span><span class="token punctuation">{</span>groups<span class="token punctuation">}</span>
-                  style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>position<span class="token operator">:</span> <span class="token string">'absolute'</span><span class="token punctuation">,</span> left<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> top<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> right<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> bottom<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">/</span><span class="token operator">></span>
+                  style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token literal-property property">position</span><span class="token operator">:</span> <span class="token string">'absolute'</span><span class="token punctuation">,</span> <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token literal-property property">right</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token literal-property property">bottom</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">/</span><span class="token operator">></span>
     <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>

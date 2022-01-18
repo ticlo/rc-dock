@@ -17145,7 +17145,7 @@ class DockTabPane extends react_1.default.PureComponent {
       "aria-labelledby": id && `${id}-tab-${tabKey}`,
       "aria-hidden": !active,
       style: Object.assign(Object.assign({}, mergedStyle), style),
-      className: classnames_1.default(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className)
+      className: (0, classnames_1.default)(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className)
     }, (active || this.visited || forceRender) && renderChildren);
   }
 
@@ -19718,7 +19718,7 @@ class DockPanel extends react_1.default.PureComponent {
         this.onFloatPointerDown();
       } else {
         let tabGroup = this.context.getGroup(panelData.group);
-        let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(this._ref, tabGroup);
+        let [panelWidth, panelHeight] = (0, Algorithm_1.getFloatPanelSize)(this._ref, tabGroup);
         event.setData({
           panel: panelData,
           panelSize: [panelWidth, panelHeight]
@@ -19897,7 +19897,7 @@ class DockPanel extends react_1.default.PureComponent {
       let {
         z
       } = panelData;
-      let newZ = Algorithm_1.nextZIndex(z);
+      let newZ = (0, Algorithm_1.nextZIndex)(z);
 
       if (newZ !== z) {
         panelData.z = newZ;
@@ -20387,7 +20387,7 @@ class WindowPanel extends react_1.default.PureComponent {
         panelData
       } = this.props;
       let layoutRoot = this.context.getRootElement();
-      const rect = ScreenPosition_1.mapWindowToElement(layoutRoot, this._window);
+      const rect = (0, ScreenPosition_1.mapWindowToElement)(layoutRoot, this._window);
 
       if (rect.width > 0 && rect.height > 0) {
         panelData.x = rect.left;
@@ -20403,7 +20403,7 @@ class WindowPanel extends react_1.default.PureComponent {
       let {
         panelData
       } = this.props;
-      return ScreenPosition_1.mapElementToScreenRect(this.context.getRootElement(), {
+      return (0, ScreenPosition_1.mapElementToScreenRect)(this.context.getRootElement(), {
         left: panelData.x,
         top: panelData.y,
         width: panelData.w,
@@ -20607,7 +20607,7 @@ class TabCache {
 
       let panelElement = findParentPanel(this._ref);
       let tabGroup = this.context.getGroup(this.data.group);
-      let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panelElement, tabGroup);
+      let [panelWidth, panelHeight] = (0, Algorithm_1.getFloatPanelSize)(panelElement, tabGroup);
       e.setData({
         tab: this.data,
         panelSize: [panelWidth, panelHeight]
@@ -21854,7 +21854,7 @@ class DockLayout extends DockPortalManager {
       }
     };
 
-    this._onWindowResize = debounce_1.default(() => {
+    this._onWindowResize = (0, debounce_1.default)(() => {
       let layout = this.getLayout();
 
       if (this._ref) {

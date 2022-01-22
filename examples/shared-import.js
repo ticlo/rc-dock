@@ -17145,7 +17145,7 @@ class DockTabPane extends react_1.default.PureComponent {
       "aria-labelledby": id && `${id}-tab-${tabKey}`,
       "aria-hidden": !active,
       style: Object.assign(Object.assign({}, mergedStyle), style),
-      className: (0, classnames_1.default)(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className)
+      className: classnames_1.default(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className)
     }, (active || this.visited || forceRender) && renderChildren);
   }
 
@@ -19649,6 +19649,19 @@ class DockPanel extends react_1.default.PureComponent {
 
     this.getRef = r => {
       this._ref = r;
+
+      if (r) {
+        let {
+          parent
+        } = this.props.panelData;
+
+        if ((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float') {
+          r.addEventListener('pointerdown', this.onFloatPointerDown, {
+            capture: true,
+            passive: true
+          });
+        }
+      }
     };
 
     this.state = {
@@ -19707,7 +19720,7 @@ class DockPanel extends react_1.default.PureComponent {
       } = panelData;
       let dockId = this.context.getDockId();
 
-      if (parent && parent.mode === 'float') {
+      if ((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float') {
         this._movingX = x;
         this._movingY = y; // hide the panel, but not create drag layer element
 
@@ -19718,7 +19731,7 @@ class DockPanel extends react_1.default.PureComponent {
         this.onFloatPointerDown();
       } else {
         let tabGroup = this.context.getGroup(panelData.group);
-        let [panelWidth, panelHeight] = (0, Algorithm_1.getFloatPanelSize)(this._ref, tabGroup);
+        let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(this._ref, tabGroup);
         event.setData({
           panel: panelData,
           panelSize: [panelWidth, panelHeight]
@@ -19897,7 +19910,7 @@ class DockPanel extends react_1.default.PureComponent {
       let {
         z
       } = panelData;
-      let newZ = (0, Algorithm_1.nextZIndex)(z);
+      let newZ = Algorithm_1.nextZIndex(z);
 
       if (newZ !== z) {
         panelData.z = newZ;
@@ -19945,7 +19958,7 @@ class DockPanel extends react_1.default.PureComponent {
       h
     } = this.props.panelData;
 
-    if (parent && parent.mode === 'float') {
+    if ((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float') {
       this._movingCorner = corner;
       this._movingX = x;
       this._movingY = y;
@@ -20009,12 +20022,7 @@ class DockPanel extends react_1.default.PureComponent {
     let isFloat = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'float';
     let isHBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'horizontal';
     let isVBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'vertical';
-    let pointerDownCallback = this.onFloatPointerDown;
     let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
-
-    if (!isFloat || isMax) {
-      pointerDownCallback = null;
-    }
 
     if (isMax) {
       dropFromPanel = null;
@@ -20073,8 +20081,6 @@ class DockPanel extends react_1.default.PureComponent {
       className: cls,
       style: style,
       "data-dockid": id,
-      onMouseDownCapture: pointerDownCallback,
-      onTouchStartCapture: pointerDownCallback,
       onDragOverT: isFloat ? null : this.onDragOver,
       onClick: this.onPanelClicked
     }, react_1.default.createElement(DockTabs_1.DockTabs, {
@@ -20136,6 +20142,12 @@ class DockPanel extends react_1.default.PureComponent {
   componentWillUnmount() {
     if (DockPanel._droppingPanel === this) {
       DockPanel.droppingPanel = null;
+    }
+
+    if (this._ref) {
+      this._ref.removeEventListener('pointerdown', this.onFloatPointerDown, {
+        capture: true
+      });
     }
 
     this._unmounted = true;
@@ -20387,7 +20399,7 @@ class WindowPanel extends react_1.default.PureComponent {
         panelData
       } = this.props;
       let layoutRoot = this.context.getRootElement();
-      const rect = (0, ScreenPosition_1.mapWindowToElement)(layoutRoot, this._window);
+      const rect = ScreenPosition_1.mapWindowToElement(layoutRoot, this._window);
 
       if (rect.width > 0 && rect.height > 0) {
         panelData.x = rect.left;
@@ -20403,7 +20415,7 @@ class WindowPanel extends react_1.default.PureComponent {
       let {
         panelData
       } = this.props;
-      return (0, ScreenPosition_1.mapElementToScreenRect)(this.context.getRootElement(), {
+      return ScreenPosition_1.mapElementToScreenRect(this.context.getRootElement(), {
         left: panelData.x,
         top: panelData.y,
         width: panelData.w,
@@ -20607,7 +20619,7 @@ class TabCache {
 
       let panelElement = findParentPanel(this._ref);
       let tabGroup = this.context.getGroup(this.data.group);
-      let [panelWidth, panelHeight] = (0, Algorithm_1.getFloatPanelSize)(panelElement, tabGroup);
+      let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panelElement, tabGroup);
       e.setData({
         tab: this.data,
         panelSize: [panelWidth, panelHeight]
@@ -21854,7 +21866,7 @@ class DockLayout extends DockPortalManager {
       }
     };
 
-    this._onWindowResize = (0, debounce_1.default)(() => {
+    this._onWindowResize = debounce_1.default(() => {
       let layout = this.getLayout();
 
       if (this._ref) {

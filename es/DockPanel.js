@@ -11,6 +11,12 @@ export class DockPanel extends React.PureComponent {
         super(...arguments);
         this.getRef = (r) => {
             this._ref = r;
+            if (r) {
+                let { parent } = this.props.panelData;
+                if (((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float')) {
+                    r.addEventListener('pointerdown', this.onFloatPointerDown, { capture: true, passive: true });
+                }
+            }
         };
         this.state = { dropFromPanel: null, draggingHeader: false };
         this.onDragOver = (e) => {
@@ -42,7 +48,7 @@ export class DockPanel extends React.PureComponent {
             let { panelData } = this.props;
             let { parent, x, y, z } = panelData;
             let dockId = this.context.getDockId();
-            if (parent && parent.mode === 'float') {
+            if ((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float') {
                 this._movingX = x;
                 this._movingY = y;
                 // hide the panel, but not create drag layer element
@@ -204,7 +210,7 @@ export class DockPanel extends React.PureComponent {
     }
     onPanelCornerDrag(e, corner) {
         let { parent, x, y, w, h } = this.props.panelData;
-        if (parent && parent.mode === 'float') {
+        if ((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float') {
             this._movingCorner = corner;
             this._movingX = x;
             this._movingY = y;
@@ -243,11 +249,7 @@ export class DockPanel extends React.PureComponent {
         let isFloat = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'float';
         let isHBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'horizontal';
         let isVBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'vertical';
-        let pointerDownCallback = this.onFloatPointerDown;
         let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
-        if (!isFloat || isMax) {
-            pointerDownCallback = null;
-        }
         if (isMax) {
             dropFromPanel = null;
             onPanelHeaderDragStart = null;
@@ -283,7 +285,7 @@ export class DockPanel extends React.PureComponent {
                 droppingLayer = React.createElement(DockDropClass, { panelData: panelData, panelElement: this._ref, dropFromPanel: dropFromPanel });
             }
         }
-        return (React.createElement(DragDropDiv, { getRef: this.getRef, className: cls, style: style, "data-dockid": id, onMouseDownCapture: pointerDownCallback, onTouchStartCapture: pointerDownCallback, onDragOverT: isFloat ? null : this.onDragOver, onClick: this.onPanelClicked },
+        return (React.createElement(DragDropDiv, { getRef: this.getRef, className: cls, style: style, "data-dockid": id, onDragOverT: isFloat ? null : this.onDragOver, onClick: this.onPanelClicked },
             React.createElement(DockTabs, { panelData: panelData, onPanelDragStart: onPanelHeaderDragStart, onPanelDragMove: this.onPanelHeaderDragMove, onPanelDragEnd: this.onPanelHeaderDragEnd }),
             isFloat ?
                 [
@@ -302,6 +304,9 @@ export class DockPanel extends React.PureComponent {
     componentWillUnmount() {
         if (DockPanel._droppingPanel === this) {
             DockPanel.droppingPanel = null;
+        }
+        if (this._ref) {
+            this._ref.removeEventListener('pointerdown', this.onFloatPointerDown, { capture: true });
         }
         this._unmounted = true;
     }

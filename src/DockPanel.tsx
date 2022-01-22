@@ -25,6 +25,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
   _ref: HTMLDivElement;
   getRef = (r: HTMLDivElement) => {
     this._ref = r;
+    if (r) {
+      let {parent} = this.props.panelData;
+      if ((parent?.mode === 'float')) {
+        r.addEventListener('pointerdown', this.onFloatPointerDown, {capture: true, passive: true});
+      }
+    }
   };
 
   static _droppingPanel: DockPanel;
@@ -77,7 +83,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let {panelData} = this.props;
     let {parent, x, y, z} = panelData;
     let dockId = this.context.getDockId();
-    if (parent && parent.mode === 'float') {
+    if (parent?.mode === 'float') {
       this._movingX = x;
       this._movingY = y;
       // hide the panel, but not create drag layer element
@@ -151,7 +157,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   onPanelCornerDrag(e: DragState, corner: string) {
     let {parent, x, y, w, h} = this.props.panelData;
-    if (parent && parent.mode === 'float') {
+    if (parent?.mode === 'float') {
       this._movingCorner = corner;
       this._movingX = x;
       this._movingY = y;
@@ -274,11 +280,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let isHBox = parent?.mode === 'horizontal';
     let isVBox = parent?.mode === 'vertical';
 
-    let pointerDownCallback = this.onFloatPointerDown;
     let onPanelHeaderDragStart = this.onPanelHeaderDragStart;
-    if (!isFloat || isMax) {
-      pointerDownCallback = null;
-    }
+
     if (isMax) {
       dropFromPanel = null;
       onPanelHeaderDragStart = null;
@@ -320,7 +323,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
-                   onMouseDownCapture={pointerDownCallback} onTouchStartCapture={pointerDownCallback}
                    onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
@@ -363,6 +365,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
   componentWillUnmount(): void {
     if (DockPanel._droppingPanel === this) {
       DockPanel.droppingPanel = null;
+    }
+    if (this._ref) {
+      this._ref.removeEventListener('pointerdown', this.onFloatPointerDown, {capture: true});
     }
     this._unmounted = true;
   }

@@ -507,7 +507,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       }, dockId);
     }
 
-    if (props.onDragOverT) {
+    if (props.onDragOverT && monitor.isOver({ shallow: true })) {
       props.onDragOverT(state);
     }
   },

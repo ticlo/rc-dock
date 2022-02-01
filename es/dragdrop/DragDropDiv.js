@@ -379,7 +379,7 @@ const dropSpec = {
                 panelSize: [400, 300]
             }, dockId);
         }
-        if (props.onDragOverT) {
+        if (props.onDragOverT && monitor.isOver({ shallow: true })) {
             props.onDragOverT(state);
         }
     },

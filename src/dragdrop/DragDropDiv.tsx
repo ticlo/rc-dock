@@ -4,7 +4,7 @@ import * as DragManager from "./DragManager";
 import { dragEnd, getTabByDockId } from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
-import _ from "lodash";
+import _, { DebouncedFunc } from "lodash";
 import { DndSpec, DockContext, DockContextType, TabData } from "../DockData";
 import { v4 as uuid } from "uuid";
 import {
@@ -486,12 +486,14 @@ interface DropResult {
   dropOutside?: boolean;
 }
 
+type HoverFunc = Exclude<DropTargetSpec<DndDragDropDivProps, DragObject, DropResult>["hover"], undefined>;
+
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   canDrop(props, monitor) {
     return true;
   },
 
-  hover(props, monitor, component) {
+  hover: _.throttle<HoverFunc>(((props, monitor, component) => {
     const state = createDragState(monitor, component);
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
@@ -510,9 +512,11 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
       props.onDragOverT(state);
     }
-  },
+  }), 1000 / 60),
 
   drop(props, monitor, component) {
+    (this.hover as DebouncedFunc<HoverFunc>).flush();
+
     if (monitor.didDrop()) {
       return;
     }

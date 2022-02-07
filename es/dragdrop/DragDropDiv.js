@@ -381,7 +381,7 @@ const dropSpec = {
         if (props.onDragOverT && monitor.isOver({ shallow: true })) {
             props.onDragOverT(state);
         }
-    }), 1000 / 60),
+    }), 1000 / 60 * 2),
     drop(props, monitor, component) {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         this.hover.flush();

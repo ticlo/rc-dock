@@ -334,7 +334,7 @@ class DndDragDropDiv extends React.PureComponent {
         };
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.isOver === true && this.props.isOver === false) {
+        if (prevProps.isOver && !this.props.isOver) {
             if (this.props.onDragLeaveT) {
                 const state = new DragManager.DragState(undefined, this);
                 this.props.onDragLeaveT(state);
@@ -347,10 +347,8 @@ class DndDragDropDiv extends React.PureComponent {
         isDragging, connectDragSource, 
         // drop props
         isOver, canDrop, connectDropTarget, isOverCurrent, itemType, 
-        // dnd spec props
-        dndSpec, 
-        // dnd spec props
-        externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
+        // external data props
+        dndSpec, externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
         if (canDrag(this.props)) {
             if (className) {
                 className = `${className} drag-initiator`;
@@ -371,9 +369,10 @@ const dropSpec = {
         const state = createDragState(monitor, component);
         const dockId = component.context.getDockId();
         const tab = getTabByDockId(dockId);
-        if (!tab && monitor.getItem().externalData) {
-            const tab = monitor.getItem().externalData.tab.id ?
-                monitor.getItem().externalData.tab : Object.assign({ id: uuid() }, monitor.getItem().externalData.tab);
+        const item = monitor.getItem();
+        if (!tab && item.externalData.tab) {
+            const tab = item.externalData.tab.id ?
+                item.externalData.tab : Object.assign({ id: uuid() }, item.externalData.tab);
             state.setData({
                 tab,
                 panelSize: [400, 300]
@@ -384,20 +383,26 @@ const dropSpec = {
         }
     },
     drop(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         if (monitor.didDrop()) {
             return;
         }
+        const item = monitor.getItem();
         const currentDockId = (_c = (_b = (_a = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.context) === null || _c === void 0 ? void 0 : _c.getDockId();
-        const externalDockId = (_f = (_e = (_d = monitor === null || monitor === void 0 ? void 0 : monitor.getItem()) === null || _d === void 0 ? void 0 : _d.externalData) === null || _e === void 0 ? void 0 : _e.context) === null || _f === void 0 ? void 0 : _f.getDockId();
-        if (currentDockId && externalDockId && currentDockId !== externalDockId && props.onDropT) {
-            const tab = (_h = (_g = monitor === null || monitor === void 0 ? void 0 : monitor.getItem()) === null || _g === void 0 ? void 0 : _g.externalData) === null || _h === void 0 ? void 0 : _h.tab;
-            externalDockId.dockMove(tab, null, 'remove');
-        }
+        const externalDockId = (_e = (_d = item === null || item === void 0 ? void 0 : item.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
         const state = createDragState(monitor, component);
+        if (currentDockId && externalDockId && currentDockId !== externalDockId) {
+            const tab = (_f = item === null || item === void 0 ? void 0 : item.externalData) === null || _f === void 0 ? void 0 : _f.tab;
+            if (!tab) {
+                return;
+            }
+            if (props.onDropT) {
+                externalDockId.dockMove(tab, null, 'remove');
+            }
+        }
         if (props.onDropT) {
             props.onDropT(state);
-            if ((_k = (_j = props.dndSpec) === null || _j === void 0 ? void 0 : _j.dropTargetSpec) === null || _k === void 0 ? void 0 : _k.drop) {
+            if ((_h = (_g = props.dndSpec) === null || _g === void 0 ? void 0 : _g.dropTargetSpec) === null || _h === void 0 ? void 0 : _h.drop) {
                 props.dndSpec.dropTargetSpec.drop(monitor, component);
             }
         }
@@ -411,6 +416,7 @@ const dropSpec = {
 };
 function createDragState(monitor, component) {
     const clientOffset = monitor.getClientOffset();
+    const item = monitor.getItem();
     const state = new DragManager.DragState(undefined, component);
     if (!clientOffset) {
         return state;
@@ -419,8 +425,8 @@ function createDragState(monitor, component) {
     state.clientY = clientOffset.y || 0;
     state.pageX = clientOffset.x || 0;
     state.pageY = clientOffset.y || 0;
-    state.dx = (state.pageX - monitor.getItem().baseX) * monitor.getItem().scaleX;
-    state.dy = (state.pageY - monitor.getItem().baseY) * monitor.getItem().scaleY;
+    state.dx = (state.pageX - item.baseX) * item.scaleX;
+    state.dy = (state.pageY - item.baseY) * item.scaleY;
     return state;
 }
 function canDrag(props) {
@@ -460,39 +466,38 @@ const dragSpec = {
         }
         const dockId = component.context.getDockId();
         const tab = getTabByDockId(dockId);
-        let baseElement = component.element.parentElement;
-        let rect = baseElement.getBoundingClientRect();
+        const baseElement = component.element.parentElement;
+        const rect = baseElement.getBoundingClientRect();
         const item = {
             baseX: clientOffset.x,
             baseY: clientOffset.y,
             element: component.element,
             scaleX: baseElement.offsetWidth / Math.round(rect.width),
             scaleY: baseElement.offsetHeight / Math.round(rect.height),
-        };
-        if (tab) {
-            item.externalData = {
-                tab,
+            externalData: {
                 context: component.context,
-                extra: props.externalData
-            };
-        }
+                extra: props.externalData,
+                tab
+            }
+        };
         return item;
     },
     endDrag(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f;
-        const state = monitor.didDrop() && ((_a = monitor.getDropResult()) === null || _a === void 0 ? void 0 : _a.state) ?
-            monitor.getDropResult().state :
-            createDragState(monitor, component);
-        if (props.onDragMoveT && monitor.didDrop()) {
+        var _a, _b;
+        const dropResult = monitor.getDropResult();
+        const item = monitor.getItem();
+        const didDrop = monitor.didDrop();
+        const state = didDrop && (dropResult === null || dropResult === void 0 ? void 0 : dropResult.state) ? dropResult.state : createDragState(monitor, component);
+        if (props.onDragMoveT && didDrop) {
             props.onDragMoveT(state);
         }
         if (props.onDragEndT) {
             props.onDragEndT(state);
         }
-        if ((_b = monitor.getDropResult()) === null || _b === void 0 ? void 0 : _b.dropOutside) {
-            const externalDockId = (_e = (_d = (_c = monitor.getItem()) === null || _c === void 0 ? void 0 : _c.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
+        if (dropResult === null || dropResult === void 0 ? void 0 : dropResult.dropOutside) {
+            const externalDockId = (_b = (_a = item === null || item === void 0 ? void 0 : item.externalData) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getDockId();
             if (externalDockId) {
-                const tab = (_f = monitor.getItem()) === null || _f === void 0 ? void 0 : _f.externalData.tab;
+                const tab = item === null || item === void 0 ? void 0 : item.externalData.tab;
                 externalDockId.dockMove(tab, null, 'remove');
             }
         }
@@ -519,5 +524,5 @@ const withExternalData = (WrappedComponent) => {
         return (React.createElement(WrappedComponent, Object.assign({ externalData: externalData }, props)));
     };
 };
-const EnhancedDndDragDropDiv = withExternalData(withDndSpec(_.flow(DragSource(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dragSourceSpec) === null || _a === void 0 ? void 0 : _a.itemType) !== undefined ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT; }, dragSpec, dragCollect), DropTarget(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dropTargetSpec) === null || _a === void 0 ? void 0 : _a.itemType) !== undefined ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT; }, dropSpec, dropCollect))(DndDragDropDiv)));
+const EnhancedDndDragDropDiv = withExternalData(withDndSpec(_.flow(DragSource(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dragSourceSpec) === null || _a === void 0 ? void 0 : _a.itemType) ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT; }, dragSpec, dragCollect), DropTarget(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dropTargetSpec) === null || _a === void 0 ? void 0 : _a.itemType) ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT; }, dropSpec, dropCollect))(DndDragDropDiv)));
 export { EnhancedDndDragDropDiv as DragDropDiv };

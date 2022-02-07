@@ -428,7 +428,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   };
 
   componentDidUpdate(prevProps: Readonly<DndDragDropDivProps>, prevState: Readonly<any>, snapshot?: any) {
-    if (prevProps.isOver === true && this.props.isOver === false) {
+    if (prevProps.isOver && !this.props.isOver) {
       if (this.props.onDragLeaveT) {
         const state = new DragManager.DragState(undefined, this as any);
         this.props.onDragLeaveT(state);
@@ -445,9 +445,8 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
       isDragging, connectDragSource,
       // drop props
       isOver, canDrop, connectDropTarget, isOverCurrent, itemType,
-      // dnd spec props
+      // external data props
       dndSpec,
-      // dnd spec props
       externalData,
       ...others
     } = this.props;
@@ -496,11 +495,12 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const state = createDragState(monitor, component);
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
+    const item = monitor.getItem();
 
-    if (!tab && monitor.getItem().externalData) {
-      const tab = monitor.getItem().externalData.tab.id ?
-        monitor.getItem().externalData.tab :
-        {id: uuid(), ...monitor.getItem().externalData.tab};
+    if (!tab && item.externalData.tab) {
+      const tab = item.externalData.tab.id ?
+        item.externalData.tab :
+        {id: uuid(), ...item.externalData.tab};
       state.setData({
         tab,
         panelSize: [400, 300]
@@ -517,15 +517,20 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       return;
     }
 
+    const item = monitor.getItem();
     const currentDockId = component?.decoratedRef?.current?.context?.getDockId();
-    const externalDockId = monitor?.getItem()?.externalData?.context?.getDockId();
-
-    if (currentDockId && externalDockId && currentDockId !== externalDockId && props.onDropT) {
-      const tab = monitor?.getItem()?.externalData?.tab;
-      externalDockId.dockMove(tab, null, 'remove');
-    }
-
+    const externalDockId = item?.externalData?.context?.getDockId();
     const state = createDragState(monitor, component);
+
+    if (currentDockId && externalDockId && currentDockId !== externalDockId) {
+      const tab = item?.externalData?.tab;
+      if (!tab) {
+        return;
+      }
+      if (props.onDropT) {
+        externalDockId.dockMove(tab, null, 'remove');
+      }
+    }
 
     if (props.onDropT) {
       props.onDropT(state);
@@ -549,12 +554,12 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
 interface DragMonitor {
   getClientOffset(): XYCoord | null;
-
   getItem(): DragObject;
 }
 
 function createDragState(monitor: DragMonitor, component: any): DragManager.DragState {
   const clientOffset = monitor.getClientOffset();
+  const item = monitor.getItem();
   const state = new DragManager.DragState(undefined, component);
 
   if (!clientOffset) {
@@ -565,8 +570,8 @@ function createDragState(monitor: DragMonitor, component: any): DragManager.Drag
   state.clientY = clientOffset.y || 0;
   state.pageX = clientOffset.x || 0;
   state.pageY = clientOffset.y || 0;
-  state.dx = (state.pageX - monitor.getItem().baseX) * monitor.getItem().scaleX;
-  state.dy = (state.pageY - monitor.getItem().baseY) * monitor.getItem().scaleY;
+  state.dx = (state.pageX - item.baseX) * item.scaleX;
+  state.dy = (state.pageY - item.baseY) * item.scaleY;
 
   return state;
 }
@@ -617,9 +622,8 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
-
-    let baseElement = component.element.parentElement;
-    let rect = baseElement.getBoundingClientRect();
+    const baseElement = component.element.parentElement;
+    const rect = baseElement.getBoundingClientRect();
 
     const item: DragObject = {
       baseX: clientOffset.x,
@@ -627,25 +631,23 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       element: component.element,
       scaleX: baseElement.offsetWidth / Math.round(rect.width),
       scaleY: baseElement.offsetHeight / Math.round(rect.height),
-    };
-
-    if (tab) {
-      item.externalData = {
-        tab,
+      externalData: {
         context: component.context,
-        extra: props.externalData
-      };
-    }
+        extra: props.externalData,
+        tab
+      }
+    };
 
     return item;
   },
 
   endDrag(props, monitor, component) {
-    const state = monitor.didDrop() && monitor.getDropResult()?.state ?
-      monitor.getDropResult()!.state :
-      createDragState(monitor, component);
+    const dropResult = monitor.getDropResult();
+    const item = monitor.getItem();
+    const didDrop = monitor.didDrop();
+    const state = didDrop && dropResult?.state ? dropResult!.state : createDragState(monitor, component);
 
-    if (props.onDragMoveT && monitor.didDrop()) {
+    if (props.onDragMoveT && didDrop) {
       props.onDragMoveT(state);
     }
 
@@ -653,11 +655,11 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       props.onDragEndT(state);
     }
 
-    if (monitor.getDropResult()?.dropOutside) {
-      const externalDockId = monitor.getItem()?.externalData?.context?.getDockId();
+    if (dropResult?.dropOutside) {
+      const externalDockId = item?.externalData?.context?.getDockId();
 
       if (externalDockId) {
-        const tab = monitor.getItem()?.externalData.tab;
+        const tab = item?.externalData.tab;
         externalDockId.dockMove(tab, null, 'remove');
       }
     }
@@ -704,12 +706,12 @@ const withExternalData = <P extends {}>(WrappedComponent: React.ComponentType<P>
 const EnhancedDndDragDropDiv = withExternalData<DragDropDivProps>(withDndSpec(
   _.flow(
     DragSource(
-      ({dndSpec}) => dndSpec?.dragSourceSpec?.itemType !== undefined ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT,
+      ({dndSpec}) => dndSpec?.dragSourceSpec?.itemType ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT,
       dragSpec,
       dragCollect
     ),
     DropTarget(
-      ({dndSpec}) => dndSpec?.dropTargetSpec?.itemType !== undefined ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT,
+      ({dndSpec}) => dndSpec?.dropTargetSpec?.itemType ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT,
       dropSpec,
       dropCollect
     )

@@ -512,7 +512,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
       props.onDragOverT(state);
     }
-  }), 1000 / 60),
+  }), 1000 / 60 * 3),
 
   drop(props, monitor, component) {
     (this.hover as DebouncedFunc<HoverFunc>).cancel();

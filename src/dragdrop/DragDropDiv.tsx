@@ -493,7 +493,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     return true;
   },
 
-  hover: _.throttle<HoverFunc>(((props, monitor, component) => {
+  hover: _.debounce<HoverFunc>(((props, monitor, component) => {
     const state = createDragState(monitor, component);
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
@@ -512,10 +512,10 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
       props.onDragOverT(state);
     }
-  }), 1000 / 60 * 2),
+  }), 1000 / 60),
 
   drop(props, monitor, component) {
-    (this.hover as DebouncedFunc<HoverFunc>).flush();
+    (this.hover as DebouncedFunc<HoverFunc>).cancel();
 
     if (monitor.didDrop()) {
       return;

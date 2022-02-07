@@ -365,7 +365,7 @@ const dropSpec = {
     canDrop(props, monitor) {
         return true;
     },
-    hover: _.throttle(((props, monitor, component) => {
+    hover: _.debounce(((props, monitor, component) => {
         const state = createDragState(monitor, component);
         const dockId = component.context.getDockId();
         const tab = getTabByDockId(dockId);
@@ -381,10 +381,10 @@ const dropSpec = {
         if (props.onDragOverT && monitor.isOver({ shallow: true })) {
             props.onDragOverT(state);
         }
-    }), 1000 / 60 * 2),
+    }), 1000 / 60),
     drop(props, monitor, component) {
         var _a, _b, _c, _d, _e, _f, _g, _h;
-        this.hover.flush();
+        this.hover.cancel();
         if (monitor.didDrop()) {
             return;
         }

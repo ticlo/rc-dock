@@ -494,15 +494,21 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   },
 
   hover: _.debounce<HoverFunc>(((props, monitor, component) => {
-    const state = createDragState(monitor, component);
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
     const item = monitor.getItem();
+    const externalTab = item.externalData.tab;
 
-    if (!tab && item.externalData.tab) {
-      const tab = item.externalData.tab.id ?
-        item.externalData.tab :
-        {id: uuid(), ...item.externalData.tab};
+    if (isTargetChildOfSource(component?.element, externalTab?.id)) {
+      return;
+    }
+
+    const state = createDragState(monitor, component);
+
+    if (!tab && externalTab) {
+      const tab = externalTab.id ?
+        externalTab :
+        {id: uuid(), ...externalTab};
       state.setData({
         tab,
         panelSize: [400, 300]
@@ -522,12 +528,17 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     const item = monitor.getItem();
+    const tab = item?.externalData?.tab;
+
+    if (isTargetChildOfSource(component?.decoratedRef?.current?.element, tab?.id)) {
+      return;
+    }
+
     const currentDockId = component?.decoratedRef?.current?.context?.getDockId();
     const externalDockId = item?.externalData?.context?.getDockId();
     const state = createDragState(monitor, component);
 
     if (currentDockId && externalDockId && currentDockId !== externalDockId) {
-      const tab = item?.externalData?.tab;
       if (!tab) {
         return;
       }
@@ -555,6 +566,16 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     return result;
   }
 };
+
+function isTargetChildOfSource(el: HTMLElement, tabId: string): boolean {
+  const closestParent = el.closest(`[data-tab-id=dock-${tabId}]`);
+
+  if (!closestParent) {
+    return false;
+  }
+
+  return closestParent.id === tabId;
+}
 
 interface DragMonitor {
   getClientOffset(): XYCoord | null;

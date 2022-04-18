@@ -366,13 +366,17 @@ const dropSpec = {
         return true;
     },
     hover: _.debounce(((props, monitor, component) => {
-        const state = createDragState(monitor, component);
         const dockId = component.context.getDockId();
         const tab = getTabByDockId(dockId);
         const item = monitor.getItem();
-        if (!tab && item.externalData.tab) {
-            const tab = item.externalData.tab.id ?
-                item.externalData.tab : Object.assign({ id: uuid() }, item.externalData.tab);
+        const externalTab = item.externalData.tab;
+        if (isTargetChildOfSource(component === null || component === void 0 ? void 0 : component.element, externalTab === null || externalTab === void 0 ? void 0 : externalTab.id)) {
+            return;
+        }
+        const state = createDragState(monitor, component);
+        if (!tab && externalTab) {
+            const tab = externalTab.id ?
+                externalTab : Object.assign({ id: uuid() }, externalTab);
             state.setData({
                 tab,
                 panelSize: [400, 300]
@@ -383,17 +387,20 @@ const dropSpec = {
         }
     }), 1000 / 60 * 3),
     drop(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         this.hover.cancel();
         if (monitor.didDrop()) {
             return;
         }
         const item = monitor.getItem();
-        const currentDockId = (_c = (_b = (_a = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.context) === null || _c === void 0 ? void 0 : _c.getDockId();
-        const externalDockId = (_e = (_d = item === null || item === void 0 ? void 0 : item.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
+        const tab = (_a = item === null || item === void 0 ? void 0 : item.externalData) === null || _a === void 0 ? void 0 : _a.tab;
+        if (isTargetChildOfSource((_c = (_b = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _b === void 0 ? void 0 : _b.current) === null || _c === void 0 ? void 0 : _c.element, tab === null || tab === void 0 ? void 0 : tab.id)) {
+            return;
+        }
+        const currentDockId = (_f = (_e = (_d = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _d === void 0 ? void 0 : _d.current) === null || _e === void 0 ? void 0 : _e.context) === null || _f === void 0 ? void 0 : _f.getDockId();
+        const externalDockId = (_h = (_g = item === null || item === void 0 ? void 0 : item.externalData) === null || _g === void 0 ? void 0 : _g.context) === null || _h === void 0 ? void 0 : _h.getDockId();
         const state = createDragState(monitor, component);
         if (currentDockId && externalDockId && currentDockId !== externalDockId) {
-            const tab = (_f = item === null || item === void 0 ? void 0 : item.externalData) === null || _f === void 0 ? void 0 : _f.tab;
             if (!tab) {
                 return;
             }
@@ -403,7 +410,7 @@ const dropSpec = {
         }
         if (props.onDropT) {
             props.onDropT(state);
-            if ((_h = (_g = props.dndSpec) === null || _g === void 0 ? void 0 : _g.dropTargetSpec) === null || _h === void 0 ? void 0 : _h.drop) {
+            if ((_k = (_j = props.dndSpec) === null || _j === void 0 ? void 0 : _j.dropTargetSpec) === null || _k === void 0 ? void 0 : _k.drop) {
                 props.dndSpec.dropTargetSpec.drop(monitor, component);
             }
         }
@@ -415,6 +422,13 @@ const dropSpec = {
         return result;
     }
 };
+function isTargetChildOfSource(el, tabId) {
+    const closestParent = el.closest(`[data-tab-id=dock-${tabId}]`);
+    if (!closestParent) {
+        return false;
+    }
+    return closestParent.id === tabId;
+}
 function createDragState(monitor, component) {
     const clientOffset = monitor.getClientOffset();
     const item = monitor.getItem();

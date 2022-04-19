@@ -361,6 +361,10 @@ class DndDragDropDiv extends React.PureComponent {
     }
 }
 DndDragDropDiv.contextType = DockContextType;
+function canDrop(monitor, component) {
+    const item = monitor.getItem();
+    return !item.checkParent(component.element);
+}
 const dropSpec = {
     canDrop(props, monitor) {
         return true;
@@ -381,7 +385,7 @@ const dropSpec = {
             }, dockId);
         }
         if (props.onDragOverT && monitor.isOver({ shallow: true })) {
-            if (!item.canDrop(component)) {
+            if (!canDrop(monitor, component)) {
                 return;
             }
             props.onDragOverT(state);
@@ -395,7 +399,7 @@ const dropSpec = {
         }
         const item = monitor.getItem();
         const decoratedComponent = (_a = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _a === void 0 ? void 0 : _a.current;
-        if (!item.canDrop(decoratedComponent)) {
+        if (!canDrop(monitor, decoratedComponent)) {
             return;
         }
         const tab = (_b = item === null || item === void 0 ? void 0 : item.externalData) === null || _b === void 0 ? void 0 : _b.tab;
@@ -483,13 +487,13 @@ const dragSpec = {
             baseX: clientOffset.x,
             baseY: clientOffset.y,
             element: component.element,
-            canDrop(target) {
+            checkParent(target) {
                 const tabId = tab === null || tab === void 0 ? void 0 : tab.id;
-                const closestParent = target === null || target === void 0 ? void 0 : target.element.closest(`[data-tab-id=dock-${tabId}]`);
+                const closestParent = target.closest(`[data-tab-id=dock-${tabId}]`);
                 if (!closestParent) {
-                    return true;
+                    return false;
                 }
-                return closestParent.id !== tabId;
+                return closestParent.id === tabId;
             },
             scaleX: baseElement.offsetWidth / Math.round(rect.width),
             scaleY: baseElement.offsetHeight / Math.round(rect.height),

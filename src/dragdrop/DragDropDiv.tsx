@@ -477,7 +477,7 @@ interface DragObject {
   element: HTMLElement;
   scaleX: number;
   scaleY: number;
-  canDrop(component: any): boolean;
+  checkParent(targetRef: HTMLElement): boolean;
   externalData?: any;
 }
 
@@ -488,6 +488,12 @@ interface DropResult {
 }
 
 type HoverFunc = Exclude<DropTargetSpec<DndDragDropDivProps, DragObject, DropResult>["hover"], undefined>;
+
+function canDrop(monitor: DropTargetMonitor<DragObject, DropResult>, component: any) {
+  const item = monitor.getItem();
+
+  return !item.checkParent(component.element);
+}
 
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   canDrop(props, monitor) {
@@ -513,7 +519,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
-      if (!item.canDrop(component)) {
+      if (!canDrop(monitor, component)) {
         return;
       }
 
@@ -531,7 +537,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const item = monitor.getItem();
     const decoratedComponent = component?.decoratedRef?.current;
 
-    if (!item.canDrop(decoratedComponent)) {
+    if (!canDrop(monitor, decoratedComponent)) {
       return;
     }
 
@@ -648,15 +654,15 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       baseX: clientOffset.x,
       baseY: clientOffset.y,
       element: component.element,
-      canDrop(target: any): boolean {
+      checkParent(target: any): boolean {
         const tabId = tab?.id;
-        const closestParent = target?.element.closest(`[data-tab-id=dock-${tabId}]`);
+        const closestParent = target.closest(`[data-tab-id=dock-${tabId}]`);
 
         if (!closestParent) {
-          return true;
+          return false;
         }
 
-        return closestParent.id !== tabId;
+        return closestParent.id === tabId;
       },
       scaleX: baseElement.offsetWidth / Math.round(rect.width),
       scaleY: baseElement.offsetHeight / Math.round(rect.height),

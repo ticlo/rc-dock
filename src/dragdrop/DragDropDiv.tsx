@@ -477,6 +477,7 @@ interface DragObject {
   element: HTMLElement;
   scaleX: number;
   scaleY: number;
+  canDrop(component: any): boolean;
   externalData?: any;
 }
 
@@ -497,11 +498,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
     const item = monitor.getItem();
-    const externalTab = item.externalData.tab;
-
-    if (isTargetChildOfSource(component?.element, externalTab?.id)) {
-      return;
-    }
+    const externalTab = item?.externalData?.tab;
 
     const state = createDragState(monitor, component);
 
@@ -516,6 +513,10 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
+      if (!item.canDrop(component)) {
+        return;
+      }
+
       props.onDragOverT(state);
     }
   }), 1000 / 60 * 3),
@@ -528,15 +529,16 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     const item = monitor.getItem();
-    const tab = item?.externalData?.tab;
+    const decoratedComponent = component?.decoratedRef?.current;
 
-    if (isTargetChildOfSource(component?.decoratedRef?.current?.element, tab?.id)) {
+    if (!item.canDrop(decoratedComponent)) {
       return;
     }
 
-    const currentDockId = component?.decoratedRef?.current?.context?.getDockId();
+    const tab = item?.externalData?.tab;
+    const currentDockId = decoratedComponent?.context?.getDockId();
     const externalDockId = item?.externalData?.context?.getDockId();
-    const state = createDragState(monitor, component);
+    const state = createDragState(monitor, decoratedComponent);
 
     if (currentDockId && externalDockId && currentDockId !== externalDockId) {
       if (!tab) {
@@ -550,8 +552,10 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (props.onDropT) {
       props.onDropT(state);
 
-      if (props.dndSpec?.dropTargetSpec?.drop) {
-        props.dndSpec.dropTargetSpec.drop(monitor, component);
+      const drop = props.dndSpec?.dropTargetSpec?.drop;
+
+      if (drop) {
+        drop(monitor, decoratedComponent);
       }
     }
 
@@ -566,16 +570,6 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     return result;
   }
 };
-
-function isTargetChildOfSource(el: HTMLElement, tabId: string): boolean {
-  const closestParent = el.closest(`[data-tab-id=dock-${tabId}]`);
-
-  if (!closestParent) {
-    return false;
-  }
-
-  return closestParent.id === tabId;
-}
 
 interface DragMonitor {
   getClientOffset(): XYCoord | null;
@@ -654,6 +648,16 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       baseX: clientOffset.x,
       baseY: clientOffset.y,
       element: component.element,
+      canDrop(target: any): boolean {
+        const tabId = tab?.id;
+        const closestParent = target?.element.closest(`[data-tab-id=dock-${tabId}]`);
+
+        if (!closestParent) {
+          return true;
+        }
+
+        return closestParent.id !== tabId;
+      },
       scaleX: baseElement.offsetWidth / Math.round(rect.width),
       scaleY: baseElement.offsetHeight / Math.round(rect.height),
       externalData: {

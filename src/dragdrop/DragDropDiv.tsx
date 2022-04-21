@@ -23,6 +23,8 @@ import {
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
+type DragType = "resize" | "restructure";
+
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: (ref: HTMLDivElement) => void;
   onDragStartT?: DragManager.DragHandler;
@@ -44,7 +46,9 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
 
   gestureSensitivity?: number;
 
-  extraData?: any;
+  tabData?: TabData;
+
+  dragType?: DragType;
 }
 
 interface DndSpecProps {
@@ -66,6 +70,9 @@ interface DndDragDropDivProps extends DragDropDivProps, DndSpecProps, ExternalDa
 }
 
 class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
+  static defaultProps = {
+    dragType: "restructure"
+  }
 
   element: HTMLElement;
   ownerDocument: Document;
@@ -358,7 +365,7 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, dragType,
       ...others
     } = this.props;
     let onTouchDown = this.onPointerDown;
@@ -412,7 +419,17 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
 }
 
 class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
+  static defaultProps = {
+    dragType: "restructure"
+  }
+
   element: HTMLElement;
+  ownerDocument: Document;
+  dragType: DragManager.DragType = "left";
+  baseX: number = 0;
+  baseY: number = 0;
+  scaleX: number = 0;
+  scaleY: number = 0;
 
   static contextType = DockContextType;
 
@@ -421,6 +438,10 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   _getRef = (r: HTMLDivElement) => {
     let {getRef} = this.props;
     this.element = r;
+
+    if (r) {
+      this.ownerDocument = r.ownerDocument;
+    }
 
     if (getRef) {
       getRef(r);
@@ -440,7 +461,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, dragType,
       // drag props
       isDragging, connectDragSource,
       // drop props
@@ -479,6 +500,7 @@ interface DragObject {
   scaleY: number;
   checkParent(targetRef: HTMLElement): boolean;
   externalData?: any;
+  dragType: DragType;
 }
 
 interface DropResult {
@@ -505,7 +527,6 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const tab: TabData | null = getTabByDockId(dockId);
     const item = monitor.getItem();
     const externalTab = item?.externalData?.tab;
-
     const state = createDragState(monitor, component);
 
     if (!tab && externalTab) {
@@ -546,7 +567,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const externalDockId = item?.externalData?.context?.getDockId();
     const state = createDragState(monitor, decoratedComponent);
 
-    if (currentDockId && externalDockId && currentDockId !== externalDockId) {
+    if (currentDockId && externalDockId && currentDockId !== externalDockId && item.dragType === "restructure") {
       if (!tab) {
         return;
       }
@@ -595,16 +616,16 @@ function createDragState(monitor: DragMonitor, component: any): DragManager.Drag
   state.clientY = clientOffset.y || 0;
   state.pageX = clientOffset.x || 0;
   state.pageY = clientOffset.y || 0;
-  state.dx = (state.pageX - item.baseX) * item.scaleX;
-  state.dy = (state.pageY - item.baseY) * item.scaleY;
+  state.dx = (state.pageX - (item?.baseX || 0)) * (item?.scaleX || 0);
+  state.dy = (state.pageY - (item?.baseY || 0)) * (item?.scaleY || 0);
 
   return state;
 }
 
 function canDrag(props: DndDragDropDivProps): boolean {
   if (props.role === "tab" &&
-    props.extraData?.parent?.parent?.mode === 'float' &&
-    props.extraData?.parent?.tabs?.length === 1
+    props.tabData?.parent?.parent?.mode === 'float' &&
+    props.tabData?.parent?.tabs?.length === 1
   ) {
     return false;
   }
@@ -670,7 +691,8 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
         context: component.context,
         extra: props.externalData,
         tab
-      }
+      },
+      dragType: component.props.dragType
     };
 
     return item;

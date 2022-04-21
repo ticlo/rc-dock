@@ -281,7 +281,7 @@ class RcDragDropDiv extends React.PureComponent {
         this.waitingMove = false;
     }
     render() {
-        let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData"]);
+        let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, dragType } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "tabData", "dragType"]);
         let onTouchDown = this.onPointerDown;
         let onMouseDown = this.onPointerDown;
         if (!onDragStartT) {
@@ -322,12 +322,23 @@ class RcDragDropDiv extends React.PureComponent {
         this.cancel();
     }
 }
+RcDragDropDiv.defaultProps = {
+    dragType: "restructure"
+};
 class DndDragDropDiv extends React.PureComponent {
     constructor() {
         super(...arguments);
+        this.dragType = "left";
+        this.baseX = 0;
+        this.baseY = 0;
+        this.scaleX = 0;
+        this.scaleY = 0;
         this._getRef = (r) => {
             let { getRef } = this.props;
             this.element = r;
+            if (r) {
+                this.ownerDocument = r.ownerDocument;
+            }
             if (getRef) {
                 getRef(r);
             }
@@ -342,13 +353,13 @@ class DndDragDropDiv extends React.PureComponent {
         }
     }
     render() {
-        let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, extraData, 
+        let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, dragType, 
         // drag props
         isDragging, connectDragSource, 
         // drop props
         isOver, canDrop, connectDropTarget, isOverCurrent, itemType, 
         // external data props
-        dndSpec, externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "extraData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
+        dndSpec, externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "tabData", "dragType", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
         if (canDrag(this.props)) {
             if (className) {
                 className = `${className} drag-initiator`;
@@ -360,6 +371,9 @@ class DndDragDropDiv extends React.PureComponent {
         return (connectDragSource(connectDropTarget(React.createElement("div", Object.assign({ ref: this._getRef, className: className }, others), children))));
     }
 }
+DndDragDropDiv.defaultProps = {
+    dragType: "restructure"
+};
 DndDragDropDiv.contextType = DockContextType;
 function canDrop(monitor, component) {
     const item = monitor.getItem();
@@ -406,7 +420,7 @@ const dropSpec = {
         const currentDockId = (_c = decoratedComponent === null || decoratedComponent === void 0 ? void 0 : decoratedComponent.context) === null || _c === void 0 ? void 0 : _c.getDockId();
         const externalDockId = (_e = (_d = item === null || item === void 0 ? void 0 : item.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
         const state = createDragState(monitor, decoratedComponent);
-        if (currentDockId && externalDockId && currentDockId !== externalDockId) {
+        if (currentDockId && externalDockId && currentDockId !== externalDockId && item.dragType === "restructure") {
             if (!tab) {
                 return;
             }
@@ -440,15 +454,15 @@ function createDragState(monitor, component) {
     state.clientY = clientOffset.y || 0;
     state.pageX = clientOffset.x || 0;
     state.pageY = clientOffset.y || 0;
-    state.dx = (state.pageX - item.baseX) * item.scaleX;
-    state.dy = (state.pageY - item.baseY) * item.scaleY;
+    state.dx = (state.pageX - ((item === null || item === void 0 ? void 0 : item.baseX) || 0)) * ((item === null || item === void 0 ? void 0 : item.scaleX) || 0);
+    state.dy = (state.pageY - ((item === null || item === void 0 ? void 0 : item.baseY) || 0)) * ((item === null || item === void 0 ? void 0 : item.scaleY) || 0);
     return state;
 }
 function canDrag(props) {
     var _a, _b, _c, _d, _e, _f;
     if (props.role === "tab" &&
-        ((_c = (_b = (_a = props.extraData) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.mode) === 'float' &&
-        ((_f = (_e = (_d = props.extraData) === null || _d === void 0 ? void 0 : _d.parent) === null || _e === void 0 ? void 0 : _e.tabs) === null || _f === void 0 ? void 0 : _f.length) === 1) {
+        ((_c = (_b = (_a = props.tabData) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.mode) === 'float' &&
+        ((_f = (_e = (_d = props.tabData) === null || _d === void 0 ? void 0 : _d.parent) === null || _e === void 0 ? void 0 : _e.tabs) === null || _f === void 0 ? void 0 : _f.length) === 1) {
         return false;
     }
     return props.onDragStartT !== undefined || props.onGestureStartT !== undefined;
@@ -501,7 +515,8 @@ const dragSpec = {
                 context: component.context,
                 extra: props.externalData,
                 tab
-            }
+            },
+            dragType: component.props.dragType
         };
         return item;
     },

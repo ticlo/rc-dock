@@ -303,16 +303,16 @@ export class DockPanel extends React.PureComponent<Props, State> {
           [
             <DragDropDiv key="drag-size-t-l" className="dock-panel-drag-size dock-panel-drag-size-t-l"
                          onDragStartT={this.onPanelCornerDragTL} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd} dragType="resize"/>,
+                         onDragEndT={this.onPanelCornerDragEnd}/>,
             <DragDropDiv key="drag-size-t-r" className="dock-panel-drag-size dock-panel-drag-size-t-r"
                          onDragStartT={this.onPanelCornerDragTR} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd} dragType="resize"/>,
+                         onDragEndT={this.onPanelCornerDragEnd}/>,
             <DragDropDiv key="drag-size-b-l" className="dock-panel-drag-size dock-panel-drag-size-b-l"
                          onDragStartT={this.onPanelCornerDragBL} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd} dragType="resize"/>,
+                         onDragEndT={this.onPanelCornerDragEnd}/>,
             <DragDropDiv key="drag-size-b-r" className="dock-panel-drag-size dock-panel-drag-size-b-r"
                          onDragStartT={this.onPanelCornerDragBR} onDragMoveT={this.onPanelCornerDragMove}
-                         onDragEndT={this.onPanelCornerDragEnd} dragType="resize"/>
+                         onDragEndT={this.onPanelCornerDragEnd}/>
           ]
           : null
         }

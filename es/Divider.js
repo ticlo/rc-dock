@@ -126,6 +126,6 @@ export class Divider extends React.PureComponent {
         if (!className) {
             className = 'dock-divider';
         }
-        return (React.createElement(DragDropDiv, { className: className, onDragStartT: this.startDrag, onDragMoveT: this.dragMove, onDragEndT: this.dragEnd, dragType: "resize" }));
+        return (React.createElement(DragDropDiv, { className: className, onDragStartT: this.startDrag, onDragMoveT: this.dragMove, onDragEndT: this.dragEnd }));
     }
 }

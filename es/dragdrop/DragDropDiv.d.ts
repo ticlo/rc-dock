@@ -3,7 +3,6 @@ import * as DragManager from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { TabData } from "../DockData";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
-declare type DragType = "resize" | "restructure";
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     getRef?: (ref: HTMLDivElement) => void;
     onDragStartT?: DragManager.DragHandler;
@@ -23,7 +22,6 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     onGestureEndT?: () => void;
     gestureSensitivity?: number;
     tabData?: TabData;
-    dragType?: DragType;
 }
 interface ExternalDataProps {
     externalData?: any;

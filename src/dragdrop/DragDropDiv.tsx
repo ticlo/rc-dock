@@ -23,8 +23,6 @@ import {
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
-type DragType = "resize" | "restructure";
-
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: (ref: HTMLDivElement) => void;
   onDragStartT?: DragManager.DragHandler;
@@ -47,8 +45,6 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   gestureSensitivity?: number;
 
   tabData?: TabData;
-
-  dragType?: DragType;
 }
 
 interface DndSpecProps {
@@ -70,10 +66,6 @@ interface DndDragDropDivProps extends DragDropDivProps, DndSpecProps, ExternalDa
 }
 
 class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
-  static defaultProps = {
-    dragType: "restructure"
-  }
-
   element: HTMLElement;
   ownerDocument: Document;
   _getRef = (r: HTMLDivElement) => {
@@ -365,7 +357,7 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, dragType,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData,
       ...others
     } = this.props;
     let onTouchDown = this.onPointerDown;
@@ -419,10 +411,6 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
 }
 
 class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
-  static defaultProps = {
-    dragType: "restructure"
-  }
-
   element: HTMLElement;
   ownerDocument: Document;
   dragType: DragManager.DragType = "left";
@@ -461,7 +449,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, dragType,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData,
       // drag props
       isDragging, connectDragSource,
       // drop props
@@ -500,11 +488,10 @@ interface DragObject {
   scaleY: number;
   checkParent(targetRef: HTMLElement): boolean;
   externalData?: any;
-  dragType: DragType;
 }
 
 interface DropResult {
-  state: DragManager.DragState;
+  clientOffset: XYCoord;
   externalData?: any;
   dropOutside?: boolean;
 }
@@ -527,7 +514,8 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const tab: TabData | null = getTabByDockId(dockId);
     const item = monitor.getItem();
     const externalTab = item?.externalData?.tab;
-    const state = createDragState(monitor, component);
+    const clientOffset = monitor.getClientOffset();
+    const state = createDragState(clientOffset, component);
 
     if (!tab && externalTab) {
       const tab = externalTab.id ?
@@ -551,25 +539,31 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   drop(props, monitor, component) {
     (this.hover as DebouncedFunc<HoverFunc>).cancel();
 
+    const item = monitor.getItem();
+
     if (monitor.didDrop()) {
       return;
     }
 
-    const item = monitor.getItem();
     const decoratedComponent = component?.decoratedRef?.current;
+    const clientOffset = monitor.getDropResult()?.clientOffset || monitor.getClientOffset();
 
     if (!canDrop(monitor, decoratedComponent)) {
-      return;
+      return {
+        clientOffset: clientOffset!
+      };
     }
 
     const tab = item?.externalData?.tab;
     const currentDockId = decoratedComponent?.context?.getDockId();
     const externalDockId = item?.externalData?.context?.getDockId();
-    const state = createDragState(monitor, decoratedComponent);
+    const state = createDragState(clientOffset, decoratedComponent);
 
-    if (currentDockId && externalDockId && currentDockId !== externalDockId && item.dragType === "restructure") {
+    if (currentDockId && externalDockId && currentDockId !== externalDockId) {
       if (!tab) {
-        return;
+        return {
+          clientOffset: clientOffset!
+        };
       }
       if (props.onDropT) {
         externalDockId.dockMove(tab, null, 'remove');
@@ -588,7 +582,9 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    const result: DropResult = {state};
+    const result: DropResult = {
+      clientOffset: clientOffset!
+    };
 
     if (props.externalData) {
       result.externalData = props.externalData;
@@ -598,26 +594,13 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   }
 };
 
-interface DragMonitor {
-  getClientOffset(): XYCoord | null;
-  getItem(): DragObject;
-}
-
-function createDragState(monitor: DragMonitor, component: any): DragManager.DragState {
-  const clientOffset = monitor.getClientOffset();
-  const item = monitor.getItem();
+function createDragState(clientOffset: XYCoord | null, component: any): DragManager.DragState {
   const state = new DragManager.DragState(undefined, component);
 
-  if (!clientOffset) {
-    return state;
-  }
-
-  state.clientX = clientOffset.x || 0;
-  state.clientY = clientOffset.y || 0;
-  state.pageX = clientOffset.x || 0;
-  state.pageY = clientOffset.y || 0;
-  state.dx = (state.pageX - (item?.baseX || 0)) * (item?.scaleX || 0);
-  state.dy = (state.pageY - (item?.baseY || 0)) * (item?.scaleY || 0);
+  state.clientX = clientOffset?.x || 0;
+  state.clientY = clientOffset?.y || 0;
+  state.pageX = clientOffset?.x || 0;
+  state.pageY = clientOffset?.y || 0;
 
   return state;
 }
@@ -653,7 +636,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   },
 
   beginDrag(props, monitor, component) {
-    const clientOffset = monitor.getClientOffset();
+    const clientOffset = monitor.getClientOffset()!;
     const state = new DragManager.DragState(undefined, component);
 
     if (props.onDragEndT) {
@@ -691,8 +674,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
         context: component.context,
         extra: props.externalData,
         tab
-      },
-      dragType: component.props.dragType
+      }
     };
 
     return item;
@@ -702,7 +684,10 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const dropResult = monitor.getDropResult();
     const item = monitor.getItem();
     const didDrop = monitor.didDrop();
-    const state = didDrop && dropResult?.state ? dropResult!.state : createDragState(monitor, component);
+    const clientOffset = monitor.getDropResult()?.clientOffset || monitor.getClientOffset();
+    const state = createDragState(clientOffset, component);
+    state.dx = (state.pageX - item.baseX) * item.scaleX;
+    state.dy = (state.pageY - item.baseY) * item.scaleY;
 
     if (props.onDragMoveT && didDrop) {
       props.onDragMoveT(state);

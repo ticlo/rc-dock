@@ -163,7 +163,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     }
     return (
       <DragDropDiv className={className} onDragStartT={this.startDrag} onDragMoveT={this.dragMove}
-                   onDragEndT={this.dragEnd} dragType="resize"/>
+                   onDragEndT={this.dragEnd}/>
     );
   }
 }

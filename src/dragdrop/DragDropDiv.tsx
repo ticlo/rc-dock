@@ -540,18 +540,21 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     (this.hover as DebouncedFunc<HoverFunc>).cancel();
 
     const item = monitor.getItem();
+    const clientOffset = monitor.getClientOffset();
+    const dropResult = monitor.getDropResult() || {} as DropResult;
+
+    if (!dropResult.clientOffset) {
+      dropResult.clientOffset = clientOffset!;
+    }
 
     if (monitor.didDrop()) {
-      return;
+      return dropResult;
     }
 
     const decoratedComponent = component?.decoratedRef?.current;
-    const clientOffset = monitor.getDropResult()?.clientOffset || monitor.getClientOffset();
 
     if (!canDrop(monitor, decoratedComponent)) {
-      return {
-        clientOffset: clientOffset!
-      };
+      return dropResult;
     }
 
     const tab = item?.externalData?.tab;
@@ -561,9 +564,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     if (currentDockId && externalDockId && currentDockId !== externalDockId) {
       if (!tab) {
-        return {
-          clientOffset: clientOffset!
-        };
+        return dropResult;
       }
       if (props.onDropT) {
         externalDockId.dockMove(tab, null, 'remove');
@@ -582,15 +583,11 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    const result: DropResult = {
-      clientOffset: clientOffset!
-    };
-
     if (props.externalData) {
-      result.externalData = props.externalData;
+      dropResult.externalData = props.externalData;
     }
 
-    return result;
+    return dropResult;
   }
 };
 
@@ -686,8 +683,10 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const didDrop = monitor.didDrop();
     const clientOffset = monitor.getDropResult()?.clientOffset || monitor.getClientOffset();
     const state = createDragState(clientOffset, component);
-    state.dx = (state.pageX - item.baseX) * item.scaleX;
-    state.dy = (state.pageY - item.baseY) * item.scaleY;
+    if (clientOffset) {
+      state.dx = (state.pageX - item.baseX) * item.scaleX;
+      state.dy = (state.pageY - item.baseY) * item.scaleY;
+    }
 
     if (props.onDragMoveT && didDrop) {
       props.onDragMoveT(state);

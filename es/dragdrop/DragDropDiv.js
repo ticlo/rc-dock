@@ -401,28 +401,28 @@ const dropSpec = {
         }
     }), 1000 / 60 * 3),
     drop(props, monitor, component) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g;
         this.hover.cancel();
         const item = monitor.getItem();
+        const clientOffset = monitor.getClientOffset();
+        const dropResult = monitor.getDropResult() || {};
+        if (!dropResult.clientOffset) {
+            dropResult.clientOffset = clientOffset;
+        }
         if (monitor.didDrop()) {
-            return;
+            return dropResult;
         }
         const decoratedComponent = (_a = component === null || component === void 0 ? void 0 : component.decoratedRef) === null || _a === void 0 ? void 0 : _a.current;
-        const clientOffset = ((_b = monitor.getDropResult()) === null || _b === void 0 ? void 0 : _b.clientOffset) || monitor.getClientOffset();
         if (!canDrop(monitor, decoratedComponent)) {
-            return {
-                clientOffset: clientOffset
-            };
+            return dropResult;
         }
-        const tab = (_c = item === null || item === void 0 ? void 0 : item.externalData) === null || _c === void 0 ? void 0 : _c.tab;
-        const currentDockId = (_d = decoratedComponent === null || decoratedComponent === void 0 ? void 0 : decoratedComponent.context) === null || _d === void 0 ? void 0 : _d.getDockId();
-        const externalDockId = (_f = (_e = item === null || item === void 0 ? void 0 : item.externalData) === null || _e === void 0 ? void 0 : _e.context) === null || _f === void 0 ? void 0 : _f.getDockId();
+        const tab = (_b = item === null || item === void 0 ? void 0 : item.externalData) === null || _b === void 0 ? void 0 : _b.tab;
+        const currentDockId = (_c = decoratedComponent === null || decoratedComponent === void 0 ? void 0 : decoratedComponent.context) === null || _c === void 0 ? void 0 : _c.getDockId();
+        const externalDockId = (_e = (_d = item === null || item === void 0 ? void 0 : item.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
         const state = createDragState(clientOffset, decoratedComponent);
         if (currentDockId && externalDockId && currentDockId !== externalDockId) {
             if (!tab) {
-                return {
-                    clientOffset: clientOffset
-                };
+                return dropResult;
             }
             if (props.onDropT) {
                 externalDockId.dockMove(tab, null, 'remove');
@@ -430,19 +430,16 @@ const dropSpec = {
         }
         if (props.onDropT) {
             props.onDropT(state);
-            const drop = (_h = (_g = props.dndSpec) === null || _g === void 0 ? void 0 : _g.dropTargetSpec) === null || _h === void 0 ? void 0 : _h.drop;
+            const drop = (_g = (_f = props.dndSpec) === null || _f === void 0 ? void 0 : _f.dropTargetSpec) === null || _g === void 0 ? void 0 : _g.drop;
             if (drop) {
                 drop(monitor, decoratedComponent);
             }
         }
         dragEnd();
-        const result = {
-            clientOffset: clientOffset
-        };
         if (props.externalData) {
-            result.externalData = props.externalData;
+            dropResult.externalData = props.externalData;
         }
-        return result;
+        return dropResult;
     }
 };
 function createDragState(clientOffset, component) {
@@ -521,8 +518,10 @@ const dragSpec = {
         const didDrop = monitor.didDrop();
         const clientOffset = ((_a = monitor.getDropResult()) === null || _a === void 0 ? void 0 : _a.clientOffset) || monitor.getClientOffset();
         const state = createDragState(clientOffset, component);
-        state.dx = (state.pageX - item.baseX) * item.scaleX;
-        state.dy = (state.pageY - item.baseY) * item.scaleY;
+        if (clientOffset) {
+            state.dx = (state.pageX - item.baseX) * item.scaleX;
+            state.dy = (state.pageY - item.baseY) * item.scaleY;
+        }
         if (props.onDragMoveT && didDrop) {
             props.onDragMoveT(state);
         }

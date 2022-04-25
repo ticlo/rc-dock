@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import { TabPosition } from "rc-tabs/lib/interface";
 import {Filter} from "./Algorithm";
+import { DropTargetMonitor as DndDropTargetMonitor } from "react-dnd";
 
 export interface TabGroup {
   /**
@@ -398,9 +399,7 @@ export type Identifier = string | symbol;
 export type SourceType = Identifier;
 export type TargetType = Identifier | Identifier[];
 
-export interface DropTargetMonitor {
-  getItem<T = any>(): T;
-  getItemType(): TargetType;
+export interface DropTargetMonitor extends DndDropTargetMonitor {
 }
 
 export interface DragSourceSpec {
@@ -410,6 +409,7 @@ export interface DragSourceSpec {
 export interface DropTargetSpec {
   itemType?: TargetType;
   drop?(monitor: DropTargetMonitor, component: any): void;
+  canDrop?(monitor: DropTargetMonitor, component: any): boolean;
 }
 
 export interface DndSpec {

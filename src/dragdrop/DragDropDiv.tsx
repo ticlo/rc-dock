@@ -498,12 +498,6 @@ interface DropResult {
 
 type HoverFunc = Exclude<DropTargetSpec<DndDragDropDivProps, DragObject, DropResult>["hover"], undefined>;
 
-function canDrop(monitor: DropTargetMonitor<DragObject, DropResult>, component: any) {
-  const item = monitor.getItem();
-
-  return !item.checkParent(component.element);
-}
-
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   canDrop(props, monitor) {
     return true;
@@ -528,7 +522,9 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
-      if (!canDrop(monitor, component)) {
+      const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
+
+      if (canDrop && !canDrop(monitor, component)) {
         return;
       }
 
@@ -553,14 +549,15 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const decoratedComponent = component?.decoratedRef?.current;
 
-    if (!canDrop(monitor, decoratedComponent)) {
+    const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
+
+    if (canDrop && !canDrop(monitor, decoratedComponent)) {
       return dropResult;
     }
 
     const tab = item?.externalData?.tab;
     const currentDockId = decoratedComponent?.context?.getDockId();
     const externalDockId = item?.externalData?.context?.getDockId();
-    const state = createDragState(clientOffset, decoratedComponent);
 
     if (currentDockId && externalDockId && currentDockId !== externalDockId) {
       if (!tab) {
@@ -570,6 +567,8 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
         externalDockId.dockMove(tab, null, 'remove');
       }
     }
+
+    const state = createDragState(clientOffset, decoratedComponent);
 
     if (props.onDropT) {
       props.onDropT(state);
@@ -683,6 +682,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const didDrop = monitor.didDrop();
     const clientOffset = monitor.getDropResult()?.clientOffset || monitor.getClientOffset();
     const state = createDragState(clientOffset, component);
+
     if (clientOffset) {
       state.dx = (state.pageX - item.baseX) * item.scaleX;
       state.dy = (state.pageY - item.baseY) * item.scaleY;

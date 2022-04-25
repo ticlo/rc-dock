@@ -318,7 +318,7 @@ export declare const DockContextConsumer: React.Consumer<DockContext>;
 export declare type Identifier = string | symbol;
 export declare type SourceType = Identifier;
 export declare type TargetType = Identifier | Identifier[];
-export interface DropTargetMonitor extends DndDropTargetMonitor {
+export interface DropTargetMonitor<DragObject = unknown, DropResult = unknown> extends DndDropTargetMonitor<DragObject, DropResult> {
 }
 export interface DragSourceSpec {
     itemType?: SourceType;

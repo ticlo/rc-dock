@@ -399,7 +399,7 @@ export type Identifier = string | symbol;
 export type SourceType = Identifier;
 export type TargetType = Identifier | Identifier[];
 
-export interface DropTargetMonitor extends DndDropTargetMonitor {
+export interface DropTargetMonitor<DragObject = unknown, DropResult = unknown> extends DndDropTargetMonitor<DragObject, DropResult> {
 }
 
 export interface DragSourceSpec {

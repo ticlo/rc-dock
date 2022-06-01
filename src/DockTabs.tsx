@@ -101,7 +101,10 @@ export class TabCache {
       }
       group = panel.group;
     }
+    let tabGroup = this.context.getGroup(group);
     if (group !== this.data.group) {
+      e.reject();
+    } else if (tabGroup?.floatable === 'singleTab' && this.data.parent?.parent?.mode === 'float') {
       e.reject();
     } else if (tab && tab !== this.data) {
       let direction = this.getDropDirection(e);

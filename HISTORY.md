@@ -1,6 +1,12 @@
 # History
 ----
 
+## 3.2.9 / 2022-01-17
+- new TabGroup.floatable option: "singleTab"
+
+## 3.2.8 / 2022-01-10
+- add support to resize float panel by dragging panel edges 
+
 ## 3.2.1 / 2021-10-09
 - TabGroup and panelLock now have 2 new properties: widthFlex and heightFlex, this allows panel to stretch at different ratio during window resize
 

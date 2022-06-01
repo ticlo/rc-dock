@@ -119,6 +119,8 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
 
   _pendingDestroy: any;
 
+  _isMounted = false;
+
   destroyRemovedPane = () => {
     this._pendingDestroy = null;
     let cacheRemoved = false;
@@ -128,7 +130,7 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
         cacheRemoved = true;
       }
     }
-    if (cacheRemoved) {
+    if (cacheRemoved && this._isMounted) {
       this.forceUpdate();
     }
   };
@@ -549,6 +551,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore */
   panelToFocus: string;
 
+  /** @ignore */
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
   /** @ignore
    * move focus to panelToFocus
    */
@@ -567,6 +574,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     window.removeEventListener('resize', this._onWindowResize);
     DragManager.removeDragStateListener(this.onDragStateChange);
     this._onWindowResize.cancel();
+    this._isMounted = false;
   }
 
   /** @ignore

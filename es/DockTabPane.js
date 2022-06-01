@@ -18,7 +18,9 @@ export default class DockTabPane extends React.PureComponent {
         }
         if (cached && this._ref) {
             this._cache = this.context.getTabCache(cacheId, this);
-            this._ref.appendChild(this._cache.div);
+            if (!this._ref.contains(this._cache.div)) {
+                this._ref.appendChild(this._cache.div);
+            }
             this.context.updateTabCache(this._cache.id, children);
         }
     }

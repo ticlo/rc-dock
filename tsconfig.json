@@ -15,6 +15,7 @@
     ],
     "alwaysStrict": true,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "sourceMap": false,
     "declaration": true,
     "newLine": "lf",

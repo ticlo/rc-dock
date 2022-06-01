@@ -26,6 +26,7 @@ class DockPortalManager extends React.PureComponent {
         super(...arguments);
         /** @ignore */
         this._caches = new Map();
+        this._isMounted = false;
         this.destroyRemovedPane = () => {
             this._pendingDestroy = null;
             let cacheRemoved = false;
@@ -35,7 +36,7 @@ class DockPortalManager extends React.PureComponent {
                     cacheRemoved = true;
                 }
             }
-            if (cacheRemoved) {
+            if (cacheRemoved && this._isMounted) {
                 this.forceUpdate();
             }
         };
@@ -418,6 +419,10 @@ export class DockLayout extends DockPortalManager {
                 portals),
             React.createElement("div", { className: "dock-drop-indicator", style: dropRectStyle })));
     }
+    /** @ignore */
+    componentDidMount() {
+        this._isMounted = true;
+    }
     /** @ignore
      * move focus to panelToFocus
      */
@@ -437,6 +442,7 @@ export class DockLayout extends DockPortalManager {
         (_a = globalThis.removeEventListener) === null || _a === void 0 ? void 0 : _a.call(globalThis, 'resize', this._onWindowResize);
         DragManager.removeDragStateListener(this.onDragStateChange);
         this._onWindowResize.cancel();
+        this._isMounted = false;
     }
     setLayout(layout) {
         this.tempLayout = layout;

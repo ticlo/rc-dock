@@ -27,6 +27,7 @@ import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
+import classNames from "classnames";
 
 export interface LayoutProps {
   /**
@@ -105,6 +106,8 @@ export interface LayoutProps {
   externalData?: any;
 
   defaultDndSpec?: DndSpec;
+
+  className?: string;
 }
 
 interface LayoutState {
@@ -489,7 +492,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     // clear tempLayout
     this.tempLayout = null;
 
-    let {style, maximizeTo} = this.props;
+    let {style, maximizeTo, className} = this.props;
     let {layout, dropRect} = this.state;
     let dropRectStyle: CSSProperties;
     if (dropRect) {
@@ -522,7 +525,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
 
     return (
-      <div ref={this.getRef} className="dock-layout" style={style}>
+      <div ref={this.getRef} className={classNames("dock-layout", className)} style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>
@@ -663,5 +666,17 @@ export class DockLayout extends DockPortalManager implements DockContext {
       };
     }
     return null;
+  }
+
+  getExternalData(): any {
+    return this.props.externalData;
+  }
+
+  getDefaultDndSpec(): DndSpec | undefined {
+    return this.props.defaultDndSpec;
+  }
+
+  getClassName(): string | undefined {
+    return this.props.className;
   }
 }

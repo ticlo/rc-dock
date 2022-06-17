@@ -19,6 +19,7 @@ import _ from "lodash";
 import { DockContextType } from "../DockData";
 import { v4 as uuid } from "uuid";
 import { DragSource, DropTarget } from "react-dnd";
+import classNames from "classnames";
 class RcDragDropDiv extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -298,7 +299,7 @@ class RcDragDropDiv extends React.PureComponent {
                 className = 'drag-initiator';
             }
         }
-        return (React.createElement("div", Object.assign({ ref: this._getRef, className: className }, others, { onMouseDown: onMouseDown, onTouchStart: onTouchDown }), children));
+        return (React.createElement("div", Object.assign({ ref: this._getRef, className: classNames("dnd-wrapper", className, this.context.getClassName()) }, others, { onMouseDown: onMouseDown, onTouchStart: onTouchDown }), children));
     }
     componentDidUpdate(prevProps) {
         let { onDragOverT, onDragEndT, onDragLeaveT } = this.props;
@@ -322,6 +323,7 @@ class RcDragDropDiv extends React.PureComponent {
         this.cancel();
     }
 }
+RcDragDropDiv.contextType = DockContextType;
 class DndDragDropDiv extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -365,7 +367,7 @@ class DndDragDropDiv extends React.PureComponent {
                 className = 'drag-initiator';
             }
         }
-        return (connectDragSource(connectDropTarget(React.createElement("div", Object.assign({ ref: this._getRef, className: className }, others), children))));
+        return (connectDragSource(connectDropTarget(React.createElement("div", Object.assign({ ref: this._getRef, className: classNames("dnd-wrapper", className, this.context.getClassName()) }, others), children))));
     }
 }
 DndDragDropDiv.contextType = DockContextType;
@@ -542,19 +544,19 @@ function dragCollect(connect, monitor) {
         isDragging: monitor.isDragging()
     };
 }
-const withDndSpec = (WrappedComponent) => {
+const withDefaultDndSpec = (WrappedComponent) => {
     return (props) => {
-        // @ts-ignore
-        const { props: { defaultDndSpec } } = useContext(DockContextType);
+        const context = useContext(DockContextType);
+        const defaultDndSpec = context.getDefaultDndSpec();
         return (React.createElement(WrappedComponent, Object.assign({ dndSpec: useMemo(() => defaultDndSpec, []) }, props)));
     };
 };
 const withExternalData = (WrappedComponent) => {
     return (props) => {
-        // @ts-ignore
-        const { props: { externalData } } = useContext(DockContextType);
+        const context = useContext(DockContextType);
+        const externalData = context.getExternalData();
         return (React.createElement(WrappedComponent, Object.assign({ externalData: externalData }, props)));
     };
 };
-const EnhancedDndDragDropDiv = withExternalData(withDndSpec(_.flow(DragSource(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dragSourceSpec) === null || _a === void 0 ? void 0 : _a.itemType) ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT; }, dragSpec, dragCollect), DropTarget(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dropTargetSpec) === null || _a === void 0 ? void 0 : _a.itemType) ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT; }, dropSpec, dropCollect))(DndDragDropDiv)));
+const EnhancedDndDragDropDiv = withExternalData(withDefaultDndSpec(_.flow(DragSource(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dragSourceSpec) === null || _a === void 0 ? void 0 : _a.itemType) ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT; }, dragSpec, dragCollect), DropTarget(({ dndSpec }) => { var _a; return ((_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dropTargetSpec) === null || _a === void 0 ? void 0 : _a.itemType) ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT; }, dropSpec, dropCollect))(DndDragDropDiv)));
 export { EnhancedDndDragDropDiv as DragDropDiv };

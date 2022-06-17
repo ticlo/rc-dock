@@ -98,6 +98,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
              `${prefixCls}-tabpane`,
              active && `${prefixCls}-tabpane-active`,
              className,
+             this.context.getClassName()
            )}
       >
         {(active || this.visited || forceRender) && renderChildren}

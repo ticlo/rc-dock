@@ -1,12 +1,16 @@
 import React from "react";
-import {BoxData} from "./DockData";
+import { BoxData, DockContext, DockContextType } from "./DockData";
 import {DockPanel} from "./DockPanel";
+import classNames from "classnames";
 
 interface Props {
   boxData: BoxData;
 }
 
 export class FloatBox extends React.PureComponent<Props, any> {
+  static contextType = DockContextType;
+
+  context!: DockContext;
 
   render(): React.ReactNode {
     let {children} = this.props.boxData;
@@ -19,7 +23,7 @@ export class FloatBox extends React.PureComponent<Props, any> {
     }
 
     return (
-      <div className='dock-box dock-fbox'>
+      <div className={classNames("dock-box dock-fbox", this.context.getClassName())}>
         {childrenRender}
       </div>
     );

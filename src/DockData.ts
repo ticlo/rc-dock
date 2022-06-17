@@ -384,6 +384,12 @@ export interface DockContext {
 
   /** @ignore */
   getRootElement(): HTMLDivElement;
+
+  getExternalData(): any;
+
+  getDefaultDndSpec(): DndSpec | undefined;
+
+  getClassName(): string | undefined;
 }
 
 /** @ignore */

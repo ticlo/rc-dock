@@ -306,6 +306,9 @@ export interface DockContext {
     updateTabCache(id: string, portal: React.ReactNode): void;
     /** @ignore */
     getRootElement(): HTMLDivElement;
+    getExternalData(): any;
+    getDefaultDndSpec(): DndSpec | undefined;
+    getClassName(): string | undefined;
 }
 /** @ignore */
 export declare const DockContextType: React.Context<DockContext>;

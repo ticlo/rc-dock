@@ -54,7 +54,7 @@ export default class DockTabPane extends React.PureComponent {
             renderChildren = children;
         }
         let getRef = cached ? this.getRef : null;
-        return (React.createElement("div", { ref: getRef, id: cacheId, "data-tab-id": `dock-${cacheId}`, role: "tabpanel", "aria-labelledby": id && `${id}-tab-${tabKey}`, "aria-hidden": !active, style: Object.assign(Object.assign({}, mergedStyle), style), className: classNames(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className) }, (active || this.visited || forceRender) && renderChildren));
+        return (React.createElement("div", { ref: getRef, id: cacheId, "data-tab-id": `dock-${cacheId}`, role: "tabpanel", "aria-labelledby": id && `${id}-tab-${tabKey}`, "aria-hidden": !active, style: Object.assign(Object.assign({}, mergedStyle), style), className: classNames(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`, className, this.context.getClassName()) }, (active || this.visited || forceRender) && renderChildren));
     }
     componentDidMount() {
         this.updateCache();

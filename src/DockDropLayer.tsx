@@ -15,6 +15,7 @@ import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
+import classNames from "classnames";
 
 
 interface DockDropSquareProps {
@@ -90,7 +91,7 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
     return (
       <DragDropDiv className={classes.join(' ')}
                    onDragOverT={this.onDragOver} onDragLeaveT={this.onDragLeave} onDropT={this.onDrop}>
-        <div className="dock-drop-square-box"/>
+        <div className={classNames("dock-drop-square-box", this.context.getClassName())}/>
       </DragDropDiv>
     );
   }
@@ -209,7 +210,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
     };
 
     return (
-      <div className="dock-drop-layer" style={styles[panelData.tabPosition!]}>
+      <div className={classNames("dock-drop-layer", this.context.getClassName())} style={styles[panelData.tabPosition!]}>
         {children}
       </div>
     );

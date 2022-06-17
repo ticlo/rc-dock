@@ -1,6 +1,7 @@
 import React from "react";
 import {BoxData, DockContext, DockContextType, PanelData, TabGroup} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
+import classNames from "classnames";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   mode?: 'horizontal' | 'vertical';
@@ -86,7 +87,7 @@ export class DividerBox extends React.PureComponent<Props, any> {
       cls = `${cls} ${className}`;
     }
     return (
-      <div ref={this.getRef} className={cls} {...others}>
+      <div ref={this.getRef} className={classNames(cls, this.context.getClassName())} {...others}>
         {childrenRender}
       </div>
     );

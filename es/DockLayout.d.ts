@@ -67,6 +67,7 @@ export interface LayoutProps {
      */
     externalData?: any;
     defaultDndSpec?: DndSpec;
+    className?: string;
 }
 interface LayoutState {
     layout: LayoutData;
@@ -174,5 +175,8 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     static getDerivedStateFromProps(props: LayoutProps, state: LayoutState): {
         layout: LayoutData;
     };
+    getExternalData(): any;
+    getDefaultDndSpec(): DndSpec | undefined;
+    getClassName(): string | undefined;
 }
 export {};

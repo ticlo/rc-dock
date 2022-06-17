@@ -2,6 +2,7 @@ import React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
 import { DockPanel } from "./DockPanel";
+import classNames from "classnames";
 export class DockBox extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -82,7 +83,7 @@ export class DockBox extends React.PureComponent {
         if (flexShrink < 1) {
             flexShrink = 1;
         }
-        return (React.createElement("div", { ref: this.getRef, className: cls, "data-dockid": id, style: { minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px` } }, childrenRender));
+        return (React.createElement("div", { ref: this.getRef, className: classNames(cls, this.context.getClassName()), "data-dockid": id, style: { minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px` } }, childrenRender));
     }
 }
 DockBox.contextType = DockContextType;

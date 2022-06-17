@@ -2,6 +2,7 @@ import React from "react";
 import { DockContextType, placeHolderStyle } from "./DockData";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";
 import { DragState } from "./dragdrop/DragManager";
+import classNames from "classnames";
 export class DockDropSquare extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -56,7 +57,7 @@ export class DockDropSquare extends React.PureComponent {
             classes.push('dock-drop-square-dropping');
         }
         return (React.createElement(DragDropDiv, { className: classes.join(' '), onDragOverT: this.onDragOver, onDragLeaveT: this.onDragLeave, onDropT: this.onDrop },
-            React.createElement("div", { className: "dock-drop-square-box" })));
+            React.createElement("div", { className: classNames("dock-drop-square-box", this.context.getClassName()) })));
     }
     componentWillUnmount() {
         this.context.setDropRect(null, 'remove', this);
@@ -134,7 +135,7 @@ export class DockDropLayer extends React.PureComponent {
                 bottom: 0
             }
         };
-        return (React.createElement("div", { className: "dock-drop-layer", style: styles[panelData.tabPosition] }, children));
+        return (React.createElement("div", { className: classNames("dock-drop-layer", this.context.getClassName()), style: styles[panelData.tabPosition] }, children));
     }
 }
 DockDropLayer.contextType = DockContextType;

@@ -1,12 +1,16 @@
 import React from "react";
-import {BoxData, PanelData} from "./DockData";
+import { BoxData, DockContext, DockContextType, PanelData } from "./DockData";
 import {DockPanel} from "./DockPanel";
+import classNames from "classnames";
 
 interface Props {
   boxData: BoxData;
 }
 
 export class MaxBox extends React.PureComponent<Props, any> {
+  static contextType = DockContextType;
+
+  context!: DockContext;
 
   // a place holder panel data to be used during hide animation
   hidePanelData: PanelData;
@@ -17,7 +21,8 @@ export class MaxBox extends React.PureComponent<Props, any> {
     if (panelData) {
       this.hidePanelData = {...panelData, id: '', tabs: []};
       return (
-        <div className="dock-box dock-mbox dock-mbox-show">
+
+        <div className={classNames("dock-box dock-mbox dock-mbox-show", this.context.getClassName())}>
           <DockPanel size={100} panelData={panelData}/>
         </div>
       );
@@ -26,13 +31,13 @@ export class MaxBox extends React.PureComponent<Props, any> {
       let hidePanelData = this.hidePanelData;
       this.hidePanelData = null;
       return (
-        <div className="dock-box dock-mbox dock-mbox-hide">
+        <div className={classNames("dock-box dock-mbox dock-mbox-hide", this.context.getClassName())}>
           <DockPanel size={100} panelData={hidePanelData}/>
         </div>
       );
     } else {
       return (
-        <div className="dock-box dock-mbox dock-mbox-hide"/>
+        <div className={classNames("dock-box dock-mbox dock-mbox-hide", this.context.getClassName())}/>
       );
     }
   }

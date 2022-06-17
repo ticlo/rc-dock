@@ -3,6 +3,7 @@ import {BoxData, DockContext, DockContextType, PanelData, TabGroup} from "./Dock
 import {DockTabs} from "./DockTabs";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
+import classNames from "classnames";
 
 interface Props {
   size: number;
@@ -96,7 +97,7 @@ export class DockBox extends React.PureComponent<Props, any> {
     }
 
     return (
-      <div ref={this.getRef} className={cls} data-dockid={id}
+      <div ref={this.getRef} className={classNames(cls, this.context.getClassName())} data-dockid={id}
            style={{minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`}}>
         {childrenRender}
       </div>

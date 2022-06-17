@@ -20,6 +20,7 @@ import {
   DropTargetSpec,
   XYCoord
 } from "react-dnd";
+import classNames from "classnames";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
@@ -101,6 +102,10 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   baseY2: number;
   baseDis: number;
   baseAng: number;
+
+  static contextType = DockContextType;
+
+  context!: DockContext;
 
   onPointerDown = (e: React.MouseEvent | React.TouchEvent) => {
     let nativeTarget = e.nativeEvent.target as HTMLElement;
@@ -377,7 +382,7 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     }
 
     return (
-      <div ref={this._getRef} className={className} {...others} onMouseDown={onMouseDown}
+      <div ref={this._getRef} className={classNames("dnd-wrapper", className, this.context.getClassName())} {...others} onMouseDown={onMouseDown}
            onTouchStart={onTouchDown}>
         {children}
       </div>
@@ -471,7 +476,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     return (
       connectDragSource(
         connectDropTarget(
-          <div ref={this._getRef} className={className} {...others}>
+          <div ref={this._getRef} className={classNames("dnd-wrapper", className, this.context.getClassName())} {...others}>
             {children}
           </div>
         )
@@ -716,10 +721,10 @@ function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
   };
 }
 
-const withDndSpec = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
+const withDefaultDndSpec = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
   return (props: P & DndSpecProps) => {
-    // @ts-ignore
-    const {props: {defaultDndSpec}} = useContext(DockContextType);
+    const context = useContext(DockContextType);
+    const defaultDndSpec = context.getDefaultDndSpec();
 
     return (
       <WrappedComponent
@@ -732,8 +737,8 @@ const withDndSpec = <P extends {}>(WrappedComponent: React.ComponentType<P>) => 
 
 const withExternalData = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
   return (props: P & ExternalDataProps) => {
-    // @ts-ignore
-    const {props: {externalData}} = useContext(DockContextType);
+    const context = useContext(DockContextType);
+    const externalData = context.getExternalData();
 
     return (
       <WrappedComponent
@@ -744,7 +749,7 @@ const withExternalData = <P extends {}>(WrappedComponent: React.ComponentType<P>
   };
 };
 
-const EnhancedDndDragDropDiv = withExternalData<DragDropDivProps>(withDndSpec(
+const EnhancedDndDragDropDiv = withExternalData<DragDropDivProps>(withDefaultDndSpec(
   _.flow(
     DragSource(
       ({dndSpec}) => dndSpec?.dragSourceSpec?.itemType ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT,

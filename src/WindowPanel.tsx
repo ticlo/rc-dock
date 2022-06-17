@@ -4,6 +4,7 @@ import NewWindow from "rc-new-window";
 import {DockContext, DockContextType, PanelData} from "./DockData";
 import {DockPanel} from "./DockPanel";
 import {mapElementToScreenRect, mapWindowToElement} from "rc-new-window/lib/ScreenPosition";
+import classNames from "classnames";
 
 
 interface Props {
@@ -58,7 +59,7 @@ export class WindowPanel extends React.PureComponent<Props, any> {
                       width={w}
                       height={h}
     >
-      <div className='dock-wbox'>
+      <div className={classNames("dock-wbox", this.context.getClassName())}>
         <DockPanel size={panelData.size} panelData={panelData} key={panelData.id}/>
       </div>
     </NewWindow>;

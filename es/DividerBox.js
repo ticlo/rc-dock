@@ -12,6 +12,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
+import classNames from "classnames";
 export class DividerBox extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -86,7 +87,7 @@ export class DividerBox extends React.PureComponent {
         if (className) {
             cls = `${cls} ${className}`;
         }
-        return (React.createElement("div", Object.assign({ ref: this.getRef, className: cls }, others), childrenRender));
+        return (React.createElement("div", Object.assign({ ref: this.getRef, className: classNames(cls, this.context.getClassName()) }, others), childrenRender));
     }
 }
 DividerBox.contextType = DockContextType;

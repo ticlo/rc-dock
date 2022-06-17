@@ -3,6 +3,7 @@ import NewWindow from "rc-new-window";
 import { DockContextType } from "./DockData";
 import { DockPanel } from "./DockPanel";
 import { mapElementToScreenRect, mapWindowToElement } from "rc-new-window/lib/ScreenPosition";
+import classNames from "classnames";
 export class WindowPanel extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -37,7 +38,7 @@ export class WindowPanel extends React.PureComponent {
         let { panelData } = this.props;
         let { x, y, w, h } = panelData;
         return React.createElement(NewWindow, { copyStyles: true, onOpen: this.onOpen, onClose: this.onUnload, onBlock: this.onUnload, initPopupInnerRect: this.initPopupInnerRect, width: w, height: h },
-            React.createElement("div", { className: 'dock-wbox' },
+            React.createElement("div", { className: classNames("dock-wbox", this.context.getClassName()) },
                 React.createElement(DockPanel, { size: panelData.size, panelData: panelData, key: panelData.id })));
     }
 }

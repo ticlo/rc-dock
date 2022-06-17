@@ -21,6 +21,7 @@ import * as Serializer from "./Serializer";
 import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
+import classNames from "classnames";
 class DockPortalManager extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -388,7 +389,7 @@ export class DockLayout extends DockPortalManager {
     render() {
         // clear tempLayout
         this.tempLayout = null;
-        let { style, maximizeTo } = this.props;
+        let { style, maximizeTo, className } = this.props;
         let { layout, dropRect } = this.state;
         let dropRectStyle;
         if (dropRect) {
@@ -416,7 +417,7 @@ export class DockLayout extends DockPortalManager {
                 portals.push(cache.portal);
             }
         }
-        return (React.createElement("div", { ref: this.getRef, className: "dock-layout", style: style },
+        return (React.createElement("div", { ref: this.getRef, className: classNames("dock-layout", className), style: style },
             React.createElement(DockContextProvider, { value: this },
                 React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
                 React.createElement(FloatBox, { boxData: layout.floatbox }),
@@ -518,5 +519,14 @@ export class DockLayout extends DockPortalManager {
             };
         }
         return null;
+    }
+    getExternalData() {
+        return this.props.externalData;
+    }
+    getDefaultDndSpec() {
+        return this.props.defaultDndSpec;
+    }
+    getClassName() {
+        return this.props.className;
     }
 }

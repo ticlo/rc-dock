@@ -424,7 +424,9 @@ export class DockLayout extends DockPortalManager {
                 React.createElement(WindowBox, { boxData: layout.windowbox }),
                 maximize,
                 portals),
-            React.createElement("div", { className: "dock-drop-indicator", style: dropRectStyle })));
+            React.createElement("div", { className: classNames("dock-drop-indicator", {
+                    "dock-drop-indicator-float": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'float'
+                }), style: dropRectStyle })));
     }
     /** @ignore */
     componentDidMount() {

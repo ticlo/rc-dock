@@ -533,7 +533,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
           {maximize}
           {portals}
         </DockContextProvider>
-        <div className="dock-drop-indicator" style={dropRectStyle}/>
+        <div className={classNames("dock-drop-indicator", {
+          "dock-drop-indicator-float": dropRect?.direction === 'float'
+        })} style={dropRectStyle}/>
       </div>
     );
   }

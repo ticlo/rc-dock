@@ -294,7 +294,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let cls = `dock-panel ${
       panelClass ? panelClass : ''}${
       dropFromPanel ? ' dock-panel-dropping' : ''}${
-      draggingHeader ? ' dragging' : ''
+      draggingHeader ? ' dragging' : ''}${
+      panelData.tabs.length === 1 ? ' dock-panel-one-tab' : ''
     }`;
     let flex = 1;
     if (isHBox && widthFlex != null) {

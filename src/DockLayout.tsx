@@ -524,6 +524,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
       }
     }
 
+    const tabPosition = dropRect?.source?.data?.parent?.tabPosition;
+
     return (
       <div ref={this.getRef} className={classNames("dock-layout", className)} style={style}>
         <DockContextProvider value={this}>
@@ -534,7 +536,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
           {portals}
         </DockContextProvider>
         <div className={classNames("dock-drop-indicator", {
-          "dock-drop-indicator-float": dropRect?.direction === 'float'
+          "dock-drop-indicator-float": dropRect?.direction === 'float',
+          "dock-drop-indicator-tab-horizontal": dropRect?.direction === 'before-tab' || dropRect?.direction === 'after-tab',
+          "dock-drop-indicator-tab-vertical": dropRect?.direction === 'under-tab' || dropRect?.direction === 'above-tab',
+          [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
         })} style={dropRectStyle}/>
       </div>
     );

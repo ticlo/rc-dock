@@ -387,6 +387,7 @@ export class DockLayout extends DockPortalManager {
     }
     /** @ignore */
     render() {
+        var _a, _b, _c;
         // clear tempLayout
         this.tempLayout = null;
         let { style, maximizeTo, className } = this.props;
@@ -417,6 +418,7 @@ export class DockLayout extends DockPortalManager {
                 portals.push(cache.portal);
             }
         }
+        const tabPosition = (_c = (_b = (_a = dropRect === null || dropRect === void 0 ? void 0 : dropRect.source) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.tabPosition;
         return (React.createElement("div", { ref: this.getRef, className: classNames("dock-layout", className), style: style },
             React.createElement(DockContextProvider, { value: this },
                 React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
@@ -425,7 +427,10 @@ export class DockLayout extends DockPortalManager {
                 maximize,
                 portals),
             React.createElement("div", { className: classNames("dock-drop-indicator", {
-                    "dock-drop-indicator-float": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'float'
+                    "dock-drop-indicator-float": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'float',
+                    "dock-drop-indicator-tab-horizontal": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'before-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'after-tab',
+                    "dock-drop-indicator-tab-vertical": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'under-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'above-tab',
+                    [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
                 }), style: dropRectStyle })));
     }
     /** @ignore */

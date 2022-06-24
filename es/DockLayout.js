@@ -387,7 +387,7 @@ export class DockLayout extends DockPortalManager {
     }
     /** @ignore */
     render() {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         // clear tempLayout
         this.tempLayout = null;
         let { style, maximizeTo, className } = this.props;
@@ -419,7 +419,9 @@ export class DockLayout extends DockPortalManager {
             }
         }
         const tabPosition = (_c = (_b = (_a = dropRect === null || dropRect === void 0 ? void 0 : dropRect.source) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.tabPosition;
-        return (React.createElement("div", { ref: this.getRef, className: classNames("dock-layout", className), style: style },
+        return (React.createElement("div", { ref: this.getRef, className: classNames("dock-layout", className, {
+                "dock-layout-empty-dock-box": layout.dockbox.children.length === 1 && ((_d = layout.dockbox.children[0]) === null || _d === void 0 ? void 0 : _d.tabs.length) === 0
+            }), style: style },
             React.createElement(DockContextProvider, { value: this },
                 React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
                 React.createElement(FloatBox, { boxData: layout.floatbox }),

@@ -527,7 +527,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
     const tabPosition = dropRect?.source?.data?.parent?.tabPosition;
 
     return (
-      <div ref={this.getRef} className={classNames("dock-layout", className)} style={style}>
+      <div ref={this.getRef} className={classNames("dock-layout", className, {
+        "dock-layout-empty-dock-box": layout.dockbox.children.length === 1 && (layout.dockbox.children[0] as PanelData)?.tabs.length === 0
+      })} style={style}>
         <DockContextProvider value={this}>
           <DockBox size={1} boxData={layout.dockbox}/>
           <FloatBox boxData={layout.floatbox}/>

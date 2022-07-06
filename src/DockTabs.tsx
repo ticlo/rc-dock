@@ -10,6 +10,7 @@ import {DockTabBar} from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
 import {getFloatPanelSize} from "./Algorithm";
 import {WindowBox} from "./WindowBox";
+import classNames from "classnames";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -328,7 +329,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     }
 
     return (
-      <Tabs prefixCls="dock"
+      <Tabs prefixCls={classNames(this.context.getClassName(), "dock")}
             moreIcon="..."
             animated={animated}
             renderTabBar={this.renderTabBar}

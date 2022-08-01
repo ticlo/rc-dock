@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
 import {compareArray, compareKeys} from "./util/Compare";
 import Tabs from 'rc-tabs';

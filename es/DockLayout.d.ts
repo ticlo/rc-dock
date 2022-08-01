@@ -1,4 +1,5 @@
-import React, { CSSProperties } from "react";
+import * as React from "react";
+import { CSSProperties } from "react";
 import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
 export interface LayoutProps {

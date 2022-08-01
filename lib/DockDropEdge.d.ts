@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContext, DockMode, DropDirection, PanelData, TabGroup } from "./DockData";
 import { DragState } from "./dragdrop/DragManager";
 interface DockDropEdgeProps {

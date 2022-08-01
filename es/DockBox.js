@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
 import { DockPanel } from "./DockPanel";

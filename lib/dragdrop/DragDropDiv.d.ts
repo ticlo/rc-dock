@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as DragManager from "./DragManager";
 import { GestureState } from "./GestureManager";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;

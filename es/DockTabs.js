@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContextType } from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, { MenuItem } from 'rc-menu';

@@ -9,8 +9,8 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import { defaultGroup, DockContextProvider, placeHolderGroup, placeHolderStyle } from "./DockData";
 import { DockBox } from "./DockBox";

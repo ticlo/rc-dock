@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContext, DropDirection, PanelData, TabData } from "./DockData";
 import * as DragManager from "./dragdrop/DragManager";
 export declare class TabCache {

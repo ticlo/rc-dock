@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import {Divider} from '../lib';
 // keep the above unused import so tools script can understand this jsx
 

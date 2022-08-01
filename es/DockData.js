@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from "react";
 /** @ignore */
 export const defaultGroup = {
     floatable: true,

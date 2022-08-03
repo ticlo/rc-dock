@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabPosition } from "rc-tabs/lib/interface";
 import { Filter } from "./Algorithm";
-import { DropTargetMonitor as DndDropTargetMonitor } from "react-dnd";
+import { DropTargetMonitor as DndDropTargetMonitor, ConnectableElement, DragPreviewOptions } from "react-dnd";
 export interface TabGroup {
     /**
      * Whether tab can be dragged into float layer.
@@ -326,6 +326,10 @@ export interface DropTargetMonitor<DragObject = unknown, DropResult = unknown> e
 }
 export interface DragSourceSpec {
     itemType?: SourceType;
+    preview?: {
+        elementOrNode: ConnectableElement;
+        options?: DragPreviewOptions | undefined;
+    };
 }
 export interface DropTargetSpec {
     itemType?: TargetType;

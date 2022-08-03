@@ -343,6 +343,14 @@ class DndDragDropDiv extends React.PureComponent {
             }
         };
     }
+    componentDidMount() {
+        var _a;
+        const { connectDragPreview, dndSpec } = this.props;
+        const preview = (_a = dndSpec === null || dndSpec === void 0 ? void 0 : dndSpec.dragSourceSpec) === null || _a === void 0 ? void 0 : _a.preview;
+        if (preview) {
+            connectDragPreview(preview.elementOrNode, preview.options);
+        }
+    }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isOver && !this.props.isOver) {
             if (this.props.onDragLeaveT) {
@@ -354,11 +362,11 @@ class DndDragDropDiv extends React.PureComponent {
     render() {
         let _a = this.props, { getRef, children, className, directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT, onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, 
         // drag props
-        isDragging, connectDragSource, 
+        isDragging, connectDragSource, connectDragPreview, 
         // drop props
         isOver, canDrop, connectDropTarget, isOverCurrent, itemType, 
         // external data props
-        dndSpec, externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "tabData", "isDragging", "connectDragSource", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
+        dndSpec, externalData } = _a, others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT", "tabData", "isDragging", "connectDragSource", "connectDragPreview", "isOver", "canDrop", "connectDropTarget", "isOverCurrent", "itemType", "dndSpec", "externalData"]);
         if (canDrag(this.props)) {
             if (className) {
                 className = `${className} drag-initiator`;
@@ -541,6 +549,7 @@ const dragSpec = {
 function dragCollect(connect, monitor) {
     return {
         connectDragSource: connect.dragSource(),
+        connectDragPreview: connect.dragPreview(),
         isDragging: monitor.isDragging()
     };
 }

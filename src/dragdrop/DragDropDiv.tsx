@@ -18,7 +18,8 @@ import {
   DropTargetConnector,
   DropTargetMonitor,
   DropTargetSpec,
-  XYCoord
+  XYCoord,
+  ConnectDragPreview
 } from "react-dnd";
 import classNames from "classnames";
 
@@ -64,6 +65,7 @@ interface DndDragDropDivProps extends DragDropDivProps, DndSpecProps, ExternalDa
   itemType: string;
   connectDragSource: ConnectDragSource;
   connectDropTarget: ConnectDropTarget;
+  connectDragPreview: ConnectDragPreview;
 }
 
 class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
@@ -441,6 +443,15 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     }
   };
 
+  componentDidMount() {
+    const { connectDragPreview, dndSpec } = this.props;
+    const preview = dndSpec?.dragSourceSpec?.preview;
+
+    if (preview) {
+      connectDragPreview(preview.elementOrNode, preview.options);
+    }
+  }
+
   componentDidUpdate(prevProps: Readonly<DndDragDropDivProps>, prevState: Readonly<any>, snapshot?: any) {
     if (prevProps.isOver && !this.props.isOver) {
       if (this.props.onDragLeaveT) {
@@ -456,7 +467,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
       onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData,
       // drag props
-      isDragging, connectDragSource,
+      isDragging, connectDragSource, connectDragPreview,
       // drop props
       isOver, canDrop, connectDropTarget, isOverCurrent, itemType,
       // external data props
@@ -717,6 +728,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
 function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   };
 }

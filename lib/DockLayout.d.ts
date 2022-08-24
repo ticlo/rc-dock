@@ -106,8 +106,14 @@ export declare class DockLayout extends DockPortalManager implements DockContext
      * @param source @inheritDoc
      * @param target @inheritDoc
      * @param direction @inheritDoc
+     * @param floatPosition @inheritDoc
      */
-    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection): void;
+    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, floatPosition?: {
+        left: number;
+        top: number;
+        width: number;
+        height: number;
+    }): void;
     /** @inheritDoc */
     find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData;
     /** @ignore */

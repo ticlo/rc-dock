@@ -1,6 +1,9 @@
 # History
 ----
 
+## 3.2.11 / 2022-08-24
+- add new parameter to dockmove() for default float panel position
+
 ## 3.2.9 / 2022-01-17
 - new TabGroup.floatable option: "singleTab"
 

@@ -157,8 +157,9 @@ export class DockLayout extends DockPortalManager {
      * @param source @inheritDoc
      * @param target @inheritDoc
      * @param direction @inheritDoc
+     * @param floatPosition @inheritDoc
      */
-    dockMove(source, target, direction) {
+    dockMove(source, target, direction, floatPosition) {
         let layout = this.getLayout();
         if (direction === 'maximize') {
             layout = Algorithm.maximize(layout, source);
@@ -179,8 +180,8 @@ export class DockLayout extends DockPortalManager {
         if (direction === 'float') {
             let newPanel = Algorithm.converToPanel(source);
             newPanel.z = Algorithm.nextZIndex(null);
-            if (this.state.dropRect) {
-                layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+            if (this.state.dropRect || floatPosition) {
+                layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect || floatPosition);
             }
             else {
                 layout = Algorithm.floatPanel(layout, newPanel);

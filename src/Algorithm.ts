@@ -484,19 +484,27 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
     for (let i = 0; i < newFloatChildren.length; ++i) {
       let panel: PanelData = newFloatChildren[i] as PanelData;
       let panelChange: any = {};
-      if (panel.w > layoutWidth) {
+      if (!(panel.w > 0)) {
+        panelChange.w = Math.round(layoutWidth / 3);
+      } else if (panel.w > layoutWidth) {
         panelChange.w = layoutWidth;
       }
-      if (panel.h > layoutHeight) {
+      if (!(panel.h > 0)) {
+        panelChange.h = Math.round(layoutHeight / 3);
+      } else if (panel.h > layoutHeight) {
         panelChange.h = layoutHeight;
       }
-      if (panel.y > layoutHeight - 16) {
+      if (typeof panel.y !== 'number') {
+        panelChange.y = (layoutHeight -  (panelChange.h || panel.h)) >> 1;
+      } else if (panel.y > layoutHeight - 16) {
         panelChange.y = Math.max(layoutHeight - 16 - (panel.h >> 1), 0);
-      } else if (panel.y < 0) {
+      } else if (!(panel.y >= 0)) {
         panelChange.y = 0;
       }
 
-      if (panel.x + panel.w < 16) {
+      if (typeof panel.x !== 'number') {
+        panelChange.x = (layoutWidth - (panelChange.w || panel.w)) >> 1;
+      } else if (panel.x + panel.w < 16) {
         panelChange.x = 16 - (panel.w >> 1);
       } else if (panel.x > layoutWidth - 16) {
         panelChange.x = layoutWidth - 16 - (panel.w >> 1);

@@ -207,10 +207,15 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * @param source @inheritDoc
    * @param target @inheritDoc
    * @param direction @inheritDoc
+   * @param floatPosition @inheritDoc
    */
-  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection) {
+  dockMove(
+    source: TabData | PanelData,
+    target: string | TabData | PanelData | BoxData | null,
+    direction: DropDirection,
+    floatPosition?: {left: number, top: number, width: number, height: number}
+  ) {
     let layout = this.getLayout();
-
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
       this.panelToFocus = source.id;
@@ -229,8 +234,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (direction === 'float') {
       let newPanel = Algorithm.converToPanel(source);
       newPanel.z = Algorithm.nextZIndex(null);
-      if (this.state.dropRect) {
-        layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);
+      if (this.state.dropRect || floatPosition) {
+        layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect || floatPosition);
       } else {
         layout = Algorithm.floatPanel(layout, newPanel);
         if (this._ref) {

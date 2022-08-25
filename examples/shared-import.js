@@ -17432,9 +17432,9 @@ function dockPanelToPanel(layout, newPanel, panel, direction) {
     if (dockMode === box.mode) {
       if (afterPanel) {
         ++pos;
-      }
+      } // HINT: The size remains the same, preventing flex-grow less than 1
 
-      panel.size *= 0.5;
+
       newPanel.size = panel.size;
       newBox.children.splice(pos, 0, newPanel);
     } else {

@@ -221,7 +221,7 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
       if (afterPanel) {
         ++pos;
       }
-      panel.size *= 0.5;
+      // HINT: The size remains the same, preventing flex-grow less than 1
       newPanel.size = panel.size;
       newBox.children.splice(pos, 0, newPanel);
     } else {

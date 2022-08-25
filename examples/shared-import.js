@@ -21780,6 +21780,7 @@ class DockPortalManager extends react_1.default.PureComponent {
     /** @ignore */
 
     this._caches = new Map();
+    this._isMounted = false;
 
     this.destroyRemovedPane = () => {
       this._pendingDestroy = null;
@@ -21793,7 +21794,7 @@ class DockPortalManager extends react_1.default.PureComponent {
         }
       }
 
-      if (cacheRemoved) {
+      if (cacheRemoved && this._isMounted) {
         this.forceUpdate();
       }
     };
@@ -22335,6 +22336,12 @@ class DockLayout extends DockPortalManager {
       style: dropRectStyle
     }));
   }
+  /** @ignore */
+
+
+  componentDidMount() {
+    this._isMounted = true;
+  }
   /** @ignore
    * move focus to panelToFocus
    */
@@ -22363,6 +22370,8 @@ class DockLayout extends DockPortalManager {
     DragManager.removeDragStateListener(this.onDragStateChange);
 
     this._onWindowResize.cancel();
+
+    this._isMounted = false;
   }
 
   setLayout(layout) {

@@ -80,6 +80,7 @@ declare class DockPortalManager extends React.PureComponent<LayoutProps, LayoutS
     /** @ignore */
     _caches: Map<string, TabPaneCache>;
     _pendingDestroy: any;
+    _isMounted: boolean;
     destroyRemovedPane: () => void;
     /** @ignore */
     getTabCache(id: string, owner: any): TabPaneCache;
@@ -140,6 +141,8 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     _onWindowResize: any;
     /** @ignore */
     panelToFocus: string;
+    /** @ignore */
+    componentDidMount(): void;
     /** @ignore
      * move focus to panelToFocus
      */

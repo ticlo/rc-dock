@@ -64,7 +64,9 @@
     "react": ">=15.0.0",
     "react-dom": ">=15.0.0"
   },
-  "resolutions": {},
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
     "build-less": "lessc style/index-light.less dist/rc-dock.css & lessc style/index-dark.less dist/rc-dock-dark.css ",

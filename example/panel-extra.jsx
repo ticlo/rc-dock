@@ -7,18 +7,32 @@ let groups = {
   'close-all': {
     floatable: true,
     closable: true,
-    panelExtra: (panelData, context) => (
-      <div>
-        <span className='my-panel-extra-btn'
-              onClick={() => context.dockMove(panelData, null, 'maximize')}>
+    panelExtra: (panelData, context) => {
+
+      let buttons = [];
+      if (panelData.parent.mode !== 'window') {
+        buttons.push(
+          <span className='my-panel-extra-btn' key='maximize'
+                title={panelData.parent.mode === 'maximize' ? 'Restore' : 'Maximize'}
+                onClick={() => context.dockMove(panelData, null, 'maximize')}>
           {panelData.parent.mode === 'maximize' ? '▬' : '▣'}
-        </span>
-        <span className='my-panel-extra-btn'
+          </span>
+        )
+        buttons.push(
+          <span className='my-panel-extra-btn' key='new-window' title='Open in new window'
+                onClick={() => context.dockMove(panelData, null, 'new-window')}>
+          ⇪
+          </span>
+        )
+      }
+      buttons.push(
+        <span className='my-panel-extra-btn' key='close' title='Close'
               onClick={() => context.dockMove(panelData, null, 'remove')}>
           X
         </span>
-      </div>
-    )
+      )
+      return <div>{buttons}</div>
+    }
   }
 };
 
@@ -62,7 +76,7 @@ let box = {
               minWidth: 200,
               panelExtra: (panelData, context) => (
                 <button className='btn'
-                  onClick={() => context.dockMove(newTab(), panelData, 'middle')}>
+                        onClick={() => context.dockMove(newTab(), panelData, 'middle')}>
                   add
                 </button>
               )

@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"zrKk":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -245,43 +243,37 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   const Context = React.createContext();
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "state", {
-        ctx: 0
+    state = {
+      ctx: 0
+    };
+    addCtx = () => {
+      this.setState({
+        ctx: this.state.ctx + 1
       });
+    };
+    defaultLayout = {
+      dockbox: {
+        mode: 'vertical',
+        children: [{
+          tabs: [{
+            id: 'id2',
+            title: 'change',
+            content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Click here to change value in React Context."), /*#__PURE__*/React.createElement("button", {
+              className: "btn",
+              onClick: this.addCtx
+            }, "Update Value"))
+          }, jsxTab, htmlTab]
+        }, {
+          tabs: [{
+            id: 'id1',
+            title: 'context consumer',
+            content: /*#__PURE__*/React.createElement(Context.Consumer, null, value => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "React Context is the easiest way to update children tab."), "Current value is: ", /*#__PURE__*/React.createElement("b", null, value))) // cached: true,
+            // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
 
-      _defineProperty(this, "addCtx", () => {
-        this.setState({
-          ctx: this.state.ctx + 1
-        });
-      });
-
-      _defineProperty(this, "defaultLayout", {
-        dockbox: {
-          mode: 'vertical',
-          children: [{
-            tabs: [{
-              id: 'id2',
-              title: 'change',
-              content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Click here to change value in React Context."), /*#__PURE__*/React.createElement("button", {
-                className: "btn",
-                onClick: this.addCtx
-              }, "Update Value"))
-            }, jsxTab, htmlTab]
-          }, {
-            tabs: [{
-              id: 'id1',
-              title: 'context consumer',
-              content: /*#__PURE__*/React.createElement(Context.Consumer, null, value => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "React Context is the easiest way to update children tab."), "Current value is: ", /*#__PURE__*/React.createElement("b", null, value))) // cached: true,
-              // cacheContext: Context  // if cached = true, cacheContext is needed to pass the context to cache
-
-            }]
           }]
-        }
-      });
-    }
+        }]
+      }
+    };
 
     render() {
       return /*#__PURE__*/React.createElement(Context.Provider, {

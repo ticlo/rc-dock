@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"KfTx":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -257,40 +255,35 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "mainTab", {
-        id: 'main',
-        title: 'Info',
-        content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Although rc-dock supports new window, a lot of packages will have error when controlling components in popup window."), /*#__PURE__*/React.createElement("p", null, "Please avoid complex mouse event handling and popup layers in the tab that allows popup window."))
-      });
-
-      _defineProperty(this, "layoutData", {
-        dockbox: {
-          mode: 'horizontal',
+    mainTab = {
+      id: 'main',
+      title: 'Info',
+      content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Although rc-dock supports new window, a lot of packages will have error when controlling components in popup window."), /*#__PURE__*/React.createElement("p", null, "Please avoid complex mouse event handling and popup layers in the tab that allows popup window."))
+    };
+    layoutData = {
+      dockbox: {
+        mode: 'horizontal',
+        children: [{
+          mode: 'vertical',
           children: [{
-            mode: 'vertical',
-            children: [{
-              tabs: [this.mainTab, jsxTab, htmlTab],
-              panelLock: {
-                panelStyle: 'main'
-              }
-            }]
+            tabs: [this.mainTab, jsxTab, htmlTab],
+            panelLock: {
+              panelStyle: 'main'
+            }
           }]
-        },
-        floatbox: {
-          mode: 'float',
-          children: [{
-            tabs: [floatTab],
-            x: 60,
-            y: 60,
-            w: 320,
-            h: 300
-          }]
-        }
-      });
-    }
+        }]
+      },
+      floatbox: {
+        mode: 'float',
+        children: [{
+          tabs: [floatTab],
+          x: 60,
+          y: 60,
+          w: 320,
+          h: 300
+        }]
+      }
+    };
 
     render() {
       return /*#__PURE__*/React.createElement(DockLayout, {

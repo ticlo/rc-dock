@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"azT7":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -276,30 +274,23 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "newTabId", 0);
-
-      _defineProperty(this, "getRef", r => {
-        this.dockLayout = r;
-      });
-
-      _defineProperty(this, "getButtonRef", r => {
-        this.buttonRef = r;
-      });
-
-      _defineProperty(this, "onDragStart", e => {
-        console.log(this.dockLayout, this.buttonRef);
-        e.setData({
-          tab: { ...tab,
-            id: `newTab-${++this.newTabId}`
-          },
-          panelSize: [400, 300]
-        }, this.dockLayout.getDockId());
-        e.startDrag(this.buttonRef.element, this.buttonRef.element);
-      });
-    }
+    newTabId = 0;
+    getRef = r => {
+      this.dockLayout = r;
+    };
+    getButtonRef = r => {
+      this.buttonRef = r;
+    };
+    onDragStart = e => {
+      console.log(this.dockLayout, this.buttonRef);
+      e.setData({
+        tab: { ...tab,
+          id: `newTab-${++this.newTabId}`
+        },
+        panelSize: [400, 300]
+      }, this.dockLayout.getDockId());
+      e.startDrag(this.buttonRef.element, this.buttonRef.element);
+    };
 
     render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(DockLayout, {

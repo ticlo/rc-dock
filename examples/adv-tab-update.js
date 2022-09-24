@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"Pjdl":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -259,54 +257,45 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   }
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
+    getRef = r => {
+      this.dockLayout = r;
+    };
+    count = 4;
+    addValue = () => {
+      let panelData = this.dockLayout.find('my_panel');
+      let tabId = panelData.activeId; // docklayout will find the same tab id and replace the previous tab
 
-      _defineProperty(this, "getRef", r => {
-        this.dockLayout = r;
-      });
-
-      _defineProperty(this, "count", 4);
-
-      _defineProperty(this, "addValue", () => {
-        let panelData = this.dockLayout.find('my_panel');
-        let tabId = panelData.activeId; // docklayout will find the same tab id and replace the previous tab
-
-        this.dockLayout.updateTab(tabId, getTab(tabId, ++this.count));
-      });
-
-      _defineProperty(this, "addTab", () => {
-        ++this.count;
-        let newTab = getTab(`tab${this.count}`, this.count);
-        this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
-      });
-
-      _defineProperty(this, "defaultLayout", {
-        dockbox: {
-          mode: 'vertical',
-          children: [{
-            tabs: [{
-              id: 'id2',
-              title: 'change',
-              content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Click here to change the other panel."), /*#__PURE__*/React.createElement("button", {
-                className: "btn",
-                onClick: this.addValue
-              }, "Update Value"), /*#__PURE__*/React.createElement("button", {
-                className: "btn",
-                onClick: this.addTab
-              }, "Add Tab"))
-            }, jsxTab, htmlTab]
-          }, {
-            id: 'my_panel',
-            tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)]
-          }]
-        }
-      });
-
-      _defineProperty(this, "state", {
-        saved: null
-      });
-    }
+      this.dockLayout.updateTab(tabId, getTab(tabId, ++this.count));
+    };
+    addTab = () => {
+      ++this.count;
+      let newTab = getTab(`tab${this.count}`, this.count);
+      this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
+    };
+    defaultLayout = {
+      dockbox: {
+        mode: 'vertical',
+        children: [{
+          tabs: [{
+            id: 'id2',
+            title: 'change',
+            content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Click here to change the other panel."), /*#__PURE__*/React.createElement("button", {
+              className: "btn",
+              onClick: this.addValue
+            }, "Update Value"), /*#__PURE__*/React.createElement("button", {
+              className: "btn",
+              onClick: this.addTab
+            }, "Add Tab"))
+          }, jsxTab, htmlTab]
+        }, {
+          id: 'my_panel',
+          tabs: [getTab('tab1', 1), getTab('tab2', 2), getTab('tab3', 3), getTab('tab4', 4)]
+        }]
+      }
+    };
+    state = {
+      saved: null
+    };
 
     render() {
       return /*#__PURE__*/React.createElement(DockLayout, {

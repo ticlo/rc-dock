@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"SvKR":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -318,25 +316,21 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   let count = 0;
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "onDragNewTab", e => {
-        let content = `New Tab ${count++}`;
-        DragStore.dragStart(DockContextType, {
-          tab: {
-            id: content,
-            content: /*#__PURE__*/React.createElement("div", {
-              style: {
-                padding: 20
-              }
-            }, content),
-            title: content,
-            closable: true
-          }
-        }, e.nativeEvent);
-      });
-    }
+    onDragNewTab = e => {
+      let content = `New Tab ${count++}`;
+      DragStore.dragStart(DockContextType, {
+        tab: {
+          id: content,
+          content: /*#__PURE__*/React.createElement("div", {
+            style: {
+              padding: 20
+            }
+          }, content),
+          title: content,
+          closable: true
+        }
+      }, e.nativeEvent);
+    };
 
     render() {
       return /*#__PURE__*/React.createElement(DockLayout, {

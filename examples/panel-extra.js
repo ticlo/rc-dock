@@ -245,13 +245,32 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
     'close-all': {
       floatable: true,
       closable: true,
-      panelExtra: (panelData, context) => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-        className: "my-panel-extra-btn",
-        onClick: () => context.dockMove(panelData, null, 'maximize')
-      }, panelData.parent.mode === 'maximize' ? '▬' : '▣'), /*#__PURE__*/React.createElement("span", {
-        className: "my-panel-extra-btn",
-        onClick: () => context.dockMove(panelData, null, 'remove')
-      }, "X"))
+      panelExtra: (panelData, context) => {
+        let buttons = [];
+
+        if (panelData.parent.mode !== 'window') {
+          buttons.push( /*#__PURE__*/React.createElement("span", {
+            className: "my-panel-extra-btn",
+            key: "maximize",
+            title: panelData.parent.mode === 'maximize' ? 'Restore' : 'Maximize',
+            onClick: () => context.dockMove(panelData, null, 'maximize')
+          }, panelData.parent.mode === 'maximize' ? '▬' : '▣'));
+          buttons.push( /*#__PURE__*/React.createElement("span", {
+            className: "my-panel-extra-btn",
+            key: "new-window",
+            title: "Open in new window",
+            onClick: () => context.dockMove(panelData, null, 'new-window')
+          }, "\u21EA"));
+        }
+
+        buttons.push( /*#__PURE__*/React.createElement("span", {
+          className: "my-panel-extra-btn",
+          key: "close",
+          title: "Close",
+          onClick: () => context.dockMove(panelData, null, 'remove')
+        }, "X"));
+        return /*#__PURE__*/React.createElement("div", null, buttons);
+      }
     }
   };
   let tab = {

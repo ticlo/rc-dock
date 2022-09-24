@@ -2273,8 +2273,6 @@ function isnan (val) {
 
 },{"base64-js":"yh9p","ieee754":"JgNJ","isarray":"REa7","buffer":"dskh"}],"ipez":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -2284,39 +2282,32 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   GestureState
 }) => {
   class Demo extends React.PureComponent {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "state", {
-        scale: 0,
-        rotate: 0,
-        dx: 0,
-        dy: 0
+    state = {
+      scale: 0,
+      rotate: 0,
+      dx: 0,
+      dy: 0
+    };
+    getRef = r => {
+      this._ref = r;
+    };
+    onGestureStart = e => {
+      return true;
+    };
+    onGestureMove = e => {
+      let {
+        scale,
+        rotate,
+        dx,
+        dy
+      } = e;
+      this.setState({
+        scale,
+        rotate,
+        dx,
+        dy
       });
-
-      _defineProperty(this, "getRef", r => {
-        this._ref = r;
-      });
-
-      _defineProperty(this, "onGestureStart", e => {
-        return true;
-      });
-
-      _defineProperty(this, "onGestureMove", e => {
-        let {
-          scale,
-          rotate,
-          dx,
-          dy
-        } = e;
-        this.setState({
-          scale,
-          rotate,
-          dx,
-          dy
-        });
-      });
-    }
+    };
 
     render() {
       let {

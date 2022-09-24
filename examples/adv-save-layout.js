@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"vjXQ":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -251,14 +249,10 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
 
   class InputTab extends React.PureComponent {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "onChange", e => {
-        this.props.tabData.inputValue = e.target.value;
-        this.forceUpdate();
-      });
-    }
+    onChange = e => {
+      this.props.tabData.inputValue = e.target.value;
+      this.forceUpdate();
+    };
 
     render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "input value will be saved"), /*#__PURE__*/React.createElement("input", {
@@ -285,103 +279,95 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "getRef", r => {
-        this.dockLayout = r;
-      });
-
-      _defineProperty(this, "state", {
-        saved: null
-      });
-
-      _defineProperty(this, "defaultLayout", {
-        dockbox: {
-          mode: 'horizontal',
-          children: [{
-            size: 200,
-            tabs: [{
-              id: 'tab1'
-            }, {
-              id: 'tab2'
-            }]
+    getRef = r => {
+      this.dockLayout = r;
+    };
+    state = {
+      saved: null
+    };
+    defaultLayout = {
+      dockbox: {
+        mode: 'horizontal',
+        children: [{
+          size: 200,
+          tabs: [{
+            id: 'tab1'
           }, {
-            id: 'main-panel',
-            size: 400,
-            tabs: [{
-              id: 'tab0'
-            }, {
-              id: 'jsxTab'
-            }, {
-              id: 'htmlTab'
-            }],
-            panelLock: {
-              panelStyle: 'main'
-            }
-          }, {
-            size: 200,
-            tabs: [{
-              id: 'tab5'
-            }, {
-              id: 'tab6'
-            }]
+            id: 'tab2'
           }]
-        }
-      });
-
-      _defineProperty(this, "saveTab", tabData => {
-        let {
-          id,
-          inputValue
-        } = tabData; // add inputValue from saved data;
-
-        if (id === 'tab0') {
-          return null;
-        }
-
-        return {
-          id,
-          inputValue
-        };
-      });
-
-      _defineProperty(this, "loadTab", savedTab => {
-        let id = savedTab.id;
-
-        switch (id) {
-          case 'tab0':
-            return tab0;
-
-          case 'jsxTab':
-            return jsxTab;
-
-          case 'htmlTab':
-            return htmlTab;
-
-          default:
-            return {
-              id,
-              title: id,
-              content: InputTab.create,
-              inputValue: savedTab.inputValue,
-              group: 'allowWindow'
-            };
-        }
-      });
-
-      _defineProperty(this, "afterPanelLoaded", (savedPanel, panelData) => {
-        let id = savedPanel.id;
-
-        if (id === 'main-panel') {
-          panelData.panelLock = {
+        }, {
+          id: 'main-panel',
+          size: 400,
+          tabs: [{
+            id: 'tab0'
+          }, {
+            id: 'jsxTab'
+          }, {
+            id: 'htmlTab'
+          }],
+          panelLock: {
             panelStyle: 'main'
+          }
+        }, {
+          size: 200,
+          tabs: [{
+            id: 'tab5'
+          }, {
+            id: 'tab6'
+          }]
+        }]
+      }
+    };
+    saveTab = tabData => {
+      let {
+        id,
+        inputValue
+      } = tabData; // add inputValue from saved data;
+
+      if (id === 'tab0') {
+        return null;
+      }
+
+      return {
+        id,
+        inputValue
+      };
+    };
+    loadTab = savedTab => {
+      let id = savedTab.id;
+
+      switch (id) {
+        case 'tab0':
+          return tab0;
+
+        case 'jsxTab':
+          return jsxTab;
+
+        case 'htmlTab':
+          return htmlTab;
+
+        default:
+          return {
+            id,
+            title: id,
+            content: InputTab.create,
+            inputValue: savedTab.inputValue,
+            group: 'allowWindow'
           };
-          panelData.tabs.unshift({ ...tab0
-          });
-        }
-      });
-    }
+      }
+    }; // add tab0 to the main panel
+
+    afterPanelLoaded = (savedPanel, panelData) => {
+      let id = savedPanel.id;
+
+      if (id === 'main-panel') {
+        panelData.panelLock = {
+          panelStyle: 'main'
+        };
+        panelData.tabs.unshift({ ...tab0
+        });
+      }
+    };
 
     render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(DockLayout, {

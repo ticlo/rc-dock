@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"qsP2":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -279,59 +277,53 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
+    state = {
+      layout: box
+    };
+    loadTab = data => {
+      let {
+        id
+      } = data;
 
-      _defineProperty(this, "state", {
-        layout: box
-      });
+      switch (id) {
+        case 't0':
+          return { ...tab0,
+            id
+          };
 
-      _defineProperty(this, "loadTab", data => {
-        let {
-          id
-        } = data;
+        case 'protect1':
+          return {
+            id,
+            title: 'Protect',
+            closable: true,
+            content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Removal of this tab will be rejected"), "This is done in the onLayoutChange callback")
+          };
 
-        switch (id) {
-          case 't0':
-            return { ...tab0,
-              id
-            };
+        case jsxTab.id:
+          return jsxTab;
 
-          case 'protect1':
-            return {
-              id,
-              title: 'Protect',
-              closable: true,
-              content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "Removal of this tab will be rejected"), "This is done in the onLayoutChange callback")
-            };
+        case htmlTab.id:
+          return htmlTab;
+      }
 
-          case jsxTab.id:
-            return jsxTab;
+      return {
+        id,
+        title: id,
+        content: /*#__PURE__*/React.createElement("div", null, "Tab Content")
+      };
+    };
+    onLayoutChange = (newLayout, currentTabId, direction) => {
+      // control DockLayout from state
+      console.log(currentTabId, newLayout, direction);
 
-          case htmlTab.id:
-            return htmlTab;
-        }
-
-        return {
-          id,
-          title: id,
-          content: /*#__PURE__*/React.createElement("div", null, "Tab Content")
-        };
-      });
-
-      _defineProperty(this, "onLayoutChange", (newLayout, currentTabId, direction) => {
-        // control DockLayout from state
-        console.log(currentTabId, newLayout, direction);
-
-        if (currentTabId === 'protect1' && direction === 'remove') {
-          alert('removal of this tab is rejected');
-        } else {
-          this.setState({
-            layout: newLayout
-          });
-        }
-      });
-    }
+      if (currentTabId === 'protect1' && direction === 'remove') {
+        alert('removal of this tab is rejected');
+      } else {
+        this.setState({
+          layout: newLayout
+        });
+      }
+    };
 
     render() {
       return /*#__PURE__*/React.createElement(DockLayout, {

@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"VRYX":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -347,17 +345,12 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   };
 
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
-
-      _defineProperty(this, "getRef", r => {
-        this.dockLayout = r;
-      });
-
-      _defineProperty(this, "state", {
-        saved: null
-      });
-    }
+    getRef = r => {
+      this.dockLayout = r;
+    };
+    state = {
+      saved: null
+    };
 
     render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(DockLayout, {

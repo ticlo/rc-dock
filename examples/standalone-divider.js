@@ -233,8 +233,6 @@ LazyPromise.prototype.catch = function (onError) {
   return this.promise.catch(onError);
 };
 },{"./bundle-url":"CSru"}],"XbEN":[function(require,module,exports) {
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 require("_bundle_loader")(require.resolve('./shared-import')).then(({
   React,
   ReactDOM,
@@ -243,43 +241,39 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   Divider
 }) => {
   class Demo extends React.Component {
-    constructor(...args) {
-      super(...args);
+    getRef = r => {
+      this._ref = r;
+    }; // default sizes
 
-      _defineProperty(this, "getRef", r => {
-        this._ref = r;
+    state = {
+      sizes: [200, 200, 30]
+    }; // when divider is dragged, this function will be called to measure the elements' size
+
+    getDividerData = idx => {
+      let children = [];
+
+      this._ref.childNodes.forEach(child => {
+        if (!child.classList.contains('dock-divider')) {
+          children.push({
+            size: child.offsetWidth,
+            minSize: 20 // give them 20px min width
+
+          });
+        }
       });
 
-      _defineProperty(this, "state", {
-        sizes: [200, 200, 30]
+      return {
+        element: this._ref,
+        beforeDivider: children.slice(0, idx),
+        afterDivider: children.slice(idx)
+      };
+    }; // callback from the dragging
+
+    changeSizes = sizes => {
+      this.setState({
+        sizes
       });
-
-      _defineProperty(this, "getDividerData", idx => {
-        let children = [];
-
-        this._ref.childNodes.forEach(child => {
-          if (!child.classList.contains('dock-divider')) {
-            children.push({
-              size: child.offsetWidth,
-              minSize: 20 // give them 20px min width
-
-            });
-          }
-        });
-
-        return {
-          element: this._ref,
-          beforeDivider: children.slice(0, idx),
-          afterDivider: children.slice(idx)
-        };
-      });
-
-      _defineProperty(this, "changeSizes", sizes => {
-        this.setState({
-          sizes
-        });
-      });
-    }
+    };
 
     render() {
       let {

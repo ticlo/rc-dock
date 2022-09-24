@@ -20,6 +20,7 @@ export class DragState {
   clientY = 0;
   dx = 0;
   dy = 0;
+  dropped: any = false;
 
   constructor(event: MouseEvent | TouchEvent, component: DragDropComponent, init = false) {
     this.event = event;
@@ -125,7 +126,7 @@ export class DragState {
 
   _onDragEnd(canceled: boolean = false) {
     if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
-      _droppingHandlers.onDropT(this);
+      this.dropped = _droppingHandlers.onDropT(this);
 
       if (this.component.dragType === 'right') {
         // prevent the next menu event if drop handler is called on right mouse button
@@ -148,6 +149,7 @@ function preventDefault(e: Event) {
 
 
 export type DragHandler = (state: DragState) => void;
+export type DropHandler = (state: DragState) => any;
 
 
 let _dataScope: any;
@@ -171,7 +173,7 @@ function setDroppingHandler(handlers: DragHandlers, state: DragState) {
 interface DragHandlers {
   onDragOverT?: DragHandler;
   onDragLeaveT?: DragHandler;
-  onDropT?: DragHandler;
+  onDropT?: DropHandler;
 }
 
 let _dragListeners: WeakMap<HTMLElement, DragHandlers> = new WeakMap<HTMLElement, DragHandlers>();

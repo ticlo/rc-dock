@@ -100,8 +100,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.setState({draggingHeader: true});
   };
   onPanelHeaderDragMove = (e: DragState) => {
-    let {width, height} = this.context.getLayoutSize();
     let {panelData} = this.props;
+    if (panelData.parent?.mode !== 'float') {
+      return;
+    }
+    let {width, height} = this.context.getLayoutSize();
     panelData.x = this._movingX + e.dx;
     panelData.y = this._movingY + e.dy;
     if (width > 200 && height > 200) {
@@ -120,9 +123,13 @@ export class DockPanel extends React.PureComponent<Props, State> {
     this.forceUpdate();
   };
   onPanelHeaderDragEnd = (e: DragState) => {
-    if (!this._unmounted) {
-      this.setState({draggingHeader: false});
-      this.context.onSilentChange(this.props.panelData.activeId, 'move');
+    this.setState({draggingHeader: false});
+    if (e.dropped === false) {
+      let {panelData} = this.props;
+      if (panelData.parent?.mode === 'float') {
+        // in float mode, the position change needs to be sent to the layout
+        this.context.onSilentChange(this.props.panelData.activeId, 'move');
+      }
     }
   };
 

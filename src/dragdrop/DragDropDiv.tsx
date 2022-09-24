@@ -11,7 +11,11 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   onDragEndT?: DragManager.DragHandler;
   onDragOverT?: DragManager.DragHandler;
   onDragLeaveT?: DragManager.DragHandler;
-  onDropT?: DragManager.DragHandler;
+  /**
+   * Anything returned by onDropT will be stored in DragState.dropped
+   * return false to indicate the drop is canceled
+   */
+  onDropT?: DragManager.DropHandler;
   /**
    * by default onDragStartT will be called on first drag move
    * but if directDragT is true, onDragStartT will be called as soon as mouse is down

@@ -18,6 +18,7 @@ export declare class DragState {
     clientY: number;
     dx: number;
     dy: number;
+    dropped: any;
     constructor(event: MouseEvent | TouchEvent, component: DragDropComponent, init?: boolean);
     moved(): boolean;
     /**
@@ -38,10 +39,11 @@ export declare class DragState {
     _onDragEnd(canceled?: boolean): void;
 }
 export declare type DragHandler = (state: DragState) => void;
+export declare type DropHandler = (state: DragState) => any;
 interface DragHandlers {
     onDragOverT?: DragHandler;
     onDragLeaveT?: DragHandler;
-    onDropT?: DragHandler;
+    onDropT?: DropHandler;
 }
 export declare function isDragging(): boolean;
 export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;

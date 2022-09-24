@@ -6,7 +6,7 @@ interface DockTabBarProps extends TabNavListProps {
     onDragStart?: DragManager.DragHandler;
     onDragMove?: DragManager.DragHandler;
     onDragEnd?: DragManager.DragHandler;
-    TabNavList: React.ComponentType;
+    TabNavList: React.ComponentType<TabNavListProps>;
 }
 export declare function DockTabBar(props: DockTabBarProps): JSX.Element;
 export {};

@@ -6,6 +6,7 @@ export class DragState {
         this.clientY = 0;
         this.dx = 0;
         this.dy = 0;
+        this.dropped = false;
         this.event = event;
         this.component = component;
         this._init = init;
@@ -97,7 +98,7 @@ export class DragState {
     }
     _onDragEnd(canceled = false) {
         if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
-            _droppingHandlers.onDropT(this);
+            this.dropped = _droppingHandlers.onDropT(this);
             if (this.component.dragType === 'right') {
                 // prevent the next menu event if drop handler is called on right mouse button
                 this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);

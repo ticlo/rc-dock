@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockPanel } from "./DockPanel";
 export class MaxBox extends React.PureComponent {
     render() {

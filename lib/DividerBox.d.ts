@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContext } from "./DockData";
 import { DividerChild } from "./Divider";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {

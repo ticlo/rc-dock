@@ -1,4 +1,5 @@
-import React, {useContext} from "react";
+import * as React from "react";
+import {useContext} from "react";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import * as DragManager from "./dragdrop/DragManager";
 import type {TabNavListProps} from "rc-tabs/lib/TabNavList";

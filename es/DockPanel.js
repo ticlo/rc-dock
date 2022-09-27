@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContextType } from "./DockData";
 import { DockTabs } from "./DockTabs";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";

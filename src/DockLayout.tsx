@@ -1,5 +1,6 @@
-import React, {CSSProperties} from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import {CSSProperties} from "react";
+import * as ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import {
   BoxData,

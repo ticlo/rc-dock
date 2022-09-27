@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {BoxData, DockContext, DockContextType, PanelData, TabGroup} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
 

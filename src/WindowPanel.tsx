@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import debounce from 'lodash/debounce';
 import NewWindow from "rc-new-window";
 import {DockContext, DockContextType, PanelData} from "./DockData";

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BoxData } from "./DockData";
 interface Props {
     panelData: BoxData;

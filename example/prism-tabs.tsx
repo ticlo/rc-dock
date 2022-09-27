@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from "react";
 
 let name = window.location.pathname.split('/').pop();
 name = name.substr(0, name.length - 5);

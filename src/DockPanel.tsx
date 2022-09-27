@@ -1,4 +1,5 @@
-import React, {CSSProperties, PointerEventHandler} from "react";
+import * as React from "react";
+import {CSSProperties} from "react";
 import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";

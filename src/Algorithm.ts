@@ -185,7 +185,7 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
   if (tabs.length) {
     let newPanel = clone(panel);
     newPanel.tabs.splice(idx, 0, ...tabs);
-    newPanel.activeId = tabs[tabs.length - 1].id;
+    newPanel.activeId = tabs.at(-1).id;
     for (let tab of tabs) {
       tab.parent = newPanel;
     }

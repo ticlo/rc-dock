@@ -104,7 +104,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
       return;
     }
     let d = isVertical ? dy : dx;
-    let leftChild = beforeDivider[beforeDivider.length - 1];
+    let leftChild = beforeDivider.at(-1);
     let rightCild = afterDivider[0];
 
     let leftSize = leftChild.size + d;

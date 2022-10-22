@@ -1,5 +1,4 @@
 import * as React from "react";
-import {CSSProperties} from "react";
 import * as ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import {
@@ -91,7 +90,7 @@ export interface LayoutProps {
    */
   afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
 
-  style?: CSSProperties;
+  style?: React.CSSProperties;
 
   /**
    * when specified, docklayout will create a react portal for the maximized panel
@@ -295,7 +294,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  updateTab(id: string, newTab: TabData, makeActive: boolean = true): boolean {
+  updateTab(id: string, newTab: TabData | null, makeActive: boolean = true): boolean {
     let tab = this.find(id, Algorithm.Filter.AnyTab) as TabData;
     if (tab) {
       let panelData = tab.parent;
@@ -483,7 +482,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
     let {style, maximizeTo} = this.props;
     let {layout, dropRect} = this.state;
-    let dropRectStyle: CSSProperties;
+    let dropRectStyle: React.CSSProperties;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;
       dropRectStyle = {...rect, display: 'block'};

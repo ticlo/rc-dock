@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import { DockContext, TabPaneCache } from "./DockData";
 import { TabPaneProps } from "rc-tabs";
 interface DockTabPaneProps extends TabPaneProps {

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { CSSProperties } from "react";
 import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
 export interface LayoutProps {
@@ -57,7 +56,7 @@ export interface LayoutProps {
      * - if tabs is empty, but still remaining in layout because of panelLock, make sure also set the group if it's not null
      */
     afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
-    style?: CSSProperties;
+    style?: React.CSSProperties;
     /**
      * when specified, docklayout will create a react portal for the maximized panel
      * use dom element as the value, or use the element's id
@@ -124,7 +123,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
         height: number;
     };
     /** @inheritDoc */
-    updateTab(id: string, newTab: TabData, makeActive?: boolean): boolean;
+    updateTab(id: string, newTab: TabData | null, makeActive?: boolean): boolean;
     /** @inheritDoc */
     navigateToPanel(fromElement?: HTMLElement, direction?: string): void;
     constructor(props: LayoutProps);

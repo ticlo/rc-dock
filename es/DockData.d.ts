@@ -293,9 +293,9 @@ export interface DockContext {
      * @param makeActive whether to make the tab the active child of parent panel
      * @returns returns false if the tab is not found
      */
-    updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
+    updateTab(id: string, newTab: TabData | null, makeActive?: boolean): boolean;
     /**
-     * Move focus to a dockpanel near by
+     * Move focus to a dockpanel nearby
      * @param fromElement
      * @param direction
      */

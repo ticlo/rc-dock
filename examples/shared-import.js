@@ -625,10 +625,36 @@ if ("production" === 'production') {
 },{"./cjs/react.production.min.js":"awqi"}],"zh3I":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -636,7 +662,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockContextConsumer = exports.DockContextProvider = exports.DockContextType = exports.placeHolderGroup = exports.maximePlaceHolderId = exports.placeHolderStyle = exports.defaultGroup = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 /** @ignore */
 
 
@@ -657,7 +683,7 @@ exports.placeHolderGroup = {
 };
 /** @ignore */
 
-exports.DockContextType = react_1.default.createContext(null);
+exports.DockContextType = React.createContext(null);
 /** @ignore */
 
 exports.DockContextProvider = exports.DockContextType.Provider;
@@ -17897,24 +17923,18 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DragDropDiv = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DragManager = __importStar(require("./DragManager"));
 
 const GestureManager_1 = require("./GestureManager");
 
-class DragDropDiv extends react_1.default.PureComponent {
+class DragDropDiv extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -18289,7 +18309,7 @@ class DragDropDiv extends react_1.default.PureComponent {
       }
     }
 
-    return react_1.default.createElement("div", Object.assign({
+    return React.createElement("div", Object.assign({
       ref: this._getRef,
       className: className
     }, others, {
@@ -18332,6 +18352,38 @@ exports.DragDropDiv = DragDropDiv;
 },{"react":"n8MK","./DragManager":"EJTb","./GestureManager":"cItD"}],"Ec16":[function(require,module,exports) {
 "use strict";
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __rest = this && this.__rest || function (s, e) {
   var t = {};
 
@@ -18343,18 +18395,12 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DockTabBar = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
@@ -18400,8 +18446,8 @@ function DockTabBar(props) {
   } = props,
         restProps = __rest(props, ["onDragStart", "onDragMove", "onDragEnd", "TabNavList", "isMaximized"]);
 
-  const layout = react_1.default.useContext(DockData_1.DockContextType);
-  const ref = react_1.default.useRef();
+  const layout = React.useContext(DockData_1.DockContextType);
+  const ref = React.useRef();
 
   const getRef = div => {
     ref.current = div;
@@ -18418,7 +18464,7 @@ function DockTabBar(props) {
     }
   };
 
-  return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+  return React.createElement(DragDropDiv_1.DragDropDiv, {
     onDragStartT: onDragStart,
     onDragMoveT: onDragMove,
     onDragEndT: onDragEnd,
@@ -18427,12 +18473,44 @@ function DockTabBar(props) {
     onKeyDown: onKeyDown,
     getRef: getRef,
     tabIndex: -1
-  }, react_1.default.createElement(TabNavList, Object.assign({}, restProps)));
+  }, React.createElement(TabNavList, Object.assign({}, restProps)));
 }
 
 exports.DockTabBar = DockTabBar;
 },{"react":"n8MK","./dragdrop/DragDropDiv":"HyIX","./DockData":"zh3I"}],"ZavB":[function(require,module,exports) {
 "use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -18444,13 +18522,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const classnames_1 = __importDefault(require("classnames"));
 
 const DockData_1 = require("./DockData");
 
-class DockTabPane extends react_1.default.PureComponent {
+class DockTabPane extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -18530,7 +18608,7 @@ class DockTabPane extends react_1.default.PureComponent {
     }
 
     let getRef = cached ? this.getRef : null;
-    return react_1.default.createElement("div", {
+    return React.createElement("div", {
       ref: getRef,
       id: cacheId,
       role: "tabpanel",
@@ -18777,7 +18855,7 @@ function addTabToPanel(layout, source, panel, idx = -1) {
   if (tabs.length) {
     let newPanel = clone(panel);
     newPanel.tabs.splice(idx, 0, ...tabs);
-    newPanel.activeId = tabs[tabs.length - 1].id;
+    newPanel.activeId = tabs.at(-1).id;
 
     for (let tab of tabs) {
       tab.parent = newPanel;
@@ -20329,10 +20407,36 @@ exports.default = _default;
 },{"react":"n8MK","react-dom":"NKHc","lodash/debounce":"CXfR","./BrowserPopupWindow":"iRst"}],"YpI8":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -20340,7 +20444,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockDropLayer = exports.DockDropSquare = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockData_1 = require("./DockData");
 
@@ -20348,7 +20452,7 @@ const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
 const DragManager_1 = require("./dragdrop/DragManager");
 
-class DockDropSquare extends react_1.default.PureComponent {
+class DockDropSquare extends React.PureComponent {
   constructor() {
     super(...arguments);
     this.state = {
@@ -20437,12 +20541,12 @@ class DockDropSquare extends react_1.default.PureComponent {
       classes.push('dock-drop-square-dropping');
     }
 
-    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    return React.createElement(DragDropDiv_1.DragDropDiv, {
       className: classes.join(' '),
       onDragOverT: this.onDragOver,
       onDragLeaveT: this.onDragLeave,
       onDropT: this.onDrop
-    }, react_1.default.createElement("div", {
+    }, React.createElement("div", {
       className: "dock-drop-square-box"
     }));
   }
@@ -20456,17 +20560,17 @@ class DockDropSquare extends react_1.default.PureComponent {
 exports.DockDropSquare = DockDropSquare;
 DockDropSquare.contextType = DockData_1.DockContextType;
 
-class DockDropLayer extends react_1.default.PureComponent {
+class DockDropLayer extends React.PureComponent {
   static addDepthSquare(children, mode, panelData, panelElement, depth) {
     if (mode === 'horizontal') {
-      children.push(react_1.default.createElement(DockDropSquare, {
+      children.push(React.createElement(DockDropSquare, {
         key: `top${depth}`,
         direction: "top",
         depth: depth,
         panelData: panelData,
         panelElement: panelElement
       }));
-      children.push(react_1.default.createElement(DockDropSquare, {
+      children.push(React.createElement(DockDropSquare, {
         key: `bottom${depth}`,
         direction: "bottom",
         depth: depth,
@@ -20474,14 +20578,14 @@ class DockDropLayer extends react_1.default.PureComponent {
         panelElement: panelElement
       }));
     } else {
-      children.push(react_1.default.createElement(DockDropSquare, {
+      children.push(React.createElement(DockDropSquare, {
         key: `left${depth}`,
         direction: "left",
         depth: depth,
         panelData: panelData,
         panelElement: panelElement
       }));
-      children.push(react_1.default.createElement(DockDropSquare, {
+      children.push(React.createElement(DockDropSquare, {
         key: `right${depth}`,
         direction: "right",
         depth: depth,
@@ -20509,7 +20613,7 @@ class DockDropLayer extends react_1.default.PureComponent {
     ((_a = draggingPanel.parent) === null || _a === void 0 ? void 0 : _a.mode) !== 'float' && // don't show float drop when over a float panel
     !(fromGroup.floatable === 'singleTab' && draggingPanel.tabs.length > 1) // singleTab can float only with one tab
     )) {
-      children.push(react_1.default.createElement(DockDropSquare, {
+      children.push(React.createElement(DockDropSquare, {
         key: "float",
         direction: "float",
         panelData: panelData,
@@ -20525,7 +20629,7 @@ class DockDropLayer extends react_1.default.PureComponent {
 
       if (!(draggingPanel === null || draggingPanel === void 0 ? void 0 : draggingPanel.panelLock) && panelData.group === dropFromPanel.group && panelData !== dropFromPanel) {
         // dock to tabs
-        children.push(react_1.default.createElement(DockDropSquare, {
+        children.push(React.createElement(DockDropSquare, {
           key: "middle",
           direction: "middle",
           panelData: panelData,
@@ -20545,7 +20649,7 @@ class DockDropLayer extends react_1.default.PureComponent {
       }
     }
 
-    return react_1.default.createElement("div", {
+    return React.createElement("div", {
       className: "dock-drop-layer"
     }, children);
   }
@@ -20557,10 +20661,36 @@ DockDropLayer.contextType = DockData_1.DockContextType;
 },{"react":"n8MK","./DockData":"zh3I","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb"}],"QpCJ":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -20568,7 +20698,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockDropEdge = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockData_1 = require("./DockData");
 
@@ -20576,7 +20706,7 @@ const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
 const DragManager_1 = require("./dragdrop/DragManager");
 
-class DockDropEdge extends react_1.default.PureComponent {
+class DockDropEdge extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -20779,7 +20909,7 @@ class DockDropEdge extends react_1.default.PureComponent {
     while (targetBox && lastDepth < depth) {
       if (targetBox.mode === mode) {
         if (afterPanel) {
-          if (targetBox.children[targetBox.children.length - 1] !== previousTarget) {
+          if (targetBox.children.at(-1) !== previousTarget) {
             // dont go deeper if current target is on different side of the box
             break;
           }
@@ -20804,7 +20934,7 @@ class DockDropEdge extends react_1.default.PureComponent {
   }
 
   render() {
-    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    return React.createElement(DragDropDiv_1.DragDropDiv, {
       getRef: this.getRef,
       className: "dock-drop-edge",
       onDragOverT: this.onDragOver,
@@ -20824,10 +20954,36 @@ DockDropEdge.contextType = DockData_1.DockContextType;
 },{"react":"n8MK","./DockData":"zh3I","./dragdrop/DragDropDiv":"HyIX","./dragdrop/DragManager":"EJTb"}],"ohUB":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -20835,7 +20991,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockPanel = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockData_1 = require("./DockData");
 
@@ -20851,7 +21007,7 @@ const Algorithm_1 = require("./Algorithm");
 
 const DockDropEdge_1 = require("./DockDropEdge");
 
-class DockPanel extends react_1.default.PureComponent {
+class DockPanel extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -21293,7 +21449,7 @@ class DockPanel extends react_1.default.PureComponent {
       if (!dropFromGroup.tabLocked || DragManager_1.DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel
         let DockDropClass = this.context.useEdgeDrop() ? DockDropEdge_1.DockDropEdge : DockDropLayer_1.DockDropLayer;
-        droppingLayer = react_1.default.createElement(DockDropClass, {
+        droppingLayer = React.createElement(DockDropClass, {
           panelData: panelData,
           panelElement: this._ref,
           dropFromPanel: dropFromPanel
@@ -21301,61 +21457,61 @@ class DockPanel extends react_1.default.PureComponent {
       }
     }
 
-    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    return React.createElement(DragDropDiv_1.DragDropDiv, {
       getRef: this.getRef,
       className: cls,
       style: style,
       "data-dockid": id,
       onDragOverT: isFloat ? null : this.onDragOver,
       onClick: this.onPanelClicked
-    }, react_1.default.createElement(DockTabs_1.DockTabs, {
+    }, React.createElement(DockTabs_1.DockTabs, {
       panelData: panelData,
       onPanelDragStart: onPanelHeaderDragStart,
       onPanelDragMove: this.onPanelHeaderDragMove,
       onPanelDragEnd: this.onPanelHeaderDragEnd
-    }), isFloat ? [react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), isFloat ? [React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-t",
       className: "dock-panel-drag-size dock-panel-drag-size-t",
       onDragStartT: this.onPanelCornerDragT,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-b",
       className: "dock-panel-drag-size dock-panel-drag-size-b",
       onDragStartT: this.onPanelCornerDragB,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-l",
       className: "dock-panel-drag-size dock-panel-drag-size-l",
       onDragStartT: this.onPanelCornerDragL,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-r",
       className: "dock-panel-drag-size dock-panel-drag-size-r",
       onDragStartT: this.onPanelCornerDragR,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-t-l",
       className: "dock-panel-drag-size dock-panel-drag-size-t-l",
       onDragStartT: this.onPanelCornerDragTL,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-t-r",
       className: "dock-panel-drag-size dock-panel-drag-size-t-r",
       onDragStartT: this.onPanelCornerDragTR,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-b-l",
       className: "dock-panel-drag-size dock-panel-drag-size-b-l",
       onDragStartT: this.onPanelCornerDragBL,
       onDragMoveT: this.onPanelCornerDragMove,
       onDragEndT: this.onPanelCornerDragEnd
-    }), react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    }), React.createElement(DragDropDiv_1.DragDropDiv, {
       key: "drag-size-b-r",
       className: "dock-panel-drag-size dock-panel-drag-size-b-r",
       onDragStartT: this.onPanelCornerDragBR,
@@ -21588,6 +21744,38 @@ exports.mapWindowToElement = mapWindowToElement;
 },{"./BrowserPopupWindow":"LPFX"}],"IpWq":[function(require,module,exports) {
 "use strict";
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -21599,7 +21787,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WindowPanel = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const rc_new_window_1 = __importDefault(require("rc-new-window"));
 
@@ -21609,7 +21797,7 @@ const DockPanel_1 = require("./DockPanel");
 
 const ScreenPosition_1 = require("rc-new-window/lib/ScreenPosition");
 
-class WindowPanel extends react_1.default.PureComponent {
+class WindowPanel extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -21659,7 +21847,7 @@ class WindowPanel extends react_1.default.PureComponent {
       w,
       h
     } = panelData;
-    return react_1.default.createElement(rc_new_window_1.default, {
+    return React.createElement(rc_new_window_1.default, {
       copyStyles: true,
       onOpen: this.onOpen,
       onClose: this.onUnload,
@@ -21667,9 +21855,9 @@ class WindowPanel extends react_1.default.PureComponent {
       initPopupInnerRect: this.initPopupInnerRect,
       width: w,
       height: h
-    }, react_1.default.createElement("div", {
+    }, React.createElement("div", {
       className: 'dock-wbox'
-    }, react_1.default.createElement(DockPanel_1.DockPanel, {
+    }, React.createElement(DockPanel_1.DockPanel, {
       size: panelData.size,
       panelData: panelData,
       key: panelData.id
@@ -21683,10 +21871,36 @@ WindowPanel.contextType = DockData_1.DockContextType;
 },{"react":"n8MK","rc-new-window":"K3Y8","./DockData":"zh3I","./DockPanel":"ohUB","rc-new-window/lib/ScreenPosition":"js5E"}],"ObQG":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -21694,11 +21908,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WindowBox = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const WindowPanel_1 = require("./WindowPanel");
 
-class WindowBox extends react_1.default.PureComponent {
+class WindowBox extends React.PureComponent {
   render() {
     let {
       children
@@ -21707,14 +21921,14 @@ class WindowBox extends react_1.default.PureComponent {
 
     for (let child of children) {
       if ('tabs' in child) {
-        childrenRender.push(react_1.default.createElement(WindowPanel_1.WindowPanel, {
+        childrenRender.push(React.createElement(WindowPanel_1.WindowPanel, {
           key: child.id,
           panelData: child
         }));
       }
     }
 
-    return react_1.default.createElement(react_1.default.Fragment, null, childrenRender);
+    return React.createElement(React.Fragment, null, childrenRender);
   }
 
 }
@@ -21767,7 +21981,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockTabs = exports.TabCache = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockData_1 = require("./DockData");
 
@@ -21968,7 +22182,7 @@ class TabCache {
       content = content(this.data);
     }
 
-    let tab = react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    let tab = React.createElement(DragDropDiv_1.DragDropDiv, {
       getRef: this.getRef,
       onDragStartT: onDragStart,
       role: "tab",
@@ -21976,14 +22190,14 @@ class TabCache {
       onDragOverT: onDragOver,
       onDropT: onDrop,
       onDragLeaveT: onDragLeave
-    }, title, closable ? react_1.default.createElement("div", {
+    }, title, closable ? React.createElement("div", {
       className: "dock-tab-close-btn",
       onClick: this.onCloseClick
-    }) : null, react_1.default.createElement("div", {
+    }) : null, React.createElement("div", {
       className: "dock-tab-hit-area",
       ref: this.getHitAreaRef
     }));
-    return react_1.default.createElement(DockTabPane_1.default, {
+    return React.createElement(DockTabPane_1.default, {
       key: id,
       cacheId: id,
       cached: cached,
@@ -21998,7 +22212,7 @@ class TabCache {
 
 exports.TabCache = TabCache;
 
-class DockTabs extends react_1.default.PureComponent {
+class DockTabs extends React.PureComponent {
   constructor() {
     super(...arguments);
     this._cache = new Map();
@@ -22053,7 +22267,7 @@ class DockTabs extends react_1.default.PureComponent {
       if (panelExtra) {
         panelExtraContent = panelExtra(panelData, this.context);
       } else if (maximizable || showNewWindowButton) {
-        panelExtraContent = react_1.default.createElement("div", {
+        panelExtraContent = React.createElement("div", {
           className: "dock-panel-max-btn",
           onClick: maximizable ? this.onMaximizeClick : null
         });
@@ -22063,7 +22277,7 @@ class DockTabs extends react_1.default.PureComponent {
         }
       }
 
-      return react_1.default.createElement(DockTabBar_1.DockTabBar, Object.assign({
+      return React.createElement(DockTabBar_1.DockTabBar, Object.assign({
         onDragStart: onPanelDragStart,
         onDragMove: onPanelDragMove,
         onDragEnd: onPanelDragEnd,
@@ -22120,11 +22334,11 @@ class DockTabs extends react_1.default.PureComponent {
   }
 
   addNewWindowMenu(element, showWithLeftClick) {
-    const nativeMenu = react_1.default.createElement(rc_menu_1.default, {
+    const nativeMenu = React.createElement(rc_menu_1.default, {
       onClick: this.onNewWindowClick
-    }, react_1.default.createElement(rc_menu_1.MenuItem, null, "New Window"));
+    }, React.createElement(rc_menu_1.MenuItem, null, "New Window"));
     let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
-    return react_1.default.createElement(rc_dropdown_1.default, {
+    return React.createElement(rc_dropdown_1.default, {
       prefixCls: "dock-dropdown",
       overlay: nativeMenu,
       trigger: trigger,
@@ -22155,7 +22369,7 @@ class DockTabs extends react_1.default.PureComponent {
       children.push(tab.content);
     }
 
-    return react_1.default.createElement(rc_tabs_1.default, {
+    return React.createElement(rc_tabs_1.default, {
       prefixCls: "dock",
       moreIcon: "...",
       animated: animated,
@@ -22173,10 +22387,36 @@ DockTabs.propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
 },{"react":"n8MK","./DockData":"zh3I","rc-tabs":"FgVr","rc-menu":"VH7R","rc-dropdown":"SyQB","./dragdrop/DragManager":"EJTb","./dragdrop/DragDropDiv":"HyIX","./DockTabBar":"Ec16","./DockTabPane":"ZavB","./Algorithm":"wqok","./WindowBox":"ObQG"}],"Lzzn":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -22184,7 +22424,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Divider = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DragDropDiv_1 = require("./dragdrop/DragDropDiv");
 
@@ -22248,7 +22488,7 @@ function spiltSize(newSize, oldSize, children) {
   return sizes;
 }
 
-class Divider extends react_1.default.PureComponent {
+class Divider extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -22293,7 +22533,7 @@ class Divider extends react_1.default.PureComponent {
     }
 
     let d = isVertical ? dy : dx;
-    let leftChild = beforeDivider[beforeDivider.length - 1];
+    let leftChild = beforeDivider.at(-1);
     let rightCild = afterDivider[0];
     let leftSize = leftChild.size + d;
     let rightSize = rightCild.size - d; // check min size
@@ -22353,7 +22593,7 @@ class Divider extends react_1.default.PureComponent {
       className = 'dock-divider';
     }
 
-    return react_1.default.createElement(DragDropDiv_1.DragDropDiv, {
+    return React.createElement(DragDropDiv_1.DragDropDiv, {
       className: className,
       onDragStartT: this.startDrag,
       onDragMoveT: this.dragMove,
@@ -22367,10 +22607,36 @@ exports.Divider = Divider;
 },{"react":"n8MK","./dragdrop/DragDropDiv":"HyIX"}],"GMUE":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -22378,7 +22644,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockBox = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockData_1 = require("./DockData");
 
@@ -22386,7 +22652,7 @@ const Divider_1 = require("./Divider");
 
 const DockPanel_1 = require("./DockPanel");
 
-class DockBox extends react_1.default.PureComponent {
+class DockBox extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -22468,7 +22734,7 @@ class DockBox extends react_1.default.PureComponent {
 
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
-        childrenRender.push(react_1.default.createElement(Divider_1.Divider, {
+        childrenRender.push(React.createElement(Divider_1.Divider, {
           idx: i,
           key: i,
           isVertical: isVertical,
@@ -22481,13 +22747,13 @@ class DockBox extends react_1.default.PureComponent {
       let child = children[i];
 
       if ('tabs' in child) {
-        childrenRender.push(react_1.default.createElement(DockPanel_1.DockPanel, {
+        childrenRender.push(React.createElement(DockPanel_1.DockPanel, {
           size: child.size,
           panelData: child,
           key: child.id
         })); // render DockPanel
       } else if ('children' in child) {
-        childrenRender.push(react_1.default.createElement(DockBox, {
+        childrenRender.push(React.createElement(DockBox, {
           size: child.size,
           boxData: child,
           key: child.id
@@ -22520,7 +22786,7 @@ class DockBox extends react_1.default.PureComponent {
       flexShrink = 1;
     }
 
-    return react_1.default.createElement("div", {
+    return React.createElement("div", {
       ref: this.getRef,
       className: cls,
       "data-dockid": id,
@@ -22539,10 +22805,36 @@ DockBox.contextType = DockData_1.DockContextType;
 },{"react":"n8MK","./DockData":"zh3I","./Divider":"Lzzn","./DockPanel":"ohUB"}],"tXcC":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -22550,11 +22842,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FloatBox = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockPanel_1 = require("./DockPanel");
 
-class FloatBox extends react_1.default.PureComponent {
+class FloatBox extends React.PureComponent {
   render() {
     let {
       children
@@ -22563,7 +22855,7 @@ class FloatBox extends react_1.default.PureComponent {
 
     for (let child of children) {
       if ('tabs' in child) {
-        childrenRender.push(react_1.default.createElement(DockPanel_1.DockPanel, {
+        childrenRender.push(React.createElement(DockPanel_1.DockPanel, {
           size: child.size,
           panelData: child,
           key: child.id
@@ -22571,7 +22863,7 @@ class FloatBox extends react_1.default.PureComponent {
       }
     }
 
-    return react_1.default.createElement("div", {
+    return React.createElement("div", {
       className: 'dock-box dock-fbox'
     }, childrenRender);
   }
@@ -22860,10 +23152,36 @@ exports.loadLayoutData = loadLayoutData;
 },{"./DockData":"zh3I"}],"Lojd":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", {
@@ -22871,11 +23189,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MaxBox = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockPanel_1 = require("./DockPanel");
 
-class MaxBox extends react_1.default.PureComponent {
+class MaxBox extends React.PureComponent {
   render() {
     let panelData = this.props.boxData.children[0];
 
@@ -22884,9 +23202,9 @@ class MaxBox extends react_1.default.PureComponent {
         id: '',
         tabs: []
       });
-      return react_1.default.createElement("div", {
+      return React.createElement("div", {
         className: "dock-box dock-mbox dock-mbox-show"
-      }, react_1.default.createElement(DockPanel_1.DockPanel, {
+      }, React.createElement(DockPanel_1.DockPanel, {
         size: 100,
         panelData: panelData
       }));
@@ -22894,14 +23212,14 @@ class MaxBox extends react_1.default.PureComponent {
       // use the hiden data only once, dont keep it for too long
       let hidePanelData = this.hidePanelData;
       this.hidePanelData = null;
-      return react_1.default.createElement("div", {
+      return React.createElement("div", {
         className: "dock-box dock-mbox dock-mbox-hide"
-      }, react_1.default.createElement(DockPanel_1.DockPanel, {
+      }, React.createElement(DockPanel_1.DockPanel, {
         size: 100,
         panelData: hidePanelData
       }));
     } else {
-      return react_1.default.createElement("div", {
+      return React.createElement("div", {
         className: "dock-box dock-mbox dock-mbox-hide"
       });
     }
@@ -22967,9 +23285,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DockLayout = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
-const react_dom_1 = __importDefault(require("react-dom"));
+const ReactDOM = __importStar(require("react-dom"));
 
 const debounce_1 = __importDefault(require("lodash/debounce"));
 
@@ -22991,7 +23309,7 @@ const MaxBox_1 = require("./MaxBox");
 
 const WindowBox_1 = require("./WindowBox");
 
-class DockPortalManager extends react_1.default.PureComponent {
+class DockPortalManager extends React.PureComponent {
   constructor() {
     super(...arguments);
     /** @ignore */
@@ -23060,7 +23378,7 @@ class DockPortalManager extends react_1.default.PureComponent {
     let cache = this._caches.get(id);
 
     if (cache) {
-      cache.portal = react_dom_1.default.createPortal(children, cache.div, cache.id);
+      cache.portal = ReactDOM.createPortal(children, cache.div, cache.id);
       this.forceUpdate();
     }
   }
@@ -23517,11 +23835,11 @@ class DockLayout extends DockPortalManager {
         maximizeTo = document.getElementById(maximizeTo);
       }
 
-      maximize = react_dom_1.default.createPortal(react_1.default.createElement(MaxBox_1.MaxBox, {
+      maximize = ReactDOM.createPortal(React.createElement(MaxBox_1.MaxBox, {
         boxData: layout.maxbox
       }), maximizeTo);
     } else {
-      maximize = react_1.default.createElement(MaxBox_1.MaxBox, {
+      maximize = React.createElement(MaxBox_1.MaxBox, {
         boxData: layout.maxbox
       });
     } // }
@@ -23535,20 +23853,20 @@ class DockLayout extends DockPortalManager {
       }
     }
 
-    return react_1.default.createElement("div", {
+    return React.createElement("div", {
       ref: this.getRef,
       className: "dock-layout",
       style: style
-    }, react_1.default.createElement(DockData_1.DockContextProvider, {
+    }, React.createElement(DockData_1.DockContextProvider, {
       value: this
-    }, react_1.default.createElement(DockBox_1.DockBox, {
+    }, React.createElement(DockBox_1.DockBox, {
       size: 1,
       boxData: layout.dockbox
-    }), react_1.default.createElement(FloatBox_1.FloatBox, {
+    }), React.createElement(FloatBox_1.FloatBox, {
       boxData: layout.floatbox
-    }), react_1.default.createElement(WindowBox_1.WindowBox, {
+    }), React.createElement(WindowBox_1.WindowBox, {
       boxData: layout.windowbox
-    }), maximize, portals), react_1.default.createElement("div", {
+    }), maximize, portals), React.createElement("div", {
       className: "dock-drop-indicator",
       style: dropRectStyle
     }));
@@ -23700,6 +24018,38 @@ exports.DockLayout = DockLayout;
 },{"react":"n8MK","react-dom":"NKHc","lodash/debounce":"CXfR","./DockData":"zh3I","./DockBox":"GMUE","./FloatBox":"tXcC","./DockPanel":"ohUB","./Algorithm":"wqok","./Serializer":"EWaN","./dragdrop/DragManager":"EJTb","./MaxBox":"Lojd","./WindowBox":"ObQG"}],"yQx6":[function(require,module,exports) {
 "use strict";
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __rest = this && this.__rest || function (s, e) {
   var t = {};
 
@@ -23711,24 +24061,18 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DividerBox = void 0;
 
-const react_1 = __importDefault(require("react"));
+const React = __importStar(require("react"));
 
 const DockData_1 = require("./DockData");
 
 const Divider_1 = require("./Divider");
 
-class DividerBox extends react_1.default.PureComponent {
+class DividerBox extends React.PureComponent {
   constructor() {
     super(...arguments);
 
@@ -23810,7 +24154,7 @@ class DividerBox extends react_1.default.PureComponent {
     if (Array.isArray(children)) {
       for (let i = 0; i < children.length; ++i) {
         if (i > 0) {
-          childrenRender.push(react_1.default.createElement(Divider_1.Divider, {
+          childrenRender.push(React.createElement(Divider_1.Divider, {
             idx: i,
             key: i,
             isVertical: isVertical,
@@ -23837,7 +24181,7 @@ class DividerBox extends react_1.default.PureComponent {
       cls = `${cls} ${className}`;
     }
 
-    return react_1.default.createElement("div", Object.assign({
+    return React.createElement("div", Object.assign({
       ref: this.getRef,
       className: cls
     }, others), childrenRender);

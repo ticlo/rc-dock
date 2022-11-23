@@ -368,7 +368,7 @@ body.dock-dragging {
   pointer-events: none;
 }
 
-.dock-panel-max-btn {
+.dock-panel-max-btn, .dock-panel-min-btn {
   height: 15px;
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
@@ -401,8 +401,12 @@ body.dock-dragging {
   }
 }
 
-.dock-mbox .dock-panel-max-btn {
+.dock-panel-min-btn {
   &:before {
+    position: absolute;
+    border-radius: 1px;
+    width: 9px;
+    height: 9px;
     border: none;
     content: "-";
     color: #666;

@@ -191,7 +191,7 @@ export class DockTabs extends React.PureComponent {
                 panelExtraContent = panelExtra(panelData, this.context);
             }
             else if (maximizable || showNewWindowButton) {
-                panelExtraContent = React.createElement("div", { className: "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
+                panelExtraContent = React.createElement("div", { className: panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
                 if (showNewWindowButton) {
                     panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
                 }

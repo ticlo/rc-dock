@@ -43,11 +43,11 @@ function buildExample() {
     }
     fs.writeFileSync(`./temp-example/${file}`, data);
   }
-  shell.exec('yarn parcel build ./temp-example/* --no-content-hash --no-source-maps --no-minify --out-dir www/examples --public-url ./');
+  shell.exec('parcel build ./temp-example/* --no-content-hash --no-source-maps --no-minify --out-dir www/examples --public-url ./');
 }
 
 function buildDocs() {
-  shell.exec('yarn typedoc');
+  shell.exec('typedoc');
   shell.mv('./temp-doc/*', './www');
 }
 

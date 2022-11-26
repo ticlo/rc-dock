@@ -25,7 +25,7 @@ function findParentPanel(element: HTMLElement) {
 }
 
 function isPopupDiv(r: HTMLDivElement): boolean {
-  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement.tagName === 'LI');
+  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement?.tagName === 'LI');
 }
 
 export class TabCache {

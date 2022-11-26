@@ -22020,9 +22020,9 @@ function findParentPanel(element) {
 }
 
 function isPopupDiv(r) {
-  var _a, _b;
+  var _a, _b, _c;
 
-  return r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI';
+  return r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_c = (_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.tagName) === 'LI';
 }
 
 class TabCache {

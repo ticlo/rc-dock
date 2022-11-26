@@ -1,5 +1,7 @@
 # History
 ----
+## 3.2.14 / 2022-11-25
+- make rc-dock compatible with preact
 
 ## 3.2.11 / 2022-08-24
 - add new parameter to dockmove() for default float panel position

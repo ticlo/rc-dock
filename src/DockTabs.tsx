@@ -313,7 +313,7 @@ export class DockTabs extends React.PureComponent<Props, any> {
     if (animated == null) {
       animated = true;
     }
-    if(!moreIcon) {
+    if (!moreIcon) {
       moreIcon = "...";
     }
 

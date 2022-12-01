@@ -22355,11 +22355,16 @@ class DockTabs extends React.PureComponent {
     } = this.props.panelData;
     let tabGroup = this.context.getGroup(group);
     let {
-      animated
+      animated,
+      moreIcon
     } = tabGroup;
 
     if (animated == null) {
       animated = true;
+    }
+
+    if (!moreIcon) {
+      moreIcon = "...";
     }
 
     this.updateTabs(tabs);
@@ -22371,7 +22376,7 @@ class DockTabs extends React.PureComponent {
 
     return React.createElement(rc_tabs_1.default, {
       prefixCls: "dock",
-      moreIcon: "...",
+      moreIcon: moreIcon,
       animated: animated,
       renderTabBar: this.renderTabBar,
       activeKey: activeId,

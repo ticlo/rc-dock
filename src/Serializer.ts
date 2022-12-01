@@ -1,11 +1,9 @@
 import {
   BoxData,
-  DockMode,
-  DropDirection,
   LayoutData,
   PanelData, BoxBase, LayoutBase, PanelBase, TabBase,
   TabData,
-  TabGroup, maximePlaceHolderId
+  maximePlaceHolderId
 } from "./DockData";
 
 interface DefaultLayoutCache {

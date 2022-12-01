@@ -1,8 +1,7 @@
 import * as React from "react";
-import {CSSProperties} from "react";
-import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
+import {DockContext, DockContextType, PanelData, TabData} from "./DockData";
 import {DockTabs} from "./DockTabs";
-import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
+import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {getFloatPanelSize, nextZIndex} from "./Algorithm";

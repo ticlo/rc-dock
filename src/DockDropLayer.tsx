@@ -7,12 +7,8 @@ import {
   DropDirection,
   PanelData,
   TabData,
-  TabGroup,
   placeHolderStyle
 } from "./DockData";
-import {DockTabs} from "./DockTabs";
-import {Divider, DividerChild} from "./Divider";
-import {DockPanel} from "./DockPanel";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 

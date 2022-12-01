@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import {Filter} from "./Algorithm";
 
 export interface TabGroup {

@@ -1,7 +1,6 @@
 import * as React from "react";
-import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
+import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
-import {DockContextType} from "./DockData";
 
 export interface DividerChild {
   size: number;

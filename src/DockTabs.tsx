@@ -1,6 +1,5 @@
 import * as React from "react";
-import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
-import {compareArray, compareKeys} from "./util/Compare";
+import {DockContext, DockContextType, DropDirection, PanelData, TabData} from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';

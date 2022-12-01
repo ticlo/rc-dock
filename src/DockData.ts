@@ -73,6 +73,10 @@ export interface TabGroup {
    * Override the default flex grow and flex shrink for panel height
    */
   heightFlex?: number;
+  /**
+   * Override the default `moreIcon`
+   */
+  moreIcon?: React.ReactNode;
 }
 
 /** @ignore */

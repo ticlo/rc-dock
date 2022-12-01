@@ -243,16 +243,19 @@ export class DockTabs extends React.PureComponent {
     render() {
         let { group, tabs, activeId } = this.props.panelData;
         let tabGroup = this.context.getGroup(group);
-        let { animated } = tabGroup;
+        let { animated, moreIcon } = tabGroup;
         if (animated == null) {
             animated = true;
+        }
+        if (!moreIcon) {
+            moreIcon = "...";
         }
         this.updateTabs(tabs);
         let children = [];
         for (let [id, tab] of this._cache) {
             children.push(tab.content);
         }
-        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: "...", animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
+        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: moreIcon, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
     }
 }
 DockTabs.contextType = DockContextType;

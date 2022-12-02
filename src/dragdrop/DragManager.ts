@@ -202,9 +202,9 @@ function _createDraggingDiv(doc: Document) {
   _draggingIcon = doc.createElement('div');
 
   let classNames = 'dragging-layer ';
-  const panelGroup = _data['panelGroup'] as string | undefined;
-  if (panelGroup?.length > 0) {
-    classNames += panelGroup
+  const tabGroup = _data['tabGroup'] as string | undefined;
+  if (tabGroup?.length > 0) {
+    classNames += tabGroup
       .split(' ')
       .map((name) => `dock-style-${name}`)
       .join(' ');

@@ -58,11 +58,7 @@ export function saveLayoutData(
   afterPanelSaved?: (savedPanel: PanelBase, panel: PanelData) => void
 ): LayoutBase {
   function saveTabData(tabData: TabData): TabBase {
-    if (saveTab) {
-      return saveTab(tabData);
-    }
-    return {id: tabData.id};
-
+    return saveTab ? saveTab(tabData) : {id: tabData.id};
   }
 
   function savePanelData(panelData: PanelData): PanelBase {

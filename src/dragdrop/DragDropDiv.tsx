@@ -117,8 +117,6 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   }
 
   addDragListeners(event: MouseEvent | TouchEvent) {
-    let {onDragStartT} = this.props;
-
     if (event.type === 'touchstart') {
       this.ownerDocument.addEventListener('touchmove', this.onTouchMove);
       this.ownerDocument.addEventListener('touchend', this.onDragEnd);
@@ -273,7 +271,6 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   };
   onGestureEnd = (e?: TouchEvent) => {
     let {onGestureEndT} = this.props;
-    let state = new DragManager.DragState(e, this);
 
     this.removeListeners();
     if (onGestureEndT) {

@@ -143,7 +143,7 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached, parent} = this.data;
+    let {id, title, content, closable, cached, parent} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
     if (parent.parent.mode === 'window') {
       onDragStart = null;
@@ -151,7 +151,6 @@ export class TabCache {
       onDrop = null;
       onDragLeave = null;
     }
-    let tabGroup = this.context.getGroup(group);
     if (typeof content === 'function') {
       content = content(this.data);
     }
@@ -187,11 +186,7 @@ interface Props {
   onPanelDragEnd: DragManager.DragHandler;
 }
 
-interface State {
-
-}
-
-export class DockTabs extends React.PureComponent<Props, any> {
+export class DockTabs extends React.PureComponent<Props> {
   static contextType = DockContextType;
 
   static readonly propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];

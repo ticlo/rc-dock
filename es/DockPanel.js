@@ -23,7 +23,6 @@ export class DockPanel extends React.PureComponent {
             if (DockPanel._droppingPanel === this) {
                 return;
             }
-            let { panelData } = this.props;
             let dockId = this.context.getDockId();
             let tab = DragState.getData('tab', dockId);
             let panel = DragState.getData('panel', dockId);

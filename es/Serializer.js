@@ -39,10 +39,7 @@ export function createLayoutCache(defaultLayout) {
 }
 export function saveLayoutData(layout, saveTab, afterPanelSaved) {
     function saveTabData(tabData) {
-        if (saveTab) {
-            return saveTab(tabData);
-        }
-        return { id: tabData.id };
+        return saveTab ? saveTab(tabData) : { id: tabData.id };
     }
     function savePanelData(panelData) {
         let tabs = [];

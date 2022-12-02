@@ -78,7 +78,7 @@ export class TabCache {
     let tabGroup = this.context.getGroup(this.data.group);
     let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
 
-    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, this.context.getDockId());
+    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight], panelGroup: this.data.group}, this.context.getDockId());
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragManager.DragState) => {

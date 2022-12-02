@@ -197,22 +197,27 @@ export function removeHandlers(element: HTMLElement) {
 let _draggingDiv: HTMLDivElement;
 let _draggingIcon: HTMLDivElement;
 
-function _createDraggingDiv(doc: Document) {
+function _createDraggingDiv(doc: Document, classNames?: string) {
   _draggingDiv = doc.createElement('div');
   _draggingIcon = doc.createElement('div');
-  _draggingDiv.className = 'dragging-layer';
+  _draggingDiv.className = `dragging-layer ${classNames}`
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
   _draggingDiv.appendChild(_draggingIcon);
 }
 
 
 function createDraggingElement(state: DragState, refElement: HTMLElement, draggingHtml?: HTMLElement | string) {
+ const classNames = ((_data["panelGroup"] as string) || "")
+    .split(" ")
+    .map((name) => `dock-style-${name}`)
+    .join(" ");
+
   _draggingState = state;
   if (refElement) {
     refElement.classList.add('dragging');
     _refElement = refElement;
   }
-  _createDraggingDiv(state.component.ownerDocument);
+  _createDraggingDiv(state.component.ownerDocument, classNames);
   state.component.ownerDocument.body.appendChild(_draggingDiv);
 
   let draggingWidth = 0;
@@ -224,7 +229,6 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
     draggingWidth = (draggingHtml as HTMLElement).offsetWidth;
     draggingHeight = (draggingHtml as HTMLElement).offsetHeight;
     draggingHtml = (draggingHtml as HTMLElement).outerHTML;
-
   }
   if (draggingHtml) {
     _draggingDiv.firstElementChild.outerHTML = draggingHtml as string;

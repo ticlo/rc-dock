@@ -150,12 +150,12 @@ function _createDraggingDiv(doc) {
     _draggingDiv = doc.createElement('div');
     _draggingIcon = doc.createElement('div');
     let classNames = 'dragging-layer ';
-    const panelGroup = _data["panelGroup"];
-    if ((panelGroup === null || panelGroup === void 0 ? void 0 : panelGroup.length) > 0) {
-        classNames += panelGroup
-            .split(" ")
+    const tabGroup = _data['tabGroup'];
+    if ((tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.length) > 0) {
+        classNames += tabGroup
+            .split(' ')
             .map((name) => `dock-style-${name}`)
-            .join(" ");
+            .join(' ');
     }
     _draggingDiv.className = classNames;
     _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element

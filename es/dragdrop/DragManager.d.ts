@@ -45,6 +45,8 @@ declare class DndDragState {
 }
 export declare function dragEnd(): void;
 export declare function getTabByDockId(dockId: any): TabData;
+export declare function addBodyDraggingClass(): void;
+export declare function removeBodyDraggingClass(): void;
 declare const DragStateImpl: typeof DndDragState;
 export declare class DragState extends DragStateImpl {
 }

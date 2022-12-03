@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from "react";
 import * as DragManager from "./DragManager";
 // tslint:disable-next-line:no-duplicate-imports
-import { dragEnd, getTabByDockId } from "./DragManager";
+import { addBodyDraggingClass, dragEnd, getTabByDockId, removeBodyDraggingClass } from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _, { DebouncedFunc } from "lodash";
@@ -597,7 +597,6 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     dragEnd();
-    state._onDragEnd();
 
     if (props.externalData) {
       dropResult.externalData = props.externalData;
@@ -649,6 +648,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   },
 
   beginDrag(props, monitor, component) {
+    addBodyDraggingClass();
     const clientOffset = monitor.getClientOffset()!;
     const state = new DragManager.DragState(undefined, component);
 
@@ -694,6 +694,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   },
 
   endDrag(props, monitor, component) {
+    removeBodyDraggingClass();
     const dropResult = monitor.getDropResult();
     const item = monitor.getItem();
     const didDrop = monitor.didDrop();

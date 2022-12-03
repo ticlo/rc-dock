@@ -326,9 +326,8 @@ class DndDragState {
     this.component = component;
   }
 
-  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {
-    this.component.ownerDocument.body.classList.add('dock-dragging');
-  }
+  // tslint:disable-next-line:no-empty
+  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {}
 
   setData(data?: {[key: string]: any}, scope?: any) {
     _dataScopeDnd = scope;
@@ -353,7 +352,7 @@ class DndDragState {
   }
 
   _onDragEnd(canceled: boolean = false) {
-    this.component.ownerDocument.body.classList.remove('dock-dragging');
+    throw new Error("should not be invoked");
   }
 
   _onMove() {
@@ -383,6 +382,14 @@ export function getTabByDockId(dockId: any) {
   }
 
   return null;
+}
+
+export function addBodyDraggingClass() {
+  document.body.classList.add('dock-dragging');
+}
+
+export function removeBodyDraggingClass() {
+  document.body.classList.remove('dock-dragging');
 }
 
 const DragStateImpl = DndDragState;

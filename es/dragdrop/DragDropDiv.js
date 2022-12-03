@@ -444,6 +444,7 @@ const dropSpec = {
             }
         }
         dragEnd();
+        state._onDragEnd();
         if (props.externalData) {
             dropResult.externalData = props.externalData;
         }

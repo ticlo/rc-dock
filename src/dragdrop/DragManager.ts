@@ -326,8 +326,9 @@ class DndDragState {
     this.component = component;
   }
 
-  // tslint:disable-next-line:no-empty
-  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {}
+  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {
+    this.component.ownerDocument.body.classList.add('dock-dragging');
+  }
 
   setData(data?: {[key: string]: any}, scope?: any) {
     _dataScopeDnd = scope;
@@ -352,7 +353,7 @@ class DndDragState {
   }
 
   _onDragEnd(canceled: boolean = false) {
-    throw new Error("should not be invoked");
+    this.component.ownerDocument.body.classList.remove('dock-dragging');
   }
 
   _onMove() {

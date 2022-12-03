@@ -597,6 +597,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     dragEnd();
+    state._onDragEnd();
 
     if (props.externalData) {
       dropResult.externalData = props.externalData;

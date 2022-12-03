@@ -201,15 +201,13 @@ function _createDraggingDiv(doc: Document) {
   _draggingDiv = doc.createElement('div');
   _draggingIcon = doc.createElement('div');
 
-  let classNames = 'dragging-layer ';
   const tabGroup = _data['tabGroup'] as string | undefined;
-  if (tabGroup?.length > 0) {
-    classNames += tabGroup
-      .split(' ')
-      .map((name) => `dock-style-${name}`)
-      .join(' ');
-  }
-  _draggingDiv.className = classNames;
+
+  _draggingDiv.className = (
+    tabGroup?.split(' ').map((name) => `dock-style-${name}`) ?? []
+  )
+    .concat('dragging-layer')
+    .join(' ');
 
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
   _draggingDiv.appendChild(_draggingIcon);

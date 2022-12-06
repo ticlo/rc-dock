@@ -201,7 +201,7 @@ function _createDraggingDiv(doc: Document) {
   _draggingDiv = doc.createElement('div');
   _draggingIcon = doc.createElement('div');
 
-  const tabGroup = _data['tabGroup'] as string | undefined;
+  const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined) as string | undefined;
 
   _draggingDiv.className = (
     tabGroup?.split(' ').map((name) => `dock-style-${name}`) ?? []

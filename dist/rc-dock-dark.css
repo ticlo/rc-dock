@@ -1,19 +1,50 @@
-.dock {
-  display: flex;
+.dock-top {
+  flex-direction: column;
 }
-.dock-top,
+.dock-top .dock-bar {
+  flex: 0 0 auto;
+  background: #141414;
+  border-bottom: 1px solid #282828;
+  padding-left: 8px;
+}
+.dock-top .dock-content-animated {
+  flex-direction: row;
+}
+.dock-top .dock-tab-next {
+  right: 2px;
+}
+.dock-top .dock-ink-bar {
+  height: 2px;
+  bottom: 0;
+  left: 0;
+}
+.dock-top > .dock-content-holder {
+  /* work around for the height issue in content holder*/
+  height: 0;
+}
 .dock-bottom {
   flex-direction: column;
 }
-.dock-top .dock-ink-bar,
+.dock-bottom .dock-bar {
+  flex: 0 0 auto;
+  background: #141414;
+  border-bottom: 1px solid #282828;
+  padding-left: 8px;
+}
+.dock-bottom .dock-content-animated {
+  flex-direction: row;
+}
+.dock-bottom .dock-tab-next {
+  right: 2px;
+}
 .dock-bottom .dock-ink-bar {
-  height: 3px;
-}
-.dock-top .dock-ink-bar {
+  height: 2px;
   bottom: 0;
+  left: 0;
 }
-.dock-bottom .dock-nav {
-  order: 1;
+.dock-bottom > .dock-content-holder {
+  /* work around for the height issue in content holder*/
+  height: 0;
 }
 .dock-bottom .dock-bar {
   order: 1;
@@ -22,47 +53,185 @@
   order: 0;
 }
 .dock-bottom .dock-ink-bar {
-  top: 0;
+  top: 3px;
 }
-.dock-left.dock-editable .dock-tab,
-.dock-right.dock-editable .dock-tab {
-  padding-right: 32px;
+.dock-bottom .dock-tab {
+  border-bottom: 0;
+  border-top: 1px solid #434343;
 }
-.dock-left .dock-nav-wrap,
-.dock-right .dock-nav-wrap {
+.dock-bottom .dock-bar {
+  border-bottom: 0;
+  border-top: 1px solid #282828;
+}
+.dock-left .dock-nav-wrap {
   flex-direction: column;
 }
-.dock-left .dock-ink-bar,
-.dock-right .dock-ink-bar {
-  width: 3px;
+.dock-left .dock-ink-bar {
+  width: 2px;
+  margin-top: 0;
 }
-.dock-left .dock-nav,
-.dock-right .dock-nav {
+.dock-left .dock-bar {
+  overflow: unset;
+  background: #141414;
+  border-right: 1px solid #282828;
+  padding-top: 8px;
+}
+.dock-left .dock-tab {
+  border-bottom: 0;
+  border-right: 1px solid #434343;
+  margin-right: 0;
+  margin-bottom: 10px;
+  min-height: 30px;
+  width: 30px;
+  min-width: unset;
+  height: unset;
+}
+.dock-left .dock-tab-btn .dock-tab-title {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.dock-left .dock-tab-hit-area {
+  top: -5px;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+}
+.dock-left .dock-tab > div {
+  padding: 14px 4px;
+}
+.dock-left .dock-tab-close-btn {
+  top: -3px;
+  left: 0;
+  width: 30px;
+  height: 16px;
+}
+.dock-left .dock-nav {
   flex-direction: column;
-  min-width: 50px;
   height: 100%;
 }
+.dock-left .dock-nav .dock-panel-max-btn,
+.dock-left .dock-nav .dock-panel-expand-btn,
+.dock-left .dock-nav .dock-panel-collapse-btn {
+  padding-left: 9px;
+}
+.dock-left .dock-nav .dock-panel-min-btn {
+  padding-left: 11px;
+  padding-right: 0;
+}
+.dock-left .dock-nav-more {
+  align-self: unset;
+  height: unset;
+}
+.dock-left .dock-nav-more:after {
+  left: 0;
+  top: -30px;
+  box-shadow: inset 0px -10px 8px -8px rgba(0, 0, 0, 0.08);
+}
 .dock-left .dock-nav-list,
-.dock-right .dock-nav-list,
-.dock-left .dock-nav-operations,
-.dock-right .dock-nav-operations {
+.dock-left .dock-nav-operations {
   flex: 1 0 auto;
+  flex-direction: column;
+}
+.dock-left .dock-nav-list {
   flex-direction: column;
 }
 .dock-left .dock-ink-bar {
   right: 0;
 }
+.dock-left .dock-extra-content {
+  height: unset;
+  flex-direction: column;
+}
+.dock-right .dock-nav-wrap {
+  flex-direction: column;
+}
+.dock-right .dock-ink-bar {
+  width: 2px;
+  margin-top: 0;
+}
+.dock-right .dock-bar {
+  overflow: unset;
+  background: #141414;
+  border-right: 1px solid #282828;
+  padding-top: 8px;
+}
+.dock-right .dock-tab {
+  border-bottom: 0;
+  border-left: 1px solid #434343;
+  margin-right: 0;
+  margin-bottom: 10px;
+  min-height: 30px;
+  width: 30px;
+  min-width: unset;
+  height: unset;
+}
+.dock-right .dock-tab-btn .dock-tab-title {
+  writing-mode: vertical-rl;
+}
+.dock-right .dock-tab-hit-area {
+  top: -5px;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+}
+.dock-right .dock-tab > div {
+  padding: 14px 4px;
+}
+.dock-right .dock-tab-close-btn {
+  top: -3px;
+  left: 0;
+  width: 30px;
+  height: 16px;
+}
 .dock-right .dock-nav {
-  order: 1;
+  flex-direction: column;
+  height: 100%;
+}
+.dock-right .dock-nav .dock-panel-max-btn,
+.dock-right .dock-nav .dock-panel-expand-btn,
+.dock-right .dock-nav .dock-panel-collapse-btn {
+  padding-left: 9px;
+}
+.dock-right .dock-nav .dock-panel-min-btn {
+  padding-left: 11px;
+  padding-right: 0;
+}
+.dock-right .dock-nav-more {
+  align-self: unset;
+  height: unset;
+}
+.dock-right .dock-nav-more:after {
+  left: 0;
+  top: -30px;
+  box-shadow: inset 0px -10px 8px -8px rgba(0, 0, 0, 0.08);
+}
+.dock-right .dock-nav-list,
+.dock-right .dock-nav-operations {
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+.dock-right .dock-nav-list {
+  flex-direction: column;
+}
+.dock-right .dock-ink-bar {
+  right: 0;
+}
+.dock-right .dock-extra-content {
+  height: unset;
+  flex-direction: column;
 }
 .dock-right .dock-bar {
   order: 1;
 }
+.dock-right .dock-ink-bar {
+  left: 0;
+}
 .dock-right .dock-content {
   order: 0;
 }
-.dock-right .dock-ink-bar {
-  left: 0;
+.dock-right > .dock-content-holder {
+  /* work around for the width issue in content holder*/
+  width: 0;
 }
 .dock-rtl {
   direction: rtl;
@@ -126,14 +295,19 @@ body > .dragging-layer > div:last-child {
   white-space: nowrap;
   outline: none;
   zoom: 1;
+  z-index: 1;
 }
 .dock-ink-bar {
   position: absolute;
   box-sizing: border-box;
+  margin-top: -3px;
   background-color: #108ee9;
   transform-origin: 0 0;
   width: 0;
   height: 0;
+}
+.dock-ink-bar-animated {
+  transition: all 0.3s;
 }
 .dock-tab-btn-disabled {
   cursor: default;
@@ -185,12 +359,6 @@ body > .dragging-layer > div:last-child {
 .dock-content-animated {
   transition: margin 0.3s;
 }
-.dock-bottom > .dock-nav .dock-ink-bar-animated,
-.dock-top > .dock-nav .dock-ink-bar-animated,
-.dock-bottom > div > .dock-nav .dock-ink-bar-animated,
-.dock-top > div > .dock-nav .dock-ink-bar-animated {
-  transition: width 0.3s, left 0.3s, right 0.3s;
-}
 .dock-content-animated .dock-tabpane {
   flex-shrink: 0;
 }
@@ -211,26 +379,6 @@ body > .dragging-layer > div:last-child {
     height: 100%;
     visibility: visible;
   }
-}
-.dock-top {
-  flex-direction: column;
-}
-.dock-top .dock-bar {
-  flex: 0 0 auto;
-  background: #141414;
-  border-bottom: 1px solid #282828;
-  padding-left: 8px;
-}
-.dock-top .dock-content-animated {
-  flex-direction: row;
-}
-.dock-top .dock-tab-next {
-  right: 2px;
-}
-.dock-top .dock-ink-bar {
-  height: 2px;
-  bottom: 0;
-  left: 0;
 }
 .dock-tab-close-btn {
   position: absolute;
@@ -278,10 +426,6 @@ body > .dragging-layer > div:last-child {
 .dock-content-holder {
   flex: auto;
 }
-.dock-top > .dock-content-holder {
-  /* work around for the height issue in content holder*/
-  height: 0;
-}
 .dock-content .dock-tabpane {
   position: relative;
   overflow: hidden;
@@ -317,6 +461,9 @@ body > .dragging-layer > div:last-child {
   left: -30px;
   top: 0;
   box-shadow: inset -10px 0 8px -8px rgba(0, 0, 0, 0.08);
+}
+.dock-nav.animation-disabled div {
+  transition: none;
 }
 .dock-nav-wrap {
   position: relative;
@@ -411,7 +558,6 @@ body.dock-dragging iframe {
   pointer-events: none;
 }
 .dock-panel {
-  box-sizing: border-box;
   position: relative;
   color: rgba(255, 255, 255, 0.85);
   background: #141414;
@@ -522,6 +668,10 @@ body.dock-dragging iframe {
 }
 .dock-fbox > .dock-panel.dragging {
   opacity: 0.8;
+  pointer-events: none;
+}
+.dock-fbox > .dock-panel.react-dnd.dragging {
+  pointer-events: visible;
 }
 .dock-mbox {
   z-index: 250;
@@ -532,6 +682,7 @@ body.dock-dragging iframe {
   width: 100%;
   height: 100%;
   box-shadow: 0 0 4px #444;
+  box-sizing: border-box;
 }
 .dock-mbox.dock-mbox-show {
   visibility: visible;
@@ -610,9 +761,29 @@ body.dock-dragging iframe {
 .dock-drop-layer {
   position: absolute;
   pointer-events: none;
+}
+.dock-drop-layer.dock-drop-layer-top {
   top: 30px;
   left: 0;
   right: 0;
+  bottom: 0;
+}
+.dock-drop-layer.dock-drop-layer-bottom {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+}
+.dock-drop-layer.dock-drop-layer-left {
+  top: 0;
+  left: 30px;
+  right: 0;
+  bottom: 0;
+}
+.dock-drop-layer.dock-drop-layer-right {
+  top: 0;
+  left: 0;
+  right: 30px;
   bottom: 0;
 }
 .dock-drop-layer .dock-drop-square {
@@ -709,7 +880,9 @@ body.dock-dragging iframe {
   pointer-events: none;
 }
 .dock-panel-max-btn,
-.dock-panel-min-btn {
+.dock-panel-min-btn,
+.dock-panel-expand-btn,
+.dock-panel-collapse-btn {
   height: 15px;
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
@@ -720,6 +893,12 @@ body.dock-dragging iframe {
   outline: none;
   user-select: none;
 }
+.dock-panel-max-btn:hover,
+.dock-panel-min-btn:hover,
+.dock-panel-expand-btn:hover,
+.dock-panel-collapse-btn:hover {
+  transform: scale(1.1);
+}
 .dock-panel-max-btn:before,
 .dock-panel-min-btn:before {
   position: absolute;
@@ -729,21 +908,53 @@ body.dock-dragging iframe {
   width: 9px;
   height: 9px;
 }
+.dock-panel-expand-btn:before,
+.dock-panel-collapse-btn:before {
+  position: absolute;
+  border-radius: 1px;
+  width: 9px;
+  height: 9px;
+  border: none;
+  color: #444;
+  font-size: 20px;
+  line-height: 10px;
+}
+.dock-panel-expand-btn:not(.dock-panel-collapse-btn-disabled):hover,
+.dock-panel-collapse-btn:not(.dock-panel-collapse-btn-disabled):hover {
+  transform: scale(1.1);
+}
+.dock-panel-expand-btn:not(.dock-panel-collapse-btn-disabled):hover:before,
+.dock-panel-collapse-btn:not(.dock-panel-collapse-btn-disabled):hover:before {
+  color: #a2a2a2;
+}
+.dock-panel-expand-btn::before {
+  content: "+";
+  padding-left: 2px;
+}
+.dock-panel-collapse-btn::before {
+  content: "—";
+}
+.dock-panel-collapse-btn-disabled::before {
+  color: #ccc;
+}
+.dock-panel-collapse-btn-disabled:hover {
+  cursor: not-allowed;
+}
+.dock-panel-max-btn:before {
+  position: absolute;
+  content: " ";
+  border: 2px solid #444;
+  border-radius: 1px;
+  width: 9px;
+  height: 9px;
+}
 .dock-panel-max-btn:hover,
-.dock-panel-min-btn:hover,
-.dock-panel-max-btn:focus,
-.dock-panel-min-btn:focus {
+.dock-panel-max-btn:focus {
   color: #a2a2a2;
 }
 .dock-panel-max-btn:hover:before,
-.dock-panel-min-btn:hover:before,
-.dock-panel-max-btn:focus:before,
-.dock-panel-min-btn:focus:before {
+.dock-panel-max-btn:focus:before {
   border-color: #a2a2a2;
-}
-.dock-panel-max-btn:hover,
-.dock-panel-min-btn:hover {
-  transform: scale(1.1);
 }
 .dock-panel-min-btn:before {
   position: absolute;
@@ -752,13 +963,13 @@ body.dock-dragging iframe {
   height: 9px;
   border: none;
   content: "-";
-  color: #666;
+  color: #444;
   font-size: 20px;
   line-height: 4px;
 }
 .dock-panel-min-btn:hover:before,
 .dock-panel-min-btn:focus:before {
-  color: #999;
+  color: #a2a2a2;
 }
 .dock-panel.dock-style-place-holder {
   border: none;

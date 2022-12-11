@@ -9,7 +9,6 @@ body.dock-dragging {
 }
 
 .dock-panel {
-  box-sizing: border-box;
   position: relative;
   color: @text-color;
   background: @component-background;
@@ -142,7 +141,13 @@ body.dock-dragging {
 
   & > .dock-panel.dragging {
     opacity: 0.8;
-    //pointer-events: none;
+    pointer-events: none;
+  }
+}
+
+.dock-fbox {
+  & > .dock-panel.react-dnd.dragging {
+    pointer-events: visible;
   }
 }
 
@@ -155,6 +160,7 @@ body.dock-dragging {
     width: 100%;
     height: 100%;
     box-shadow: @panel-box-shadow;
+    box-sizing: border-box;
   }
 
   &.dock-mbox-show {
@@ -245,10 +251,34 @@ body.dock-dragging {
 .dock-drop-layer {
   position: absolute;
   pointer-events: none;
-  top: 30px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+
+  &.dock-drop-layer-top {
+    top: 30px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &.dock-drop-layer-bottom {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+  }
+
+  &.dock-drop-layer-left {
+    top: 0;
+    left: 30px;
+    right: 0;
+    bottom: 0;
+  }
+
+  &.dock-drop-layer-right {
+    top: 0;
+    left: 0;
+    right: 30px;
+    bottom: 0;
+  }
 
   .dock-drop-square {
     position: absolute;
@@ -368,7 +398,7 @@ body.dock-dragging {
   pointer-events: none;
 }
 
-.dock-panel-max-btn, .dock-panel-min-btn {
+.dock-panel-max-btn, .dock-panel-min-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn {
   height: 15px;
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
@@ -379,6 +409,58 @@ body.dock-dragging {
   outline: none;
   user-select: none;
 
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.dock-panel-max-btn, .dock-panel-min-btn {
+  &:before {
+    position: absolute;
+    content: " ";
+    border: 2px solid @button-text-color;
+    border-radius: 1px;
+    width: 9px;
+    height: 9px;
+  }
+}
+
+.dock-panel-expand-btn, .dock-panel-collapse-btn {
+  &:before {
+    position: absolute;
+    border-radius: 1px;
+    width: 9px;
+    height: 9px;
+    border: none;
+    color: @button-text-color;
+    font-size: 20px;
+    line-height: 10px;
+  }
+
+  &:not(.dock-panel-collapse-btn-disabled) {
+    &:hover {
+      transform: scale(1.1);
+      &:before {
+        color: @button-text-middle-color;
+      }
+    }
+  }
+}
+.dock-panel-expand-btn::before {
+  content: "+";
+  padding-left: 2px;
+}
+.dock-panel-collapse-btn::before {
+  content: "—";
+}
+.dock-panel-collapse-btn-disabled::before {
+  color: @disabled-color;
+}
+.dock-panel-collapse-btn-disabled:hover {
+  cursor: not-allowed;
+}
+
+.dock-panel-max-btn {
   &:before {
     position: absolute;
     content: " ";
@@ -395,10 +477,6 @@ body.dock-dragging {
       border-color:@button-text-middle-color;
     }
   }
-
-  &:hover {
-    transform: scale(1.1);
-  }
 }
 
 .dock-panel-min-btn {
@@ -409,14 +487,14 @@ body.dock-dragging {
     height: 9px;
     border: none;
     content: "-";
-    color: #666;
+    color: @button-text-color;
     font-size: 20px;
     line-height: 4px;
   }
 
   &:hover, &:focus {
     &:before {
-      color: #999;
+      color: @button-text-middle-color;
     }
   }
 }

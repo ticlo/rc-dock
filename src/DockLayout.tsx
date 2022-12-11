@@ -334,6 +334,13 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return false;
   }
 
+  updatePanelData(id: string, panelData: PanelData): void {
+    const layout = this.getLayout();
+    const targetPanel = Algorithm.find(layout, id) as PanelData;
+    const newLayout = Algorithm.replacePanel(layout, targetPanel, panelData);
+    this.changeLayout(newLayout, null, 'move');
+  }
+
   /** @inheritDoc */
   navigateToPanel(fromElement?: HTMLElement, direction?: string) {
     if (!direction) {
@@ -478,9 +485,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
         break;
       case 'under-tab':
         top += height - 15;
+        height = 30;
         break;
       case 'above-tab':
         top -= 15;
+        height = 30;
         break;
     }
 

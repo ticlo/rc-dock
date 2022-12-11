@@ -487,7 +487,7 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     return (
       connectDragSource(
         connectDropTarget(
-          <div ref={this._getRef} className={classNames("dnd-wrapper", className, this.context.getClassName())} {...others}>
+          <div ref={this._getRef} className={classNames("react-dnd", "dnd-wrapper", className, this.context.getClassName())} {...others}>
             {children}
           </div>
         )

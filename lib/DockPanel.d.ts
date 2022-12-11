@@ -4,6 +4,7 @@ import { DragState } from "./dragdrop/DragManager";
 interface Props {
     panelData: PanelData;
     size: number;
+    isCollapseDisabled?: boolean;
 }
 interface State {
     dropFromPanel: PanelData;
@@ -42,6 +43,9 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     onPanelClicked: (e: React.MouseEvent) => void;
     render(): React.ReactNode;
     _unmounted: boolean;
+    componentDidMount(): void;
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void;
+    updateCollapsedSize(): void;
     componentWillUnmount(): void;
 }
 export {};

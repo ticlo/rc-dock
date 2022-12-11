@@ -25,19 +25,26 @@ interface Props {
     onPanelDragStart: DragManager.DragHandler;
     onPanelDragMove: DragManager.DragHandler;
     onPanelDragEnd: DragManager.DragHandler;
+    isCollapseDisabled?: boolean;
 }
-export declare class DockTabs extends React.PureComponent<Props, any> {
+interface State {
+    isAnimationDisabled: boolean;
+}
+export declare class DockTabs extends React.PureComponent<Props, State> {
     static contextType: React.Context<DockContext>;
     static readonly propKeys: string[];
     context: DockContext;
     _cache: Map<string, TabCache>;
     cachedTabs: TabData[];
+    state: State;
     updateTabs(tabs: TabData[]): void;
     onMaximizeClick: (e: React.MouseEvent) => void;
+    onCollapseExpandClick: (e: React.MouseEvent) => void;
     onNewWindowClick: () => void;
     addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean): JSX.Element;
     renderTabBar: (props: any, TabNavList: React.ComponentType) => JSX.Element;
     onTabChange: (activeId: string) => void;
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void;
     render(): React.ReactNode;
 }
 export {};

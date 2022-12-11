@@ -1,11 +1,9 @@
 import {
   BoxData,
-  DockMode,
-  DropDirection,
   LayoutData,
   PanelData, BoxBase, LayoutBase, PanelBase, TabBase,
   TabData,
-  TabGroup, maximePlaceHolderId
+  maximePlaceHolderId
 } from "./DockData";
 
 interface DefaultLayoutCache {
@@ -75,13 +73,13 @@ export function saveLayoutData(
         tabs.push(savedTab);
       }
     }
-    let {id, size, activeId, tabPosition = "top"} = panelData;
+    let {id, size, activeId, collapsed, collapsedSize, tabPosition = "top"} = panelData;
     let savedPanel: PanelBase;
     if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
       let {x, y, z, w, h} = panelData;
-      savedPanel = {id, size, tabs, tabPosition, activeId, x, y, z, w, h};
+      savedPanel = {id, size, tabs, collapsed, collapsedSize, tabPosition, activeId, x, y, z, w, h};
     } else {
-      savedPanel = {id, size, tabs, tabPosition, activeId};
+      savedPanel = {id, size, tabs, collapsed, collapsedSize, tabPosition, activeId};
     }
     if (afterPanelSaved) {
       afterPanelSaved(savedPanel, panelData);
@@ -130,7 +128,7 @@ export function loadLayoutData(
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
-    let {id, size, activeId, x, y, z, w, h, tabPosition = "top"} = savedPanel;
+    let {id, size, activeId, x, y, z, w, h, collapsed, collapsedSize, tabPosition = "top"} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -141,9 +139,9 @@ export function loadLayoutData(
     }
     let panelData: PanelData;
     if (w || h || x || y || z) {
-      panelData = {id, size, activeId, tabPosition, x, y, z, w, h, tabs};
+      panelData = {id, size, activeId, tabPosition, collapsed, collapsedSize, x, y, z, w, h, tabs};
     } else {
-      panelData = {id, size, activeId, tabPosition, tabs};
+      panelData = {id, size, activeId, tabPosition, collapsed, collapsedSize, tabs};
     }
     if (savedPanel.id === maximePlaceHolderId) {
       panelData.panelLock = {};

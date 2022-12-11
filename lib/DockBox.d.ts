@@ -17,6 +17,8 @@ export declare class DockBox extends React.PureComponent<Props, any> {
     };
     changeSizes: (sizes: number[]) => void;
     onDragEnd: () => void;
+    getExpandedPanelsCount(): number;
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<any>, snapshot?: any): void;
     render(): React.ReactNode;
 }
 export {};

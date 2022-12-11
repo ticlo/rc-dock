@@ -276,6 +276,12 @@ export class DockLayout extends DockPortalManager {
         }
         return false;
     }
+    updatePanelData(id, panelData) {
+        const layout = this.getLayout();
+        const targetPanel = Algorithm.find(layout, id);
+        const newLayout = Algorithm.replacePanel(layout, targetPanel, panelData);
+        this.changeLayout(newLayout, null, 'move');
+    }
     /** @inheritDoc */
     navigateToPanel(fromElement, direction) {
         if (!direction) {
@@ -378,9 +384,11 @@ export class DockLayout extends DockPortalManager {
                 break;
             case 'under-tab':
                 top += height - 15;
+                height = 30;
                 break;
             case 'above-tab':
                 top -= 15;
+                height = 30;
                 break;
         }
         this.setState({ dropRect: { left, top, width, height, element, source, direction } });

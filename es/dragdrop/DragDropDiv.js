@@ -375,7 +375,7 @@ class DndDragDropDiv extends React.PureComponent {
                 className = 'drag-initiator';
             }
         }
-        return (connectDragSource(connectDropTarget(React.createElement("div", Object.assign({ ref: this._getRef, className: classNames("dnd-wrapper", className, this.context.getClassName()) }, others), children))));
+        return (connectDragSource(connectDropTarget(React.createElement("div", Object.assign({ ref: this._getRef, className: classNames("react-dnd", "dnd-wrapper", className, this.context.getClassName()) }, others), children))));
     }
 }
 DndDragDropDiv.contextType = DockContextType;

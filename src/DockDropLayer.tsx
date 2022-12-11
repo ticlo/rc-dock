@@ -7,12 +7,8 @@ import {
   DropDirection,
   PanelData,
   TabData,
-  TabGroup,
   placeHolderStyle
 } from "./DockData";
-import {DockTabs} from "./DockTabs";
-import {Divider, DividerChild} from "./Divider";
-import {DockPanel} from "./DockPanel";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 import classNames from "classnames";
@@ -54,7 +50,6 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDragLeave = (e: DragState) => {
-    let {panelElement, direction} = this.props;
     this.setState({dropping: false});
     this.context.setDropRect(null, 'remove', this);
   };
@@ -180,37 +175,8 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       }
     }
 
-    const dockBarRect = this.props.panelElement.getElementsByClassName("dock-bar")[0]?.getBoundingClientRect();
-
-    const styles: { [pos: string]: React.CSSProperties } = {
-      top: {
-        top: dockBarRect?.height,
-        left: 0,
-        right: 0,
-        bottom: 0
-      },
-      bottom: {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: dockBarRect?.height
-      },
-      left: {
-        top: 0,
-        left: dockBarRect?.width,
-        right: 0,
-        bottom: 0
-      },
-      right: {
-        top: 0,
-        left: 0,
-        right: dockBarRect?.width,
-        bottom: 0
-      }
-    };
-
     return (
-      <div className={classNames("dock-drop-layer", this.context.getClassName())} style={styles[panelData.tabPosition!]}>
+      <div className={classNames("dock-drop-layer", `dock-drop-layer-${panelData.tabPosition!}`, this.context.getClassName())}>
         {children}
       </div>
     );

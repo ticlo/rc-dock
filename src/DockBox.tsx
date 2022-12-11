@@ -1,6 +1,5 @@
 import React from "react";
-import {BoxData, DockContext, DockContextType, PanelData, TabGroup} from "./DockData";
-import {DockTabs} from "./DockTabs";
+import {BoxData, DockContext, DockContextType} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
 import classNames from "classnames";
@@ -27,10 +26,11 @@ export class DockBox extends React.PureComponent<Props, any> {
       if (nodes.length === children.length * 2 - 1) {
         let dividerChildren: DividerChild[] = [];
         for (let i = 0; i < children.length; ++i) {
+          const child = children[i];
           if (mode === 'vertical') {
-            dividerChildren.push({size: (nodes[i * 2] as HTMLElement).offsetHeight, minSize: children[i].minHeight});
+            dividerChildren.push({size: (nodes[i * 2] as HTMLElement).offsetHeight, minSize: child.minHeight, collapsed: child.collapsed});
           } else {
-            dividerChildren.push({size: (nodes[i * 2] as HTMLElement).offsetWidth, minSize: children[i].minWidth});
+            dividerChildren.push({size: (nodes[i * 2] as HTMLElement).offsetWidth, minSize: child.minWidth, collapsed: child.collapsed});
           }
         }
         return {
@@ -46,7 +46,9 @@ export class DockBox extends React.PureComponent<Props, any> {
     let {children} = this.props.boxData;
     if (children.length === sizes.length) {
       for (let i = 0; i < children.length; ++i) {
-        children[i].size = sizes[i];
+        if (!children[i].collapsed) {
+          children[i].size = sizes[i];
+        }
       }
       this.forceUpdate();
     }
@@ -56,11 +58,33 @@ export class DockBox extends React.PureComponent<Props, any> {
     this.context.onSilentChange(null, 'move');
   };
 
+  getExpandedPanelsCount() {
+    const {children} = this.props.boxData;
+
+    return children.filter(panel => !panel.collapsed).length;
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<any>, snapshot?: any) {
+    if (this.getExpandedPanelsCount() !== 0) {
+      return;
+    }
+
+    const {children} = this.props.boxData;
+
+    const child = children[children.length - 1];
+    if (!('tabs' in child)) {
+      return;
+    }
+
+    this.context.updatePanelData(child.id!, {...child, collapsed: false});
+  }
+
   render(): React.ReactNode {
     let {boxData} = this.props;
     let {minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex} = boxData;
     let isVertical = mode === 'vertical';
     let childrenRender: React.ReactNode[] = [];
+    const isCollapseDisabled = this.getExpandedPanelsCount() === 1;
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
         childrenRender.push(
@@ -70,7 +94,7 @@ export class DockBox extends React.PureComponent<Props, any> {
       }
       let child = children[i];
       if ('tabs' in child) {
-        childrenRender.push(<DockPanel size={child.size} panelData={child} key={child.id}/>);
+        childrenRender.push(<DockPanel size={child.size} panelData={child} key={child.id} isCollapseDisabled={isCollapseDisabled} />);
         // render DockPanel
       } else if ('children' in child) {
         childrenRender.push(<DockBox size={child.size} boxData={child} key={child.id}/>);

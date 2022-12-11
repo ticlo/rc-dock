@@ -29,6 +29,12 @@ export interface TabGroup {
      */
     maximizable?: boolean;
     /**
+     * Whether panel can be collapsed
+     *
+     * default: false
+     */
+    collapsable?: boolean;
+    /**
      * When tabs are locked, you can not drag tab to create new panel, but it can still be dropped into a different panel if they have the same tab group.
      *
      * default false
@@ -80,6 +86,8 @@ export declare const placeHolderGroup: TabGroup;
 interface DockDataBase {
     minWidth?: number;
     minHeight?: number;
+    collapsed?: boolean;
+    collapsedSize?: number;
 }
 export declare type DockMode = 'horizontal' | 'vertical' | 'float' | 'window' | 'maximize';
 export interface TabBase {
@@ -114,6 +122,8 @@ export interface PanelBase {
     w?: number;
     /** float mode only */
     h?: number;
+    collapsed?: boolean;
+    collapsedSize?: number;
 }
 export interface BoxBase {
     /**
@@ -292,6 +302,7 @@ export interface DockContext {
      * @returns returns false if the tab is not found
      */
     updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
+    updatePanelData(id: string, panelData: PanelData): void;
     /**
      * Move focus to a dockpanel near by
      * @param fromElement

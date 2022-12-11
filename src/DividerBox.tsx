@@ -1,5 +1,5 @@
 import React from "react";
-import {BoxData, DockContext, DockContextType, PanelData, TabGroup} from "./DockData";
+import {DockContext, DockContextType} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
 import classNames from "classnames";
 

@@ -1,6 +1,5 @@
 import React from "react";
-import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
-import {compareArray, compareKeys} from "./util/Compare";
+import {DockContext, DockContextType, DropDirection, PanelData, TabData} from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -8,7 +7,7 @@ import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
-import {getFloatPanelSize} from "./Algorithm";
+import { getFloatPanelSize, getPanelTabPosition } from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
 
@@ -166,7 +165,7 @@ export class TabCache {
     let tab = (
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart} role="tab" aria-selected={parent.activeId === id}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave} tabData={this.data}>
-        {title}
+        <div className="dock-tab-title">{title}</div>
         {closable ?
           <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>
           : null
@@ -193,13 +192,14 @@ interface Props {
   onPanelDragStart: DragManager.DragHandler;
   onPanelDragMove: DragManager.DragHandler;
   onPanelDragEnd: DragManager.DragHandler;
+  isCollapseDisabled?: boolean;
 }
 
 interface State {
-
+  isAnimationDisabled: boolean;
 }
 
-export class DockTabs extends React.PureComponent<Props, any> {
+export class DockTabs extends React.PureComponent<Props, State> {
   static contextType = DockContextType;
 
   static readonly propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
@@ -208,6 +208,10 @@ export class DockTabs extends React.PureComponent<Props, any> {
   _cache: Map<string, TabCache> = new Map();
 
   cachedTabs: TabData[];
+
+  state: State = {
+    isAnimationDisabled: false
+  };
 
   updateTabs(tabs: TabData[]) {
     if (tabs === this.cachedTabs) {
@@ -245,6 +249,21 @@ export class DockTabs extends React.PureComponent<Props, any> {
     // prevent the focus change logic
     e.stopPropagation();
   };
+  onCollapseExpandClick = (e: React.MouseEvent) => {
+    const {panelData} = this.props;
+    this.context.updatePanelData(panelData.id!, {...panelData, collapsed: !panelData?.collapsed});
+    this.setState({
+      isAnimationDisabled: true
+    });
+    const navElement = document.querySelector(`[data-dockid="${panelData.id}"] .dock-nav`);
+    navElement.classList.add('animation-disabled');
+    setTimeout(() => {
+      navElement.classList.remove('animation-disabled');
+    });
+
+    // prevent the focus change logic
+    e.stopPropagation();
+  };
   onNewWindowClick = () => {
     let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'new-window');
@@ -272,15 +291,19 @@ export class DockTabs extends React.PureComponent<Props, any> {
   }
 
   renderTabBar = (props: any, TabNavList: React.ComponentType) => {
-    let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
+    let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd, isCollapseDisabled} = this.props;
     let {group: groupName, panelLock} = panelData;
     let group = this.context.getGroup(groupName);
     let {panelExtra} = group;
 
-    let maximizable = group.maximizable;
+    let { maximizable, collapsable } = group;
     if (panelData.parent.mode === 'window') {
       onPanelDragStart = null;
       maximizable = false;
+    }
+
+    if (['float', 'window', 'maximize'].includes(panelData.parent.mode)) {
+      collapsable = false;
     }
 
     if (panelLock) {
@@ -294,14 +317,42 @@ export class DockTabs extends React.PureComponent<Props, any> {
     let panelExtraContent: React.ReactElement;
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
-    } else if (maximizable || showNewWindowButton) {
-      panelExtraContent = <div
-        className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
-        onClick={maximizable ? this.onMaximizeClick : null}
-      />;
-      if (showNewWindowButton) {
-        panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
+    } else {
+      if (maximizable || showNewWindowButton) {
+        panelExtraContent = <div
+          className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
+          onClick={maximizable ? this.onMaximizeClick : null}
+        />;
+        if (showNewWindowButton) {
+          panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
+        }
       }
+
+      const renderCollapseExpandBtn = () => {
+        if (panelData.collapsed) {
+          return (
+            <div
+              className='dock-panel-expand-btn'
+              onClick={this.onCollapseExpandClick}
+            />
+          );
+        }
+
+        if (isCollapseDisabled) {
+          return (
+            <div className='dock-panel-collapse-btn dock-panel-collapse-btn-disabled' />
+          );
+        }
+
+        return (
+          <div className='dock-panel-collapse-btn' onClick={this.onCollapseExpandClick} />
+        );
+      };
+
+      panelExtraContent = <>
+        {panelExtraContent}
+        {collapsable ? renderCollapseExpandBtn() : null}
+      </>;
     }
     return (
       <DockTabBar onDragStart={onPanelDragStart} onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}
@@ -316,12 +367,29 @@ export class DockTabs extends React.PureComponent<Props, any> {
     this.forceUpdate();
   };
 
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+    if (!this.state.isAnimationDisabled) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.setState({
+        isAnimationDisabled: false
+      });
+    });
+  }
+
   render(): React.ReactNode {
-    let {group, tabs, activeId, tabPosition} = this.props.panelData;
+    const panelData = this.props.panelData;
+    let {group, tabs, activeId} = panelData;
     let tabGroup = this.context.getGroup(group);
     let {animated} = tabGroup;
     if (animated == null) {
       animated = true;
+    }
+
+    if (this.state.isAnimationDisabled) {
+      animated = false;
     }
 
     this.updateTabs(tabs);
@@ -330,6 +398,8 @@ export class DockTabs extends React.PureComponent<Props, any> {
     for (let [id, tab] of this._cache) {
       children.push(tab.content);
     }
+
+    const tabPosition = getPanelTabPosition(panelData);
 
     return (
       <Tabs prefixCls={classNames(this.context.getClassName(), "dock")}

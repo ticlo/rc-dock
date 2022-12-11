@@ -1,90 +1,299 @@
 @tabs-prefix-cls: dock;
 
 .@{tabs-prefix-cls} {
-  display: flex;
-
   // ========================== Vertical ==========================
-  &-top,
+  &-top {
+    flex-direction: column;
+  }
+
+  &-top &-bar {
+    flex: 0 0 auto;
+    background: @tab-background;
+    border-bottom: 1px solid @nav-color-split;
+    padding-left: 8px;
+  }
+
+  &-top &-content-animated {
+    flex-direction: row;
+  }
+
+  &-top &-tab-next {
+    right: 2px;
+  }
+
+  &-top &-ink-bar {
+    height: 2px;
+    bottom: 0;
+    left: 0;
+  }
+
+  &-top > &-content-holder {
+    /* work around for the height issue in content holder*/
+    height: 0;
+  }
+
   &-bottom {
     flex-direction: column;
-
-    .@{tabs-prefix-cls}-ink-bar {
-      height: 3px;
-    }
   }
 
-  &-top {
-    .@{tabs-prefix-cls}-ink-bar {
-      bottom: 0;
-    }
+  &-bottom &-bar {
+    flex: 0 0 auto;
+    background: @tab-background;
+    border-bottom: 1px solid @nav-color-split;
+    padding-left: 8px;
   }
 
-  &-bottom {
-    .@{tabs-prefix-cls}-nav {
-      order: 1;
-    }
+  &-bottom &-content-animated {
+    flex-direction: row;
+  }
 
-    .@{tabs-prefix-cls}-bar {
-      order: 1;
-    }
+  &-bottom &-tab-next {
+    right: 2px;
+  }
 
-    .@{tabs-prefix-cls}-content {
-      order: 0;
-    }
+  &-bottom &-ink-bar {
+    height: 2px;
+    bottom: 0;
+    left: 0;
+  }
 
-    .@{tabs-prefix-cls}-ink-bar {
-      top: 0;
-    }
+  &-bottom > &-content-holder {
+    /* work around for the height issue in content holder*/
+    height: 0;
+  }
+
+  &-bottom &-bar {
+    order: 1;
+  }
+
+  &-bottom &-content {
+    order: 0;
+  }
+
+  &-bottom &-ink-bar {
+    top: 3px;
+  }
+
+  &-bottom &-tab {
+    border-bottom: 0;
+    border-top: 1px solid @panel-border-color;
+  }
+
+  &-bottom &-bar {
+    border-bottom: 0;
+    border-top: 1px solid @nav-color-split;
   }
 
   // ========================= Horizontal =========================
-  &-left,
-  &-right {
-    &.@{tabs-prefix-cls}-editable .@{tabs-prefix-cls}-tab {
-      padding-right: 32px;
-    }
-
+  &-left {
     .@{tabs-prefix-cls}-nav-wrap {
       flex-direction: column;
     }
 
     .@{tabs-prefix-cls}-ink-bar {
-      width: 3px;
+      width: 2px;
+      margin-top: 0;
+    }
+
+    .@{tabs-prefix-cls}-bar {
+      overflow: unset;
+      background: @tab-background;
+      border-right: 1px solid @nav-color-split;
+      padding-top: 8px;
+    }
+
+    .@{tabs-prefix-cls}-tab {
+      border-bottom: 0;
+      border-right: 1px solid @panel-border-color;
+      margin-right: 0;
+      margin-bottom: 10px;
+
+      min-height: 30px;
+      width: 30px;
+      min-width: unset;
+      height: unset;
+
+      &-btn {
+        .dock-tab-title {
+          writing-mode: vertical-rl;
+          transform: rotate(180deg);
+        }
+      }
+
+      &-hit-area {
+        top: -5px;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+      }
+
+      & > div {
+        padding: 14px 4px;
+      }
+
+      &-close-btn {
+        top: -3px;
+        left: 0;
+        width: 30px;
+        height: 16px;
+      }
     }
 
     .@{tabs-prefix-cls}-nav {
       flex-direction: column;
-      min-width: 50px;
       height: 100%;
+
+      .dock-panel-max-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn {
+        padding-left: 9px;
+      }
+
+      .dock-panel-min-btn {
+        padding-left: 11px;
+        padding-right: 0;
+      }
+
+      &-more {
+        align-self: unset;
+        height: unset;
+
+        &:after {
+          left: 0;
+          top: -30px;
+          box-shadow: inset 0px -10px 8px -8px rgb(0 0 0 / 8%)
+        }
+      }
 
       &-list, &-operations {
         flex: 1 0 auto; // fix safari scroll problem
         flex-direction: column;
       }
-    }
-  }
 
-  &-left {
+      &-list {
+        flex-direction: column;
+      }
+    }
+
     .@{tabs-prefix-cls}-ink-bar {
       right: 0;
+    }
+
+    .@{tabs-prefix-cls}-extra-content {
+      height: unset;
+      flex-direction: column;
     }
   }
 
   &-right {
-    .@{tabs-prefix-cls}-nav {
-      order: 1;
-    }
-
-    .@{tabs-prefix-cls}-bar {
-      order: 1;
-    }
-
-    .@{tabs-prefix-cls}-content {
-      order: 0;
+    .@{tabs-prefix-cls}-nav-wrap {
+      flex-direction: column;
     }
 
     .@{tabs-prefix-cls}-ink-bar {
-      left: 0;
+      width: 2px;
+      margin-top: 0;
     }
+
+    .@{tabs-prefix-cls}-bar {
+      overflow: unset;
+      background: @tab-background;
+      border-right: 1px solid @nav-color-split;
+      padding-top: 8px;
+    }
+
+    .@{tabs-prefix-cls}-tab {
+      border-bottom: 0;
+      border-left: 1px solid @panel-border-color;
+      margin-right: 0;
+      margin-bottom: 10px;
+
+      min-height: 30px;
+      width: 30px;
+      min-width: unset;
+      height: unset;
+
+      &-btn {
+        .dock-tab-title {
+          writing-mode: vertical-rl;
+        }
+      }
+
+      &-hit-area {
+        top: -5px;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+      }
+
+      & > div {
+        padding: 14px 4px;
+      }
+
+      &-close-btn {
+        top: -3px;
+        left: 0;
+        width: 30px;
+        height: 16px;
+      }
+    }
+
+    .@{tabs-prefix-cls}-nav {
+      flex-direction: column;
+      height: 100%;
+
+      .dock-panel-max-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn {
+        padding-left: 9px;
+      }
+
+      .dock-panel-min-btn {
+        padding-left: 11px;
+        padding-right: 0;
+      }
+
+      &-more {
+        align-self: unset;
+        height: unset;
+
+        &:after {
+          left: 0;
+          top: -30px;
+          box-shadow: inset 0px -10px 8px -8px rgb(0 0 0 / 8%)
+        }
+      }
+
+      &-list, &-operations {
+        flex: 1 0 auto; // fix safari scroll problem
+        flex-direction: column;
+      }
+
+      &-list {
+        flex-direction: column;
+      }
+    }
+
+    .@{tabs-prefix-cls}-ink-bar {
+      right: 0;
+    }
+
+    .@{tabs-prefix-cls}-extra-content {
+      height: unset;
+      flex-direction: column;
+    }
+  }
+
+  &-right &-bar {
+    order: 1;
+  }
+
+  &-right &-ink-bar {
+    left: 0;
+  }
+
+  &-right &-content {
+    order: 0;
+  }
+
+  &-right > &-content-holder {
+    /* work around for the width issue in content holder*/
+    width: 0;
   }
 }

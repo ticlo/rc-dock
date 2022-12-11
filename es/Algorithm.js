@@ -132,7 +132,7 @@ export function find(layout, id, filter = Filter.AnyTabPanel) {
 export function addNextToTab(layout, source, target, direction) {
     let pos = target.parent.tabs.indexOf(target);
     if (pos >= 0) {
-        if (direction === 'after-tab') {
+        if (direction === 'after-tab' || direction === 'under-tab') {
             ++pos;
         }
         return addTabToPanel(layout, source, target.parent, pos);
@@ -169,12 +169,13 @@ export function addTabToPanel(layout, source, panel, idx = -1) {
     return layout;
 }
 export function converToPanel(source) {
+    var _a;
     if ('tabs' in source) {
         // source is already PanelData
         return source;
     }
     else {
-        let newPanel = { tabs: [source], group: source.group, activeId: source.id };
+        let newPanel = { tabs: [source], group: source.group, activeId: source.id, collapsed: (_a = source.parent) === null || _a === void 0 ? void 0 : _a.collapsed };
         source.parent = newPanel;
         return newPanel;
     }
@@ -602,8 +603,10 @@ export function fixLayoutData(layout, groups, loadTab) {
             // merge min size
             switch (box.mode) {
                 case 'horizontal':
-                    if (child.minWidth > 0)
+                    if (!child.collapsed && child.minWidth > 0)
                         box.minWidth += child.minWidth;
+                    if (child.collapsed && child.collapsedSize)
+                        box.minWidth += child.collapsedSize;
                     if (child.minHeight > box.minHeight)
                         box.minHeight = child.minHeight;
                     if (child.widthFlex != null) {
@@ -614,10 +617,12 @@ export function fixLayoutData(layout, groups, loadTab) {
                     }
                     break;
                 case 'vertical':
+                    if (!child.collapsed && child.minHeight > 0)
+                        box.minHeight += child.minHeight;
+                    if (child.collapsed && child.collapsedSize)
+                        box.minHeight += child.collapsedSize;
                     if (child.minWidth > box.minWidth)
                         box.minWidth = child.minWidth;
-                    if (child.minHeight > 0)
-                        box.minHeight += child.minHeight;
                     if (child.heightFlex != null) {
                         box.heightFlex = maxFlex(box.heightFlex, child.heightFlex);
                     }
@@ -783,4 +788,27 @@ export function findNearestPanel(rectFrom, rectTo, direction) {
         return -1;
     }
     return distance * (alignment + 1) - overlap * 0.001;
+}
+export function getPanelTabPosition(panelData) {
+    var _a, _b;
+    if (!panelData.collapsed) {
+        return panelData.tabPosition;
+    }
+    if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "horizontal") {
+        if (panelData.tabPosition === "top") {
+            return "left";
+        }
+        if (panelData.tabPosition === "bottom") {
+            return "right";
+        }
+    }
+    if (((_b = panelData.parent) === null || _b === void 0 ? void 0 : _b.mode) === "vertical") {
+        if (panelData.tabPosition === "left") {
+            return "top";
+        }
+        if (panelData.tabPosition === "right") {
+            return "bottom";
+        }
+    }
+    return panelData.tabPosition;
 }

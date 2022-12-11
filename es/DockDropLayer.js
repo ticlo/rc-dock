@@ -25,7 +25,6 @@ export class DockDropSquare extends React.PureComponent {
             e.accept('');
         };
         this.onDragLeave = (e) => {
-            let { panelElement, direction } = this.props;
             this.setState({ dropping: false });
             this.context.setDropRect(null, 'remove', this);
         };
@@ -76,7 +75,7 @@ export class DockDropLayer extends React.PureComponent {
         }
     }
     render() {
-        var _a, _b;
+        var _a;
         let { panelData, panelElement, dropFromPanel } = this.props;
         let dockId = this.context.getDockId();
         let children = [];
@@ -108,34 +107,7 @@ export class DockDropLayer extends React.PureComponent {
                 }
             }
         }
-        const dockBarRect = (_b = this.props.panelElement.getElementsByClassName("dock-bar")[0]) === null || _b === void 0 ? void 0 : _b.getBoundingClientRect();
-        const styles = {
-            top: {
-                top: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.height,
-                left: 0,
-                right: 0,
-                bottom: 0
-            },
-            bottom: {
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.height
-            },
-            left: {
-                top: 0,
-                left: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.width,
-                right: 0,
-                bottom: 0
-            },
-            right: {
-                top: 0,
-                left: 0,
-                right: dockBarRect === null || dockBarRect === void 0 ? void 0 : dockBarRect.width,
-                bottom: 0
-            }
-        };
-        return (React.createElement("div", { className: classNames("dock-drop-layer", this.context.getClassName()), style: styles[panelData.tabPosition] }, children));
+        return (React.createElement("div", { className: classNames("dock-drop-layer", `dock-drop-layer-${panelData.tabPosition}`, this.context.getClassName()) }, children));
     }
 }
 DockDropLayer.contextType = DockContextType;

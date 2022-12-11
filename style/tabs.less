@@ -15,15 +15,21 @@
     white-space: nowrap;
     outline: none;
     zoom: 1;
+    z-index: 1;
   }
 
   &-ink-bar {
     position: absolute;
     box-sizing: border-box;
+    margin-top: -3px;
     background-color: @primary-color;
     transform-origin: 0 0;
     width: 0;
     height: 0;
+
+    &-animated {
+      transition: all 0.3s;
+    }
   }
 
 
@@ -89,14 +95,6 @@
     transition: margin .3s;
   }
 
-  &-bottom, &-top {
-    & > .dock-nav .dock-ink-bar-animated,
-    & > div > .dock-nav .dock-ink-bar-animated {
-      transition: width .3s, left .3s, right .3s
-    }
-  }
-
-
   &-content-animated &-tabpane {
     flex-shrink: 0;
   }
@@ -122,33 +120,6 @@
       height: 100%;
       visibility: visible;
     }
-  }
-
-  &-top {
-    flex-direction: column;
-  }
-
-  &-top &-bar {
-    flex: 0 0 auto;
-    background: @tab-background;
-    border-bottom: 1px solid @nav-color-split;
-    padding-left: 8px;
-  }
-
-
-  &-top &-content-animated {
-    flex-direction: row;
-  }
-
-
-  &-top &-tab-next {
-    right: 2px;
-  }
-
-  &-top &-ink-bar {
-    height: 2px;
-    bottom: 0;
-    left: 0;
   }
 
   &-tab-close-btn {
@@ -204,10 +175,6 @@
   &-content-holder {
     flex: auto;
   }
-  &-top > &-content-holder {
-    /* work around for the height issue in content holder*/
-    height: 0;
-  }
 
   &-content &-tabpane {
     position: relative;
@@ -247,6 +214,10 @@
         top: 0;
         box-shadow: @nav-more-shadow;
       }
+    }
+
+    &.animation-disabled div {
+      transition: none;
     }
   }
 

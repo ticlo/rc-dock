@@ -1,15 +1,16 @@
-import React, {CSSProperties, PointerEventHandler} from "react";
-import {DockContext, DockContextType, DockMode, PanelData, TabData, TabGroup} from "./DockData";
-import {DockTabs} from "./DockTabs";
-import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
-import {DragState} from "./dragdrop/DragManager";
-import {DockDropLayer} from "./DockDropLayer";
-import {getFloatPanelSize, nextZIndex} from "./Algorithm";
-import {DockDropEdge} from "./DockDropEdge";
+import React from "react";
+import { DockContext, DockContextType, maximePlaceHolderId, PanelData, TabData } from "./DockData";
+import { DockTabs } from "./DockTabs";
+import { DragDropDiv } from "./dragdrop/DragDropDiv";
+import { DragState } from "./dragdrop/DragManager";
+import { DockDropLayer } from "./DockDropLayer";
+import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm";
+import { DockDropEdge } from "./DockDropEdge";
 
 interface Props {
   panelData: PanelData;
   size: number;
+  isCollapseDisabled?: boolean;
 }
 
 interface State {
@@ -50,7 +51,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (DockPanel._droppingPanel === this) {
       return;
     }
-    let {panelData} = this.props;
     let dockId = this.context.getDockId();
     let tab: TabData = DragState.getData('tab', dockId);
     let panel: PanelData = DragState.getData('panel', dockId);
@@ -94,7 +94,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       let tabGroup = this.context.getGroup(panelData.group);
       let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
 
-      event.setData({panel: panelData, panelSize: [panelWidth, panelHeight]}, dockId);
+      event.setData({panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight]}, dockId);
       event.startDrag(null);
     }
     this.setState({draggingHeader: true});
@@ -256,8 +256,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
-    let {panelData, size} = this.props;
-    let {minWidth, minHeight, group, id, parent, panelLock} = panelData;
+    let {panelData, size, isCollapseDisabled} = this.props;
+    let {minWidth, minHeight, group, id, parent, panelLock, collapsed} = panelData;
     let styleName = group;
     let tabGroup = this.context.getGroup(group);
     let {widthFlex, heightFlex} = tabGroup;
@@ -309,6 +309,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
       flexShrink = 1;
     }
     let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
+    if (collapsed && (isHBox || isVBox)) {
+      style = {flexBasis: panelData.collapsedSize};
+    }
     if (isFloat) {
       style.left = panelData.x;
       style.top = panelData.y;
@@ -331,7 +334,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
                    onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
-                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
+                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}
+                  isCollapseDisabled={isCollapseDisabled}
+        />
         {isFloat ?
           [
             <DragDropDiv key="drag-size-t" className="dock-panel-drag-size dock-panel-drag-size-t"
@@ -367,6 +372,38 @@ export class DockPanel extends React.PureComponent<Props, State> {
   }
 
   _unmounted = false;
+
+  componentDidMount() {
+    const panelData = this.context.find(this.props.panelData.id!) as PanelData;
+    const maximizedPanelData = this.context.find(maximePlaceHolderId) as PanelData;
+    if (panelData?.activeId === maximizedPanelData?.activeId) {
+      return;
+    }
+    this.updateCollapsedSize();
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+    if (getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData)) {
+      this.updateCollapsedSize();
+    }
+  }
+
+  updateCollapsedSize() {
+    const {panelData} = this.props;
+
+    if (!('tabs' in panelData)) {
+      return;
+    }
+
+    const tabPosition = getPanelTabPosition(panelData);
+    const dockBarRect = this._ref.querySelector('.dock-bar').getBoundingClientRect();
+    const collapsedSize = (tabPosition === "top" || tabPosition === "bottom") ? dockBarRect.height : dockBarRect.width;
+    this.context.updatePanelData(panelData.id!, {
+      ...panelData,
+      collapsedSize,
+      collapsed: panelData.parent?.mode === "float" ? false : panelData.collapsed
+    });
+  }
 
   componentWillUnmount(): void {
     if (DockPanel._droppingPanel === this) {

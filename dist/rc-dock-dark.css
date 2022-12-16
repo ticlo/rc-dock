@@ -152,7 +152,7 @@
 .dock-right .dock-bar {
   overflow: unset;
   background: #141414;
-  border-right: 1px solid #282828;
+  border-left: 1px solid #282828;
   padding-top: 8px;
 }
 .dock-right .dock-tab {
@@ -558,6 +558,7 @@ body.dock-dragging iframe {
   pointer-events: none;
 }
 .dock-panel {
+  box-sizing: border-box;
   position: relative;
   color: rgba(255, 255, 255, 0.85);
   background: #141414;
@@ -682,7 +683,6 @@ body.dock-dragging iframe {
   width: 100%;
   height: 100%;
   box-shadow: 0 0 4px #444;
-  box-sizing: border-box;
 }
 .dock-mbox.dock-mbox-show {
   visibility: visible;

@@ -129,7 +129,7 @@ export class TabCache {
     }
     getDropDirection(e) {
         let rect = this._hitAreaRef.getBoundingClientRect();
-        if (["left", "right"].includes(this.data.parent.tabPosition)) {
+        if (["left", "right"].includes(getPanelTabPosition(this.data.parent))) {
             let midy = rect.top + rect.height * 0.5;
             return e.clientY > midy ? 'under-tab' : 'above-tab';
         }

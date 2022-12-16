@@ -9,6 +9,7 @@ body.dock-dragging {
 }
 
 .dock-panel {
+  box-sizing: border-box;
   position: relative;
   color: @text-color;
   background: @component-background;
@@ -160,7 +161,6 @@ body.dock-dragging {
     width: 100%;
     height: 100%;
     box-shadow: @panel-box-shadow;
-    box-sizing: border-box;
   }
 
   &.dock-mbox-show {

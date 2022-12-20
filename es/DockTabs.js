@@ -132,7 +132,7 @@ export class TabCache {
         return e.clientX > midx ? 'after-tab' : 'before-tab';
     }
     render() {
-        let { id, title, group, content, closable, cached, parent } = this.data;
+        let { id, title, content, closable, cached, parent } = this.data;
         let { onDragStart, onDragOver, onDrop, onDragLeave } = this;
         if (parent.parent.mode === 'window') {
             onDragStart = null;
@@ -140,7 +140,6 @@ export class TabCache {
             onDrop = null;
             onDragLeave = null;
         }
-        let tabGroup = this.context.getGroup(group);
         if (typeof content === 'function') {
             content = content(this.data);
         }

@@ -24,7 +24,6 @@ export class DockDropSquare extends React.PureComponent {
             e.accept('');
         };
         this.onDragLeave = (e) => {
-            let { panelElement, direction } = this.props;
             this.setState({ dropping: false });
             this.context.setDropRect(null, 'remove', this);
         };

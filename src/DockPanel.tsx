@@ -50,7 +50,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (DockPanel._droppingPanel === this) {
       return;
     }
-    let {panelData} = this.props;
     let dockId = this.context.getDockId();
     let tab: TabData = DragState.getData('tab', dockId);
     let panel: PanelData = DragState.getData('panel', dockId);

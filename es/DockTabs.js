@@ -242,6 +242,7 @@ export class DockTabs extends React.PureComponent {
             this.context.onSilentChange(activeId, 'active');
             this.forceUpdate();
         };
+        this.draggingObserver = new MutationObserver(this.draggingCallback.bind(this));
     }
     updateTabs(tabs) {
         if (tabs === this.cachedTabs) {
@@ -278,6 +279,32 @@ export class DockTabs extends React.PureComponent {
             React.createElement(MenuItem, null, "New Window")));
         let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
         return (React.createElement(Dropdown, { prefixCls: "dock-dropdown", overlay: nativeMenu, trigger: trigger, mouseEnterDelay: 0.1, mouseLeaveDelay: 0.1 }, element));
+    }
+    componentDidMount() {
+        this.draggingObserver.observe(document.body, {
+            attributes: true
+        });
+    }
+    componentWillUnmount() {
+        this.draggingObserver.disconnect();
+    }
+    draggingCallback(mutationList) {
+        const navElement = document.querySelector(`[data-dockid="${this.props.panelData.id}"] .dock-nav`);
+        mutationList.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const dragging = mutation.target.classList.contains("dock-dragging");
+                if (dragging) {
+                    this.setState({
+                        isAnimationDisabled: true
+                    });
+                    navElement.classList.add('animation-disabled');
+                    return;
+                }
+                setTimeout(() => {
+                    navElement.classList.remove('animation-disabled');
+                });
+            }
+        });
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (!this.state.isAnimationDisabled) {

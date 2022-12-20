@@ -367,6 +367,40 @@ export class DockTabs extends React.PureComponent<Props, State> {
     this.forceUpdate();
   };
 
+  draggingObserver = new MutationObserver(this.draggingCallback.bind(this));
+
+  componentDidMount() {
+    this.draggingObserver.observe(document.body, {
+      attributes: true
+    });
+  }
+
+  componentWillUnmount() {
+    this.draggingObserver.disconnect();
+  }
+
+  draggingCallback(mutationList: MutationRecord[]) {
+    const navElement = document.querySelector(`[data-dockid="${this.props.panelData.id}"] .dock-nav`);
+
+    mutationList.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        const dragging = (mutation.target as HTMLElement).classList.contains("dock-dragging");
+
+        if (dragging) {
+          this.setState({
+            isAnimationDisabled: true
+          });
+          navElement.classList.add('animation-disabled');
+          return;
+        }
+
+        setTimeout(() => {
+          navElement.classList.remove('animation-disabled');
+        });
+      }
+    });
+  }
+
   componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
     if (!this.state.isAnimationDisabled) {
       return;

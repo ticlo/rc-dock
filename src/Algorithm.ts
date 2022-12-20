@@ -203,7 +203,13 @@ export function converToPanel(source: TabData | PanelData): PanelData {
     // source is already PanelData
     return source;
   } else {
-    let newPanel: PanelData = {tabs: [source], group: source.group, activeId: source.id, collapsed: source.parent?.collapsed};
+    let newPanel: PanelData = {
+      tabs: [source],
+      group: source.group,
+      activeId: source.id,
+      collapsed: source.parent?.collapsed,
+      tabPosition: source.parent?.tabPosition
+    };
     source.parent = newPanel;
     return newPanel;
   }

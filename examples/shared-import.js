@@ -17685,9 +17685,12 @@ let _draggingDiv;
 let _draggingIcon;
 
 function _createDraggingDiv(doc) {
+  var _a;
+
   _draggingDiv = doc.createElement('div');
   _draggingIcon = doc.createElement('div');
-  _draggingDiv.className = 'dragging-layer';
+  const tabGroup = _data && 'tabGroup' in _data ? _data['tabGroup'] : undefined;
+  _draggingDiv.className = ((_a = tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.split(' ').map(name => `dock-style-${name}`)) !== null && _a !== void 0 ? _a : []).concat('dragging-layer').join(' ');
 
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
 
@@ -21089,7 +21092,8 @@ class DockPanel extends React.PureComponent {
         this._movingY = y; // hide the panel, but not create drag layer element
 
         event.setData({
-          panel: this.props.panelData
+          panel: panelData,
+          tabGroup: panelData.group
         }, dockId);
         event.startDrag(null, null);
         this.onFloatPointerDown();
@@ -21098,7 +21102,8 @@ class DockPanel extends React.PureComponent {
         let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(this._ref, tabGroup);
         event.setData({
           panel: panelData,
-          panelSize: [panelWidth, panelHeight]
+          panelSize: [panelWidth, panelHeight],
+          tabGroup: panelData.group
         }, dockId);
         event.startDrag(null);
       }
@@ -22063,7 +22068,8 @@ class TabCache {
       let [panelWidth, panelHeight] = Algorithm_1.getFloatPanelSize(panelElement, tabGroup);
       e.setData({
         tab: this.data,
-        panelSize: [panelWidth, panelHeight]
+        panelSize: [panelWidth, panelHeight],
+        tabGroup: this.data.group
       }, this.context.getDockId());
       e.startDrag(this._ref.parentElement, this._ref.parentElement);
     };

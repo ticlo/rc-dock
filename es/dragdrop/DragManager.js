@@ -147,9 +147,13 @@ export function removeHandlers(element) {
 let _draggingDiv;
 let _draggingIcon;
 function _createDraggingDiv(doc) {
+    var _a;
     _draggingDiv = doc.createElement('div');
     _draggingIcon = doc.createElement('div');
-    _draggingDiv.className = 'dragging-layer';
+    const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined);
+    _draggingDiv.className = ((_a = tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.split(' ').map((name) => `dock-style-${name}`)) !== null && _a !== void 0 ? _a : [])
+        .concat('dragging-layer')
+        .join(' ');
     _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
     _draggingDiv.appendChild(_draggingIcon);
 }

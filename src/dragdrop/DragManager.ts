@@ -200,7 +200,15 @@ let _draggingIcon: HTMLDivElement;
 function _createDraggingDiv(doc: Document) {
   _draggingDiv = doc.createElement('div');
   _draggingIcon = doc.createElement('div');
-  _draggingDiv.className = 'dragging-layer';
+
+  const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined) as string | undefined;
+
+  _draggingDiv.className = (
+    tabGroup?.split(' ').map((name) => `dock-style-${name}`) ?? []
+  )
+    .concat('dragging-layer')
+    .join(' ');
+
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
   _draggingDiv.appendChild(_draggingIcon);
 }
@@ -224,7 +232,6 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
     draggingWidth = (draggingHtml as HTMLElement).offsetWidth;
     draggingHeight = (draggingHtml as HTMLElement).offsetHeight;
     draggingHtml = (draggingHtml as HTMLElement).outerHTML;
-
   }
   if (draggingHtml) {
     _draggingDiv.firstElementChild.outerHTML = draggingHtml as string;

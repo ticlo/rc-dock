@@ -17832,32 +17832,32 @@ class GestureState {
     this.component = component;
     this._init = init;
 
-    if (event) {
-      if (event.touches.length === 2) {
-        let touch1 = event.touches[0];
-        let touch2 = event.touches[1];
-        this.dx1 = (touch1.pageX - component.baseX) * component.scaleX;
-        this.dy1 = (touch1.pageY - component.baseY) * component.scaleY;
-        this.dx2 = (touch2.pageX - component.baseX2) * component.scaleX;
-        this.dy2 = (touch2.pageY - component.baseY2) * component.scaleY;
+    if (!event || event.touches.length !== 2) {
+      return;
+    }
 
-        if (this.dx1 * this.dx2 >= 0) {
-          this.dx = (this.dx1 + this.dx2) / 2;
-        }
+    let touch1 = event.touches[0];
+    let touch2 = event.touches[1];
+    this.dx1 = (touch1.pageX - component.baseX) * component.scaleX;
+    this.dy1 = (touch1.pageY - component.baseY) * component.scaleY;
+    this.dx2 = (touch2.pageX - component.baseX2) * component.scaleX;
+    this.dy2 = (touch2.pageY - component.baseY2) * component.scaleY;
 
-        if (this.dy1 * this.dy2 >= 0) {
-          this.dy = (this.dy1 + this.dy2) / 2;
-        }
+    if (this.dx1 * this.dx2 >= 0) {
+      this.dx = (this.dx1 + this.dx2) / 2;
+    }
 
-        this.scale = Math.sqrt(Math.pow(touch2.pageX - touch1.pageX, 2) + Math.pow(touch2.pageY - touch1.pageY, 2)) / component.baseDis;
-        this.rotate = Math.atan2(touch2.pageY - touch1.pageY, touch2.pageX - touch1.pageX) - component.baseAng;
+    if (this.dy1 * this.dy2 >= 0) {
+      this.dy = (this.dy1 + this.dy2) / 2;
+    }
 
-        if (this.rotate > Math.PI) {
-          this.rotate -= Math.PI * 2;
-        } else if (this.rotate < -Math.PI) {
-          this.rotate += Math.PI * 2;
-        }
-      }
+    this.scale = Math.sqrt(Math.pow(touch2.pageX - touch1.pageX, 2) + Math.pow(touch2.pageY - touch1.pageY, 2)) / component.baseDis;
+    this.rotate = Math.atan2(touch2.pageY - touch1.pageY, touch2.pageX - touch1.pageX) - component.baseAng;
+
+    if (this.rotate > Math.PI) {
+      this.rotate -= Math.PI * 2;
+    } else if (this.rotate < -Math.PI) {
+      this.rotate += Math.PI * 2;
     }
   }
 
@@ -18115,7 +18115,6 @@ class DragDropDiv extends React.PureComponent {
       let {
         onGestureEndT
       } = this.props;
-      let state = new DragManager.DragState(e, this);
       this.removeListeners();
 
       if (onGestureEndT) {
@@ -18151,10 +18150,6 @@ class DragDropDiv extends React.PureComponent {
   }
 
   addDragListeners(event) {
-    let {
-      onDragStartT
-    } = this.props;
-
     if (event.type === 'touchstart') {
       this.ownerDocument.addEventListener('touchmove', this.onTouchMove);
       this.ownerDocument.addEventListener('touchend', this.onDragEnd);
@@ -20490,10 +20485,6 @@ class DockDropSquare extends React.PureComponent {
     };
 
     this.onDragLeave = e => {
-      let {
-        panelElement,
-        direction
-      } = this.props;
       this.setState({
         dropping: false
       });
@@ -21041,9 +21032,6 @@ class DockPanel extends React.PureComponent {
         return;
       }
 
-      let {
-        panelData
-      } = this.props;
       let dockId = this.context.getDockId();
       let tab = DragManager_1.DragState.getData('tab', dockId);
       let panel = DragManager_1.DragState.getData('panel', dockId);
@@ -22164,7 +22152,6 @@ class TabCache {
     let {
       id,
       title,
-      group,
       content,
       closable,
       cached,
@@ -22183,8 +22170,6 @@ class TabCache {
       onDrop = null;
       onDragLeave = null;
     }
-
-    let tabGroup = this.context.getGroup(group);
 
     if (typeof content === 'function') {
       content = content(this.data);
@@ -22674,39 +22659,41 @@ class DockBox extends React.PureComponent {
     };
 
     this.getDividerData = idx => {
-      if (this._ref) {
-        let {
-          children,
-          mode
-        } = this.props.boxData;
-        let nodes = this._ref.childNodes;
+      if (!this._ref) {
+        return null;
+      }
 
-        if (nodes.length === children.length * 2 - 1) {
-          let dividerChildren = [];
+      let {
+        children,
+        mode
+      } = this.props.boxData;
+      let nodes = this._ref.childNodes;
 
-          for (let i = 0; i < children.length; ++i) {
-            if (mode === 'vertical') {
-              dividerChildren.push({
-                size: nodes[i * 2].offsetHeight,
-                minSize: children[i].minHeight
-              });
-            } else {
-              dividerChildren.push({
-                size: nodes[i * 2].offsetWidth,
-                minSize: children[i].minWidth
-              });
-            }
-          }
+      if (nodes.length !== children.length * 2 - 1) {
+        return;
+      }
 
-          return {
-            element: this._ref,
-            beforeDivider: dividerChildren.slice(0, idx),
-            afterDivider: dividerChildren.slice(idx)
-          };
+      let dividerChildren = [];
+
+      for (let i = 0; i < children.length; ++i) {
+        if (mode === 'vertical') {
+          dividerChildren.push({
+            size: nodes[i * 2].offsetHeight,
+            minSize: children[i].minHeight
+          });
+        } else {
+          dividerChildren.push({
+            size: nodes[i * 2].offsetWidth,
+            minSize: children[i].minWidth
+          });
         }
       }
 
-      return null;
+      return {
+        element: this._ref,
+        beforeDivider: dividerChildren.slice(0, idx),
+        afterDivider: dividerChildren.slice(idx)
+      };
     };
 
     this.changeSizes = sizes => {
@@ -22714,13 +22701,15 @@ class DockBox extends React.PureComponent {
         children
       } = this.props.boxData;
 
-      if (children.length === sizes.length) {
-        for (let i = 0; i < children.length; ++i) {
-          children[i].size = sizes[i];
-        }
-
-        this.forceUpdate();
+      if (children.length !== sizes.length) {
+        return;
       }
+
+      for (let i = 0; i < children.length; ++i) {
+        children[i].size = sizes[i];
+      }
+
+      this.forceUpdate();
     };
 
     this.onDragEnd = () => {
@@ -22941,11 +22930,7 @@ exports.createLayoutCache = createLayoutCache;
 
 function saveLayoutData(layout, saveTab, afterPanelSaved) {
   function saveTabData(tabData) {
-    if (saveTab) {
-      return saveTab(tabData);
-    }
-
-    return {
+    return saveTab ? saveTab(tabData) : {
       id: tabData.id
     };
   }
@@ -23569,15 +23554,7 @@ class DockLayout extends DockPortalManager {
 
     if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout, this.props.groups);
-      let currentTabId = null;
-
-      if (source.hasOwnProperty('tabs')) {
-        currentTabId = source.activeId;
-      } else {
-        // when source is tab
-        currentTabId = source.id;
-      }
-
+      const currentTabId = source.hasOwnProperty('tabs') ? source.activeId : source.id;
       this.changeLayout(layout, currentTabId, direction);
     }
 
@@ -23613,49 +23590,49 @@ class DockLayout extends DockPortalManager {
 
     let tab = this.find(id, Algorithm.Filter.AnyTab);
 
-    if (tab) {
-      let panelData = tab.parent;
-      let idx = panelData.tabs.indexOf(tab);
-
-      if (idx >= 0) {
-        let {
-          loadTab
-        } = this.props;
-        let layout = this.getLayout();
-
-        if (newTab) {
-          let activeId = panelData.activeId;
-
-          if (loadTab && !('content' in newTab && 'title' in newTab)) {
-            newTab = loadTab(newTab);
-          }
-
-          layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
-
-          panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
-
-          layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
-
-          panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
-
-          if (!makeActive) {
-            // restore the previous activeId
-            panelData.activeId = activeId;
-            this.panelToFocus = panelData.id;
-          }
-        } else if (makeActive && panelData.activeId !== id) {
-          layout = Algorithm.replacePanel(layout, panelData, Object.assign(Object.assign({}, panelData), {
-            activeId: id
-          }));
-        }
-
-        layout = Algorithm.fixLayoutData(layout, this.props.groups);
-        this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, 'update');
-        return true;
-      }
+    if (!tab) {
+      return false;
     }
 
-    return false;
+    let panelData = tab.parent;
+    let idx = panelData.tabs.indexOf(tab);
+
+    if (idx >= 0) {
+      let {
+        loadTab
+      } = this.props;
+      let layout = this.getLayout();
+
+      if (newTab) {
+        let activeId = panelData.activeId;
+
+        if (loadTab && !('content' in newTab && 'title' in newTab)) {
+          newTab = loadTab(newTab);
+        }
+
+        layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
+
+        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
+
+        layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+
+        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
+
+        if (!makeActive) {
+          // restore the previous activeId
+          panelData.activeId = activeId;
+          this.panelToFocus = panelData.id;
+        }
+      } else if (makeActive && panelData.activeId !== id) {
+        layout = Algorithm.replacePanel(layout, panelData, Object.assign(Object.assign({}, panelData), {
+          activeId: id
+        }));
+      }
+
+      layout = Algorithm.fixLayoutData(layout, this.props.groups);
+      this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, 'update');
+      return true;
+    }
   }
   /** @inheritDoc */
 
@@ -24094,42 +24071,44 @@ class DividerBox extends React.PureComponent {
     };
 
     this.getDividerData = idx => {
-      if (this._ref) {
-        let {
-          children,
-          mode
-        } = this.props;
-        let nodes = this._ref.childNodes;
-        let length = 1;
+      if (!this._ref) {
+        return null;
+      }
 
-        if (Array.isArray(children)) {
-          length = children.length;
-        }
+      let {
+        children,
+        mode
+      } = this.props;
+      let nodes = this._ref.childNodes;
+      let length = 1;
 
-        if (nodes.length === length * 2 - 1) {
-          let dividerChildren = [];
+      if (Array.isArray(children)) {
+        length = children.length;
+      }
 
-          for (let i = 0; i < length; ++i) {
-            if (mode === 'vertical') {
-              dividerChildren.push({
-                size: nodes[i * 2].offsetHeight
-              });
-            } else {
-              dividerChildren.push({
-                size: nodes[i * 2].offsetWidth
-              });
-            }
-          }
+      if (nodes.length !== length * 2 - 1) {
+        return;
+      }
 
-          return {
-            element: this._ref,
-            beforeDivider: dividerChildren.slice(0, idx),
-            afterDivider: dividerChildren.slice(idx)
-          };
+      let dividerChildren = [];
+
+      for (let i = 0; i < length; ++i) {
+        if (mode === 'vertical') {
+          dividerChildren.push({
+            size: nodes[i * 2].offsetHeight
+          });
+        } else {
+          dividerChildren.push({
+            size: nodes[i * 2].offsetWidth
+          });
         }
       }
 
-      return null;
+      return {
+        element: this._ref,
+        beforeDivider: dividerChildren.slice(0, idx),
+        afterDivider: dividerChildren.slice(idx)
+      };
     };
 
     this.changeSizes = sizes => {

@@ -6,6 +6,7 @@ import { DragState } from "./dragdrop/DragManager";
 import { DockDropLayer } from "./DockDropLayer";
 import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm";
 import { DockDropEdge } from "./DockDropEdge";
+import classNames from "classnames";
 
 interface Props {
   panelData: PanelData;
@@ -309,7 +310,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
       flexShrink = 1;
     }
     let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
-    if (collapsed && (isHBox || isVBox)) {
+    const displayCollapsed = collapsed && (isHBox || isVBox);
+    if (displayCollapsed) {
       style = {flexBasis: panelData.collapsedSize};
     }
     if (isFloat) {
@@ -331,7 +333,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
 
     return (
-      <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
+      <DragDropDiv getRef={this.getRef} className={classNames(cls, {
+        "dock-collapsed": displayCollapsed
+      })} style={style} data-dockid={id}
                    onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}

@@ -6,6 +6,7 @@ import { DragState } from "./dragdrop/DragManager";
 import { DockDropLayer } from "./DockDropLayer";
 import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm";
 import { DockDropEdge } from "./DockDropEdge";
+import classNames from "classnames";
 export class DockPanel extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -274,7 +275,8 @@ export class DockPanel extends React.PureComponent {
             flexShrink = 1;
         }
         let style = { minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px` };
-        if (collapsed && (isHBox || isVBox)) {
+        const displayCollapsed = collapsed && (isHBox || isVBox);
+        if (displayCollapsed) {
             style = { flexBasis: panelData.collapsedSize };
         }
         if (isFloat) {
@@ -294,7 +296,9 @@ export class DockPanel extends React.PureComponent {
                 droppingLayer = React.createElement(DockDropClass, { panelData: panelData, panelElement: this._ref, dropFromPanel: dropFromPanel });
             }
         }
-        return (React.createElement(DragDropDiv, { getRef: this.getRef, className: cls, style: style, "data-dockid": id, onDragOverT: isFloat ? null : this.onDragOver, onClick: this.onPanelClicked },
+        return (React.createElement(DragDropDiv, { getRef: this.getRef, className: classNames(cls, {
+                "dock-collapsed": displayCollapsed
+            }), style: style, "data-dockid": id, onDragOverT: isFloat ? null : this.onDragOver, onClick: this.onPanelClicked },
             React.createElement(DockTabs, { panelData: panelData, onPanelDragStart: onPanelHeaderDragStart, onPanelDragMove: this.onPanelHeaderDragMove, onPanelDragEnd: this.onPanelHeaderDragEnd, isCollapseDisabled: isCollapseDisabled }),
             isFloat ?
                 [

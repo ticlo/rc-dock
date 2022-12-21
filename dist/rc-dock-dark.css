@@ -971,6 +971,9 @@ body.dock-dragging iframe {
 .dock-panel-min-btn:focus:before {
   color: #a2a2a2;
 }
+.dock-panel.dock-collapsed > .dock-bottom > .dock-bar {
+  bottom: 2px;
+}
 .dock-panel.dock-style-place-holder {
   border: none;
 }

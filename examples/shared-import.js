@@ -22949,7 +22949,8 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
     let {
       id,
       size,
-      activeId
+      activeId,
+      group
     } = panelData;
     let savedPanel;
 
@@ -22965,6 +22966,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
         id,
         size,
         tabs,
+        group,
         activeId,
         x,
         y,
@@ -22977,6 +22979,7 @@ function saveLayoutData(layout, saveTab, afterPanelSaved) {
         id,
         size,
         tabs,
+        group,
         activeId
       };
     }
@@ -23052,7 +23055,8 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
       y,
       z,
       w,
-      h
+      h,
+      group
     } = savedPanel;
     let tabs = [];
 
@@ -23071,6 +23075,7 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
         id,
         size,
         activeId,
+        group,
         x,
         y,
         z,
@@ -23083,6 +23088,7 @@ function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLoaded) {
         id,
         size,
         activeId,
+        group,
         tabs
       };
     }

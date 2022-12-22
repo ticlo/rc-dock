@@ -112,6 +112,10 @@ export interface PanelBase {
      */
     activeId?: string;
     tabPosition?: TabPosition;
+    /**
+     * if group is undefined, it will be set to the group name of first tab
+     */
+    group?: string;
     /** float mode only */
     x?: number;
     /** float mode only */
@@ -209,10 +213,6 @@ interface PanelLock {
 export interface PanelData extends PanelBase, BoxChild {
     parent?: BoxData;
     tabs: TabData[];
-    /**
-     * if group is undefined, it will be set to the group name of first tab
-     */
-    group?: string;
     /**
      * addition information of a panel,
      * This prevents the panel from being removed when there is no tab inside

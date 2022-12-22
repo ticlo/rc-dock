@@ -52,14 +52,14 @@ export function saveLayoutData(layout, saveTab, afterPanelSaved) {
                 tabs.push(savedTab);
             }
         }
-        let { id, size, activeId, collapsed, collapsedSize, tabPosition = "top" } = panelData;
+        let { id, size, activeId, collapsed, collapsedSize, group, tabPosition = "top" } = panelData;
         let savedPanel;
         if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
             let { x, y, z, w, h } = panelData;
-            savedPanel = { id, size, tabs, collapsed, collapsedSize, tabPosition, activeId, x, y, z, w, h };
+            savedPanel = { id, size, tabs, collapsed, collapsedSize, group, tabPosition, activeId, x, y, z, w, h };
         }
         else {
-            savedPanel = { id, size, tabs, collapsed, collapsedSize, tabPosition, activeId };
+            savedPanel = { id, size, tabs, collapsed, collapsedSize, group, tabPosition, activeId };
         }
         if (afterPanelSaved) {
             afterPanelSaved(savedPanel, panelData);
@@ -100,7 +100,7 @@ export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLo
         return null;
     }
     function loadPanelData(savedPanel) {
-        let { id, size, activeId, x, y, z, w, h, collapsed, collapsedSize, tabPosition = "top" } = savedPanel;
+        let { id, size, activeId, x, y, z, w, h, collapsed, collapsedSize, group, tabPosition = "top" } = savedPanel;
         let tabs = [];
         for (let savedTab of savedPanel.tabs) {
             let tabData = loadTabData(savedTab);
@@ -110,10 +110,10 @@ export function loadLayoutData(savedLayout, defaultLayout, loadTab, afterPanelLo
         }
         let panelData;
         if (w || h || x || y || z) {
-            panelData = { id, size, activeId, tabPosition, collapsed, collapsedSize, x, y, z, w, h, tabs };
+            panelData = { id, size, activeId, group, tabPosition, collapsed, collapsedSize, x, y, z, w, h, tabs };
         }
         else {
-            panelData = { id, size, activeId, tabPosition, collapsed, collapsedSize, tabs };
+            panelData = { id, size, activeId, group, tabPosition, collapsed, collapsedSize, tabs };
         }
         if (savedPanel.id === maximePlaceHolderId) {
             panelData.panelLock = {};

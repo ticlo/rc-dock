@@ -135,6 +135,11 @@ export interface PanelBase {
 
   tabPosition?: TabPosition;
 
+  /**
+   * if group is undefined, it will be set to the group name of first tab
+   */
+  group?: string;
+
   /** float mode only */
   x?: number;
   /** float mode only */
@@ -249,11 +254,6 @@ export interface PanelData extends PanelBase, BoxChild {
   parent?: BoxData;
 
   tabs: TabData[];
-
-  /**
-   * if group is undefined, it will be set to the group name of first tab
-   */
-  group?: string;
 
   /**
    * addition information of a panel,

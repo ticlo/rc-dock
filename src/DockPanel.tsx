@@ -7,6 +7,7 @@ import { DockDropLayer } from "./DockDropLayer";
 import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm";
 import { DockDropEdge } from "./DockDropEdge";
 import classNames from "classnames";
+import { TabPosition } from "rc-tabs/lib/interface";
 
 interface Props {
   panelData: PanelData;
@@ -312,7 +313,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
     const displayCollapsed = collapsed && (isHBox || isVBox);
     if (displayCollapsed) {
-      style = {flexBasis: panelData.collapsedSize};
+      style = {flexBasis: panelData.headerSize};
     }
     if (isFloat) {
       style.left = panelData.x;
@@ -383,16 +384,16 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (panelData?.activeId === maximizedPanelData?.activeId) {
       return;
     }
-    this.updateCollapsedSize();
+    this.updateCollapsedSettings();
   }
 
   componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
     if (getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData)) {
-      this.updateCollapsedSize();
+      this.updateCollapsedSettings();
     }
   }
 
-  updateCollapsedSize() {
+  updateCollapsedSettings() {
     const {panelData} = this.props;
 
     if (!('tabs' in panelData)) {
@@ -400,13 +401,21 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
 
     const tabPosition = getPanelTabPosition(panelData);
-    const dockBarRect = this._ref.querySelector('.dock-bar').getBoundingClientRect();
-    const collapsedSize = (tabPosition === "top" || tabPosition === "bottom") ? dockBarRect.height : dockBarRect.width;
     this.context.updatePanelData(panelData.id!, {
       ...panelData,
-      collapsedSize,
+      headerSize: this.getHeaderSize(tabPosition),
       collapsed: panelData.parent?.mode === "float" ? false : panelData.collapsed
     });
+  }
+
+  getHeaderSize(tabPosition?: TabPosition) {
+    if (!tabPosition) {
+      return 0;
+    }
+
+    const dockBarRect = this._ref.querySelector('.dock-bar').getBoundingClientRect();
+
+    return (tabPosition === "top" || tabPosition === "bottom") ? dockBarRect.height : dockBarRect.width;
   }
 
   componentWillUnmount(): void {

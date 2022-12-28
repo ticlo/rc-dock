@@ -611,8 +611,8 @@ export function fixLayoutData(layout, groups, loadTab) {
                 case 'horizontal':
                     if (!child.collapsed && child.minWidth > 0)
                         box.minWidth += child.minWidth;
-                    if (child.collapsed && child.collapsedSize)
-                        box.minWidth += child.collapsedSize;
+                    if (child.collapsed && child.headerSize)
+                        box.minWidth += child.headerSize;
                     if (child.minHeight > box.minHeight)
                         box.minHeight = child.minHeight;
                     if (child.widthFlex != null) {
@@ -625,8 +625,8 @@ export function fixLayoutData(layout, groups, loadTab) {
                 case 'vertical':
                     if (!child.collapsed && child.minHeight > 0)
                         box.minHeight += child.minHeight;
-                    if (child.collapsed && child.collapsedSize)
-                        box.minHeight += child.collapsedSize;
+                    if (child.collapsed && child.headerSize)
+                        box.minHeight += child.headerSize;
                     if (child.minWidth > box.minWidth)
                         box.minWidth = child.minWidth;
                     if (child.heightFlex != null) {

@@ -107,7 +107,12 @@ export class DockDropLayer extends React.PureComponent {
                 }
             }
         }
-        return (React.createElement("div", { className: classNames("dock-drop-layer", `dock-drop-layer-${panelData.tabPosition}`, this.context.getClassName()) }, children));
+        return (React.createElement("div", { className: classNames("dock-drop-layer", this.context.getClassName()), style: {
+                top: panelData.tabPosition === "top" ? panelData.headerSize : 0,
+                bottom: panelData.tabPosition === "bottom" ? panelData.headerSize : 0,
+                left: panelData.tabPosition === "left" ? panelData.headerSize : 0,
+                right: panelData.tabPosition === "right" ? panelData.headerSize : 0
+            } }, children));
     }
 }
 DockDropLayer.contextType = DockContextType;

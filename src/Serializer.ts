@@ -73,13 +73,13 @@ export function saveLayoutData(
         tabs.push(savedTab);
       }
     }
-    let {id, size, activeId, collapsed, collapsedSize, group, tabPosition = "top"} = panelData;
+    let {id, size, activeId, collapsed, headerSize, group, tabPosition = "top"} = panelData;
     let savedPanel: PanelBase;
     if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
       let {x, y, z, w, h} = panelData;
-      savedPanel = {id, size, tabs, collapsed, collapsedSize, group, tabPosition, activeId, x, y, z, w, h};
+      savedPanel = {id, size, tabs, collapsed, headerSize, group, tabPosition, activeId, x, y, z, w, h};
     } else {
-      savedPanel = {id, size, tabs, collapsed, collapsedSize, group, tabPosition, activeId};
+      savedPanel = {id, size, tabs, collapsed, headerSize, group, tabPosition, activeId};
     }
     if (afterPanelSaved) {
       afterPanelSaved(savedPanel, panelData);
@@ -128,7 +128,7 @@ export function loadLayoutData(
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
-    let {id, size, activeId, x, y, z, w, h, collapsed, collapsedSize, group, tabPosition = "top"} = savedPanel;
+    let {id, size, activeId, x, y, z, w, h, collapsed, headerSize, group, tabPosition = "top"} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -139,9 +139,9 @@ export function loadLayoutData(
     }
     let panelData: PanelData;
     if (w || h || x || y || z) {
-      panelData = {id, size, activeId, group, tabPosition, collapsed, collapsedSize, x, y, z, w, h, tabs};
+      panelData = {id, size, activeId, group, tabPosition, collapsed, headerSize, x, y, z, w, h, tabs};
     } else {
-      panelData = {id, size, activeId, group, tabPosition, collapsed, collapsedSize, tabs};
+      panelData = {id, size, activeId, group, tabPosition, collapsed, headerSize, tabs};
     }
     if (savedPanel.id === maximePlaceHolderId) {
       panelData.panelLock = {};

@@ -761,29 +761,9 @@ body.dock-dragging iframe {
 .dock-drop-layer {
   position: absolute;
   pointer-events: none;
-}
-.dock-drop-layer.dock-drop-layer-top {
-  top: 30px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.dock-drop-layer.dock-drop-layer-bottom {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 30px;
-}
-.dock-drop-layer.dock-drop-layer-left {
-  top: 0;
-  left: 30px;
-  right: 0;
-  bottom: 0;
-}
-.dock-drop-layer.dock-drop-layer-right {
-  top: 0;
-  left: 0;
-  right: 30px;
   bottom: 0;
 }
 .dock-drop-layer .dock-drop-square {

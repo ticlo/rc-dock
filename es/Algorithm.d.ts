@@ -1,4 +1,5 @@
 import { BoxData, DropDirection, LayoutData, PanelData, TabBase, TabData, TabGroup } from "./DockData";
+import { TabPosition } from "rc-tabs/lib/interface";
 export declare function getUpdatedObject(obj: any): any;
 export declare function nextId(): string;
 export declare function nextZIndex(current?: number): number;
@@ -39,4 +40,4 @@ export declare function fixLayoutData(layout: LayoutData, groups?: {
 export declare function replacePanel(layout: LayoutData, panel: PanelData, newPanel: PanelData): LayoutData;
 export declare function getFloatPanelSize(panel: HTMLElement, tabGroup: TabGroup): number[];
 export declare function findNearestPanel(rectFrom: DOMRect, rectTo: DOMRect, direction: string): number;
-export declare function getPanelTabPosition(panelData: PanelData): import("rc-tabs/lib/interface").TabPosition;
+export declare function getPanelTabPosition(panelData: PanelData): TabPosition | undefined;

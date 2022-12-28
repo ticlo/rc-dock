@@ -8,6 +8,7 @@ import {
   TabData,
   TabGroup
 } from "./DockData";
+import { TabPosition } from "rc-tabs/lib/interface";
 
 let _watchObjectChange: WeakMap<any, any> = new WeakMap();
 
@@ -654,7 +655,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
       switch (box.mode) {
         case 'horizontal':
           if (!child.collapsed && child.minWidth > 0) box.minWidth += child.minWidth;
-          if (child.collapsed && child.collapsedSize) box.minWidth += child.collapsedSize;
+          if (child.collapsed && child.headerSize) box.minWidth += child.headerSize;
           if (child.minHeight > box.minHeight) box.minHeight = child.minHeight;
           if (child.widthFlex != null) {
             box.widthFlex = maxFlex(box.widthFlex, child.widthFlex);
@@ -665,7 +666,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
           break;
         case 'vertical':
           if (!child.collapsed && child.minHeight > 0) box.minHeight += child.minHeight;
-          if (child.collapsed && child.collapsedSize) box.minHeight += child.collapsedSize;
+          if (child.collapsed && child.headerSize) box.minHeight += child.headerSize;
           if (child.minWidth > box.minWidth) box.minWidth = child.minWidth;
           if (child.heightFlex != null) {
             box.heightFlex = maxFlex(box.heightFlex, child.heightFlex);
@@ -840,7 +841,7 @@ export function findNearestPanel(rectFrom: DOMRect, rectTo: DOMRect, direction: 
   return distance * (alignment + 1) - overlap * 0.001;
 }
 
-export function getPanelTabPosition(panelData: PanelData) {
+export function getPanelTabPosition(panelData: PanelData): TabPosition | undefined {
   if (!panelData.collapsed) {
     return panelData.tabPosition;
   }

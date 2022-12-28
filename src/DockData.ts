@@ -103,7 +103,7 @@ interface DockDataBase {
   minWidth?: number;
   minHeight?: number;
   collapsed?: boolean;
-  collapsedSize?: number;
+  headerSize?: number;
 }
 
 export type DockMode = 'horizontal' | 'vertical' | 'float' | 'window' | 'maximize';
@@ -151,7 +151,7 @@ export interface PanelBase {
   /** float mode only */
   h?: number;
   collapsed?: boolean;
-  collapsedSize?: number;
+  headerSize?: number;
 }
 
 export interface BoxBase {

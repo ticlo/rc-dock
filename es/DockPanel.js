@@ -320,19 +320,16 @@ export class DockPanel extends React.PureComponent {
         if ((panelData === null || panelData === void 0 ? void 0 : panelData.activeId) === (maximizedPanelData === null || maximizedPanelData === void 0 ? void 0 : maximizedPanelData.activeId)) {
             return;
         }
-        this.updateCollapsedSettings();
+        this.updatePanelData();
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData)) {
-            this.updateCollapsedSettings();
+            this.updatePanelData();
         }
     }
-    updateCollapsedSettings() {
+    updatePanelData() {
         var _a;
         const { panelData } = this.props;
-        if (!('tabs' in panelData)) {
-            return;
-        }
         const tabPosition = getPanelTabPosition(panelData);
         this.context.updatePanelData(panelData.id, Object.assign(Object.assign({}, panelData), { headerSize: this.getHeaderSize(tabPosition), collapsed: ((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "float" ? false : panelData.collapsed }));
     }

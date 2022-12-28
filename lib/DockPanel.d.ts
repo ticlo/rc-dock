@@ -46,7 +46,7 @@ export declare class DockPanel extends React.PureComponent<Props, State> {
     _unmounted: boolean;
     componentDidMount(): void;
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void;
-    updateCollapsedSettings(): void;
+    updatePanelData(): void;
     getHeaderSize(tabPosition?: TabPosition): number;
     componentWillUnmount(): void;
 }

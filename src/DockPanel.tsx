@@ -384,22 +384,17 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (panelData?.activeId === maximizedPanelData?.activeId) {
       return;
     }
-    this.updateCollapsedSettings();
+    this.updatePanelData();
   }
 
   componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
     if (getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData)) {
-      this.updateCollapsedSettings();
+      this.updatePanelData();
     }
   }
 
-  updateCollapsedSettings() {
+  updatePanelData() {
     const {panelData} = this.props;
-
-    if (!('tabs' in panelData)) {
-      return;
-    }
-
     const tabPosition = getPanelTabPosition(panelData);
     this.context.updatePanelData(panelData.id!, {
       ...panelData,

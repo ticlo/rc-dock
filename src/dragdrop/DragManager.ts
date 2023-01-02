@@ -1,3 +1,5 @@
+import {groupClassNames} from "../Utils";
+
 export type DragType = 'left' | 'right' | 'touch';
 
 interface DragDropComponent {
@@ -203,11 +205,7 @@ function _createDraggingDiv(doc: Document) {
 
   const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined) as string | undefined;
 
-  _draggingDiv.className = (
-    tabGroup?.split(' ').map((name) => `dock-style-${name}`) ?? []
-  )
-    .concat('dragging-layer')
-    .join(' ');
+  _draggingDiv.className = groupClassNames(tabGroup, ['dragging-layer']);
 
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
   _draggingDiv.appendChild(_draggingIcon);

@@ -6,6 +6,7 @@ import {DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
 import {getFloatPanelSize, nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";
+import {groupClassNames} from "./Utils";
 
 interface Props {
   panelData: PanelData;
@@ -277,13 +278,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
         heightFlex = panelHeightFlex;
       }
     }
-    let panelClass: string;
-    if (styleName) {
-      panelClass = styleName
-        .split(' ')
-        .map((name) => `dock-style-${name}`)
-        .join(' ');
-    }
+    let panelClass: string = groupClassNames(styleName)
     let isMax = parent?.mode === 'maximize';
     let isFloat = parent?.mode === 'float';
     let isHBox = parent?.mode === 'horizontal';

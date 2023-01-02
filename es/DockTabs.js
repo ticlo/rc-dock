@@ -9,6 +9,7 @@ import { DockTabBar } from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize } from "./Algorithm";
 import { WindowBox } from "./WindowBox";
+import { groupClassNames } from "./Utils";
 function findParentPanel(element) {
     for (let i = 0; i < 10; ++i) {
         if (!element) {
@@ -254,7 +255,7 @@ export class DockTabs extends React.PureComponent {
         for (let [id, tab] of this._cache) {
             children.push(tab.content);
         }
-        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: moreIcon, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
+        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: moreIcon, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange, popupClassName: groupClassNames(group) }, children));
     }
 }
 DockTabs.contextType = DockContextType;

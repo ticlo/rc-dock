@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import {groupClassNames} from "../Utils";
 
 export type DragType = 'left' | 'right' | 'touch';
@@ -205,7 +206,7 @@ function _createDraggingDiv(doc: Document) {
 
   const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined) as string | undefined;
 
-  _draggingDiv.className = groupClassNames(tabGroup, ['dragging-layer']);
+  _draggingDiv.className = classNames(groupClassNames(tabGroup), 'dragging-layer');
 
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
   _draggingDiv.appendChild(_draggingIcon);

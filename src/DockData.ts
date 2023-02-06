@@ -2,8 +2,6 @@ import React from 'react';
 import { TabPosition } from "rc-tabs/lib/interface";
 import {Filter} from "./Algorithm";
 import {
-  DropTargetMonitor as DndDropTargetMonitor,
-  DragSourceMonitor as DndDragSourceMonitor,
   ConnectableElement,
   DragPreviewOptions,
   DragSourceSpec as DndDragSourceSpec,

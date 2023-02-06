@@ -333,7 +333,7 @@ export declare const DockContextConsumer: React.Consumer<DockContext>;
 export declare type Identifier = string | symbol;
 export declare type SourceType = Identifier;
 export declare type TargetType = Identifier | Identifier[];
-export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends DndDragSourceSpec<Props, DragObject, DropResult> {
+export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends Partial<DndDragSourceSpec<Props, DragObject, DropResult>> {
     itemType?: SourceType;
     preview?: {
         elementOrNode: ConnectableElement;

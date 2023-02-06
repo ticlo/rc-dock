@@ -425,7 +425,7 @@ export type Identifier = string | symbol;
 export type SourceType = Identifier;
 export type TargetType = Identifier | Identifier[];
 
-export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends DndDragSourceSpec<Props, DragObject, DropResult> {
+export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends Partial<DndDragSourceSpec<Props, DragObject, DropResult>> {
   itemType?: SourceType;
   preview?: {
     elementOrNode: ConnectableElement;

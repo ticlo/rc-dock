@@ -440,7 +440,7 @@ const dropSpec = {
             props.onDropT(state);
             const drop = (_j = (_h = props.dndSpec) === null || _h === void 0 ? void 0 : _h.dropTargetSpec) === null || _j === void 0 ? void 0 : _j.drop;
             if (drop) {
-                drop(monitor, decoratedComponent);
+                drop(props, monitor, decoratedComponent);
             }
         }
         dragEnd();
@@ -484,7 +484,12 @@ const dragSpec = {
         return true;
     },
     beginDrag(props, monitor, component) {
+        var _a, _b;
         addBodyDraggingClass();
+        const beginDrag = (_b = (_a = props.dndSpec) === null || _a === void 0 ? void 0 : _a.dragSourceSpec) === null || _b === void 0 ? void 0 : _b.beginDrag;
+        if (beginDrag) {
+            beginDrag(props, monitor, component);
+        }
         const clientOffset = monitor.getClientOffset();
         const state = new DragManager.DragState(undefined, component);
         if (props.onDragEndT) {
@@ -521,12 +526,16 @@ const dragSpec = {
         return item;
     },
     endDrag(props, monitor, component) {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         removeBodyDraggingClass();
+        const endDrag = (_b = (_a = props.dndSpec) === null || _a === void 0 ? void 0 : _a.dragSourceSpec) === null || _b === void 0 ? void 0 : _b.endDrag;
+        if (endDrag) {
+            endDrag(props, monitor, component);
+        }
         const dropResult = monitor.getDropResult();
         const item = monitor.getItem();
         const didDrop = monitor.didDrop();
-        const clientOffset = ((_a = monitor.getDropResult()) === null || _a === void 0 ? void 0 : _a.clientOffset) || monitor.getClientOffset();
+        const clientOffset = ((_c = monitor.getDropResult()) === null || _c === void 0 ? void 0 : _c.clientOffset) || monitor.getClientOffset();
         const state = createDragState(clientOffset, component);
         if (clientOffset) {
             state.dx = (state.pageX - item.baseX) * item.scaleX;
@@ -539,7 +548,7 @@ const dragSpec = {
             props.onDragEndT(state);
         }
         if (dropResult === null || dropResult === void 0 ? void 0 : dropResult.dropOutside) {
-            const externalDockId = (_c = (_b = item === null || item === void 0 ? void 0 : item.externalData) === null || _b === void 0 ? void 0 : _b.context) === null || _c === void 0 ? void 0 : _c.getDockId();
+            const externalDockId = (_e = (_d = item === null || item === void 0 ? void 0 : item.externalData) === null || _d === void 0 ? void 0 : _d.context) === null || _e === void 0 ? void 0 : _e.getDockId();
             if (externalDockId) {
                 const tab = item === null || item === void 0 ? void 0 : item.externalData.tab;
                 externalDockId.dockMove(tab, null, 'remove');

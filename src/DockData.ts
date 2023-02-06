@@ -1,7 +1,14 @@
 import React from 'react';
 import { TabPosition } from "rc-tabs/lib/interface";
 import {Filter} from "./Algorithm";
-import { DropTargetMonitor as DndDropTargetMonitor, ConnectableElement, DragPreviewOptions } from "react-dnd";
+import {
+  DropTargetMonitor as DndDropTargetMonitor,
+  DragSourceMonitor as DndDragSourceMonitor,
+  ConnectableElement,
+  DragPreviewOptions,
+  DragSourceSpec as DndDragSourceSpec,
+  DropTargetSpec as DndDropTargetSpec
+} from "react-dnd";
 
 export interface TabGroup {
   /**
@@ -418,10 +425,7 @@ export type Identifier = string | symbol;
 export type SourceType = Identifier;
 export type TargetType = Identifier | Identifier[];
 
-export interface DropTargetMonitor<DragObject = unknown, DropResult = unknown> extends DndDropTargetMonitor<DragObject, DropResult> {
-}
-
-export interface DragSourceSpec {
+export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends DndDragSourceSpec<Props, DragObject, DropResult> {
   itemType?: SourceType;
   preview?: {
     elementOrNode: ConnectableElement;
@@ -429,10 +433,8 @@ export interface DragSourceSpec {
   };
 }
 
-export interface DropTargetSpec {
+export interface DropTargetSpec<Props = any, DragObject = any, DropResult = any> extends DndDropTargetSpec<Props, DragObject, DropResult> {
   itemType?: TargetType;
-  drop?(monitor: DropTargetMonitor, component: any): void;
-  canDrop?(monitor: DropTargetMonitor, component: any): boolean;
 }
 
 export interface DndSpec {

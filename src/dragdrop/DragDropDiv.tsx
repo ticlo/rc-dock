@@ -592,7 +592,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       const drop = props.dndSpec?.dropTargetSpec?.drop;
 
       if (drop) {
-        drop(monitor, decoratedComponent);
+        drop(props, monitor, decoratedComponent);
       }
     }
 
@@ -649,6 +649,13 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
   beginDrag(props, monitor, component) {
     addBodyDraggingClass();
+
+    const beginDrag = props.dndSpec?.dragSourceSpec?.beginDrag;
+
+    if (beginDrag) {
+      beginDrag(props, monitor, component);
+    }
+
     const clientOffset = monitor.getClientOffset()!;
     const state = new DragManager.DragState(undefined, component);
 
@@ -695,6 +702,13 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
   endDrag(props, monitor, component) {
     removeBodyDraggingClass();
+
+    const endDrag = props.dndSpec?.dragSourceSpec?.endDrag;
+
+    if (endDrag) {
+      endDrag(props, monitor, component);
+    }
+
     const dropResult = monitor.getDropResult();
     const item = monitor.getItem();
     const didDrop = monitor.didDrop();

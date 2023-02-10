@@ -32,6 +32,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
       if ((parent?.mode === 'float')) {
         r.addEventListener('pointerdown', this.onFloatPointerDown, {capture: true, passive: true});
       }
+      r.addEventListener("focusin",this.onFocusOrClickWithinPanel)
+      r.addEventListener("click",this.onFocusOrClickWithinPanel)
     }
   };
 
@@ -260,6 +262,17 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   };
 
+  onFocusOrClickWithinPanel = (
+    e: globalThis.FocusEvent | globalThis.PointerEvent
+  ) => {
+    const target = e.target;
+    // if the target is a DOM element and is within the panel
+    if (target instanceof Element && this._ref.contains(target as Element)) {
+      const { panelData } = this.props;
+      this.context.onSilentChange(panelData.activeId, "active");
+    }
+  };
+
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
     let {panelData, size} = this.props;
@@ -373,6 +386,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     if (this._ref) {
       this._ref.removeEventListener('pointerdown', this.onFloatPointerDown, {capture: true});
+      this._ref.removeEventListener("focusin",this.onFocusOrClickWithinPanel)
+      this._ref.removeEventListener("click",this.onFocusOrClickWithinPanel)
     }
     this._unmounted = true;
   }

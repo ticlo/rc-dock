@@ -18,6 +18,8 @@ export class DockPanel extends React.PureComponent {
                 if (((parent === null || parent === void 0 ? void 0 : parent.mode) === 'float')) {
                     r.addEventListener('pointerdown', this.onFloatPointerDown, { capture: true, passive: true });
                 }
+                r.addEventListener("focusin", this.onFocusOrClickWithinPanel);
+                r.addEventListener("click", this.onFocusOrClickWithinPanel);
             }
         };
         this.state = { dropFromPanel: null, draggingHeader: false };
@@ -204,6 +206,14 @@ export class DockPanel extends React.PureComponent {
                 this._ref.querySelector('.dock-bar').focus();
             }
         };
+        this.onFocusOrClickWithinPanel = (e) => {
+            const target = e.target;
+            // if the target is a DOM element and is within the panel
+            if (target instanceof Element && this._ref.contains(target)) {
+                const { panelData } = this.props;
+                this.context.onSilentChange(panelData.activeId, "active");
+            }
+        };
         this._unmounted = false;
     }
     static set droppingPanel(panel) {
@@ -313,6 +323,8 @@ export class DockPanel extends React.PureComponent {
         }
         if (this._ref) {
             this._ref.removeEventListener('pointerdown', this.onFloatPointerDown, { capture: true });
+            this._ref.removeEventListener("focusin", this.onFocusOrClickWithinPanel);
+            this._ref.removeEventListener("click", this.onFocusOrClickWithinPanel);
         }
         this._unmounted = true;
     }

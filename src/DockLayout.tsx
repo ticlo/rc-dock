@@ -79,6 +79,13 @@ export interface LayoutProps {
   loadTab?(tab: TabBase): TabData;
 
   /**
+   * Called before closing a tab
+   * @param tabData TabData of the tab being closed
+   * @param closeTab callback to confirm the tab close action
+   */
+  onTabClose?(tabData: TabData, closeTab: () => void): void;
+  
+  /**
    * modify the savedPanel, you can add additional data into the savedPanel
    */
   afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
@@ -606,6 +613,17 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (onLayoutChange) {
       let layout = this.getLayout();
       this.changeLayout(layout, currentTabId, direction, true);
+    }
+  }
+
+  /** @ignore */
+  onTabClose(tabData: TabData, closeTab: () => void): void {
+    const {onTabClose} = this.props
+    if (onTabClose) {
+      onTabClose(tabData, closeTab)
+    }
+    else {
+      closeTab()
     }
   }
 

@@ -47,6 +47,12 @@ export interface LayoutProps {
      */
     loadTab?(tab: TabBase): TabData;
     /**
+     * Called before closing a tab
+     * @param tabData TabData of the tab being closed
+     * @param closeTab callback to confirm the tab close action
+     */
+    onTabClose?(tabData: TabData, closeTab: () => void): void;
+    /**
      * modify the savedPanel, you can add additional data into the savedPanel
      */
     afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
@@ -164,6 +170,8 @@ export declare class DockLayout extends DockPortalManager implements DockContext
      * but they should still call this function to trigger onLayoutChange
      */
     onSilentChange(currentTabId?: string, direction?: DropDirection): void;
+    /** @ignore */
+    onTabClose(tabData: TabData, closeTab: () => void): void;
     saveLayout(): LayoutBase;
     /**
      * load layout

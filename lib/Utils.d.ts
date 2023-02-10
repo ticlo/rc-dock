@@ -1,1 +1,1 @@
-export declare const groupClassNames: (groupName?: string, classes?: string[]) => string;
+export declare const groupClassNames: (groupNames?: string) => string[];

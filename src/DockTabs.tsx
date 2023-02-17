@@ -395,7 +395,7 @@ export class DockTabs extends React.PureComponent<Props, State> {
         }
 
         setTimeout(() => {
-          navElement.classList.remove('animation-disabled');
+          navElement?.classList.remove('animation-disabled');
         });
       }
     });

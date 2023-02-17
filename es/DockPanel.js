@@ -211,7 +211,7 @@ export class DockPanel extends React.PureComponent {
             // if the target is a DOM element and is within the panel
             if (target instanceof Element && this._ref.contains(target)) {
                 const { panelData } = this.props;
-                this.context.onSilentChange(panelData.activeId, "active");
+                this.context.onFocusOrClickWithinPanel(panelData);
             }
         };
         this._unmounted = false;

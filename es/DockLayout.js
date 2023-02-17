@@ -476,6 +476,15 @@ export class DockLayout extends DockPortalManager {
             this.changeLayout(layout, currentTabId, direction, true);
         }
     }
+    onFocusOrClickWithinPanel(panelData) {
+        const { onFocusOrClickWithinPanel: callback } = this.props;
+        if (callback) {
+            const shouldUpdate = callback(panelData);
+            if (shouldUpdate) {
+                this.onSilentChange(panelData.activeId, "active");
+            }
+        }
+    }
     /** @ignore */
     onTabClose(tabData, closeTab) {
         const { onTabClose } = this.props;

@@ -357,6 +357,12 @@ export interface DockContext {
   onTabClose(tabData: TabData, closeTab: () => void): void;
 
   /**
+   * DockPanel calls this whenever there is focus or click event within the panel.
+   * @param panelData panel data of the panel clicked or focused on
+   */
+  onFocusOrClickWithinPanel?(panelData: PanelData): void
+
+  /**
    * Get the TabGroup defined in defaultLayout
    */
   getGroup(name: string): TabGroup;

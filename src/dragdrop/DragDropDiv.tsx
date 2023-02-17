@@ -5,7 +5,7 @@ import { addBodyDraggingClass, dragEnd, getTabByDockId, removeBodyDraggingClass 
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _, { DebouncedFunc } from "lodash";
-import { DndSpec, DockContext, DockContextType, TabData } from "../DockData";
+import { DndSpec, DockContext, DockContextType, DragObject, DropResult, TabData } from "../DockData";
 import { v4 as uuid } from "uuid";
 import {
   ConnectDragSource,
@@ -496,22 +496,6 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   }
 }
 
-interface DragObject {
-  baseX: number;
-  baseY: number;
-  element: HTMLElement;
-  scaleX: number;
-  scaleY: number;
-  checkParent(targetRef: HTMLElement): boolean;
-  externalData?: any;
-}
-
-interface DropResult {
-  clientOffset: XYCoord;
-  externalData?: any;
-  dropOutside?: boolean;
-}
-
 type HoverFunc = Exclude<DropTargetSpec<DndDragDropDivProps, DragObject, DropResult>["hover"], undefined>;
 
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
@@ -549,11 +533,11 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   }), 1000 / 60 * 3),
 
   drop(props, monitor, component) {
-    (this.hover as DebouncedFunc<HoverFunc>).cancel();
+    (this.hover as DebouncedFunc<HoverFunc>).flush();
 
     const item = monitor.getItem();
     const clientOffset = monitor.getClientOffset();
-    const dropResult = monitor.getDropResult() || {} as DropResult;
+    const dropResult = monitor.getDropResult() || {didDrop: false} as DropResult;
 
     if (!dropResult.clientOffset) {
       dropResult.clientOffset = clientOffset!;
@@ -602,7 +586,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       dropResult.externalData = props.externalData;
     }
 
-    return dropResult;
+    return {...dropResult, didDrop: !!props.onDropT};
   }
 };
 

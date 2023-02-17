@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabPosition } from "rc-tabs/lib/interface";
 import { Filter } from "./Algorithm";
-import { ConnectableElement, DragPreviewOptions, DragSourceSpec as DndDragSourceSpec, DropTargetSpec as DndDropTargetSpec } from "react-dnd";
+import { ConnectableElement, DragPreviewOptions, DragSourceSpec as DndDragSourceSpec, DropTargetSpec as DndDropTargetSpec, XYCoord } from "react-dnd";
 export interface TabGroup {
     /**
      * Whether tab can be dragged into float layer.
@@ -333,6 +333,21 @@ export declare const DockContextConsumer: React.Consumer<DockContext>;
 export declare type Identifier = string | symbol;
 export declare type SourceType = Identifier;
 export declare type TargetType = Identifier | Identifier[];
+export interface DragObject {
+    baseX: number;
+    baseY: number;
+    element: HTMLElement;
+    scaleX: number;
+    scaleY: number;
+    checkParent(targetRef: HTMLElement): boolean;
+    externalData?: any;
+}
+export interface DropResult {
+    clientOffset: XYCoord;
+    didDrop: boolean;
+    externalData?: any;
+    dropOutside?: boolean;
+}
 export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends Partial<DndDragSourceSpec<Props, DragObject, DropResult>> {
     itemType?: SourceType;
     preview?: {

@@ -5,7 +5,7 @@ import {
   ConnectableElement,
   DragPreviewOptions,
   DragSourceSpec as DndDragSourceSpec,
-  DropTargetSpec as DndDropTargetSpec
+  DropTargetSpec as DndDropTargetSpec, XYCoord
 } from "react-dnd";
 
 export interface TabGroup {
@@ -422,6 +422,23 @@ export const DockContextConsumer = DockContextType.Consumer;
 export type Identifier = string | symbol;
 export type SourceType = Identifier;
 export type TargetType = Identifier | Identifier[];
+
+export interface DragObject {
+  baseX: number;
+  baseY: number;
+  element: HTMLElement;
+  scaleX: number;
+  scaleY: number;
+  checkParent(targetRef: HTMLElement): boolean;
+  externalData?: any;
+}
+
+export interface DropResult {
+  clientOffset: XYCoord;
+  didDrop: boolean;
+  externalData?: any;
+  dropOutside?: boolean;
+}
 
 export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends Partial<DndDragSourceSpec<Props, DragObject, DropResult>> {
   itemType?: SourceType;

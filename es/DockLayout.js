@@ -276,11 +276,11 @@ export class DockLayout extends DockPortalManager {
         }
         return false;
     }
-    updatePanelData(id, panelData) {
+    updatePanelData(id, panelData, direction) {
         const layout = this.getLayout();
         const targetPanel = Algorithm.find(layout, id);
         const newLayout = Algorithm.replacePanel(layout, targetPanel, panelData);
-        this.changeLayout(newLayout, null, 'move');
+        this.changeLayout(newLayout, null, direction);
     }
     /** @inheritDoc */
     navigateToPanel(fromElement, direction) {

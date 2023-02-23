@@ -400,7 +400,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       ...panelData,
       headerSize: this.getHeaderSize(tabPosition),
       collapsed: panelData.parent?.mode === "float" ? false : panelData.collapsed
-    });
+    }, 'configure-panel');
   }
 
   getHeaderSize(tabPosition?: TabPosition) {

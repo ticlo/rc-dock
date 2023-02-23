@@ -176,7 +176,7 @@ export class DockTabs extends React.PureComponent {
         };
         this.onCollapseExpandClick = (e) => {
             const { panelData } = this.props;
-            this.context.updatePanelData(panelData.id, Object.assign(Object.assign({}, panelData), { collapsed: !(panelData === null || panelData === void 0 ? void 0 : panelData.collapsed) }));
+            this.context.updatePanelData(panelData.id, Object.assign(Object.assign({}, panelData), { collapsed: !(panelData === null || panelData === void 0 ? void 0 : panelData.collapsed) }), 'collapse');
             this.setState({
                 isAnimationDisabled: true
             });
@@ -301,7 +301,7 @@ export class DockTabs extends React.PureComponent {
                     return;
                 }
                 setTimeout(() => {
-                    navElement.classList.remove('animation-disabled');
+                    navElement === null || navElement === void 0 ? void 0 : navElement.classList.remove('animation-disabled');
                 });
             }
         });

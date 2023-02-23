@@ -326,6 +326,8 @@ export type DropDirection =
   | 'move' // dockbox or float panel moved, or float panel resized
   | 'active' // become active tab
   | 'update' // tab updated with updateTab
+  | 'collapse'
+  | 'configure-panel'
   ;
 
 export interface DockContext {
@@ -381,7 +383,7 @@ export interface DockContext {
    */
   updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
 
-  updatePanelData(id: string, panelData: PanelData): void;
+  updatePanelData(id: string, panelData: PanelData, direction: DropDirection): void;
 
   /**
    * Move focus to a dockpanel near by

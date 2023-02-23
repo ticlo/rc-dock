@@ -61,7 +61,7 @@ export class DockBox extends React.PureComponent {
         if (!('tabs' in child)) {
             return;
         }
-        this.context.updatePanelData(child.id, Object.assign(Object.assign({}, child), { collapsed: false }));
+        this.context.updatePanelData(child.id, Object.assign(Object.assign({}, child), { collapsed: false }), 'configure-panel');
     }
     render() {
         let { boxData } = this.props;

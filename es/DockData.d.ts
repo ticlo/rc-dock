@@ -251,7 +251,7 @@ export interface LayoutData extends LayoutBase {
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'under-tab' | 'above-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
+export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'under-tab' | 'above-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update' | 'collapse' | 'configure-panel';
 export interface DockContext {
     /** @ignore */
     getDockId(): any;
@@ -302,7 +302,7 @@ export interface DockContext {
      * @returns returns false if the tab is not found
      */
     updateTab(id: string, newTab: TabData, makeActive: boolean): boolean;
-    updatePanelData(id: string, panelData: PanelData): void;
+    updatePanelData(id: string, panelData: PanelData, direction: DropDirection): void;
     /**
      * Move focus to a dockpanel near by
      * @param fromElement

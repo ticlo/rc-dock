@@ -251,7 +251,7 @@ export class DockTabs extends React.PureComponent<Props, State> {
   };
   onCollapseExpandClick = (e: React.MouseEvent) => {
     const {panelData} = this.props;
-    this.context.updatePanelData(panelData.id!, {...panelData, collapsed: !panelData?.collapsed});
+    this.context.updatePanelData(panelData.id!, {...panelData, collapsed: !panelData?.collapsed}, 'collapse');
     this.setState({
       isAnimationDisabled: true
     });

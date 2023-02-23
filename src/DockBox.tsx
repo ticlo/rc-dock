@@ -76,7 +76,7 @@ export class DockBox extends React.PureComponent<Props, any> {
       return;
     }
 
-    this.context.updatePanelData(child.id!, {...child, collapsed: false});
+    this.context.updatePanelData(child.id!, {...child, collapsed: false}, 'configure-panel');
   }
 
   render(): React.ReactNode {

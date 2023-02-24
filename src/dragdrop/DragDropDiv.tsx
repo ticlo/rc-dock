@@ -720,7 +720,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       props.onDragMoveT(state);
     }
 
-    if (props.onDragEndT) {
+    if (props.onDragEndT && didDrop && !dropResult?.dropOutside) {
       props.onDragEndT(state);
     }
 

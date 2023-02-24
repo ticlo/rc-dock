@@ -693,12 +693,6 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   endDrag(props, monitor, component) {
     removeBodyDraggingClass();
 
-    const endDrag = props.dndSpec?.dragSourceSpec?.endDrag;
-
-    if (endDrag) {
-      endDrag(props, monitor, component);
-    }
-
     const dropResult = monitor.getDropResult();
     const item = monitor.getItem();
     const didDrop = monitor.didDrop();
@@ -728,6 +722,12 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     dragEnd();
+
+    const endDrag = props.dndSpec?.dragSourceSpec?.endDrag;
+
+    if (endDrag) {
+      endDrag(props, monitor, component);
+    }
   }
 };
 

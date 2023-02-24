@@ -345,7 +345,6 @@ export interface DragObject {
 }
 export interface DropResult {
     clientOffset: XYCoord;
-    didDrop: boolean;
     externalData?: any;
     dropOutside?: boolean;
 }
@@ -355,8 +354,10 @@ export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any>
         elementOrNode: ConnectableElement;
         options?: DragPreviewOptions | undefined;
     };
-    beginDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
-    endDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
+    beforeBeginDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
+    afterBeginDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
+    beforeEndDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
+    afterEndDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
 }
 export interface DropTargetSpec<Props = any, DragObject = any, DropResult = any> {
     itemType?: TargetType;

@@ -537,7 +537,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const item = monitor.getItem();
     const clientOffset = monitor.getClientOffset();
-    const dropResult = monitor.getDropResult() || {didDrop: false} as DropResult;
+    const dropResult = monitor.getDropResult() || {} as DropResult;
 
     if (!dropResult.clientOffset) {
       dropResult.clientOffset = clientOffset!;
@@ -592,7 +592,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       dropResult.externalData = props.externalData;
     }
 
-    return {...dropResult, didDrop: !!props.onDropT};
+    return dropResult;
   }
 };
 
@@ -640,10 +640,10 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   beginDrag(props, monitor, component) {
     addBodyDraggingClass();
 
-    const beginDrag = props.dndSpec?.dragSourceSpec?.beginDrag;
+    const beforeBeginDrag = props.dndSpec?.dragSourceSpec?.beforeBeginDrag;
 
-    if (beginDrag) {
-      beginDrag(props, monitor, component);
+    if (beforeBeginDrag) {
+      beforeBeginDrag(props, monitor, component);
     }
 
     const clientOffset = monitor.getClientOffset()!;
@@ -687,16 +687,22 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       }
     };
 
+    const afterBeginDrag = props.dndSpec?.dragSourceSpec?.afterBeginDrag;
+
+    if (afterBeginDrag) {
+      afterBeginDrag(props, monitor, component);
+    }
+
     return item;
   },
 
   endDrag(props, monitor, component) {
     removeBodyDraggingClass();
 
-    const endDrag = props.dndSpec?.dragSourceSpec?.endDrag;
+    const beforeEndDrag = props.dndSpec?.dragSourceSpec?.beforeEndDrag;
 
-    if (endDrag) {
-      endDrag(props, monitor, component);
+    if (beforeEndDrag) {
+      beforeEndDrag(props, monitor, component);
     }
 
     const dropResult = monitor.getDropResult();
@@ -728,6 +734,12 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     dragEnd();
+
+    const afterEndDrag = props.dndSpec?.dragSourceSpec?.afterEndDrag;
+
+    if (afterEndDrag) {
+      afterEndDrag(props, monitor, component);
+    }
   }
 };
 

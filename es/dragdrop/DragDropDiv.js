@@ -412,7 +412,7 @@ const dropSpec = {
         this.hover.flush();
         const item = monitor.getItem();
         const clientOffset = monitor.getClientOffset();
-        const dropResult = monitor.getDropResult() || { didDrop: false };
+        const dropResult = monitor.getDropResult() || {};
         if (!dropResult.clientOffset) {
             dropResult.clientOffset = clientOffset;
         }
@@ -451,7 +451,7 @@ const dropSpec = {
         if (props.externalData) {
             dropResult.externalData = props.externalData;
         }
-        return Object.assign(Object.assign({}, dropResult), { didDrop: !!props.onDropT });
+        return dropResult;
     }
 };
 function createDragState(clientOffset, component) {
@@ -488,11 +488,11 @@ const dragSpec = {
         return true;
     },
     beginDrag(props, monitor, component) {
-        var _a, _b;
+        var _a, _b, _c, _d;
         addBodyDraggingClass();
-        const beginDrag = (_b = (_a = props.dndSpec) === null || _a === void 0 ? void 0 : _a.dragSourceSpec) === null || _b === void 0 ? void 0 : _b.beginDrag;
-        if (beginDrag) {
-            beginDrag(props, monitor, component);
+        const beforeBeginDrag = (_b = (_a = props.dndSpec) === null || _a === void 0 ? void 0 : _a.dragSourceSpec) === null || _b === void 0 ? void 0 : _b.beforeBeginDrag;
+        if (beforeBeginDrag) {
+            beforeBeginDrag(props, monitor, component);
         }
         const clientOffset = monitor.getClientOffset();
         const state = new DragManager.DragState(undefined, component);
@@ -527,14 +527,18 @@ const dragSpec = {
                 tab
             }
         };
+        const afterBeginDrag = (_d = (_c = props.dndSpec) === null || _c === void 0 ? void 0 : _c.dragSourceSpec) === null || _d === void 0 ? void 0 : _d.afterBeginDrag;
+        if (afterBeginDrag) {
+            afterBeginDrag(props, monitor, component);
+        }
         return item;
     },
     endDrag(props, monitor, component) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         removeBodyDraggingClass();
-        const endDrag = (_b = (_a = props.dndSpec) === null || _a === void 0 ? void 0 : _a.dragSourceSpec) === null || _b === void 0 ? void 0 : _b.endDrag;
-        if (endDrag) {
-            endDrag(props, monitor, component);
+        const beforeEndDrag = (_b = (_a = props.dndSpec) === null || _a === void 0 ? void 0 : _a.dragSourceSpec) === null || _b === void 0 ? void 0 : _b.beforeEndDrag;
+        if (beforeEndDrag) {
+            beforeEndDrag(props, monitor, component);
         }
         const dropResult = monitor.getDropResult();
         const item = monitor.getItem();
@@ -559,6 +563,10 @@ const dragSpec = {
             }
         }
         dragEnd();
+        const afterEndDrag = (_g = (_f = props.dndSpec) === null || _f === void 0 ? void 0 : _f.dragSourceSpec) === null || _g === void 0 ? void 0 : _g.afterEndDrag;
+        if (afterEndDrag) {
+            afterEndDrag(props, monitor, component);
+        }
     }
 };
 function dragCollect(connect, monitor) {

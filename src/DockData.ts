@@ -7,6 +7,7 @@ import {
   DragSourceSpec as DndDragSourceSpec,
   DropTargetSpec as DndDropTargetSpec, XYCoord
 } from "react-dnd";
+import { DragSourceMonitor, DropTargetMonitor } from "react-dnd/dist/types/types";
 
 export interface TabGroup {
   /**
@@ -442,16 +443,21 @@ export interface DropResult {
   dropOutside?: boolean;
 }
 
-export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> extends Partial<DndDragSourceSpec<Props, DragObject, DropResult>> {
+export interface DragSourceSpec<Props = any, DragObject = any, DropResult = any> {
   itemType?: SourceType;
   preview?: {
     elementOrNode: ConnectableElement;
     options?: DragPreviewOptions | undefined;
   };
+  beginDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
+  endDrag?: (props: Props, monitor: DragSourceMonitor<DragObject, DropResult>, component: any) => void;
 }
 
-export interface DropTargetSpec<Props = any, DragObject = any, DropResult = any> extends DndDropTargetSpec<Props, DragObject, DropResult> {
+export interface DropTargetSpec<Props = any, DragObject = any, DropResult = any> {
   itemType?: TargetType;
+  beforeDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>, component: any) => void;
+  afterDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>, component: any) => void;
+  canDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>) => boolean;
 }
 
 export interface DndSpec {

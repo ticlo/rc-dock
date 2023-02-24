@@ -571,12 +571,18 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const state = createDragState(clientOffset, decoratedComponent);
 
     if (props.onDropT) {
+      const beforeDrop = props.dndSpec?.dropTargetSpec?.beforeDrop;
+
+      if (beforeDrop) {
+        beforeDrop(props, monitor, decoratedComponent);
+      }
+
       props.onDropT(state);
 
-      const drop = props.dndSpec?.dropTargetSpec?.drop;
+      const afterDrop = props.dndSpec?.dropTargetSpec?.afterDrop;
 
-      if (drop) {
-        drop(props, monitor, decoratedComponent);
+      if (afterDrop) {
+        afterDrop(props, monitor, decoratedComponent);
       }
     }
 

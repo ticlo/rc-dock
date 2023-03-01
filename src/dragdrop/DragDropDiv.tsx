@@ -4,7 +4,7 @@ import * as DragManager from "./DragManager";
 import { addBodyDraggingClass, dragEnd, getTabByDockId, removeBodyDraggingClass } from "./DragManager";
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
-import _, { DebouncedFunc } from "lodash";
+import _ from "lodash";
 import { DndSpec, DockContext, DockContextType, DragObject, DropResult, TabData } from "../DockData";
 import { v4 as uuid } from "uuid";
 import {
@@ -496,14 +496,12 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   }
 }
 
-type HoverFunc = Exclude<DropTargetSpec<DndDragDropDivProps, DragObject, DropResult>["hover"], undefined>;
-
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   canDrop(props, monitor) {
-    return true;
+    return !(props?.tabData === monitor.getItem()?.externalData?.tab);
   },
 
-  hover: _.debounce<HoverFunc>(((props, monitor, component) => {
+  hover: (props, monitor, component) => {
     const dockId = component.context.getDockId();
     const tab: TabData | null = getTabByDockId(dockId);
     const item = monitor.getItem();
@@ -524,17 +522,15 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
       const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
 
-      if (canDrop && !canDrop(monitor, component)) {
+      if (canDrop && !canDrop(props, monitor, component)) {
         return;
       }
 
       props.onDragOverT(state);
     }
-  }), 1000 / 60 * 3),
+  },
 
   drop(props, monitor, component) {
-    (this.hover as DebouncedFunc<HoverFunc>).flush();
-
     const item = monitor.getItem();
     const clientOffset = monitor.getClientOffset();
     const dropResult = monitor.getDropResult() || {} as DropResult;
@@ -551,7 +547,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
 
-    if (canDrop && !canDrop(monitor, decoratedComponent)) {
+    if (canDrop && !canDrop(props, monitor, decoratedComponent)) {
       return dropResult;
     }
 
@@ -649,12 +645,6 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const clientOffset = monitor.getClientOffset()!;
     const state = new DragManager.DragState(undefined, component);
 
-    if (props.onDragEndT) {
-      props.onDragEndT(state);
-    }
-
-    dragEnd();
-
     if (props.onDragStartT) {
       props.onDragStartT(state);
     }
@@ -707,7 +697,6 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const dropResult = monitor.getDropResult();
     const item = monitor.getItem();
-    const didDrop = monitor.didDrop();
     const clientOffset = monitor.getDropResult()?.clientOffset || monitor.getClientOffset();
     const state = createDragState(clientOffset, component);
 
@@ -716,11 +705,11 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       state.dy = (state.pageY - item.baseY) * item.scaleY;
     }
 
-    if (props.onDragMoveT && didDrop) {
+    if (props.onDragMoveT) {
       props.onDragMoveT(state);
     }
 
-    if (props.onDragEndT && didDrop && !dropResult?.dropOutside) {
+    if (props.onDragEndT) {
       props.onDragEndT(state);
     }
 

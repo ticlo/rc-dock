@@ -458,7 +458,7 @@ export interface DropTargetSpec<Props = any, DragObject = any, DropResult = any>
   itemType?: TargetType;
   beforeDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>, component: any) => void;
   afterDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>, component: any) => void;
-  canDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>) => boolean;
+  canDrop?: (props: Props, monitor: DropTargetMonitor<DragObject, DropResult>, component: any) => boolean;
 }
 
 export interface DndSpec {

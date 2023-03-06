@@ -91,9 +91,13 @@ export class DockPanel extends React.PureComponent {
             }
         };
         this.onPanelHeaderDragEnd = (e) => {
+            var _a;
             if (!this._unmounted) {
                 this.setState({ draggingHeader: false });
-                this.context.onSilentChange(this.props.panelData.activeId, 'move');
+                const { panelData } = this.props;
+                if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "float") {
+                    this.context.onSilentChange(this.props.panelData.activeId, 'move');
+                }
             }
         };
         this.onPanelCornerDragT = (e) => {

@@ -195,11 +195,7 @@ interface Props {
   isCollapseDisabled?: boolean;
 }
 
-interface State {
-  isAnimationDisabled: boolean;
-}
-
-export class DockTabs extends React.PureComponent<Props, State> {
+export class DockTabs extends React.PureComponent<Props> {
   static contextType = DockContextType;
 
   static readonly propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
@@ -209,9 +205,7 @@ export class DockTabs extends React.PureComponent<Props, State> {
 
   cachedTabs: TabData[];
 
-  state: State = {
-    isAnimationDisabled: false
-  };
+  animationDisabled = false;
 
   updateTabs(tabs: TabData[]) {
     if (tabs === this.cachedTabs) {
@@ -252,9 +246,7 @@ export class DockTabs extends React.PureComponent<Props, State> {
   onCollapseExpandClick = (e: React.MouseEvent) => {
     const {panelData} = this.props;
     this.context.updatePanelData(panelData.id!, {...panelData, collapsed: !panelData?.collapsed}, 'collapse');
-    this.setState({
-      isAnimationDisabled: true
-    });
+    this.animationDisabled = true;
     const navElement = document.querySelector(`[data-dockid="${panelData.id}"] .dock-nav`);
     navElement.classList.add('animation-disabled');
     setTimeout(() => {
@@ -387,9 +379,7 @@ export class DockTabs extends React.PureComponent<Props, State> {
         const dragging = (mutation.target as HTMLElement).classList.contains("dock-dragging");
 
         if (dragging) {
-          this.setState({
-            isAnimationDisabled: true
-          });
+          this.animationDisabled = true;
           navElement.classList.add('animation-disabled');
           return;
         }
@@ -401,15 +391,13 @@ export class DockTabs extends React.PureComponent<Props, State> {
     });
   }
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
-    if (!this.state.isAnimationDisabled) {
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any) {
+    if (!this.animationDisabled) {
       return;
     }
 
     setTimeout(() => {
-      this.setState({
-        isAnimationDisabled: false
-      });
+      this.animationDisabled = false;
     });
   }
 
@@ -422,7 +410,7 @@ export class DockTabs extends React.PureComponent<Props, State> {
       animated = true;
     }
 
-    if (this.state.isAnimationDisabled) {
+    if (this.animationDisabled) {
       animated = false;
     }
 

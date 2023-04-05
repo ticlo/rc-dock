@@ -292,14 +292,14 @@ export class DockTabs extends React.PureComponent<Props> {
     let group = mergeTabGroups(this.context.getGroup(groupName), localGroup);
     let {panelExtra} = group;
 
-    let { maximizable, collapsable } = group;
+    let { maximizable, collapsible } = group;
     if (panelData.parent.mode === 'window') {
       onPanelDragStart = null;
       maximizable = false;
     }
 
     if (['float', 'window', 'maximize'].includes(panelData.parent.mode)) {
-      collapsable = false;
+      collapsible = false;
     }
 
     if (panelLock) {
@@ -347,7 +347,7 @@ export class DockTabs extends React.PureComponent<Props> {
 
       panelExtraContent = <>
         {panelExtraContent}
-        {collapsable ? renderCollapseExpandBtn() : null}
+        {collapsible ? renderCollapseExpandBtn() : null}
       </>;
     }
     return (

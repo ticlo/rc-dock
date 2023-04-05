@@ -34,7 +34,7 @@ export interface TabGroup {
      *
      * default: false
      */
-    collapsable?: boolean;
+    collapsible?: boolean;
     /**
      * When tabs are locked, you can not drag tab to create new panel, but it can still be dropped into a different panel if they have the same tab group.
      *

@@ -1,5 +1,5 @@
 import React from "react";
-import {DockContext, DockContextType, DropDirection, PanelData, TabData} from "./DockData";
+import { DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup } from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -10,6 +10,7 @@ import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize, getPanelTabPosition } from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
+import { mergeTabGroups } from "./Utils";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -76,7 +77,7 @@ export class TabCache {
       return;
     }
     let panelElement = findParentPanel(this._ref);
-    let tabGroup = this.context.getGroup(this.data.group);
+    let tabGroup = mergeTabGroups(this.context.getGroup(this.data.group), this.data.localGroup);
     let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
 
     e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, this.context.getDockId());
@@ -87,9 +88,11 @@ export class TabCache {
     let tab: TabData = DragManager.DragState.getData('tab', dockId);
     let panel: PanelData = DragManager.DragState.getData('panel', dockId);
     let group: string;
+    let localGroup: TabGroup;
     if (tab) {
       panel = tab.parent;
       group = tab.group;
+      localGroup = tab.localGroup;
     } else {
       // drag whole panel
       if (!panel) {
@@ -100,8 +103,9 @@ export class TabCache {
         return;
       }
       group = panel.group;
+      localGroup = panel.localGroup;
     }
-    let tabGroup = this.context.getGroup(group);
+    let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
     if (group !== this.data.group) {
       e.reject();
     } else if (tabGroup?.floatable === 'singleTab' && this.data.parent?.parent?.mode === 'float') {
@@ -150,7 +154,7 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached, parent} = this.data;
+    let {id, title, group, content, closable, cached, parent, localGroup} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
     if (parent.parent.mode === 'window') {
       onDragStart = null;
@@ -158,7 +162,7 @@ export class TabCache {
       onDrop = null;
       onDragLeave = null;
     }
-    let tabGroup = this.context.getGroup(group);
+    let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
     if (typeof content === 'function') {
       content = content(this.data);
     }
@@ -284,8 +288,8 @@ export class DockTabs extends React.PureComponent<Props> {
 
   renderTabBar = (props: any, TabNavList: React.ComponentType) => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd, isCollapseDisabled} = this.props;
-    let {group: groupName, panelLock} = panelData;
-    let group = this.context.getGroup(groupName);
+    let {group: groupName, panelLock, localGroup} = panelData;
+    let group = mergeTabGroups(this.context.getGroup(groupName), localGroup);
     let {panelExtra} = group;
 
     let { maximizable, collapsable } = group;
@@ -403,8 +407,8 @@ export class DockTabs extends React.PureComponent<Props> {
 
   render(): React.ReactNode {
     const panelData = this.props.panelData;
-    let {group, tabs, activeId} = panelData;
-    let tabGroup = this.context.getGroup(group);
+    let {group, tabs, activeId, localGroup} = panelData;
+    let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
     let {animated} = tabGroup;
     if (animated == null) {
       animated = true;

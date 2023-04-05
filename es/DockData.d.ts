@@ -117,6 +117,7 @@ export interface PanelBase {
      * if group is undefined, it will be set to the group name of first tab
      */
     group?: string;
+    localGroup?: TabGroup;
     /** float mode only */
     x?: number;
     /** float mode only */
@@ -168,6 +169,7 @@ export interface TabData extends TabBase, DockDataBase {
      * - more options for the group can be defined as TabGroup in [[LayoutProps.groups]]
      */
     group?: string;
+    localGroup?: TabGroup;
     /** @ignore */
     parent?: PanelData;
     /**

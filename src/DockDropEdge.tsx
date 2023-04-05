@@ -11,6 +11,7 @@ import {
 } from "./DockData";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
+import { mergeTabGroups } from "./Utils";
 
 interface DockDropEdgeProps {
   panelData: PanelData;
@@ -120,7 +121,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     let dockId = this.context.getDockId();
     let draggingPanel = DragState.getData('panel', dockId);
 
-    let fromGroup = this.context.getGroup(dropFromPanel.group);
+    let fromGroup = mergeTabGroups(this.context.getGroup(dropFromPanel.group), dropFromPanel.localGroup);
     if (draggingPanel && draggingPanel.parent?.mode === 'float') {
       // ignore float panel in edge mode
       return;
@@ -151,7 +152,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
   onDrop = (e: DragState) => {
     let {panelData, dropFromPanel} = this.props;
     let dockId = this.context.getDockId();
-    let fromGroup = this.context.getGroup(dropFromPanel.group);
+    let fromGroup = mergeTabGroups(this.context.getGroup(dropFromPanel.group), dropFromPanel.localGroup);
     let source: TabData | PanelData = DragState.getData('tab', dockId);
     let draggingPanel = DragState.getData('panel', dockId);
     if (!source) {

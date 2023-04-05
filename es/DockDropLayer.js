@@ -3,6 +3,7 @@ import { DockContextType, placeHolderStyle } from "./DockData";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";
 import { DragState } from "./dragdrop/DragManager";
 import classNames from "classnames";
+import { mergeTabGroups } from "./Utils";
 export class DockDropSquare extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -81,7 +82,7 @@ export class DockDropLayer extends React.PureComponent {
         let children = [];
         // check if it's whole panel dragging
         let draggingPanel = DragState.getData('panel', dockId);
-        let fromGroup = this.context.getGroup(dropFromPanel.group);
+        let fromGroup = mergeTabGroups(this.context.getGroup(dropFromPanel.group), dropFromPanel.localGroup);
         if (fromGroup.floatable !== false &&
             (!draggingPanel ||
                 (!draggingPanel.panelLock && // panel with panelLock can't float

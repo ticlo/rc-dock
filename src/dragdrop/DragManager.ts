@@ -341,11 +341,14 @@ class DndDragState {
     return null;
   }
 
-  // tslint:disable-next-line:no-empty
-  accept(message: string = '') {}
+  accept(message: string = '') {
+    this.acceptMessage = message;
+    this.rejected = false;
+  }
 
-  // tslint:disable-next-line:no-empty
-  reject() {}
+  reject() {
+    this.rejected = true;
+  }
 
   moved(): boolean {
     throw new Error("should not be invoked");

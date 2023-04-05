@@ -1,4 +1,5 @@
 import { maximePlaceHolderId, placeHolderStyle } from "./DockData";
+import { mergeTabGroups } from "./Utils";
 let _watchObjectChange = new WeakMap();
 export function getUpdatedObject(obj) {
     let result = _watchObjectChange.get(obj);
@@ -178,6 +179,7 @@ export function converToPanel(source) {
         let newPanel = {
             tabs: [source],
             group: source.group,
+            localGroup: source.localGroup,
             activeId: source.id,
             collapsed: (_a = source.parent) === null || _a === void 0 ? void 0 : _a.collapsed,
             tabPosition: (_b = source.parent) === null || _b === void 0 ? void 0 : _b.tabPosition
@@ -506,7 +508,10 @@ export function fixLayoutData(layout, groups, loadTab) {
         if (panel.group == null && panel.tabs.length) {
             panel.group = panel.tabs[0].group;
         }
-        let tabGroup = groups === null || groups === void 0 ? void 0 : groups[panel.group];
+        if (!panel.localGroup && panel.tabs.length) {
+            panel.localGroup = panel.tabs[0].localGroup;
+        }
+        let tabGroup = mergeTabGroups(groups === null || groups === void 0 ? void 0 : groups[panel.group], panel.localGroup);
         if (tabGroup) {
             if (tabGroup.widthFlex != null) {
                 panel.widthFlex = tabGroup.widthFlex;

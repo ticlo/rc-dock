@@ -9,6 +9,7 @@ import {
   TabGroup
 } from "./DockData";
 import { TabPosition } from "rc-tabs/lib/interface";
+import { mergeTabGroups } from "./Utils";
 
 let _watchObjectChange: WeakMap<any, any> = new WeakMap();
 
@@ -207,6 +208,7 @@ export function converToPanel(source: TabData | PanelData): PanelData {
     let newPanel: PanelData = {
       tabs: [source],
       group: source.group,
+      localGroup: source.localGroup,
       activeId: source.id,
       collapsed: source.parent?.collapsed,
       tabPosition: source.parent?.tabPosition
@@ -555,7 +557,11 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
     if (panel.group == null && panel.tabs.length) {
       panel.group = panel.tabs[0].group;
     }
-    let tabGroup = groups?.[panel.group];
+    if (!panel.localGroup && panel.tabs.length) {
+      panel.localGroup = panel.tabs[0].localGroup;
+    }
+
+    let tabGroup = mergeTabGroups(groups?.[panel.group], panel.localGroup);
     if (tabGroup) {
       if (tabGroup.widthFlex != null) {
         panel.widthFlex = tabGroup.widthFlex;

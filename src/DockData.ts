@@ -4,8 +4,7 @@ import {Filter} from "./Algorithm";
 import {
   ConnectableElement,
   DragPreviewOptions,
-  DragSourceSpec as DndDragSourceSpec,
-  DropTargetSpec as DndDropTargetSpec, XYCoord
+  XYCoord
 } from "react-dnd";
 import { DragSourceMonitor, DropTargetMonitor } from "react-dnd/dist/types/types";
 
@@ -146,6 +145,8 @@ export interface PanelBase {
    */
   group?: string;
 
+  localGroup?: TabGroup;
+
   /** float mode only */
   x?: number;
   /** float mode only */
@@ -204,6 +205,8 @@ export interface TabData extends TabBase, DockDataBase {
    * - more options for the group can be defined as TabGroup in [[LayoutProps.groups]]
    */
   group?: string;
+
+  localGroup?: TabGroup;
 
   /** @ignore */
   parent?: PanelData;

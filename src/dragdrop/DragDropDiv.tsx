@@ -496,8 +496,13 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   }
 }
 
+let _canDrop = false;
+
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   canDrop(props, monitor) {
+    if (!_canDrop) {
+      return false;
+    }
     return !(props?.tabData === monitor.getItem()?.externalData?.tab);
   },
 
@@ -527,6 +532,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       }
 
       props.onDragOverT(state);
+      _canDrop = state.acceptMessage != null
     }
   },
 

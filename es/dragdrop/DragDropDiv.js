@@ -379,9 +379,13 @@ class DndDragDropDiv extends React.PureComponent {
     }
 }
 DndDragDropDiv.contextType = DockContextType;
+let _canDrop = false;
 const dropSpec = {
     canDrop(props, monitor) {
         var _a, _b;
+        if (!_canDrop) {
+            return false;
+        }
         return !((props === null || props === void 0 ? void 0 : props.tabData) === ((_b = (_a = monitor.getItem()) === null || _a === void 0 ? void 0 : _a.externalData) === null || _b === void 0 ? void 0 : _b.tab));
     },
     hover: (props, monitor, component) => {
@@ -406,6 +410,7 @@ const dropSpec = {
                 return;
             }
             props.onDragOverT(state);
+            _canDrop = state.acceptMessage != null;
         }
     },
     drop(props, monitor, component) {

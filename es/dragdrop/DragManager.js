@@ -265,10 +265,13 @@ class DndDragState {
         }
         return null;
     }
-    // tslint:disable-next-line:no-empty
-    accept(message = '') { }
-    // tslint:disable-next-line:no-empty
-    reject() { }
+    accept(message = '') {
+        this.acceptMessage = message;
+        this.rejected = false;
+    }
+    reject() {
+        this.rejected = true;
+    }
     moved() {
         throw new Error("should not be invoked");
     }

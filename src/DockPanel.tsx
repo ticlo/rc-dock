@@ -8,6 +8,7 @@ import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm"
 import { DockDropEdge } from "./DockDropEdge";
 import classNames from "classnames";
 import { TabPosition } from "rc-tabs/lib/interface";
+import { mergeTabGroups } from "./Utils";
 
 interface Props {
   panelData: PanelData;
@@ -64,7 +65,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
         this.setState({dropFromPanel: tab.parent});
       } else {
         // add a fake panel
-        this.setState({dropFromPanel: {activeId: '', tabs: [], group: tab.group}});
+        this.setState({dropFromPanel: {activeId: '', tabs: [], group: tab.group, localGroup: tab.localGroup}});
       }
     } else if (panel) {
       this.setState({dropFromPanel: panel});
@@ -93,7 +94,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       event.startDrag(null, null);
       this.onFloatPointerDown();
     } else {
-      let tabGroup = this.context.getGroup(panelData.group);
+      let tabGroup = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
       let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
 
       event.setData({panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight]}, dockId);
@@ -262,9 +263,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
     let {panelData, size, isCollapseDisabled} = this.props;
-    let {minWidth, minHeight, group, id, parent, panelLock, collapsed} = panelData;
+    let {minWidth, minHeight, group, id, parent, panelLock, collapsed, localGroup} = panelData;
     let styleName = group;
-    let tabGroup = this.context.getGroup(group);
+    let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
     let {widthFlex, heightFlex} = tabGroup;
     if (panelLock) {
       let {panelStyle, widthFlex: panelWidthFlex, heightFlex: panelHeightFlex} = panelLock;
@@ -327,7 +328,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     let droppingLayer: React.ReactNode;
     if (dropFromPanel) {
-      let dropFromGroup = this.context.getGroup(dropFromPanel.group);
+      let dropFromGroup = mergeTabGroups(this.context.getGroup(dropFromPanel.group), dropFromPanel.localGroup);
       let dockId = this.context.getDockId();
       if (!dropFromGroup.tabLocked || DragState.getData('tab', dockId) == null) {
         // not allowed locked tab to create new panel

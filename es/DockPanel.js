@@ -71,6 +71,10 @@ export class DockPanel extends React.PureComponent {
         this.onPanelHeaderDragMove = (e) => {
             let { width, height } = this.context.getLayoutSize();
             let { panelData } = this.props;
+            let tabGroup = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
+            if (tabGroup && tabGroup.movable === false) {
+                return;
+            }
             panelData.x = this._movingX + e.dx;
             panelData.y = this._movingY + e.dy;
             if (width > 200 && height > 200) {
@@ -127,6 +131,10 @@ export class DockPanel extends React.PureComponent {
         };
         this.onPanelCornerDragMove = (e) => {
             let { panelData } = this.props;
+            let tabGroup = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
+            if (tabGroup && tabGroup.resizable === false) {
+                return;
+            }
             let { dx, dy } = e;
             if (this._movingCorner.startsWith('t')) {
                 // when moving top corners, dont let it move header out of screen
@@ -233,7 +241,7 @@ export class DockPanel extends React.PureComponent {
     }
     render() {
         let { dropFromPanel, draggingHeader } = this.state;
-        let { panelData, size, isCollapseDisabled } = this.props;
+        let { panelData, size, preferredWidth, preferredHeight, isCollapseDisabled } = this.props;
         let { minWidth, minHeight, group, id, parent, panelLock, collapsed, localGroup } = panelData;
         let styleName = group;
         let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
@@ -274,15 +282,25 @@ export class DockPanel extends React.PureComponent {
         else if (isVBox && heightFlex != null) {
             flex = heightFlex;
         }
-        let flexGrow = flex * size;
+        let flexGrow = flex * size * 1000000;
         let flexShrink = flex * 1000000;
         if (flexShrink < 1) {
             flexShrink = 1;
         }
+        if (isHBox && preferredWidth != null) {
+            flexGrow = 1;
+            flexShrink = 1;
+            size = preferredWidth;
+        }
+        else if (isVBox && preferredHeight != null) {
+            flexGrow = 1;
+            flexShrink = 1;
+            size = preferredHeight;
+        }
         let style = { minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px` };
         const displayCollapsed = collapsed && (isHBox || isVBox);
         if (displayCollapsed) {
-            style = { flexBasis: panelData.headerSize };
+            style = { flexGrow: 0, flexShrink: 0, flexBasis: panelData.headerSize };
         }
         if (isFloat) {
             style.left = panelData.x;

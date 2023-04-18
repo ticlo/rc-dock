@@ -73,13 +73,13 @@ export function saveLayoutData(
         tabs.push(savedTab);
       }
     }
-    let {id, size, activeId, collapsed, headerSize, group, tabPosition = "top"} = panelData;
+    let {id, size, activeId, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, group, localGroup, tabPosition = "top"} = panelData;
     let savedPanel: PanelBase;
     if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
       let {x, y, z, w, h} = panelData;
-      savedPanel = {id, size, tabs, collapsed, headerSize, group, tabPosition, activeId, x, y, z, w, h};
+      savedPanel = {id, size, tabs, collapsed, headerSize, preferredWidth, preferredHeight, group, localGroup, ignorePreferredSize, tabPosition, activeId, x, y, z, w, h};
     } else {
-      savedPanel = {id, size, tabs, collapsed, headerSize, group, tabPosition, activeId};
+      savedPanel = {id, size, tabs, collapsed, headerSize, group, preferredWidth, preferredHeight, localGroup, ignorePreferredSize, tabPosition, activeId};
     }
     if (afterPanelSaved) {
       afterPanelSaved(savedPanel, panelData);
@@ -96,8 +96,8 @@ export function saveLayoutData(
         children.push(saveBoxData(child));
       }
     }
-    let {id, size, mode} = boxData;
-    return {id, size, mode, children};
+    let {id, size, preferredWidth, preferredHeight, ignorePreferredSize, mode} = boxData;
+    return {id, size, preferredWidth, preferredHeight, ignorePreferredSize, mode, children};
   }
 
   return {
@@ -128,7 +128,7 @@ export function loadLayoutData(
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
-    let {id, size, activeId, x, y, z, w, h, collapsed, headerSize, group, tabPosition = "top"} = savedPanel;
+    let {id, size, activeId, x, y, z, w, h, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, group, localGroup, tabPosition = "top"} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -139,9 +139,9 @@ export function loadLayoutData(
     }
     let panelData: PanelData;
     if (w || h || x || y || z) {
-      panelData = {id, size, activeId, group, tabPosition, collapsed, headerSize, x, y, z, w, h, tabs};
+      panelData = {id, size, activeId, group, localGroup, tabPosition, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, x, y, z, w, h, tabs};
     } else {
-      panelData = {id, size, activeId, group, tabPosition, collapsed, headerSize, tabs};
+      panelData = {id, size, activeId, group, localGroup, tabPosition, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, tabs};
     }
     if (savedPanel.id === maximePlaceHolderId) {
       panelData.panelLock = {};
@@ -165,8 +165,8 @@ export function loadLayoutData(
         children.push(loadBoxData(child));
       }
     }
-    let {id, size, mode} = savedBox;
-    return {id, size, mode, children};
+    let {id, size, preferredWidth, preferredHeight, ignorePreferredSize, mode} = savedBox;
+    return {id, size, preferredWidth, preferredHeight, ignorePreferredSize, mode, children};
   }
 
   return {

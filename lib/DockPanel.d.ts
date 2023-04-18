@@ -6,6 +6,8 @@ interface Props {
     panelData: PanelData;
     size: number;
     isCollapseDisabled?: boolean;
+    preferredWidth?: number;
+    preferredHeight?: number;
 }
 interface State {
     dropFromPanel: PanelData;

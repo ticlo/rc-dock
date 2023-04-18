@@ -51,16 +51,18 @@ export class Divider extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.startDrag = (e) => {
+            var _a, _b;
+            (_b = (_a = this.props).setIgnorePreferredSize) === null || _b === void 0 ? void 0 : _b.call(_a, this.props.idx);
             this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
             e.startDrag(this.boxData.element, null);
         };
         this.dragMove = (e) => {
             var _a, _b, _c;
             if (((_a = e.event) === null || _a === void 0 ? void 0 : _a.shiftKey) || ((_b = e.event) === null || _b === void 0 ? void 0 : _b.ctrlKey) || ((_c = e.event) === null || _c === void 0 ? void 0 : _c.altKey)) {
-                this.dragMoveAll(e, e.dx, e.dy);
+                this.dragMoveAll(e.dx, e.dy);
             }
             else {
-                this.dragMove2(e, e.dx, e.dy);
+                this.dragMove2(e.dx, e.dy);
             }
         };
         this.dragEnd = (e) => {
@@ -71,7 +73,7 @@ export class Divider extends React.PureComponent {
             }
         };
     }
-    dragMove2(e, dx, dy) {
+    dragMove2(dx, dy) {
         let { isVertical, changeSizes } = this.props;
         if (!this.boxData) {
             return;
@@ -119,7 +121,7 @@ export class Divider extends React.PureComponent {
         sizes[beforeDivider.length + rightChildIdx] = rightSize;
         changeSizes(sizes);
     }
-    dragMoveAll(e, dx, dy) {
+    dragMoveAll(dx, dy) {
         let { isVertical, changeSizes } = this.props;
         let { beforeSize, beforeMinSize, afterSize, afterMinSize, beforeDivider, afterDivider } = this.boxData;
         let d = isVertical ? dy : dx;

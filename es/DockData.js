@@ -3,6 +3,8 @@ import React from 'react';
 export const defaultGroup = {
     floatable: true,
     maximizable: true,
+    movable: true,
+    resizable: true
 };
 /** @ignore */
 export const placeHolderStyle = 'place-holder';

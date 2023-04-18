@@ -31,6 +31,7 @@ export declare function floatPanel(layout: LayoutData, newPanel: PanelData, rect
 }): LayoutData;
 export declare function panelToWindow(layout: LayoutData, newPanel: PanelData): LayoutData;
 export declare function removeFromLayout(layout: LayoutData, source: TabData | PanelData): LayoutData;
+export declare function calculateBoxPreferredSize(box: BoxData | PanelData): void;
 export declare function moveToFront(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData;

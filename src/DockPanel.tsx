@@ -1,5 +1,5 @@
 import React from "react";
-import { DockContext, DockContextType, maximePlaceHolderId, PanelData, TabData } from "./DockData";
+import { DockContext, DockContextType, maximePlaceHolderId, PanelData, TabData, TabGroup } from "./DockData";
 import { DockTabs } from "./DockTabs";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";
 import { DragState } from "./dragdrop/DragManager";
@@ -14,6 +14,8 @@ interface Props {
   panelData: PanelData;
   size: number;
   isCollapseDisabled?: boolean;
+  preferredWidth?: number;
+  preferredHeight?: number;
 }
 
 interface State {
@@ -105,6 +107,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onPanelHeaderDragMove = (e: DragState) => {
     let {width, height} = this.context.getLayoutSize();
     let {panelData} = this.props;
+    let tabGroup: TabGroup | undefined = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
+    if (tabGroup && tabGroup.movable === false) {
+      return;
+    }
+
     panelData.x = this._movingX + e.dx;
     panelData.y = this._movingY + e.dy;
     if (width > 200 && height > 200) {
@@ -177,6 +184,11 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   onPanelCornerDragMove = (e: DragState) => {
     let {panelData} = this.props;
+    let tabGroup: TabGroup | undefined = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
+    if (tabGroup && tabGroup.resizable === false) {
+      return;
+    }
+
     let {dx, dy} = e;
 
     if (this._movingCorner.startsWith('t')) {
@@ -262,7 +274,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
 
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
-    let {panelData, size, isCollapseDisabled} = this.props;
+    let {panelData, size, preferredWidth, preferredHeight, isCollapseDisabled} = this.props;
     let {minWidth, minHeight, group, id, parent, panelLock, collapsed, localGroup} = panelData;
     let styleName = group;
     let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
@@ -309,15 +321,26 @@ export class DockPanel extends React.PureComponent<Props, State> {
     } else if (isVBox && heightFlex != null) {
       flex = heightFlex;
     }
-    let flexGrow = flex * size;
+    let flexGrow = flex * size * 1000000;
     let flexShrink = flex * 1000000;
     if (flexShrink < 1) {
       flexShrink = 1;
     }
+
+    if (isHBox && preferredWidth != null) {
+      flexGrow = 1;
+      flexShrink = 1;
+      size = preferredWidth;
+    } else if (isVBox && preferredHeight != null) {
+      flexGrow = 1;
+      flexShrink = 1;
+      size = preferredHeight;
+    }
+
     let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
     const displayCollapsed = collapsed && (isHBox || isVBox);
     if (displayCollapsed) {
-      style = {flexBasis: panelData.headerSize};
+      style = {flexGrow: 0, flexShrink: 0, flexBasis: panelData.headerSize};
     }
     if (isFloat) {
       style.left = panelData.x;

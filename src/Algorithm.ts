@@ -209,6 +209,8 @@ export function converToPanel(source: TabData | PanelData): PanelData {
       tabs: [source],
       group: source.group,
       localGroup: source.localGroup,
+      preferredWidth: source.preferredWidth,
+      preferredHeight: source.preferredHeight,
       activeId: source.id,
       collapsed: source.parent?.collapsed,
       tabPosition: source.parent?.tabPosition
@@ -217,6 +219,8 @@ export function converToPanel(source: TabData | PanelData): PanelData {
     return newPanel;
   }
 }
+
+const PANEL_SIZE_DEFAULT = 200;
 
 export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel: PanelData, direction: DropDirection): LayoutData {
   let box = panel.parent;
@@ -230,7 +234,7 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
       if (afterPanel) {
         ++pos;
       }
-      panel.size *= 0.5;
+      // HINT: The size remains the same, preventing flex-grow less than 1
       newPanel.size = panel.size;
       newBox.children.splice(pos, 0, newPanel);
     } else {
@@ -242,9 +246,9 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
         newChildBox.children = [newPanel, panel];
       }
       panel.parent = newChildBox;
-      panel.size = 200;
+      panel.size = PANEL_SIZE_DEFAULT;
       newPanel.parent = newChildBox;
-      newPanel.size = 200;
+      newPanel.size = PANEL_SIZE_DEFAULT;
       newBox.children[pos] = newChildBox;
       newChildBox.parent = newBox;
     }
@@ -280,9 +284,9 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
           newChildBox.children = [newPanel, box];
         }
         box.parent = newChildBox;
-        box.size = 280;
+        box.size = 2 * PANEL_SIZE_DEFAULT * 0.7;
         newPanel.parent = newChildBox;
-        newPanel.size = 120;
+        newPanel.size = 2 * PANEL_SIZE_DEFAULT * 0.3;
         newParentBox.children[pos] = newChildBox;
       }
       return replaceBox(layout, parentBox, newParentBox);
@@ -309,8 +313,8 @@ export function dockPanelToBox(layout: LayoutData, newPanel: PanelData, box: Box
       } else {
         newDockBox.children = [newPanel, newBox];
       }
-      newBox.size = 280;
-      newPanel.size = 120;
+      newBox.size = 2 * PANEL_SIZE_DEFAULT * 0.7;
+      newPanel.size = 2 * PANEL_SIZE_DEFAULT * 0.3;
       return replaceBox(layout, box, newDockBox);
     }
   } else if (box === layout.maxbox) {
@@ -382,6 +386,43 @@ function removePanel(layout: LayoutData, panel: PanelData): LayoutData {
     }
   }
   return layout;
+}
+
+export function calculateBoxPreferredSize(box: BoxData | PanelData) {
+  let preferredWidth: number;
+  let preferredHeight: number;
+
+  const children = 'tabs' in box ? box.tabs : box.children;
+
+  children.forEach((child: BoxData | PanelData | TabData) => {
+    (() => {
+      if (!child.preferredWidth) {
+        return;
+      }
+
+      if (!preferredWidth || child.preferredWidth > preferredWidth) {
+        preferredWidth = child.preferredWidth;
+      }
+    })();
+
+    (() => {
+      if (!child.preferredHeight) {
+        return;
+      }
+
+      if (!preferredHeight || child.preferredHeight > preferredHeight) {
+        preferredHeight = child.preferredHeight;
+      }
+    })();
+  });
+
+  if (preferredWidth) {
+    box.preferredWidth = preferredWidth;
+  }
+
+  if (preferredHeight) {
+    box.preferredHeight = preferredHeight;
+  }
 }
 
 function removeTab(layout: LayoutData, tab: TabData): LayoutData {
@@ -528,6 +569,7 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
 export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGroup}, loadTab?: (tab: TabBase) => TabData): LayoutData {
 
   function fixPanelOrBox(d: PanelData | BoxData) {
+    calculateBoxPreferredSize(d);
     if (d.id == null) {
       d.id = nextId();
     } else if (d.id.startsWith('+')) {
@@ -538,7 +580,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
       }
     }
     if (!(d.size >= 0)) {
-      d.size = 200;
+      d.size = PANEL_SIZE_DEFAULT;
     }
     d.minWidth = 0;
     d.minHeight = 0;
@@ -723,7 +765,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
 
   if (layout.dockbox.children.length === 0) {
     // add place holder panel when root box is empty
-    let newPanel: PanelData = {id: '+0', group: placeHolderStyle, panelLock: {}, size: 200, tabs: []};
+    let newPanel: PanelData = {id: '+0', group: placeHolderStyle, panelLock: {}, size: PANEL_SIZE_DEFAULT, tabs: []};
     newPanel.parent = layout.dockbox;
     layout.dockbox.children.push(newPanel);
   } else {

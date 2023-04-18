@@ -180,6 +180,8 @@ export function converToPanel(source) {
             tabs: [source],
             group: source.group,
             localGroup: source.localGroup,
+            preferredWidth: source.preferredWidth,
+            preferredHeight: source.preferredHeight,
             activeId: source.id,
             collapsed: (_a = source.parent) === null || _a === void 0 ? void 0 : _a.collapsed,
             tabPosition: (_b = source.parent) === null || _b === void 0 ? void 0 : _b.tabPosition
@@ -188,6 +190,7 @@ export function converToPanel(source) {
         return newPanel;
     }
 }
+const PANEL_SIZE_DEFAULT = 200;
 export function dockPanelToPanel(layout, newPanel, panel, direction) {
     let box = panel.parent;
     let dockMode = (direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical';
@@ -199,7 +202,7 @@ export function dockPanelToPanel(layout, newPanel, panel, direction) {
             if (afterPanel) {
                 ++pos;
             }
-            panel.size *= 0.5;
+            // HINT: The size remains the same, preventing flex-grow less than 1
             newPanel.size = panel.size;
             newBox.children.splice(pos, 0, newPanel);
         }
@@ -213,9 +216,9 @@ export function dockPanelToPanel(layout, newPanel, panel, direction) {
                 newChildBox.children = [newPanel, panel];
             }
             panel.parent = newChildBox;
-            panel.size = 200;
+            panel.size = PANEL_SIZE_DEFAULT;
             newPanel.parent = newChildBox;
-            newPanel.size = 200;
+            newPanel.size = PANEL_SIZE_DEFAULT;
             newBox.children[pos] = newChildBox;
             newChildBox.parent = newBox;
         }
@@ -249,9 +252,9 @@ export function dockPanelToBox(layout, newPanel, box, direction) {
                     newChildBox.children = [newPanel, box];
                 }
                 box.parent = newChildBox;
-                box.size = 280;
+                box.size = 2 * PANEL_SIZE_DEFAULT * 0.7;
                 newPanel.parent = newChildBox;
-                newPanel.size = 120;
+                newPanel.size = 2 * PANEL_SIZE_DEFAULT * 0.3;
                 newParentBox.children[pos] = newChildBox;
             }
             return replaceBox(layout, parentBox, newParentBox);
@@ -279,8 +282,8 @@ export function dockPanelToBox(layout, newPanel, box, direction) {
             else {
                 newDockBox.children = [newPanel, newBox];
             }
-            newBox.size = 280;
-            newPanel.size = 120;
+            newBox.size = 2 * PANEL_SIZE_DEFAULT * 0.7;
+            newPanel.size = 2 * PANEL_SIZE_DEFAULT * 0.3;
             return replaceBox(layout, box, newDockBox);
         }
     }
@@ -342,6 +345,35 @@ function removePanel(layout, panel) {
         }
     }
     return layout;
+}
+export function calculateBoxPreferredSize(box) {
+    let preferredWidth;
+    let preferredHeight;
+    const children = 'tabs' in box ? box.tabs : box.children;
+    children.forEach((child) => {
+        (() => {
+            if (!child.preferredWidth) {
+                return;
+            }
+            if (!preferredWidth || child.preferredWidth > preferredWidth) {
+                preferredWidth = child.preferredWidth;
+            }
+        })();
+        (() => {
+            if (!child.preferredHeight) {
+                return;
+            }
+            if (!preferredHeight || child.preferredHeight > preferredHeight) {
+                preferredHeight = child.preferredHeight;
+            }
+        })();
+    });
+    if (preferredWidth) {
+        box.preferredWidth = preferredWidth;
+    }
+    if (preferredHeight) {
+        box.preferredHeight = preferredHeight;
+    }
 }
 function removeTab(layout, tab) {
     let panel = tab.parent;
@@ -479,6 +511,7 @@ export function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
 }
 export function fixLayoutData(layout, groups, loadTab) {
     function fixPanelOrBox(d) {
+        calculateBoxPreferredSize(d);
         if (d.id == null) {
             d.id = nextId();
         }
@@ -490,7 +523,7 @@ export function fixLayoutData(layout, groups, loadTab) {
             }
         }
         if (!(d.size >= 0)) {
-            d.size = 200;
+            d.size = PANEL_SIZE_DEFAULT;
         }
         d.minWidth = 0;
         d.minHeight = 0;
@@ -680,7 +713,7 @@ export function fixLayoutData(layout, groups, loadTab) {
     fixBoxData(layout.maxbox);
     if (layout.dockbox.children.length === 0) {
         // add place holder panel when root box is empty
-        let newPanel = { id: '+0', group: placeHolderStyle, panelLock: {}, size: 200, tabs: [] };
+        let newPanel = { id: '+0', group: placeHolderStyle, panelLock: {}, size: PANEL_SIZE_DEFAULT, tabs: [] };
         newPanel.parent = layout.dockbox;
         layout.dockbox.children.push(newPanel);
     }

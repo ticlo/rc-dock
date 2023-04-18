@@ -7,6 +7,8 @@ import classNames from "classnames";
 interface Props {
   size: number;
   boxData: BoxData;
+  preferredWidth?: number;
+  preferredHeight?: number;
 }
 
 export class DockBox extends React.PureComponent<Props, any> {
@@ -42,6 +44,23 @@ export class DockBox extends React.PureComponent<Props, any> {
     }
     return null;
   };
+
+  setIgnorePreferredSize = (idx: number) => {
+    if (!this._ref) {
+      return;
+    }
+
+    let {children} = this.props.boxData;
+    let nodes = this._ref.childNodes;
+    if (nodes.length === children.length * 2 - 1) {
+      const leftChild = children[idx - 1];
+      const rightChild = children[idx];
+
+      leftChild.ignorePreferredSize = true;
+      rightChild.ignorePreferredSize = true;
+    }
+  }
+
   changeSizes = (sizes: number[]) => {
     let {children} = this.props.boxData;
     if (children.length === sizes.length) {
@@ -80,7 +99,7 @@ export class DockBox extends React.PureComponent<Props, any> {
   }
 
   render(): React.ReactNode {
-    let {boxData} = this.props;
+    let {boxData, preferredWidth, preferredHeight} = this.props;
     let {minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex} = boxData;
     let isVertical = mode === 'vertical';
     let childrenRender: React.ReactNode[] = [];
@@ -88,16 +107,39 @@ export class DockBox extends React.PureComponent<Props, any> {
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
         childrenRender.push(
-          <Divider idx={i} key={i} isVertical={isVertical} onDragEnd={this.onDragEnd}
-                   getDividerData={this.getDividerData} changeSizes={this.changeSizes}/>
+          <Divider
+            idx={i} key={i}
+            isVertical={isVertical}
+            onDragEnd={this.onDragEnd}
+            getDividerData={this.getDividerData}
+            changeSizes={this.changeSizes}
+            setIgnorePreferredSize={this.setIgnorePreferredSize}
+          />
         );
       }
       let child = children[i];
       if ('tabs' in child) {
-        childrenRender.push(<DockPanel size={child.size} panelData={child} key={child.id} isCollapseDisabled={isCollapseDisabled} />);
+        childrenRender.push(
+          <DockPanel
+            size={child.size}
+            preferredWidth={!child.ignorePreferredSize ? child.preferredWidth : undefined}
+            preferredHeight={!child.ignorePreferredSize ? child.preferredHeight : undefined}
+            panelData={child}
+            key={child.id}
+            isCollapseDisabled={isCollapseDisabled}
+          />
+        );
         // render DockPanel
       } else if ('children' in child) {
-        childrenRender.push(<DockBox size={child.size} boxData={child} key={child.id}/>);
+        childrenRender.push(
+          <DockBox
+            size={child.size}
+            preferredWidth={!child.ignorePreferredSize ? child.preferredWidth : undefined}
+            preferredHeight={!child.ignorePreferredSize ? child.preferredHeight : undefined}
+            boxData={child}
+            key={child.id}
+          />
+        );
       }
     }
     let cls: string;
@@ -114,10 +156,20 @@ export class DockBox extends React.PureComponent<Props, any> {
         flex = heightFlex;
       }
     }
-    let flexGrow = flex * size;
+    let flexGrow = flex * size * 1000000;
     let flexShrink = flex * 1000000;
     if (flexShrink < 1) {
       flexShrink = 1;
+    }
+
+    if (isVertical && preferredWidth != null) {
+      flexGrow = 1;
+      flexShrink = 1;
+      size = preferredWidth;
+    } else if (!isVertical && preferredHeight != null) {
+      flexGrow = 1;
+      flexShrink = 1;
+      size = preferredHeight;
     }
 
     return (

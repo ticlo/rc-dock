@@ -20,6 +20,7 @@ interface DividerProps {
   isVertical?: boolean;
 
   getDividerData(idx: number): DividerData;
+  setIgnorePreferredSize?(idx: number): void;
 
   changeSizes(sizes: number[]): void;
 
@@ -85,18 +86,19 @@ export class Divider extends React.PureComponent<DividerProps, any> {
   boxData: BoxDataCache;
 
   startDrag = (e: DragState) => {
+    this.props.setIgnorePreferredSize?.(this.props.idx);
     this.boxData = new BoxDataCache(this.props.getDividerData(this.props.idx));
     e.startDrag(this.boxData.element, null);
   };
   dragMove = (e: DragState) => {
     if (e.event?.shiftKey || e.event?.ctrlKey || e.event?.altKey) {
-      this.dragMoveAll(e, e.dx, e.dy);
+      this.dragMoveAll(e.dx, e.dy);
     } else {
-      this.dragMove2(e, e.dx, e.dy);
+      this.dragMove2(e.dx, e.dy);
     }
   };
 
-  dragMove2(e: DragState, dx: number, dy: number) {
+  dragMove2(dx: number, dy: number) {
     let {isVertical, changeSizes} = this.props;
     if (!this.boxData) {
       return;
@@ -148,7 +150,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     changeSizes(sizes);
   }
 
-  dragMoveAll(e: DragState, dx: number, dy: number) {
+  dragMoveAll(dx: number, dy: number) {
     let {isVertical, changeSizes} = this.props;
     let {beforeSize, beforeMinSize, afterSize, afterMinSize, beforeDivider, afterDivider} = this.boxData;
     let d = isVertical ? dy : dx;

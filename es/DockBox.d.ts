@@ -4,6 +4,8 @@ import { DividerChild } from "./Divider";
 interface Props {
     size: number;
     boxData: BoxData;
+    preferredWidth?: number;
+    preferredHeight?: number;
 }
 export declare class DockBox extends React.PureComponent<Props, any> {
     static contextType: React.Context<DockContext>;
@@ -15,6 +17,7 @@ export declare class DockBox extends React.PureComponent<Props, any> {
         beforeDivider: DividerChild[];
         afterDivider: DividerChild[];
     };
+    setIgnorePreferredSize: (idx: number) => void;
     changeSizes: (sizes: number[]) => void;
     onDragEnd: () => void;
     getExpandedPanelsCount(): number;

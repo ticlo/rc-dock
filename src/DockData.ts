@@ -39,6 +39,20 @@ export interface TabGroup {
   maximizable?: boolean;
 
   /**
+   * Whether tab can be moved
+   *
+   * default: true
+   */
+  movable?: boolean;
+
+  /**
+   * Whether tab can be resized
+   *
+   * default: true
+   */
+  resizable?: boolean;
+
+  /**
    * Whether panel can be collapsed
    *
    * default: false
@@ -93,6 +107,8 @@ export interface TabGroup {
 export const defaultGroup: TabGroup = {
   floatable: true,
   maximizable: true,
+  movable: true,
+  resizable: true
 };
 /** @ignore */
 export const placeHolderStyle = 'place-holder';
@@ -132,6 +148,11 @@ export interface PanelBase {
    * width when in horizontal layout and height when in vertical layout
    */
   size?: number;
+
+  preferredWidth?: number;
+  preferredHeight?: number;
+  ignorePreferredSize?: boolean;
+
   tabs: TabBase[];
   /**
    * The id of current tab
@@ -173,6 +194,9 @@ export interface BoxBase {
    * width when in horizontal layout and height when in vertical layout
    */
   size?: number;
+  preferredWidth?: number;
+  preferredHeight?: number;
+  ignorePreferredSize?: boolean;
   children: (BoxBase | PanelBase)[];
 }
 
@@ -187,6 +211,9 @@ interface BoxChild extends DockDataBase {
   parent?: BoxData;
   widthFlex?: number;
   heightFlex?: number;
+  preferredWidth?: number;
+  preferredHeight?: number;
+  ignorePreferredSize?: boolean;
 }
 
 /**
@@ -207,6 +234,9 @@ export interface TabData extends TabBase, DockDataBase {
   group?: string;
 
   localGroup?: TabGroup;
+
+  preferredWidth?: number;
+  preferredHeight?: number;
 
   /** @ignore */
   parent?: PanelData;

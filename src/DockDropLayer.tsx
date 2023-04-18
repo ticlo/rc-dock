@@ -136,14 +136,16 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
 
     // check if it's whole panel dragging
     let draggingPanel = DragState.getData('panel', dockId);
+    let draggingTab = DragState.getData('tab', dockId);
 
-    let fromGroup = mergeTabGroups(this.context.getGroup(dropFromPanel.group), dropFromPanel.localGroup);
-    if (fromGroup.floatable !== false &&
+    let fromPanelGroup = mergeTabGroups(this.context.getGroup(dropFromPanel.group), dropFromPanel.localGroup);
+    let fromTabGroup = mergeTabGroups(this.context.getGroup(draggingTab?.group), draggingTab?.localGroup);
+    if (fromPanelGroup.floatable !== false && fromTabGroup?.floatable !== false &&
       (!draggingPanel ||
         (
           !draggingPanel.panelLock && // panel with panelLock can't float
           draggingPanel.parent?.mode !== 'float' && // don't show float drop when over a float panel
-          !(fromGroup.floatable === 'singleTab' && draggingPanel.tabs.length > 1) // singleTab can float only with one tab
+          !(fromPanelGroup.floatable === 'singleTab' && draggingPanel.tabs.length > 1) // singleTab can float only with one tab
         )
       )
     ) {
@@ -152,7 +154,7 @@ export class DockDropLayer extends React.PureComponent<DockDropLayerProps, any> 
       );
     }
 
-    if (draggingPanel !== panelData && !fromGroup.disableDock) { // don't drop panel to itself
+    if (draggingPanel !== panelData && !fromPanelGroup.disableDock) { // don't drop panel to itself
 
       // 4 direction base drag square
       DockDropLayer.addDepthSquare(children, 'horizontal', panelData, panelElement, 0);

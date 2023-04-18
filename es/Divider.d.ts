@@ -31,8 +31,8 @@ export declare class Divider extends React.PureComponent<DividerProps, any> {
     boxData: BoxDataCache;
     startDrag: (e: DragState) => void;
     dragMove: (e: DragState) => void;
-    dragMove2(e: DragState, dx: number, dy: number): void;
-    dragMoveAll(e: DragState, dx: number, dy: number): void;
+    dragMove2(dx: number, dy: number): void;
+    dragMoveAll(dx: number, dy: number): void;
     dragEnd: (e: DragState) => void;
     render(): React.ReactNode;
 }

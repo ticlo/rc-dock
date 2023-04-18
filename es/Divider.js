@@ -56,10 +56,10 @@ export class Divider extends React.PureComponent {
         };
         this.dragMove = (e) => {
             if (e.event.shiftKey || e.event.ctrlKey || e.event.altKey) {
-                this.dragMoveAll(e, e.dx, e.dy);
+                this.dragMoveAll(e.dx, e.dy);
             }
             else {
-                this.dragMove2(e, e.dx, e.dy);
+                this.dragMove2(e.dx, e.dy);
             }
         };
         this.dragEnd = (e) => {
@@ -70,7 +70,7 @@ export class Divider extends React.PureComponent {
             }
         };
     }
-    dragMove2(e, dx, dy) {
+    dragMove2(dx, dy) {
         let { isVertical, changeSizes } = this.props;
         let { beforeDivider, afterDivider } = this.boxData;
         if (!(beforeDivider.length && afterDivider.length)) {
@@ -98,7 +98,7 @@ export class Divider extends React.PureComponent {
         sizes[beforeDivider.length] = rightSize;
         changeSizes(sizes);
     }
-    dragMoveAll(e, dx, dy) {
+    dragMoveAll(dx, dy) {
         let { isVertical, changeSizes } = this.props;
         let { beforeSize, beforeMinSize, afterSize, afterMinSize, beforeDivider, afterDivider } = this.boxData;
         let d = isVertical ? dy : dx;

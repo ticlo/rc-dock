@@ -224,7 +224,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection) {
     let layout = this.getLayout();
 
-    if ('tabs' in source) {
+    if (source && 'tabs' in source) {
       source.ignorePreferredSize = false;
     }
 

@@ -162,7 +162,7 @@ export class DockLayout extends DockPortalManager {
      */
     dockMove(source, target, direction) {
         let layout = this.getLayout();
-        if ('tabs' in source) {
+        if (source && 'tabs' in source) {
             source.ignorePreferredSize = false;
         }
         if (direction === 'maximize') {

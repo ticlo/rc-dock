@@ -249,7 +249,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
       layout = Algorithm.panelToWindow(layout, newPanel);
     } else if (target) {
       if ('tabs' in (target as PanelData)) {
-        // pandel target
+        // panel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, source, target as PanelData);
         } else {
@@ -275,7 +275,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData {
+  find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData | undefined {
     return Algorithm.find(this.getLayout(), id, filter);
   }
 

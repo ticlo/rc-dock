@@ -116,7 +116,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
         height: number;
     }): void;
     /** @inheritDoc */
-    find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData;
+    find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData | undefined;
     /** @ignore */
     getLayoutSize(): {
         width: number;

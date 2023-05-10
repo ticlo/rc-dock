@@ -357,7 +357,7 @@ export interface DockContext {
   /**
    * Find PanelData or TabData by id
    */
-  find(id: string, filter?: Filter): PanelData | TabData | BoxData;
+  find(id: string, filter?: Filter): PanelData | TabData | BoxData | undefined;
 
   /**
    * Update a tab with new TabData

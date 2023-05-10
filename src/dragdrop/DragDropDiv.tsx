@@ -500,9 +500,6 @@ let _canDrop = false;
 
 const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
   canDrop(props, monitor) {
-    if (!_canDrop) {
-      return false;
-    }
     return !(props?.tabData === monitor.getItem()?.externalData?.tab);
   },
 
@@ -532,7 +529,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
       }
 
       props.onDragOverT(state);
-      _canDrop = state.acceptMessage != null
+      _canDrop = state.acceptMessage != null;
     }
   },
 
@@ -553,7 +550,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
 
-    if (canDrop && !canDrop(props, monitor, decoratedComponent)) {
+    if (canDrop && !canDrop(props, monitor, decoratedComponent) || !_canDrop) {
       return dropResult;
     }
 

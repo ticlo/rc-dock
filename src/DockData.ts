@@ -310,6 +310,18 @@ export type DropDirection =
   | 'update' // tab updated with updateTab
   ;
 
+export interface FloatSize {
+  width: number;
+  height: number;
+}
+
+export interface FloatPosition extends FloatSize {
+  left: number;
+  top: number;
+}
+
+export type LayoutSize = FloatSize;
+
 export interface DockContext {
   /** @ignore */
   getDockId(): any;
@@ -321,7 +333,7 @@ export interface DockContext {
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}, panelSize?: [number, number]): void;
 
   /** @ignore */
-  getLayoutSize(): {width: number, height: number};
+  getLayoutSize(): LayoutSize;
 
   /** @ignore
    * When a state change happen to the layout that's handled locally, like inside DockPanel or DockBox.
@@ -346,7 +358,7 @@ export interface DockContext {
     source: TabData | PanelData,
     target: string | TabData | PanelData | BoxData | null,
     direction: DropDirection,
-    floatPosition?: { left: number, top: number, width: number, height: number }
+    floatPosition?: FloatPosition
   ): void;
 
   /**
@@ -389,7 +401,7 @@ export interface DockContext {
 }
 
 /** @ignore */
-export const DockContextType = React.createContext<DockContext>(null);
+export const DockContextType = React.createContext<DockContext>(null!);
 /** @ignore */
 export const DockContextProvider = DockContextType.Provider;
 /** @ignore */

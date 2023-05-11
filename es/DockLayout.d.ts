@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BoxData, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
+import { BoxData, DockContext, DropDirection, FloatPosition, LayoutBase, LayoutData, LayoutSize, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
 export interface LayoutProps {
     /**
@@ -109,19 +109,11 @@ export declare class DockLayout extends DockPortalManager implements DockContext
      * @param direction @inheritDoc
      * @param floatPosition @inheritDoc
      */
-    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, floatPosition?: {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-    }): void;
+    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, floatPosition?: FloatPosition): void;
     /** @inheritDoc */
     find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData | undefined;
     /** @ignore */
-    getLayoutSize(): {
-        width: number;
-        height: number;
-    };
+    getLayoutSize(): LayoutSize;
     /** @inheritDoc */
     updateTab(id: string, newTab: TabData | null, makeActive?: boolean): boolean;
     /** @inheritDoc */

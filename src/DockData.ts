@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import {Filter} from "./Algorithm";
 
 export interface TabGroup {
@@ -74,6 +73,10 @@ export interface TabGroup {
    * Override the default flex grow and flex shrink for panel height
    */
   heightFlex?: number;
+  /**
+   * Override the default `moreIcon`
+   */
+  moreIcon?: React.ReactNode;
 }
 
 /** @ignore */
@@ -122,6 +125,11 @@ export interface PanelBase {
    * The id of current tab
    */
   activeId?: string;
+
+  /**
+   * if group is undefined, it will be set to the group name of first tab
+   */
+  group?: string;
 
   /** float mode only */
   x?: number;
@@ -235,11 +243,6 @@ export interface PanelData extends PanelBase, BoxChild {
   parent?: BoxData;
 
   tabs: TabData[];
-
-  /**
-   * if group is undefined, it will be set to the group name of first tab
-   */
-  group?: string;
 
   /**
    * addition information of a panel,

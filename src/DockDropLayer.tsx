@@ -7,12 +7,8 @@ import {
   DropDirection,
   PanelData,
   TabData,
-  TabGroup,
   placeHolderStyle
 } from "./DockData";
-import {DockTabs} from "./DockTabs";
-import {Divider, DividerChild} from "./Divider";
-import {DockPanel} from "./DockPanel";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 
@@ -53,7 +49,6 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDragLeave = (e: DragState) => {
-    let {panelElement, direction} = this.props;
     this.setState({dropping: false});
     this.context.setDropRect(null, 'remove', this);
   };

@@ -268,13 +268,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
     if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout, this.props.groups);
-      let currentTabId: string = null;
-      if (source.hasOwnProperty('tabs')) {
-        currentTabId = (source as PanelData).activeId;
-      } else {
-        // when source is tab
-        currentTabId = (source as TabData).id;
-      }
+      const currentTabId: string = source.hasOwnProperty('tabs') ? (source as PanelData).activeId : (source as TabData).id;
       this.changeLayout(layout, currentTabId, direction);
     }
     this.onDragStateChange(false);
@@ -296,36 +290,36 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @inheritDoc */
   updateTab(id: string, newTab: TabData | null, makeActive: boolean = true): boolean {
     let tab = this.find(id, Algorithm.Filter.AnyTab) as TabData;
-    if (tab) {
-      let panelData = tab.parent;
-      let idx = panelData.tabs.indexOf(tab);
-      if (idx >= 0) {
-        let {loadTab} = this.props;
-        let layout = this.getLayout();
-        if (newTab) {
-          let activeId = panelData.activeId;
-          if (loadTab && !('content' in newTab && 'title' in newTab)) {
-            newTab = loadTab(newTab);
-          }
-          layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
-          panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
-          layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
-          panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
-          if (!makeActive) {
-            // restore the previous activeId
-            panelData.activeId = activeId;
-            this.panelToFocus = panelData.id;
-          }
-        } else if (makeActive && panelData.activeId !== id) {
-          layout = Algorithm.replacePanel(layout, panelData, {...panelData, activeId: id});
-        }
-
-        layout = Algorithm.fixLayoutData(layout, this.props.groups);
-        this.changeLayout(layout, newTab?.id ?? id, 'update');
-        return true;
-      }
+    if (!tab) {
+      return false;
     }
-    return false;
+    let panelData = tab.parent;
+    let idx = panelData.tabs.indexOf(tab);
+    if (idx >= 0) {
+      let {loadTab} = this.props;
+      let layout = this.getLayout();
+      if (newTab) {
+        let activeId = panelData.activeId;
+        if (loadTab && !('content' in newTab && 'title' in newTab)) {
+          newTab = loadTab(newTab);
+        }
+        layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
+        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
+        layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
+        if (!makeActive) {
+          // restore the previous activeId
+          panelData.activeId = activeId;
+          this.panelToFocus = panelData.id;
+        }
+      } else if (makeActive && panelData.activeId !== id) {
+        layout = Algorithm.replacePanel(layout, panelData, {...panelData, activeId: id});
+      }
+
+      layout = Algorithm.fixLayoutData(layout, this.props.groups);
+      this.changeLayout(layout, newTab?.id ?? id, 'update');
+      return true;
+    }
   }
 
   /** @inheritDoc */

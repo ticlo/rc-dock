@@ -9,6 +9,8 @@ import { DockTabBar } from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize } from "./Algorithm";
 import { WindowBox } from "./WindowBox";
+import { groupClassNames } from "./Utils";
+import classNames from "classnames";
 function findParentPanel(element) {
     for (let i = 0; i < 10; ++i) {
         if (!element) {
@@ -22,8 +24,8 @@ function findParentPanel(element) {
     return null;
 }
 function isPopupDiv(r) {
-    var _a, _b;
-    return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI');
+    var _a, _b, _c;
+    return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_c = (_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.tagName) === 'LI');
 }
 export class TabCache {
     constructor(context) {
@@ -52,7 +54,7 @@ export class TabCache {
             let panelElement = findParentPanel(this._ref);
             let tabGroup = this.context.getGroup(this.data.group);
             let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
-            e.setData({ tab: this.data, panelSize: [panelWidth, panelHeight] }, this.context.getDockId());
+            e.setData({ tab: this.data, panelSize: [panelWidth, panelHeight], tabGroup: this.data.group }, this.context.getDockId());
             e.startDrag(this._ref.parentElement, this._ref.parentElement);
         };
         this.onDragOver = (e) => {
@@ -132,7 +134,7 @@ export class TabCache {
         return e.clientX > midx ? 'after-tab' : 'before-tab';
     }
     render() {
-        let { id, title, group, content, closable, cached, parent } = this.data;
+        let { id, title, content, closable, cached, parent } = this.data;
         let { onDragStart, onDragOver, onDrop, onDragLeave } = this;
         if (parent.parent.mode === 'window') {
             onDragStart = null;
@@ -140,7 +142,6 @@ export class TabCache {
             onDrop = null;
             onDragLeave = null;
         }
-        let tabGroup = this.context.getGroup(group);
         if (typeof content === 'function') {
             content = content(this.data);
         }
@@ -191,7 +192,7 @@ export class DockTabs extends React.PureComponent {
                 panelExtraContent = panelExtra(panelData, this.context);
             }
             else if (maximizable || showNewWindowButton) {
-                panelExtraContent = React.createElement("div", { className: "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
+                panelExtraContent = React.createElement("div", { className: panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
                 if (showNewWindowButton) {
                     panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
                 }
@@ -243,16 +244,19 @@ export class DockTabs extends React.PureComponent {
     render() {
         let { group, tabs, activeId } = this.props.panelData;
         let tabGroup = this.context.getGroup(group);
-        let { animated } = tabGroup;
+        let { animated, moreIcon } = tabGroup;
         if (animated == null) {
             animated = true;
+        }
+        if (!moreIcon) {
+            moreIcon = "...";
         }
         this.updateTabs(tabs);
         let children = [];
         for (let [id, tab] of this._cache) {
             children.push(tab.content);
         }
-        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: "...", animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange }, children));
+        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: moreIcon, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange, popupClassName: classNames(groupClassNames(group)) }, children));
     }
 }
 DockTabs.contextType = DockContextType;

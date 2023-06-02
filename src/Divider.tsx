@@ -1,7 +1,6 @@
 import * as React from "react";
-import {AbstractPointerEvent, DragDropDiv} from "./dragdrop/DragDropDiv";
+import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
-import {DockContextType} from "./DockData";
 
 export interface DividerChild {
   size: number;
@@ -105,19 +104,19 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     }
     let d = isVertical ? dy : dx;
     let leftChild = beforeDivider.at(-1);
-    let rightCild = afterDivider[0];
+    let rightChild = afterDivider[0];
 
     let leftSize = leftChild.size + d;
-    let rightSize = rightCild.size - d;
+    let rightSize = rightChild.size - d;
     // check min size
     if (d > 0) {
-      if (rightSize < rightCild.minSize) {
-        rightSize = rightCild.minSize;
-        leftSize = leftChild.size + rightCild.size - rightSize;
+      if (rightSize < rightChild.minSize) {
+        rightSize = rightChild.minSize;
+        leftSize = leftChild.size + rightChild.size - rightSize;
       }
     } else if (leftSize < leftChild.minSize) {
       leftSize = leftChild.minSize;
-      rightSize = leftChild.size + rightCild.size - leftSize;
+      rightSize = leftChild.size + rightChild.size - leftSize;
     }
     let sizes = beforeDivider.concat(afterDivider).map((child) => child.size);
     sizes[beforeDivider.length - 1] = leftSize;

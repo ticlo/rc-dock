@@ -1,3 +1,5 @@
+import classNames from "classnames";
+import { groupClassNames } from "../Utils";
 export class DragState {
     constructor(event, component, init = false) {
         this.pageX = 0;
@@ -149,7 +151,8 @@ let _draggingIcon;
 function _createDraggingDiv(doc) {
     _draggingDiv = doc.createElement('div');
     _draggingIcon = doc.createElement('div');
-    _draggingDiv.className = 'dragging-layer';
+    const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined);
+    _draggingDiv.className = classNames(groupClassNames(tabGroup), 'dragging-layer');
     _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
     _draggingDiv.appendChild(_draggingIcon);
 }

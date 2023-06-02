@@ -1,6 +1,5 @@
 import * as React from "react";
-import {DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup} from "./DockData";
-import {compareArray, compareKeys} from "./util/Compare";
+import {DockContext, DockContextType, DropDirection, PanelData, TabData} from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -10,6 +9,8 @@ import {DockTabBar} from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
 import {getFloatPanelSize} from "./Algorithm";
 import {WindowBox} from "./WindowBox";
+import {groupClassNames} from "./Utils";
+import classNames from "classnames";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -25,7 +26,7 @@ function findParentPanel(element: HTMLElement) {
 }
 
 function isPopupDiv(r: HTMLDivElement): boolean {
-  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement.tagName === 'LI');
+  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement?.tagName === 'LI');
 }
 
 export class TabCache {
@@ -79,7 +80,7 @@ export class TabCache {
     let tabGroup = this.context.getGroup(this.data.group);
     let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
 
-    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, this.context.getDockId());
+    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight], tabGroup: this.data.group}, this.context.getDockId());
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragManager.DragState) => {
@@ -144,7 +145,7 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached, parent} = this.data;
+    let {id, title, content, closable, cached, parent} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
     if (parent.parent.mode === 'window') {
       onDragStart = null;
@@ -152,7 +153,6 @@ export class TabCache {
       onDrop = null;
       onDragLeave = null;
     }
-    let tabGroup = this.context.getGroup(group);
     if (typeof content === 'function') {
       content = content(this.data);
     }
@@ -188,11 +188,7 @@ interface Props {
   onPanelDragEnd: DragManager.DragHandler;
 }
 
-interface State {
-
-}
-
-export class DockTabs extends React.PureComponent<Props, any> {
+export class DockTabs extends React.PureComponent<Props> {
   static contextType = DockContextType;
 
   static readonly propKeys = ['group', 'tabs', 'activeId', 'onTabChange'];
@@ -288,7 +284,10 @@ export class DockTabs extends React.PureComponent<Props, any> {
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (maximizable || showNewWindowButton) {
-      panelExtraContent = <div className="dock-panel-max-btn" onClick={maximizable ? this.onMaximizeClick : null}/>;
+      panelExtraContent = <div
+        className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
+        onClick={maximizable ? this.onMaximizeClick : null}
+      />;
       if (showNewWindowButton) {
         panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
       }
@@ -309,9 +308,12 @@ export class DockTabs extends React.PureComponent<Props, any> {
   render(): React.ReactNode {
     let {group, tabs, activeId} = this.props.panelData;
     let tabGroup = this.context.getGroup(group);
-    let {animated} = tabGroup;
+    let {animated, moreIcon} = tabGroup;
     if (animated == null) {
       animated = true;
+    }
+    if (!moreIcon) {
+      moreIcon = "...";
     }
 
     this.updateTabs(tabs);
@@ -323,11 +325,12 @@ export class DockTabs extends React.PureComponent<Props, any> {
 
     return (
       <Tabs prefixCls="dock"
-            moreIcon="..."
+            moreIcon={moreIcon}
             animated={animated}
             renderTabBar={this.renderTabBar}
             activeKey={activeId}
             onChange={this.onTabChange}
+            popupClassName={classNames(groupClassNames(group))}
       >
         {children}
       </Tabs>

@@ -65,6 +65,10 @@ export interface TabGroup {
      * Override the default flex grow and flex shrink for panel height
      */
     heightFlex?: number;
+    /**
+     * Override the default `moreIcon`
+     */
+    moreIcon?: React.ReactNode;
 }
 /** @ignore */
 export declare const defaultGroup: TabGroup;
@@ -101,6 +105,10 @@ export interface PanelBase {
      * The id of current tab
      */
     activeId?: string;
+    /**
+     * if group is undefined, it will be set to the group name of first tab
+     */
+    group?: string;
     /** float mode only */
     x?: number;
     /** float mode only */
@@ -196,10 +204,6 @@ interface PanelLock {
 export interface PanelData extends PanelBase, BoxChild {
     parent?: BoxData;
     tabs: TabData[];
-    /**
-     * if group is undefined, it will be set to the group name of first tab
-     */
-    group?: string;
     /**
      * addition information of a panel,
      * This prevents the panel from being removed when there is no tab inside

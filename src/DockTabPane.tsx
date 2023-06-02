@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import {DockContext, DockContextType, TabPaneCache} from "./DockData";
 import {TabPaneProps} from "rc-tabs";

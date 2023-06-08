@@ -21347,11 +21347,9 @@ class DockPanel extends React.PureComponent {
   }
 
   onDragOverOtherPanel() {
-    if (this.state.dropFromPanel) {
-      this.setState({
-        dropFromPanel: null
-      });
-    }
+    this.setState({
+      dropFromPanel: null
+    });
   }
 
   onPanelCornerDrag(e, corner) {

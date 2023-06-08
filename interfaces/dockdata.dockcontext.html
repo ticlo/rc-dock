@@ -103,13 +103,13 @@
 					<a name="dockmove" class="tsd-anchor"></a>
 					<h3>dock<wbr>Move</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">dock<wbr>Move<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol"> | </span><a href="dockdata.paneldata.html" class="tsd-signature-type" data-tsd-kind="Interface">PanelData</a>, target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol"> | </span><a href="dockdata.paneldata.html" class="tsd-signature-type" data-tsd-kind="Interface">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="dockdata.boxdata.html" class="tsd-signature-type" data-tsd-kind="Interface">BoxData</a>, direction<span class="tsd-signature-symbol">: </span><a href="../modules/dockdata.html#dropdirection" class="tsd-signature-type" data-tsd-kind="Type alias">DropDirection</a>, floatPosition<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">dock<wbr>Move<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol"> | </span><a href="dockdata.paneldata.html" class="tsd-signature-type" data-tsd-kind="Interface">PanelData</a>, target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="dockdata.tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol"> | </span><a href="dockdata.paneldata.html" class="tsd-signature-type" data-tsd-kind="Interface">PanelData</a><span class="tsd-signature-symbol"> | </span><a href="dockdata.boxdata.html" class="tsd-signature-type" data-tsd-kind="Interface">BoxData</a>, direction<span class="tsd-signature-symbol">: </span><a href="../modules/dockdata.html#dropdirection" class="tsd-signature-type" data-tsd-kind="Type alias">DropDirection</a>, floatPosition<span class="tsd-signature-symbol">?: </span><a href="dockdata.floatposition.html" class="tsd-signature-type" data-tsd-kind="Interface">FloatPosition</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/13c7463/src/DockData.ts#L345">DockData.ts:345</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8999608/src/DockData.ts#L357">DockData.ts:357</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,24 +147,10 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> floatPosition: <span class="tsd-signature-symbol">{ </span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> floatPosition: <a href="dockdata.floatposition.html" class="tsd-signature-type" data-tsd-kind="Interface">FloatPosition</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>position of float panel, used only when direction=&quot;float&quot;</p>
 									</div>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter">
-											<h5>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-										</li>
-									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -181,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/13c7463/src/DockData.ts#L360">DockData.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8999608/src/DockData.ts#L372">DockData.ts:372</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,7 +198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/13c7463/src/DockData.ts#L355">DockData.ts:355</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8999608/src/DockData.ts#L367">DockData.ts:367</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -240,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/13c7463/src/DockData.ts#L376">DockData.ts:376</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8999608/src/DockData.ts#L388">DockData.ts:388</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -273,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/13c7463/src/DockData.ts#L369">DockData.ts:369</a></li>
+									<li>Defined in <a href="https://github.com/ticlo/rc-dock/blob/8999608/src/DockData.ts#L381">DockData.ts:381</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -356,6 +342,12 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="dockdata.floatposition.html" class="tsd-kind-icon">Float<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="dockdata.floatsize.html" class="tsd-kind-icon">Float<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="dockdata.layoutbase.html" class="tsd-kind-icon">Layout<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
@@ -384,6 +376,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/dockdata.html#dropdirection" class="tsd-kind-icon">Drop<wbr>Direction</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/dockdata.html#layoutsize" class="tsd-kind-icon">Layout<wbr>Size</a>
 					</li>
 				</ul>
 			</nav>

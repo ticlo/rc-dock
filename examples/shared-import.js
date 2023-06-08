@@ -18764,14 +18764,18 @@ function findInPanel(panel, id, filter) {
     }
   }
 
-  return null;
+  return undefined;
 }
 
 function findInBox(box, id, filter) {
   let result;
 
-  if (filter | Filter.Box && box.id === id) {
+  if (filter | Filter.Box && (box === null || box === void 0 ? void 0 : box.id) === id) {
     return box;
+  }
+
+  if (!(box === null || box === void 0 ? void 0 : box.children)) {
+    return undefined;
   }
 
   for (let child of box.children) {
@@ -23568,7 +23572,7 @@ class DockLayout extends DockPortalManager {
       layout = Algorithm.panelToWindow(layout, newPanel);
     } else if (target) {
       if ('tabs' in target) {
-        // pandel target
+        // panel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, source, target);
         } else {

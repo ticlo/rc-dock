@@ -243,6 +243,15 @@ export interface LayoutData extends LayoutBase {
     loadedFrom?: LayoutBase;
 }
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
+export interface FloatSize {
+    width: number;
+    height: number;
+}
+export interface FloatPosition extends FloatSize {
+    left: number;
+    top: number;
+}
+export declare type LayoutSize = FloatSize;
 export interface DockContext {
     /** @ignore */
     getDockId(): any;
@@ -254,10 +263,7 @@ export interface DockContext {
         clientY: number;
     }, panelSize?: [number, number]): void;
     /** @ignore */
-    getLayoutSize(): {
-        width: number;
-        height: number;
-    };
+    getLayoutSize(): LayoutSize;
     /** @ignore
      * When a state change happen to the layout that's handled locally, like inside DockPanel or DockBox.
      * It still need to tell the context there is a change so DockLayout can call onLayoutChange callback.
@@ -276,12 +282,7 @@ export interface DockContext {
      *  - when direction is 'float', target doesn't matter. If this is called directly from code without any user interaction, source must be PanelData with x,y,w,h properties
      * @param floatPosition position of float panel, used only when direction="float"
      */
-    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, floatPosition?: {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-    }): void;
+    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, floatPosition?: FloatPosition): void;
     /**
      * Get the TabGroup defined in defaultLayout
      */
@@ -289,7 +290,7 @@ export interface DockContext {
     /**
      * Find PanelData or TabData by id
      */
-    find(id: string, filter?: Filter): PanelData | TabData | BoxData;
+    find(id: string, filter?: Filter): PanelData | TabData | BoxData | undefined;
     /**
      * Update a tab with new TabData
      * @param id tab id to update

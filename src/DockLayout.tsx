@@ -7,8 +7,10 @@ import {
   DockContext,
   DockContextProvider,
   DropDirection,
+  FloatPosition,
   LayoutBase,
   LayoutData,
+  LayoutSize,
   PanelBase,
   PanelData,
   placeHolderGroup,
@@ -215,7 +217,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     source: TabData | PanelData,
     target: string | TabData | PanelData | BoxData | null,
     direction: DropDirection,
-    floatPosition?: {left: number, top: number, width: number, height: number}
+    floatPosition?: FloatPosition
   ) {
     let layout = this.getLayout();
     if (direction === 'maximize') {
@@ -249,7 +251,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
       layout = Algorithm.panelToWindow(layout, newPanel);
     } else if (target) {
       if ('tabs' in (target as PanelData)) {
-        // pandel target
+        // panel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, source, target as PanelData);
         } else {
@@ -275,12 +277,12 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData {
+  find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData | undefined {
     return Algorithm.find(this.getLayout(), id, filter);
   }
 
   /** @ignore */
-  getLayoutSize() {
+  getLayoutSize(): LayoutSize {
     if (this._ref) {
       return {width: this._ref.offsetWidth, height: this._ref.offsetHeight};
     }

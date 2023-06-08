@@ -80,7 +80,7 @@ export function nextZIndex(current?: number): number {
 }
 
 
-function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | TabData {
+function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | TabData | undefined {
   if (panel.id === id && (filter & Filter.Panel)) {
     return panel;
   }
@@ -91,13 +91,16 @@ function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | 
       }
     }
   }
-  return null;
+  return undefined;
 }
 
-function findInBox(box: BoxData, id: string, filter: Filter): PanelData | TabData | BoxData {
-  let result: PanelData | TabData | BoxData;
-  if ((filter | Filter.Box) && box.id === id) {
+function findInBox(box: BoxData | undefined, id: string, filter: Filter): PanelData | TabData | BoxData | undefined {
+  let result: PanelData | TabData | BoxData | undefined;
+  if ((filter | Filter.Box) && box?.id === id) {
     return box;
+  }
+  if (!box?.children) {
+    return undefined;
   }
   for (let child of box.children) {
     if ('children' in child) {
@@ -130,8 +133,8 @@ export enum Filter {
 }
 
 
-export function find(layout: LayoutData, id: string, filter: Filter = Filter.AnyTabPanel): PanelData | TabData | BoxData {
-  let result: PanelData | TabData | BoxData;
+export function find(layout: LayoutData, id: string, filter: Filter = Filter.AnyTabPanel): PanelData | TabData | BoxData | undefined {
+  let result: PanelData | TabData | BoxData | undefined;
 
   if (filter & Filter.Docked) {
     result = findInBox(layout.dockbox, id, filter);

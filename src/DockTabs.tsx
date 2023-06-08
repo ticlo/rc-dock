@@ -310,46 +310,49 @@ export class DockTabs extends React.PureComponent<Props> {
 
     let showNewWindowButton = group.newWindow && WindowBox.enabled && panelData.parent.mode === 'float';
 
+    let panelDefaultContent: React.ReactElement;
     let panelExtraContent: React.ReactElement;
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
-    } else {
-      if (maximizable || showNewWindowButton) {
-        panelExtraContent = <div
-          className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
-          onClick={maximizable ? this.onMaximizeClick : null}
-        />;
-        if (showNewWindowButton) {
-          panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
-        }
+    }
+
+    if (maximizable || showNewWindowButton) {
+      panelDefaultContent = <div
+        className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
+        onClick={maximizable ? this.onMaximizeClick : null}
+      />;
+      if (showNewWindowButton) {
+        panelDefaultContent = this.addNewWindowMenu(panelDefaultContent, !maximizable);
+      }
+    }
+
+    const renderCollapseExpandBtn = () => {
+      if (panelData.collapsed) {
+        return (
+          <div
+            className='dock-panel-expand-btn'
+            onClick={this.onCollapseExpandClick}
+          />
+        );
       }
 
-      const renderCollapseExpandBtn = () => {
-        if (panelData.collapsed) {
-          return (
-            <div
-              className='dock-panel-expand-btn'
-              onClick={this.onCollapseExpandClick}
-            />
-          );
-        }
-
-        if (isCollapseDisabled) {
-          return (
-            <div className='dock-panel-collapse-btn dock-panel-collapse-btn-disabled' />
-          );
-        }
-
+      if (isCollapseDisabled) {
         return (
-          <div className='dock-panel-collapse-btn' onClick={this.onCollapseExpandClick} />
+          <div className='dock-panel-collapse-btn dock-panel-collapse-btn-disabled' />
         );
-      };
+      }
 
-      panelExtraContent = <>
-        {panelExtraContent}
-        {collapsible ? renderCollapseExpandBtn() : null}
-      </>;
-    }
+      return (
+        <div className='dock-panel-collapse-btn' onClick={this.onCollapseExpandClick} />
+      );
+    };
+
+    panelExtraContent = <>
+      {panelExtraContent}
+      {panelDefaultContent}
+      {collapsible ? renderCollapseExpandBtn() : null}
+    </>;
+
     return (
       <DockTabBar onDragStart={onPanelDragStart} onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}
                   TabNavList={TabNavList} isMaximized={panelData.parent.mode === 'maximize'} {...props}

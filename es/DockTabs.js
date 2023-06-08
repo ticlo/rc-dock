@@ -211,30 +211,30 @@ export class DockTabs extends React.PureComponent {
                 }
             }
             let showNewWindowButton = group.newWindow && WindowBox.enabled && panelData.parent.mode === 'float';
+            let panelDefaultContent;
             let panelExtraContent;
             if (panelExtra) {
                 panelExtraContent = panelExtra(panelData, this.context);
             }
-            else {
-                if (maximizable || showNewWindowButton) {
-                    panelExtraContent = React.createElement("div", { className: panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
-                    if (showNewWindowButton) {
-                        panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
-                    }
+            if (maximizable || showNewWindowButton) {
+                panelDefaultContent = React.createElement("div", { className: panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn", onClick: maximizable ? this.onMaximizeClick : null });
+                if (showNewWindowButton) {
+                    panelDefaultContent = this.addNewWindowMenu(panelDefaultContent, !maximizable);
                 }
-                const renderCollapseExpandBtn = () => {
-                    if (panelData.collapsed) {
-                        return (React.createElement("div", { className: 'dock-panel-expand-btn', onClick: this.onCollapseExpandClick }));
-                    }
-                    if (isCollapseDisabled) {
-                        return (React.createElement("div", { className: 'dock-panel-collapse-btn dock-panel-collapse-btn-disabled' }));
-                    }
-                    return (React.createElement("div", { className: 'dock-panel-collapse-btn', onClick: this.onCollapseExpandClick }));
-                };
-                panelExtraContent = React.createElement(React.Fragment, null,
-                    panelExtraContent,
-                    collapsible ? renderCollapseExpandBtn() : null);
             }
+            const renderCollapseExpandBtn = () => {
+                if (panelData.collapsed) {
+                    return (React.createElement("div", { className: 'dock-panel-expand-btn', onClick: this.onCollapseExpandClick }));
+                }
+                if (isCollapseDisabled) {
+                    return (React.createElement("div", { className: 'dock-panel-collapse-btn dock-panel-collapse-btn-disabled' }));
+                }
+                return (React.createElement("div", { className: 'dock-panel-collapse-btn', onClick: this.onCollapseExpandClick }));
+            };
+            panelExtraContent = React.createElement(React.Fragment, null,
+                panelExtraContent,
+                panelDefaultContent,
+                collapsible ? renderCollapseExpandBtn() : null);
             return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent })));
         };
         this.onTabChange = (activeId) => {

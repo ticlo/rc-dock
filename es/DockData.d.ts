@@ -211,6 +211,7 @@ export interface TabData extends TabBase, DockDataBase {
      * @deprecated no longer needed
      */
     cacheContext?: React.Context<any>;
+    tabPosition?: TabPosition;
 }
 interface PanelLock {
     /** override the default style */

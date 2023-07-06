@@ -602,6 +602,9 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
     if (!panel.localGroup && panel.tabs.length) {
       panel.localGroup = panel.tabs[0].localGroup;
     }
+    if (panel.tabs.length && panel.tabs[0].tabPosition) {
+      panel.tabPosition = panel.tabs[0].tabPosition;
+    }
 
     let tabGroup = mergeTabGroups(groups?.[panel.group], panel.localGroup);
     if (tabGroup) {

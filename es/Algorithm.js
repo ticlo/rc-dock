@@ -544,6 +544,9 @@ export function fixLayoutData(layout, groups, loadTab) {
         if (!panel.localGroup && panel.tabs.length) {
             panel.localGroup = panel.tabs[0].localGroup;
         }
+        if (panel.tabs.length && panel.tabs[0].tabPosition) {
+            panel.tabPosition = panel.tabs[0].tabPosition;
+        }
         let tabGroup = mergeTabGroups(groups === null || groups === void 0 ? void 0 : groups[panel.group], panel.localGroup);
         if (tabGroup) {
             if (tabGroup.widthFlex != null) {

@@ -1,39 +1,36 @@
-import * as React from "react";
-import {BoxData, PanelData} from "./DockData";
-import {DockPanel} from "./DockPanel";
+import { useRef } from "react";
+import { BoxData, PanelData } from "./DockData";
+import { DockPanel } from "./DockPanel";
+import React from "react";
+
+// This file passes the vibe check
 
 interface Props {
   boxData: BoxData;
 }
 
-export class MaxBox extends React.PureComponent<Props, any> {
+export const MaxBox: React.FC<Props & any> = ({ boxData }: Props) => {
+  const hidePanelData = useRef<PanelData>();
+  let panelData = boxData.children[0] as PanelData;
 
-  // a place holder panel data to be used during hide animation
-  hidePanelData: PanelData;
+  if (panelData) {
+    hidePanelData.current = { ...panelData, id: "", tabs: [] };
 
-  render(): React.ReactNode {
-    let panelData = this.props.boxData.children[0] as PanelData;
-
-    if (panelData) {
-      this.hidePanelData = {...panelData, id: '', tabs: []};
-      return (
-        <div className="dock-box dock-mbox dock-mbox-show">
-          <DockPanel size={100} panelData={panelData}/>
-        </div>
-      );
-    } else if (this.hidePanelData) {
-      // use the hiden data only once, dont keep it for too long
-      let hidePanelData = this.hidePanelData;
-      this.hidePanelData = null;
-      return (
-        <div className="dock-box dock-mbox dock-mbox-hide">
-          <DockPanel size={100} panelData={hidePanelData}/>
-        </div>
-      );
-    } else {
-      return (
-        <div className="dock-box dock-mbox dock-mbox-hide"/>
-      );
-    }
+    return (
+      <div className="dock-box dock-mbox dock-mbox-show">
+        <DockPanel size={100} panelData={panelData} />
+      </div>
+    );
+  } else if (hidePanelData.current) {
+    // use the hiden data only once, dont keep it for too long
+    let localHidePanelData = hidePanelData.current;
+    hidePanelData.current = null;
+    return (
+      <div className="dock-box dock-mbox dock-mbox-hide">
+        <DockPanel size={100} panelData={localHidePanelData} />
+      </div>
+    );
+  } else {
+    return <div className="dock-box dock-mbox dock-mbox-hide" />;
   }
-}
+};

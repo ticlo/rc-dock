@@ -1,16 +1,17 @@
-import * as React from 'react';
-import classNames from 'classnames';
-import {DockContext, DockContextType, TabPaneCache} from "./DockData";
-import {TabPaneProps} from "rc-tabs";
+import * as React from "react";
+import classNames from "classnames";
+import { DockContext, DockContextType, TabPaneCache } from "./DockData";
+import { TabPaneProps } from "rc-tabs";
 
 interface DockTabPaneProps extends TabPaneProps {
-
   cacheId?: string;
   cached: boolean;
-
 }
 
-export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {
+export default class DockTabPane extends React.PureComponent<
+  DockTabPaneProps,
+  any
+> {
   static contextType = DockContextType;
 
   context!: DockContext;
@@ -21,7 +22,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
   };
 
   updateCache() {
-    const {cached, children, cacheId} = this.props;
+    const { cached, children, cacheId } = this.props;
     if (this._cache) {
       if (!cached || cacheId !== this._cache.id) {
         this.context.removeTabCache(this._cache.id, this);
@@ -64,14 +65,13 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     const mergedStyle: React.CSSProperties = {};
     if (!active) {
       if (animated) {
-        mergedStyle.visibility = 'hidden';
+        mergedStyle.visibility = "hidden";
         mergedStyle.height = 0;
-        mergedStyle.overflowY = 'hidden';
+        mergedStyle.overflowY = "hidden";
       } else {
-        mergedStyle.display = 'none';
+        mergedStyle.display = "none";
       }
     }
-
 
     // when cached == undefined, it will still cache the children inside tabs component, but not across whole dock layout
     // when cached == false, children are destroyed when not active
@@ -86,28 +86,33 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
 
     let getRef = cached ? this.getRef : null;
     return (
-      <div ref={getRef}
-           id={cacheId}
-           role="tabpanel"
-           aria-labelledby={id && `${id}-tab-${tabKey}`}
-           aria-hidden={!active}
-           style={{...mergedStyle, ...style}}
-           className={classNames(
-             `${prefixCls}-tabpane`,
-             active && `${prefixCls}-tabpane-active`,
-             className,
-           )}
+      <div
+        ref={getRef}
+        id={cacheId}
+        role="tabpanel"
+        aria-labelledby={id && `${id}-tab-${tabKey}`}
+        aria-hidden={!active}
+        style={{ ...mergedStyle, ...style }}
+        className={classNames(
+          `${prefixCls}-tabpane`,
+          active && `${prefixCls}-tabpane-active`,
+          className
+        )}
       >
         {(active || this.visited || forceRender) && renderChildren}
       </div>
-    );
+    )
   }
 
   componentDidMount(): void {
     this.updateCache();
   }
 
-  componentDidUpdate(prevProps: Readonly<DockTabPaneProps>, prevState: Readonly<any>, snapshot?: any): void {
+  componentDidUpdate(
+    prevProps: Readonly<DockTabPaneProps>,
+    prevState: Readonly<any>,
+    snapshot?: any
+  ): void {
     this.updateCache();
   }
 
@@ -117,4 +122,3 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     }
   }
 }
-

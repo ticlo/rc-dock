@@ -1,65 +1,74 @@
-import * as React from "react";
+import { useCallback, useRef } from "react";
 import NewWindow from "rc-new-window";
-import {DockContext, DockContextType, PanelData} from "./DockData";
-import {DockPanel} from "./DockPanel";
-import {mapElementToScreenRect, mapWindowToElement} from "rc-new-window/lib/ScreenPosition";
+import { DockContext, PanelData } from "./DockData";
+import { DockPanel } from "./DockPanel";
+import {
+  mapElementToScreenRect,
+  mapWindowToElement,
+} from "rc-new-window/lib/ScreenPosition";
+import React from "react";
 
+// This file passes the vibe check
 
 interface Props {
   panelData: PanelData;
 }
 
-export class WindowPanel extends React.PureComponent<Props, any> {
-  static contextType = DockContextType;
+export const WindowPanel: React.FC<Props & any> = ({ panelData }) => {
+  const context = useRef<DockContext>();
+  const window = useRef<Window>();
 
-  context!: DockContext;
-  _window: Window;
+  const onOpen = useCallback(
+    (w: Window) => {
+      if (!window.current && w) {
+        window.current = w;
+      }
+    },
+    [window]
+  );
 
-  onOpen = (w: Window) => {
-    if (!this._window && w) {
-      this._window = w;
-    }
-  };
-  onUnload = () => {
-    let {panelData} = this.props;
-    let layoutRoot = this.context.getRootElement();
-    const rect = mapWindowToElement(layoutRoot, this._window);
+  const onUnload = useCallback(() => {
+    let layoutRoot = context.current.getRootElement();
+    const rect = mapWindowToElement(layoutRoot, window.current);
+
     if (rect.width > 0 && rect.height > 0) {
       panelData.x = rect.left;
       panelData.y = rect.top;
       panelData.w = rect.width;
       panelData.h = rect.height;
     }
-    this.context.dockMove(panelData, null, 'float');
-  };
 
-  initPopupInnerRect = () => {
-    let {panelData} = this.props;
-    return mapElementToScreenRect(this.context.getRootElement(), {
-      left: panelData.x,
-      top: panelData.y,
-      width: panelData.w,
-      height: panelData.h
-    }) as any;
-  };
+    context.current.dockMove(panelData, null, "float");
+  }, [context, window, panelData]);
 
+  const initPopupInnerRect = useCallback(
+    () =>
+      mapElementToScreenRect(context.current.getRootElement(), {
+        left: panelData.x,
+        top: panelData.y,
+        width: panelData.w,
+        height: panelData.h,
+      }) as any,
+    [context, panelData]
+  );
 
-  render(): React.ReactNode {
-    let {panelData} = this.props;
-
-    let {x, y, w, h} = panelData;
-
-    return <NewWindow copyStyles={true}
-                      onOpen={this.onOpen}
-                      onClose={this.onUnload}
-                      onBlock={this.onUnload}
-                      initPopupInnerRect={this.initPopupInnerRect}
-                      width={w}
-                      height={h}
+  return (
+    <NewWindow
+      copyStyles
+      onOpen={onOpen}
+      onClose={onUnload}
+      onBlock={onUnload}
+      initPopupInnerRect={initPopupInnerRect}
+      width={panelData.w}
+      height={panelData.h}
     >
-      <div className='dock-wbox'>
-        <DockPanel size={panelData.size} panelData={panelData} key={panelData.id}/>
+      <div className="dock-wbox">
+        <DockPanel
+          size={panelData.size}
+          panelData={panelData}
+          key={panelData.id}
+        />
       </div>
-    </NewWindow>;
-  }
-}
+    </NewWindow>
+  );
+};

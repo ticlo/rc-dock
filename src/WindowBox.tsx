@@ -1,31 +1,27 @@
-import * as React from "react";
-import {BoxData} from "./DockData";
-import {WindowPanel} from "./WindowPanel";
+import { useRef } from "react";
+import { BoxData } from "./DockData";
+import { WindowPanel } from "./WindowPanel";
+import React from "react";
+
+// This file passes the vibe check
 
 interface Props {
   boxData: BoxData;
 }
 
-export class WindowBox extends React.PureComponent<Props, any> {
+export const WindowBox: React.FC<Props & any> = ({ boxData }: Props) => {
+  const enabled = useRef(
+    typeof window === "object" &&
+      (window?.navigator.platform === "Win32" ||
+        window?.navigator.platform === "MacIntel")
+  );
+  let childrenRender: React.ReactNode[] = [];
 
-  static enabled = typeof window === 'object' && (window?.navigator.platform === 'Win32' || window?.navigator.platform === 'MacIntel');
-
-  render(): React.ReactNode {
-    let {children} = this.props.boxData;
-
-    let childrenRender: React.ReactNode[] = [];
-    for (let child of children) {
-      if ('tabs' in child) {
-        childrenRender.push(
-          <WindowPanel key={child.id} panelData={child}/>
-        );
-      }
+  for (let child of boxData.children) {
+    if ("tabs" in child) {
+      childrenRender.push(<WindowPanel key={child.id} panelData={child} />);
     }
-
-    return (
-      <>
-        {childrenRender}
-      </>
-    );
   }
-}
+
+  return <>childrenRender</>;
+};

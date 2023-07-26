@@ -349,8 +349,8 @@ export class DockTabs extends React.PureComponent<Props> {
 
     panelExtraContent = <>
       {panelExtraContent}
-      {panelDefaultContent}
       {collapsible ? renderCollapseExpandBtn() : null}
+      {panelDefaultContent}
     </>;
 
     return (

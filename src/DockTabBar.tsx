@@ -2,7 +2,7 @@ import React from "react";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import * as DragManager from "./dragdrop/DragManager";
 import type {TabNavListProps} from "rc-tabs/lib/TabNavList";
-import {DockContextType} from "./DockData";
+import { DockContextType, PanelData } from "./DockData";
 
 /**
  * @return returns true if navigation is handled in local tab move, otherwise returns false
@@ -38,11 +38,12 @@ interface DockTabBarProps extends TabNavListProps {
   onDragMove?: DragManager.DragHandler;
   onDragEnd?: DragManager.DragHandler;
   TabNavList: React.ComponentType;
+  panelData: PanelData;
 }
 
 export function DockTabBar(props: DockTabBarProps) {
   const {
-    onDragStart, onDragMove, onDragEnd, TabNavList, isMaximized,
+    onDragStart, onDragMove, onDragEnd, TabNavList, isMaximized, panelData,
     ...restProps
   } = props;
 
@@ -73,6 +74,7 @@ export function DockTabBar(props: DockTabBarProps) {
                  onKeyDown={onKeyDown}
                  getRef={getRef}
                  tabIndex={-1}
+                 panelData={panelData}
     >
       <TabNavList {...restProps}/>
     </DragDropDiv>

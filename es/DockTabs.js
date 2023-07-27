@@ -235,7 +235,7 @@ export class DockTabs extends React.PureComponent {
                 panelExtraContent,
                 collapsible ? renderCollapseExpandBtn() : null,
                 panelDefaultContent);
-            return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent })));
+            return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent, panelData: panelData })));
         };
         this.onTabChange = (activeId) => {
             this.props.panelData.activeId = activeId;

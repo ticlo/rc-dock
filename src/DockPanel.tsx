@@ -107,10 +107,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onPanelHeaderDragMove = (e: DragState) => {
     let {width, height} = this.context.getLayoutSize();
     let {panelData} = this.props;
-    let tabGroup: TabGroup | undefined = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
-    if (tabGroup && tabGroup.movable === false) {
-      return;
-    }
 
     panelData.x = this._movingX + e.dx;
     panelData.y = this._movingY + e.dy;

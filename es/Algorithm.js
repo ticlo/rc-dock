@@ -531,6 +531,7 @@ export function fixLayoutData(layout, groups, loadTab) {
         d.heightFlex = null;
     }
     function fixPanelData(panel) {
+        var _a, _b;
         fixPanelOrBox(panel);
         let findActiveId = false;
         if (loadTab) {
@@ -541,12 +542,8 @@ export function fixLayoutData(layout, groups, loadTab) {
         if (panel.group == null && panel.tabs.length) {
             panel.group = panel.tabs[0].group;
         }
-        if (!panel.localGroup && panel.tabs.length) {
-            panel.localGroup = panel.tabs[0].localGroup;
-        }
-        if (panel.tabs.length && panel.tabs[0].tabPosition) {
-            panel.tabPosition = panel.tabs[0].tabPosition;
-        }
+        panel.localGroup = (_a = panel.tabs[0]) === null || _a === void 0 ? void 0 : _a.localGroup;
+        panel.tabPosition = ((_b = panel.tabs[0]) === null || _b === void 0 ? void 0 : _b.tabPosition) || panel.tabPosition;
         let tabGroup = mergeTabGroups(groups === null || groups === void 0 ? void 0 : groups[panel.group], panel.localGroup);
         if (tabGroup) {
             if (tabGroup.widthFlex != null) {

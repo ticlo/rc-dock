@@ -5,7 +5,15 @@ import { addBodyDraggingClass, dragEnd, getTabByDockId, removeBodyDraggingClass 
 import { GestureState } from "./GestureManager";
 import { ITEM_TYPE_DEFAULT } from "../Constants";
 import _ from "lodash";
-import { DndSpec, DockContext, DockContextType, DragObject, DropResult, TabData } from "../DockData";
+import {
+  DockContext,
+  DockContextType,
+  DragObject,
+  DropResult,
+  PanelData,
+  TabData,
+  TabGroup
+} from "../DockData";
 import { v4 as uuid } from "uuid";
 import {
   ConnectDragSource,
@@ -22,6 +30,7 @@ import {
   ConnectDragPreview
 } from "react-dnd";
 import classNames from "classnames";
+import { mergeTabGroups } from "../Utils";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
@@ -47,17 +56,14 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   gestureSensitivity?: number;
 
   tabData?: TabData;
+  panelData?: PanelData;
 }
 
-interface DndSpecProps {
-  dndSpec?: DndSpec;
+interface WithDockContextProps {
+  dockContext: DockContext;
 }
 
-interface ExternalDataProps {
-  externalData?: any;
-}
-
-interface DndDragDropDivProps extends DragDropDivProps, DndSpecProps, ExternalDataProps {
+interface DndDragDropDivProps extends DragDropDivProps, WithDockContextProps {
   isOver: boolean;
   isOverCurrent: boolean;
   isDragging: boolean;
@@ -444,8 +450,8 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
   };
 
   componentDidMount() {
-    const { connectDragPreview, dndSpec } = this.props;
-    const preview = dndSpec?.dragSourceSpec?.preview;
+    const { connectDragPreview, dockContext } = this.props;
+    const preview = dockContext.getDefaultDndSpec()?.dragSourceSpec?.preview;
 
     if (preview) {
       connectDragPreview(preview.elementOrNode, preview.options);
@@ -465,14 +471,13 @@ class DndDragDropDiv extends React.PureComponent<DndDragDropDivProps, any> {
     let {
       getRef, children, className,
       directDragT, onDragStartT, onDragMoveT, onDragEndT, onDragOverT, onDragLeaveT, onDropT,
-      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData,
+      onGestureStartT, onGestureMoveT, onGestureEndT, useRightButtonDragT, tabData, panelData,
       // drag props
       isDragging, connectDragSource, connectDragPreview,
       // drop props
       isOver, canDrop, connectDropTarget, isOverCurrent, itemType,
-      // external data props
-      dndSpec,
-      externalData,
+      // dockContext prop
+      dockContext,
       ...others
     } = this.props;
 
@@ -522,7 +527,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     }
 
     if (props.onDragOverT && monitor.isOver({ shallow: true })) {
-      const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
+      const canDrop = props.dockContext.getDefaultDndSpec()?.dropTargetSpec?.canDrop;
 
       if (canDrop && !canDrop(props, monitor, component)) {
         return;
@@ -537,6 +542,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const item = monitor.getItem();
     const clientOffset = monitor.getClientOffset();
     const dropResult = monitor.getDropResult() || {} as DropResult;
+    const dropTargetSpec = props.dockContext.getDefaultDndSpec()?.dropTargetSpec;
 
     if (!dropResult.clientOffset) {
       dropResult.clientOffset = clientOffset!;
@@ -548,7 +554,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     const decoratedComponent = component?.decoratedRef?.current;
 
-    const canDrop = props.dndSpec?.dropTargetSpec?.canDrop;
+    const canDrop = dropTargetSpec?.canDrop;
 
     if (canDrop && !canDrop(props, monitor, decoratedComponent) || !_canDrop) {
       return dropResult;
@@ -570,7 +576,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
     const state = createDragState(clientOffset, decoratedComponent);
 
     if (props.onDropT) {
-      const beforeDrop = props.dndSpec?.dropTargetSpec?.beforeDrop;
+      const beforeDrop = dropTargetSpec?.beforeDrop;
 
       if (beforeDrop) {
         beforeDrop(props, monitor, decoratedComponent);
@@ -578,7 +584,7 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
       props.onDropT(state);
 
-      const afterDrop = props.dndSpec?.dropTargetSpec?.afterDrop;
+      const afterDrop = dropTargetSpec?.afterDrop;
 
       if (afterDrop) {
         afterDrop(props, monitor, decoratedComponent);
@@ -587,8 +593,8 @@ const dropSpec: DropTargetSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    if (props.externalData) {
-      dropResult.externalData = props.externalData;
+    if (props.dockContext.getExternalData()) {
+      dropResult.externalData = props.dockContext.getExternalData();
     }
 
     return dropResult;
@@ -607,6 +613,13 @@ function createDragState(clientOffset: XYCoord | null, component: any): DragMana
 }
 
 function canDrag(props: DndDragDropDivProps): boolean {
+  if (props.role === "tablist") {
+    let panelGroup: TabGroup | undefined = mergeTabGroups(props.dockContext.getGroup(props.panelData?.group), props.panelData?.localGroup);
+    if (props.panelData?.parent?.mode === "float" && !panelGroup?.movable) {
+      return false;
+    }
+  }
+
   if (props.role === "tab" &&
     props.tabData?.parent?.parent?.mode === 'float' &&
     props.tabData?.parent?.tabs?.length === 1
@@ -639,7 +652,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   beginDrag(props, monitor, component) {
     addBodyDraggingClass();
 
-    const beforeBeginDrag = props.dndSpec?.dragSourceSpec?.beforeBeginDrag;
+    const beforeBeginDrag = props.dockContext.getDefaultDndSpec()?.dragSourceSpec?.beforeBeginDrag;
 
     if (beforeBeginDrag) {
       beforeBeginDrag(props, monitor, component);
@@ -675,12 +688,12 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
       scaleY: baseElement.offsetHeight / Math.round(rect.height),
       externalData: {
         context: component.context,
-        extra: props.externalData,
+        extra: props.dockContext.getExternalData(),
         tab
       }
     };
 
-    const afterBeginDrag = props.dndSpec?.dragSourceSpec?.afterBeginDrag;
+    const afterBeginDrag = props.dockContext.getDefaultDndSpec()?.dragSourceSpec?.afterBeginDrag;
 
     if (afterBeginDrag) {
       afterBeginDrag(props, monitor, component);
@@ -692,7 +705,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
   endDrag(props, monitor, component) {
     removeBodyDraggingClass();
 
-    const beforeEndDrag = props.dndSpec?.dragSourceSpec?.beforeEndDrag;
+    const beforeEndDrag = props.dockContext.getDefaultDndSpec()?.dragSourceSpec?.beforeEndDrag;
 
     if (beforeEndDrag) {
       beforeEndDrag(props, monitor, component);
@@ -727,7 +740,7 @@ const dragSpec: DragSourceSpec<DndDragDropDivProps, DragObject, DropResult> = {
 
     dragEnd();
 
-    const afterEndDrag = props.dndSpec?.dragSourceSpec?.afterEndDrag;
+    const afterEndDrag = props.dockContext.getDefaultDndSpec()?.dragSourceSpec?.afterEndDrag;
 
     if (afterEndDrag) {
       afterEndDrag(props, monitor, component);
@@ -743,47 +756,37 @@ function dragCollect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
   };
 }
 
-const withDefaultDndSpec = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
-  return (props: P & DndSpecProps) => {
+const withDockContext = <P extends WithDockContextProps = WithDockContextProps>(WrappedComponent: React.ComponentType<P>) => {
+  return (props: Omit<P, keyof WithDockContextProps>) => {
     const context = useContext(DockContextType);
-    const defaultDndSpec = context.getDefaultDndSpec();
 
     return (
       <WrappedComponent
-        dndSpec={useMemo(() => defaultDndSpec, [])}
-        {...props}
+        dockContext={context}
+        {...(props as P)}
       />
     );
   };
 };
 
-const withExternalData = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
-  return (props: P & ExternalDataProps) => {
-    const context = useContext(DockContextType);
-    const externalData = context.getExternalData();
-
-    return (
-      <WrappedComponent
-        externalData={externalData}
-        {...props}
-      />
-    );
-  };
-};
-
-const EnhancedDndDragDropDiv = withExternalData<DragDropDivProps>(withDefaultDndSpec(
-  _.flow(
-    DragSource(
-      ({dndSpec}) => dndSpec?.dragSourceSpec?.itemType ? dndSpec.dragSourceSpec.itemType : ITEM_TYPE_DEFAULT,
-      dragSpec,
-      dragCollect
-    ),
-    DropTarget(
-      ({dndSpec}) => dndSpec?.dropTargetSpec?.itemType ? dndSpec.dropTargetSpec.itemType : ITEM_TYPE_DEFAULT,
-      dropSpec,
-      dropCollect
-    )
-  )(DndDragDropDiv)
-));
+const EnhancedDndDragDropDiv = _.flow(
+  DragSource(
+    ({dockContext}) => {
+      const dragSourceSpec = dockContext.getDefaultDndSpec()?.dragSourceSpec;
+      return dragSourceSpec?.itemType ? dragSourceSpec.itemType : ITEM_TYPE_DEFAULT;
+    },
+    dragSpec,
+    dragCollect
+  ),
+  DropTarget(
+    ({dockContext}) => {
+      const dropTargetSpec = dockContext.getDefaultDndSpec()?.dropTargetSpec;
+      return dropTargetSpec?.itemType ? dropTargetSpec.itemType : ITEM_TYPE_DEFAULT;
+    },
+    dropSpec,
+    dropCollect
+  ),
+  withDockContext
+)(DndDragDropDiv);
 
 export { EnhancedDndDragDropDiv as DragDropDiv };

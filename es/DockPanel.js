@@ -127,10 +127,6 @@ export class DockPanel extends React.PureComponent {
         };
         this.onPanelCornerDragMove = (e) => {
             let { panelData } = this.props;
-            let tabGroup = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
-            if (tabGroup && tabGroup.resizable === false) {
-                return;
-            }
             let { dx, dy } = e;
             if (this._movingCorner.startsWith('t')) {
                 // when moving top corners, dont let it move header out of screen
@@ -321,14 +317,30 @@ export class DockPanel extends React.PureComponent {
             React.createElement(DockTabs, { panelData: panelData, onPanelDragStart: onPanelHeaderDragStart, onPanelDragMove: this.onPanelHeaderDragMove, onPanelDragEnd: this.onPanelHeaderDragEnd, isCollapseDisabled: isCollapseDisabled }),
             isFloat ?
                 [
-                    React.createElement(DragDropDiv, { key: "drag-size-t", className: "dock-panel-drag-size dock-panel-drag-size-t", onDragStartT: this.onPanelCornerDragT, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-b", className: "dock-panel-drag-size dock-panel-drag-size-b", onDragStartT: this.onPanelCornerDragB, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-l", className: "dock-panel-drag-size dock-panel-drag-size-l", onDragStartT: this.onPanelCornerDragL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-r", className: "dock-panel-drag-size dock-panel-drag-size-r", onDragStartT: this.onPanelCornerDragR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-t-l", className: "dock-panel-drag-size dock-panel-drag-size-t-l", onDragStartT: this.onPanelCornerDragTL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-t-r", className: "dock-panel-drag-size dock-panel-drag-size-t-r", onDragStartT: this.onPanelCornerDragTR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-b-l", className: "dock-panel-drag-size dock-panel-drag-size-b-l", onDragStartT: this.onPanelCornerDragBL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd }),
-                    React.createElement(DragDropDiv, { key: "drag-size-b-r", className: "dock-panel-drag-size dock-panel-drag-size-b-r", onDragStartT: this.onPanelCornerDragBR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd })
+                    React.createElement(DragDropDiv, { key: "drag-size-t", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-t": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragT, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-b", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-b": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragB, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-l", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-l": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-r", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-r": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-t-l", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-t-l": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragTL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-t-r", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-t-r": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragTR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-b-l", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-b-l": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragBL, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" }),
+                    React.createElement(DragDropDiv, { key: "drag-size-b-r", className: classNames("dock-panel-drag-size", {
+                            "dock-panel-drag-size-b-r": tabGroup === null || tabGroup === void 0 ? void 0 : tabGroup.resizable
+                        }), onDragStartT: this.onPanelCornerDragBR, onDragMoveT: this.onPanelCornerDragMove, onDragEndT: this.onPanelCornerDragEnd, panelData: panelData, role: "resizer" })
                 ]
                 : null,
             droppingLayer));

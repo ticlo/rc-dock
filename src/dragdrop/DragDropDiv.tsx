@@ -613,6 +613,13 @@ function createDragState(clientOffset: XYCoord | null, component: any): DragMana
 }
 
 function canDrag(props: DndDragDropDivProps): boolean {
+  if (props.role === "resizer") {
+    let panelGroup: TabGroup | undefined = mergeTabGroups(props.dockContext.getGroup(props.panelData?.group), props.panelData?.localGroup);
+    if (props.panelData?.parent?.mode === "float" && !panelGroup?.resizable) {
+      return false;
+    }
+  }
+
   if (props.role === "tablist") {
     let panelGroup: TabGroup | undefined = mergeTabGroups(props.dockContext.getGroup(props.panelData?.group), props.panelData?.localGroup);
     if (props.panelData?.parent?.mode === "float" && !panelGroup?.movable) {

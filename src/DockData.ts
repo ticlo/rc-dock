@@ -410,6 +410,8 @@ export interface DockContext {
    */
   find(id: string, filter?: Filter): PanelData | TabData | BoxData;
 
+  updatePanelLocalGroup(panel: PanelData): void;
+
   /**
    * Update a tab with new TabData
    * @param id tab id to update

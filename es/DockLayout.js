@@ -22,6 +22,7 @@ import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
+import { updatePanelLocalGroup } from "./Algorithm";
 class DockPortalManager extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -236,6 +237,9 @@ export class DockLayout extends DockPortalManager {
     /** @inheritDoc */
     find(id, filter) {
         return Algorithm.find(this.getLayout(), id, filter);
+    }
+    updatePanelLocalGroup(panel) {
+        updatePanelLocalGroup(panel, this.getLayout());
     }
     /** @ignore */
     getLayoutSize() {

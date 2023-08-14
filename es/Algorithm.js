@@ -509,6 +509,12 @@ export function fixFloatPanelPos(layout, layoutWidth, layoutHeight) {
     }
     return layout;
 }
+export function updatePanelLocalGroup(panel, layout) {
+    if (panel.tabs.length) {
+        const tabActive = panel.activeId ? find(layout, panel.activeId, Filter.AnyTab) : null;
+        panel.localGroup = tabActive ? tabActive.localGroup : panel.tabs[0].localGroup;
+    }
+}
 export function fixLayoutData(layout, groups, loadTab) {
     function fixPanelOrBox(d) {
         calculateBoxPreferredSize(d);
@@ -543,10 +549,7 @@ export function fixLayoutData(layout, groups, loadTab) {
             panel.group = panel.tabs[0].group;
         }
         panel.tabPosition = ((_a = panel.tabs[0]) === null || _a === void 0 ? void 0 : _a.tabPosition) || panel.tabPosition;
-        if (panel.tabs.length) {
-            const tabActive = panel.activeId ? find(layout, panel.activeId, Filter.AnyTab) : null;
-            panel.localGroup = tabActive ? tabActive.localGroup : panel.tabs[0].localGroup;
-        }
+        updatePanelLocalGroup(panel, layout);
         let tabGroup = mergeTabGroups(groups === null || groups === void 0 ? void 0 : groups[panel.group], panel.localGroup);
         if (tabGroup) {
             if (tabGroup.widthFlex != null) {

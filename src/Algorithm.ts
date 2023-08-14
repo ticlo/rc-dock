@@ -566,6 +566,13 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
   return layout;
 }
 
+export function updatePanelLocalGroup(panel: PanelData, layout: LayoutData) {
+  if (panel.tabs.length) {
+    const tabActive: TabData | null = panel.activeId ? find(layout, panel.activeId, Filter.AnyTab) as TabData : null;
+    panel.localGroup = tabActive ? tabActive.localGroup : panel.tabs[0].localGroup;
+  }
+}
+
 export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGroup}, loadTab?: (tab: TabBase) => TabData): LayoutData {
 
   function fixPanelOrBox(d: PanelData | BoxData) {
@@ -600,10 +607,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
       panel.group = panel.tabs[0].group;
     }
     panel.tabPosition = panel.tabs[0]?.tabPosition || panel.tabPosition;
-    if (panel.tabs.length) {
-      const tabActive: TabData | null = panel.activeId ? find(layout, panel.activeId, Filter.AnyTab) as TabData : null;
-      panel.localGroup = tabActive ? tabActive.localGroup : panel.tabs[0].localGroup;
-    }
+    updatePanelLocalGroup(panel, layout);
 
     let tabGroup = mergeTabGroups(groups?.[panel.group], panel.localGroup);
     if (tabGroup) {

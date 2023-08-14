@@ -28,6 +28,7 @@ import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
+import { updatePanelLocalGroup } from "./Algorithm";
 
 export interface LayoutProps {
   /**
@@ -293,6 +294,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @inheritDoc */
   find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData {
     return Algorithm.find(this.getLayout(), id, filter);
+  }
+
+  updatePanelLocalGroup(panel: PanelData): void {
+    updatePanelLocalGroup(panel, this.getLayout());
   }
 
   /** @ignore */

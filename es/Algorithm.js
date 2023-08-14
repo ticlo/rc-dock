@@ -542,8 +542,7 @@ export function fixLayoutData(layout, groups, loadTab) {
         if (panel.group == null && panel.tabs.length) {
             panel.group = panel.tabs[0].group;
         }
-        panel.localGroup = (_a = panel.tabs[0]) === null || _a === void 0 ? void 0 : _a.localGroup;
-        panel.tabPosition = ((_b = panel.tabs[0]) === null || _b === void 0 ? void 0 : _b.tabPosition) || panel.tabPosition;
+        panel.tabPosition = ((_a = panel.tabs[0]) === null || _a === void 0 ? void 0 : _a.tabPosition) || panel.tabPosition;
         let tabGroup = mergeTabGroups(groups === null || groups === void 0 ? void 0 : groups[panel.group], panel.localGroup);
         if (tabGroup) {
             if (tabGroup.widthFlex != null) {
@@ -566,6 +565,7 @@ export function fixLayoutData(layout, groups, loadTab) {
         if (!findActiveId && panel.tabs.length) {
             panel.activeId = panel.tabs[0].id;
         }
+        panel.localGroup = find(layout, panel.activeId).localGroup || ((_b = panel.tabs[0]) === null || _b === void 0 ? void 0 : _b.localGroup);
         if (panel.minWidth <= 0) {
             panel.minWidth = 1;
         }

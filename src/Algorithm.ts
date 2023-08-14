@@ -599,7 +599,6 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
     if (panel.group == null && panel.tabs.length) {
       panel.group = panel.tabs[0].group;
     }
-    panel.localGroup = panel.tabs[0]?.localGroup;
     panel.tabPosition = panel.tabs[0]?.tabPosition || panel.tabPosition;
 
     let tabGroup = mergeTabGroups(groups?.[panel.group], panel.localGroup);
@@ -622,6 +621,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
     if (!findActiveId && panel.tabs.length) {
       panel.activeId = panel.tabs[0].id;
     }
+    panel.localGroup = (find(layout, panel.activeId!) as TabData).localGroup || panel.tabs[0]?.localGroup;
     if (panel.minWidth <= 0) {
       panel.minWidth = 1;
     }

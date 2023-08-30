@@ -537,7 +537,7 @@ export function fixLayoutData(layout, groups, loadTab) {
         d.heightFlex = null;
     }
     function fixPanelData(panel) {
-        var _a;
+        var _a, _b;
         fixPanelOrBox(panel);
         let findActiveId = false;
         if (loadTab) {
@@ -549,6 +549,7 @@ export function fixLayoutData(layout, groups, loadTab) {
             panel.group = panel.tabs[0].group;
         }
         panel.tabPosition = ((_a = panel.tabs[0]) === null || _a === void 0 ? void 0 : _a.tabPosition) || panel.tabPosition;
+        panel.collapsed = ((_b = panel.tabs[0]) === null || _b === void 0 ? void 0 : _b.collapsed) || panel.collapsed;
         updatePanelLocalGroup(panel, layout);
         let tabGroup = mergeTabGroups(groups === null || groups === void 0 ? void 0 : groups[panel.group], panel.localGroup);
         if (tabGroup) {

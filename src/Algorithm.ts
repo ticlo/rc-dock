@@ -607,6 +607,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
       panel.group = panel.tabs[0].group;
     }
     panel.tabPosition = panel.tabs[0]?.tabPosition || panel.tabPosition;
+    panel.collapsed = panel.tabs[0]?.collapsed || panel.collapsed;
     updatePanelLocalGroup(panel, layout);
 
     let tabGroup = mergeTabGroups(groups?.[panel.group], panel.localGroup);

@@ -77,12 +77,35 @@ export class DockBox extends React.PureComponent<Props, any> {
     this.context.onSilentChange(null, 'move');
   };
 
+  getExpandedPanelsCount() {
+    const {children} = this.props.boxData;
+
+    return children.filter(panel => !panel.collapsed).length;
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<any>, snapshot?: any) {
+    if (this.getExpandedPanelsCount() !== 0) {
+      return;
+    }
+
+    const {children} = this.props.boxData;
+
+    const lastChild = children[children.length - 1];
+    if (!('tabs' in lastChild)) {
+      return;
+    }
+
+    const firstTab = lastChild.tabs[0];
+    firstTab.collapsed = false;
+    this.context.updateTab(firstTab.id!, firstTab, false);
+  }
+
   render(): React.ReactNode {
     let {boxData, preferredWidth, preferredHeight} = this.props;
     let {minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex} = boxData;
     let isVertical = mode === 'vertical';
     let childrenRender: React.ReactNode[] = [];
-    const isCollapseDisabled = children.filter(panel => !panel.collapsed).length === 1;
+    const isCollapseDisabled = this.getExpandedPanelsCount() === 1;
     for (let i = 0; i < children.length; ++i) {
       if (i > 0) {
         childrenRender.push(

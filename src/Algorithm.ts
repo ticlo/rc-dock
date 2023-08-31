@@ -660,13 +660,6 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
   }
 
   function fixBoxData(box: BoxData): BoxData {
-    if (box.children.length > 0 && box.children.filter(p => !p.collapsed).length === 0) {
-      const child = box.children[box.children.length - 1];
-      if ('tabs' in child) {
-        child.collapsed = false;
-      }
-    }
-
     fixPanelOrBox(box);
     for (let i = 0; i < box.children.length; ++i) {
       let child = box.children[i];

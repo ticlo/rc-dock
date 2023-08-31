@@ -470,7 +470,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
-    if (getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData)) {
+    const {panelData} = this.props;
+    if (panelData.headerSize === undefined || getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData)) {
       this.updatePanelData();
     }
   }
@@ -480,9 +481,14 @@ export class DockPanel extends React.PureComponent<Props, State> {
     const tabPosition = getPanelTabPosition(panelData);
     this.context.updatePanelData(panelData.id!, {
       ...panelData,
-      headerSize: this.getHeaderSize(tabPosition),
-      collapsed: panelData.parent?.mode === "float" ? false : panelData.collapsed
+      headerSize: this.getHeaderSize(tabPosition)
     }, 'configure-panel');
+
+    if (panelData.parent?.mode === "float") {
+      const firstTab = panelData.tabs[0];
+      firstTab.collapsed = false;
+      this.context.updateTab(firstTab.id!, firstTab, false);
+    }
   }
 
   getHeaderSize(tabPosition?: TabPosition) {

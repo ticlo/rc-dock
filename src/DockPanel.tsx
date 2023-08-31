@@ -328,7 +328,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       size = preferredHeight;
     }
 
-    let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
+    let style: React.CSSProperties = {minWidth, minHeight, flexGrow, flexShrink, flexBasis: `${size}px`};
     const displayCollapsed = collapsed && (isHBox || isVBox);
     if (displayCollapsed) {
       style = {flexGrow: 0, flexShrink: 0, flexBasis: panelData.headerSize};

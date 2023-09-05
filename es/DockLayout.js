@@ -197,7 +197,7 @@ export class DockLayout extends DockPortalManager {
         }
         else if (target) {
             if ('tabs' in target) {
-                // pandel target
+                // panel target
                 if (direction === 'middle') {
                     layout = Algorithm.addTabToPanel(layout, source, target);
                 }

@@ -71,9 +71,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
 
   onDragOverOtherPanel() {
-    if (this.state.dropFromPanel) {
-      this.setState({dropFromPanel: null});
-    }
+    this.setState({dropFromPanel: null});
   }
 
   // used both by dragging head and corner

@@ -1,5 +1,9 @@
 # History
 ----
+
+## 3.2.18 / 2023-06-08
+- fix the issue that sometimes dock icons are shown and no UI response after switching tabs quickly
+
 ## 3.2.14 / 2022-11-25
 - make rc-dock compatible with preact
 

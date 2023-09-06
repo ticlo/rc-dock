@@ -111,7 +111,8 @@
 }
 .dock-left .dock-nav .dock-panel-max-btn,
 .dock-left .dock-nav .dock-panel-expand-btn,
-.dock-left .dock-nav .dock-panel-collapse-btn {
+.dock-left .dock-nav .dock-panel-collapse-btn,
+.dock-left .dock-nav .dock-panel-close-btn {
   padding-left: 9px;
 }
 .dock-left .dock-nav .dock-panel-min-btn {
@@ -189,7 +190,8 @@
 }
 .dock-right .dock-nav .dock-panel-max-btn,
 .dock-right .dock-nav .dock-panel-expand-btn,
-.dock-right .dock-nav .dock-panel-collapse-btn {
+.dock-right .dock-nav .dock-panel-collapse-btn,
+.dock-right .dock-nav .dock-panel-close-btn {
   padding-left: 9px;
 }
 .dock-right .dock-nav .dock-panel-min-btn {
@@ -862,7 +864,8 @@ body.dock-dragging iframe {
 .dock-panel-max-btn,
 .dock-panel-min-btn,
 .dock-panel-expand-btn,
-.dock-panel-collapse-btn {
+.dock-panel-collapse-btn,
+.dock-panel-close-btn {
   height: 15px;
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
@@ -876,7 +879,8 @@ body.dock-dragging iframe {
 .dock-panel-max-btn:hover,
 .dock-panel-min-btn:hover,
 .dock-panel-expand-btn:hover,
-.dock-panel-collapse-btn:hover {
+.dock-panel-collapse-btn:hover,
+.dock-panel-close-btn:hover {
   transform: scale(1.1);
 }
 .dock-panel-max-btn:before,
@@ -913,6 +917,16 @@ body.dock-dragging iframe {
 }
 .dock-panel-collapse-btn::before {
   content: "—";
+}
+.dock-panel-close-btn:before {
+  content: "X";
+  color: #444;
+  position: relative;
+  top: -3px;
+}
+.dock-panel-close-btn:hover:before,
+.dock-panel-close-btn:focus:before {
+  color: #a2a2a2;
 }
 .dock-panel-collapse-btn-disabled::before {
   color: #ccc;

@@ -39,6 +39,7 @@ export declare class DockTabs extends React.PureComponent<Props> {
     onCollapseExpandClick: (e: React.MouseEvent) => void;
     onNewWindowClick: () => void;
     addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean): JSX.Element;
+    onCloseClick: (e: React.MouseEvent) => void;
     renderTabBar: (props: any, TabNavList: React.ComponentType) => JSX.Element;
     onTabChange: (activeId: string) => void;
     draggingObserver: MutationObserver;

@@ -155,7 +155,7 @@ export class TabCache {
         }
         let tab = (React.createElement(DragDropDiv, { getRef: this.getRef, onDragStartT: onDragStart, role: "tab", "aria-selected": parent.activeId === id, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave, tabData: this.data },
             React.createElement("div", { className: "dock-tab-title" }, title),
-            closable ?
+            closable && parent.tabs.length > 1 ?
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })
                 : null,
             React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef })));
@@ -193,6 +193,11 @@ export class DockTabs extends React.PureComponent {
         this.onNewWindowClick = () => {
             let { panelData } = this.props;
             this.context.dockMove(panelData, null, 'new-window');
+        };
+        this.onCloseClick = (e) => {
+            let { panelData } = this.props;
+            this.context.dockMove(panelData.tabs[0], null, 'remove');
+            e.stopPropagation();
         };
         this.renderTabBar = (props, TabNavList) => {
             let { panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd, isCollapseDisabled } = this.props;
@@ -236,7 +241,8 @@ export class DockTabs extends React.PureComponent {
             panelExtraContent = React.createElement(React.Fragment, null,
                 panelExtraContent,
                 collapsible ? renderCollapseExpandBtn() : null,
-                panelDefaultContent);
+                panelDefaultContent,
+                panelData.tabs.length === 1 && panelData.tabs[0].closable && React.createElement("div", { className: "dock-panel-close-btn", onClick: this.onCloseClick }));
             return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent, panelData: panelData })));
         };
         this.onTabChange = (activeId) => {

@@ -375,7 +375,7 @@ body.dock-dragging {
   pointer-events: none;
 }
 
-.dock-panel-max-btn, .dock-panel-min-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn {
+.dock-panel-max-btn, .dock-panel-min-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn, .dock-panel-close-btn {
   height: 15px;
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
@@ -429,6 +429,20 @@ body.dock-dragging {
 }
 .dock-panel-collapse-btn::before {
   content: "—";
+}
+.dock-panel-close-btn {
+  &:before {
+    content: "X";
+    color: @button-text-color;
+    position: relative;
+    top: -3px;
+  }
+
+  &:hover, &:focus {
+    &:before {
+      color: @button-text-middle-color;
+    }
+  }
 }
 .dock-panel-collapse-btn-disabled::before {
   color: @disabled-color;

@@ -170,7 +170,7 @@ export class TabCache {
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart} role="tab" aria-selected={parent.activeId === id}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave} tabData={this.data}>
         <div className="dock-tab-title">{title}</div>
-        {closable ?
+        {closable && parent.tabs.length > 1 ?
           <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>
           : null
         }
@@ -288,6 +288,12 @@ export class DockTabs extends React.PureComponent<Props> {
     );
   }
 
+  onCloseClick = (e: React.MouseEvent) => {
+    let {panelData} = this.props;
+    this.context.dockMove(panelData.tabs[0], null, 'remove');
+    e.stopPropagation();
+  };
+
   renderTabBar = (props: any, TabNavList: React.ComponentType) => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd, isCollapseDisabled} = this.props;
     let {group: groupName, panelLock, localGroup} = panelData;
@@ -353,6 +359,7 @@ export class DockTabs extends React.PureComponent<Props> {
       {panelExtraContent}
       {collapsible ? renderCollapseExpandBtn() : null}
       {panelDefaultContent}
+      {panelData.tabs.length === 1 && panelData.tabs[0].closable && <div className="dock-panel-close-btn" onClick={this.onCloseClick}/>}
     </>;
 
     return (

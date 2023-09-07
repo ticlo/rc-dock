@@ -487,7 +487,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (panelData.parent?.mode === "float") {
       const firstTab = panelData.tabs[0];
       firstTab.collapsed = false;
-      this.context.updateTab(firstTab.id!, firstTab, false);
+      this.context.updateTab(firstTab.id!, firstTab, false, 'configure-tab');
     }
   }
 

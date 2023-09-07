@@ -367,7 +367,7 @@ export class DockPanel extends React.PureComponent {
         if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "float") {
             const firstTab = panelData.tabs[0];
             firstTab.collapsed = false;
-            this.context.updateTab(firstTab.id, firstTab, false);
+            this.context.updateTab(firstTab.id, firstTab, false, 'configure-tab');
         }
     }
     getHeaderSize(tabPosition) {

@@ -309,7 +309,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  updateTab(id: string, newTab: TabData, makeActive: boolean = true): boolean {
+  updateTab(id: string, newTab: TabData, makeActive: boolean = true, direction: DropDirection = 'update'): boolean {
     let tab = this.find(id, Algorithm.Filter.AnyTab) as TabData;
     if (tab) {
       let panelData = tab.parent;
@@ -336,7 +336,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         }
 
         layout = Algorithm.fixLayoutData(layout, this.props.groups);
-        this.changeLayout(layout, newTab?.id ?? id, 'update');
+        this.changeLayout(layout, newTab?.id ?? id, direction);
         return true;
       }
     }

@@ -97,7 +97,7 @@ export class DockBox extends React.PureComponent<Props, any> {
 
     const firstTab = lastChild.tabs[0];
     firstTab.collapsed = false;
-    this.context.updateTab(firstTab.id!, firstTab, false);
+    this.context.updateTab(firstTab.id!, firstTab, false, 'configure-tab');
   }
 
   render(): React.ReactNode {

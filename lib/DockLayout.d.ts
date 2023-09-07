@@ -124,7 +124,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
         height: number;
     };
     /** @inheritDoc */
-    updateTab(id: string, newTab: TabData, makeActive?: boolean): boolean;
+    updateTab(id: string, newTab: TabData, makeActive?: boolean, direction?: DropDirection): boolean;
     updatePanelData(id: string, panelData: PanelData, direction: DropDirection): void;
     /** @inheritDoc */
     navigateToPanel(fromElement?: HTMLElement, direction?: string): void;

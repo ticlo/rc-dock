@@ -249,7 +249,7 @@ export class DockLayout extends DockPortalManager {
         return { width: 0, height: 0 };
     }
     /** @inheritDoc */
-    updateTab(id, newTab, makeActive = true) {
+    updateTab(id, newTab, makeActive = true, direction = 'update') {
         var _a;
         let tab = this.find(id, Algorithm.Filter.AnyTab);
         if (tab) {
@@ -277,7 +277,7 @@ export class DockLayout extends DockPortalManager {
                     layout = Algorithm.replacePanel(layout, panelData, Object.assign(Object.assign({}, panelData), { activeId: id }));
                 }
                 layout = Algorithm.fixLayoutData(layout, this.props.groups);
-                this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, 'update');
+                this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, direction);
                 return true;
             }
         }

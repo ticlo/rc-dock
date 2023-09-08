@@ -27,6 +27,30 @@ function isPopupDiv(r) {
     var _a, _b;
     return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI');
 }
+class DockTabTitle extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.ref = React.createRef();
+        this.handleMouseWheelClick = this.handleMouseWheelClick.bind(this);
+    }
+    handleMouseWheelClick(e) {
+        if (e.button === 1) {
+            this.props.onMouseWheelClick(e);
+        }
+    }
+    componentDidMount() {
+        const tabElement = this.ref.current.parentElement.parentElement.parentElement;
+        tabElement.addEventListener("mouseup", this.handleMouseWheelClick);
+    }
+    componentWillUnmount() {
+        const tabElement = this.ref.current.parentElement.parentElement.parentElement;
+        tabElement.removeEventListener("mouseup", this.handleMouseWheelClick);
+    }
+    render() {
+        const { title } = this.props;
+        return React.createElement("div", { ref: this.ref, className: "dock-tab-title" }, title);
+    }
+}
 export class TabCache {
     constructor(context) {
         this.getRef = (r) => {
@@ -42,7 +66,7 @@ export class TabCache {
             this._hitAreaRef = r;
         };
         this.onCloseClick = (e) => {
-            this.context.dockMove(this.data, null, 'remove');
+            this.removeTab();
             e.stopPropagation();
         };
         this.onDragStart = (e) => {
@@ -122,6 +146,7 @@ export class TabCache {
             }
         };
         this.context = context;
+        this.handleMouseWheelClick = this.handleMouseWheelClick.bind(this);
     }
     setData(data) {
         if (data !== this.data) {
@@ -131,6 +156,9 @@ export class TabCache {
         }
         return false;
     }
+    removeTab() {
+        this.context.dockMove(this.data, null, 'remove');
+    }
     getDropDirection(e) {
         let rect = this._hitAreaRef.getBoundingClientRect();
         if (["left", "right"].includes(getPanelTabPosition(this.data.parent))) {
@@ -139,6 +167,16 @@ export class TabCache {
         }
         let midx = rect.left + rect.width * 0.5;
         return e.clientX > midx ? 'after-tab' : 'before-tab';
+    }
+    handleMouseWheelClick(e) {
+        if (this.isTabClosable()) {
+            this.removeTab();
+            e.stopPropagation();
+        }
+    }
+    isTabClosable() {
+        const { parent, closable } = this.data;
+        return closable && parent.tabs.length > 1;
     }
     render() {
         let { id, title, group, content, closable, cached, parent, localGroup } = this.data;
@@ -153,9 +191,10 @@ export class TabCache {
         if (typeof content === 'function') {
             content = content(this.data);
         }
+        const tabClosable = closable && parent.tabs.length > 1;
         let tab = (React.createElement(DragDropDiv, { getRef: this.getRef, onDragStartT: onDragStart, role: "tab", "aria-selected": parent.activeId === id, onDragOverT: onDragOver, onDropT: onDrop, onDragLeaveT: onDragLeave, tabData: this.data },
-            React.createElement("div", { className: "dock-tab-title" }, title),
-            closable && parent.tabs.length > 1 ?
+            React.createElement(DockTabTitle, { title: title, onMouseWheelClick: this.handleMouseWheelClick }),
+            tabClosable ?
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })
                 : null,
             React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef })));
@@ -194,7 +233,7 @@ export class DockTabs extends React.PureComponent {
             let { panelData } = this.props;
             this.context.dockMove(panelData, null, 'new-window');
         };
-        this.onCloseClick = (e) => {
+        this.handlePanelCloseClick = (e) => {
             let { panelData } = this.props;
             this.context.dockMove(panelData.tabs[0], null, 'remove');
             e.stopPropagation();
@@ -242,7 +281,7 @@ export class DockTabs extends React.PureComponent {
                 panelExtraContent,
                 collapsible ? renderCollapseExpandBtn() : null,
                 panelDefaultContent,
-                panelData.tabs.length === 1 && panelData.tabs[0].closable && React.createElement("div", { className: "dock-panel-close-btn", onClick: this.onCloseClick }));
+                panelData.tabs.length === 1 && panelData.tabs[0].closable && React.createElement("div", { className: "dock-panel-close-btn", onClick: this.handlePanelCloseClick }));
             return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent, panelData: panelData })));
         };
         this.onTabChange = (activeId) => {

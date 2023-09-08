@@ -11,12 +11,15 @@ export declare class TabCache {
     content: React.ReactElement;
     constructor(context: DockContext);
     setData(data: TabData): boolean;
+    removeTab(): void;
     onCloseClick: (e: React.MouseEvent) => void;
     onDragStart: (e: DragManager.DragState) => void;
     onDragOver: (e: DragManager.DragState) => void;
     onDragLeave: (e: DragManager.DragState) => void;
     onDrop: (e: DragManager.DragState) => void;
     getDropDirection(e: DragManager.DragState): DropDirection;
+    handleMouseWheelClick(e: MouseEvent): void;
+    isTabClosable(): boolean;
     render(): React.ReactElement;
     destroy(): void;
 }
@@ -39,7 +42,7 @@ export declare class DockTabs extends React.PureComponent<Props> {
     onCollapseExpandClick: (e: React.MouseEvent) => void;
     onNewWindowClick: () => void;
     addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean): JSX.Element;
-    onCloseClick: (e: React.MouseEvent) => void;
+    handlePanelCloseClick: (e: React.MouseEvent) => void;
     renderTabBar: (props: any, TabNavList: React.ComponentType) => JSX.Element;
     onTabChange: (activeId: string) => void;
     draggingObserver: MutationObserver;

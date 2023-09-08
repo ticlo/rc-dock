@@ -29,6 +29,42 @@ function isPopupDiv(r: HTMLDivElement): boolean {
   return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement.tagName === 'LI');
 }
 
+interface DockTabTitleProps {
+  title: React.ReactChild;
+  onMouseWheelClick: (e: MouseEvent) => void;
+}
+
+class DockTabTitle extends React.PureComponent<DockTabTitleProps> {
+  ref = React.createRef<HTMLDivElement>();
+
+  constructor(props: DockTabTitleProps) {
+    super(props);
+
+    this.handleMouseWheelClick = this.handleMouseWheelClick.bind(this);
+  }
+
+  handleMouseWheelClick(e: MouseEvent) {
+    if (e.button === 1) {
+      this.props.onMouseWheelClick(e);
+    }
+  }
+
+  componentDidMount() {
+    const tabElement = this.ref.current.parentElement.parentElement.parentElement;
+    tabElement.addEventListener("mouseup", this.handleMouseWheelClick);
+  }
+
+  componentWillUnmount() {
+    const tabElement = this.ref.current.parentElement.parentElement.parentElement;
+    tabElement.removeEventListener("mouseup", this.handleMouseWheelClick);
+  }
+
+  render() {
+    const { title } = this.props;
+    return <div ref={this.ref} className="dock-tab-title">{title}</div>;
+  }
+}
+
 export class TabCache {
 
 
@@ -54,6 +90,7 @@ export class TabCache {
 
   constructor(context: DockContext) {
     this.context = context;
+    this.handleMouseWheelClick = this.handleMouseWheelClick.bind(this);
   }
 
   setData(data: TabData) {
@@ -65,8 +102,12 @@ export class TabCache {
     return false;
   }
 
-  onCloseClick = (e: React.MouseEvent) => {
+  removeTab() {
     this.context.dockMove(this.data, null, 'remove');
+  }
+
+  onCloseClick = (e: React.MouseEvent) => {
+    this.removeTab();
     e.stopPropagation();
   };
 
@@ -153,6 +194,19 @@ export class TabCache {
     return e.clientX > midx ? 'after-tab' : 'before-tab';
   }
 
+  handleMouseWheelClick(e: MouseEvent) {
+    if (this.isTabClosable()) {
+      this.removeTab();
+      e.stopPropagation();
+    }
+  }
+
+  isTabClosable() {
+    const { parent, closable } = this.data;
+
+    return closable && parent.tabs.length > 1;
+  }
+
   render(): React.ReactElement {
     let {id, title, group, content, closable, cached, parent, localGroup} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
@@ -166,11 +220,12 @@ export class TabCache {
     if (typeof content === 'function') {
       content = content(this.data);
     }
+    const tabClosable = closable && parent.tabs.length > 1;
     let tab = (
       <DragDropDiv getRef={this.getRef} onDragStartT={onDragStart} role="tab" aria-selected={parent.activeId === id}
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave} tabData={this.data}>
-        <div className="dock-tab-title">{title}</div>
-        {closable && parent.tabs.length > 1 ?
+        <DockTabTitle title={title} onMouseWheelClick={this.handleMouseWheelClick} />
+        {tabClosable ?
           <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>
           : null
         }
@@ -288,7 +343,7 @@ export class DockTabs extends React.PureComponent<Props> {
     );
   }
 
-  onCloseClick = (e: React.MouseEvent) => {
+  handlePanelCloseClick = (e: React.MouseEvent) => {
     let {panelData} = this.props;
     this.context.dockMove(panelData.tabs[0], null, 'remove');
     e.stopPropagation();
@@ -359,7 +414,7 @@ export class DockTabs extends React.PureComponent<Props> {
       {panelExtraContent}
       {collapsible ? renderCollapseExpandBtn() : null}
       {panelDefaultContent}
-      {panelData.tabs.length === 1 && panelData.tabs[0].closable && <div className="dock-panel-close-btn" onClick={this.onCloseClick}/>}
+      {panelData.tabs.length === 1 && panelData.tabs[0].closable && <div className="dock-panel-close-btn" onClick={this.handlePanelCloseClick} />}
     </>;
 
     return (

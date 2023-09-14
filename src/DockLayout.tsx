@@ -162,7 +162,7 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
     let cache = this._caches.get(id);
     if (cache) {
       if (Object.is(cache.portal?.children, children)) { 
-        return 
+        return;
       }
       cache.portal = ReactDOM.createPortal(children, cache.div, cache.id);
       this.forceUpdate();

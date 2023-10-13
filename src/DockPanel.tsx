@@ -7,6 +7,7 @@ import {DockDropLayer} from "./DockDropLayer";
 import {getFloatPanelSize, nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";
 import {groupClassNames} from "./Utils";
+import * as DragManager from "./dragdrop/DragManager";
 import classNames from "classnames";
 
 interface Props {
@@ -131,7 +132,6 @@ export class DockPanel extends React.PureComponent<Props, State> {
       }
     }
   };
-
 
   _movingW: number;
   _movingH: number;
@@ -258,6 +258,74 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
   };
 
+  onPanelDragOver = (e: DragState) => {
+    let dockId = this.context.getDockId();
+    let tab: TabData = DragManager.DragState.getData('tab', dockId);
+    let panel: PanelData = DragManager.DragState.getData('panel', dockId);
+
+    let group: string;
+    if (tab) {
+      panel = tab.parent;
+      group = tab.group;
+    } else {
+      // drag whole panel
+      if (!panel) {
+        return;
+      }
+      if (panel?.panelLock) {
+        e.reject();
+        return;
+      }
+      group = panel.group;
+    }
+
+    const tabGroup = this.context.getGroup(group);
+    const thisPanelData = this.props.panelData;
+    const lastTab = thisPanelData.tabs[thisPanelData.tabs.length - 1];
+
+    const direction = 'after-tab';
+
+    const dockTabElements = this._ref.querySelectorAll('.dock-tab');
+    const dockTabLastElement = dockTabElements[dockTabElements.length - 1];
+    const dockTabLastRect:HTMLElement = dockTabLastElement.querySelector('.dock-tab-hit-area');
+
+    if(e.clientX - this._ref.offsetLeft < 30) {
+      // do not allow drop on the left side of the tab
+    } else if (group !== lastTab.group) {
+      e.reject();
+    } else if (tabGroup?.floatable === 'singleTab' && lastTab.parent?.parent?.mode === 'float') {
+      e.reject();
+    } else if (tab && tab !== lastTab) {
+      this.context.setDropRect(dockTabLastRect, direction, this);
+      e.accept('');
+    } else if (panel && panel !== lastTab.parent) {
+      this.context.setDropRect(dockTabLastRect, direction, this);
+      e.accept('');
+    }
+  }
+
+  onPanelDrop = (e: DragState) => {
+    let dockId = this.context.getDockId();
+    let panel: PanelData;
+    let tab: TabData = DragManager.DragState.getData('tab', dockId);
+    if (tab) {
+      panel = tab.parent;
+    } else {
+      panel = DragManager.DragState.getData('panel', dockId);
+    }
+
+    const direction = 'after-tab';
+
+    const thisPanelData = this.props.panelData;
+    const lastTab = thisPanelData.tabs[thisPanelData.tabs.length - 1];
+
+    if (tab && tab !== lastTab) {
+      this.context.dockMove(tab, lastTab, direction);
+    } else if (panel && panel !== lastTab.parent) {
+      this.context.dockMove(panel, lastTab, direction);
+    }
+  }
+
   render(): React.ReactNode {
     let {dropFromPanel, draggingHeader} = this.state;
     let {panelData, size} = this.props;
@@ -328,7 +396,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
                    onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
         <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
-                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
+                  onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd} onPanelDragOver={this.onPanelDragOver} onPanelDrop={this.onPanelDrop}/>
         {isFloat ?
           [
             <DragDropDiv key="drag-size-t" className="dock-panel-drag-size dock-panel-drag-size-t"

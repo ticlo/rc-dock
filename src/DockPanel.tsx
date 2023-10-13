@@ -286,20 +286,28 @@ export class DockPanel extends React.PureComponent<Props, State> {
     const direction = 'after-tab';
 
     const dockTabElements = this._ref.querySelectorAll('.dock-tab');
-    const dockTabLastElement = dockTabElements[dockTabElements.length - 1];
-    const dockTabLastRect:HTMLElement = dockTabLastElement.querySelector('.dock-tab-hit-area');
 
-    if(e.clientX - this._ref.offsetLeft < 30) {
+    let rectElement:HTMLElement = this._ref.querySelector('.dock-nav-list');
+
+    if (dockTabElements.length) {
+      const dockTabLastElement = dockTabElements[dockTabElements.length - 1];
+      rectElement = dockTabLastElement.querySelector('.dock-tab-hit-area');
+    }
+
+    if(!lastTab){
+      e.accept();
+      this.context.setDropRect(rectElement, direction, this);
+    }else if(e.clientX - this._ref.offsetLeft < 30) {
       // do not allow drop on the left side of the tab
-    } else if (group !== lastTab.group) {
+    }else if (group !== lastTab?.group) {
       e.reject();
     } else if (tabGroup?.floatable === 'singleTab' && lastTab.parent?.parent?.mode === 'float') {
       e.reject();
     } else if (tab && tab !== lastTab) {
-      this.context.setDropRect(dockTabLastRect, direction, this);
+      this.context.setDropRect(rectElement, direction, this);
       e.accept('');
-    } else if (panel && panel !== lastTab.parent) {
-      this.context.setDropRect(dockTabLastRect, direction, this);
+    } else if (panel && panel !== lastTab?.parent) {
+      this.context.setDropRect(rectElement, direction, this);
       e.accept('');
     }
   }
@@ -319,10 +327,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     const thisPanelData = this.props.panelData;
     const lastTab = thisPanelData.tabs[thisPanelData.tabs.length - 1];
 
+    const target = lastTab ? lastTab : thisPanelData;
+
     if (tab && tab !== lastTab) {
-      this.context.dockMove(tab, lastTab, direction);
-    } else if (panel && panel !== lastTab.parent) {
-      this.context.dockMove(panel, lastTab, direction);
+      this.context.dockMove(tab, target, direction);
+    } else if (panel && panel !== lastTab?.parent) {
+      this.context.dockMove(panel, target, direction);
     }
   }
 

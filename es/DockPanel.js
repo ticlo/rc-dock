@@ -93,6 +93,9 @@ export class DockPanel extends React.PureComponent {
         };
         this.onPanelHeaderDragEnd = (e) => {
             var _a;
+            if (this._unmounted) {
+                return;
+            }
             this.setState({ draggingHeader: false });
             if (e.dropped === false) {
                 let { panelData } = this.props;

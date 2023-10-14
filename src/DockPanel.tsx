@@ -1,5 +1,5 @@
 import * as React from "react";
-import {DockContext, DockContextType, PanelData, TabData} from "./DockData";
+import {DockContext, DockContextType, DropDirection, PanelData, TabData} from "./DockData";
 import {DockTabs} from "./DockTabs";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
@@ -325,13 +325,16 @@ export class DockPanel extends React.PureComponent<Props, State> {
       panel = DragManager.DragState.getData('panel', dockId);
     }
 
-    const direction = 'after-tab';
+    let direction:DropDirection = 'after-tab';
 
     const thisPanelData = this.props.panelData;
     const lastTab = thisPanelData.tabs[thisPanelData.tabs.length - 1];
 
     const target = lastTab ? lastTab : thisPanelData;
 
+    if(!lastTab){
+      direction = 'middle';
+    }
     if (tab && tab !== lastTab) {
       this.context.dockMove(tab, target, direction);
     } else if (panel && panel !== lastTab?.parent) {

@@ -254,7 +254,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
         // panel target
         if (direction === 'middle') {
           layout = Algorithm.addTabToPanel(layout, source, target as PanelData);
+          console.log("Panel A");
         } else {
+          console.log("Panel B");
           let newPanel = Algorithm.converToPanel(source);
           layout = Algorithm.dockPanelToPanel(layout, newPanel, target as PanelData, direction);
         }

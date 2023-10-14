@@ -271,14 +271,18 @@ export class DockPanel extends React.PureComponent {
             else {
                 panel = DragManager.DragState.getData('panel', dockId);
             }
-            const direction = 'after-tab';
+            let direction = 'after-tab';
             const thisPanelData = this.props.panelData;
             const lastTab = thisPanelData.tabs[thisPanelData.tabs.length - 1];
             const target = lastTab ? lastTab : thisPanelData;
+            if (!lastTab) {
+                direction = 'middle';
+            }
             if (tab && tab !== lastTab) {
                 this.context.dockMove(tab, target, direction);
             }
             else if (panel && panel !== (lastTab === null || lastTab === void 0 ? void 0 : lastTab.parent)) {
+                console.log("dock move panel", panel, target, direction);
                 this.context.dockMove(panel, target, direction);
             }
         };

@@ -376,7 +376,7 @@ export class DockLayout extends DockPortalManager {
     render() {
         // clear tempLayout
         this.tempLayout = null;
-        let { style, maximizeTo } = this.props;
+        let { style, maximizeTo, onWindowOpened, onWindowClosing } = this.props;
         let { layout, dropRect } = this.state;
         let dropRectStyle;
         if (dropRect) {
@@ -408,7 +408,7 @@ export class DockLayout extends DockPortalManager {
             React.createElement(DockContextProvider, { value: this },
                 React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
                 React.createElement(FloatBox, { boxData: layout.floatbox }),
-                React.createElement(WindowBox, { boxData: layout.windowbox }),
+                React.createElement(WindowBox, { boxData: layout.windowbox, onWindowOpened: onWindowOpened, onWindowClosing: onWindowClosing }),
                 maximize,
                 portals),
             React.createElement("div", { className: "dock-drop-indicator", style: dropRectStyle })));

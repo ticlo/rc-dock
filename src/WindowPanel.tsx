@@ -7,6 +7,8 @@ import {mapElementToScreenRect, mapWindowToElement} from "rc-new-window/lib/Scre
 
 interface Props {
   panelData: PanelData;
+  onWindowOpened?(panel: PanelData, window: Window): void;
+  onWindowClosing?(panel: PanelData, window: Window): void;
 }
 
 export class WindowPanel extends React.PureComponent<Props, any> {
@@ -16,12 +18,20 @@ export class WindowPanel extends React.PureComponent<Props, any> {
   _window: Window;
 
   onOpen = (w: Window) => {
+    let {panelData, onWindowOpened} = this.props;
     if (!this._window && w) {
       this._window = w;
+      if (onWindowOpened) {
+        onWindowOpened(panelData, this._window);
+      }
     }
   };
   onUnload = () => {
-    let {panelData} = this.props;
+    let {panelData, onWindowClosing} = this.props;
+    if (onWindowClosing) {
+      onWindowClosing(panelData, this._window);
+    }
+
     let layoutRoot = this.context.getRootElement();
     const rect = mapWindowToElement(layoutRoot, this._window);
     if (rect.width > 0 && rect.height > 0) {

@@ -7,12 +7,19 @@ export class WindowPanel extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.onOpen = (w) => {
+            let { panelData, onWindowOpened } = this.props;
             if (!this._window && w) {
                 this._window = w;
+                if (onWindowOpened) {
+                    onWindowOpened(panelData, this._window);
+                }
             }
         };
         this.onUnload = () => {
-            let { panelData } = this.props;
+            let { panelData, onWindowClosing } = this.props;
+            if (onWindowClosing) {
+                onWindowClosing(panelData, this._window);
+            }
             let layoutRoot = this.context.getRootElement();
             const rect = mapWindowToElement(layoutRoot, this._window);
             if (rect.width > 0 && rect.height > 0) {

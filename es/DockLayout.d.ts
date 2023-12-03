@@ -30,6 +30,18 @@ export interface LayoutProps {
      */
     onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection): void;
     /**
+     * Fired when a panel is popped out as window
+     * @param panel the panel that has been popped out
+     * @param window newly created window object
+     */
+    onWindowOpened?(panel: PanelData, window: Window): void;
+    /**
+     * Fired when a popped out window is closing
+     * @param panel the panel that is popped out
+     * @param window the window object that is about to close
+     */
+    onWindowClosing?(panel: PanelData, window: Window): void;
+    /**
      * - default mode: showing 4 to 9 squares to help picking drop areas
      * - edge mode: using the distance between mouse and panel border to pick drop area
      *   - in edge mode, dragging float panel's header won't bring panel back to dock layer

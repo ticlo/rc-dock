@@ -437,7 +437,7 @@ function removeTab(layout: LayoutData, tab: TabData): LayoutData {
         if (newPanel.tabs.length > pos) {
           newPanel.activeId = newPanel.tabs[pos].id;
         } else if (newPanel.tabs.length) {
-          newPanel.activeId = newPanel.tabs[0].id;
+          newPanel.activeId = newPanel.tabs[pos - 1].id;
         }
       }
       return replacePanel(layout, panel, newPanel);

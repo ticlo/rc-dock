@@ -344,11 +344,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return false;
   }
 
-  updatePanelData(id: string, panelData: PanelData, direction: DropDirection): void {
+  updatePanelData(id: string, panelData: PanelData, direction: DropDirection, additionalData?: any): void {
     const layout = this.getLayout();
     const targetPanel = Algorithm.find(layout, id) as PanelData;
     const newLayout = Algorithm.replacePanel(layout, targetPanel, panelData);
-    this.changeLayout(newLayout, null, direction);
+    this.changeLayout(newLayout, null, direction, false, additionalData);
   }
 
   /** @inheritDoc */

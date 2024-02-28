@@ -22,7 +22,6 @@ import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
-import { updatePanelLocalGroup } from "./Algorithm";
 class DockPortalManager extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -160,8 +159,9 @@ export class DockLayout extends DockPortalManager {
      * @param source @inheritDoc
      * @param target @inheritDoc
      * @param direction @inheritDoc
+     * @param additionalData @inheritDoc
      */
-    dockMove(source, target, direction) {
+    dockMove(source, target, direction, additionalData) {
         let layout = this.getLayout();
         if (source && 'tabs' in source) {
             source.ignorePreferredSize = false;
@@ -230,7 +230,7 @@ export class DockLayout extends DockPortalManager {
                 // when source is tab
                 currentTabId = source.id;
             }
-            this.changeLayout(layout, currentTabId, direction);
+            this.changeLayout(layout, currentTabId, direction, false, additionalData);
         }
         this.onDragStateChange(false);
     }
@@ -239,7 +239,7 @@ export class DockLayout extends DockPortalManager {
         return Algorithm.find(this.getLayout(), id, filter);
     }
     updatePanelLocalGroup(panel) {
-        updatePanelLocalGroup(panel, this.getLayout());
+        Algorithm.updatePanelLocalGroup(panel, this.getLayout());
     }
     /** @ignore */
     getLayoutSize() {
@@ -485,13 +485,13 @@ export class DockLayout extends DockPortalManager {
     /** @ignore
      * change layout
      */
-    changeLayout(layoutData, currentTabId, direction, silent = false) {
+    changeLayout(layoutData, currentTabId, direction, silent = false, additionalData) {
         let { layout, onLayoutChange } = this.props;
         let savedLayout;
         if (onLayoutChange) {
             savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
             layoutData.loadedFrom = savedLayout;
-            onLayoutChange(savedLayout, currentTabId, direction);
+            onLayoutChange(savedLayout, currentTabId, direction, additionalData);
             if (layout) {
                 // if layout prop is defined, we need to force an update to make sure it's either updated or reverted back
                 this.forceUpdate();

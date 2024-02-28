@@ -27,8 +27,9 @@ export interface LayoutProps {
      * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
      * @param currentTabId id of current tab
      * @param direction direction of the dock change
+     * @param additionalData optional additional data
      */
-    onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection): void;
+    onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection, additionalData?: any): void;
     /**
      * - default mode: showing 4 to 9 squares to help picking drop areas
      * - edge mode: using the distance between mouse and panel border to pick drop area
@@ -113,8 +114,9 @@ export declare class DockLayout extends DockPortalManager implements DockContext
      * @param source @inheritDoc
      * @param target @inheritDoc
      * @param direction @inheritDoc
+     * @param additionalData @inheritDoc
      */
-    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection): void;
+    dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: any): void;
     /** @inheritDoc */
     find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData;
     updatePanelLocalGroup(panel: PanelData): void;
@@ -160,7 +162,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     /** @ignore
      * change layout
      */
-    changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection, silent?: boolean): void;
+    changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection, silent?: boolean, additionalData?: any): void;
     /** @ignore
      * some layout change were handled by component silently
      * but they should still call this function to trigger onLayoutChange

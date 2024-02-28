@@ -397,9 +397,9 @@ export interface DockContext {
    *  - when direction is 'after-tab' or 'before-tab', target must be TabData
    *  - when direction is 'remove' or 'front', target must be null
    *  - when direction is 'float', target doesnt matter. If this is called directly from code without any user interaction, source must be PanelData with x,y,w,h properties
-   *
+   * @param additionalData optional additional data
    */
-  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection): void;
+  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: any): void;
 
   /**
    * Get the TabGroup defined in defaultLayout

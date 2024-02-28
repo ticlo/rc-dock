@@ -28,7 +28,6 @@ import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
-import { updatePanelLocalGroup } from "./Algorithm";
 
 export interface LayoutProps {
   /**
@@ -58,8 +57,9 @@ export interface LayoutProps {
    * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
    * @param currentTabId id of current tab
    * @param direction direction of the dock change
+   * @param additionalData optional additional data
    */
-  onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection): void;
+  onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection, additionalData?: any): void;
 
   /**
    * - default mode: showing 4 to 9 squares to help picking drop areas
@@ -221,8 +221,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * @param source @inheritDoc
    * @param target @inheritDoc
    * @param direction @inheritDoc
+   * @param additionalData @inheritDoc
    */
-  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection) {
+  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: any) {
     let layout = this.getLayout();
 
     if (source && 'tabs' in source) {
@@ -286,7 +287,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         // when source is tab
         currentTabId = (source as TabData).id;
       }
-      this.changeLayout(layout, currentTabId, direction);
+      this.changeLayout(layout, currentTabId, direction, false, additionalData);
     }
     this.onDragStateChange(false);
   }
@@ -297,7 +298,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   updatePanelLocalGroup(panel: PanelData): void {
-    updatePanelLocalGroup(panel, this.getLayout());
+    Algorithm.updatePanelLocalGroup(panel, this.getLayout());
   }
 
   /** @ignore */
@@ -624,13 +625,13 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore
    * change layout
    */
-  changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection, silent: boolean = false) {
+  changeLayout(layoutData: LayoutData, currentTabId: string, direction: DropDirection, silent: boolean = false, additionalData?: any) {
     let {layout, onLayoutChange} = this.props;
     let savedLayout: LayoutBase;
     if (onLayoutChange) {
       savedLayout = Serializer.saveLayoutData(layoutData, this.props.saveTab, this.props.afterPanelSaved);
       layoutData.loadedFrom = savedLayout;
-      onLayoutChange(savedLayout, currentTabId, direction);
+      onLayoutChange(savedLayout, currentTabId, direction, additionalData);
       if (layout) {
         // if layout prop is defined, we need to force an update to make sure it's either updated or reverted back
         this.forceUpdate();

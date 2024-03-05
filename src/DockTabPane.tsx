@@ -7,6 +7,7 @@ interface DockTabPaneProps extends TabPaneProps {
 
   cacheId?: string;
   cached: boolean;
+  onTabActiveChange?: (active: boolean) => void;
 
 }
 
@@ -106,10 +107,12 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
   }
 
   componentDidMount(): void {
+    this.props.onTabActiveChange?.(!!this.props.active);
     this.updateCache();
   }
 
   componentDidUpdate(prevProps: Readonly<DockTabPaneProps>, prevState: Readonly<any>, snapshot?: any): void {
+    this.props.onTabActiveChange?.(!!this.props.active);
     this.updateCache();
   }
 

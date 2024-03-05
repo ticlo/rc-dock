@@ -4,6 +4,7 @@ import { TabPaneProps } from "rc-tabs";
 interface DockTabPaneProps extends TabPaneProps {
     cacheId?: string;
     cached: boolean;
+    onTabActiveChange?: (active: boolean) => void;
 }
 export default class DockTabPane extends React.PureComponent<DockTabPaneProps, any> {
     static contextType: React.Context<DockContext>;

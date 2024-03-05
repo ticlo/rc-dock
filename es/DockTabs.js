@@ -179,7 +179,7 @@ export class TabCache {
         return closable && parent.tabs.length > 1;
     }
     render() {
-        let { id, title, group, content, closable, cached, parent, localGroup } = this.data;
+        let { id, title, group, content, closable, cached, parent, localGroup, handleTabActiveChange } = this.data;
         let { onDragStart, onDragOver, onDrop, onDragLeave } = this;
         if (parent.parent.mode === 'window') {
             onDragStart = null;
@@ -198,7 +198,7 @@ export class TabCache {
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })
                 : null,
             React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef })));
-        return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab }, content));
+        return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab, onTabActiveChange: handleTabActiveChange }, content));
     }
     destroy() {
         // place holder

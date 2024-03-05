@@ -208,7 +208,7 @@ export class TabCache {
   }
 
   render(): React.ReactElement {
-    let {id, title, group, content, closable, cached, parent, localGroup} = this.data;
+    let {id, title, group, content, closable, cached, parent, localGroup, handleTabActiveChange} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
     if (parent.parent.mode === 'window') {
       onDragStart = null;
@@ -234,7 +234,7 @@ export class TabCache {
     );
 
     return (
-      <DockTabPane key={id} cacheId={id} cached={cached} tab={tab}>
+      <DockTabPane key={id} cacheId={id} cached={cached} tab={tab} onTabActiveChange={handleTabActiveChange}>
         {content}
       </DockTabPane>
     );

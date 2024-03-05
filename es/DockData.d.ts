@@ -212,6 +212,7 @@ export interface TabData extends TabBase, DockDataBase {
      */
     cacheContext?: React.Context<any>;
     tabPosition?: TabPosition;
+    handleTabActiveChange?: (active: boolean) => void;
 }
 interface PanelLock {
     /** override the default style */

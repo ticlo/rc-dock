@@ -34,7 +34,7 @@
     "rc-dropdown": "~4.0.1",
     "rc-menu": "~9.8.4",
     "rc-new-window": "^0.1.13",
-    "rc-tabs": "~12.5.10"
+    "rc-tabs": "~11.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",

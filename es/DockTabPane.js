@@ -40,7 +40,8 @@ export default class DockTabPane extends React.PureComponent {
                 mergedStyle.overflowY = 'hidden';
             }
             else {
-                mergedStyle.display = 'none';
+                mergedStyle.width = 0;
+                mergedStyle.height = 0;
             }
         }
         // when cached == undefined, it will still cache the children inside tabs component, but not across whole dock layout

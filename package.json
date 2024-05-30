@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "3.2.19",
+  "version": "3.3.0",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
@@ -48,7 +48,9 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/shelljs": "^0.8.11",
+    "deasync": "0.1.29",
     "less": "^4.1.2",
+    "node-gyp": "^10.1.0",
     "parcel": "1.12.4",
     "prismjs": "^1.26.0",
     "react": "^17.0.2",

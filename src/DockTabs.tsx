@@ -80,7 +80,11 @@ export class TabCache {
     let tabGroup = this.context.getGroup(this.data.group);
     let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
 
-    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight], tabGroup: this.data.group}, this.context.getDockId());
+    e.setData({
+      tab: this.data,
+      panelSize: [panelWidth, panelHeight],
+      tabGroup: this.data.group
+    }, this.context.getDockId());
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragManager.DragState) => {
@@ -260,6 +264,13 @@ export class DockTabs extends React.PureComponent<Props> {
     );
   }
 
+  onCloseAll = () => {
+    let {panelData} = this.props;
+    for (let tab of panelData.tabs) {
+      this.context.dockMove(tab, null, 'remove');
+    }
+  }
+
   renderTabBar = (props: any, TabNavList: React.ComponentType) => {
     let {panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd} = this.props;
     let {group: groupName, panelLock} = panelData;
@@ -284,12 +295,21 @@ export class DockTabs extends React.PureComponent<Props> {
     if (panelExtra) {
       panelExtraContent = panelExtra(panelData, this.context);
     } else if (maximizable || showNewWindowButton) {
-      panelExtraContent = <div
-        className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
+      let maxBtn = <div
+        className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn"}
         onClick={maximizable ? this.onMaximizeClick : null}
       />;
       if (showNewWindowButton) {
-        panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
+        maxBtn = this.addNewWindowMenu(maxBtn, !maximizable);
+      }
+      if (panelData.parent.mode === 'float' && !panelData.tabs.find((tab) => !tab.closable)) {
+        panelExtraContent =
+        <>
+          {maxBtn}
+          <div className="dock-tab-close-btn" onClick={this.onCloseAll}/>
+        </>;
+      } else {
+        panelExtraContent = maxBtn;
       }
     }
     return (

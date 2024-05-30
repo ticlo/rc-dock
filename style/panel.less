@@ -369,8 +369,8 @@ body.dock-dragging {
 }
 
 .dock-panel-max-btn, .dock-panel-min-btn {
-  height: 15px;
-  width: 15px;
+  height: 25px;
+  width: 21px;
   font-family: 'Fredoka One', sans-serif;
   margin: 2px 2px 2px 0;
   padding: 6px 4px 4px 2px;
@@ -378,14 +378,16 @@ body.dock-dragging {
   transition: all 0.25s ease-in-out;
   outline: none;
   user-select: none;
+  box-sizing: border-box;
 
   &:before {
     position: absolute;
     content: " ";
     border: 2px solid @button-text-color;
     border-radius: 1px;
-    width: 9px;
-    height: 9px;
+    width: 13px;
+    height: 13px;
+    box-sizing: border-box;
   }
 
   &:hover, &:focus {

@@ -25996,6 +25996,16 @@ class DockTabs extends React.PureComponent {
       this.context.dockMove(panelData, null, 'new-window');
     };
 
+    this.onCloseAll = () => {
+      let {
+        panelData
+      } = this.props;
+
+      for (let tab of panelData.tabs) {
+        this.context.dockMove(tab, null, 'remove');
+      }
+    };
+
     this.renderTabBar = (props, TabNavList) => {
       let {
         panelData,
@@ -26030,13 +26040,22 @@ class DockTabs extends React.PureComponent {
       if (panelExtra) {
         panelExtraContent = panelExtra(panelData, this.context);
       } else if (maximizable || showNewWindowButton) {
-        panelExtraContent = React.createElement("div", {
+        let maxBtn = React.createElement("div", {
           className: panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn",
           onClick: maximizable ? this.onMaximizeClick : null
         });
 
         if (showNewWindowButton) {
-          panelExtraContent = this.addNewWindowMenu(panelExtraContent, !maximizable);
+          maxBtn = this.addNewWindowMenu(maxBtn, !maximizable);
+        }
+
+        if (panelData.parent.mode === 'float' && !panelData.tabs.find(tab => !tab.closable)) {
+          panelExtraContent = React.createElement(React.Fragment, null, maxBtn, React.createElement("div", {
+            className: "dock-tab-close-btn",
+            onClick: this.onCloseAll
+          }));
+        } else {
+          panelExtraContent = maxBtn;
         }
       }
 

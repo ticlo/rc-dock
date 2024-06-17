@@ -26287,9 +26287,9 @@ class Divider extends React.PureComponent {
 
     this.dragMove = e => {
       if (e.event.shiftKey || e.event.ctrlKey || e.event.altKey) {
-        this.dragMoveAll(e, e.dx, e.dy);
+        this.dragMoveAll(e.dx, e.dy);
       } else {
-        this.dragMove2(e, e.dx, e.dy);
+        this.dragMove2(e.dx, e.dy);
       }
     };
 
@@ -26305,7 +26305,7 @@ class Divider extends React.PureComponent {
     };
   }
 
-  dragMove2(e, dx, dy) {
+  dragMove2(dx, dy) {
     let {
       isVertical,
       changeSizes
@@ -26342,7 +26342,7 @@ class Divider extends React.PureComponent {
     changeSizes(sizes);
   }
 
-  dragMoveAll(e, dx, dy) {
+  dragMoveAll(dx, dy) {
     let {
       isVertical,
       changeSizes

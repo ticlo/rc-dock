@@ -375,7 +375,14 @@ body.dock-dragging {
   pointer-events: none;
 }
 
-.dock-panel-max-btn, .dock-panel-min-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn, .dock-panel-close-btn {
+.dock-panel-max-btn,
+.dock-panel-min-btn,
+.dock-panel-expand-btn,
+.dock-panel-collapse-btn,
+.dock-panel-close-btn,
+.dock-panel-restore-floating-btn,
+.dock-panel-make-floating-btn
+{
   height: 15px;
   width: 15px;
   font-family: 'Fredoka One', sans-serif;
@@ -423,12 +430,31 @@ body.dock-dragging {
     }
   }
 }
+.dock-panel-restore-floating-btn, .dock-panel-make-floating-btn {
+  &:before {
+    position: absolute;
+    border-radius: 1px;
+    width: 9px;
+    height: 9px;
+    border: none;
+    color: $button-text-color;
+    font-size: 11px;
+    line-height: 12px;
+  }
+}
 .dock-panel-expand-btn::before {
   content: "+";
   padding-left: 2px;
 }
 .dock-panel-collapse-btn::before {
   content: "—";
+}
+.dock-panel-restore-floating-btn::before {
+  content: "[][]";
+  padding-left: 2px;
+}
+.dock-panel-make-floating-btn::before {
+  content: "[[]]";
 }
 .dock-panel-close-btn {
   &:before {

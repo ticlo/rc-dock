@@ -143,8 +143,22 @@ $tabs-prefix-cls: dock;
       flex-direction: column;
       height: 100%;
 
-      .dock-panel-max-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn, .dock-panel-close-btn {
+      .dock-panel-max-btn,
+      .dock-panel-expand-btn,
+      .dock-panel-collapse-btn,
+      .dock-panel-close-btn
+      {
         padding-left: 9px;
+      }
+
+      .dock-panel-make-floating-btn
+      {
+        padding-left: 8px;
+      }
+
+      .dock-panel-restore-floating-btn
+      {
+        padding-left: 6px;
       }
 
       .dock-panel-min-btn {
@@ -240,8 +254,22 @@ $tabs-prefix-cls: dock;
       flex-direction: column;
       height: 100%;
 
-      .dock-panel-max-btn, .dock-panel-expand-btn, .dock-panel-collapse-btn, .dock-panel-close-btn {
+      .dock-panel-max-btn,
+      .dock-panel-expand-btn,
+      .dock-panel-collapse-btn,
+      .dock-panel-close-btn
+      {
         padding-left: 9px;
+      }
+
+      .dock-panel-make-floating-btn
+      {
+        padding-left: 8px;
+      }
+
+      .dock-panel-restore-floating-btn
+      {
+        padding-left: 6px;
       }
 
       .dock-panel-min-btn {

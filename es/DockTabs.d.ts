@@ -38,9 +38,10 @@ export declare class DockTabs extends React.PureComponent<Props> {
     cachedTabs: TabData[];
     animationDisabled: boolean;
     updateTabs(tabs: TabData[]): void;
-    onMaximizeClick: (e: React.MouseEvent) => void;
-    onCollapseExpandClick: (e: React.MouseEvent) => void;
-    onNewWindowClick: () => void;
+    handleMaximizeClick: (e: React.MouseEvent) => void;
+    handleCollapseExpandClick: (e: React.MouseEvent) => void;
+    handleToggleFloatingClick: (e: React.MouseEvent) => void;
+    handleNewWindowClick: () => void;
     addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean): JSX.Element;
     handlePanelCloseClick: (e: React.MouseEvent) => void;
     renderTabBar: (props: any, TabNavList: React.ComponentType) => JSX.Element;

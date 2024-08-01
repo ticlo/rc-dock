@@ -203,7 +203,12 @@ export function dockPanelToPanel(layout, newPanel, panel, direction) {
                 ++pos;
             }
             // HINT: The size remains the same, preventing flex-grow less than 1
-            newPanel.size = panel.size;
+            if (newPanel.needSetSize) {
+                newPanel.needSetSize = false;
+            }
+            else {
+                newPanel.size = panel.size;
+            }
             newBox.children.splice(pos, 0, newPanel);
         }
         else {
@@ -238,8 +243,13 @@ export function dockPanelToBox(layout, newPanel, box, direction) {
                 if (afterPanel) {
                     ++pos;
                 }
-                newPanel.size = box.size * 0.3;
-                box.size *= 0.7;
+                if (newPanel.needSetSize) {
+                    newPanel.needSetSize = false;
+                }
+                else {
+                    newPanel.size = box.size * 0.3;
+                    box.size *= 0.7;
+                }
                 newParentBox.children.splice(pos, 0, newPanel);
             }
             else {
@@ -600,6 +610,7 @@ export function fixLayoutData(layout, groups, loadTab) {
         }
         return panel;
     }
+    const hasFloatRefs = (node) => { var _a; return !!((_a = layout.floatbox) === null || _a === void 0 ? void 0 : _a.children.find((floatedChild) => { var _a; return ((_a = floatedChild.dockParent) === null || _a === void 0 ? void 0 : _a.id) === node.id; })); };
     function fixBoxData(box) {
         fixPanelOrBox(box);
         for (let i = 0; i < box.children.length; ++i) {
@@ -607,33 +618,35 @@ export function fixLayoutData(layout, groups, loadTab) {
             child.parent = box;
             if ('children' in child) {
                 fixBoxData(child);
-                if (child.children.length === 0) {
-                    // remove box with no child
-                    box.children.splice(i, 1);
-                    --i;
-                }
-                else if (child.children.length === 1) {
-                    // box with one child should be merged back to parent box
-                    let subChild = child.children[0];
-                    if (subChild.mode === box.mode) {
-                        // sub child is another box that can be merged into current box
-                        let totalSubSize = 0;
-                        for (let subsubChild of subChild.children) {
-                            totalSubSize += subsubChild.size;
-                        }
-                        let sizeScale = child.size / totalSubSize;
-                        for (let subsubChild of subChild.children) {
-                            subsubChild.size *= sizeScale;
-                        }
-                        // merge children up
-                        box.children.splice(i, 1, ...subChild.children);
+                if (!hasFloatRefs(child)) {
+                    if (child.children.length === 0) {
+                        // remove box with no child
+                        box.children.splice(i, 1);
+                        --i;
                     }
-                    else {
-                        // sub child can be moved up one layer
-                        subChild.size = child.size;
-                        box.children[i] = subChild;
+                    else if (child.children.length === 1) {
+                        // box with one child should be merged back to parent box
+                        let subChild = child.children[0];
+                        if (subChild.mode === box.mode) {
+                            // sub child is another box that can be merged into current box
+                            let totalSubSize = 0;
+                            for (let subsubChild of subChild.children) {
+                                totalSubSize += subsubChild.size;
+                            }
+                            let sizeScale = child.size / totalSubSize;
+                            for (let subsubChild of subChild.children) {
+                                subsubChild.size *= sizeScale;
+                            }
+                            // merge children up
+                            box.children.splice(i, 1, ...subChild.children);
+                        }
+                        else {
+                            // sub child can be moved up one layer
+                            subChild.size = child.size;
+                            box.children[i] = subChild;
+                        }
+                        --i;
                     }
-                    --i;
                 }
             }
             else if ('tabs' in child) {
@@ -726,7 +739,7 @@ export function fixLayoutData(layout, groups, loadTab) {
     }
     else {
         // merge and replace root box when box has only one child
-        while (layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
+        while (!hasFloatRefs(layout.dockbox) && layout.dockbox.children.length === 1 && 'children' in layout.dockbox.children[0]) {
             let newDockBox = clone(layout.dockbox.children[0]);
             layout.dockbox = newDockBox;
             for (let child of newDockBox.children) {

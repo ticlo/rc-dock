@@ -71,6 +71,9 @@ export class DockBox extends React.PureComponent {
         }
         const { children } = this.props.boxData;
         const lastChild = children[children.length - 1];
+        if (!lastChild) {
+            return;
+        }
         if (!('tabs' in lastChild)) {
             return;
         }

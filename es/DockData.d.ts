@@ -145,6 +145,10 @@ export interface PanelBase {
     h?: number;
     collapsed?: boolean;
     headerSize?: number;
+    dockParent?: PanelData | BoxData;
+    panelIndex?: number;
+    tabIndex?: number;
+    needSetSize?: boolean;
 }
 export interface BoxBase {
     /**
@@ -350,6 +354,7 @@ export interface DockContext {
     getExternalData(): any;
     getDefaultDndSpec(): DndSpec | undefined;
     getClassName(): string | undefined;
+    getLayout(): LayoutData;
 }
 /** @ignore */
 export declare const DockContextType: React.Context<DockContext>;

@@ -248,7 +248,19 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
 
     if (direction === 'float') {
+      const dockParent = source.parent;
+      let panelIndex;
+      let tabIndex;
+      if ('tabs' in source) {
+        panelIndex = (dockParent as BoxData)?.children.findIndex(child => child === source) || 0;
+      } else {
+        panelIndex = (dockParent as PanelData)?.parent.children.findIndex(child => child === source.parent) || 0;
+        tabIndex = (dockParent as PanelData)?.tabs.findIndex(child => child === source) || 0;
+      }
       let newPanel = Algorithm.converToPanel(source);
+      newPanel.dockParent = dockParent;
+      newPanel.panelIndex = panelIndex;
+      newPanel.tabIndex = tabIndex;
       newPanel.z = Algorithm.nextZIndex(null);
       if (this.state.dropRect) {
         layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);

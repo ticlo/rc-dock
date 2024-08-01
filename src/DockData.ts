@@ -180,6 +180,10 @@ export interface PanelBase {
   h?: number;
   collapsed?: boolean;
   headerSize?: number;
+  dockParent?: PanelData | BoxData;
+  panelIndex?: number;
+  tabIndex?: number;
+  needSetSize?: boolean;
 }
 
 export interface BoxBase {
@@ -451,6 +455,8 @@ export interface DockContext {
   getDefaultDndSpec(): DndSpec | undefined;
 
   getClassName(): string | undefined;
+
+  getLayout(): LayoutData;
 }
 
 /** @ignore */

@@ -1,5 +1,5 @@
 import React from "react";
-import { DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup } from "./DockData";
+import { BoxData, DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup } from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -7,7 +7,7 @@ import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
 import DockTabPane from "./DockTabPane";
-import { getFloatPanelSize, getPanelTabPosition } from "./Algorithm";
+import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
 import { mergeTabGroups } from "./Utils";
@@ -296,13 +296,13 @@ export class DockTabs extends React.PureComponent<Props> {
     this._cache = newCache;
   }
 
-  onMaximizeClick = (e: React.MouseEvent) => {
+  handleMaximizeClick = (e: React.MouseEvent) => {
     let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'maximize');
     // prevent the focus change logic
     e.stopPropagation();
   };
-  onCollapseExpandClick = (e: React.MouseEvent) => {
+  handleCollapseExpandClick = (e: React.MouseEvent) => {
     const {panelData} = this.props;
     const firstTab = panelData.tabs[0];
     firstTab.collapsed = !panelData?.collapsed;
@@ -317,14 +317,90 @@ export class DockTabs extends React.PureComponent<Props> {
     // prevent the focus change logic
     e.stopPropagation();
   };
-  onNewWindowClick = () => {
+  handleToggleFloatingClick = (e: React.MouseEvent) => {
+    const { panelData } = this.props;
+
+    if (panelData.parent.mode === 'float') {
+      let targetParent: PanelData | BoxData | null;
+      for (let dockParent = panelData.dockParent; dockParent && !targetParent; dockParent = dockParent.parent) {
+        const dockParentId = dockParent?.id;
+        targetParent = dockParentId ?
+          find(
+            this.context.getLayout(),
+            dockParentId,
+            Filter.Panel | Filter.Box | Filter.EveryWhere
+          ) as PanelData | BoxData :
+          null;
+      }
+
+      let target;
+      let direction: DropDirection;
+      let mode;
+      if (panelData.dockParent) {
+        mode = 'tabs' in panelData.dockParent ? panelData.dockParent.parent.mode : panelData.dockParent.mode;
+      } else {
+        mode = "horizontal";
+      }
+
+      if (!targetParent) {
+        targetParent = this.context.getLayout().dockbox;
+        const lastChild = panelData.panelIndex !== 0;
+
+        if (mode === "horizontal") {
+          direction = lastChild ? "right" : "left";
+        } else {
+          direction = lastChild ? "bottom" : "top";
+        }
+        target = targetParent;
+      } else if ('tabs' in targetParent) {
+        const lastChild = panelData.tabIndex > targetParent.tabs.length - 1;
+        const childIndex = lastChild ? targetParent.tabs.length - 1 : panelData.tabIndex;
+
+        if (targetParent.tabPosition === "top" || targetParent.tabPosition === "bottom") {
+          direction = lastChild ? "after-tab" : "before-tab";
+        } else {
+          direction = lastChild ? "above-tab" : "under-tab";
+        }
+
+        target = targetParent.tabs[childIndex];
+      } else if (targetParent.children.length !== 0) {
+        const lastChild = panelData.panelIndex > targetParent.children.length - 1;
+        const childIndex = lastChild ? targetParent.children.length - 1 : panelData.panelIndex;
+
+        if (mode === "horizontal") {
+          direction = lastChild ? "right" : "left";
+        } else {
+          direction = lastChild ? "bottom" : "top";
+        }
+
+        target = targetParent.children[childIndex];
+      } else {
+        targetParent.children.push(panelData);
+        target = targetParent.children[0];
+        direction = "right";
+      }
+      panelData.needSetSize = true;
+      this.context.dockMove(panelData, target, direction);
+    } else {
+      Object.assign(panelData, {
+        x: panelData.x || 10,
+        y: panelData.y || 10,
+        w: panelData.w || 400,
+        h: panelData.h || 300
+      });
+      this.context.dockMove(panelData, null, 'float');
+    }
+
+    e.stopPropagation();
+  }
+  handleNewWindowClick = () => {
     let {panelData} = this.props;
     this.context.dockMove(panelData, null, 'new-window');
   };
 
   addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean) {
     const nativeMenu = (
-      <Menu onClick={this.onNewWindowClick}>
+      <Menu onClick={this.handleNewWindowClick}>
         <MenuItem>
           New Window
         </MenuItem>
@@ -355,7 +431,7 @@ export class DockTabs extends React.PureComponent<Props> {
     let group = mergeTabGroups(this.context.getGroup(groupName), localGroup);
     let {panelExtra} = group;
 
-    let { maximizable, collapsible } = group;
+    let { maximizable, collapsible, floatable } = group;
     if (panelData.parent.mode === 'window') {
       onPanelDragStart = null;
       maximizable = false;
@@ -382,7 +458,7 @@ export class DockTabs extends React.PureComponent<Props> {
     if (maximizable || showNewWindowButton) {
       panelDefaultContent = <div
         className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn" }
-        onClick={maximizable ? this.onMaximizeClick : null}
+        onClick={maximizable ? this.handleMaximizeClick : null}
       />;
       if (showNewWindowButton) {
         panelDefaultContent = this.addNewWindowMenu(panelDefaultContent, !maximizable);
@@ -394,7 +470,7 @@ export class DockTabs extends React.PureComponent<Props> {
         return (
           <div
             className='dock-panel-expand-btn'
-            onClick={this.onCollapseExpandClick}
+            onClick={this.handleCollapseExpandClick}
           />
         );
       }
@@ -406,13 +482,23 @@ export class DockTabs extends React.PureComponent<Props> {
       }
 
       return (
-        <div className='dock-panel-collapse-btn' onClick={this.onCollapseExpandClick} />
+        <div className='dock-panel-collapse-btn' onClick={this.handleCollapseExpandClick} />
+      );
+    };
+
+    const renderToggleFloatingBtn = () => {
+      return (
+        <div
+          className={panelData.parent.mode === 'float' ? 'dock-panel-restore-floating-btn' : 'dock-panel-make-floating-btn'}
+          onClick={this.handleToggleFloatingClick}
+        />
       );
     };
 
     panelExtraContent = <>
       {panelExtraContent}
       {collapsible ? renderCollapseExpandBtn() : null}
+      {floatable ? renderToggleFloatingBtn() : null}
       {panelDefaultContent}
       {panelData.tabs.length === 1 && panelData.tabs[0].closable && <div className="dock-panel-close-btn" onClick={this.handlePanelCloseClick} />}
     </>;

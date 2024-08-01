@@ -164,6 +164,7 @@ export class DockLayout extends DockPortalManager {
      * @param additionalData @inheritDoc
      */
     dockMove(source, target, direction, additionalData) {
+        var _a, _b, _c;
         let layout = this.getLayout();
         if (source && 'tabs' in source) {
             source.ignorePreferredSize = false;
@@ -185,7 +186,20 @@ export class DockLayout extends DockPortalManager {
             target = Algorithm.getUpdatedObject(target); // target might change during removeTab
         }
         if (direction === 'float') {
+            const dockParent = source.parent;
+            let panelIndex;
+            let tabIndex;
+            if ('tabs' in source) {
+                panelIndex = ((_a = dockParent) === null || _a === void 0 ? void 0 : _a.children.findIndex(child => child === source)) || 0;
+            }
+            else {
+                panelIndex = ((_b = dockParent) === null || _b === void 0 ? void 0 : _b.parent.children.findIndex(child => child === source.parent)) || 0;
+                tabIndex = ((_c = dockParent) === null || _c === void 0 ? void 0 : _c.tabs.findIndex(child => child === source)) || 0;
+            }
             let newPanel = Algorithm.converToPanel(source);
+            newPanel.dockParent = dockParent;
+            newPanel.panelIndex = panelIndex;
+            newPanel.tabIndex = tabIndex;
             newPanel.z = Algorithm.nextZIndex(null);
             if (this.state.dropRect) {
                 layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);

@@ -1,6 +1,6 @@
-@tabs-prefix-cls: dock;
+$tabs-prefix-cls: dock;
 
-.@{tabs-prefix-cls} {
+.#{$tabs-prefix-cls} {
   // ========================== Vertical ==========================
   &-top {
     flex-direction: column;
@@ -8,8 +8,8 @@
 
   &-top &-bar {
     flex: 0 0 auto;
-    background: @tab-background;
-    border-bottom: 1px solid @nav-color-split;
+    background: $tab-background;
+    border-bottom: 1px solid $nav-color-split;
     padding-left: 8px;
   }
 
@@ -38,8 +38,8 @@
 
   &-bottom &-bar {
     flex: 0 0 auto;
-    background: @tab-background;
-    border-bottom: 1px solid @nav-color-split;
+    background: $tab-background;
+    border-bottom: 1px solid $nav-color-split;
     padding-left: 8px;
   }
 
@@ -76,35 +76,35 @@
 
   &-bottom &-tab {
     border-bottom: 0;
-    border-top: 1px solid @panel-border-color;
+    border-top: 1px solid $panel-border-color;
   }
 
   &-bottom &-bar {
     border-bottom: 0;
-    border-top: 1px solid @nav-color-split;
+    border-top: 1px solid $nav-color-split;
   }
 
   // ========================= Horizontal =========================
   &-left {
-    .@{tabs-prefix-cls}-nav-wrap {
+    .#{$tabs-prefix-cls}-nav-wrap {
       flex-direction: column;
     }
 
-    .@{tabs-prefix-cls}-ink-bar {
+    .#{$tabs-prefix-cls}-ink-bar {
       width: 2px;
       margin-top: 0;
     }
 
-    .@{tabs-prefix-cls}-bar {
+    .#{$tabs-prefix-cls}-bar {
       overflow: unset;
-      background: @tab-background;
-      border-right: 1px solid @nav-color-split;
+      background: $tab-background;
+      border-right: 1px solid $nav-color-split;
       padding-top: 8px;
     }
 
-    .@{tabs-prefix-cls}-tab {
+    .#{$tabs-prefix-cls}-tab {
       border-bottom: 0;
-      border-right: 1px solid @panel-border-color;
+      border-right: 1px solid $panel-border-color;
       margin-right: 0;
       margin-bottom: 10px;
 
@@ -139,7 +139,7 @@
       }
     }
 
-    .@{tabs-prefix-cls}-nav {
+    .#{$tabs-prefix-cls}-nav {
       flex-direction: column;
       height: 100%;
 
@@ -173,36 +173,36 @@
       }
     }
 
-    .@{tabs-prefix-cls}-ink-bar {
+    .#{$tabs-prefix-cls}-ink-bar {
       right: 0;
     }
 
-    .@{tabs-prefix-cls}-extra-content {
+    .#{$tabs-prefix-cls}-extra-content {
       height: unset;
       flex-direction: column;
     }
   }
 
   &-right {
-    .@{tabs-prefix-cls}-nav-wrap {
+    .#{$tabs-prefix-cls}-nav-wrap {
       flex-direction: column;
     }
 
-    .@{tabs-prefix-cls}-ink-bar {
+    .#{$tabs-prefix-cls}-ink-bar {
       width: 2px;
       margin-top: 0;
     }
 
-    .@{tabs-prefix-cls}-bar {
+    .#{$tabs-prefix-cls}-bar {
       overflow: unset;
-      background: @tab-background;
-      border-left: 1px solid @nav-color-split;
+      background: $tab-background;
+      border-left: 1px solid $nav-color-split;
       padding-top: 8px;
     }
 
-    .@{tabs-prefix-cls}-tab {
+    .#{$tabs-prefix-cls}-tab {
       border-bottom: 0;
-      border-left: 1px solid @panel-border-color;
+      border-left: 1px solid $panel-border-color;
       margin-right: 0;
       margin-bottom: 10px;
 
@@ -236,7 +236,7 @@
       }
     }
 
-    .@{tabs-prefix-cls}-nav {
+    .#{$tabs-prefix-cls}-nav {
       flex-direction: column;
       height: 100%;
 
@@ -270,11 +270,11 @@
       }
     }
 
-    .@{tabs-prefix-cls}-ink-bar {
+    .#{$tabs-prefix-cls}-ink-bar {
       right: 0;
     }
 
-    .@{tabs-prefix-cls}-extra-content {
+    .#{$tabs-prefix-cls}-extra-content {
       height: unset;
       flex-direction: column;
     }

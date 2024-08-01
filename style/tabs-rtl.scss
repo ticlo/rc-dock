@@ -1,6 +1,6 @@
-@tabs-prefix-cls: dock;
+$tabs-prefix-cls: dock;
 
-.@{tabs-prefix-cls} {
+.#{$tabs-prefix-cls} {
   &-rtl {
     direction: rtl;
   }

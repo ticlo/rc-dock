@@ -22,6 +22,8 @@ import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 class DockPortalManager extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -402,7 +404,7 @@ export class DockLayout extends DockPortalManager {
     }
     /** @ignore */
     render() {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         // clear tempLayout
         this.tempLayout = null;
         let { style, maximizeTo, className } = this.props;
@@ -434,21 +436,22 @@ export class DockLayout extends DockPortalManager {
             }
         }
         const tabPosition = (_c = (_b = (_a = dropRect === null || dropRect === void 0 ? void 0 : dropRect.source) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.tabPosition;
-        return (React.createElement("div", { ref: this.getRef, className: classNames("dock-layout", className, {
-                "dock-layout-empty-dock-box": layout.dockbox.children.length === 1 && ((_d = layout.dockbox.children[0]) === null || _d === void 0 ? void 0 : _d.tabs.length) === 0
-            }), style: style },
-            React.createElement(DockContextProvider, { value: this },
-                React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
-                React.createElement(FloatBox, { boxData: layout.floatbox }),
-                React.createElement(WindowBox, { boxData: layout.windowbox }),
-                maximize,
-                portals),
-            React.createElement("div", { className: classNames("dock-drop-indicator", {
-                    "dock-drop-indicator-float": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'float',
-                    "dock-drop-indicator-tab-horizontal": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'before-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'after-tab',
-                    "dock-drop-indicator-tab-vertical": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'under-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'above-tab',
-                    [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
-                }), style: dropRectStyle })));
+        return (React.createElement(DndProvider, { backend: HTML5Backend },
+            React.createElement("div", { ref: this.getRef, className: classNames("dock-layout", className, {
+                    "dock-layout-empty-dock-box": layout.dockbox.children.length === 1 && ((_e = (_d = layout.dockbox.children[0]) === null || _d === void 0 ? void 0 : _d.tabs) === null || _e === void 0 ? void 0 : _e.length) === 0
+                }), style: style },
+                React.createElement(DockContextProvider, { value: this },
+                    React.createElement(DockBox, { size: 1, boxData: layout.dockbox }),
+                    React.createElement(FloatBox, { boxData: layout.floatbox }),
+                    React.createElement(WindowBox, { boxData: layout.windowbox }),
+                    maximize,
+                    portals),
+                React.createElement("div", { className: classNames("dock-drop-indicator", {
+                        "dock-drop-indicator-float": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'float',
+                        "dock-drop-indicator-tab-horizontal": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'before-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'after-tab',
+                        "dock-drop-indicator-tab-vertical": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'under-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'above-tab',
+                        [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
+                    }), style: dropRectStyle }))));
     }
     /** @ignore */
     componentDidMount() {

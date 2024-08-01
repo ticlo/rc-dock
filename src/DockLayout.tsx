@@ -28,6 +28,8 @@ import * as DragManager from "./dragdrop/DragManager";
 import { MaxBox } from "./MaxBox";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 export interface LayoutProps {
   /**
@@ -546,23 +548,25 @@ export class DockLayout extends DockPortalManager implements DockContext {
     const tabPosition = dropRect?.source?.data?.parent?.tabPosition;
 
     return (
-      <div ref={this.getRef} className={classNames("dock-layout", className, {
-        "dock-layout-empty-dock-box": layout.dockbox.children.length === 1 && (layout.dockbox.children[0] as PanelData)?.tabs.length === 0
-      })} style={style}>
-        <DockContextProvider value={this}>
-          <DockBox size={1} boxData={layout.dockbox}/>
-          <FloatBox boxData={layout.floatbox}/>
-          <WindowBox boxData={layout.windowbox}/>
-          {maximize}
-          {portals}
-        </DockContextProvider>
-        <div className={classNames("dock-drop-indicator", {
-          "dock-drop-indicator-float": dropRect?.direction === 'float',
-          "dock-drop-indicator-tab-horizontal": dropRect?.direction === 'before-tab' || dropRect?.direction === 'after-tab',
-          "dock-drop-indicator-tab-vertical": dropRect?.direction === 'under-tab' || dropRect?.direction === 'above-tab',
-          [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
-        })} style={dropRectStyle}/>
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <div ref={this.getRef} className={classNames("dock-layout", className, {
+          "dock-layout-empty-dock-box": layout.dockbox.children.length === 1 && (layout.dockbox.children[0] as PanelData)?.tabs?.length === 0
+        })} style={style}>
+          <DockContextProvider value={this}>
+            <DockBox size={1} boxData={layout.dockbox}/>
+            <FloatBox boxData={layout.floatbox}/>
+            <WindowBox boxData={layout.windowbox}/>
+            {maximize}
+            {portals}
+          </DockContextProvider>
+          <div className={classNames("dock-drop-indicator", {
+            "dock-drop-indicator-float": dropRect?.direction === 'float',
+            "dock-drop-indicator-tab-horizontal": dropRect?.direction === 'before-tab' || dropRect?.direction === 'after-tab',
+            "dock-drop-indicator-tab-vertical": dropRect?.direction === 'under-tab' || dropRect?.direction === 'above-tab',
+            [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
+          })} style={dropRectStyle}/>
+        </div>
+      </DndProvider>
     );
   }
 

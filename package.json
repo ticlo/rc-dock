@@ -40,7 +40,11 @@
     "rc-dropdown": "^3.2.2",
     "rc-menu": "^9.3.0",
     "rc-new-window": "^0.1.13",
-    "rc-tabs": "^11.10.5"
+    "rc-tabs": "^11.10.5",
+    "react": "^17.0.2",
+    "react-dnd": "^14.0.4",
+    "react-dom": "^17.0.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
@@ -58,10 +62,6 @@
     "less": "^4.1.2",
     "parcel": "1.12.4",
     "prismjs": "^1.26.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-dnd": "^14.0.4",
-    "uuid": "^8.3.2",
     "shelljs": "^0.8.4",
     "ts-node": "^10.4.0",
     "tslint": "^6.1.3",

@@ -7,7 +7,7 @@ let groups = {
   headless: {
     // the css class for this would be dock-panel-headless
     // this is a pre-defined style, defined here:
-    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.scss
     floatable: true,
     maximizable: true,
   },
@@ -36,7 +36,7 @@ let headlessTab = {
     </div>
   ),
   // this is a pre-defined style, defined here:
-  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.scss
   group: 'headless'
 };
 let cardTab = {
@@ -47,7 +47,7 @@ let cardTab = {
     </div>
   ),
   // this is a pre-defined style, defined here:
-  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+  // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.scss
   group: 'card'
 };
 let customTab = {

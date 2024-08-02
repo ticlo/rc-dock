@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>rc-dock</title>
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <style>.github-icon {
+      padding-left: 16px;
+    }
+
+    .github-icon:before {
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      content: url("https://avatars2.githubusercontent.com/u/20446550?s=20");
+    }
+
+    .dock-panel.dock-style-custom {
+      border: 1px solid #d88;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .dock-panel.dock-style-custom .dock-tab {
+      margin-right: 0;
+      border: 1px solid #d88;
+      background: #d88;
+      color: #fff;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .dock-panel.dock-style-custom .dock-tab.dock-tab-active {
+      background: #fff;
+      color: #c33;
+    }
+
+    .dock-panel.dock-style-custom .dock-bar {
+      background: #facccc;
+      border-radius: 7px 7px 0 0;
+      border-bottom: 1px solid #d88;
+    }
+
+    .dock-panel.dock-style-custom .dock-tab-hit-area {
+      /* cover the border area */
+      left: -1px;
+      right: -1px;
+    }
+
+    .dock-panel.dock-style-custom .dock-panel-max-btn, .dock-panel.dock-style-custom .dock-panel-min-btn {
+      opacity: 1;
+    }
+
+    .dock-panel.dock-style-custom .dock-panel-max-btn:before, .dock-panel.dock-style-custom .dock-panel-min-btn:before {
+      border-color: #fff;
+      color: #fff;
+    }
+
+    /* different color for the focused panel */
+    .dock-panel.dock-style-custom:focus-within {
+        border: 1px dashed #f00;
+    }
+
+    /* tab buttons take all the space , and only apply it when it's not in float panel */
+    .dock-layout > :not(.dock-fbox) .dock-panel.dock-style-custom .dock-nav-list {
+        flex-grow: 1;
+    }
+    .dock-layout > :not(.dock-fbox) .dock-panel.dock-style-custom .dock-tab {
+        flex: 1 0 auto;
+    }
+
+    /* global dock layout styles */
+    .dock-layout > .dock-drop-indicator {
+        border: solid 1px red;
+        box-shadow: inset 0 0 10px red;
+        background: none;
+    }</style>
+</head>
+<body>
+<div id="app" style="height:100%"></div>
+
+<script src="panel-style.js" async=""></script>
+</body>
+</html>

@@ -244,7 +244,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
     headless: {
       // the css class for this would be dock-panel-headless
       // this is a pre-defined style, defined here:
-      // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+      // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.scss
       floatable: true,
       maximizable: true
     },
@@ -269,14 +269,14 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
       }
     }, /*#__PURE__*/React.createElement("p", null, "Hide border and header."), "Move mouse near top border to show header."),
     // this is a pre-defined style, defined here:
-    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.scss
     group: 'headless'
   };
   let cardTab = {
     title: 'card-style',
     content: /*#__PURE__*/React.createElement("div", null, "card style"),
     // this is a pre-defined style, defined here:
-    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.less
+    // https://github.com/ticlo/rc-dock/blob/master/style/predefined-panels.scss
     group: 'card'
   };
   let customTab = {

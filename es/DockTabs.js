@@ -10,7 +10,7 @@ import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorithm";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
-import { mergeTabGroups } from "./Utils";
+import { getFloatingCoordinatesBySize, mergeTabGroups } from "./Utils";
 function findParentPanel(element) {
     for (let i = 0; i < 10; ++i) {
         if (!element) {
@@ -290,11 +290,13 @@ export class DockTabs extends React.PureComponent {
                 this.context.dockMove(panelData, target, direction);
             }
             else {
+                const floatingSize = { width: 400, height: 300 };
+                const { x, y } = getFloatingCoordinatesBySize(floatingSize, this.context.getLayoutSize());
                 Object.assign(panelData, {
-                    x: panelData.x || 10,
-                    y: panelData.y || 10,
-                    w: panelData.w || 400,
-                    h: panelData.h || 300
+                    x: panelData.x || x,
+                    y: panelData.y || y,
+                    w: panelData.w || floatingSize.width,
+                    h: panelData.h || floatingSize.height
                 });
                 this.context.dockMove(panelData, null, 'float');
             }

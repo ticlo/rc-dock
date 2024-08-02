@@ -81,6 +81,20 @@ export class DockBox extends React.PureComponent {
         firstTab.collapsed = false;
         this.context.updateTab(firstTab.id, firstTab, false, 'configure-tab');
     }
+    hasDockedChildren(children) {
+        if (!(children === null || children === void 0 ? void 0 : children.length)) {
+            return false;
+        }
+        for (const child of children) {
+            if (!('children' in child)) {
+                return true;
+            }
+            if (this.hasDockedChildren(child.children)) {
+                return true;
+            }
+        }
+        return false;
+    }
     render() {
         let { boxData, preferredWidth, preferredHeight } = this.props;
         let { minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex } = boxData;
@@ -130,7 +144,11 @@ export class DockBox extends React.PureComponent {
             flexShrink = 1;
             size = preferredHeight;
         }
-        return (React.createElement("div", { ref: this.getRef, className: classNames(cls, this.context.getClassName()), "data-dockid": id, style: { minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px` } }, childrenRender));
+        const style = { minWidth, minHeight };
+        if (this.hasDockedChildren(children)) {
+            style.flex = `${flexGrow} ${flexShrink} ${size}px`;
+        }
+        return (React.createElement("div", { ref: this.getRef, className: classNames(cls, this.context.getClassName()), "data-dockid": id, style: style }, childrenRender));
     }
 }
 DockBox.contextType = DockContextType;

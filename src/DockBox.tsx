@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import {BoxData, DockContext, DockContextType} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
@@ -105,6 +105,22 @@ export class DockBox extends React.PureComponent<Props, any> {
     this.context.updateTab(firstTab.id!, firstTab, false, 'configure-tab');
   }
 
+  hasDockedChildren(children: any[]) {
+    if (!children?.length) {
+      return false;
+    }
+    for (const child of children) {
+      if (!('children' in child)) {
+        return true;
+      }
+      if (this.hasDockedChildren(child.children)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   render(): React.ReactNode {
     let {boxData, preferredWidth, preferredHeight} = this.props;
     let {minWidth, minHeight, size, children, mode, id, widthFlex, heightFlex} = boxData;
@@ -179,9 +195,14 @@ export class DockBox extends React.PureComponent<Props, any> {
       size = preferredHeight;
     }
 
+    const style: CSSProperties = {minWidth, minHeight};
+    if (this.hasDockedChildren(children)) {
+      style.flex = `${flexGrow} ${flexShrink} ${size}px`;
+    }
+
     return (
       <div ref={this.getRef} className={classNames(cls, this.context.getClassName())} data-dockid={id}
-           style={{minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`}}>
+           style={style}>
         {childrenRender}
       </div>
     );

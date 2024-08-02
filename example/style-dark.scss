@@ -1,2 +1,3 @@
-@import "./style";
+@use "./example";
 @import "../style/index-dark";
+@include example.style-common($background-color, $text-color, $component-background, $disabled-color);

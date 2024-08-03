@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 import { DockContextType } from "./DockData";
 export default class DockTabPane extends React.PureComponent {

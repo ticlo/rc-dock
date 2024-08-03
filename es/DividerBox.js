@@ -9,7 +9,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from "react";
+import * as React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
 import classNames from "classnames";
@@ -20,31 +20,32 @@ export class DividerBox extends React.PureComponent {
             this._ref = r;
         };
         this.getDividerData = (idx) => {
-            if (this._ref) {
-                let { children, mode } = this.props;
-                let nodes = this._ref.childNodes;
-                let length = 1;
-                if (Array.isArray(children)) {
-                    length = children.length;
+            if (!this._ref) {
+                return null;
+            }
+            let { children, mode } = this.props;
+            let nodes = this._ref.childNodes;
+            let length = 1;
+            if (Array.isArray(children)) {
+                length = children.length;
+            }
+            if (nodes.length !== length * 2 - 1) {
+                return null;
+            }
+            let dividerChildren = [];
+            for (let i = 0; i < length; ++i) {
+                if (mode === 'vertical') {
+                    dividerChildren.push({ size: nodes[i * 2].offsetHeight });
                 }
-                if (nodes.length === length * 2 - 1) {
-                    let dividerChildren = [];
-                    for (let i = 0; i < length; ++i) {
-                        if (mode === 'vertical') {
-                            dividerChildren.push({ size: nodes[i * 2].offsetHeight });
-                        }
-                        else {
-                            dividerChildren.push({ size: nodes[i * 2].offsetWidth });
-                        }
-                    }
-                    return {
-                        element: this._ref,
-                        beforeDivider: dividerChildren.slice(0, idx),
-                        afterDivider: dividerChildren.slice(idx)
-                    };
+                else {
+                    dividerChildren.push({ size: nodes[i * 2].offsetWidth });
                 }
             }
-            return null;
+            return {
+                element: this._ref,
+                beforeDivider: dividerChildren.slice(0, idx),
+                afterDivider: dividerChildren.slice(idx)
+            };
         };
         this.changeSizes = (sizes) => {
             let { mode } = this.props;

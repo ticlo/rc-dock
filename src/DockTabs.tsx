@@ -10,7 +10,7 @@ import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
-import { getFloatingCoordinatesBySize, mergeTabGroups, Size } from "./Utils";
+import { getFloatingCoordinatesBySize, mergeTabGroups, Size, groupClassNames } from "./Utils";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -26,7 +26,7 @@ function findParentPanel(element: HTMLElement) {
 }
 
 function isPopupDiv(r: HTMLDivElement): boolean {
-  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement.tagName === 'LI');
+  return (r == null || r.parentElement?.tagName === 'LI' || r.parentElement?.parentElement?.tagName === 'LI');
 }
 
 interface DockTabTitleProps {
@@ -121,7 +121,11 @@ export class TabCache {
     let tabGroup = mergeTabGroups(this.context.getGroup(this.data.group), this.data.localGroup);
     let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
 
-    e.setData({tab: this.data, panelSize: [panelWidth, panelHeight]}, this.context.getDockId());
+    e.setData({
+      tab: this.data,
+      panelSize: [panelWidth, panelHeight],
+      tabGroup: this.data.group
+    }, this.context.getDockId());
     e.startDrag(this._ref.parentElement, this._ref.parentElement);
   };
   onDragOver = (e: DragManager.DragState) => {
@@ -565,9 +569,12 @@ export class DockTabs extends React.PureComponent<Props> {
     const panelData = this.props.panelData;
     let {group, tabs, activeId, localGroup} = panelData;
     let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
-    let {animated} = tabGroup;
+    let {animated, moreIcon} = tabGroup;
     if (animated == null) {
       animated = true;
+    }
+    if (!moreIcon) {
+      moreIcon = "...";
     }
 
     if (this.animationDisabled) {
@@ -585,12 +592,13 @@ export class DockTabs extends React.PureComponent<Props> {
 
     return (
       <Tabs prefixCls={classNames(this.context.getClassName(), "dock")}
-            moreIcon="..."
+            moreIcon={moreIcon}
             animated={animated}
             renderTabBar={this.renderTabBar}
             activeKey={activeId}
             tabPosition={tabPosition}
             onChange={this.onTabChange}
+            popupClassName={classNames(groupClassNames(group))}
       >
         {children}
       </Tabs>

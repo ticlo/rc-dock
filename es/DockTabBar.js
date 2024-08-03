@@ -9,7 +9,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from "react";
+import * as React from "react";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";
 import { DockContextType } from "./DockData";
 /**

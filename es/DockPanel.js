@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContextType, maximePlaceHolderId } from "./DockData";
 import { DockTabs } from "./DockTabs";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";
@@ -6,8 +6,8 @@ import { DragState } from "./dragdrop/DragManager";
 import { DockDropLayer } from "./DockDropLayer";
 import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm";
 import { DockDropEdge } from "./DockDropEdge";
+import { groupClassNames, mergeTabGroups } from "./Utils";
 import classNames from "classnames";
-import { mergeTabGroups } from "./Utils";
 export class DockPanel extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -56,21 +56,25 @@ export class DockPanel extends React.PureComponent {
                 this._movingX = x;
                 this._movingY = y;
                 // hide the panel, but not create drag layer element
-                event.setData({ panel: this.props.panelData }, dockId);
+                event.setData({ panel: panelData, tabGroup: panelData.group }, dockId);
                 event.startDrag(null, null);
                 this.onFloatPointerDown();
             }
             else {
                 let tabGroup = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
                 let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
-                event.setData({ panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight] }, dockId);
+                event.setData({ panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight], tabGroup: panelData.group }, dockId);
                 event.startDrag(null);
             }
             this.setState({ draggingHeader: true });
         };
         this.onPanelHeaderDragMove = (e) => {
-            let { width, height } = this.context.getLayoutSize();
+            var _a;
             let { panelData } = this.props;
+            if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) !== 'float') {
+                return;
+            }
+            let { width, height } = this.context.getLayoutSize();
             panelData.x = this._movingX + e.dx;
             panelData.y = this._movingY + e.dy;
             if (width > 200 && height > 200) {
@@ -95,9 +99,12 @@ export class DockPanel extends React.PureComponent {
             var _a;
             if (!this._unmounted) {
                 this.setState({ draggingHeader: false });
-                const { panelData } = this.props;
-                if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "float") {
-                    this.context.onSilentChange(this.props.panelData.activeId, 'move');
+                if (e.dropped === false) {
+                    const { panelData } = this.props;
+                    if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "float") {
+                        // in float mode, the position change needs to be sent to the layout
+                        this.context.onSilentChange(this.props.panelData.activeId, 'move');
+                    }
                 }
             }
         };
@@ -216,9 +223,7 @@ export class DockPanel extends React.PureComponent {
         DockPanel._droppingPanel = panel;
     }
     onDragOverOtherPanel() {
-        if (this.state.dropFromPanel) {
-            this.setState({ dropFromPanel: null });
-        }
+        this.setState({ dropFromPanel: null });
     }
     onPanelCornerDrag(e, corner) {
         let { parent, x, y, w, h } = this.props.panelData;
@@ -250,13 +255,7 @@ export class DockPanel extends React.PureComponent {
                 heightFlex = panelHeightFlex;
             }
         }
-        let panelClass;
-        if (styleName) {
-            panelClass = styleName
-                .split(' ')
-                .map((name) => `dock-style-${name}`)
-                .join(' ');
-        }
+        let panelClass = classNames(groupClassNames(styleName));
         let isMax = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'maximize';
         let isFloat = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'float';
         let isHBox = (parent === null || parent === void 0 ? void 0 : parent.mode) === 'horizontal';

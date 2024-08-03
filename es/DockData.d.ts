@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from "react";
 import { TabPosition } from "rc-tabs/lib/interface";
 import { Filter } from "./Algorithm";
 import { ConnectableElement, DragPreviewOptions, XYCoord } from "react-dnd";
@@ -86,6 +86,10 @@ export interface TabGroup {
      * Override the default flex grow and flex shrink for panel height
      */
     heightFlex?: number;
+    /**
+     * Override the default `moreIcon`
+     */
+    moreIcon?: React.ReactNode;
 }
 /** @ignore */
 export declare const defaultGroup: TabGroup;
@@ -284,6 +288,11 @@ export interface LayoutData extends LayoutBase {
     loadedFrom?: LayoutBase;
 }
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'under-tab' | 'above-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update' | 'collapse' | 'configure-panel' | 'configure-tab';
+export interface Size {
+    width: number;
+    height: number;
+}
+export declare type LayoutSize = Size;
 export interface DockContext {
     /** @ignore */
     getDockId(): any;
@@ -295,10 +304,7 @@ export interface DockContext {
         clientY: number;
     }, panelSize?: [number, number]): void;
     /** @ignore */
-    getLayoutSize(): {
-        width: number;
-        height: number;
-    };
+    getLayoutSize(): LayoutSize;
     /** @ignore
      * When a state change happen to the layout that's handled locally, like inside DockPanel or DockBox.
      * It still need to tell the context there is a change so DockLayout can call onLayoutChange callback.
@@ -325,7 +331,7 @@ export interface DockContext {
     /**
      * Find PanelData or TabData by id
      */
-    find(id: string, filter?: Filter): PanelData | TabData | BoxData;
+    find(id: string, filter?: Filter): PanelData | TabData | BoxData | undefined;
     updatePanelLocalGroup(panel: PanelData): void;
     /**
      * Update a tab with new TabData
@@ -335,7 +341,7 @@ export interface DockContext {
      * @param direction which direction to drop
      * @returns returns false if the tab is not found
      */
-    updateTab(id: string, newTab: TabData, makeActive?: boolean, direction?: DropDirection): boolean;
+    updateTab(id: string, newTab: TabData | null, makeActive?: boolean, direction?: DropDirection): boolean;
     updatePanelData(id: string, panelData: PanelData, direction: DropDirection): void;
     /**
      * Move focus to a dockpanel near by

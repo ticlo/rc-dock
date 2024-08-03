@@ -10,10 +10,11 @@ interface DragDropComponent {
     scaleY: number;
 }
 export declare type DragHandler = (state: DragState) => void;
+export declare type DropHandler = (state: DragState) => any;
 interface DragHandlers {
     onDragOverT?: DragHandler;
     onDragLeaveT?: DragHandler;
-    onDropT?: DragHandler;
+    onDropT?: DropHandler;
 }
 export declare function isDragging(): boolean;
 export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;
@@ -31,6 +32,7 @@ declare class DndDragState {
     dy: number;
     acceptMessage: string;
     rejected: boolean;
+    dropped: any;
     constructor(event: MouseEvent | TouchEvent | undefined, component: DragDropComponent, init?: boolean);
     startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string): void;
     setData(data?: {

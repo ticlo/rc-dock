@@ -41,7 +41,11 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   onDragEndT?: DragManager.DragHandler;
   onDragOverT?: DragManager.DragHandler;
   onDragLeaveT?: DragManager.DragHandler;
-  onDropT?: DragManager.DragHandler;
+  /**
+   * Anything returned by onDropT will be stored in DragState.dropped
+   * return false to indicate the drop is canceled
+   */
+  onDropT?: DragManager.DropHandler;
   /**
    * by default onDragStartT will be called on first drag move
    * but if directDragT is true, onDragStartT will be called as soon as mouse is down
@@ -164,8 +168,6 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   }
 
   addDragListeners(event: MouseEvent | TouchEvent) {
-    let {onDragStartT} = this.props;
-
     if (event.type === 'touchstart') {
       this.ownerDocument.addEventListener('touchmove', this.onTouchMove);
       this.ownerDocument.addEventListener('touchend', this.onDragEnd);
@@ -320,7 +322,6 @@ class RcDragDropDiv extends React.PureComponent<DragDropDivProps, any> {
   };
   onGestureEnd = (e?: TouchEvent) => {
     let {onGestureEndT} = this.props;
-    let state = new DragManager.DragState(e, this);
 
     this.removeListeners();
     if (onGestureEndT) {

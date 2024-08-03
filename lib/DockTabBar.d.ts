@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as DragManager from "./dragdrop/DragManager";
 import type { TabNavListProps } from "rc-tabs/lib/TabNavList";
 import { PanelData } from "./DockData";
@@ -7,7 +7,7 @@ interface DockTabBarProps extends TabNavListProps {
     onDragStart?: DragManager.DragHandler;
     onDragMove?: DragManager.DragHandler;
     onDragEnd?: DragManager.DragHandler;
-    TabNavList: React.ComponentType;
+    TabNavList: React.ComponentType<TabNavListProps>;
     panelData: PanelData;
 }
 export declare function DockTabBar(props: DockTabBarProps): JSX.Element;

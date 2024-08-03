@@ -1,5 +1,5 @@
-import React, { CSSProperties } from "react";
-import { BoxData, DndSpec, DockContext, DropDirection, LayoutBase, LayoutData, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
+import * as React from "react";
+import { BoxData, DndSpec, DockContext, DropDirection, LayoutBase, LayoutData, LayoutSize, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
 export interface LayoutProps {
     /**
@@ -57,7 +57,7 @@ export interface LayoutProps {
      * - if tabs is empty, but still remaining in layout because of panelLock, make sure also set the group if it's not null
      */
     afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
-    style?: CSSProperties;
+    style?: React.CSSProperties;
     /**
      * when specified, docklayout will create a react portal for the maximized panel
      * use dom element as the value, or use the element's id
@@ -118,15 +118,12 @@ export declare class DockLayout extends DockPortalManager implements DockContext
      */
     dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: any): void;
     /** @inheritDoc */
-    find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData;
+    find(id: string, filter?: Algorithm.Filter): PanelData | TabData | BoxData | undefined;
     updatePanelLocalGroup(panel: PanelData): void;
     /** @ignore */
-    getLayoutSize(): {
-        width: number;
-        height: number;
-    };
+    getLayoutSize(): LayoutSize;
     /** @inheritDoc */
-    updateTab(id: string, newTab: TabData, makeActive?: boolean, direction?: DropDirection): boolean;
+    updateTab(id: string, newTab: TabData | null, makeActive?: boolean, direction?: DropDirection): boolean;
     updatePanelData(id: string, panelData: PanelData, direction: DropDirection, additionalData?: any): void;
     /** @inheritDoc */
     navigateToPanel(fromElement?: HTMLElement, direction?: string): void;

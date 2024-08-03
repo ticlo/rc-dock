@@ -1,10 +1,9 @@
 import * as React from "react";
 import { BoxData } from "./DockData";
 interface Props {
-    boxData: BoxData;
+    panelData: BoxData;
 }
-export declare class WindowBox extends React.PureComponent<Props, any> {
-    static enabled: boolean;
+export declare class NewWindow extends React.PureComponent<Props, any> {
     render(): React.ReactNode;
 }
 export {};

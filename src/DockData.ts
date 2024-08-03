@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from "react";
 import { TabPosition } from "rc-tabs/lib/interface";
 import {Filter} from "./Algorithm";
 import {
@@ -101,6 +101,10 @@ export interface TabGroup {
    * Override the default flex grow and flex shrink for panel height
    */
   heightFlex?: number;
+  /**
+   * Override the default `moreIcon`
+   */
+  moreIcon?: React.ReactNode;
 }
 
 /** @ignore */
@@ -373,6 +377,13 @@ export type DropDirection =
   | 'configure-tab'
   ;
 
+export interface Size {
+  width: number;
+  height: number;
+}
+
+export type LayoutSize = Size;
+
 export interface DockContext {
   /** @ignore */
   getDockId(): any;
@@ -384,7 +395,7 @@ export interface DockContext {
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}, panelSize?: [number, number]): void;
 
   /** @ignore */
-  getLayoutSize(): {width: number, height: number};
+  getLayoutSize(): LayoutSize;
 
   /** @ignore
    * When a state change happen to the layout that's handled locally, like inside DockPanel or DockBox.
@@ -415,7 +426,7 @@ export interface DockContext {
   /**
    * Find PanelData or TabData by id
    */
-  find(id: string, filter?: Filter): PanelData | TabData | BoxData;
+  find(id: string, filter?: Filter): PanelData | TabData | BoxData | undefined;
 
   updatePanelLocalGroup(panel: PanelData): void;
 
@@ -427,7 +438,7 @@ export interface DockContext {
    * @param direction which direction to drop
    * @returns returns false if the tab is not found
    */
-  updateTab(id: string, newTab: TabData, makeActive?: boolean, direction?: DropDirection): boolean;
+  updateTab(id: string, newTab: TabData | null, makeActive?: boolean, direction?: DropDirection): boolean;
 
   updatePanelData(id: string, panelData: PanelData, direction: DropDirection): void;
 

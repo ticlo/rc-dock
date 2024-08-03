@@ -1,14 +1,14 @@
-import React from "react";
-import { DockContext, DockContextType, maximePlaceHolderId, PanelData, TabData } from "./DockData";
-import { DockTabs } from "./DockTabs";
-import { DragDropDiv } from "./dragdrop/DragDropDiv";
-import { DragState } from "./dragdrop/DragManager";
-import { DockDropLayer } from "./DockDropLayer";
-import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm";
-import { DockDropEdge } from "./DockDropEdge";
+import * as React from "react";
+import {DockContext, DockContextType, maximePlaceHolderId, PanelData, TabData} from "./DockData";
+import {DockTabs} from "./DockTabs";
+import {DragDropDiv} from "./dragdrop/DragDropDiv";
+import {DragState} from "./dragdrop/DragManager";
+import {DockDropLayer} from "./DockDropLayer";
+import {getFloatPanelSize, getPanelTabPosition, nextZIndex} from "./Algorithm";
+import {DockDropEdge} from "./DockDropEdge";
+import {groupClassNames, mergeTabGroups} from "./Utils";
 import classNames from "classnames";
 import { TabPosition } from "rc-tabs/lib/interface";
-import { mergeTabGroups } from "./Utils";
 
 interface Props {
   panelData: PanelData;
@@ -75,9 +75,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
 
   onDragOverOtherPanel() {
-    if (this.state.dropFromPanel) {
-      this.setState({dropFromPanel: null});
-    }
+    this.setState({dropFromPanel: null});
   }
 
   // used both by dragging head and corner
@@ -92,22 +90,24 @@ export class DockPanel extends React.PureComponent<Props, State> {
       this._movingX = x;
       this._movingY = y;
       // hide the panel, but not create drag layer element
-      event.setData({panel: this.props.panelData}, dockId);
+      event.setData({panel: panelData, tabGroup: panelData.group}, dockId);
       event.startDrag(null, null);
       this.onFloatPointerDown();
     } else {
       let tabGroup = mergeTabGroups(this.context.getGroup(panelData.group), panelData.localGroup);
       let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
 
-      event.setData({panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight]}, dockId);
+      event.setData({panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight], tabGroup: panelData.group}, dockId);
       event.startDrag(null);
     }
     this.setState({draggingHeader: true});
   };
   onPanelHeaderDragMove = (e: DragState) => {
-    let {width, height} = this.context.getLayoutSize();
     let {panelData} = this.props;
-
+    if (panelData.parent?.mode !== 'float') {
+      return;
+    }
+    let {width, height} = this.context.getLayoutSize();
     panelData.x = this._movingX + e.dx;
     panelData.y = this._movingY + e.dy;
     if (width > 200 && height > 200) {
@@ -130,9 +130,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onPanelHeaderDragEnd = (e: DragState) => {
     if (!this._unmounted) {
       this.setState({draggingHeader: false});
-      const { panelData } = this.props;
-      if (panelData.parent?.mode === "float") {
-        this.context.onSilentChange(this.props.panelData.activeId, 'move');
+      if (e.dropped === false) {
+        const {panelData} = this.props;
+        if (panelData.parent?.mode === "float") {
+          // in float mode, the position change needs to be sent to the layout
+          this.context.onSilentChange(this.props.panelData.activeId, 'move');
+        }
       }
     }
   };
@@ -282,13 +285,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
         heightFlex = panelHeightFlex;
       }
     }
-    let panelClass: string;
-    if (styleName) {
-      panelClass = styleName
-        .split(' ')
-        .map((name) => `dock-style-${name}`)
-        .join(' ');
-    }
+    let panelClass: string = classNames(groupClassNames(styleName));
     let isMax = parent?.mode === 'maximize';
     let isFloat = parent?.mode === 'float';
     let isHBox = parent?.mode === 'horizontal';

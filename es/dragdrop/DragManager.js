@@ -1,3 +1,5 @@
+import classNames from "classnames";
+import { groupClassNames } from "../Utils";
 class RcDragState {
     constructor(event, component, init = false) {
         this.pageX = 0;
@@ -6,6 +8,7 @@ class RcDragState {
         this.clientY = 0;
         this.dx = 0;
         this.dy = 0;
+        this.dropped = false;
         this.event = event;
         this.component = component;
         this._init = init;
@@ -97,7 +100,7 @@ class RcDragState {
     }
     _onDragEnd(canceled = false) {
         if (_droppingHandlers && _droppingHandlers.onDropT && !canceled) {
-            _droppingHandlers.onDropT(this);
+            this.dropped = _droppingHandlers.onDropT(this);
             if (this.component.dragType === 'right') {
                 // prevent the next menu event if drop handler is called on right mouse button
                 this.component.ownerDocument.addEventListener('contextmenu', preventDefault, true);
@@ -148,7 +151,8 @@ let _draggingIcon;
 function _createDraggingDiv(doc) {
     _draggingDiv = doc.createElement('div');
     _draggingIcon = doc.createElement('div');
-    _draggingDiv.className = 'dragging-layer';
+    const tabGroup = (_data && 'tabGroup' in _data ? _data.tabGroup : undefined);
+    _draggingDiv.className = classNames(groupClassNames(tabGroup), 'dragging-layer');
     _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
     _draggingDiv.appendChild(_draggingIcon);
 }
@@ -251,6 +255,7 @@ class DndDragState {
         this.clientY = 0;
         this.dx = 0;
         this.dy = 0;
+        this.dropped = false;
         this.component = component;
     }
     // tslint:disable-next-line:no-empty

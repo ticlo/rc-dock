@@ -82,7 +82,7 @@ export function nextZIndex(current?: number): number {
 }
 
 
-function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | TabData {
+function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | TabData | undefined {
   if (panel.id === id && (filter & Filter.Panel)) {
     return panel;
   }
@@ -93,13 +93,16 @@ function findInPanel(panel: PanelData, id: string, filter: Filter): PanelData | 
       }
     }
   }
-  return null;
+  return undefined;
 }
 
-function findInBox(box: BoxData, id: string, filter: Filter): PanelData | TabData | BoxData {
-  let result: PanelData | TabData | BoxData;
-  if ((filter | Filter.Box) && box.id === id) {
+function findInBox(box: BoxData | undefined, id: string, filter: Filter): PanelData | TabData | BoxData | undefined {
+  let result: PanelData | TabData | BoxData | undefined;
+  if ((filter | Filter.Box) && box?.id === id) {
     return box;
+  }
+  if (!box?.children) {
+    return undefined;
   }
   for (let child of box.children) {
     if ('children' in child) {
@@ -132,8 +135,8 @@ export enum Filter {
 }
 
 
-export function find(layout: LayoutData, id: string, filter: Filter = Filter.AnyTabPanel): PanelData | TabData | BoxData {
-  let result: PanelData | TabData | BoxData;
+export function find(layout: LayoutData, id: string, filter: Filter = Filter.AnyTabPanel): PanelData | TabData | BoxData | undefined {
+  let result: PanelData | TabData | BoxData | undefined;
 
   if (filter & Filter.Docked) {
     result = findInBox(layout.dockbox, id, filter);
@@ -187,7 +190,7 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
   if (tabs.length) {
     let newPanel = clone(panel);
     newPanel.tabs.splice(idx, 0, ...tabs);
-    newPanel.activeId = tabs[tabs.length - 1].id;
+    newPanel.activeId = tabs.at(-1).id;
     for (let tab of tabs) {
       tab.parent = newPanel;
     }
@@ -543,19 +546,27 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
     for (let i = 0; i < newFloatChildren.length; ++i) {
       let panel: PanelData = newFloatChildren[i] as PanelData;
       let panelChange: any = {};
-      if (panel.w > layoutWidth) {
+      if (!(panel.w > 0)) {
+        panelChange.w = Math.round(layoutWidth / 3);
+      } else if (panel.w > layoutWidth) {
         panelChange.w = layoutWidth;
       }
-      if (panel.h > layoutHeight) {
+      if (!(panel.h > 0)) {
+        panelChange.h = Math.round(layoutHeight / 3);
+      } else if (panel.h > layoutHeight) {
         panelChange.h = layoutHeight;
       }
-      if (panel.y > layoutHeight - 16) {
+      if (typeof panel.y !== 'number') {
+        panelChange.y = (layoutHeight -  (panelChange.h || panel.h)) >> 1;
+      } else if (panel.y > layoutHeight - 16) {
         panelChange.y = Math.max(layoutHeight - 16 - (panel.h >> 1), 0);
-      } else if (panel.y < 0) {
+      } else if (!(panel.y >= 0)) {
         panelChange.y = 0;
       }
 
-      if (panel.x + panel.w < 16) {
+      if (typeof panel.x !== 'number') {
+        panelChange.x = (layoutWidth - (panelChange.w || panel.w)) >> 1;
+      } else if (panel.x + panel.w < 16) {
         panelChange.x = 16 - (panel.w >> 1);
       } else if (panel.x > layoutWidth - 16) {
         panelChange.x = layoutWidth - 16 - (panel.w >> 1);

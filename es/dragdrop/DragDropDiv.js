@@ -152,7 +152,6 @@ class RcDragDropDiv extends React.PureComponent {
         };
         this.onGestureEnd = (e) => {
             let { onGestureEndT } = this.props;
-            let state = new DragManager.DragState(e, this);
             this.removeListeners();
             if (onGestureEndT) {
                 onGestureEndT();
@@ -182,7 +181,6 @@ class RcDragDropDiv extends React.PureComponent {
         }
     }
     addDragListeners(event) {
-        let { onDragStartT } = this.props;
         if (event.type === 'touchstart') {
             this.ownerDocument.addEventListener('touchmove', this.onTouchMove);
             this.ownerDocument.addEventListener('touchend', this.onDragEnd);

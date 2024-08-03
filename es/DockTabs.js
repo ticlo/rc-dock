@@ -10,7 +10,7 @@ import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorithm";
 import { WindowBox } from "./WindowBox";
 import classNames from "classnames";
-import { getFloatingCoordinatesBySize, mergeTabGroups } from "./Utils";
+import { getFloatingCoordinatesBySize, mergeTabGroups, groupClassNames } from "./Utils";
 function findParentPanel(element) {
     for (let i = 0; i < 10; ++i) {
         if (!element) {
@@ -24,8 +24,8 @@ function findParentPanel(element) {
     return null;
 }
 function isPopupDiv(r) {
-    var _a, _b;
-    return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement.tagName) === 'LI');
+    var _a, _b, _c;
+    return (r == null || ((_a = r.parentElement) === null || _a === void 0 ? void 0 : _a.tagName) === 'LI' || ((_c = (_b = r.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.tagName) === 'LI');
 }
 class DockTabTitle extends React.PureComponent {
     constructor(props) {
@@ -78,7 +78,11 @@ export class TabCache {
             let panelElement = findParentPanel(this._ref);
             let tabGroup = mergeTabGroups(this.context.getGroup(this.data.group), this.data.localGroup);
             let [panelWidth, panelHeight] = getFloatPanelSize(panelElement, tabGroup);
-            e.setData({ tab: this.data, panelSize: [panelWidth, panelHeight] }, this.context.getDockId());
+            e.setData({
+                tab: this.data,
+                panelSize: [panelWidth, panelHeight],
+                tabGroup: this.data.group
+            }, this.context.getDockId());
             e.startDrag(this._ref.parentElement, this._ref.parentElement);
         };
         this.onDragOver = (e) => {
@@ -441,9 +445,12 @@ export class DockTabs extends React.PureComponent {
         const panelData = this.props.panelData;
         let { group, tabs, activeId, localGroup } = panelData;
         let tabGroup = mergeTabGroups(this.context.getGroup(group), localGroup);
-        let { animated } = tabGroup;
+        let { animated, moreIcon } = tabGroup;
         if (animated == null) {
             animated = true;
+        }
+        if (!moreIcon) {
+            moreIcon = "...";
         }
         if (this.animationDisabled) {
             animated = false;
@@ -454,7 +461,7 @@ export class DockTabs extends React.PureComponent {
             children.push(tab.content);
         }
         const tabPosition = getPanelTabPosition(panelData);
-        return (React.createElement(Tabs, { prefixCls: classNames(this.context.getClassName(), "dock"), moreIcon: "...", animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, tabPosition: tabPosition, onChange: this.onTabChange }, children));
+        return (React.createElement(Tabs, { prefixCls: classNames(this.context.getClassName(), "dock"), moreIcon: moreIcon, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, tabPosition: tabPosition, onChange: this.onTabChange, popupClassName: classNames(groupClassNames(group)) }, children));
     }
 }
 DockTabs.contextType = DockContextType;

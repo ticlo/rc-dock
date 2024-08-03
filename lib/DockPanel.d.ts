@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContext, PanelData } from "./DockData";
 import { DragState } from "./dragdrop/DragManager";
 import { TabPosition } from "rc-tabs/lib/interface";

@@ -9,3 +9,4 @@ export interface Coordinates {
     y: number;
 }
 export declare function getFloatingCoordinatesBySize(size: Size, dockLayoutSize: Size): Coordinates;
+export declare const groupClassNames: (groupNames?: string) => string[];

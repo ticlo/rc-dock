@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { WindowPanel } from "./WindowPanel";
 export class WindowBox extends React.PureComponent {
     render() {

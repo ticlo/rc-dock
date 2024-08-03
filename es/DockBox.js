@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
 import { DockPanel } from "./DockPanel";
@@ -10,28 +10,29 @@ export class DockBox extends React.PureComponent {
             this._ref = r;
         };
         this.getDividerData = (idx) => {
-            if (this._ref) {
-                let { children, mode } = this.props.boxData;
-                let nodes = this._ref.childNodes;
-                if (nodes.length === children.length * 2 - 1) {
-                    let dividerChildren = [];
-                    for (let i = 0; i < children.length; ++i) {
-                        const child = children[i];
-                        if (mode === 'vertical') {
-                            dividerChildren.push({ size: nodes[i * 2].offsetHeight, minSize: child.minHeight, collapsed: child.collapsed });
-                        }
-                        else {
-                            dividerChildren.push({ size: nodes[i * 2].offsetWidth, minSize: child.minWidth, collapsed: child.collapsed });
-                        }
-                    }
-                    return {
-                        element: this._ref,
-                        beforeDivider: dividerChildren.slice(0, idx),
-                        afterDivider: dividerChildren.slice(idx)
-                    };
+            if (!this._ref) {
+                return null;
+            }
+            let { children, mode } = this.props.boxData;
+            let nodes = this._ref.childNodes;
+            if (nodes.length !== children.length * 2 - 1) {
+                return;
+            }
+            let dividerChildren = [];
+            for (let i = 0; i < children.length; ++i) {
+                const child = children[i];
+                if (mode === 'vertical') {
+                    dividerChildren.push({ size: nodes[i * 2].offsetHeight, minSize: child.minHeight, collapsed: child.collapsed });
+                }
+                else {
+                    dividerChildren.push({ size: nodes[i * 2].offsetWidth, minSize: child.minWidth, collapsed: child.collapsed });
                 }
             }
-            return null;
+            return {
+                element: this._ref,
+                beforeDivider: dividerChildren.slice(0, idx),
+                afterDivider: dividerChildren.slice(idx)
+            };
         };
         this.setIgnorePreferredSize = (idx) => {
             if (!this._ref) {
@@ -48,14 +49,15 @@ export class DockBox extends React.PureComponent {
         };
         this.changeSizes = (sizes) => {
             let { children } = this.props.boxData;
-            if (children.length === sizes.length) {
-                for (let i = 0; i < children.length; ++i) {
-                    if (!children[i].collapsed) {
-                        children[i].size = sizes[i];
-                    }
-                }
-                this.forceUpdate();
+            if (children.length !== sizes.length) {
+                return;
             }
+            for (let i = 0; i < children.length; ++i) {
+                if (!children[i].collapsed) {
+                    children[i].size = sizes[i];
+                }
+            }
+            this.forceUpdate();
         };
         this.onDragEnd = () => {
             this.context.onSilentChange(null, 'move');

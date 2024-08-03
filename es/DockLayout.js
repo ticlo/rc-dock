@@ -9,7 +9,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from "react";
+import * as React from "react";
 import ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import { defaultGroup, DockContextProvider, placeHolderGroup, placeHolderStyle } from "./DockData";
@@ -217,7 +217,7 @@ export class DockLayout extends DockPortalManager {
         }
         else if (target) {
             if ('tabs' in target) {
-                // pandel target
+                // panel target
                 if (direction === 'middle') {
                     layout = Algorithm.addTabToPanel(layout, source, target);
                 }
@@ -238,14 +238,7 @@ export class DockLayout extends DockPortalManager {
         }
         if (layout !== this.getLayout()) {
             layout = Algorithm.fixLayoutData(layout, this.props.groups);
-            let currentTabId = null;
-            if (source.hasOwnProperty('tabs')) {
-                currentTabId = source.activeId;
-            }
-            else {
-                // when source is tab
-                currentTabId = source.id;
-            }
+            const currentTabId = source.hasOwnProperty('tabs') ? source.activeId : source.id;
             this.changeLayout(layout, currentTabId, direction, false, additionalData);
         }
         this.onDragStateChange(false);
@@ -268,36 +261,37 @@ export class DockLayout extends DockPortalManager {
     updateTab(id, newTab, makeActive = true, direction = 'update') {
         var _a;
         let tab = this.find(id, Algorithm.Filter.AnyTab);
-        if (tab) {
-            let panelData = tab.parent;
-            let idx = panelData.tabs.indexOf(tab);
-            if (idx >= 0) {
-                let { loadTab } = this.props;
-                let layout = this.getLayout();
-                if (newTab) {
-                    let activeId = panelData.activeId;
-                    if (loadTab && !('content' in newTab && 'title' in newTab)) {
-                        newTab = loadTab(newTab);
-                    }
-                    layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
-                    panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
-                    layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
-                    panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
-                    if (!makeActive) {
-                        // restore the previous activeId
-                        panelData.activeId = activeId;
-                        this.panelToFocus = panelData.id;
-                    }
-                }
-                else if (makeActive && panelData.activeId !== id) {
-                    layout = Algorithm.replacePanel(layout, panelData, Object.assign(Object.assign({}, panelData), { activeId: id }));
-                }
-                layout = Algorithm.fixLayoutData(layout, this.props.groups);
-                this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, direction);
-                return true;
+        if (!tab) {
+            return false;
+        }
+        let panelData = tab.parent;
+        let idx = panelData.tabs.indexOf(tab);
+        if (idx < 0) {
+            return false;
+        }
+        let { loadTab } = this.props;
+        let layout = this.getLayout();
+        if (newTab) {
+            let activeId = panelData.activeId;
+            if (loadTab && !('content' in newTab && 'title' in newTab)) {
+                newTab = loadTab(newTab);
+            }
+            layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
+            panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
+            layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
+            panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
+            if (!makeActive) {
+                // restore the previous activeId
+                panelData.activeId = activeId;
+                this.panelToFocus = panelData.id;
             }
         }
-        return false;
+        else if (makeActive && panelData.activeId !== id) {
+            layout = Algorithm.replacePanel(layout, panelData, Object.assign(Object.assign({}, panelData), { activeId: id }));
+        }
+        layout = Algorithm.fixLayoutData(layout, this.props.groups);
+        this.changeLayout(layout, (_a = newTab === null || newTab === void 0 ? void 0 : newTab.id) !== null && _a !== void 0 ? _a : id, direction);
+        return true;
     }
     updatePanelData(id, panelData, direction, additionalData) {
         const layout = this.getLayout();

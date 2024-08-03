@@ -1,6 +1,15 @@
 # History
 ----
 
+## 3.2.18 / 2023-06-08
+- fix the issue that sometimes dock icons are shown and no UI response after switching tabs quickly
+
+## 3.2.14 / 2022-11-25
+- make rc-dock compatible with preact
+
+## 3.2.11 / 2022-08-24
+- add new parameter to dockmove() for default float panel position
+
 ## 3.2.9 / 2022-01-17
 - new TabGroup.floatable option: "singleTab"
 

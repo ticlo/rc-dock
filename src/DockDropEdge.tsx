@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   BoxData,
   DockContext,
@@ -95,7 +95,7 @@ export class DockDropEdge extends React.PureComponent<DockDropEdgeProps, any> {
     while (targetBox && lastDepth < depth) {
       if (targetBox.mode === mode) {
         if (afterPanel) {
-          if (targetBox.children[targetBox.children.length - 1] !== previousTarget) {
+          if (targetBox.children.at(-1) !== previousTarget) {
             // dont go deeper if current target is on different side of the box
             break;
           }

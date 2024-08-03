@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BoxData, DockContext, DockContextType, PanelData } from "./DockData";
 import {DockPanel} from "./DockPanel";
 import classNames from "classnames";

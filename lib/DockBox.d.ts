@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BoxData, DockContext } from "./DockData";
 import { DividerChild } from "./Divider";
 interface Props {

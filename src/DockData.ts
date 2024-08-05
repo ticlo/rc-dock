@@ -141,6 +141,13 @@ export interface PanelBase {
   w?: number;
   /** float mode only */
   h?: number;
+
+  /**
+   * addition information of a panel,
+   * This prevents the panel from being removed when there is no tab inside
+   * a locked panel can not be moved to float layer either
+   */
+  panelLock?: PanelLock; // if not null, panel won't disappear even when all children are gone
 }
 
 export interface BoxBase {
@@ -243,14 +250,6 @@ export interface PanelData extends PanelBase, BoxChild {
   parent?: BoxData;
 
   tabs: TabData[];
-
-  /**
-   * addition information of a panel,
-   * This prevents the panel from being removed when there is no tab inside
-   * a locked panel can not be moved to float layer either
-   */
-  panelLock?: PanelLock; // if not null, panel won't disappear even when all children are gone
-
 
 }
 

@@ -360,7 +360,7 @@ export class DockTabs extends React.PureComponent {
             panelExtraContent = React.createElement(React.Fragment, null,
                 panelExtraContent,
                 collapsible ? renderCollapseExpandBtn() : null,
-                floatable ? renderToggleFloatingBtn() : null,
+                (floatable && !panelLock) ? renderToggleFloatingBtn() : null,
                 panelDefaultContent,
                 panelData.tabs.length === 1 && panelData.tabs[0].closable && React.createElement("div", { className: "dock-panel-close-btn", onClick: this.handlePanelCloseClick }));
             return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent, panelData: panelData })));

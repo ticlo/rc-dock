@@ -504,7 +504,7 @@ export class DockTabs extends React.PureComponent<Props> {
     panelExtraContent = <>
       {panelExtraContent}
       {collapsible ? renderCollapseExpandBtn() : null}
-      {floatable ? renderToggleFloatingBtn() : null}
+      {(floatable && !panelLock) ? renderToggleFloatingBtn() : null}
       {panelDefaultContent}
       {panelData.tabs.length === 1 && panelData.tabs[0].closable && <div className="dock-panel-close-btn" onClick={this.handlePanelCloseClick} />}
     </>;

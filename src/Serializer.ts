@@ -69,13 +69,13 @@ export function saveLayoutData(
         tabs.push(savedTab);
       }
     }
-    let {id, size, activeId, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, group, localGroup, x, y, z, w, h, dockParent, panelIndex, tabIndex, tabPosition = "top"} = panelData;
+    let {id, size, activeId, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, group, localGroup, x, y, z, w, h, dockParent, panelIndex, tabIndex, panelLock, tabPosition = "top"} = panelData;
     let savedPanel: PanelBase;
     if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
-      savedPanel = {id, size, tabs, collapsed, headerSize, group, preferredWidth, preferredHeight, localGroup, ignorePreferredSize, tabPosition, activeId, x, y, z, w, h, dockParent, panelIndex, tabIndex};
+      savedPanel = {id, size, tabs, collapsed, headerSize, group, preferredWidth, preferredHeight, localGroup, ignorePreferredSize, tabPosition, activeId, x, y, z, w, h, dockParent, panelIndex, tabIndex, panelLock};
     } else {
       let {needSetSize} = panelData;
-      savedPanel = {id, size, tabs, collapsed, headerSize, group, preferredWidth, preferredHeight, localGroup, ignorePreferredSize, tabPosition, activeId, x, y, z, w, h, needSetSize, dockParent, panelIndex, tabIndex};
+      savedPanel = {id, size, tabs, collapsed, headerSize, group, preferredWidth, preferredHeight, localGroup, ignorePreferredSize, tabPosition, activeId, x, y, z, w, h, needSetSize, dockParent, panelIndex, tabIndex, panelLock};
     }
     if (afterPanelSaved) {
       afterPanelSaved(savedPanel, panelData);
@@ -124,7 +124,7 @@ export function loadLayoutData(
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
-    let {id, size, activeId, x, y, z, w, h, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, group, localGroup, dockParent, panelIndex, tabIndex, needSetSize, tabPosition = "top"} = savedPanel;
+    let {id, size, activeId, x, y, z, w, h, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, group, localGroup, dockParent, panelIndex, tabIndex, needSetSize, panelLock, tabPosition = "top"} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -135,9 +135,9 @@ export function loadLayoutData(
     }
     let panelData: PanelData;
     if (w || h || x || y || z) {
-      panelData = {id, size, activeId, group, localGroup, tabPosition, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, x, y, z, w, h, tabs, dockParent, panelIndex, tabIndex};
+      panelData = {id, size, activeId, group, localGroup, tabPosition, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, x, y, z, w, h, tabs, dockParent, panelIndex, tabIndex, panelLock};
     } else {
-      panelData = {id, size, activeId, group, localGroup, tabPosition, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, tabs, needSetSize, dockParent, panelIndex, tabIndex};
+      panelData = {id, size, activeId, group, localGroup, tabPosition, collapsed, headerSize, preferredWidth, preferredHeight, ignorePreferredSize, tabs, needSetSize, dockParent, panelIndex, tabIndex, panelLock};
     }
     if (savedPanel.id === maximePlaceHolderId) {
       panelData.panelLock = {};

@@ -153,6 +153,12 @@ export interface PanelBase {
     panelIndex?: number;
     tabIndex?: number;
     needSetSize?: boolean;
+    /**
+     * addition information of a panel,
+     * This prevents the panel from being removed when there is no tab inside
+     * a locked panel can not be moved to float layer either
+     */
+    panelLock?: PanelLock;
 }
 export interface BoxBase {
     /**
@@ -249,12 +255,6 @@ interface PanelLock {
 export interface PanelData extends PanelBase, BoxChild {
     parent?: BoxData;
     tabs: TabData[];
-    /**
-     * addition information of a panel,
-     * This prevents the panel from being removed when there is no tab inside
-     * a locked panel can not be moved to float layer either
-     */
-    panelLock?: PanelLock;
 }
 export interface TabPaneCache {
     id: string;

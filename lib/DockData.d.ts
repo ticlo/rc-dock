@@ -368,6 +368,7 @@ export declare const DockContextType: React.Context<DockContext>;
 export declare const DockContextProvider: React.Provider<DockContext>;
 /** @ignore */
 export declare const DockContextConsumer: React.Consumer<DockContext>;
+export declare const DockTabIdContext: React.Context<string>;
 /**
  * DnD item types
  */

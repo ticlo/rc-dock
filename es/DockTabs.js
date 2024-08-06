@@ -1,5 +1,5 @@
 import React from "react";
-import { DockContextType } from "./DockData";
+import { DockContextType, DockTabIdContext } from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -202,7 +202,8 @@ export class TabCache {
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })
                 : null,
             React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef })));
-        return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab, onTabActiveChange: handleTabActiveChange }, content));
+        return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab, onTabActiveChange: handleTabActiveChange },
+            React.createElement(DockTabIdContext.Provider, { value: id }, content)));
     }
     destroy() {
         // place holder

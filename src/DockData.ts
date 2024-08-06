@@ -475,6 +475,8 @@ export const DockContextProvider = DockContextType.Provider;
 /** @ignore */
 export const DockContextConsumer = DockContextType.Consumer;
 
+export const DockTabIdContext = React.createContext<string | null>(null);
+
 /**
  * DnD item types
  */

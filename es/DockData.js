@@ -20,3 +20,4 @@ export const DockContextType = React.createContext(null);
 export const DockContextProvider = DockContextType.Provider;
 /** @ignore */
 export const DockContextConsumer = DockContextType.Consumer;
+export const DockTabIdContext = React.createContext(null);

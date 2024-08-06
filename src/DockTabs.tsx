@@ -1,5 +1,5 @@
 import React from "react";
-import { BoxData, DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup } from "./DockData";
+import { BoxData, DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup, DockTabIdContext } from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -239,7 +239,9 @@ export class TabCache {
 
     return (
       <DockTabPane key={id} cacheId={id} cached={cached} tab={tab} onTabActiveChange={handleTabActiveChange}>
-        {content}
+        <DockTabIdContext.Provider value={id}>
+          {content}
+        </DockTabIdContext.Provider>
       </DockTabPane>
     );
   }

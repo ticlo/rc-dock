@@ -382,6 +382,17 @@ export interface Size {
 
 export type LayoutSize = Size;
 
+export interface DockLocation {
+  dockParent: PanelData | BoxData;
+  tabIndex: number;
+  panelIndex: number;
+}
+
+export interface DockMoveAdditionalData {
+  dockLocation?: DockLocation;
+  changeLayoutData?: any;
+}
+
 export interface DockContext {
   /** @ignore */
   getDockId(): any;
@@ -414,7 +425,7 @@ export interface DockContext {
    *  - when direction is 'float', target doesnt matter. If this is called directly from code without any user interaction, source must be PanelData with x,y,w,h properties
    * @param additionalData optional additional data
    */
-  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: any): void;
+  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: DockMoveAdditionalData): void;
 
   /**
    * Get the TabGroup defined in defaultLayout

@@ -6,7 +6,7 @@ import {
   defaultGroup,
   DndSpec,
   DockContext,
-  DockContextProvider,
+  DockContextProvider, DockLocation, DockMoveAdditionalData,
   DropDirection,
   LayoutBase,
   LayoutData,
@@ -226,7 +226,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * @param direction @inheritDoc
    * @param additionalData @inheritDoc
    */
-  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: any) {
+  dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, additionalData?: DockMoveAdditionalData) {
     let layout = this.getLayout();
 
     if (source && 'tabs' in source) {
@@ -249,15 +249,28 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
 
     if (direction === 'float') {
-      const dockParent = source.parent;
+      let dockParent;
       let panelIndex;
       let tabIndex;
-      if ('tabs' in source) {
-        panelIndex = (dockParent as BoxData)?.children.findIndex(child => child === source) || 0;
+
+      const dockLocation = additionalData?.dockLocation;
+      if (dockLocation) {
+        dockParent = dockLocation.dockParent;
+        panelIndex = dockLocation.panelIndex;
+        tabIndex = dockLocation.tabIndex;
       } else {
-        panelIndex = (dockParent as PanelData)?.parent.children.findIndex(child => child === source.parent) || 0;
-        tabIndex = (dockParent as PanelData)?.tabs.findIndex(child => child === source) || 0;
+        dockParent = source.parent;
+        if ('tabs' in source) {
+          panelIndex = (dockParent as BoxData)?.children.findIndex(child => child === source) || 0;
+        } else {
+          panelIndex = (dockParent as PanelData)?.parent.children.findIndex(child => child === source.parent) || 0;
+          tabIndex = (dockParent as PanelData)?.tabs.findIndex(child => child === source) || 0;
+        }
       }
+
+      panelIndex = Math.max(0, panelIndex);
+      tabIndex = Math.max(0, tabIndex);
+
       let newPanel = Algorithm.converToPanel(source);
       newPanel.dockParent = dockParent;
       newPanel.panelIndex = panelIndex;
@@ -296,7 +309,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout, this.props.groups);
       const currentTabId: string = source.hasOwnProperty('tabs') ? (source as PanelData).activeId : (source as TabData).id;
-      this.changeLayout(layout, currentTabId, direction, false, additionalData);
+      this.changeLayout(layout, currentTabId, direction, false, additionalData?.changeLayoutData);
     }
     this.onDragStateChange(false);
   }

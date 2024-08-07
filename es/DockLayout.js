@@ -186,16 +186,27 @@ export class DockLayout extends DockPortalManager {
             target = Algorithm.getUpdatedObject(target); // target might change during removeTab
         }
         if (direction === 'float') {
-            const dockParent = source.parent;
+            let dockParent;
             let panelIndex;
             let tabIndex;
-            if ('tabs' in source) {
-                panelIndex = ((_a = dockParent) === null || _a === void 0 ? void 0 : _a.children.findIndex(child => child === source)) || 0;
+            const dockLocation = additionalData === null || additionalData === void 0 ? void 0 : additionalData.dockLocation;
+            if (dockLocation) {
+                dockParent = dockLocation.dockParent;
+                panelIndex = dockLocation.panelIndex;
+                tabIndex = dockLocation.tabIndex;
             }
             else {
-                panelIndex = ((_b = dockParent) === null || _b === void 0 ? void 0 : _b.parent.children.findIndex(child => child === source.parent)) || 0;
-                tabIndex = ((_c = dockParent) === null || _c === void 0 ? void 0 : _c.tabs.findIndex(child => child === source)) || 0;
+                dockParent = source.parent;
+                if ('tabs' in source) {
+                    panelIndex = ((_a = dockParent) === null || _a === void 0 ? void 0 : _a.children.findIndex(child => child === source)) || 0;
+                }
+                else {
+                    panelIndex = ((_b = dockParent) === null || _b === void 0 ? void 0 : _b.parent.children.findIndex(child => child === source.parent)) || 0;
+                    tabIndex = ((_c = dockParent) === null || _c === void 0 ? void 0 : _c.tabs.findIndex(child => child === source)) || 0;
+                }
             }
+            panelIndex = Math.max(0, panelIndex);
+            tabIndex = Math.max(0, tabIndex);
             let newPanel = Algorithm.converToPanel(source);
             newPanel.dockParent = dockParent;
             newPanel.panelIndex = panelIndex;
@@ -239,7 +250,7 @@ export class DockLayout extends DockPortalManager {
         if (layout !== this.getLayout()) {
             layout = Algorithm.fixLayoutData(layout, this.props.groups);
             const currentTabId = source.hasOwnProperty('tabs') ? source.activeId : source.id;
-            this.changeLayout(layout, currentTabId, direction, false, additionalData);
+            this.changeLayout(layout, currentTabId, direction, false, additionalData === null || additionalData === void 0 ? void 0 : additionalData.changeLayoutData);
         }
         this.onDragStateChange(false);
     }

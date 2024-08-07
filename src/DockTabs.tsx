@@ -600,7 +600,6 @@ export class DockTabs extends React.PureComponent<Props> {
             activeKey={activeId}
             tabPosition={tabPosition}
             onChange={this.onTabChange}
-            popupClassName={classNames(groupClassNames(group))}
       >
         {children}
       </Tabs>

@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "3.3.0+agg.5",
+  "version": "3.3.0+agg.6",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",

@@ -6,7 +6,7 @@ import {
   defaultGroup,
   DndSpec,
   DockContext,
-  DockContextProvider, DockLocation, DockMoveAdditionalData,
+  DockContextProvider, DockMoveAdditionalData,
   DropDirection,
   LayoutBase,
   LayoutData,
@@ -256,8 +256,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
       const dockLocation = additionalData?.dockLocation;
       if (dockLocation) {
         dockParent = dockLocation.dockParent;
-        panelIndex = dockLocation.panelIndex;
-        tabIndex = dockLocation.tabIndex;
+        panelIndex = dockLocation.panelIndex || 0;
+        tabIndex = dockLocation.tabIndex || 0;
       } else {
         dockParent = source.parent;
         if ('tabs' in source) {

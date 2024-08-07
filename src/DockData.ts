@@ -384,8 +384,8 @@ export type LayoutSize = Size;
 
 export interface DockLocation {
   dockParent: PanelData | BoxData;
-  tabIndex: number;
-  panelIndex: number;
+  tabIndex?: number;
+  panelIndex?: number;
 }
 
 export interface DockMoveAdditionalData {

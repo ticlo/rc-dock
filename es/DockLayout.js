@@ -192,8 +192,8 @@ export class DockLayout extends DockPortalManager {
             const dockLocation = additionalData === null || additionalData === void 0 ? void 0 : additionalData.dockLocation;
             if (dockLocation) {
                 dockParent = dockLocation.dockParent;
-                panelIndex = dockLocation.panelIndex;
-                tabIndex = dockLocation.tabIndex;
+                panelIndex = dockLocation.panelIndex || 0;
+                tabIndex = dockLocation.tabIndex || 0;
             }
             else {
                 dockParent = source.parent;

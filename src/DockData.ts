@@ -195,6 +195,11 @@ export interface PanelBase {
    * a locked panel can not be moved to float layer either
    */
   panelLock?: PanelLock; // if not null, panel won't disappear even when all children are gone
+
+  /**
+   * Defines if toggle floating available for a panel
+   */
+  toggleFloatingDisabled?: boolean;
 }
 
 export interface BoxBase {

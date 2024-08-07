@@ -318,7 +318,7 @@ export class DockTabs extends React.PureComponent {
         };
         this.renderTabBar = (props, TabNavList) => {
             let { panelData, onPanelDragStart, onPanelDragMove, onPanelDragEnd, isCollapseDisabled } = this.props;
-            let { group: groupName, panelLock, localGroup } = panelData;
+            let { group: groupName, panelLock, localGroup, toggleFloatingDisabled } = panelData;
             let group = mergeTabGroups(this.context.getGroup(groupName), localGroup);
             let { panelExtra } = group;
             let { maximizable, collapsible, floatable } = group;
@@ -361,7 +361,7 @@ export class DockTabs extends React.PureComponent {
             panelExtraContent = React.createElement(React.Fragment, null,
                 panelExtraContent,
                 collapsible ? renderCollapseExpandBtn() : null,
-                (floatable && !panelLock) ? renderToggleFloatingBtn() : null,
+                (!toggleFloatingDisabled && floatable && !panelLock) ? renderToggleFloatingBtn() : null,
                 panelDefaultContent,
                 panelData.tabs.length === 1 && panelData.tabs[0].closable && React.createElement("div", { className: "dock-panel-close-btn", onClick: this.handlePanelCloseClick }));
             return (React.createElement(DockTabBar, Object.assign({ onDragStart: onPanelDragStart, onDragMove: onPanelDragMove, onDragEnd: onPanelDragEnd, TabNavList: TabNavList, isMaximized: panelData.parent.mode === 'maximize' }, props, { extra: panelExtraContent, panelData: panelData })));

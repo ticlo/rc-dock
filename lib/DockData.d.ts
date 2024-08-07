@@ -159,6 +159,10 @@ export interface PanelBase {
      * a locked panel can not be moved to float layer either
      */
     panelLock?: PanelLock;
+    /**
+     * Defines if toggle floating available for a panel
+     */
+    toggleFloatingDisabled?: boolean;
 }
 export interface BoxBase {
     /**

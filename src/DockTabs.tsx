@@ -10,7 +10,7 @@ import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
-import { getFloatingCoordinatesBySize, mergeTabGroups, Size, groupClassNames } from "./Utils";
+import { getFloatingCoordinatesBySize, mergeTabGroups, Size } from "./Utils";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -600,7 +600,6 @@ export class DockTabs extends React.PureComponent<Props> {
             activeKey={activeId}
             tabPosition={tabPosition}
             onChange={this.onTabChange}
-            popupClassName={classNames(groupClassNames(group))}
       >
         {children}
       </Tabs>

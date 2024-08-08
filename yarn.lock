@@ -5409,14 +5409,23 @@ rc-align@^4.0.0:
     rc-util "^5.3.0"
     resize-observer-polyfill "^1.5.1"
 
-rc-dropdown@~4.0.0, rc-dropdown@~4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/rc-dropdown/-/rc-dropdown-4.0.1.tgz#f65d9d3d89750241057db59d5a75e43cd4576b68"
-  integrity sha512-OdpXuOcme1rm45cR0Jzgfl1otzmU4vuBVb+etXM8vcaULGokAKVpKlw8p6xzspG7jGd/XxShvq+N3VNEfk/l5g==
+rc-dropdown@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/rc-dropdown/-/rc-dropdown-3.2.2.tgz#0fee9a66f100d686ddaa8d09717d090f72e1ce29"
+  integrity sha512-oA9VYYg+jQaPRdFoYFfBn5EAQk2NlL6H0vR2v6JG/8i4HEfUq8p1TTt6HyQ/dGxLe8lpnK+nM7WCjgZT/cpSRQ==
   dependencies:
-    "@babel/runtime" "^7.18.3"
+    "@babel/runtime" "^7.10.1"
     classnames "^2.2.6"
-    rc-trigger "^5.3.1"
+    rc-trigger "^5.0.4"
+
+rc-dropdown@~3.6.0:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/rc-dropdown/-/rc-dropdown-3.6.2.tgz#d23b8b2762941ac39e665673946f67ca9c39118f"
+  integrity sha512-Wsw7GkVbUXADEs8FPL0v8gd+3mWQiydPFXBlr2imMScQaf8hh79pG9KrBc1DwK+nqHmYOpQfK2gn6jG2AQw9Pw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    rc-trigger "^5.0.4"
     rc-util "^5.17.0"
 
 rc-menu@~9.6.0:
@@ -5483,19 +5492,30 @@ rc-resize-observer@^1.0.0:
     rc-util "^5.15.0"
     resize-observer-polyfill "^1.5.1"
 
-rc-tabs@~11.16.1:
-  version "11.16.1"
-  resolved "https://registry.yarnpkg.com/rc-tabs/-/rc-tabs-11.16.1.tgz#7c57b6a092d9d0e2df54413b0319f195c27214a9"
-  integrity sha512-bR7Dap23YyfzZQwtKomhiFEFzZuE7WaKWo+ypNRSGB9PDKSc6tM12VP8LWYkvmmQHthgwP0WRN8nFbSJWuqLYw==
+rc-tabs@11.14.2:
+  version "11.14.2"
+  resolved "https://registry.yarnpkg.com/rc-tabs/-/rc-tabs-11.14.2.tgz#f7143256b35c43fd16de0d00d8475e2d5574017a"
+  integrity sha512-oTGqxiyasi+QHCGDmgztnuxA60OwQ+8CaX09QAeKIrwuWLDeSmvFKFNhpeiw99PoNXPz4zUq++YV9gWaCkcv8Q==
   dependencies:
     "@babel/runtime" "^7.11.2"
     classnames "2.x"
-    rc-dropdown "~4.0.0"
+    rc-dropdown "~3.6.0"
     rc-menu "~9.6.0"
     rc-resize-observer "^1.0.0"
     rc-util "^5.5.0"
 
-rc-trigger@^5.1.2, rc-trigger@^5.3.1:
+rc-trigger@^5.0.4:
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-5.3.4.tgz#6b4b26e32825677c837d1eb4d7085035eecf9a61"
+  integrity sha512-mQv+vas0TwKcjAO2izNPkqR4j86OemLRmvL2nOzdP9OWNWA1ivoTt5hzFqYNW9zACwmTezRiN8bttrC7cZzYSw==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    classnames "^2.2.6"
+    rc-align "^4.0.0"
+    rc-motion "^2.0.0"
+    rc-util "^5.19.2"
+
+rc-trigger@^5.1.2:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-5.3.1.tgz#acafadf3eaf384e7f466c303bfa0f34c8137d7b8"
   integrity sha512-5gaFbDkYSefZ14j2AdzucXzlWgU2ri5uEjkHvsf1ynRhdJbKxNOnw4PBZ9+FVULNGFiDzzlVF8RJnR9P/xrnKQ==
@@ -5506,10 +5526,10 @@ rc-trigger@^5.1.2, rc-trigger@^5.3.1:
     rc-motion "^2.0.0"
     rc-util "^5.19.2"
 
-rc-util@^5.12.0, rc-util@^5.27.0, rc-util@^5.37.0, rc-util@^5.5.0:
-  version "5.39.0"
-  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.39.0.tgz#910eda7fb4d6080215aac1c65a442ae5f672993d"
-  integrity sha512-fEVbkOApBUK/lg+NTkfC3fw336EhgRy531ly2QvZj8G+21OjPEzb9TtH/zfKDL2BuQqbGh8J5zXeFyfcELXOlQ==
+rc-util@^5.12.0:
+  version "5.43.0"
+  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.43.0.tgz#bba91fbef2c3e30ea2c236893746f3e9b05ecc4c"
+  integrity sha512-AzC7KKOXFqAdIBqdGWepL9Xn7cm3vnAmjlHqUnoQaTMZYhM4VlXGLkkHHxj/BZ7Td0+SOPKB4RGPboBVKT9htw==
   dependencies:
     "@babel/runtime" "^7.18.3"
     react-is "^18.2.0"
@@ -5522,6 +5542,14 @@ rc-util@^5.15.0, rc-util@^5.17.0, rc-util@^5.19.2, rc-util@^5.21.0, rc-util@^5.3
     "@babel/runtime" "^7.18.3"
     react-is "^16.12.0"
     shallowequal "^1.1.0"
+
+rc-util@^5.27.0, rc-util@^5.37.0, rc-util@^5.5.0:
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.39.0.tgz#910eda7fb4d6080215aac1c65a442ae5f672993d"
+  integrity sha512-fEVbkOApBUK/lg+NTkfC3fw336EhgRy531ly2QvZj8G+21OjPEzb9TtH/zfKDL2BuQqbGh8J5zXeFyfcELXOlQ==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    react-is "^18.2.0"
 
 react-dnd-html5-backend@^14.0.2:
   version "14.1.0"

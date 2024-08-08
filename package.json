@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "3.3.0+agg.6-debug.5",
+  "version": "3.3.0+agg.6-debug.6",
   "description": "dock layout for react component",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "classnames": "^2.5.1",
     "lodash": "^4.17.21",
     "rc-dropdown": "3.2.2",
-    "rc-menu": "9.3.0",
+    "rc-menu": "~9.8.4",
     "rc-new-window": "^0.1.13",
     "rc-tabs": "11.10.5",
     "react": "^17.0.2",

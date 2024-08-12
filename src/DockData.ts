@@ -184,9 +184,7 @@ export interface PanelBase {
   h?: number;
   collapsed?: boolean;
   headerSize?: number;
-  dockParent?: PanelData | BoxData;
-  panelIndex?: number;
-  tabIndex?: number;
+  dockLocation?: DockLocation;
   needSetSize?: boolean;
 
   /**
@@ -388,7 +386,7 @@ export interface Size {
 export type LayoutSize = Size;
 
 export interface DockLocation {
-  dockParent: PanelData | BoxData;
+  parent?: PanelData | BoxData;
   tabIndex?: number;
   panelIndex?: number;
 }

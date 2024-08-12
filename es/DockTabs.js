@@ -235,10 +235,11 @@ export class DockTabs extends React.PureComponent {
             e.stopPropagation();
         };
         this.handleToggleFloatingClick = (e) => {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
             const { panelData } = this.props;
             if (panelData.parent.mode === 'float') {
                 let targetParent;
-                for (let dockParent = panelData.dockParent; dockParent && !targetParent; dockParent = dockParent.parent) {
+                for (let dockParent = (_a = panelData.dockLocation) === null || _a === void 0 ? void 0 : _a.parent; dockParent && !targetParent; dockParent = dockParent.parent) {
                     const dockParentId = dockParent === null || dockParent === void 0 ? void 0 : dockParent.id;
                     targetParent = dockParentId ?
                         find(this.context.getLayout(), dockParentId, Filter.Panel | Filter.Box | Filter.EveryWhere) :
@@ -247,15 +248,15 @@ export class DockTabs extends React.PureComponent {
                 let target;
                 let direction;
                 let mode;
-                if (panelData.dockParent) {
-                    mode = 'tabs' in panelData.dockParent ? panelData.dockParent.parent.mode : panelData.dockParent.mode;
+                if ((_b = panelData.dockLocation) === null || _b === void 0 ? void 0 : _b.parent) {
+                    mode = 'tabs' in ((_c = panelData.dockLocation) === null || _c === void 0 ? void 0 : _c.parent) ? (_e = (_d = panelData.dockLocation) === null || _d === void 0 ? void 0 : _d.parent) === null || _e === void 0 ? void 0 : _e.parent.mode : (_f = panelData.dockLocation) === null || _f === void 0 ? void 0 : _f.parent.mode;
                 }
                 else {
                     mode = "horizontal";
                 }
                 if (!targetParent) {
                     targetParent = this.context.getLayout().dockbox;
-                    const lastChild = panelData.panelIndex !== 0;
+                    const lastChild = ((_g = panelData === null || panelData === void 0 ? void 0 : panelData.dockLocation) === null || _g === void 0 ? void 0 : _g.panelIndex) !== 0;
                     if (mode === "horizontal") {
                         direction = lastChild ? "right" : "left";
                     }
@@ -265,8 +266,8 @@ export class DockTabs extends React.PureComponent {
                     target = targetParent;
                 }
                 else if ('tabs' in targetParent) {
-                    const lastChild = panelData.tabIndex > targetParent.tabs.length - 1;
-                    const childIndex = lastChild ? targetParent.tabs.length - 1 : panelData.tabIndex;
+                    const lastChild = ((_h = panelData.dockLocation) === null || _h === void 0 ? void 0 : _h.tabIndex) > targetParent.tabs.length - 1;
+                    const childIndex = lastChild ? targetParent.tabs.length - 1 : (_j = panelData.dockLocation) === null || _j === void 0 ? void 0 : _j.tabIndex;
                     if (targetParent.tabPosition === "top" || targetParent.tabPosition === "bottom") {
                         direction = lastChild ? "after-tab" : "before-tab";
                     }
@@ -276,8 +277,8 @@ export class DockTabs extends React.PureComponent {
                     target = targetParent.tabs[childIndex];
                 }
                 else if (targetParent.children.length !== 0) {
-                    const lastChild = panelData.panelIndex > targetParent.children.length - 1;
-                    const childIndex = lastChild ? targetParent.children.length - 1 : panelData.panelIndex;
+                    const lastChild = ((_k = panelData.dockLocation) === null || _k === void 0 ? void 0 : _k.panelIndex) > targetParent.children.length - 1;
+                    const childIndex = lastChild ? targetParent.children.length - 1 : (_l = panelData.dockLocation) === null || _l === void 0 ? void 0 : _l.panelIndex;
                     if (mode === "horizontal") {
                         direction = lastChild ? "right" : "left";
                     }

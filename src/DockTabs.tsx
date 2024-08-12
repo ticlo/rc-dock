@@ -328,7 +328,7 @@ export class DockTabs extends React.PureComponent<Props> {
 
     if (panelData.parent.mode === 'float') {
       let targetParent;
-      for (let dockParent = panelData.dockParent; dockParent && !targetParent; dockParent = dockParent.parent) {
+      for (let dockParent = panelData.dockLocation?.parent; dockParent && !targetParent; dockParent = dockParent.parent) {
         const dockParentId = dockParent?.id;
         targetParent = dockParentId ?
           find(
@@ -342,15 +342,15 @@ export class DockTabs extends React.PureComponent<Props> {
       let target;
       let direction: DropDirection;
       let mode;
-      if (panelData.dockParent) {
-        mode = 'tabs' in panelData.dockParent ? panelData.dockParent.parent.mode : panelData.dockParent.mode;
+      if (panelData.dockLocation?.parent) {
+        mode = 'tabs' in panelData.dockLocation?.parent ? panelData.dockLocation?.parent?.parent.mode : panelData.dockLocation?.parent.mode;
       } else {
         mode = "horizontal";
       }
 
       if (!targetParent) {
         targetParent = this.context.getLayout().dockbox;
-        const lastChild = panelData.panelIndex !== 0;
+        const lastChild = panelData?.dockLocation?.panelIndex !== 0;
 
         if (mode === "horizontal") {
           direction = lastChild ? "right" : "left";
@@ -359,8 +359,8 @@ export class DockTabs extends React.PureComponent<Props> {
         }
         target = targetParent;
       } else if ('tabs' in targetParent) {
-        const lastChild = panelData.tabIndex > targetParent.tabs.length - 1;
-        const childIndex = lastChild ? targetParent.tabs.length - 1 : panelData.tabIndex;
+        const lastChild = panelData.dockLocation?.tabIndex > targetParent.tabs.length - 1;
+        const childIndex = lastChild ? targetParent.tabs.length - 1 : panelData.dockLocation?.tabIndex;
 
         if (targetParent.tabPosition === "top" || targetParent.tabPosition === "bottom") {
           direction = lastChild ? "after-tab" : "before-tab";
@@ -370,8 +370,8 @@ export class DockTabs extends React.PureComponent<Props> {
 
         target = targetParent.tabs[childIndex];
       } else if (targetParent.children.length !== 0) {
-        const lastChild = panelData.panelIndex > targetParent.children.length - 1;
-        const childIndex = lastChild ? targetParent.children.length - 1 : panelData.panelIndex;
+        const lastChild = panelData.dockLocation?.panelIndex > targetParent.children.length - 1;
+        const childIndex = lastChild ? targetParent.children.length - 1 : panelData.dockLocation?.panelIndex;
 
         if (mode === "horizontal") {
           direction = lastChild ? "right" : "left";

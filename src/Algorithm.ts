@@ -680,7 +680,7 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
   }
 
   const hasFloatRefs = (node: PanelData | BoxData | TabData) =>
-    !!layout.floatbox?.children.find((floatedChild: PanelData) => floatedChild.dockParent?.id === node.id);
+    !!layout.floatbox?.children.find((floatedChild: PanelData) => floatedChild.dockLocation?.parent?.id === node.id);
 
   function fixBoxData(box: BoxData): BoxData {
     fixPanelOrBox(box);

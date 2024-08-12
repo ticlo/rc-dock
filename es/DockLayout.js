@@ -186,31 +186,24 @@ export class DockLayout extends DockPortalManager {
             target = Algorithm.getUpdatedObject(target); // target might change during removeTab
         }
         if (direction === 'float') {
-            let dockParent;
-            let panelIndex;
-            let tabIndex;
-            const dockLocation = additionalData === null || additionalData === void 0 ? void 0 : additionalData.dockLocation;
-            if (dockLocation) {
-                dockParent = dockLocation.dockParent;
-                panelIndex = dockLocation.panelIndex || 0;
-                tabIndex = dockLocation.tabIndex || 0;
-            }
-            else {
-                dockParent = source.parent;
+            let dockLocation = additionalData === null || additionalData === void 0 ? void 0 : additionalData.dockLocation;
+            if (!dockLocation) {
+                const dockParent = source.parent;
+                dockLocation = {
+                    parent: dockParent
+                };
                 if ('tabs' in source) {
-                    panelIndex = ((_a = dockParent) === null || _a === void 0 ? void 0 : _a.children.findIndex(child => child === source)) || 0;
+                    dockLocation.panelIndex = ((_a = dockParent) === null || _a === void 0 ? void 0 : _a.children.findIndex(child => child === source)) || 0;
                 }
                 else {
-                    panelIndex = ((_b = dockParent) === null || _b === void 0 ? void 0 : _b.parent.children.findIndex(child => child === source.parent)) || 0;
-                    tabIndex = ((_c = dockParent) === null || _c === void 0 ? void 0 : _c.tabs.findIndex(child => child === source)) || 0;
+                    dockLocation.panelIndex = ((_b = dockParent) === null || _b === void 0 ? void 0 : _b.parent.children.findIndex(child => child === source.parent)) || 0;
+                    dockLocation.tabIndex = ((_c = dockParent) === null || _c === void 0 ? void 0 : _c.tabs.findIndex(child => child === source)) || 0;
                 }
             }
-            panelIndex = Math.max(0, panelIndex);
-            tabIndex = Math.max(0, tabIndex);
+            dockLocation.panelIndex = Math.max(0, (dockLocation === null || dockLocation === void 0 ? void 0 : dockLocation.panelIndex) || 0);
+            dockLocation.tabIndex = Math.max(0, (dockLocation === null || dockLocation === void 0 ? void 0 : dockLocation.tabIndex) || 0);
             let newPanel = Algorithm.converToPanel(source);
-            newPanel.dockParent = dockParent;
-            newPanel.panelIndex = panelIndex;
-            newPanel.tabIndex = tabIndex;
+            newPanel.dockLocation = dockLocation;
             newPanel.z = Algorithm.nextZIndex(null);
             if (this.state.dropRect) {
                 layout = Algorithm.floatPanel(layout, newPanel, this.state.dropRect);

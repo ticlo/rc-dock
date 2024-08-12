@@ -173,7 +173,7 @@ export function addTabToPanel(layout, source, panel, idx = -1) {
     return layout;
 }
 export function converToPanel(source) {
-    var _a, _b;
+    var _a, _b, _c;
     if ('tabs' in source) {
         // source is already PanelData
         return source;
@@ -187,7 +187,8 @@ export function converToPanel(source) {
             preferredHeight: source.preferredHeight,
             activeId: source.id,
             collapsed: (_a = source.parent) === null || _a === void 0 ? void 0 : _a.collapsed,
-            tabPosition: (_b = source.parent) === null || _b === void 0 ? void 0 : _b.tabPosition
+            tabPosition: (_b = source.parent) === null || _b === void 0 ? void 0 : _b.tabPosition,
+            size: (_c = source.parent) === null || _c === void 0 ? void 0 : _c.size
         };
         source.parent = newPanel;
         return newPanel;

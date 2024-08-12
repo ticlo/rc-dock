@@ -216,7 +216,8 @@ export function converToPanel(source: TabData | PanelData): PanelData {
       preferredHeight: source.preferredHeight,
       activeId: source.id,
       collapsed: source.parent?.collapsed,
-      tabPosition: source.parent?.tabPosition
+      tabPosition: source.parent?.tabPosition,
+      size: source.parent?.size
     };
     source.parent = newPanel;
     return newPanel;

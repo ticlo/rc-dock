@@ -164,7 +164,7 @@ export class DockLayout extends DockPortalManager {
      * @param additionalData @inheritDoc
      */
     dockMove(source, target, direction, additionalData) {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e, _f;
         let layout = this.getLayout();
         if (source && 'tabs' in source) {
             source.ignorePreferredSize = false;
@@ -188,17 +188,24 @@ export class DockLayout extends DockPortalManager {
         if (direction === 'float') {
             let dockLocation = additionalData === null || additionalData === void 0 ? void 0 : additionalData.dockLocation;
             if (!dockLocation) {
-                const dockParent = source.parent;
-                dockLocation = {
-                    parent: dockParent
-                };
+                let dockParent;
+                dockLocation = {};
                 if ('tabs' in source) {
+                    dockParent = source.parent;
                     dockLocation.panelIndex = ((_a = dockParent) === null || _a === void 0 ? void 0 : _a.children.findIndex(child => child === source)) || 0;
                 }
                 else {
-                    dockLocation.panelIndex = ((_b = dockParent) === null || _b === void 0 ? void 0 : _b.parent.children.findIndex(child => child === source.parent)) || 0;
-                    dockLocation.tabIndex = ((_c = dockParent) === null || _c === void 0 ? void 0 : _c.tabs.findIndex(child => child === source)) || 0;
+                    if (((_b = source.parent) === null || _b === void 0 ? void 0 : _b.tabs.length) === 1) {
+                        dockParent = (_c = source.parent) === null || _c === void 0 ? void 0 : _c.parent;
+                        dockLocation.panelIndex = ((_d = dockParent) === null || _d === void 0 ? void 0 : _d.children.findIndex(child => child === source.parent)) || 0;
+                    }
+                    else {
+                        dockParent = source.parent;
+                        dockLocation.panelIndex = ((_e = dockParent) === null || _e === void 0 ? void 0 : _e.parent.children.findIndex(child => child === source.parent)) || 0;
+                        dockLocation.tabIndex = ((_f = dockParent) === null || _f === void 0 ? void 0 : _f.tabs.findIndex(child => child === source)) || 0;
+                    }
                 }
+                dockLocation.parent = dockParent;
             }
             dockLocation.panelIndex = Math.max(0, (dockLocation === null || dockLocation === void 0 ? void 0 : dockLocation.panelIndex) || 0);
             dockLocation.tabIndex = Math.max(0, (dockLocation === null || dockLocation === void 0 ? void 0 : dockLocation.tabIndex) || 0);

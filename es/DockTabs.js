@@ -373,7 +373,6 @@ export class DockTabs extends React.PureComponent {
             this.context.updatePanelLocalGroup(this.props.panelData);
             this.forceUpdate();
         };
-        this.draggingObserver = new MutationObserver(this.draggingCallback.bind(this));
     }
     updateTabs(tabs) {
         if (tabs === this.cachedTabs) {
@@ -412,6 +411,7 @@ export class DockTabs extends React.PureComponent {
         return (React.createElement(Dropdown, { prefixCls: "dock-dropdown", overlay: nativeMenu, trigger: trigger, mouseEnterDelay: 0.1, mouseLeaveDelay: 0.1 }, element));
     }
     componentDidMount() {
+        this.draggingObserver = new MutationObserver(this.draggingCallback.bind(this));
         this.draggingObserver.observe(document.body, {
             attributes: true
         });

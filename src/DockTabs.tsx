@@ -525,9 +525,10 @@ export class DockTabs extends React.PureComponent<Props> {
     this.forceUpdate();
   };
 
-  draggingObserver = new MutationObserver(this.draggingCallback.bind(this));
+  draggingObserver?: MutationObserver;
 
   componentDidMount() {
+    this.draggingObserver = new MutationObserver(this.draggingCallback.bind(this));
     this.draggingObserver.observe(document.body, {
       attributes: true
     });

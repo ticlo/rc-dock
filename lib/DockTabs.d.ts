@@ -46,7 +46,7 @@ export declare class DockTabs extends React.PureComponent<Props> {
     handlePanelCloseClick: (e: React.MouseEvent) => void;
     renderTabBar: (props: any, TabNavList: React.ComponentType) => JSX.Element;
     onTabChange: (activeId: string) => void;
-    draggingObserver: MutationObserver;
+    draggingObserver?: MutationObserver;
     componentDidMount(): void;
     componentWillUnmount(): void;
     draggingCallback(mutationList: MutationRecord[]): void;

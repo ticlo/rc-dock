@@ -41,10 +41,10 @@
     "rc-menu": "~9.8.4",
     "rc-new-window": "^0.1.13",
     "rc-tabs": "11.14.2",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "react": "^18.3.1",
     "react-dnd": "^14.0.4",
     "react-dnd-html5-backend": "^14.0.2",
+    "react-dom": "^18.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

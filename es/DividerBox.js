@@ -13,6 +13,7 @@ import * as React from "react";
 import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
 import classNames from "classnames";
+import { flushSync } from "react-dom";
 export class DividerBox extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -59,7 +60,9 @@ export class DividerBox extends React.PureComponent {
                         nodes[i * 2].style.width = `${sizes[i]}px`;
                     }
                 }
-                this.forceUpdate();
+                flushSync(() => {
+                    this.forceUpdate();
+                });
             }
         };
     }

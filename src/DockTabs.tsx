@@ -11,6 +11,7 @@ import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorith
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
 import { getFloatingCoordinatesBySize, mergeTabGroups, Size } from "./Utils";
+import { flushSync } from "react-dom";
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -522,7 +523,9 @@ export class DockTabs extends React.PureComponent<Props> {
     this.props.panelData.activeId = activeId;
     this.context.onSilentChange(activeId, 'active');
     this.context.updatePanelLocalGroup(this.props.panelData);
-    this.forceUpdate();
+    flushSync(() => {
+      this.forceUpdate();
+    });
   };
 
   draggingObserver?: MutationObserver;

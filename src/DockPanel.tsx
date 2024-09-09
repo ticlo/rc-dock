@@ -137,7 +137,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
       }
     }
     if (!this._unmounted) {
-      this.forceUpdate();
+      flushSync(() => {
+        this.forceUpdate();
+      });
     }
   };
   onPanelHeaderDragEnd = (e: DragState) => {
@@ -258,7 +260,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     panelData.w = Math.max(panelData.w || 0, panelData.minWidth || 0);
     panelData.h = Math.max(panelData.h || 0, panelData.minHeight || 0);
 
-    this.forceUpdate();
+    flushSync(() => {
+      this.forceUpdate();
+    });
   };
   onPanelCornerDragEnd = (e: DragState) => {
     this.context.onSilentChange(this.props.panelData.activeId, 'move');
@@ -270,7 +274,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     let newZ = nextZIndex(z);
     if (newZ !== z) {
       panelData.z = newZ;
-      this.forceUpdate();
+      flushSync(() => {
+        this.forceUpdate();
+      });
     }
   };
 
@@ -478,13 +484,17 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (panelData?.activeId === maximizedPanelData?.activeId) {
       return;
     }
-    this.updatePanelData();
+    queueMicrotask(() => {
+      this.updatePanelData();
+    });
   }
 
   componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
     const {panelData} = this.props;
     if (panelData.tabs.length && (panelData.headerSize === undefined || getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData))) {
-      this.updatePanelData();
+      queueMicrotask(() => {
+        this.updatePanelData();
+      });
     }
   }
 

@@ -3,6 +3,7 @@ import { DockContextType } from "./DockData";
 import { Divider } from "./Divider";
 import { DockPanel } from "./DockPanel";
 import classNames from "classnames";
+import { flushSync } from "react-dom";
 export class DockBox extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -57,7 +58,9 @@ export class DockBox extends React.PureComponent {
                     children[i].size = sizes[i];
                 }
             }
-            this.forceUpdate();
+            flushSync(() => {
+                this.forceUpdate();
+            });
         };
         this.onDragEnd = () => {
             this.context.onSilentChange(null, 'move');

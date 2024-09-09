@@ -140,7 +140,9 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
       }
     }
     if (cacheRemoved && this._isMounted) {
-      this.forceUpdate();
+      flushSync(() => {
+        this.forceUpdate();
+      });
     }
   };
 
@@ -177,7 +179,9 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
     let cache = this._caches.get(id);
     if (cache) {
       cache.portal = ReactDOM.createPortal(children, cache.div, cache.id);
-      this.forceUpdate();
+      flushSync(() => {
+        this.forceUpdate();
+      });
     }
   }
 }
@@ -676,7 +680,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
       onLayoutChange(savedLayout, currentTabId, direction, additionalData);
       if (layout) {
         // if layout prop is defined, we need to force an update to make sure it's either updated or reverted back
-        this.forceUpdate();
+        flushSync(() => {
+          this.forceUpdate();
+        });
       }
     }
     if (!layout && !silent) {

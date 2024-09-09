@@ -3,6 +3,7 @@ import {BoxData, DockContext, DockContextType} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
 import {DockPanel} from "./DockPanel";
 import classNames from "classnames";
+import { flushSync } from "react-dom";
 
 interface Props {
   size: number;
@@ -72,7 +73,9 @@ export class DockBox extends React.PureComponent<Props, any> {
         children[i].size = sizes[i];
       }
     }
-    this.forceUpdate();
+    flushSync(() => {
+      this.forceUpdate();
+    });
   };
 
   onDragEnd = () => {

@@ -101,7 +101,9 @@ export class DockPanel extends React.PureComponent {
                 }
             }
             if (!this._unmounted) {
-                this.forceUpdate();
+                flushSync(() => {
+                    this.forceUpdate();
+                });
             }
         };
         this.onPanelHeaderDragEnd = (e) => {
@@ -202,7 +204,9 @@ export class DockPanel extends React.PureComponent {
             }
             panelData.w = Math.max(panelData.w || 0, panelData.minWidth || 0);
             panelData.h = Math.max(panelData.h || 0, panelData.minHeight || 0);
-            this.forceUpdate();
+            flushSync(() => {
+                this.forceUpdate();
+            });
         };
         this.onPanelCornerDragEnd = (e) => {
             this.context.onSilentChange(this.props.panelData.activeId, 'move');
@@ -213,7 +217,9 @@ export class DockPanel extends React.PureComponent {
             let newZ = nextZIndex(z);
             if (newZ !== z) {
                 panelData.z = newZ;
-                this.forceUpdate();
+                flushSync(() => {
+                    this.forceUpdate();
+                });
             }
         };
         this.onPanelClicked = (e) => {
@@ -365,12 +371,16 @@ export class DockPanel extends React.PureComponent {
         if ((panelData === null || panelData === void 0 ? void 0 : panelData.activeId) === (maximizedPanelData === null || maximizedPanelData === void 0 ? void 0 : maximizedPanelData.activeId)) {
             return;
         }
-        this.updatePanelData();
+        queueMicrotask(() => {
+            this.updatePanelData();
+        });
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { panelData } = this.props;
         if (panelData.tabs.length && (panelData.headerSize === undefined || getPanelTabPosition(prevProps.panelData) !== getPanelTabPosition(this.props.panelData))) {
-            this.updatePanelData();
+            queueMicrotask(() => {
+                this.updatePanelData();
+            });
         }
     }
     updatePanelData() {

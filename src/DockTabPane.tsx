@@ -109,12 +109,16 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
 
   componentDidMount(): void {
     this.props.onTabActiveChange?.(!!this.props.active);
-    this.updateCache();
+    queueMicrotask(() => {
+      this.updateCache();
+    });
   }
 
   componentDidUpdate(prevProps: Readonly<DockTabPaneProps>, prevState: Readonly<any>, snapshot?: any): void {
     this.props.onTabActiveChange?.(!!this.props.active);
-    this.updateCache();
+    queueMicrotask(() => {
+      this.updateCache();
+    });
   }
 
   componentWillUnmount(): void {

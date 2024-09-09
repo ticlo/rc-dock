@@ -2,6 +2,7 @@ import * as React from "react";
 import {DockContext, DockContextType} from "./DockData";
 import {Divider, DividerChild} from "./Divider";
 import classNames from "classnames";
+import { flushSync } from "react-dom";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   mode?: 'horizontal' | 'vertical';
@@ -55,7 +56,9 @@ export class DividerBox extends React.PureComponent<Props, any> {
           (nodes[i * 2] as HTMLElement).style.width = `${sizes[i]}px`;
         }
       }
-      this.forceUpdate();
+      flushSync(() => {
+        this.forceUpdate();
+      });
     }
   };
 

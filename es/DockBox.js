@@ -84,7 +84,9 @@ export class DockBox extends React.PureComponent {
         }
         const firstTab = lastChild.tabs[0];
         firstTab.collapsed = false;
-        this.context.updateTab(firstTab.id, firstTab, false, 'configure-tab');
+        queueMicrotask(() => {
+            this.context.updateTab(firstTab.id, firstTab, false, 'configure-tab');
+        });
     }
     hasDockedChildren(children) {
         if (!(children === null || children === void 0 ? void 0 : children.length)) {

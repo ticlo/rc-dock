@@ -314,7 +314,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout, this.props.groups);
       const currentTabId: string = source.hasOwnProperty('tabs') ? (source as PanelData).activeId : (source as TabData).id;
-      this.changeLayout(layout, currentTabId, direction, false, additionalData?.changeLayoutData);
+      queueMicrotask(() => {
+        this.changeLayout(layout, currentTabId, direction, false, additionalData?.changeLayoutData);
+      });
     }
     this.onDragStateChange(false);
   }
@@ -451,8 +453,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (draggingScope == null) {
       DockPanel.droppingPanel = null;
       if (this.state.dropRect) {
-        flushSync(() => {
-          this.setState({dropRect: null});
+        queueMicrotask(() => {
+          flushSync(() => {
+            this.setState({dropRect: null});
+          });
         });
       }
     }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM, { flushSync } from "react-dom";
 import debounce from 'lodash/debounce';
 import {
   BoxData,
@@ -447,7 +447,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (draggingScope == null) {
       DockPanel.droppingPanel = null;
       if (this.state.dropRect) {
-        this.setState({dropRect: null});
+        flushSync(() => {
+          this.setState({dropRect: null});
+        });
       }
     }
   };
@@ -463,7 +465,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (dropRect) {
       if (direction === 'remove') {
         if (dropRect.source === source) {
-          this.setState({dropRect: null});
+          queueMicrotask(() => {
+            flushSync(() => {
+              this.setState({dropRect: null});
+            });
+          });
         }
         return;
       } else if (dropRect.element === element && dropRect.direction === direction && direction !== 'float') {
@@ -472,7 +478,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
       }
     }
     if (!element) {
-      this.setState({dropRect: null});
+      queueMicrotask(() => {
+        flushSync(() => {
+          this.setState({dropRect: null});
+        });
+      });
       return;
     }
     let layoutRect = this._ref.getBoundingClientRect();
@@ -527,7 +537,11 @@ export class DockLayout extends DockPortalManager implements DockContext {
         break;
     }
 
-    this.setState({dropRect: {left, top, width, height, element, source, direction}});
+    queueMicrotask(() => {
+      flushSync(() => {
+        this.setState({dropRect: {left, top, width, height, element, source, direction}});
+      });
+    });
   }
 
   /** @ignore */
@@ -641,7 +655,9 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   setLayout(layout: LayoutData) {
     this.tempLayout = layout;
-    this.setState({layout});
+    flushSync(() => {
+      this.setState({layout});
+    });
   }
 
   getLayout() {

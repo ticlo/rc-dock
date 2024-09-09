@@ -9,6 +9,7 @@ import {DockDropEdge} from "./DockDropEdge";
 import {groupClassNames, mergeTabGroups} from "./Utils";
 import classNames from "classnames";
 import { TabPosition } from "rc-tabs/lib/interface";
+import { flushSync } from "react-dom";
 
 interface Props {
   panelData: PanelData;
@@ -64,18 +65,28 @@ export class DockPanel extends React.PureComponent<Props, State> {
     }
     if (tab) {
       if (tab.parent) {
-        this.setState({dropFromPanel: tab.parent});
+        flushSync(() => {
+          this.setState({dropFromPanel: tab.parent});
+        });
       } else {
         // add a fake panel
-        this.setState({dropFromPanel: {activeId: '', tabs: [], group: tab.group, localGroup: tab.localGroup}});
+        flushSync(() => {
+          this.setState({dropFromPanel: {activeId: '', tabs: [], group: tab.group, localGroup: tab.localGroup}});
+        });
       }
     } else if (panel) {
-      this.setState({dropFromPanel: panel});
+      flushSync(() => {
+        this.setState({dropFromPanel: panel});
+      });
     }
   };
 
   onDragOverOtherPanel() {
-    this.setState({dropFromPanel: null});
+    queueMicrotask(() => {
+      flushSync(() => {
+        this.setState({dropFromPanel: null});
+      });
+    });
   }
 
   // used both by dragging head and corner
@@ -100,7 +111,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
       event.setData({panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight], tabGroup: panelData.group}, dockId);
       event.startDrag(null);
     }
-    this.setState({draggingHeader: true});
+    flushSync(() => {
+      this.setState({draggingHeader: true});
+    });
   };
   onPanelHeaderDragMove = (e: DragState) => {
     let {panelData} = this.props;
@@ -129,7 +142,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
   };
   onPanelHeaderDragEnd = (e: DragState) => {
     if (!this._unmounted) {
-      this.setState({draggingHeader: false});
+      flushSync(() => {
+        this.setState({draggingHeader: false});
+      });
       if (e.dropped === false) {
         const {panelData} = this.props;
         if (panelData.parent?.mode === "float") {

@@ -8,6 +8,7 @@ import { getFloatPanelSize, getPanelTabPosition, nextZIndex } from "./Algorithm"
 import { DockDropEdge } from "./DockDropEdge";
 import { groupClassNames, mergeTabGroups } from "./Utils";
 import classNames from "classnames";
+import { flushSync } from "react-dom";
 export class DockPanel extends React.PureComponent {
     constructor() {
         super(...arguments);
@@ -33,15 +34,21 @@ export class DockPanel extends React.PureComponent {
             }
             if (tab) {
                 if (tab.parent) {
-                    this.setState({ dropFromPanel: tab.parent });
+                    flushSync(() => {
+                        this.setState({ dropFromPanel: tab.parent });
+                    });
                 }
                 else {
                     // add a fake panel
-                    this.setState({ dropFromPanel: { activeId: '', tabs: [], group: tab.group, localGroup: tab.localGroup } });
+                    flushSync(() => {
+                        this.setState({ dropFromPanel: { activeId: '', tabs: [], group: tab.group, localGroup: tab.localGroup } });
+                    });
                 }
             }
             else if (panel) {
-                this.setState({ dropFromPanel: panel });
+                flushSync(() => {
+                    this.setState({ dropFromPanel: panel });
+                });
             }
         };
         // used both by dragging head and corner
@@ -66,7 +73,9 @@ export class DockPanel extends React.PureComponent {
                 event.setData({ panel: panelData, panelSize: panelData.collapsed ? [300, 300] : [panelWidth, panelHeight], tabGroup: panelData.group }, dockId);
                 event.startDrag(null);
             }
-            this.setState({ draggingHeader: true });
+            flushSync(() => {
+                this.setState({ draggingHeader: true });
+            });
         };
         this.onPanelHeaderDragMove = (e) => {
             var _a;
@@ -98,7 +107,9 @@ export class DockPanel extends React.PureComponent {
         this.onPanelHeaderDragEnd = (e) => {
             var _a;
             if (!this._unmounted) {
-                this.setState({ draggingHeader: false });
+                flushSync(() => {
+                    this.setState({ draggingHeader: false });
+                });
                 if (e.dropped === false) {
                     const { panelData } = this.props;
                     if (((_a = panelData.parent) === null || _a === void 0 ? void 0 : _a.mode) === "float") {
@@ -223,7 +234,11 @@ export class DockPanel extends React.PureComponent {
         DockPanel._droppingPanel = panel;
     }
     onDragOverOtherPanel() {
-        this.setState({ dropFromPanel: null });
+        queueMicrotask(() => {
+            flushSync(() => {
+                this.setState({ dropFromPanel: null });
+            });
+        });
     }
     onPanelCornerDrag(e, corner) {
         let { parent, x, y, w, h } = this.props.panelData;

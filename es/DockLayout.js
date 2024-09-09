@@ -10,7 +10,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import * as React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM, { flushSync } from "react-dom";
 import debounce from 'lodash/debounce';
 import { defaultGroup, DockContextProvider, placeHolderGroup, placeHolderStyle } from "./DockData";
 import { DockBox } from "./DockBox";
@@ -91,7 +91,9 @@ export class DockLayout extends DockPortalManager {
             if (draggingScope == null) {
                 DockPanel.droppingPanel = null;
                 if (this.state.dropRect) {
-                    this.setState({ dropRect: null });
+                    flushSync(() => {
+                        this.setState({ dropRect: null });
+                    });
                 }
             }
         };
@@ -357,7 +359,11 @@ export class DockLayout extends DockPortalManager {
         if (dropRect) {
             if (direction === 'remove') {
                 if (dropRect.source === source) {
-                    this.setState({ dropRect: null });
+                    queueMicrotask(() => {
+                        flushSync(() => {
+                            this.setState({ dropRect: null });
+                        });
+                    });
                 }
                 return;
             }
@@ -367,7 +373,11 @@ export class DockLayout extends DockPortalManager {
             }
         }
         if (!element) {
-            this.setState({ dropRect: null });
+            queueMicrotask(() => {
+                flushSync(() => {
+                    this.setState({ dropRect: null });
+                });
+            });
             return;
         }
         let layoutRect = this._ref.getBoundingClientRect();
@@ -419,7 +429,11 @@ export class DockLayout extends DockPortalManager {
                 height = 30;
                 break;
         }
-        this.setState({ dropRect: { left, top, width, height, element, source, direction } });
+        queueMicrotask(() => {
+            flushSync(() => {
+                this.setState({ dropRect: { left, top, width, height, element, source, direction } });
+            });
+        });
     }
     /** @ignore */
     render() {
@@ -499,7 +513,9 @@ export class DockLayout extends DockPortalManager {
     }
     setLayout(layout) {
         this.tempLayout = layout;
-        this.setState({ layout });
+        flushSync(() => {
+            this.setState({ layout });
+        });
     }
     getLayout() {
         return this.tempLayout || this.state.layout;

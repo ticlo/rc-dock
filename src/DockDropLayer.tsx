@@ -13,6 +13,7 @@ import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 import classNames from "classnames";
 import { mergeTabGroups } from "./Utils";
+import { flushSync } from "react-dom";
 
 
 interface DockDropSquareProps {
@@ -35,7 +36,9 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
 
   onDragOver = (e: DragState) => {
     let {panelElement: targetElement, direction, depth, panelData} = this.props;
-    this.setState({dropping: true});
+    flushSync(() => {
+      this.setState({dropping: true});
+    });
     for (let i = 0; i < depth; ++i) {
       targetElement = targetElement.parentElement;
     }
@@ -51,7 +54,11 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
   };
 
   onDragLeave = (e: DragState) => {
-    this.setState({dropping: false});
+    queueMicrotask(() => {
+      flushSync(() => {
+        this.setState({dropping: false});
+      });
+    });
     this.context.setDropRect(null, 'remove', this);
   };
 

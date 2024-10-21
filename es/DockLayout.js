@@ -258,9 +258,7 @@ export class DockLayout extends DockPortalManager {
         if (layout !== this.getLayout()) {
             layout = Algorithm.fixLayoutData(layout, this.props.groups);
             const currentTabId = source.hasOwnProperty('tabs') ? source.activeId : source.id;
-            queueMicrotask(() => {
-                this.changeLayout(layout, currentTabId, direction, false, additionalData === null || additionalData === void 0 ? void 0 : additionalData.changeLayoutData);
-            });
+            this.changeLayout(layout, currentTabId, direction, false, additionalData === null || additionalData === void 0 ? void 0 : additionalData.changeLayoutData);
         }
         this.onDragStateChange(false);
     }
@@ -540,8 +538,10 @@ export class DockLayout extends DockPortalManager {
             onLayoutChange(savedLayout, currentTabId, direction, additionalData);
             if (layout) {
                 // if layout prop is defined, we need to force an update to make sure it's either updated or reverted back
-                flushSync(() => {
-                    this.forceUpdate();
+                queueMicrotask(() => {
+                    flushSync(() => {
+                        this.forceUpdate();
+                    });
                 });
             }
         }

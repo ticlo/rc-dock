@@ -314,9 +314,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (layout !== this.getLayout()) {
       layout = Algorithm.fixLayoutData(layout, this.props.groups);
       const currentTabId: string = source.hasOwnProperty('tabs') ? (source as PanelData).activeId : (source as TabData).id;
-      queueMicrotask(() => {
-        this.changeLayout(layout, currentTabId, direction, false, additionalData?.changeLayoutData);
-      });
+      this.changeLayout(layout, currentTabId, direction, false, additionalData?.changeLayoutData);
     }
     this.onDragStateChange(false);
   }
@@ -684,8 +682,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
       onLayoutChange(savedLayout, currentTabId, direction, additionalData);
       if (layout) {
         // if layout prop is defined, we need to force an update to make sure it's either updated or reverted back
-        flushSync(() => {
-          this.forceUpdate();
+        queueMicrotask(() => {
+          flushSync(() => {
+            this.forceUpdate();
+          });
         });
       }
     }

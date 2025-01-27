@@ -291,7 +291,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
         layout = Algorithm.floatPanel(layout, newPanel);
         if (this._ref) {
           const { width, height } = this.getMaxFloatPanelSize();
-          layout = Algorithm.fixFloatPanelPos(layout, width, height);
+          layout = Algorithm.fixFloatPanelPos(layout, width, height, this.props.floatingTopCheckDisabled);
         }
       }
     } else if (direction === 'new-window') {

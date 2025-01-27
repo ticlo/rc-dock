@@ -540,7 +540,7 @@ function maximizeTab(layout: LayoutData, tab: TabData): LayoutData {
 }
 
 // move float panel into the screen
-export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData {
+export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number, floatingTopCheckDisabled?: boolean): LayoutData {
   let layoutChanged = false;
   if (layout && layout.floatbox && layoutWidth > 200 && layoutHeight > 200) {
     let newFloatChildren = layout.floatbox.children.concat();
@@ -557,12 +557,14 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
       } else if (panel.h > layoutHeight) {
         panelChange.h = layoutHeight;
       }
-      if (typeof panel.y !== 'number') {
-        panelChange.y = (layoutHeight -  (panelChange.h || panel.h)) >> 1;
-      } else if (panel.y > layoutHeight - 16) {
-        panelChange.y = Math.max(layoutHeight - 16 - (panel.h >> 1), 0);
-      } else if (!(panel.y >= 0)) {
-        panelChange.y = 0;
+      if (!floatingTopCheckDisabled) {
+        if (typeof panel.y !== 'number') {
+          panelChange.y = (layoutHeight -  (panelChange.h || panel.h)) >> 1;
+        } else if (panel.y > layoutHeight - 16) {
+          panelChange.y = Math.max(layoutHeight - 16 - (panel.h >> 1), 0);
+        } else if (!(panel.y >= 0)) {
+          panelChange.y = 0;
+        }
       }
 
       if (typeof panel.x !== 'number') {

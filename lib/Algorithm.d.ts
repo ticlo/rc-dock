@@ -34,7 +34,7 @@ export declare function removeFromLayout(layout: LayoutData, source: TabData | P
 export declare function calculateBoxPreferredSize(box: BoxData | PanelData): void;
 export declare function moveToFront(layout: LayoutData, source: TabData | PanelData): LayoutData;
 export declare function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData;
-export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData;
+export declare function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number, floatingTopCheckDisabled?: boolean): LayoutData;
 export declare function updatePanelLocalGroup(panel: PanelData, layout: LayoutData): void;
 export declare function fixLayoutData(layout: LayoutData, groups?: {
     [key: string]: TabGroup;

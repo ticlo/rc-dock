@@ -245,6 +245,9 @@ export class DockTabs extends React.PureComponent {
                     targetParent = dockParentId ?
                         find(this.context.getLayout(), dockParentId, Filter.Panel | Filter.Box | Filter.EveryWhere) :
                         null;
+                    if (targetParent && targetParent === this.context.getLayout().floatbox) {
+                        targetParent = null;
+                    }
                 }
                 let target;
                 let direction;

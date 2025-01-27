@@ -338,6 +338,9 @@ export class DockTabs extends React.PureComponent<Props> {
             Filter.Panel | Filter.Box | Filter.EveryWhere
           ) as PanelData | BoxData :
           null;
+        if (targetParent && targetParent === this.context.getLayout().floatbox) {
+          targetParent = null;
+        }
       }
 
       let target;

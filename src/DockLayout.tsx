@@ -115,6 +115,8 @@ export interface LayoutProps {
 
   getMaxFloatPanelSize?(): Size;
 
+  floatingTopCheckDisabled?: boolean;
+
   className?: string;
 }
 
@@ -678,6 +680,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   getLayout() {
     return this.tempLayout || this.state.layout;
+  }
+
+  isFloatingTopCheckDisabled(): boolean {
+    return !!this.props.floatingTopCheckDisabled;
   }
 
   /** @ignore

@@ -87,7 +87,7 @@ export class DockPanel extends React.PureComponent {
             panelData.x = this._movingX + e.dx;
             panelData.y = this._movingY + e.dy;
             if (width > 200 && height > 200) {
-                if (panelData.y < 0) {
+                if (!this.context.isFloatingTopCheckDisabled() && panelData.y < 0) {
                     panelData.y = 0;
                 }
                 else if (panelData.y > height - 16) {
@@ -148,7 +148,7 @@ export class DockPanel extends React.PureComponent {
         this.onPanelCornerDragMove = (e) => {
             let { panelData } = this.props;
             let { dx, dy } = e;
-            if (this._movingCorner.startsWith('t')) {
+            if (!this.context.isFloatingTopCheckDisabled() && this._movingCorner.startsWith('t')) {
                 // when moving top corners, dont let it move header out of screen
                 let { width, height } = this.context.getLayoutSize();
                 if (this._movingY + dy < 0) {

@@ -485,6 +485,8 @@ export interface DockContext {
   getClassName(): string | undefined;
 
   getLayout(): LayoutData;
+
+  isFloatingTopCheckDisabled(): boolean;
 }
 
 /** @ignore */

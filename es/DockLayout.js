@@ -534,6 +534,9 @@ export class DockLayout extends DockPortalManager {
     getLayout() {
         return this.tempLayout || this.state.layout;
     }
+    isFloatingTopCheckDisabled() {
+        return !!this.props.floatingTopCheckDisabled;
+    }
     /** @ignore
      * change layout
      */

@@ -376,6 +376,7 @@ export interface DockContext {
     getDefaultDndSpec(): DndSpec | undefined;
     getClassName(): string | undefined;
     getLayout(): LayoutData;
+    isFloatingTopCheckDisabled(): boolean;
 }
 /** @ignore */
 export declare const DockContextType: React.Context<DockContext>;

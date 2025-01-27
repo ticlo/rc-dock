@@ -69,6 +69,7 @@ export interface LayoutProps {
     externalData?: any;
     defaultDndSpec?: DndSpec;
     getMaxFloatPanelSize?(): Size;
+    floatingTopCheckDisabled?: boolean;
     className?: string;
 }
 interface LayoutState {
@@ -158,6 +159,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     tempLayout: LayoutData;
     setLayout(layout: LayoutData): void;
     getLayout(): LayoutData;
+    isFloatingTopCheckDisabled(): boolean;
     /** @ignore
      * change layout
      */

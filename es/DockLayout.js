@@ -106,7 +106,8 @@ export class DockLayout extends DockPortalManager {
         this._onWindowResize = debounce(() => {
             let layout = this.getLayout();
             if (this._ref) {
-                let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+                const { width, height } = this.getMaxFloatPanelSize();
+                let newLayout = Algorithm.fixFloatPanelPos(layout, width, height);
                 if (layout !== newLayout) {
                     newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
                     this.changeLayout(newLayout, null, 'move');
@@ -226,7 +227,8 @@ export class DockLayout extends DockPortalManager {
             else {
                 layout = Algorithm.floatPanel(layout, newPanel);
                 if (this._ref) {
-                    layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+                    const { width, height } = this.getMaxFloatPanelSize();
+                    layout = Algorithm.fixFloatPanelPos(layout, width, height);
                 }
             }
         }
@@ -491,6 +493,12 @@ export class DockLayout extends DockPortalManager {
                         "dock-drop-indicator-tab-vertical": (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'under-tab' || (dropRect === null || dropRect === void 0 ? void 0 : dropRect.direction) === 'above-tab',
                         [`dock-drop-indicator-tab-${tabPosition}`]: tabPosition
                     }), style: dropRectStyle }))));
+    }
+    getMaxFloatPanelSize() {
+        return this.props.getMaxFloatPanelSize ? this.props.getMaxFloatPanelSize() : {
+            width: this._ref.offsetWidth,
+            height: this._ref.offsetHeight,
+        };
     }
     /** @ignore */
     componentDidMount() {

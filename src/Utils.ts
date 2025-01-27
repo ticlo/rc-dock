@@ -1,17 +1,7 @@
-import { TabGroup } from "./DockData";
+import { TabGroup, Size, Coordinates } from "./DockData";
 
 export function mergeTabGroups(group?: TabGroup, localGroup?: TabGroup): TabGroup | undefined {
   return (group || localGroup) && {...group, ...localGroup};
-}
-
-export interface Size {
-  height: number;
-  width: number;
-}
-
-export interface Coordinates {
-  x: number;
-  y: number;
 }
 
 export function getFloatingCoordinatesBySize(size: Size, dockLayoutSize: Size): Coordinates {

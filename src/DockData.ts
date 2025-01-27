@@ -378,6 +378,11 @@ export type DropDirection =
   | 'configure-tab'
   ;
 
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
 export interface Size {
   width: number;
   height: number;

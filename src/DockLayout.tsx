@@ -16,7 +16,7 @@ import {
   PanelBase,
   PanelData,
   placeHolderGroup,
-  placeHolderStyle,
+  placeHolderStyle, Size,
   TabBase,
   TabData,
   TabGroup,
@@ -112,6 +112,8 @@ export interface LayoutProps {
   externalData?: any;
 
   defaultDndSpec?: DndSpec;
+
+  getMaxFloatPanelSize?(): Size;
 
   className?: string;
 }
@@ -286,7 +288,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
       } else {
         layout = Algorithm.floatPanel(layout, newPanel);
         if (this._ref) {
-          layout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+          const { width, height } = this.getMaxFloatPanelSize();
+          layout = Algorithm.fixFloatPanelPos(layout, width, height);
         }
       }
     } else if (direction === 'new-window') {
@@ -616,7 +619,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
     let layout = this.getLayout();
 
     if (this._ref) {
-      let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+      const { width, height } = this.getMaxFloatPanelSize();
+      let newLayout = Algorithm.fixFloatPanelPos(layout, width, height);
       if (layout !== newLayout) {
         newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
         this.changeLayout(newLayout, null, 'move');
@@ -624,6 +628,12 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
   }, 200);
 
+  getMaxFloatPanelSize(): Size {
+    return this.props.getMaxFloatPanelSize ? this.props.getMaxFloatPanelSize() : {
+      width: this._ref.offsetWidth,
+      height: this._ref.offsetHeight,
+    };
+  }
 
   /** @ignore */
   panelToFocus: string;

@@ -1,5 +1,15 @@
 import React from "react";
-import { BoxData, DockContext, DockContextType, DropDirection, PanelData, TabData, TabGroup, DockTabIdContext } from "./DockData";
+import {
+  BoxData,
+  DockContext,
+  DockContextType,
+  DropDirection,
+  PanelData,
+  TabData,
+  TabGroup,
+  DockTabIdContext,
+  Size
+} from "./DockData";
 import Tabs from 'rc-tabs';
 import Menu, {MenuItem} from 'rc-menu';
 import Dropdown from 'rc-dropdown';
@@ -10,7 +20,7 @@ import DockTabPane from "./DockTabPane";
 import { getFloatPanelSize, getPanelTabPosition, find, Filter } from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import classNames from "classnames";
-import { getFloatingCoordinatesBySize, mergeTabGroups, Size } from "./Utils";
+import { getFloatingCoordinatesBySize, mergeTabGroups } from "./Utils";
 import { flushSync } from "react-dom";
 
 function findParentPanel(element: HTMLElement) {

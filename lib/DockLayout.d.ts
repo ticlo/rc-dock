@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BoxData, DndSpec, DockContext, DockMoveAdditionalData, DropDirection, LayoutBase, LayoutData, LayoutSize, PanelBase, PanelData, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
+import { BoxData, DndSpec, DockContext, DockMoveAdditionalData, DropDirection, LayoutBase, LayoutData, LayoutSize, PanelBase, PanelData, Size, TabBase, TabData, TabGroup, TabPaneCache } from "./DockData";
 import * as Algorithm from "./Algorithm";
 export interface LayoutProps {
     /**
@@ -68,6 +68,7 @@ export interface LayoutProps {
      */
     externalData?: any;
     defaultDndSpec?: DndSpec;
+    getMaxFloatPanelSize?(): Size;
     className?: string;
 }
 interface LayoutState {
@@ -140,6 +141,7 @@ export declare class DockLayout extends DockPortalManager implements DockContext
     /** @ignore */
     render(): React.ReactNode;
     _onWindowResize: any;
+    getMaxFloatPanelSize(): Size;
     /** @ignore */
     panelToFocus: string;
     /** @ignore */

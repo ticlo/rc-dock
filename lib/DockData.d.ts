@@ -290,6 +290,10 @@ export interface LayoutData extends LayoutBase {
     loadedFrom?: LayoutBase;
 }
 export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'under-tab' | 'above-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update' | 'collapse' | 'configure-panel' | 'configure-tab';
+export interface Coordinates {
+    x: number;
+    y: number;
+}
 export interface Size {
     width: number;
     height: number;

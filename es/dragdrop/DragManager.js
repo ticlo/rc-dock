@@ -80,21 +80,22 @@ export class DragState {
         if (_data) {
             let ownerDocument = this.component.ownerDocument;
             let searchElement = ownerDocument.elementFromPoint(this.clientX, this.clientY);
-            let droppingHandlers;
+            let droppingHost;
             while (searchElement && searchElement !== ownerDocument.body) {
                 if (_dragListeners.has(searchElement)) {
-                    let handlers = _dragListeners.get(searchElement);
+                    let host = _dragListeners.get(searchElement);
+                    let handlers = host.getHandlers();
                     if (handlers.onDragOverT) {
                         handlers.onDragOverT(this);
                         if (this.acceptMessage != null) {
-                            droppingHandlers = handlers;
+                            droppingHost = host;
                             break;
                         }
                     }
                 }
                 searchElement = searchElement.parentElement;
             }
-            setDroppingHandler(droppingHandlers, this);
+            setDroppingHandler(droppingHost, this);
         }
         moveDraggingElement(this);
     }
@@ -122,26 +123,29 @@ let _data;
 let _draggingState;
 // applying dragging style
 let _refElement;
+let _droppingHost;
 let _droppingHandlers;
-function setDroppingHandler(handlers, state) {
-    if (_droppingHandlers === handlers) {
+function setDroppingHandler(host, state) {
+    if (_droppingHost === host) {
         return;
     }
     if (_droppingHandlers && _droppingHandlers.onDragLeaveT) {
         _droppingHandlers.onDragLeaveT(state);
     }
-    _droppingHandlers = handlers;
+    _droppingHost = host;
+    _droppingHandlers = _droppingHost === null || _droppingHost === void 0 ? void 0 : _droppingHost.getHandlers();
 }
 let _dragListeners = new WeakMap();
 export function isDragging() {
     return _draggingState != null;
 }
-export function addHandlers(element, handlers) {
-    _dragListeners.set(element, handlers);
+export function addHandlers(element, handler) {
+    _dragListeners.set(element, handler);
 }
 export function removeHandlers(element) {
-    let handlers = _dragListeners.get(element);
-    if (handlers === _droppingHandlers) {
+    let host = _dragListeners.get(element);
+    if (host === _droppingHost) {
+        _droppingHost = null;
         _droppingHandlers = null;
     }
     _dragListeners.delete(element);

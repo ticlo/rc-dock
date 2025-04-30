@@ -5,14 +5,14 @@ import {GestureState} from "./GestureManager";
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
-  getRef?: (ref: HTMLDivElement) => void;
+  getRef?: React.ForwardedRef<HTMLDivElement>;
   onDragStartT?: DragManager.DragHandler;
   onDragMoveT?: DragManager.DragHandler;
   onDragEndT?: DragManager.DragHandler;
   onDragOverT?: DragManager.DragHandler;
   onDragLeaveT?: DragManager.DragHandler;
   /**
-   * Anything returned by onDropT will be stored in DragState.dropped
+   * Anything returned by onDropT will be stored in DragState.
    * return false to indicate the drop is canceled
    */
   onDropT?: DragManager.DropHandler;
@@ -47,12 +47,20 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       this.ownerDocument = r.ownerDocument;
     }
     if (getRef) {
-      getRef(r);
+      if (typeof getRef === 'function') {
+        getRef(r);
+      } else {
+        getRef.current = r;
+      }
     }
+
     if (r && onDragOverT) {
-      DragManager.addHandlers(r, this.props);
+      DragManager.addHandlers(r, this);
     }
   };
+  getHandlers(): DragManager.DragHandlers {
+    return this.props;
+  }
 
   dragType: DragManager.DragType = null;
   baseX: number;
@@ -357,7 +365,7 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
       )
     ) {
       if (onDragOverT) {
-        DragManager.addHandlers(this.element, this.props);
+        DragManager.addHandlers(this.element, this);
       } else {
         DragManager.removeHandlers(this.element);
       }

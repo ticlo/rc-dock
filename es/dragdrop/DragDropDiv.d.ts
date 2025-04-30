@@ -3,14 +3,14 @@ import * as DragManager from "./DragManager";
 import { GestureState } from "./GestureManager";
 export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
-    getRef?: (ref: HTMLDivElement) => void;
+    getRef?: React.ForwardedRef<HTMLDivElement>;
     onDragStartT?: DragManager.DragHandler;
     onDragMoveT?: DragManager.DragHandler;
     onDragEndT?: DragManager.DragHandler;
     onDragOverT?: DragManager.DragHandler;
     onDragLeaveT?: DragManager.DragHandler;
     /**
-     * Anything returned by onDropT will be stored in DragState.dropped
+     * Anything returned by onDropT will be stored in DragState.
      * return false to indicate the drop is canceled
      */
     onDropT?: DragManager.DropHandler;
@@ -29,6 +29,7 @@ export declare class DragDropDiv extends React.PureComponent<DragDropDivProps, a
     element: HTMLElement;
     ownerDocument: Document;
     _getRef: (r: HTMLDivElement) => void;
+    getHandlers(): DragManager.DragHandlers;
     dragType: DragManager.DragType;
     baseX: number;
     baseY: number;

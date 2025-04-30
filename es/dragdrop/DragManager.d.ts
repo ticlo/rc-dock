@@ -40,13 +40,16 @@ export declare class DragState {
 }
 export declare type DragHandler = (state: DragState) => void;
 export declare type DropHandler = (state: DragState) => any;
-interface DragHandlers {
+export interface DragHandlers {
     onDragOverT?: DragHandler;
     onDragLeaveT?: DragHandler;
     onDropT?: DropHandler;
 }
+export interface HandlerHost {
+    getHandlers(): DragHandlers;
+}
 export declare function isDragging(): boolean;
-export declare function addHandlers(element: HTMLElement, handlers: DragHandlers): void;
+export declare function addHandlers(element: HTMLElement, handler: HandlerHost): void;
 export declare function removeHandlers(element: HTMLElement): void;
 export declare function destroyDraggingElement(e: DragState): void;
 export declare function addDragStateListener(callback: (scope: any) => void): void;

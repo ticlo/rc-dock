@@ -48,7 +48,6 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/shelljs": "^0.8.11",
-    "deasync": "0.1.29",
     "less": "^4.1.2",
     "node-gyp": "^10.1.0",
     "parcel": "1.12.4",
@@ -67,7 +66,8 @@
     "react-dom": ">=17.0.0"
   },
   "resolutions": {
-    "@babel/preset-env": "7.13.8"
+    "@babel/preset-env": "7.13.8",
+    "deasync": "0.1.30"
   },
   "scripts": {
     "example": "parcel example/*.html --open --out-dir temp --no-source-maps --no-hmr",
@@ -76,5 +76,6 @@
     "build-www": "ts-node tool/build-www",
     "build-es": "tsc --module es2020 --outDir ./es",
     "build-lib": "tsc --outDir ./lib"
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

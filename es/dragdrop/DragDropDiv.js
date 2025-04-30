@@ -28,10 +28,15 @@ export class DragDropDiv extends React.PureComponent {
                 this.ownerDocument = r.ownerDocument;
             }
             if (getRef) {
-                getRef(r);
+                if (typeof getRef === 'function') {
+                    getRef(r);
+                }
+                else {
+                    getRef.current = r;
+                }
             }
             if (r && onDragOverT) {
-                DragManager.addHandlers(r, this.props);
+                DragManager.addHandlers(r, this);
             }
         };
         this.dragType = null;
@@ -153,6 +158,9 @@ export class DragDropDiv extends React.PureComponent {
                 this.cancel();
             }
         };
+    }
+    getHandlers() {
+        return this.props;
     }
     onDragStart(event) {
         if (DragManager.isDragging()) {
@@ -298,7 +306,7 @@ export class DragDropDiv extends React.PureComponent {
                 || prevProps.onDragLeaveT !== onDragLeaveT
                 || prevProps.onDragEndT !== onDragEndT)) {
             if (onDragOverT) {
-                DragManager.addHandlers(this.element, this.props);
+                DragManager.addHandlers(this.element, this);
             }
             else {
                 DragManager.removeHandlers(this.element);

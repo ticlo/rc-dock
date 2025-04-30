@@ -38,7 +38,7 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
       targetElement = targetElement.parentElement;
     }
     if (panelData.group === placeHolderStyle && direction !== 'float') {
-      // place holder panel should always have full size drop rect
+      // placeholder panel should always have full size drop rect
       this.context.setDropRect(targetElement, 'middle', this, e);
     } else {
       let dockId = this.context.getDockId();

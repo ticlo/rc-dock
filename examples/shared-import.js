@@ -21341,17 +21341,19 @@ class DragState {
     if (_data) {
       let ownerDocument = this.component.ownerDocument;
       let searchElement = ownerDocument.elementFromPoint(this.clientX, this.clientY);
-      let droppingHandlers;
+      let droppingHost;
 
       while (searchElement && searchElement !== ownerDocument.body) {
         if (_dragListeners.has(searchElement)) {
-          let handlers = _dragListeners.get(searchElement);
+          let host = _dragListeners.get(searchElement);
+
+          let handlers = host.getHandlers();
 
           if (handlers.onDragOverT) {
             handlers.onDragOverT(this);
 
             if (this.acceptMessage != null) {
-              droppingHandlers = handlers;
+              droppingHost = host;
               break;
             }
           }
@@ -21360,7 +21362,7 @@ class DragState {
         searchElement = searchElement.parentElement;
       }
 
-      setDroppingHandler(droppingHandlers, this);
+      setDroppingHandler(droppingHost, this);
     }
 
     moveDraggingElement(this);
@@ -21401,10 +21403,12 @@ let _draggingState; // applying dragging style
 
 let _refElement;
 
+let _droppingHost;
+
 let _droppingHandlers;
 
-function setDroppingHandler(handlers, state) {
-  if (_droppingHandlers === handlers) {
+function setDroppingHandler(host, state) {
+  if (_droppingHost === host) {
     return;
   }
 
@@ -21412,7 +21416,8 @@ function setDroppingHandler(handlers, state) {
     _droppingHandlers.onDragLeaveT(state);
   }
 
-  _droppingHandlers = handlers;
+  _droppingHost = host;
+  _droppingHandlers = _droppingHost === null || _droppingHost === void 0 ? void 0 : _droppingHost.getHandlers();
 }
 
 let _dragListeners = new WeakMap();
@@ -21423,16 +21428,17 @@ function isDragging() {
 
 exports.isDragging = isDragging;
 
-function addHandlers(element, handlers) {
-  _dragListeners.set(element, handlers);
+function addHandlers(element, handler) {
+  _dragListeners.set(element, handler);
 }
 
 exports.addHandlers = addHandlers;
 
 function removeHandlers(element) {
-  let handlers = _dragListeners.get(element);
+  let host = _dragListeners.get(element);
 
-  if (handlers === _droppingHandlers) {
+  if (host === _droppingHost) {
+    _droppingHost = null;
     _droppingHandlers = null;
   }
 
@@ -21721,11 +21727,15 @@ class DragDropDiv extends React.PureComponent {
       }
 
       if (getRef) {
-        getRef(r);
+        if (typeof getRef === 'function') {
+          getRef(r);
+        } else {
+          getRef.current = r;
+        }
       }
 
       if (r && onDragOverT) {
-        DragManager.addHandlers(r, this.props);
+        DragManager.addHandlers(r, this);
       }
     };
 
@@ -21886,6 +21896,10 @@ class DragDropDiv extends React.PureComponent {
         this.cancel();
       }
     };
+  }
+
+  getHandlers() {
+    return this.props;
   }
 
   onDragStart(event) {
@@ -22084,7 +22098,7 @@ class DragDropDiv extends React.PureComponent {
 
     if (this.element && (prevProps.onDragOverT !== onDragOverT || prevProps.onDragLeaveT !== onDragLeaveT || prevProps.onDragEndT !== onDragEndT)) {
       if (onDragOverT) {
-        DragManager.addHandlers(this.element, this.props);
+        DragManager.addHandlers(this.element, this);
       } else {
         DragManager.removeHandlers(this.element);
       }

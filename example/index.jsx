@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { createRoot } from "react-dom/client";
 import {Divider} from '../lib';
 // keep the above unused import so tools script can understand this jsx
 
@@ -65,4 +66,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+createRoot(document.getElementById("app")).render(<App/>);

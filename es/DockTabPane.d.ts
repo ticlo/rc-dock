@@ -13,7 +13,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     updateCache(): void;
     visited: boolean;
     _cache: TabPaneCache;
-    render(): JSX.Element;
+    render(): React.JSX.Element;
     componentDidMount(): void;
     componentDidUpdate(prevProps: Readonly<DockTabPaneProps>, prevState: Readonly<any>, snapshot?: any): void;
     componentWillUnmount(): void;

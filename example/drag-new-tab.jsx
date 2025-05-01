@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout, DragDropDiv} from '../lib';
 
@@ -64,4 +65,4 @@ class Demo extends React.Component {
   }
 }
 
-ReactDOM.render(<Demo/>, document.getElementById('app'));
+createRoot(document.getElementById("app")).render(<React.StrictMode><Demo/></React.StrictMode>);

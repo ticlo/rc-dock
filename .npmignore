@@ -27,3 +27,4 @@ build
 /yarn.lock
 /yarn-error.log
 /.parcel-cache
+/typedoc.json

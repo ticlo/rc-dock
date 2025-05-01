@@ -315,9 +315,12 @@ export class DockLayout extends DockPortalManager {
         let { dropRect } = this.state;
         if (dropRect) {
             if (direction === 'remove') {
-                if (dropRect.source === source) {
-                    this.setState({ dropRect: null });
-                }
+                this.setState((oldStates) => {
+                    if (oldStates.dropRect.source === source) {
+                        return { dropRect: null };
+                    }
+                    return {};
+                });
                 return;
             }
             else if (dropRect.element === element && dropRect.direction === direction && direction !== 'float') {

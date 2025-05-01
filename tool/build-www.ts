@@ -5,7 +5,7 @@ import {highlight, languages} from 'prismjs';
 let reg = /(.|[\n\r])*\{(.*)\} from '..\/lib';/m;
 
 function replacer(str: string, p1: string, p2: string) {
-  return `import('./shared-import').then(({React, ReactDOM, jsxTab, htmlTab, ${p2}})=>{`;
+  return `import('./shared-import').then(({React, ReactDOM, jsxTab, htmlTab, createRoot, ${p2}})=>{`;
 }
 
 function exportCodeHtml(lan: string, file: string, data: string) {

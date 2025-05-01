@@ -238,6 +238,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   ReactDOM,
   jsxTab,
   htmlTab,
+  createRoot,
   Divider
 }) => {
   // keep the above unused import so tools script can understand this jsx

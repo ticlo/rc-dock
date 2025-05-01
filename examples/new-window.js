@@ -238,6 +238,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
   ReactDOM,
   jsxTab,
   htmlTab,
+  createRoot,
   DockLayout
 }) => {
   let groups = {

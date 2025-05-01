@@ -28758,7 +28758,38 @@ exports.htmlTab = {
     src: `./${name}.html.html`
   })
 };
-},{"react":"n8MK"}],"FeNK":[function(require,module,exports) {
+},{"react":"n8MK"}],"NdAl":[function(require,module,exports) {
+'use strict';
+
+var m = require('react-dom');
+
+if ("production" === 'production') {
+  exports.createRoot = m.createRoot;
+  exports.hydrateRoot = m.hydrateRoot;
+} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+
+  exports.createRoot = function (c, o) {
+    i.usingClientEntryPoint = true;
+
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+
+  exports.hydrateRoot = function (c, h, o) {
+    i.usingClientEntryPoint = true;
+
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+}
+},{"react-dom":"NKHc"}],"FeNK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28766,9 +28797,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
   React: true,
-  ReactDOM: true
+  ReactDOM: true,
+  createRoot: true
 };
 exports.ReactDOM = exports.React = void 0;
+Object.defineProperty(exports, "createRoot", {
+  enumerable: true,
+  get: function () {
+    return _client.createRoot;
+  }
+});
 
 var _lib = require("../lib");
 
@@ -28802,6 +28840,8 @@ var React1 = _interopRequireWildcard(require("react"));
 
 var ReactDom1 = _interopRequireWildcard(require("react-dom"));
 
+var _client = require("react-dom/client");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -28810,4 +28850,4 @@ const React = React1;
 exports.React = React;
 const ReactDOM = ReactDom1;
 exports.ReactDOM = ReactDOM;
-},{"../lib":"VNNP","./prism-tabs":"a1rF","react":"n8MK","react-dom":"NKHc"}]},{},["FeNK"], null)
+},{"../lib":"VNNP","./prism-tabs":"a1rF","react":"n8MK","react-dom":"NKHc","react-dom/client":"NdAl"}]},{},["FeNK"], null)

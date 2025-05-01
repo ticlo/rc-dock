@@ -2326,7 +2326,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
 
   }
 
-  ReactDOM.render( /*#__PURE__*/React.createElement(Demo, null), document.getElementById('app'));
+  createRoot(document.getElementById("app")).render( /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(Demo, null)));
   console.log(Buffer.from("Hello World").toString('base64'));
 });
 },{"_bundle_loader":"Cm3W","./shared-import":[["shared-import.js","FeNK"],"FeNK"],"buffer":"dskh"}],"W28G":[function(require,module,exports) {

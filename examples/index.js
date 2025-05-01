@@ -317,7 +317,7 @@ require("_bundle_loader")(require.resolve('./shared-import')).then(({
 
   }
 
-  ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('app'));
+  createRoot(document.getElementById("app")).render( /*#__PURE__*/React.createElement(App, null));
 });
 },{"_bundle_loader":"Cm3W","./shared-import":[["shared-import.js","FeNK"],"FeNK"]}],"W28G":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {

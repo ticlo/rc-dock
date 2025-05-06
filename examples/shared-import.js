@@ -23154,14 +23154,18 @@ function nextZIndex(current) {
 
 exports.nextZIndex = nextZIndex;
 
+function compareFindId(item, id) {
+  return item && (typeof id === 'function' ? id(item) : item.id === id);
+}
+
 function findInPanel(panel, id, filter) {
-  if (panel.id === id && filter & Filter.Panel) {
+  if (compareFindId(panel, id) && filter & Filter.Panel) {
     return panel;
   }
 
   if (filter & Filter.Tab) {
     for (let tab of panel.tabs) {
-      if (tab.id === id) {
+      if (compareFindId(tab, id)) {
         return tab;
       }
     }
@@ -23173,7 +23177,7 @@ function findInPanel(panel, id, filter) {
 function findInBox(box, id, filter) {
   let result;
 
-  if (filter | Filter.Box && (box === null || box === void 0 ? void 0 : box.id) === id) {
+  if (filter | Filter.Box && compareFindId(box, id)) {
     return box;
   }
 

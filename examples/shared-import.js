@@ -22573,12 +22573,20 @@ class DragDropDiv extends React.PureComponent {
 
   addDragListeners(event) {
     if (event.type === 'touchstart') {
-      this.ownerDocument.addEventListener('touchmove', this.onTouchMove);
-      this.ownerDocument.addEventListener('touchend', this.onDragEnd);
+      this.ownerDocument.addEventListener('touchmove', this.onTouchMove, {
+        capture: true
+      });
+      this.ownerDocument.addEventListener('touchend', this.onDragEnd, {
+        capture: true
+      });
       this.dragType = 'touch';
     } else {
-      this.ownerDocument.addEventListener('mousemove', this.onMouseMove);
-      this.ownerDocument.addEventListener('mouseup', this.onDragEnd);
+      this.ownerDocument.addEventListener('mousemove', this.onMouseMove, {
+        capture: true
+      });
+      this.ownerDocument.addEventListener('mouseup', this.onDragEnd, {
+        capture: true
+      });
 
       if (event.button === 2) {
         this.dragType = 'right';
@@ -22668,15 +22676,27 @@ class DragDropDiv extends React.PureComponent {
 
   removeListeners() {
     if (this.gesturing) {
-      this.ownerDocument.removeEventListener('touchmove', this.onGestureMove);
-      this.ownerDocument.removeEventListener('touchend', this.onGestureEnd);
+      this.ownerDocument.removeEventListener('touchmove', this.onGestureMove, {
+        capture: true
+      });
+      this.ownerDocument.removeEventListener('touchend', this.onGestureEnd, {
+        capture: true
+      });
     } else if (this.listening) {
       if (this.dragType === 'touch') {
-        this.ownerDocument.removeEventListener('touchmove', this.onTouchMove);
-        this.ownerDocument.removeEventListener('touchend', this.onDragEnd);
+        this.ownerDocument.removeEventListener('touchmove', this.onTouchMove, {
+          capture: true
+        });
+        this.ownerDocument.removeEventListener('touchend', this.onDragEnd, {
+          capture: true
+        });
       } else {
-        this.ownerDocument.removeEventListener('mousemove', this.onMouseMove);
-        this.ownerDocument.removeEventListener('mouseup', this.onDragEnd);
+        this.ownerDocument.removeEventListener('mousemove', this.onMouseMove, {
+          capture: true
+        });
+        this.ownerDocument.removeEventListener('mouseup', this.onDragEnd, {
+          capture: true
+        });
       }
     }
 
@@ -22697,6 +22717,7 @@ class DragDropDiv extends React.PureComponent {
       children,
       className,
       directDragT,
+      captureT,
       onDragStartT,
       onDragMoveT,
       onDragEndT,
@@ -22708,7 +22729,7 @@ class DragDropDiv extends React.PureComponent {
       onGestureEndT,
       useRightButtonDragT
     } = _a,
-        others = __rest(_a, ["getRef", "children", "className", "directDragT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT"]);
+        others = __rest(_a, ["getRef", "children", "className", "directDragT", "captureT", "onDragStartT", "onDragMoveT", "onDragEndT", "onDragOverT", "onDragLeaveT", "onDropT", "onGestureStartT", "onGestureMoveT", "onGestureEndT", "useRightButtonDragT"]);
 
     let onTouchDown = this.onPointerDown;
     let onMouseDown = this.onPointerDown;
@@ -22729,13 +22750,18 @@ class DragDropDiv extends React.PureComponent {
       }
     }
 
+    if (captureT) {
+      if (onMouseDown) others.onMouseDownCapture = onMouseDown;
+      if (onTouchDown) others.onTouchStartCapture = onTouchDown;
+    } else {
+      if (onMouseDown) others.onMouseDown = onMouseDown;
+      if (onTouchDown) others.onTouchStart = onTouchDown;
+    }
+
     return React.createElement("div", Object.assign({
       ref: this._getRef,
       className: className
-    }, others, {
-      onMouseDown: onMouseDown,
-      onTouchStart: onTouchDown
-    }), children);
+    }, others), children);
   }
 
   componentDidUpdate(prevProps) {

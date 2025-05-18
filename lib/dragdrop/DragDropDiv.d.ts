@@ -19,6 +19,7 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
      * but if directDragT is true, onDragStartT will be called as soon as mouse is down
      */
     directDragT?: boolean;
+    captureT?: boolean;
     useRightButtonDragT?: boolean;
     onGestureStartT?: (state: GestureState) => boolean;
     onGestureMoveT?: (state: GestureState) => void;

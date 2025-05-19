@@ -80,6 +80,12 @@ export class DragState {
     _dataScope = scope;
     _data = data;
   }
+  getData(field: string, scope?: any) {
+    if (scope === _dataScope && _data) {
+      return _data[field];
+    }
+    return null;
+  }
 
   static getData(field: string, scope?: any) {
     if (scope === _dataScope && _data) {

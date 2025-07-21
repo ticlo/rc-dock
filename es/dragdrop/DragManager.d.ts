@@ -29,6 +29,7 @@ export declare class DragState {
     setData(data?: {
         [key: string]: any;
     }, scope?: any): void;
+    getData(field: string, scope?: any): any;
     static getData(field: string, scope?: any): any;
     get dragType(): DragType;
     acceptMessage: string;
@@ -37,6 +38,7 @@ export declare class DragState {
     reject(): void;
     _onMove(): void;
     _onDragEnd(canceled?: boolean): void;
+    getRect(): DOMRect;
 }
 export declare type DragHandler = (state: DragState) => void;
 export declare type DropHandler = (state: DragState) => any;

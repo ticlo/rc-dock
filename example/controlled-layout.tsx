@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout} from '../lib';
+import {DockLayout, LayoutBase, TabBase, TabData, DropDirection} from '../src';
 
 let tab0 = {
   title: 'Controlled Layout',
@@ -36,10 +36,14 @@ let box = {
   }
 };
 
-class Demo extends React.Component {
-  state = {layout: box};
+interface DemoState {
+  layout: LayoutBase;
+}
 
-  loadTab = (data) => {
+class Demo extends React.Component<{}, DemoState> {
+  state: DemoState = {layout: box as LayoutBase};
+
+  loadTab = (data: TabBase): TabData => {
     let {id} = data;
     switch (id) {
       case 't0':
@@ -65,7 +69,7 @@ class Demo extends React.Component {
     };
   };
 
-  onLayoutChange = (newLayout, currentTabId, direction) => {
+  onLayoutChange = (newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection) => {
     // control DockLayout from state
     console.log(currentTabId, newLayout, direction);
     if (currentTabId === 'protect1' && direction === 'remove') {

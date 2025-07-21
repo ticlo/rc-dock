@@ -18,3 +18,4 @@ build
 /www
 /yarn-error.log
 /.parcel-cache
+/example/www

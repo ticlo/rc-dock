@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout, DockContextType} from '../lib';
+import {DockLayout, DockContextType, PanelData, DockContext} from '../src';
 
 let groups = {
   'close-all': {
     floatable: true,
     closable: true,
-    panelExtra: (panelData, context) => {
+    panelExtra: (panelData: PanelData, context: DockContext) => {
 
       let buttons = [];
       if (panelData.parent.mode !== 'window') {
@@ -75,7 +75,7 @@ let box = {
             tabs: [newTab(), newTab()],
             panelLock: {
               minWidth: 200,
-              panelExtra: (panelData, context) => (
+              panelExtra: (panelData: PanelData, context: DockContext) => (
                 <button className='btn'
                         onClick={() => context.dockMove(newTab(), panelData, 'middle')}>
                   add

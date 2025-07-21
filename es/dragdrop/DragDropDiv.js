@@ -170,6 +170,9 @@ export class DragDropDiv extends React.PureComponent {
         let state = new DragManager.DragState(event, this, true);
         this.baseX = state.pageX;
         this.baseY = state.pageY;
+        // fix dx dy value since it was calculated from the previous baseX
+        state.dx = 0;
+        state.dy = 0;
         let baseElement = this.element.parentElement;
         let rect = baseElement.getBoundingClientRect();
         this.scaleX = baseElement.offsetWidth / Math.round(rect.width);

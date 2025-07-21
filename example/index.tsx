@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {Divider} from '../lib';
+import {Divider} from '../src';
 // keep the above unused import so tools script can understand this jsx
 
 let demos = ['basic', 'dark-theme', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];
@@ -12,8 +12,12 @@ if (!(demos.includes(defaultPage) || advance.includes(defaultPage))) {
   defaultPage = 'basic';
 }
 
-class App extends React.Component {
-  state = {current: defaultPage};
+interface AppState {
+  current: string;
+}
+
+class App extends React.Component<{}, AppState> {
+  state: AppState = {current: defaultPage};
 
   render() {
     let {current} = this.state;
@@ -24,7 +28,7 @@ class App extends React.Component {
         cls = 'current';
       }
       demoPages.push(
-        <a href={`#${page}`} key={page} className={cls} onClick={(e) => this.setState({current: page})}>
+        <a href={`#${page}`} key={page} className={cls} onClick={() => this.setState({current: page})}>
           {page}
         </a>
       )
@@ -36,7 +40,7 @@ class App extends React.Component {
         cls = 'current';
       }
       advancePages.push(
-        <a href={`#${page}`} key={page} className={cls} onClick={(e) => this.setState({current: page})}>
+        <a href={`#${page}`} key={page} className={cls} onClick={() => this.setState({current: page})}>
           {page}
         </a>
       )

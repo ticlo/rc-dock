@@ -2,18 +2,24 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {jsxTab} from "./prism-tabs";
-import {Divider} from '../lib';
+import {Divider} from '../src';
 
-class Demo extends React.Component {
-  getRef = (r) => {
+interface DemoState {
+  sizes: number[];
+}
+
+class Demo extends React.Component<{}, DemoState> {
+  _ref: HTMLDivElement;
+  
+  getRef = (r: HTMLDivElement) => {
     this._ref = r;
   };
 
   // default sizes
-  state = {sizes: [200, 200, 30]};
+  state: DemoState = {sizes: [200, 200, 30]};
 
   // when divider is dragged, this function will be called to measure the elements' size
-  getDividerData = (idx) => {
+  getDividerData = (idx: number) => {
     let children = [];
     this._ref.childNodes.forEach((child) => {
       if (!child.classList.contains('dock-divider')) {
@@ -31,7 +37,7 @@ class Demo extends React.Component {
   };
 
   // callback from the dragging
-  changeSizes = (sizes) => {
+  changeSizes = (sizes: number[]) => {
     this.setState({sizes});
   };
 

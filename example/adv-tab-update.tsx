@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout} from '../lib';
+import {DockLayout, PanelData} from '../src';
 
 let groups = {
   'locked': {
@@ -11,7 +11,7 @@ let groups = {
   }
 };
 
-function getTab(id, value) {
+function getTab(id: string, value: number) {
   return {
     id,
     content: (
@@ -31,8 +31,14 @@ function getTab(id, value) {
   }
 }
 
-class Demo extends React.Component {
-  getRef = (r) => {
+interface DemoState {
+  saved: any;
+}
+
+class Demo extends React.Component<{}, DemoState> {
+  dockLayout: DockLayout;
+  
+  getRef = (r: DockLayout) => {
     this.dockLayout = r;
   };
 
@@ -48,7 +54,7 @@ class Demo extends React.Component {
     let newTab = getTab(`tab${this.count}`, this.count)
     this.dockLayout.dockMove(newTab, 'my_panel', 'middle');
   };
-  defaultLayout = {
+  defaultLayout: any = {
     dockbox: {
       mode: 'vertical',
       children: [
@@ -75,7 +81,7 @@ class Demo extends React.Component {
     }
   };
 
-  state = {saved: null};
+  state: DemoState = {saved: null};
 
   render() {
     return (

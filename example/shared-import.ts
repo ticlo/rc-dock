@@ -1,4 +1,4 @@
-export * from '../lib';
+export * from '../src';
 export * from './prism-tabs';
 
 import * as React1 from 'react';

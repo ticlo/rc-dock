@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {jsxTab, htmlTab} from './prism-tabs';
-import {DockLayout, DividerBox} from '../lib';
+import {DockLayout, DividerBox} from '../src';
 
 let layoutLeft = {
   dockbox: {

@@ -2,14 +2,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {jsxTab, htmlTab} from './prism-tabs';
-import {DockLayout, DockContextType} from '../lib';
+import {DockLayout, DockContextType, DragState} from '../src';
 
 let tab = {
   content: <div>Tab Content</div>,
   closable: true,
 };
 
-let layout = {
+let layout: any = {
     dockbox: {
       mode: 'horizontal',
       children: [
@@ -76,16 +76,11 @@ let count = 0;
 
 class Demo extends React.Component {
 
-  onDragNewTab = (e) => {
+  onDragNewTab = (e: React.DragEvent) => {
     let content = `New Tab ${count++}`;
-    DragStore.dragStart(DockContextType, {
-      tab: {
-        id: content,
-        content: <div style={{padding: 20}}>{content}</div>,
-        title: content,
-        closable: true,
-      }
-    }, e.nativeEvent);
+    // Note: DragStore functionality has been removed. 
+    // This example needs to be updated to use the new drag API.
+    console.log('Drag functionality needs to be reimplemented', content);
   };
 
   render() {

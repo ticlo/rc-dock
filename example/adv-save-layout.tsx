@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout} from '../lib';
+import {DockLayout, TabBase, TabData, PanelBase, PanelData, LayoutBase} from '../src';
 
 let groups = {
   allowWindow: {
@@ -12,9 +12,13 @@ let groups = {
   }
 };
 
-class InputTab extends React.PureComponent {
+interface InputTabProps {
+  tabData: any;
+}
 
-  onChange = (e) => {
+class InputTab extends React.PureComponent<InputTabProps> {
+
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.tabData.inputValue = e.target.value;
     this.forceUpdate();
   };
@@ -28,7 +32,7 @@ class InputTab extends React.PureComponent {
     )
   }
 
-  static create(tabData) {
+  static create(tabData: any) {
     return <InputTab tabData={tabData}/>;
   }
 }
@@ -38,14 +42,20 @@ let tab0 = {
   content: <div>This tab will be added back to main panel every time you load layout.</div>
 };
 
-class Demo extends React.Component {
-  getRef = (r) => {
+interface DemoState {
+  saved: LayoutBase | null;
+}
+
+class Demo extends React.Component<{}, DemoState> {
+  dockLayout: DockLayout;
+  
+  getRef = (r: DockLayout) => {
     this.dockLayout = r;
   };
 
-  state = {saved: null};
+  state: DemoState = {saved: null};
 
-  defaultLayout = {
+  defaultLayout: any = {
     dockbox: {
       mode: 'horizontal',
       children: [
@@ -69,7 +79,7 @@ class Demo extends React.Component {
     }
   };
 
-  saveTab = (tabData) => {
+  saveTab = (tabData: TabData): TabBase | null => {
     let {id, inputValue} = tabData;
     // add inputValue from saved data;
     if (id === 'tab0') {
@@ -77,7 +87,7 @@ class Demo extends React.Component {
     }
     return {id, inputValue};
   };
-  loadTab = (savedTab) => {
+  loadTab = (savedTab: TabBase): TabData => {
     let id = savedTab.id;
     switch (id) {
       case 'tab0':
@@ -92,7 +102,7 @@ class Demo extends React.Component {
   };
 
   // add tab0 to the main panel
-  afterPanelLoaded = (savedPanel, panelData) => {
+  afterPanelLoaded = (savedPanel: PanelBase, panelData: PanelData) => {
     let id = savedPanel.id;
 
     if (id === 'main-panel') {
@@ -115,7 +125,7 @@ class Demo extends React.Component {
             Save Layout
           </button>
           <button className='btn' disabled={this.state.saved == null}
-                  onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
+                  onClick={() => this.dockLayout.loadLayout(this.state.saved!)}>
             Load Layout
           </button>
         </div>

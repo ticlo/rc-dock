@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout} from '../lib';
+import {DockLayout, LayoutBase} from '../src';
 
 let tab1 = {id: 't1', title: 'Tab 1', content: <div>Tab 1</div>};
 let tab2 = {id: 't2', title: 'Tab 2', content: <div>Tab 2</div>};
@@ -56,12 +56,18 @@ let horizontalLayout = {
   }
 };
 
-class Demo extends React.Component {
-  getRef = (r) => {
+interface DemoState {
+  saved: LayoutBase | null;
+}
+
+class Demo extends React.Component<{}, DemoState> {
+  dockLayout: DockLayout;
+  
+  getRef = (r: DockLayout) => {
     this.dockLayout = r;
   };
 
-  state = {saved: null};
+  state: DemoState = {saved: null};
 
   render() {
     return (
@@ -81,7 +87,7 @@ class Demo extends React.Component {
           <button className='btn' onClick={() => this.dockLayout.loadLayout(panelLayout)}>
             Single Panel
           </button>
-          <button className='btn' disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved)}>
+          <button className='btn' disabled={this.state.saved == null} onClick={() => this.dockLayout.loadLayout(this.state.saved!)}>
             Saved Layout
           </button>
         </div>

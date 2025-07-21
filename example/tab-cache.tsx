@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout} from '../lib';
+import {DockLayout} from '../src';
 
 let cachedTab = {
   title: 'cached',

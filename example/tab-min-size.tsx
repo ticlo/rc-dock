@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {jsxTab, htmlTab} from './prism-tabs';
-import {DockLayout} from '../lib';
+import {DockLayout} from '../src';
 
-function getTab(width, height) {
+function getTab(width: number, height: number) {
   let title = `size ${width}x${height}`;
   return {
     id: title,

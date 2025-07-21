@@ -2,18 +2,27 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {jsxTab} from "./prism-tabs";
-import {DragDropDiv, GestureState} from '../lib';
+import {DragDropDiv, GestureState} from '../src';
 
-class Demo extends React.PureComponent {
-  state = {scale: 0, rotate: 0, dx: 0, dy: 0};
-  getRef = (r) => {
+interface DemoState {
+  scale: number;
+  rotate: number;
+  dx: number;
+  dy: number;
+}
+
+class Demo extends React.PureComponent<{}, DemoState> {
+  state: DemoState = {scale: 0, rotate: 0, dx: 0, dy: 0};
+  _ref: HTMLElement;
+  
+  getRef = (r: HTMLElement) => {
     this._ref = r;
   };
 
-  onGestureStart = (e) => {
+  onGestureStart = (e: GestureState) => {
     return true;
   };
-  onGestureMove = (e) => {
+  onGestureMove = (e: GestureState) => {
     let {scale, rotate, dx, dy} = e;
     this.setState({scale, rotate, dx, dy});
   };
@@ -37,4 +46,3 @@ class Demo extends React.PureComponent {
 }
 
 createRoot(document.getElementById("app")).render(<React.StrictMode><Demo/></React.StrictMode>);
-console.log(Buffer.from("Hello World").toString('base64'));

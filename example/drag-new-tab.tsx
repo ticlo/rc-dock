@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout, DragDropDiv} from '../lib';
+import {DockLayout, DragDropDiv, DragState} from '../src';
 
 let tab = {
   title: 'Tab',
@@ -32,14 +32,17 @@ let box = {
 
 class Demo extends React.Component {
   newTabId = 0;
-  getRef = (r) => {
+  dockLayout: DockLayout;
+  buttonRef: DragDropDiv;
+  
+  getRef = (r: DockLayout) => {
     this.dockLayout = r;
   };
-  getButtonRef = (r) => {
+  getButtonRef = (r: DragDropDiv) => {
     this.buttonRef = r;
   }
 
-  onDragStart = (e) => {
+  onDragStart = (e: DragState) => {
     console.log(this.dockLayout, this.buttonRef)
     e.setData({
       tab: {...tab, id: `newTab-${++this.newTabId}`},

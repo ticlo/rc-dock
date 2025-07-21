@@ -2,18 +2,22 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
-import {DockLayout} from '../lib';
+import {DockLayout} from '../src';
 
-const Context = React.createContext();
+const Context = React.createContext<number>(0);
 
-class Demo extends React.Component {
+interface DemoState {
+  ctx: number;
+}
 
-  state = {ctx: 0};
+class Demo extends React.Component<{}, DemoState> {
+
+  state: DemoState = {ctx: 0};
   addCtx = () => {
     this.setState({ctx: this.state.ctx + 1})
   };
 
-  defaultLayout = {
+  defaultLayout: any = {
     dockbox: {
       mode: 'vertical',
       children: [

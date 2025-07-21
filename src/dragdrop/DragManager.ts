@@ -73,14 +73,19 @@ export class DragState {
     this.component.ownerDocument.body.classList.add('dock-dragging');
   }
 
-  setData(data?: {[key: string]: any}, scope?: any) {
+  setData(data?: { [key: string]: any }, scope?: any) {
     if (!this._init) {
       throw new Error('setData can only be used in onDragStart callback');
     }
     _dataScope = scope;
     _data = data;
   }
+
   getData(field: string, scope?: any) {
+    if (!_data) {
+      // todo: find drag string from event and convert it to _data if possible
+      _data = {};
+    }
     if (scope === _dataScope && _data) {
       return _data[field];
     }
@@ -150,6 +155,24 @@ export class DragState {
     destroyDraggingElement(this);
     this.component.ownerDocument.body.classList.remove('dock-dragging');
   }
+
+  getRect() {
+    let x = this.clientX;
+    let y = this.clientY;
+    let w = this.dx;
+    let h = this.dy;
+    if (w < 0) {
+      w = -w;
+    } else {
+      x -= w;
+    }
+    if (h < 0) {
+      h = -h;
+    } else {
+      y -= h;
+    }
+    return new DOMRect(x, y, w, h);
+  }
 }
 
 function preventDefault(e: Event) {
@@ -163,7 +186,7 @@ export type DropHandler = (state: DragState) => any;
 
 
 let _dataScope: any;
-let _data: {[key: string]: any};
+let _data: { [key: string]: any };
 
 let _draggingState: DragState;
 // applying dragging style
@@ -187,6 +210,7 @@ export interface DragHandlers {
   onDragLeaveT?: DragHandler;
   onDropT?: DropHandler;
 }
+
 export interface HandlerHost {
   getHandlers(): DragHandlers;
 }

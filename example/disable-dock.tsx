@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {jsxTab, htmlTab} from './prism-tabs';
-import {DockLayout, DockContextType} from '../lib';
+import {DockLayout, DockContextType} from '../src';
 
 
 let groups = {
@@ -12,7 +12,7 @@ let groups = {
   }
 };
 
-let layout = {
+let layout: any = {
   dockbox: {
     mode: 'horizontal',
     children: [

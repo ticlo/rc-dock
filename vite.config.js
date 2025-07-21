@@ -12,6 +12,7 @@ const exampleFiles = fs.readdirSync('./example')
 
 export default defineConfig({
   root: 'example',
+  base: './',
   build: {
     outDir: resolve(__dirname, 'www/examples'),
     emptyOutDir: true,

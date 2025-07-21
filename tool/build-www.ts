@@ -3,7 +3,7 @@ import shell from "shelljs";
 // Build examples using Vite
 function buildExample() {
   // Use Vite to build examples directly to www/examples folder
-  shell.exec('vite build --outDir www/examples --base ./');
+  shell.exec('vite build');
 }
 
 function buildDocs() {
@@ -12,6 +12,7 @@ function buildDocs() {
 }
 
 function main() {
+  shell.rm('-rf', './temp-doc');
   shell.rm('-rf', './www/examples');
   shell.rm('-rf', './www/interfaces');
   shell.rm('-rf', './www/classes');

@@ -13,7 +13,7 @@ const exampleFiles = fs.readdirSync('./example')
 export default defineConfig({
   root: 'example',
   build: {
-    outDir: '../www/examples',
+    outDir: resolve(__dirname, 'www/examples'),
     emptyOutDir: true,
     rollupOptions: {
       input: exampleFiles

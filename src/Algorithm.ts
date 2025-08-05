@@ -85,7 +85,7 @@ function compareFindId(item: PanelData | TabData | BoxData, id: string | ((item:
 
 
 function findInPanel(panel: PanelData, id: string | ((item: PanelData | TabData | BoxData) => boolean), filter: Filter): PanelData | TabData | undefined {
-  if (compareFindId(panel, id) && (filter & Filter.Panel)) {
+  if ((filter & Filter.Panel) && compareFindId(panel, id)) {
     return panel;
   }
   if (filter & Filter.Tab) {
@@ -100,7 +100,7 @@ function findInPanel(panel: PanelData, id: string | ((item: PanelData | TabData 
 
 function findInBox(box: BoxData | undefined, id: string | ((item: PanelData | TabData | BoxData) => boolean), filter: Filter): PanelData | TabData | BoxData | undefined {
   let result: PanelData | TabData | BoxData | undefined;
-  if ((filter | Filter.Box) && compareFindId(box, id)) {
+  if ((filter & Filter.Box) && compareFindId(box, id)) {
     return box;
   }
   if (!box?.children) {

@@ -64,7 +64,7 @@ function compareFindId(item, id) {
     return item && (typeof id === 'function' ? id(item) : item.id === id);
 }
 function findInPanel(panel, id, filter) {
-    if (compareFindId(panel, id) && (filter & Filter.Panel)) {
+    if ((filter & Filter.Panel) && compareFindId(panel, id)) {
         return panel;
     }
     if (filter & Filter.Tab) {
@@ -78,7 +78,7 @@ function findInPanel(panel, id, filter) {
 }
 function findInBox(box, id, filter) {
     let result;
-    if ((filter | Filter.Box) && compareFindId(box, id)) {
+    if ((filter & Filter.Box) && compareFindId(box, id)) {
         return box;
     }
     if (!(box === null || box === void 0 ? void 0 : box.children)) {

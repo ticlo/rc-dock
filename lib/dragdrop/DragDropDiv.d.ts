@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as DragManager from "./DragManager";
 import { GestureState } from "./GestureManager";
-export declare type AbstractPointerEvent = MouseEvent | TouchEvent;
+export type AbstractPointerEvent = MouseEvent | TouchEvent;
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
     getRef?: React.ForwardedRef<HTMLDivElement>;
     onDragStartT?: DragManager.DragHandler;

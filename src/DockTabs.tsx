@@ -1,8 +1,8 @@
 import * as React from "react";
 import {DockContext, DockContextType, DropDirection, PanelData, TabData} from "./DockData";
-import Tabs from 'rc-tabs';
-import Menu, {MenuItem} from 'rc-menu';
-import Dropdown from 'rc-dropdown';
+import Tabs from '@rc-component/tabs';
+import Menu, {MenuItem} from '@rc-component/menu';
+import Dropdown from '@rc-component/dropdown';
 import * as DragManager from "./dragdrop/DragManager";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DockTabBar} from "./DockTabBar";
@@ -50,7 +50,7 @@ export class TabCache {
 
   data: TabData;
   context: DockContext;
-  content: React.ReactElement;
+  content: React.ReactElement | null;
 
   constructor(context: DockContext) {
     this.context = context;
@@ -59,7 +59,9 @@ export class TabCache {
   setData(data: TabData) {
     if (data !== this.data) {
       this.data = data;
-      this.content = this.render();
+      // Update internal label/content cache
+      this.render();
+      this.content = null;
       return true;
     }
     return false;
@@ -148,7 +150,7 @@ export class TabCache {
     return e.clientX > midx ? 'after-tab' : 'before-tab';
   }
 
-  render(): React.ReactElement {
+  render(): void {
     let {id, title, content, closable, cached, parent} = this.data;
     let {onDragStart, onDragOver, onDrop, onDragLeave} = this;
     if (parent.parent.mode === 'window') {
@@ -172,13 +174,17 @@ export class TabCache {
       </DragDropDiv>
     );
 
-    return (
-      <DockTabPane key={id} cacheId={id} cached={cached} tab={tab}>
-        {content}
-      </DockTabPane>
-    );
+    // Store the tab label and content for use in items array
+    this.tabLabel = tab;
+    this.tabContent = content;
+    this.cached = cached;
+
+    return null; // We don't return JSX here anymore
   }
 
+  tabLabel: React.ReactElement;
+  tabContent: React.ReactElement;
+  cached: boolean;
 
   destroy() {
     // place holder
@@ -245,13 +251,13 @@ export class DockTabs extends React.PureComponent<Props> {
 
   addNewWindowMenu(element: React.ReactElement, showWithLeftClick: boolean) {
     const nativeMenu = (
-      <Menu onClick={this.onNewWindowClick}>
-        <MenuItem>
+      <Menu prefixCls="dock-dropdown-menu" onClick={this.onNewWindowClick}>
+        <MenuItem key='new-window'>
           New Window
         </MenuItem>
       </Menu>
     );
-    let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
+    let trigger: any = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
     return (
       <Dropdown
         prefixCls="dock-dropdown"
@@ -338,22 +344,42 @@ export class DockTabs extends React.PureComponent<Props> {
 
     this.updateTabs(tabs);
 
-    let children: React.ReactNode[] = [];
-    for (let [id, tab] of this._cache) {
-      children.push(tab.content);
+    let items: any[] = [];
+    for (let [id, tabCache] of this._cache) {
+      // Ensure label and content are up to date
+      tabCache.render();
+      const isActive = activeId === id;
+      items.push({
+        key: id,
+        label: tabCache.tabLabel,
+        // Wrap in DockTabPane so it manages portal caching
+        children: (
+          <DockTabPane
+            cacheId={id}
+            cached={tabCache.cached}
+            active={isActive}
+            animated={animated}
+            prefixCls="dock"
+          >
+            {tabCache.tabContent}
+          </DockTabPane>
+        ),
+        forceRender: tabCache.cached !== false,
+        closable: tabCache.data.closable,
+        disabled: false,
+      });
     }
 
     return (
       <Tabs prefixCls="dock"
-            moreIcon={moreIcon}
+            more={{icon: moreIcon}}
             animated={animated}
             renderTabBar={this.renderTabBar}
             activeKey={activeId}
             onChange={this.onTabChange}
             popupClassName={classNames(groupClassNames(group))}
-      >
-        {children}
-      </Tabs>
+            items={items}
+      />
     );
   }
 }

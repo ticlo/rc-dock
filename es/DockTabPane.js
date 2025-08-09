@@ -25,13 +25,12 @@ export default class DockTabPane extends React.PureComponent {
         }
     }
     render() {
-        const { cacheId, cached, prefixCls, forceRender, className, style, id, active, animated, destroyInactiveTabPane, tabKey, children, } = this.props;
+        const { cacheId, cached, prefixCls, forceRender, className, style, id, active, animated, 
+        // destroyInactiveTabPane, // Not in @rc-component/tabs TabPaneProps
+        tabKey, children, } = this.props;
         if (active) {
             this.visited = true;
-        }
-        else if (destroyInactiveTabPane) {
-            this.visited = false;
-        }
+        } // Removed destroyInactiveTabPane check
         const mergedStyle = {};
         if (!active) {
             if (animated) {

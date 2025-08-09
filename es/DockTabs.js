@@ -1,8 +1,8 @@
 import * as React from "react";
 import { DockContextType } from "./DockData";
-import Tabs from 'rc-tabs';
-import Menu, { MenuItem } from 'rc-menu';
-import Dropdown from 'rc-dropdown';
+import Tabs from '@rc-component/tabs';
+import Menu, { MenuItem } from '@rc-component/menu';
+import Dropdown from '@rc-component/dropdown';
 import * as DragManager from "./dragdrop/DragManager";
 import { DragDropDiv } from "./dragdrop/DragDropDiv";
 import { DockTabBar } from "./DockTabBar";
@@ -127,7 +127,9 @@ export class TabCache {
     setData(data) {
         if (data !== this.data) {
             this.data = data;
-            this.content = this.render();
+            // Update internal label/content cache
+            this.render();
+            this.content = null;
             return true;
         }
         return false;
@@ -155,7 +157,11 @@ export class TabCache {
                 React.createElement("div", { className: "dock-tab-close-btn", onClick: this.onCloseClick })
                 : null,
             React.createElement("div", { className: "dock-tab-hit-area", ref: this.getHitAreaRef })));
-        return (React.createElement(DockTabPane, { key: id, cacheId: id, cached: cached, tab: tab }, content));
+        // Store the tab label and content for use in items array
+        this.tabLabel = tab;
+        this.tabContent = content;
+        this.cached = cached;
+        return null; // We don't return JSX here anymore
     }
     destroy() {
         // place holder
@@ -255,8 +261,8 @@ export class DockTabs extends React.PureComponent {
         this._cache = newCache;
     }
     addNewWindowMenu(element, showWithLeftClick) {
-        const nativeMenu = (React.createElement(Menu, { onClick: this.onNewWindowClick },
-            React.createElement(MenuItem, null, "New Window")));
+        const nativeMenu = (React.createElement(Menu, { prefixCls: "dock-dropdown-menu", onClick: this.onNewWindowClick },
+            React.createElement(MenuItem, { key: 'new-window' }, "New Window")));
         let trigger = showWithLeftClick ? ['contextMenu', 'click'] : ['contextMenu'];
         return (React.createElement(Dropdown, { prefixCls: "dock-dropdown", overlay: nativeMenu, trigger: trigger, mouseEnterDelay: 0.1, mouseLeaveDelay: 0.1 }, element));
     }
@@ -271,11 +277,22 @@ export class DockTabs extends React.PureComponent {
             moreIcon = "...";
         }
         this.updateTabs(tabs);
-        let children = [];
-        for (let [id, tab] of this._cache) {
-            children.push(tab.content);
+        let items = [];
+        for (let [id, tabCache] of this._cache) {
+            // Ensure label and content are up to date
+            tabCache.render();
+            const isActive = activeId === id;
+            items.push({
+                key: id,
+                label: tabCache.tabLabel,
+                // Wrap in DockTabPane so it manages portal caching
+                children: (React.createElement(DockTabPane, { cacheId: id, cached: tabCache.cached, active: isActive, animated: animated, prefixCls: "dock" }, tabCache.tabContent)),
+                forceRender: tabCache.cached !== false,
+                closable: tabCache.data.closable,
+                disabled: false,
+            });
         }
-        return (React.createElement(Tabs, { prefixCls: "dock", moreIcon: moreIcon, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange, popupClassName: classNames(groupClassNames(group)) }, children));
+        return (React.createElement(Tabs, { prefixCls: "dock", more: { icon: moreIcon }, animated: animated, renderTabBar: this.renderTabBar, activeKey: activeId, onChange: this.onTabChange, popupClassName: classNames(groupClassNames(group)), items: items }));
     }
 }
 DockTabs.contextType = DockContextType;

@@ -76,56 +76,6 @@ class DockPortalManager extends React.PureComponent {
     }
 }
 export class DockLayout extends DockPortalManager {
-    constructor(props) {
-        var _a;
-        super(props);
-        /** @ignore */
-        this.getRef = (r) => {
-            this._ref = r;
-        };
-        /** @ignore */
-        this.onDragStateChange = (draggingScope) => {
-            if (draggingScope == null) {
-                DockPanel.droppingPanel = null;
-                if (this.state.dropRect) {
-                    this.setState({ dropRect: null });
-                }
-            }
-        };
-        this._onWindowResize = debounce(() => {
-            let layout = this.getLayout();
-            if (this._ref) {
-                let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
-                if (layout !== newLayout) {
-                    newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
-                    this.changeLayout(newLayout, null, 'move');
-                }
-            }
-        }, 200);
-        let { layout, defaultLayout, loadTab } = props;
-        let preparedLayout;
-        if (defaultLayout) {
-            preparedLayout = this.prepareInitData(props.defaultLayout);
-        }
-        else if (!loadTab) {
-            throw new Error('DockLayout.loadTab and DockLayout.defaultLayout should not both be undefined.');
-        }
-        if (layout) {
-            // controlled layout
-            this.state = {
-                layout: DockLayout.loadLayoutData(layout, props),
-                dropRect: null,
-            };
-        }
-        else {
-            this.state = {
-                layout: preparedLayout,
-                dropRect: null,
-            };
-        }
-        DragManager.addDragStateListener(this.onDragStateChange);
-        (_a = globalThis.addEventListener) === null || _a === void 0 ? void 0 : _a.call(globalThis, 'resize', this._onWindowResize);
-    }
     /** @ignore */
     getRootElement() {
         return this._ref;
@@ -305,6 +255,56 @@ export class DockLayout extends DockPortalManager {
         if (targetTab) {
             targetTab.focus();
         }
+    }
+    constructor(props) {
+        var _a;
+        super(props);
+        /** @ignore */
+        this.getRef = (r) => {
+            this._ref = r;
+        };
+        /** @ignore */
+        this.onDragStateChange = (draggingScope) => {
+            if (draggingScope == null) {
+                DockPanel.droppingPanel = null;
+                if (this.state.dropRect) {
+                    this.setState({ dropRect: null });
+                }
+            }
+        };
+        this._onWindowResize = debounce(() => {
+            let layout = this.getLayout();
+            if (this._ref) {
+                let newLayout = Algorithm.fixFloatPanelPos(layout, this._ref.offsetWidth, this._ref.offsetHeight);
+                if (layout !== newLayout) {
+                    newLayout = Algorithm.fixLayoutData(newLayout, this.props.groups); // panel parent might need a fix
+                    this.changeLayout(newLayout, null, 'move');
+                }
+            }
+        }, 200);
+        let { layout, defaultLayout, loadTab } = props;
+        let preparedLayout;
+        if (defaultLayout) {
+            preparedLayout = this.prepareInitData(props.defaultLayout);
+        }
+        else if (!loadTab) {
+            throw new Error('DockLayout.loadTab and DockLayout.defaultLayout should not both be undefined.');
+        }
+        if (layout) {
+            // controlled layout
+            this.state = {
+                layout: DockLayout.loadLayoutData(layout, props),
+                dropRect: null,
+            };
+        }
+        else {
+            this.state = {
+                layout: preparedLayout,
+                dropRect: null,
+            };
+        }
+        DragManager.addDragStateListener(this.onDragStateChange);
+        (_a = globalThis.addEventListener) === null || _a === void 0 ? void 0 : _a.call(globalThis, 'resize', this._onWindowResize);
     }
     /** @ignore */
     useEdgeDrop() {

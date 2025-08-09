@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DockContext, TabPaneCache } from "./DockData";
-import { TabPaneProps } from "rc-tabs";
+import { TabPaneProps } from "@rc-component/tabs/lib/TabPanelList/TabPane";
 interface DockTabPaneProps extends TabPaneProps {
     cacheId?: string;
     cached: boolean;

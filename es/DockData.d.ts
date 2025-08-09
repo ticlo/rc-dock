@@ -83,12 +83,13 @@ interface DockDataBase {
     minWidth?: number;
     minHeight?: number;
 }
-export declare type DockMode = 'horizontal' | 'vertical' | 'float' | 'window' | 'maximize';
+export type DockMode = 'horizontal' | 'vertical' | 'float' | 'window' | 'maximize';
 export interface TabBase {
     /**
      * id must be unique
      */
     id?: string;
+    [key: string]: unknown;
 }
 export interface PanelBase {
     /**
@@ -242,7 +243,7 @@ export interface LayoutData extends LayoutBase {
      */
     loadedFrom?: LayoutBase;
 }
-export declare type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
+export type DropDirection = 'left' | 'right' | 'bottom' | 'top' | 'middle' | 'remove' | 'before-tab' | 'after-tab' | 'float' | 'front' | 'maximize' | 'new-window' | 'move' | 'active' | 'update';
 export interface FloatSize {
     width: number;
     height: number;
@@ -251,7 +252,7 @@ export interface FloatPosition extends FloatSize {
     left: number;
     top: number;
 }
-export declare type LayoutSize = FloatSize;
+export type LayoutSize = FloatSize;
 export interface DockContext {
     /** @ignore */
     getDockId(): any;

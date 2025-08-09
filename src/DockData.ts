@@ -107,6 +107,8 @@ export interface TabBase {
    * id must be unique
    */
   id?: string;
+
+  [key:string]: unknown;
 }
 
 export interface PanelBase {

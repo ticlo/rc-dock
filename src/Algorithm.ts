@@ -180,7 +180,7 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
 
   let tabs: TabData[];
   let activeId: string;
-  if ('tabs' in source) {
+  if (isPanelData(source)) {
     // source is PanelData
     tabs = source.tabs;
     activeId = source.activeId;
@@ -206,7 +206,7 @@ export function addTabToPanel(layout: LayoutData, source: TabData | PanelData, p
 }
 
 export function converToPanel(source: TabData | PanelData): PanelData {
-  if ('tabs' in source) {
+  if (isPanelData(source)) {
     // source is already PanelData
     return source;
   } else {
@@ -349,7 +349,7 @@ export function removeFromLayout(layout: LayoutData, source: TabData | PanelData
   if (source) {
     let panelData: PanelData;
     if ('tabs' in source) {
-      panelData = source;
+  panelData = (source as PanelData);
       layout = removePanel(layout, panelData);
     } else {
       panelData = source.parent;
@@ -408,7 +408,7 @@ export function moveToFront(layout: LayoutData, source: TabData | PanelData): La
     let panelData: PanelData;
     let needUpdate = false;
     let changes: any = {};
-    if ('tabs' in source) {
+    if (isPanelData(source)) {
       panelData = source;
     } else {
       panelData = source.parent;
@@ -436,7 +436,7 @@ export function moveToFront(layout: LayoutData, source: TabData | PanelData): La
 // maximize or restore the panel
 export function maximize(layout: LayoutData, source: TabData | PanelData): LayoutData {
   if (source) {
-    if ('tabs' in source) {
+    if (isPanelData(source)) {
       if (source.parent.mode === 'maximize') {
         return restorePanel(layout, source);
       } else {
@@ -447,6 +447,11 @@ export function maximize(layout: LayoutData, source: TabData | PanelData): Layou
     }
   }
   return layout;
+}
+
+// Type guard: reliably narrow to PanelData since TabData has an index signature
+function isPanelData(x: TabData | PanelData): x is PanelData {
+  return Array.isArray((x as any).tabs);
 }
 
 function maximizePanel(layout: LayoutData, panel: PanelData): LayoutData {

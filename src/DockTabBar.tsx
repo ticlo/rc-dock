@@ -1,7 +1,7 @@
 import * as React from "react";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import * as DragManager from "./dragdrop/DragManager";
-import type {TabNavListProps} from "rc-tabs/lib/TabNavList";
+import type {TabNavListProps} from "@rc-component/tabs/lib/TabNavList";
 import {DockContextType} from "./DockData";
 
 /**

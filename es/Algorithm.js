@@ -151,7 +151,7 @@ export function addTabToPanel(layout, source, panel, idx = -1) {
     }
     let tabs;
     let activeId;
-    if ('tabs' in source) {
+    if (isPanelData(source)) {
         // source is PanelData
         tabs = source.tabs;
         activeId = source.activeId;
@@ -175,7 +175,7 @@ export function addTabToPanel(layout, source, panel, idx = -1) {
     return layout;
 }
 export function converToPanel(source) {
-    if ('tabs' in source) {
+    if (isPanelData(source)) {
         // source is already PanelData
         return source;
     }
@@ -366,7 +366,7 @@ export function moveToFront(layout, source) {
         let panelData;
         let needUpdate = false;
         let changes = {};
-        if ('tabs' in source) {
+        if (isPanelData(source)) {
             panelData = source;
         }
         else {
@@ -394,7 +394,7 @@ export function moveToFront(layout, source) {
 // maximize or restore the panel
 export function maximize(layout, source) {
     if (source) {
-        if ('tabs' in source) {
+        if (isPanelData(source)) {
             if (source.parent.mode === 'maximize') {
                 return restorePanel(layout, source);
             }
@@ -407,6 +407,10 @@ export function maximize(layout, source) {
         }
     }
     return layout;
+}
+// Type guard: reliably narrow to PanelData since TabData has an index signature
+function isPanelData(x) {
+    return Array.isArray(x.tabs);
 }
 function maximizePanel(layout, panel) {
     let maxbox = layout.maxbox;

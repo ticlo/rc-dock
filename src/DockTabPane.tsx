@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import {DockContext, DockContextType, TabPaneCache} from "./DockData";
-import {TabPaneProps} from "rc-tabs";
+import {TabPaneProps} from "@rc-component/tabs/lib/TabPanelList/TabPane";
 
 interface DockTabPaneProps extends TabPaneProps {
 
@@ -52,15 +52,13 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
       id,
       active,
       animated,
-      destroyInactiveTabPane,
+      // destroyInactiveTabPane, // Not in @rc-component/tabs TabPaneProps
       tabKey,
       children,
     } = this.props;
     if (active) {
       this.visited = true;
-    } else if (destroyInactiveTabPane) {
-      this.visited = false;
-    }
+    } // Removed destroyInactiveTabPane check
     const mergedStyle: React.CSSProperties = {};
     if (!active) {
       if (animated) {

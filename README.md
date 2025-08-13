@@ -76,7 +76,7 @@ a box is the layout element that contains other boxes or panels
 | children | (BoxData &#x7c; PanelData)[] | children boxes or panels | **required** |
 
 ### PanelData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.paneldata.html)
-a panel is a visiaul container with tabs button in the title bar
+a panel is a visual container with tabs button in the title bar
 
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |

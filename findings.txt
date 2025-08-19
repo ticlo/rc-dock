@@ -1,0 +1,6 @@
+layout crashed when using controlled and cache together and open 8 tabs and drag tab from left to right quickly and repeat for few times..
+https://github.com/ticlo/rc-dock/issues/198
+claimed to be fixed with cached and debounce (TBC)
+
+
+

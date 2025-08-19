@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createRoot } from "react-dom/client";
+import {createRoot} from "react-dom/client";
 import {htmlTab, jsxTab} from "./prism-tabs";
 import {DockLayout, DragDropDiv, DragState} from '../src';
 
@@ -34,7 +34,7 @@ class Demo extends React.Component {
   newTabId = 0;
   dockLayout: DockLayout;
   buttonRef: DragDropDiv;
-  
+
   getRef = (r: DockLayout) => {
     this.dockLayout = r;
   };
@@ -43,7 +43,6 @@ class Demo extends React.Component {
   }
 
   onDragStart = (e: DragState) => {
-    console.log(this.dockLayout, this.buttonRef)
     e.setData({
       tab: {...tab, id: `newTab-${++this.newTabId}`},
       panelSize: [400, 300]
@@ -55,7 +54,7 @@ class Demo extends React.Component {
     return (
       <div>
         <DockLayout ref={this.getRef} defaultLayout={box}
-                    style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}}/>
+          style={{position: 'absolute', left: 10, top: 60, right: 10, bottom: 10}} />
         <div className='top-panel'>
           <DragDropDiv ref={this.getButtonRef} onDragStartT={this.onDragStart}>
             <button className='btn'>
@@ -68,4 +67,4 @@ class Demo extends React.Component {
   }
 }
 
-createRoot(document.getElementById("app")).render(<React.StrictMode><Demo/></React.StrictMode>);
+createRoot(document.getElementById("app")).render(<React.StrictMode><Demo /></React.StrictMode>);

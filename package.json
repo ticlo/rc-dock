@@ -29,12 +29,20 @@
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.1",
+    "@mui/styled-engine-sc": "^7.3.1",
+    "@mui/x-data-grid": "^8.10.1",
     "classnames": "^2.5.1",
+    "dependency-tree": "^11.2.0",
     "lodash": "^4.17.21",
     "rc-dropdown": "~4.0.1",
     "rc-menu": "~9.8.4",
     "rc-new-window": "^0.1.13",
-    "rc-tabs": "~11.16.1"
+    "rc-tabs": "~11.16.1",
+    "styled-components": "^6.1.19",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",

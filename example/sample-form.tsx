@@ -33,9 +33,6 @@ const SampleForm: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <FormHelperText id="email-helper-text">
-          We'll never share your email.
-        </FormHelperText>
       </FormControl>
 
       <FormControl fullWidth margin="normal">
@@ -84,10 +81,6 @@ const SampleForm: React.FC = () => {
           renderInput={(params) => <TextField {...params} label="Movie" />}
         />
       </FormControl>
-
-      <Button type="submit" variant="contained" color="primary">
-        Submit
-      </Button>
     </form>
   );
 };

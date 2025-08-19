@@ -25,12 +25,9 @@ const EmployeeTable: React.FC = () => {
     const loadEmployees = async () => {
       const data = await fetchEmployees(); // Await the fetchEmployees call
       setEmployees(data);
-      console.log(data.map((employee) => employee.name)); // Log the employee names
     };
 
-    console.time('Function Execution Time');
     loadEmployees(); // Call the function to load employees
-    console.timeEnd('Function Execution Time');
   }, []);
 
   return (
@@ -66,6 +63,5 @@ const EmployeeTable: React.FC = () => {
     </div>
   );
 };
-
 
 export default EmployeeTable;

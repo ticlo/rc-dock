@@ -24,7 +24,6 @@ let layout: LayoutData = {
               title: 'Sample Form ',
               cached: true,
               content: (
-                // <SampleForm />
                 <React.Suspense fallback={<LoadingComponent />}>
                   <SampleForm />
                 </React.Suspense>
@@ -45,7 +44,6 @@ let layout: LayoutData = {
                       title: 'Sample Form inner ',
                       cached: true,
                       content: (
-                        // <SampleForm />
                         <React.Suspense fallback={<LoadingComponent />}>
                           <SampleForm />
                         </React.Suspense>
@@ -137,4 +135,3 @@ class Demo extends React.Component {
 }
 
 createRoot(document.getElementById("app")!).render(<Demo />);
-// createRoot(document.getElementById("app")!).render(<React.StrictMode><Demo /></React.StrictMode>);

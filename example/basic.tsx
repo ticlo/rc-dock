@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {createRoot} from "react-dom/client";
-import {jsxTab, htmlTab} from './prism-tabs';
 import {DockLayout, LayoutData} from '../src';
 import LoadingComponent from './loading';
+import LayeredContainers from './poc/SampleNestedComponent';
 
 // Lazy load the components
 const SampleForm = React.lazy(() => import('./sample-form'));
-const EmployeeTable = React.lazy(() => import('./employee-table'));
+// const EmployeeTable = React.lazy(() => import('./employee-table'));
 const DataTable = React.lazy(() => import('./sample-table'));
 
 let layout: LayoutData = {
@@ -31,62 +31,6 @@ let layout: LayoutData = {
             },
             ],
           },
-          {
-            mode: 'horizontal',
-            children: [
-              {
-                mode: 'vertical',
-                size: 20,
-                children: [
-                  {
-                    tabs: [{
-                      id: 't3 innner',
-                      title: 'Sample Form inner ',
-                      cached: true,
-                      content: (
-                        <React.Suspense fallback={<LoadingComponent />}>
-                          <SampleForm />
-                        </React.Suspense>
-                      )
-                    },
-                    ],
-                  },
-
-                ]
-              },
-              {
-                size: 500,
-                mode: "vertical",
-                children: [
-                  {
-                    tabs: [{
-                      id: 'employeTableTab1 inner',
-                      cached: true,
-                      title: 'employeTableTab1 inner',
-                      closable: true,
-                      content:
-                        <React.Suspense fallback={<LoadingComponent />}>
-                          <EmployeeTable />
-                        </React.Suspense>
-
-                    }],
-                  },
-                  {
-                    tabs: [{
-                      id: 'sample mui table inner ',
-                      cached: true,
-                      title: 'sample mui table inner',
-                      closable: true,
-                      content:
-                        <React.Suspense fallback={<LoadingComponent />}>
-                          <DataTable />
-                        </React.Suspense>
-                    }]
-                  },
-                ]
-              },
-            ]
-          },
         ]
       },
       {
@@ -102,7 +46,7 @@ let layout: LayoutData = {
               closable: true,
               content:
                 <React.Suspense fallback={<LoadingComponent />}>
-                  <EmployeeTable />
+                  <LayeredContainers />
                 </React.Suspense>
 
             }],

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   FormControl,
-  FormHelperText,
   Input,
   InputLabel,
   Button,
@@ -25,7 +24,7 @@ const SampleForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormControl fullWidth margin="normal">
+      <FormControl   margin="normal">
         <InputLabel htmlFor="email-input">Email address</InputLabel>
         <Input
           id="email-input"
@@ -35,7 +34,7 @@ const SampleForm: React.FC = () => {
         />
       </FormControl>
 
-      <FormControl fullWidth margin="normal">
+      <FormControl   margin="normal">
         <TextField
           id="name-input"
           label="Name"
@@ -45,7 +44,7 @@ const SampleForm: React.FC = () => {
         />
       </FormControl>
 
-      <FormControl fullWidth margin="normal">
+      <FormControl   margin="normal">
         <TextField
           id="age-input"
           label="Age"
@@ -56,7 +55,7 @@ const SampleForm: React.FC = () => {
         />
       </FormControl>
 
-      <FormControl fullWidth margin="normal">
+      <FormControl   margin="normal">
         <InputLabel id="gender-label">Gender</InputLabel>
         <Select
           labelId="gender-label"
@@ -73,7 +72,7 @@ const SampleForm: React.FC = () => {
         </Select>
       </FormControl>
 
-      <FormControl fullWidth margin="normal">
+      <FormControl   margin="normal">
         <Autocomplete
           disablePortal
           options={top100Films}

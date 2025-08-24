@@ -17,5 +17,8 @@ build
 /temp*
 /www
 /yarn-error.log
+/.pnpm-debug.log
 /.parcel-cache
 /example/www
+/es
+/lib

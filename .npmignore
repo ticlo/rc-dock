@@ -26,5 +26,7 @@ build
 /.vscode
 /yarn.lock
 /yarn-error.log
+/.pnpm-debug.log
+/pnpm-lock.yaml
 /.parcel-cache
 /typedoc.json

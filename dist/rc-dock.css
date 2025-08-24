@@ -131,6 +131,9 @@ body > .dragging-layer > div:last-child {
   animation-name: dock-fadeOut;
   animation-duration: 0.5s;
 }
+.dock-tabpane-hidden {
+  display: none;
+}
 @keyframes dock-fadeOut {
   from {
     height: 100%;

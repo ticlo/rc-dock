@@ -30,3 +30,4 @@ build
 /pnpm-lock.yaml
 /.parcel-cache
 /typedoc.json
+/nul

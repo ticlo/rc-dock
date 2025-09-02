@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="./prism-coy.css">
+  <title>panel-style.html</title>
+  <style>body{margin:0;padding:16px;box-sizing:border-box}</style>
+  </head>
+<body>
+<pre class="language-html"><code class="language-html"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>rc-dock<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://fonts.googleapis.com/css?family=Fredoka+One<span class="token punctuation">"</span></span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">crossorigin</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>anonymous<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./style.less<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span>
+
+    .github-icon {
+      padding-left: 16px;
+    }
+
+    .github-icon:before {
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      content: url("https://avatars2.githubusercontent.com/u/20446550?s=20");
+    }
+
+    .dock-panel.dock-style-custom {
+      border: 1px solid #d88;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .dock-panel.dock-style-custom .dock-tab {
+      margin-right: 0;
+      border: 1px solid #d88;
+      background: #d88;
+      color: #fff;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .dock-panel.dock-style-custom .dock-tab.dock-tab-active {
+      background: #fff;
+      color: #c33;
+    }
+
+    .dock-panel.dock-style-custom .dock-bar {
+      background: #facccc;
+      border-radius: 7px 7px 0 0;
+      border-bottom: 1px solid #d88;
+    }
+
+    .dock-panel.dock-style-custom .dock-tab-hit-area {
+      /* cover the border area */
+      left: -1px;
+      right: -1px;
+    }
+
+    .dock-panel.dock-style-custom .dock-panel-max-btn, .dock-panel.dock-style-custom .dock-panel-min-btn {
+      opacity: 1;
+    }
+
+    .dock-panel.dock-style-custom .dock-panel-max-btn:before, .dock-panel.dock-style-custom .dock-panel-min-btn:before {
+      border-color: #fff;
+      color: #fff;
+    }
+
+    /* different color for the focused panel */
+    .dock-panel.dock-style-custom:focus-within {
+        border: 1px dashed #f00;
+    }
+
+    /* tab buttons take all the space , and only apply it when it's not in float panel */
+    .dock-layout > :not(.dock-fbox) .dock-panel.dock-style-custom .dock-nav-list {
+        flex-grow: 1;
+    }
+    .dock-layout > :not(.dock-fbox) .dock-panel.dock-style-custom .dock-tab {
+        flex: 1 0 auto;
+    }
+
+    /* global dock layout styles */
+    .dock-layout > .dock-drop-indicator {
+        border: solid 1px red;
+        box-shadow: inset 0 0 10px red;
+        background: none;
+    }
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>height:100%<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./panel-style.tsx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
+</body>
+</html>

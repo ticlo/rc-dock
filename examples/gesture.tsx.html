@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="./prism-coy.css">
+  <title>gesture.tsx</title>
+  <style>body{margin:0;padding:16px;box-sizing:border-box}</style>
+  </head>
+<body>
+<pre class="language-tsx"><code class="language-tsx"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> React <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createRoot <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-dom/client"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>jsxTab<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./prism-tabs"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>DragDropDiv<span class="token punctuation">,</span> GestureState<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../src'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">DemoState</span> <span class="token punctuation">{</span>
+  scale<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  rotate<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  dx<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  dy<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Demo</span> <span class="token keyword">extends</span> <span class="token class-name">React</span><span class="token punctuation">.</span>PureComponent<span class="token operator">&lt;</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> DemoState<span class="token operator">></span> <span class="token punctuation">{</span>
+  state<span class="token operator">:</span> DemoState <span class="token operator">=</span> <span class="token punctuation">{</span>scale<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> rotate<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> dx<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> dy<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  _ref<span class="token operator">:</span> HTMLElement<span class="token punctuation">;</span>
+  
+  <span class="token function-variable function">getRef</span> <span class="token operator">=</span> <span class="token punctuation">(</span>r<span class="token operator">:</span> HTMLElement<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>_ref <span class="token operator">=</span> r<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token function-variable function">onGestureStart</span> <span class="token operator">=</span> <span class="token punctuation">(</span>e<span class="token operator">:</span> GestureState<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token function-variable function">onGestureMove</span> <span class="token operator">=</span> <span class="token punctuation">(</span>e<span class="token operator">:</span> GestureState<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> <span class="token punctuation">{</span>scale<span class="token punctuation">,</span> rotate<span class="token punctuation">,</span> dx<span class="token punctuation">,</span> dy<span class="token punctuation">}</span> <span class="token operator">=</span> e<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>scale<span class="token punctuation">,</span> rotate<span class="token punctuation">,</span> dx<span class="token punctuation">,</span> dy<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> <span class="token punctuation">{</span>scale<span class="token punctuation">,</span> rotate<span class="token punctuation">,</span> dx<span class="token punctuation">,</span> dy<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">DragDropDiv</span></span> <span class="token attr-name">onGestureStartT</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>onGestureStart<span class="token punctuation">}</span></span> <span class="token attr-name">onGestureMoveT</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>onGestureMove<span class="token punctuation">}</span></span><span class="token punctuation">/></span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>sidebox<span class="token punctuation">'</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+          scale: </span><span class="token punctuation">{</span>scale<span class="token punctuation">}</span><span class="token plain-text"> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span><span class="token plain-text">
+          rotate: </span><span class="token punctuation">{</span>rotate<span class="token punctuation">}</span><span class="token plain-text"> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span><span class="token plain-text">
+          dx: </span><span class="token punctuation">{</span>dx<span class="token punctuation">}</span><span class="token plain-text"> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span><span class="token plain-text">
+          dy: </span><span class="token punctuation">{</span>dy<span class="token punctuation">}</span><span class="token plain-text"> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">
+        </span><span class="token punctuation">{</span>jsxTab<span class="token punctuation">.</span>content<span class="token punctuation">}</span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">createRoot</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"app"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">React.StrictMode</span></span><span class="token punctuation">></span></span><span class="token plain-text">&lt;Demo/></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">React.StrictMode</span></span><span class="token punctuation">></span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</body>
+</html>

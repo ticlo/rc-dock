@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {htmlTab, jsxTab} from "./prism-tabs";
+import {htmlTab, tsxTab} from "./prism-tabs";
 import {DockLayout, LayoutBase, TabBase, TabData, DropDirection} from '../src';
 
 let tab0 = {
@@ -22,7 +22,7 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{id: 't0'}, htmlTab, jsxTab],
+            tabs: [{id: 't0'}, htmlTab, tsxTab],
           },
           {
             tabs: [{id: 'protect1'}, {id: 't4'}, {id: 't5'}, {id: 't6'}],
@@ -57,8 +57,8 @@ class Demo extends React.Component<{}, DemoState> {
             This is done in the onLayoutChange callback
           </div>
         };
-      case jsxTab.id:
-        return jsxTab;
+      case tsxTab.id:
+        return tsxTab;
       case htmlTab.id:
         return htmlTab;
     }

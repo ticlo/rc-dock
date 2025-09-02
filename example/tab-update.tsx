@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {htmlTab, jsxTab} from "./prism-tabs";
+import {htmlTab, tsxTab} from "./prism-tabs";
 import {DockLayout} from '../src';
 
 const Context = React.createContext<number>(0);
@@ -31,7 +31,7 @@ class Demo extends React.Component<{}, DemoState> {
                 </div>
               )
             },
-            jsxTab,
+            tsxTab,
             htmlTab],
         },
         {

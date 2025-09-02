@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {htmlTab, jsxTab} from "./prism-tabs";
+import {htmlTab, tsxTab} from "./prism-tabs";
 import {DockLayout} from '../src';
 
 let cachedTab = {
@@ -43,7 +43,7 @@ let box = {
     mode: 'vertical',
     children: [
       {
-        tabs: [{...cachedTab, id: 'cache1'}, {...cachedTab, id: 'cache2'}, jsxTab, htmlTab],
+        tabs: [{...cachedTab, id: 'cache1'}, {...cachedTab, id: 'cache2'}, tsxTab, htmlTab],
       },
       {
         tabs: [{...nocachedTab, id: 'nocache1'}, {...nocachedTab, id: 'nocache2'}],

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {jsxTab, htmlTab} from './prism-tabs';
+import {tsxTab, htmlTab} from './prism-tabs';
 import {DockLayout} from '../src';
 
 function getTab(width: number, height: number) {
@@ -33,7 +33,7 @@ let box = {
           {
             tabs: [getTab(300, 100), getTab(100, 100)],
           },
-          jsxTab,
+          tsxTab,
           htmlTab
         ]
       },

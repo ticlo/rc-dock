@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {htmlTab, jsxTab} from "./prism-tabs";
+import {htmlTab, tsxTab} from "./prism-tabs";
 import {DockLayout, LayoutBase} from '../src';
 
 let tab1 = {id: 't1', title: 'Tab 1', content: <div>Tab 1</div>};
@@ -19,7 +19,7 @@ let defaultLayout = {
         mode: 'vertical',
         children: [
           {
-            tabs: [tab1, jsxTab, htmlTab],
+            tabs: [tab1, tsxTab, htmlTab],
           },
           {
             tabs: [tab2, tab3, tab4],
@@ -37,7 +37,7 @@ let panelLayout = {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{id: 't1'}, {id: 't2'}, {id: 't3'}, {id: 't4'}, {id: 't5'}, {id: 't6'}, {id: 'jsxTab'}, {id: 'htmlTab'}],
+        tabs: [{id: 't1'}, {id: 't2'}, {id: 't3'}, {id: 't4'}, {id: 't5'}, {id: 't6'}, {id: 'tsxTab'}, {id: 'htmlTab'}],
       },
     ]
   }
@@ -46,7 +46,7 @@ let horizontalLayout = {
   dockbox: {
     mode: 'horizontal',
     children: [
-      {tabs: [{id: 't1'}, {id: 'jsxTab'}, {id: 'htmlTab'}]},
+      {tabs: [{id: 't1'}, {id: 'tsxTab'}, {id: 'htmlTab'}]},
       {tabs: [{id: 't2'}]},
       {tabs: [{id: 't3'}]},
       {tabs: [{id: 't4'}]},

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {htmlTab, jsxTab} from "./prism-tabs";
+import {htmlTab, tsxTab} from "./prism-tabs";
 import {DockLayout, DockContextType, PanelData, DockContext} from '../src';
 
 let groups = {
@@ -69,7 +69,7 @@ let box = {
         size: 500,
         children: [
           {
-            tabs: [{...tab, id: 't1'}, {...jsxTab, group: 'close-all'}, {...htmlTab, group: 'close-all'}],
+            tabs: [{...tab, id: 't1'}, {...tsxTab, group: 'close-all'}, {...htmlTab, group: 'close-all'}],
           },
           {
             tabs: [newTab(), newTab()],

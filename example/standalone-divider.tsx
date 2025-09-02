@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {jsxTab} from "./prism-tabs";
+import {tsxTab} from "./prism-tabs";
 import {Divider} from '../src';
 
 interface DemoState {
@@ -54,7 +54,7 @@ class Demo extends React.Component<{}, DemoState> {
           <div style={{width: sizes[2]}}/>
         </div>
         Dragging with shift key to resize all children, otherwise only 2 children are affected
-        {jsxTab.content}
+        {tsxTab.content}
       </div>
     );
   }

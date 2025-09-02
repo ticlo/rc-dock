@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {jsxTab, htmlTab} from './prism-tabs';
+import {tsxTab, htmlTab} from './prism-tabs';
 import {DockLayout, DockContextType} from '../src';
 
 
@@ -17,7 +17,7 @@ let layout: any = {
     mode: 'horizontal',
     children: [
       {
-        tabs: [{id: 't1', title: 'Dock', content: <div>Dock Content</div>}, jsxTab, htmlTab],
+        tabs: [{id: 't1', title: 'Dock', content: <div>Dock Content</div>}, tsxTab, htmlTab],
       }
     ]
   },

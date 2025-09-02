@@ -3,11 +3,11 @@ import * as React from "react";
 let name = window.location.pathname.split('/').pop();
 name = name.substr(0, name.length - 5);
 
-export const jsxTab = {
-  id: 'jsxTab',
-  title: 'jsx',
+export const tsxTab = {
+  id: 'tsxTab',
+  title: 'tsx',
   closable: true,
-  content: <iframe src={`./${name}.jsx.html`}/>
+  content: <iframe src={`./${name}.tsx.html`}/>
 };
 
 

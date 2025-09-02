@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {htmlTab, jsxTab} from "./prism-tabs";
+import {htmlTab, tsxTab} from "./prism-tabs";
 import {DockLayout, TabBase, TabData, PanelBase, PanelData, LayoutBase} from '../src';
 
 let groups = {
@@ -66,7 +66,7 @@ class Demo extends React.Component<{}, DemoState> {
         {
           id: 'main-panel',
           size: 400,
-          tabs: [{id: 'tab0'}, {id: 'jsxTab'}, {id: 'htmlTab'}],
+          tabs: [{id: 'tab0'}, {id: 'tsxTab'}, {id: 'htmlTab'}],
           panelLock: {
             panelStyle: 'main'
           }
@@ -92,8 +92,8 @@ class Demo extends React.Component<{}, DemoState> {
     switch (id) {
       case 'tab0':
         return tab0;
-      case 'jsxTab':
-        return jsxTab;
+      case 'tsxTab':
+        return tsxTab;
       case 'htmlTab':
         return htmlTab;
       default:

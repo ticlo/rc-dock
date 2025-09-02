@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {jsxTab, htmlTab} from './prism-tabs';
+import {tsxTab, htmlTab} from './prism-tabs';
 import {DockLayout, DividerBox} from '../src';
 
 let layoutLeft = {
@@ -28,7 +28,7 @@ let layoutRight = {
           id: 't3',
           title: 'Dock',
           content: <div>Right Side Dock Layout.</div>
-        }, jsxTab, htmlTab],
+        }, tsxTab, htmlTab],
       }
     ]
   },

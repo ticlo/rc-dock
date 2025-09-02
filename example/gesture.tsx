@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import {jsxTab} from "./prism-tabs";
+import {tsxTab} from "./prism-tabs";
 import {DragDropDiv, GestureState} from '../src';
 
 interface DemoState {
@@ -39,7 +39,7 @@ class Demo extends React.PureComponent<{}, DemoState> {
           dx: {dx} <br/>
           dy: {dy} <br/>
         </div>
-        {jsxTab.content}
+        {tsxTab.content}
       </div>
     );
   }

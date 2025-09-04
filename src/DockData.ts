@@ -37,10 +37,10 @@ export interface TabGroup {
    * default false
    */
   tabLocked?: boolean;
+
   /**
+   * @deprecated no longer supported
    * Whether to show animation effect when switch tabs.
-   *
-   * default true
    */
   animated?: boolean;
 
@@ -208,9 +208,8 @@ export interface TabData extends TabBase, DockDataBase {
 
 
   /**
-   * - when value is true: content will always reuse the react component thus allows the component to keep its internal state
-   * - when value is false: content will be destroyed when it's not visible, [[TabGroup.animated]] should be set to false, otherwise animation would show blank pages
-   * - when value is undefined: content is rendered normally as react component
+   * - when value is true (default): content will always reuse the react component thus allows the component to keep its internal state
+   * - when value is false: content will be destroyed when it's not visible
    */
   cached?: boolean;
   /**

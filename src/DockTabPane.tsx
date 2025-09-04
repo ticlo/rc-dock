@@ -51,7 +51,6 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
       style,
       id,
       active,
-      animated,
       // destroyInactiveTabPane, // Not in @rc-component/tabs TabPaneProps
       tabKey,
       children,
@@ -61,13 +60,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     } // Removed destroyInactiveTabPane check
     const mergedStyle: React.CSSProperties = {};
     if (!active) {
-      if (animated) {
-        mergedStyle.visibility = 'hidden';
-        mergedStyle.height = 0;
-        mergedStyle.overflowY = 'hidden';
-      } else {
-        mergedStyle.display = 'none';
-      }
+      mergedStyle.display = 'none';
     }
 
 

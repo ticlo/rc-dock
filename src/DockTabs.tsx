@@ -177,7 +177,7 @@ export class TabCache {
     // Store the tab label and content for use in items array
     this.tabLabel = tab;
     this.tabContent = content;
-    this.cached = cached;
+    this.cached = cached ?? true;
 
     return null; // We don't return JSX here anymore
   }
@@ -334,10 +334,7 @@ export class DockTabs extends React.PureComponent<Props> {
   render(): React.ReactNode {
     let {group, tabs, activeId} = this.props.panelData;
     let tabGroup = this.context.getGroup(group);
-    let {animated, moreIcon} = tabGroup;
-    if (animated == null) {
-      animated = true;
-    }
+    let {moreIcon} = tabGroup;
     if (!moreIcon) {
       moreIcon = "...";
     }
@@ -358,7 +355,6 @@ export class DockTabs extends React.PureComponent<Props> {
             cacheId={id}
             cached={tabCache.cached}
             active={isActive}
-            animated={animated}
             prefixCls="dock"
           >
             {tabCache.tabContent}
@@ -373,7 +369,6 @@ export class DockTabs extends React.PureComponent<Props> {
     return (
       <Tabs prefixCls="dock"
             more={{icon: moreIcon}}
-            animated={animated}
             renderTabBar={this.renderTabBar}
             activeKey={activeId}
             onChange={this.onTabChange}

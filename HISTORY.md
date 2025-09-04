@@ -1,5 +1,9 @@
-# History
-----
+## 4.0.0
+
+- migrate to pnpm
+- migrate to @rc-component packages
+- deprecated animated property in Tab
+- make Tab cached property default to true
 
 ## 3.2.18 / 2023-06-08
 - fix the issue that sometimes dock icons are shown and no UI response after switching tabs quickly

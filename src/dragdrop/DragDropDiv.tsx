@@ -391,3 +391,8 @@ export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
     this.cancel();
   }
 }
+
+/**
+ * Forwarded ref DragDropDiv
+ */
+export const DragDrop = React.forwardRef<HTMLDivElement, DragDropDivProps>((props, ref) => <DragDropDiv {...props} getRef={ref} />);

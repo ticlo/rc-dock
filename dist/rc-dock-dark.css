@@ -29,6 +29,9 @@ body > .dragging-layer > div:last-child {
   left: 12px;
   top: 12px;
 }
+body > .dragging-layer.dragging-layer-touch > div:last-child {
+  transform: translateY(-60px);
+}
 .drag-initiator {
   user-select: none;
   -webkit-user-select: none;

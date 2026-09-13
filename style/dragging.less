@@ -31,7 +31,11 @@ body > .dragging-layer {
     position: absolute;
     left: 12px;
     top: 12px;
+  }
 
+  &.dragging-layer-touch > div:last-child {
+    // Keep status icons above the finger, including icons with a custom top offset.
+    transform: translateY(-60px);
   }
 }
 

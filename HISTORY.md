@@ -1,3 +1,7 @@
+## 4.0.3
+
+- Move accept and reject icons above the finger during touch dragging while preserving drag preview and drop target positions.
+
 ## 4.0.2
 
 - Restore panel content sizing and hide inactive tab content with the updated @rc-component/tabs markup, including cached tabs and floating or maximized panels.

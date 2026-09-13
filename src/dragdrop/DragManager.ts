@@ -243,13 +243,15 @@ export function removeHandlers(element: HTMLElement) {
 let _draggingDiv: HTMLDivElement;
 let _draggingIcon: HTMLDivElement;
 
-function _createDraggingDiv(doc: Document) {
+function _createDraggingDiv(doc: Document, dragType: DragType) {
   _draggingDiv = doc.createElement('div');
   _draggingIcon = doc.createElement('div');
 
   const tabGroup = (_data && 'tabGroup' in _data ? _data['tabGroup'] : undefined) as string | undefined;
 
-  _draggingDiv.className = classNames(groupClassNames(tabGroup), 'dragging-layer');
+  _draggingDiv.className = classNames(groupClassNames(tabGroup), 'dragging-layer', {
+    'dragging-layer-touch': dragType === 'touch',
+  });
 
   _draggingDiv.appendChild(document.createElement('div')); // place holder for dragging element
   _draggingDiv.appendChild(_draggingIcon);
@@ -262,7 +264,7 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
     refElement.classList.add('dragging');
     _refElement = refElement;
   }
-  _createDraggingDiv(state.component.ownerDocument);
+  _createDraggingDiv(state.component.ownerDocument, state.dragType);
   if (options?.opacity !== undefined) {
     _draggingDiv.style.opacity = String(options.opacity);
   }

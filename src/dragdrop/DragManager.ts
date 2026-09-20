@@ -3,6 +3,11 @@ import {groupClassNames} from "../Utils";
 
 export type DragType = 'left' | 'right' | 'touch';
 
+export interface DragOptions {
+  /** Opacity of the entire dragging layer, from 0 to 1. Defaults to the stylesheet value. */
+  opacity?: number;
+}
+
 interface DragDropComponent {
   element: HTMLElement;
   ownerDocument: Document;
@@ -60,8 +65,9 @@ export class DragState {
   /**
    * @param refElement, the element being moved
    * @param draggingHtml, the element show in the dragging layer
+   * @param options, appearance options for the dragging layer
    */
-  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string) {
+  startDrag(refElement?: HTMLElement, draggingHtml?: HTMLElement | string, options?: DragOptions) {
     if (!this._init) {
       throw new Error('startDrag can only be used in onDragStart callback');
     }
@@ -69,7 +75,7 @@ export class DragState {
       refElement = this.component.element;
     }
 
-    createDraggingElement(this, refElement, draggingHtml);
+    createDraggingElement(this, refElement, draggingHtml, options);
     this.component.ownerDocument.body.classList.add('dock-dragging');
   }
 
@@ -250,13 +256,16 @@ function _createDraggingDiv(doc: Document) {
 }
 
 
-function createDraggingElement(state: DragState, refElement: HTMLElement, draggingHtml?: HTMLElement | string) {
+function createDraggingElement(state: DragState, refElement: HTMLElement, draggingHtml?: HTMLElement | string, options?: DragOptions) {
   _draggingState = state;
   if (refElement) {
     refElement.classList.add('dragging');
     _refElement = refElement;
   }
   _createDraggingDiv(state.component.ownerDocument);
+  if (options?.opacity !== undefined) {
+    _draggingDiv.style.opacity = String(options.opacity);
+  }
   state.component.ownerDocument.body.appendChild(_draggingDiv);
 
   let draggingWidth = 0;

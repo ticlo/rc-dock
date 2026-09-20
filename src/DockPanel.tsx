@@ -4,7 +4,7 @@ import {DockTabs} from "./DockTabs";
 import {DragDropDiv} from "./dragdrop/DragDropDiv";
 import {DragState} from "./dragdrop/DragManager";
 import {DockDropLayer} from "./DockDropLayer";
-import {getFloatPanelSize, nextZIndex} from "./Algorithm";
+import {anchorFloatPanel, getFloatPanelSize, nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";
 import {groupClassNames} from "./Utils";
 import classNames from "classnames";
@@ -85,10 +85,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (parent?.mode === 'float') {
       this._movingX = x;
       this._movingY = y;
+      delete panelData.floatAnchor;
       // hide the panel, but not create drag layer element
       event.setData({panel: panelData, tabGroup: panelData.group}, dockId);
       event.startDrag(null, null);
       this.onFloatPointerDown();
+      this.context.setFloatAnchorRect(panelData);
     } else {
       let tabGroup = this.context.getGroup(panelData.group);
       let [panelWidth, panelHeight] = getFloatPanelSize(this._ref, tabGroup);
@@ -119,6 +121,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
         panelData.x = width - 16;
       }
     }
+    this.context.setFloatAnchorRect(panelData);
     this.forceUpdate();
   };
   onPanelHeaderDragEnd = (e: DragState) => {
@@ -126,6 +129,8 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (e.dropped === false) {
       let {panelData} = this.props;
       if (panelData.parent?.mode === 'float') {
+        let {width, height} = this.context.getLayoutSize();
+        anchorFloatPanel(panelData, width, height);
         // in float mode, the position change needs to be sent to the layout
         this.context.onSilentChange(this.props.panelData.activeId, 'move');
       }
@@ -164,12 +169,14 @@ export class DockPanel extends React.PureComponent<Props, State> {
   onPanelCornerDrag(e: DragState, corner: string) {
     let {parent, x, y, w, h} = this.props.panelData;
     if (parent?.mode === 'float') {
+      delete this.props.panelData.floatAnchor;
       this._movingCorner = corner;
       this._movingX = x;
       this._movingY = y;
       this._movingW = w;
       this._movingH = h;
       e.startDrag(null, null);
+      this.context.setFloatAnchorRect(this.props.panelData);
     }
   }
 
@@ -235,9 +242,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     panelData.w = Math.max(panelData.w || 0, panelData.minWidth || 0);
     panelData.h = Math.max(panelData.h || 0, panelData.minHeight || 0);
 
+    this.context.setFloatAnchorRect(panelData);
     this.forceUpdate();
   };
   onPanelCornerDragEnd = (e: DragState) => {
+    let {width, height} = this.context.getLayoutSize();
+    anchorFloatPanel(this.props.panelData, width, height);
     this.context.onSilentChange(this.props.panelData.activeId, 'move');
   };
 

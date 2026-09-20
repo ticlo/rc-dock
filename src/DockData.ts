@@ -143,6 +143,11 @@ export interface PanelBase {
   w?: number;
   /** float mode only */
   h?: number;
+  /**
+   * Float mode only: gaps to preserve when the layout resizes.
+   * Dragging within 0–32px of the right or bottom edge sets that edge's anchor.
+   */
+  floatAnchor?: {right?: number, bottom?: number};
 
   /**
    * addition information of a panel,
@@ -331,6 +336,9 @@ export interface DockContext {
 
   /** @ignore */
   setDropRect(element: HTMLElement, direction?: DropDirection, source?: any, event?: {clientX: number, clientY: number}, panelSize?: [number, number]): void;
+
+  /** @ignore */
+  setFloatAnchorRect(panel: PanelData): void;
 
   /** @ignore */
   getLayoutSize(): LayoutSize;

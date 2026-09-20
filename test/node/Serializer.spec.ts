@@ -15,10 +15,10 @@ describe('layout persistence (save-layout and adv-save-layout examples)', () => 
 
   it('round-trips floating panel bounds', () => {
     const data = layout();
-    data.floatbox.children.push({id: 'floating', x: 20, y: 30, z: 5, w: 320, h: 240, tabs: [tab('float')]});
+    data.floatbox.children.push({id: 'floating', x: 20, y: 30, z: 5, w: 320, h: 240, floatAnchor: {right: 0, bottom: 32}, tabs: [tab('float')]});
     fixLayoutData(data);
     const restored = fixLayoutData(loadLayoutData(saveLayoutData(data), data));
-    expect(find(restored, 'floating')).toMatchObject({x: 20, y: 30, z: 5, w: 320, h: 240});
+    expect(find(restored, 'floating')).toMatchObject({x: 20, y: 30, z: 5, w: 320, h: 240, floatAnchor: {right: 0, bottom: 32}});
     expect((find(restored, 'float') as TabData).content).toBe((find(data, 'float') as TabData).content);
   });
 

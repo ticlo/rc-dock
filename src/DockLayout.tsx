@@ -105,6 +105,8 @@ interface LayoutState {
   layout: LayoutData;
   /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
+  /** @ignore */
+  floatAnchorRect?: FloatPosition;
 }
 
 class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
@@ -387,23 +389,32 @@ export class DockLayout extends DockPortalManager implements DockContext {
       };
     }
 
-    DragManager.addDragStateListener(this.onDragStateChange);
-    globalThis.addEventListener?.('resize', this._onWindowResize);
   }
 
   /** @ignore */
   onDragStateChange = (draggingScope: any) => {
     if (draggingScope == null) {
       DockPanel.droppingPanel = null;
-      if (this.state.dropRect) {
-        this.setState({dropRect: null});
-      }
+      this.setState({dropRect: null, floatAnchorRect: null});
     }
   };
 
   /** @ignore */
   useEdgeDrop() {
     return this.props.dropMode === 'edge';
+  }
+
+  /** @ignore */
+  setFloatAnchorRect(panel: PanelData) {
+    let candidate = {...panel};
+    let {width, height} = this.getLayoutSize();
+    Algorithm.anchorFloatPanel(candidate, width, height);
+    let floatAnchorRect = candidate.floatAnchor ? {
+      left: panel.x, top: panel.y,
+      width: panel.w + (candidate.floatAnchor.right ?? 0),
+      height: panel.h + (candidate.floatAnchor.bottom ?? 0),
+    } : null;
+    this.setState({floatAnchorRect});
   }
 
   /** @ignore */
@@ -480,8 +491,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
     this.tempLayout = null;
 
     let {style, maximizeTo} = this.props;
-    let {layout, dropRect} = this.state;
-    let dropRectStyle: React.CSSProperties;
+    let {layout, dropRect, floatAnchorRect} = this.state;
+    let dropRectStyle: React.CSSProperties = floatAnchorRect ? {...floatAnchorRect, display: 'block', transition: 'none'} : undefined;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;
       dropRectStyle = {...rect, display: 'block'};
@@ -537,6 +548,8 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
   }, 200);
 
+  _resizeObserver: ResizeObserver;
+
 
   /** @ignore */
   panelToFocus: string;
@@ -544,6 +557,12 @@ export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore */
   componentDidMount() {
     this._isMounted = true;
+    DragManager.addDragStateListener(this.onDragStateChange);
+    globalThis.addEventListener?.('resize', this._onWindowResize);
+    if (typeof ResizeObserver !== 'undefined') {
+      this._resizeObserver = new ResizeObserver(this._onWindowResize);
+      this._resizeObserver.observe(this._ref);
+    }
   }
 
   /** @ignore
@@ -561,6 +580,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   /** @ignore */
   componentWillUnmount(): void {
+    this._resizeObserver?.disconnect();
     globalThis.removeEventListener?.('resize', this._onWindowResize);
     DragManager.removeDragStateListener(this.onDragStateChange);
     this._onWindowResize.cancel();

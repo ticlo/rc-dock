@@ -95,4 +95,30 @@ describe('layout operations (basic, tab-min-size and panel-extra examples)', () 
     expect(data.dockbox.children.map(({id}) => id)).toEqual(['left', 'right']);
     expect(Algorithm.find(data, maximePlaceHolderId)).toBeUndefined();
   });
+
+  it.each([-1, 0, 16, 32, 33])('anchors only gaps from 0 to 32px (gap=%s)', (gap) => {
+    const panel: PanelData = {x: 600 - gap, y: 450 - gap, w: 200, h: 150, tabs: []};
+    Algorithm.anchorFloatPanel(panel, 800, 600);
+    expect(panel.floatAnchor).toEqual(gap >= 0 && gap <= 32 ? {right: gap, bottom: gap} : undefined);
+    panel.x = panel.y = 100;
+    Algorithm.anchorFloatPanel(panel, 800, 600);
+    expect(panel.floatAnchor).toBeUndefined();
+  });
+
+  it('preserves independent edge gaps on resize and keeps the top inside small containers', () => {
+    let data = layout();
+    data.floatbox.children.push(
+      {id: 'right-anchor', x: 580, y: 100, w: 200, h: 150, floatAnchor: {right: 20}, tabs: [tab('r')]},
+      {id: 'bottom-anchor', x: 100, y: 418, w: 200, h: 150, floatAnchor: {bottom: 32}, tabs: [tab('b')]}
+    );
+    Algorithm.fixLayoutData(data);
+    data = Algorithm.fixFloatPanelPos(data, 1000, 700);
+    expect(Algorithm.find(data, 'right-anchor')).toMatchObject({x: 780, y: 100});
+    expect(Algorithm.find(data, 'bottom-anchor')).toMatchObject({x: 100, y: 518});
+    expect(Algorithm.fixFloatPanelPos(data, 1000, 700)).toBe(data);
+    data = Algorithm.fixFloatPanelPos(data, 400, 160);
+    expect(Algorithm.find(data, 'bottom-anchor')).toMatchObject({y: 0, floatAnchor: {bottom: 32}});
+    data = Algorithm.fixFloatPanelPos(data, 1000, 700);
+    expect(Algorithm.find(data, 'bottom-anchor')).toMatchObject({y: 518});
+  });
 });

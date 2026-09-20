@@ -74,6 +74,9 @@ export function saveLayoutData(
     if (panelData.parent.mode === 'float' || panelData.parent.mode === 'window') {
       let {x, y, z, w, h} = panelData;
       savedPanel = {id, size, tabs, group, activeId, panelLock, x, y, z, w, h};
+      if (panelData.floatAnchor) {
+        savedPanel.floatAnchor = {...panelData.floatAnchor};
+      }
     } else {
       savedPanel = {id, size, tabs, group, activeId, panelLock};
     }
@@ -124,7 +127,7 @@ export function loadLayoutData(
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
-    let {id, size, activeId, x, y, z, w, h, group, panelLock} = savedPanel;
+    let {id, size, activeId, x, y, z, w, h, group, panelLock, floatAnchor} = savedPanel;
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
@@ -136,6 +139,7 @@ export function loadLayoutData(
     let panelData: PanelData;
     if (w || h || x || y || z) {
       panelData = {id, size, activeId, group, x, y, z, w, h, tabs, panelLock};
+      panelData.floatAnchor = floatAnchor ? {...floatAnchor} : undefined;
     } else {
       panelData = {id, size, activeId, group, tabs, panelLock};
     }

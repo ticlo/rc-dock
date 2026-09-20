@@ -326,6 +326,7 @@ export function floatPanel(
 ): LayoutData {
   let newBox = clone(layout.floatbox);
   if (rect) {
+    delete newPanel.floatAnchor;
     newPanel.x = rect.left;
     newPanel.y = rect.top;
     newPanel.w = rect.width;
@@ -475,8 +476,8 @@ function restorePanel(layout: LayoutData, panel: PanelData): LayoutData {
   layout = removePanel(layout, panel);
   let placeHolder = find(layout, maximePlaceHolderId) as PanelData;
   if (placeHolder) {
-    let {x, y, z, w, h} = placeHolder;
-    panel = {...panel, x, y, z, w, h};
+    let {x, y, z, w, h, floatAnchor} = placeHolder;
+    panel = {...panel, x, y, z, w, h, floatAnchor};
     return replacePanel(layout, placeHolder, panel);
   } else {
     return dockPanelToBox(layout, panel, layout.dockbox, 'right');
@@ -488,13 +489,33 @@ function maximizeTab(layout: LayoutData, tab: TabData): LayoutData {
   return layout;
 }
 
-// move float panel into the screen
+export function anchorFloatPanel(panel: PanelData, layoutWidth: number, layoutHeight: number): void {
+  let right = layoutWidth - panel.x - panel.w;
+  let bottom = layoutHeight - panel.y - panel.h;
+  let floatAnchor: PanelData['floatAnchor'] = {};
+  if (right >= 0 && right <= 32) {
+    floatAnchor.right = right;
+  }
+  if (bottom >= 0 && bottom <= 32) {
+    floatAnchor.bottom = bottom;
+  }
+  if (Object.keys(floatAnchor).length) {
+    panel.floatAnchor = floatAnchor;
+  } else {
+    delete panel.floatAnchor;
+  }
+}
+
+// move float panel into the screen and preserve anchored edge gaps
 export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layoutHeight?: number): LayoutData {
   let layoutChanged = false;
-  if (layout && layout.floatbox && layoutWidth > 200 && layoutHeight > 200) {
+  if (layout && layout.floatbox && layoutWidth > 0 && layoutHeight > 0) {
     let newFloatChildren = layout.floatbox.children.concat();
     for (let i = 0; i < newFloatChildren.length; ++i) {
       let panel: PanelData = newFloatChildren[i] as PanelData;
+      if ((layoutWidth <= 200 || layoutHeight <= 200) && !panel.floatAnchor) {
+        continue;
+      }
       let panelChange: any = {};
       if (!(panel.w > 0)) {
         panelChange.w = Math.round(layoutWidth / 3);
@@ -506,7 +527,12 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
       } else if (panel.h > layoutHeight) {
         panelChange.h = layoutHeight;
       }
-      if (typeof panel.y !== 'number') {
+      if (panel.floatAnchor?.bottom != null) {
+        let y = Math.max(0, layoutHeight - (panelChange.h ?? panel.h) - panel.floatAnchor.bottom);
+        if (y !== panel.y) {
+          panelChange.y = y;
+        }
+      } else if (typeof panel.y !== 'number') {
         panelChange.y = (layoutHeight -  (panelChange.h || panel.h)) >> 1;
       } else if (panel.y > layoutHeight - 16) {
         panelChange.y = Math.max(layoutHeight - 16 - (panel.h >> 1), 0);
@@ -514,7 +540,12 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
         panelChange.y = 0;
       }
 
-      if (typeof panel.x !== 'number') {
+      if (panel.floatAnchor?.right != null) {
+        let x = layoutWidth - (panelChange.w ?? panel.w) - panel.floatAnchor.right;
+        if (x !== panel.x) {
+          panelChange.x = x;
+        }
+      } else if (typeof panel.x !== 'number') {
         panelChange.x = (layoutWidth - (panelChange.w || panel.w)) >> 1;
       } else if (panel.x + panel.w < 16) {
         panelChange.x = 16 - (panel.w >> 1);

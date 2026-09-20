@@ -24,3 +24,4 @@ build
 /lib
 /nul
 /test/**/__screenshots__/
+/.vitest/

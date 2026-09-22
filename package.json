@@ -35,7 +35,13 @@
     "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www",
     "build-es": "tsc --module es2020 --outDir ./es",
-    "build-lib": "tsc --outDir ./lib"
+    "build-lib": "tsc --outDir ./lib",
+    "test": "vitest run",
+    "test-browser": "vitest run -c vitest.web.config.mts",
+    "test-browser-ui": "vitest -c vitest.web.config.mts --browser.headless=false",
+    "test-coverage": "vitest run --coverage",
+    "test-browser-coverage": "vitest run -c vitest.web.config.mts --coverage",
+    "test-typecheck": "tsc -p tsconfig.test.json"
   },
   "dependencies": {
     "@rc-component/dropdown": "~1.0.3",
@@ -52,13 +58,18 @@
     "@types/classnames": "^2.3.1",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/lodash": "^4.14.178",
-    "@types/node": "^20.11.0",
+    "@types/node": "^26.5.0",
     "@types/prismjs": "^1.16.6",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "@types/shelljs": "^0.8.11",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/browser-playwright": "5.0.0",
+    "@vitest/coverage-istanbul": "5.0.0",
+    "@vitest/coverage-v8": "5.0.0",
     "less": "^4.2.0",
     "node-gyp": "^10.1.0",
+    "playwright": "^1.63.0",
     "prismjs": "^1.26.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -68,7 +79,8 @@
     "tslint-react": "^5.0.0",
     "typedoc": "0.28.10",
     "typescript": "^5.6.2",
-    "vite": "^4.5.14"
+    "vite": "^8.2.2",
+    "vitest": "5.0.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

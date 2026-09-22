@@ -13,6 +13,25 @@
 - **Discord:** [![Discord](https://img.shields.io/discord/434106806503997445.svg?color=7289DA&logo=discord&logoColor=white
 )](https://discord.gg/G7pw9DR)
 
+## Testing
+
+The tests use Vitest 5 and Playwright with Chromium, following Ticlo's Node and browser test setup. Use Node 24 for development.
+
+```sh
+pnpm install
+pnpm exec playwright install chromium
+pnpm test                  # Layout algorithms and serialization
+pnpm test-browser          # React components and drag/drop in Chromium
+pnpm test-browser-ui       # Watch browser tests with a visible browser
+pnpm test-typecheck        # Type-check source, tests and test configuration
+pnpm test-coverage         # Node coverage in coverage/node
+pnpm test-browser-coverage # Browser coverage in coverage/browser
+```
+
+Tests live under `test/node` and `test/browser`, outside the published source build. Browser tests import the Less styles directly and clean up rendered roots and active drags after each test.
+
+Coverage is based on the basic, tab-min-size, standalone-divider, save-layout, controlled-layout, tab-cache, adv-tab-update and drag-new-tab examples, plus drag-preview opacity and cleanup.
+
 ## Usage
 
 [![rc-tabs](https://nodei.co/npm/rc-dock.png)](https://npmjs.org/package/rc-dock)

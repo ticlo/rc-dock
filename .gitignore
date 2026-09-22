@@ -23,3 +23,4 @@ build
 /es
 /lib
 /nul
+/test/**/__screenshots__/

@@ -28,6 +28,15 @@
   "main": "lib/index",
   "module": "es/index",
   "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.d.ts",
+    "es/**/*.js",
+    "es/**/*.d.ts",
+    "dist/*.css",
+    "style/**/*.less",
+    "HISTORY.md"
+  ],
   "scripts": {
     "dev": "vite",
     "build-examples": "vite build",

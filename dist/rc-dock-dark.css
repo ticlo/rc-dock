@@ -202,16 +202,20 @@ body > .dragging-layer > div:last-child {
   width: 100%;
   height: 100%;
 }
+.dock-body,
 .dock-content {
   display: flex;
   width: 100%;
   height: 100%;
 }
-.dock-content-holder {
+.dock-content-hidden {
+  display: none;
+}
+.dock-body-holder {
   flex: auto;
 }
-.dock-top > .dock-content-holder {
-  /* work around for the height issue in content holder*/
+.dock-top > .dock-body-holder {
+  /* Let the tab body fill the remaining panel height. */
   height: 0;
 }
 .dock-content .dock-tabpane {

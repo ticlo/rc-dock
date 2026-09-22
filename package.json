@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "dock layout for react component",
   "keywords": [
     "dock",
@@ -38,9 +38,10 @@
     "HISTORY.md"
   ],
   "scripts": {
+    "prepack": "npm run build-lib && npm run build-es && npm run build-less",
     "dev": "vite",
     "build-examples": "vite build",
-    "build-less": "lessc style/index-light.less dist/rc-dock.css & lessc style/index-dark.less dist/rc-dock-dark.css ",
+    "build-less": "lessc style/index-light.less dist/rc-dock.css && lessc style/index-dark.less dist/rc-dock-dark.css",
     "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www",
     "build-es": "tsc --module es2020 --outDir ./es",

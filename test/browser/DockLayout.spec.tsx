@@ -14,6 +14,57 @@ async function clickTab(container: HTMLElement, id: string) {
 }
 
 describe('DockLayout examples', () => {
+  it.each([false, true])('keeps full-height content usable across panel changes (cached=%s)', async (cached) => {
+    let dock: DockLayout;
+    const data = layout();
+    const panel = data.dockbox.children[0] as PanelData;
+    panel.tabs = panel.tabs.map((item) => ({
+      ...item,
+      cached,
+      content: (
+        <div data-fill-tab={item.id} style={{position: 'relative', width: '100%', height: '100%'}}>
+          <button style={{position: 'absolute', right: 0, bottom: 0}}>Bottom of {item.id}</button>
+        </div>
+      ),
+    }));
+    const container = await render(
+      <DockLayout
+        ref={(ref) => {
+          dock = ref;
+        }}
+        defaultLayout={data}
+        style={style}
+      />
+    );
+
+    async function expectContentFillsPanel(id: string) {
+      const content = container.querySelector<HTMLElement>(`[data-fill-tab="${id}"]`);
+      const viewport = content.closest('.dock');
+      const bounds = content.getBoundingClientRect();
+      const panelBounds = viewport.getBoundingClientRect();
+      const headerBounds = viewport.querySelector('.dock-bar').getBoundingClientRect();
+      expect(bounds.height).toBeGreaterThan(0);
+      expect(bounds.top).toBeCloseTo(headerBounds.bottom, 0);
+      expect(bounds.bottom).toBeCloseTo(panelBounds.bottom, 0);
+      expect(bounds.width).toBeCloseTo(panelBounds.width, 0);
+      await act(async () => page.elementLocator(content.querySelector('button')).click());
+    }
+
+    await expectContentFillsPanel('a');
+    await clickTab(container, 'b');
+    await expectContentFillsPanel('b');
+    await act(async () => {
+      container.style.height = '720px';
+    });
+    await expectContentFillsPanel('b');
+    await act(async () => dock.dockMove(dock.find('b') as TabData, null, 'float'));
+    await expectContentFillsPanel('b');
+    await act(async () => dock.dockMove((dock.find('b') as TabData).parent, null, 'maximize'));
+    await expectContentFillsPanel('b');
+    await act(async () => dock.dockMove((dock.find('b') as TabData).parent, null, 'maximize'));
+    await expectContentFillsPanel('b');
+  });
+
   it('switches tabs and closes an active tab (basic)', async () => {
     let dock: DockLayout;
     const changed = vi.fn();

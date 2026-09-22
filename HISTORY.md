@@ -1,3 +1,8 @@
+## 4.0.2
+
+- Restore panel content sizing and hide inactive tab content with the updated @rc-component/tabs markup, including cached tabs and floating or maximized panels.
+- Rebuild JavaScript, declarations, and both CSS themes before packing for npm.
+
 ## 4.0.0
 
 - migrate to pnpm

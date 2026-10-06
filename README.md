@@ -28,7 +28,7 @@ pnpm test-coverage         # Node coverage in coverage/node
 pnpm test-browser-coverage # Browser coverage in coverage/browser
 ```
 
-Tests live under `test/node` and `test/browser`, outside the published source build. Browser tests import the Less styles directly and clean up rendered roots and active drags after each test.
+Tests live under `test/node` and `test/browser`, outside the published source build. Browser tests import the SCSS styles directly and clean up rendered roots and active drags after each test.
 
 Coverage is based on the basic, tab-min-size, standalone-divider, save-layout, controlled-layout, tab-cache, adv-tab-update and drag-new-tab examples, plus drag-preview opacity and cleanup.
 
@@ -75,6 +75,18 @@ render() {
   - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#defaultlayout)**
 - use as **controlled layout**
   - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#layout)** 
+
+## Styling
+
+Import `rc-dock/dist/rc-dock.css` for the light theme or `rc-dock/dist/rc-dock-dark.css` for the dark theme. To customize theme variables, use the SCSS source:
+
+```scss
+@use "rc-dock/style/index-light" with (
+  $primary-color: #108ee9
+);
+```
+
+Use `rc-dock/style/index-dark` for a custom dark theme. Run `pnpm build-scss` to regenerate both distributed CSS files.
 
 
 ## types

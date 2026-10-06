@@ -1,3 +1,5 @@
+@use "./variables" as *;
+
 // dock-style-place-holder
 // when all the panels are floated we need a place holder in the dock box to handle drag over event
 .dock-panel.dock-style-place-holder {
@@ -39,11 +41,11 @@
 
   .dock-bar {
     background: none;
-    border-bottom: 1px solid @nav-color-split-main;
+    border-bottom: 1px solid $nav-color-split-main;
   }
 
   .dock-tab {
-    background: @component-background;
+    background: $component-background;
   }
 }
 
@@ -52,17 +54,17 @@
 
   .dock-tab {
     margin-right: 2px;
-    border: 1px solid @panel-border-color;
+    border: 1px solid $panel-border-color;
     border-radius: 5px 5px 0 0;
   }
 
   .dock-tab.dock-tab-active {
-    border-bottom: 1px solid @component-background;
-    background: @component-background;
+    border-bottom: 1px solid $component-background;
+    background: $component-background;
   }
 
   .dock-bar {
-    border-bottom: 1px solid @panel-border-color;
+    border-bottom: 1px solid $panel-border-color;
     overflow: visible;
   }
 
@@ -73,7 +75,7 @@
 
   .dock-ink-bar {
     /* hide animated ink bar */
-    background: @component-background;
+    background: $component-background;
     opacity: 0;
   }
 

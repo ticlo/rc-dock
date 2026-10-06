@@ -1,0 +1,31 @@
+@use "sass:color";
+
+$background-color: #fff !default;
+$text-color: rgba(#000, 0.85) !default;
+$dragging-layer-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.1) !default;
+
+$component-background: #fff !default;
+$primary-color: #108ee9 !default;
+$primary-highlight: color.mix(#fff, $primary-color, 15%) !default;
+$drop-indicator-bg: color.mix($component-background, $primary-color, 50%) !default;
+$drop-indicator-border-color: #fff !default;
+
+
+$disabled-color: #ccc !default;
+$panel-border-color: #ddd !default;
+$nav-color-split: #f3f3f3 !default;
+$nav-more-shadow: inset -10px 0 8px -8px rgba(#000, 0.08) !default;
+$tab-background: #fafafd !default;
+$panel-corner-color: rgba(0,0,0,0.1) !default;
+$panel-box-shadow: 0 0 4px #aaaaaa !default;
+
+$button-text-color: #ddd !default;
+$button-text-focus-color: #666 !default;
+$button-text-middle-color: color.mix($button-text-color, $button-text-focus-color, 50%) !default;
+
+// main window style
+$nav-color-split-main: #eee !default;
+
+$dropdown-menu-bg: $component-background !default;
+$item-hover-bg: #f5f5f5 !default;
+$box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05) !default;

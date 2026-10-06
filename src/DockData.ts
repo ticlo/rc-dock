@@ -223,6 +223,8 @@ export interface TabData extends TabBase, DockDataBase {
   cacheContext?: React.Context<any>;
 }
 
+export type TabDefinitions = Readonly<{[id: string]: TabData}>;
+
 interface PanelLock {
   /** override the default style */
   panelStyle?: string;
@@ -352,7 +354,7 @@ export interface DockContext {
 
   /**
    * Move a tab or a panel, if source or target is already in the layout, you can use the find method to get it with id first
-   * @param source the source TabData or PanelData being moved
+   * @param source the tab or panel being moved; new tabs can be {id} references
    *  - it can exist in the layout already
    *  - or can be a new tab or new panel that you want to add to the layout
    * @param target where you want to drop the source, can be the id or target data model
@@ -363,7 +365,7 @@ export interface DockContext {
    * @param floatPosition position of float panel, used only when direction="float"
    */
   dockMove(
-    source: TabData | PanelData,
+    source: TabBase | PanelBase,
     target: string | TabData | PanelData | BoxData | null,
     direction: DropDirection,
     floatPosition?: FloatPosition
@@ -382,11 +384,11 @@ export interface DockContext {
   /**
    * Update a tab with new TabData
    * @param id tab id to update
-   * @param newTab new tab data, if newTab is null, it only changes the active tab of parent panel
+   * @param newTab full tab data or an {id} reference; null only changes the active tab of parent panel
    * @param makeActive whether to make the tab the active child of parent panel
    * @returns returns false if the tab is not found
    */
-  updateTab(id: string, newTab: TabData | null, makeActive?: boolean): boolean;
+  updateTab(id: string, newTab: TabBase | null, makeActive?: boolean): boolean;
 
   /**
    * Move focus to a dockpanel nearby

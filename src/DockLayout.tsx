@@ -17,6 +17,7 @@ import {
   placeHolderStyle,
   TabBase,
   TabData,
+  TabDefinitions,
   TabGroup,
   TabPaneCache
 } from "./DockData";
@@ -37,16 +38,23 @@ export interface LayoutProps {
   dockId?: string;
 
   /**
-   * - when [[LayoutProps.loadTab]] callback is defined, tabs in defaultLayout only need to have an id, unless loadTab requires other fields
-   * - when [[LayoutProps.loadTab]] is not defined, tabs must contain title and content, as well as other fields in [[TabData]] when needed
+   * Initial layout. Tabs can be {id} references resolved by [[LayoutProps.tabs]] or
+   * [[LayoutProps.loadTab]], or full inline [[TabData]] definitions.
    */
-  defaultLayout?: LayoutData;
+  defaultLayout?: LayoutBase;
 
   /**
    * set layout only when you want to use DockLayout as a fully controlled react component
-   * when using controlled layout, [[LayoutProps.onChange]] must be set to enable any layout change
+   * when using controlled layout, [[LayoutProps.onLayoutChange]] must be set to enable any layout change
    */
   layout?: LayoutBase;
+
+  /**
+   * Tab definitions keyed by id. The key supplies the tab's id.
+   * Replace this object to update titles and content independently of layout.
+   * Definitions are copied into the runtime layout; closing a tab does not remove its definition.
+   */
+  tabs?: TabDefinitions;
 
   /**
    * Tab Groups, defines additional configuration for different groups
@@ -74,11 +82,10 @@ export interface LayoutProps {
   saveTab?(tab: TabData): TabBase;
 
   /**
-   * override the default loadTab behavior
-   * - when loadTab is not defined, [[LayoutProps.defaultLayout]] will be used to find a tab to load, thus defaultLayout must contain the titles and contents for TabData
-   * - when loadTab is defined, [[LayoutProps.defaultLayout]] can ignore all those and only keep id and other custom data
+   * Load tabs whose ids are not in [[LayoutProps.tabs]]. Return null to skip an unavailable tab.
+   * Without this callback, full inline definitions and tabs from [[LayoutProps.defaultLayout]] are used.
    */
-  loadTab?(tab: TabBase): TabData;
+  loadTab?(tab: TabBase): TabData | null;
 
   /**
    * modify the savedPanel, you can add additional data into the savedPanel
@@ -103,6 +110,8 @@ export interface LayoutProps {
 
 interface LayoutState {
   layout: LayoutData;
+  tabs?: LayoutProps['tabs'];
+  tabDefinitions?: TabDefinitions;
   /** @ignore */
   dropRect?: {left: number, width: number, top: number, height: number, element: HTMLElement, source?: any, direction?: DropDirection};
   /** @ignore */
@@ -183,11 +192,21 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @ignore */
-  prepareInitData(data: LayoutData): LayoutData {
-    let layout = {...data};
-    Algorithm.fixLayoutData(layout, this.props.groups, this.props.loadTab);
-    return layout;
+  prepareInitData(data: LayoutBase, tabDefinitions?: TabDefinitions): LayoutData {
+    if (!this.props.tabs) {
+      return Algorithm.fixLayoutData({...data} as LayoutData, this.props.groups, this.props.loadTab);
+    }
+    return DockLayout.loadLayoutData(data, {...this.props, afterPanelLoaded: undefined}, 0, 0, tabDefinitions);
   }
+
+  /** @ignore */
+  resolveTab = (tab: TabBase): TabData | null => {
+    if ('title' in tab && 'content' in tab) {
+      return tab as TabData;
+    }
+    return this.find(tab.id, Algorithm.Filter.AnyTab) as TabData ||
+      Serializer.loadTabData(tab, this.state.tabDefinitions, this.props.loadTab);
+  };
 
   /** @ignore */
   getDockId(): any {
@@ -216,11 +235,23 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * @param floatPosition @inheritDoc
    */
   dockMove(
-    source: TabData | PanelData,
+    sourceData: TabBase | PanelBase,
     target: string | TabData | PanelData | BoxData | null,
     direction: DropDirection,
     floatPosition?: FloatPosition
   ) {
+    let source = sourceData as TabData | PanelData;
+    if ('tabs' in sourceData) {
+      let panel = sourceData as PanelBase;
+      if (!(panel as PanelData).parent && panel.tabs.some((tab) => !('title' in tab && 'content' in tab))) {
+        source = {...panel, tabs: panel.tabs.map(this.resolveTab).filter(Boolean)};
+      }
+    } else {
+      source = this.resolveTab(sourceData as TabBase);
+      if (!source) {
+        return;
+      }
+    }
     let layout = this.getLayout();
     if (direction === 'maximize') {
       layout = Algorithm.maximize(layout, source);
@@ -292,7 +323,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @inheritDoc */
-  updateTab(id: string, newTab: TabData | null, makeActive: boolean = true): boolean {
+  updateTab(id: string, newTab: TabBase | null, makeActive: boolean = true): boolean {
     let tab = this.find(id, Algorithm.Filter.AnyTab) as TabData;
     if (!tab) {
       return false;
@@ -300,27 +331,29 @@ export class DockLayout extends DockPortalManager implements DockContext {
     let panelData = tab.parent;
     let idx = panelData.tabs.indexOf(tab);
     if (idx >= 0) {
-      let {loadTab} = this.props;
       let layout = this.getLayout();
+      let constraintsChanged = false;
       if (newTab) {
-        let activeId = panelData.activeId;
-        if (loadTab && !('content' in newTab && 'title' in newTab)) {
-          newTab = loadTab(newTab);
+        let resolvedTab = 'content' in newTab && 'title' in newTab ? newTab as TabData :
+          Serializer.loadTabData(newTab, this.state.tabDefinitions, this.props.loadTab);
+        if (!resolvedTab) {
+          return false;
         }
-        layout = Algorithm.removeFromLayout(layout, tab); // remove old tab
-        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during removeTab
-        layout = Algorithm.addTabToPanel(layout, newTab, panelData, idx); // add new tab
-        panelData = Algorithm.getUpdatedObject(panelData); // panelData might change during addTabToPanel
+        let tabs = panelData.tabs.concat();
+        tabs[idx] = resolvedTab;
+        let activeId = makeActive ? resolvedTab.id : panelData.activeId;
+        if (!makeActive && activeId === id && resolvedTab.id !== id) activeId = tabs[0].id;
+        layout = Algorithm.replacePanel(layout, panelData, {...panelData, tabs, activeId});
+        constraintsChanged = tab.minWidth !== resolvedTab.minWidth || tab.minHeight !== resolvedTab.minHeight || tab.group !== resolvedTab.group;
         if (!makeActive) {
-          // restore the previous activeId
-          panelData.activeId = activeId;
           this.panelToFocus = panelData.id;
         }
       } else if (makeActive && panelData.activeId !== id) {
         layout = Algorithm.replacePanel(layout, panelData, {...panelData, activeId: id});
       }
 
-      layout = Algorithm.fixLayoutData(layout, this.props.groups);
+      if (constraintsChanged) layout = Algorithm.fixLayoutData(layout, this.props.groups);
+      else Algorithm.clearObjectCache();
       this.changeLayout(layout, newTab?.id ?? id, 'update');
       return true;
     }
@@ -368,27 +401,19 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   constructor(props: LayoutProps) {
     super(props);
-    let {layout, defaultLayout, loadTab} = props;
-    let preparedLayout: LayoutData;
-    if (defaultLayout) {
-      preparedLayout = this.prepareInitData(props.defaultLayout);
-    } else if (!loadTab) {
-      throw new Error('DockLayout.loadTab and DockLayout.defaultLayout should not both be undefined.');
+    let {layout, defaultLayout, tabs} = props;
+    if (!layout && !defaultLayout) {
+      throw new Error('DockLayout requires layout or defaultLayout.');
     }
 
-    if (layout) {
-      // controlled layout
-      this.state = {
-        layout: DockLayout.loadLayoutData(layout, props),
-        dropRect: null,
-      };
-    } else {
-      this.state = {
-        layout: preparedLayout,
-        dropRect: null,
-      };
-    }
-
+    let tabDefinitions = Serializer.createTabCache(tabs);
+    this.state = {
+      layout: layout ? DockLayout.loadLayoutData(layout, props, 0, 0, tabDefinitions) :
+        this.prepareInitData(defaultLayout, tabDefinitions),
+      tabs,
+      tabDefinitions,
+      dropRect: null,
+    };
   }
 
   /** @ignore */
@@ -645,17 +670,24 @@ export class DockLayout extends DockPortalManager implements DockContext {
    * calling this api won't trigger the [[LayoutProps.onLayoutChange]] callback
    */
   loadLayout(savedLayout: LayoutBase) {
-    this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight));
+    this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight, this.state.tabDefinitions));
   }
 
   /** @ignore */
-  static loadLayoutData(savedLayout: LayoutBase, props: LayoutProps, width = 0, height = 0): LayoutData {
+  static loadLayoutData(
+    savedLayout: LayoutBase,
+    props: LayoutProps,
+    width = 0,
+    height = 0,
+    tabDefinitions = Serializer.createTabCache(props.tabs)
+  ): LayoutData {
     let {defaultLayout, loadTab, afterPanelLoaded, groups} = props;
     let layout = Serializer.loadLayoutData(
       savedLayout,
       defaultLayout,
       loadTab,
-      afterPanelLoaded
+      afterPanelLoaded,
+      tabDefinitions
     );
     layout = Algorithm.fixFloatPanelPos(layout, width, height);
     layout = Algorithm.fixLayoutData(layout, groups);
@@ -666,11 +698,18 @@ export class DockLayout extends DockPortalManager implements DockContext {
   static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
     let {layout: layoutToLoad} = props;
     let {layout: currentLayout} = state;
+    let tabDefinitions = props.tabs === state.tabs ? state.tabDefinitions : Serializer.createTabCache(props.tabs);
     if (layoutToLoad && layoutToLoad !== currentLayout.loadedFrom) {
       // auto reload on layout prop change
       return {
-        layout: DockLayout.loadLayoutData(layoutToLoad, props),
+        layout: DockLayout.loadLayoutData(layoutToLoad, props, 0, 0, tabDefinitions),
+        tabs: props.tabs,
+        tabDefinitions,
       };
+    }
+    if (props.tabs !== state.tabs) {
+      let layout = Algorithm.updateLayoutTabs(currentLayout, tabDefinitions, state.tabDefinitions, props.groups);
+      return {layout, tabs: props.tabs, tabDefinitions};
     }
     return null;
   }

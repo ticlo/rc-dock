@@ -3,22 +3,23 @@ import {
   LayoutData,
   PanelData, BoxBase, LayoutBase, PanelBase, TabBase,
   TabData,
+  TabDefinitions,
   maximePlaceHolderId
 } from "./DockData";
 
 interface DefaultLayoutCache {
-  panels: Map<string, PanelData>;
-  tabs: Map<string, TabData>;
+  panels: Map<string, PanelBase>;
+  tabs: Map<string, TabBase>;
 }
 
-function addPanelToCache(panelData: PanelData, cache: DefaultLayoutCache) {
+function addPanelToCache(panelData: PanelBase, cache: DefaultLayoutCache) {
   cache.panels.set(panelData.id, panelData);
   for (let tab of panelData.tabs) {
     cache.tabs.set(tab.id, tab);
   }
 }
 
-function addBoxToCache(boxData: BoxData, cache: DefaultLayoutCache) {
+function addBoxToCache(boxData: BoxBase, cache: DefaultLayoutCache) {
   for (let child of boxData.children) {
     if ('tabs' in child) {
       addPanelToCache(child, cache);
@@ -29,7 +30,7 @@ function addBoxToCache(boxData: BoxData, cache: DefaultLayoutCache) {
 }
 
 
-export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultLayoutCache {
+export function createLayoutCache(defaultLayout: LayoutBase | BoxBase): DefaultLayoutCache {
   let cache: DefaultLayoutCache = {
     panels: new Map(),
     tabs: new Map(),
@@ -43,13 +44,45 @@ export function createLayoutCache(defaultLayout: LayoutData | BoxData): DefaultL
       if ('dockbox' in defaultLayout) {
         addBoxToCache(defaultLayout.dockbox, cache);
       }
-      if ('floatbox' in defaultLayout) {
+      if (defaultLayout.floatbox) {
         addBoxToCache(defaultLayout.floatbox, cache);
+      }
+      if (defaultLayout.windowbox) {
+        addBoxToCache(defaultLayout.windowbox, cache);
+      }
+      if (defaultLayout.maxbox) {
+        addBoxToCache(defaultLayout.maxbox, cache);
       }
     }
   }
 
   return cache;
+}
+
+/** @ignore */
+export function createTabCache(tabs?: TabDefinitions): TabDefinitions | undefined {
+  // A dictionary avoids inherited keys and slow lookups on large spread objects.
+  return tabs ? Object.assign(Object.create(null), tabs) : undefined;
+}
+
+/** @ignore */
+export function loadTabData(
+  savedTab: TabBase,
+  tabs?: TabDefinitions,
+  loadTab?: (tab: TabBase) => TabData | null,
+  defaultTab?: TabBase
+): TabData | null {
+  let definition = tabs?.[savedTab.id];
+  if (definition) {
+    let tab = Object.assign({}, savedTab, definition);
+    tab.id = savedTab.id;
+    return tab;
+  }
+  if (loadTab) {
+    return loadTab(savedTab);
+  }
+  let tab = 'title' in savedTab && 'content' in savedTab ? savedTab : defaultTab;
+  return tab && 'title' in tab && 'content' in tab ? tab as TabData : null;
 }
 
 export function saveLayoutData(
@@ -109,21 +142,14 @@ export function saveLayoutData(
 
 export function loadLayoutData(
   savedLayout: LayoutBase,
-  defaultLayout: LayoutData,
-  loadTab?: (savedTab: TabBase) => TabData,
-  afterPanelLoaded?: (savedPanel: PanelBase, panel: PanelData) => void
+  defaultLayout: LayoutBase,
+  loadTab?: (savedTab: TabBase) => TabData | null,
+  afterPanelLoaded?: (savedPanel: PanelBase, panel: PanelData) => void,
+  tabDefinitions?: TabDefinitions
 ): LayoutData {
-  let cache = createLayoutCache(defaultLayout);
-
-  function loadTabData(savedTab: TabBase): TabData {
-    if (loadTab) {
-      return loadTab(savedTab);
-    }
-    let {id} = savedTab;
-    if (cache.tabs.has(id)) {
-      return cache.tabs.get(id);
-    }
-    return null;
+  let cache: DefaultLayoutCache;
+  function getCache() {
+    return cache || (cache = createLayoutCache(defaultLayout));
   }
 
   function loadPanelData(savedPanel: PanelBase): PanelData {
@@ -131,7 +157,10 @@ export function loadLayoutData(
 
     let tabs: TabData[] = [];
     for (let savedTab of savedPanel.tabs) {
-      let tabData = loadTabData(savedTab);
+      let tabData = loadTabData(savedTab, tabDefinitions, loadTab);
+      if (!tabData && !loadTab && defaultLayout && defaultLayout !== savedLayout) {
+        tabData = loadTabData(savedTab, undefined, undefined, getCache().tabs.get(savedTab.id));
+      }
       if (tabData) {
         tabs.push(tabData);
       }
@@ -147,8 +176,10 @@ export function loadLayoutData(
       panelData.panelLock = {};
     } else if (afterPanelLoaded) {
       afterPanelLoaded(savedPanel, panelData);
-    } else if (cache.panels.has(id)) {
-      panelData = {...cache.panels.get(id), ...panelData};
+    } else if (defaultLayout === savedLayout) {
+      panelData = {...savedPanel, ...panelData};
+    } else if (defaultLayout && getCache().panels.has(id)) {
+      panelData = {...getCache().panels.get(id), ...panelData};
     }
     return panelData;
   }

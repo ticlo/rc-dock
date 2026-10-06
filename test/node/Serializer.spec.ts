@@ -1,6 +1,6 @@
 import {find, fixLayoutData} from '../../src/Algorithm';
-import {loadLayoutData, saveLayoutData} from '../../src/Serializer';
-import type {PanelData, TabData} from '../../src/DockData';
+import {createTabCache, loadLayoutData, saveLayoutData} from '../../src/Serializer';
+import type {LayoutBase, PanelData, TabData} from '../../src/DockData';
 import {layout, tab} from '../fixtures';
 
 describe('layout persistence (save-layout and adv-save-layout examples)', () => {
@@ -45,5 +45,44 @@ describe('layout persistence (save-layout and adv-save-layout examples)', () => 
     expect(restored.floatbox.children).toEqual([]);
     expect(restored.windowbox.children).toEqual([]);
     expect(restored.maxbox.children).toEqual([]);
+  });
+
+  it('resolves registry definitions before the loader without mutating either input', () => {
+    const reference = Object.freeze({id: 'a', value: 42});
+    const saved: LayoutBase = {dockbox: {mode: 'horizontal', children: [{tabs: [reference, {id: 'b'}]}]}};
+    const definition = Object.freeze(tab('ignored', {group: 'tools', minWidth: 250}));
+    const tabs = Object.freeze({a: definition});
+    const load = vi.fn(({id, value}) => tab(id, {value}));
+    const restored = fixLayoutData(loadLayoutData(saved, null, load, undefined, createTabCache(tabs)));
+
+    expect(load).toHaveBeenCalledExactlyOnceWith({id: 'b'});
+    expect(find(restored, 'a')).toMatchObject({id: 'a', value: 42, group: 'tools', minWidth: 250});
+    expect((find(restored, 'a') as TabData).content).toBe(definition.content);
+    expect((find(restored, 'a') as TabData).parent.minWidth).toBe(250);
+    expect(definition).not.toHaveProperty('parent');
+    expect(reference).toEqual({id: 'a', value: 42});
+    expect(saveLayoutData(restored).dockbox.children[0]).toMatchObject({tabs: [{id: 'a'}, {id: 'b'}]});
+  });
+
+  it('combines registry, inline and default-layout definitions and skips unknown ids', () => {
+    const saved: LayoutBase = {
+      dockbox: {mode: 'horizontal', children: [{
+        tabs: [{id: 'a'}, tab('inline'), {id: 'b'}, {id: 'missing'}, {id: 'toString'}],
+        activeId: 'missing',
+      }]},
+    };
+    const restored = fixLayoutData(loadLayoutData(saved, layout(), undefined, undefined, createTabCache({a: tab('a')})));
+    const panel = (find(restored, 'a') as TabData).parent;
+    expect(panel.tabs.map(({id}) => id)).toEqual(['a', 'inline', 'b']);
+    expect(panel.activeId).toBe('a');
+  });
+
+  it('allows the fallback loader to filter inline or previously known tabs', () => {
+    const data = layout();
+    const load = vi.fn(() => null);
+    const restored = fixLayoutData(loadLayoutData(data, data, load, undefined, createTabCache({b: tab('b')})));
+    expect(find(restored, 'a')).toBeUndefined();
+    expect(find(restored, 'c')).toBeUndefined();
+    expect((find(restored, 'left') as PanelData).activeId).toBe('b');
   });
 });

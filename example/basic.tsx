@@ -2,14 +2,33 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
 import {tsxTab, htmlTab} from './prism-tabs';
-import {DockLayout, DockContextType, DragState} from '../src';
+import {DockLayout, LayoutBase} from '../src';
 
 let tab = {
   content: <div>Tab Content</div>,
   closable: true,
 };
 
-let layout: any = {
+let tabs = {
+  t1: {...tab, title: 'Tab 1'},
+  t2: {...tab, title: 'Tab 2'},
+  t3: {
+    ...tab, title: 'Min Size', minWidth: 150, minHeight: 150,
+    content: <div><p>This tab has a minimal size</p>150 x 150 px</div>,
+  },
+  t4: {...tab, title: 'Tab 4'},
+  t5: {
+    ...tab, title: 'basic demo',
+    content: <div>This panel won't be removed from layout even when last Tab is closed</div>,
+  },
+  t8: {...tab, title: 'Tab 8'},
+  t9: {...tab, title: 'Tab 9', content: <div>Float</div>},
+  t10: {...tab, title: 'Tab 10'},
+  tsxTab,
+  htmlTab,
+};
+
+let layout: LayoutBase = {
     dockbox: {
       mode: 'horizontal',
       children: [
@@ -18,38 +37,21 @@ let layout: any = {
           size: 200,
           children: [
             {
-              tabs: [{...tab, id: 't1', title: 'Tab 1'}, {...tab, id: 't2', title: 'Tab 2'}],
+              tabs: [{id: 't1'}, {id: 't2'}],
             },
             {
-              tabs: [{
-                ...tab, id: 't3', title: 'Min Size', content: (
-                  <div>
-                    <p>This tab has a minimal size</p>
-                    150 x 150 px
-                  </div>
-                ), minWidth: 150, minHeight: 150,
-              }, {...tab, id: 't4', title: 'Tab 4'}],
+              tabs: [{id: 't3'}, {id: 't4'}],
             },
           ]
         },
         {
           size: 1000,
-          tabs: [
-            {
-              ...tab, id: 't5', title: 'basic demo', content: (
-                <div>
-                  This panel won't be removed from layout even when last Tab is closed
-                </div>
-              ),
-            },
-            tsxTab,
-            htmlTab,
-          ],
+          tabs: [{id: 't5'}, {id: 'tsxTab'}, {id: 'htmlTab'}],
           panelLock: {panelStyle: 'main'},
         },
         {
           size: 200,
-          tabs: [{...tab, id: 't8', title: 'Tab 8'}],
+          tabs: [{id: 't8'}],
         },
       ]
     },
@@ -58,8 +60,8 @@ let layout: any = {
       children: [
         {
           tabs: [
-            {...tab, id: 't9', title: 'Tab 9', content: <div>Float</div>},
-            {...tab, id: 't10', title: 'Tab 10'}
+            {id: 't9'},
+            {id: 't10'}
           ],
           x: 300, y: 150, w: 400, h: 300
         }
@@ -85,7 +87,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <DockLayout defaultLayout={layout} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
+      <DockLayout defaultLayout={layout} tabs={tabs} style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }
 }

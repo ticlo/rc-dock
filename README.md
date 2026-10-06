@@ -42,13 +42,17 @@ import "rc-dock/dist/rc-dock.css";
 
 ...
 
+tabs = {
+  tab1: {title: 'tab1', content: <div>Hello World</div>}
+};
+
 defaultLayout = {
   dockbox: {
     mode: 'horizontal',
     children: [
       {
         tabs: [
-          {id: 'tab1', title: 'tab1', content: <div>Hello World</div>}
+          {id: 'tab1'}
         ]
       }
     ]
@@ -59,6 +63,7 @@ render() {
   return (
     <DockLayout
       defaultLayout={defaultLayout}
+      tabs={tabs}
       style={{
         position: "absolute",
         left: 10,
@@ -75,6 +80,35 @@ render() {
   - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#defaultlayout)**
 - use as **controlled layout**
   - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#layout)** 
+
+`tabs` holds tab definitions keyed by id. Layouts can contain only `{id}` references,
+while titles, content and tab options live in `tabs`. The registry key supplies the id.
+Full inline tab definitions remain supported.
+
+When an id is missing from `tabs`, `loadTab` can create its definition from the tab reference:
+
+```jsx
+<DockLayout
+  defaultLayout={defaultLayout}
+  tabs={tabs}
+  loadTab={({id}) => documents[id] ? createDocumentTab(id) : null}
+/>
+```
+
+Returning `null` skips an unavailable tab. Without `loadTab`, rc-dock uses full inline
+definitions or definitions from `defaultLayout`; unresolved references are skipped.
+`saveLayout()` and `onLayoutChange` save tabs as `{id}` by default. Use `saveTab` to
+include custom serializable fields for `loadTab` to restore.
+
+Replace the `tabs` object to update open tabs' titles and content without changing their
+positions or active selection. Tabs outside the registry retain their loaded definitions.
+Cached component state is preserved for the same id and component type.
+Closing a tab removes its layout reference; its registry entry remains available to reopen it
+with `dockMove({id}, target, direction)`. Registry definitions are copied before use.
+
+Keep the `tabs` object and unchanged definitions stable between unrelated renders
+(for example, with `useMemo`). Registry updates reuse unchanged tabs and layout branches.
+For frequent updates to one tab, `updateTab(id, definition)` changes that tab directly.
 
 ## Styling
 
@@ -146,7 +180,7 @@ load layout
 move a tab or a panel, if source is already in the layout, you can use the find method to get it with id first
 
 ```typescript
-dockMove(source: TabData | PanelData, target: string | TabData | PanelData | BoxData, direction: DropDirection): void;
+dockMove(source: TabBase | PanelBase, target: string | TabData | PanelData | BoxData | null, direction: DropDirection): void;
 ```
 
 ### find [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#find)
@@ -162,5 +196,5 @@ update a tab with new TabData
 returns false if the tab is not found
 
 ```typescript
-updateTab(id: string, newTab: TabData): boolean;
+updateTab(id: string, newTab: TabBase | null, makeActive?: boolean): boolean;
 ```

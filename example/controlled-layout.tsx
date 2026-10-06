@@ -14,7 +14,21 @@ let tab0 = {
   )
 };
 
-let box = {
+let tabs = {
+  t0: tab0,
+  protect1: {
+    title: 'Protect',
+    closable: true,
+    content: <div>
+      <p>Removal of this tab will be rejected</p>
+      This is done in the onLayoutChange callback
+    </div>,
+  },
+  tsxTab,
+  htmlTab,
+};
+
+let box: LayoutBase = {
   dockbox: {
     mode: 'horizontal',
     children: [
@@ -22,7 +36,7 @@ let box = {
         mode: 'vertical',
         children: [
           {
-            tabs: [{id: 't0'}, htmlTab, tsxTab],
+            tabs: [{id: 't0'}, {id: 'htmlTab'}, {id: 'tsxTab'}],
           },
           {
             tabs: [{id: 'protect1'}, {id: 't4'}, {id: 't5'}, {id: 't6'}],
@@ -41,28 +55,11 @@ interface DemoState {
 }
 
 class Demo extends React.Component<{}, DemoState> {
-  state: DemoState = {layout: box as LayoutBase};
+  state: DemoState = {layout: box};
 
   loadTab = (data: TabBase): TabData => {
     let {id} = data;
-    switch (id) {
-      case 't0':
-        return {...tab0, id};
-      case 'protect1' :
-        return {
-          id, title: 'Protect',
-          closable: true,
-          content: <div>
-            <p>Removal of this tab will be rejected</p>
-            This is done in the onLayoutChange callback
-          </div>
-        };
-      case tsxTab.id:
-        return tsxTab;
-      case htmlTab.id:
-        return htmlTab;
-    }
-
+    // Tabs outside the registry are created on demand.
     return {
       id, title: id,
       content: <div>Tab Content</div>
@@ -81,7 +78,7 @@ class Demo extends React.Component<{}, DemoState> {
 
   render() {
     return (
-      <DockLayout layout={this.state.layout} loadTab={this.loadTab} onLayoutChange={this.onLayoutChange}
+      <DockLayout layout={this.state.layout} tabs={tabs} loadTab={this.loadTab} onLayoutChange={this.onLayoutChange}
                   style={{position: 'absolute', left: 10, top: 10, right: 10, bottom: 10}}/>
     );
   }

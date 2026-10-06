@@ -6,6 +6,7 @@ import {
   PanelData,
   placeHolderStyle, TabBase,
   TabData,
+  TabDefinitions,
   TabGroup
 } from "./DockData";
 
@@ -19,7 +20,8 @@ export function getUpdatedObject(obj: any): any {
   return obj;
 }
 
-function clearObjectCache() {
+/** @ignore */
+export function clearObjectCache() {
   _watchObjectChange = new WeakMap();
 }
 
@@ -567,7 +569,7 @@ export function fixFloatPanelPos(layout: LayoutData, layoutWidth?: number, layou
   return layout;
 }
 
-export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGroup}, loadTab?: (tab: TabBase) => TabData): LayoutData {
+export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGroup}, loadTab?: (tab: TabBase) => TabData | null): LayoutData {
 
   function fixPanelOrBox(d: PanelData | BoxData) {
     if (d.id == null) {
@@ -593,7 +595,12 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
     let findActiveId = false;
     if (loadTab) {
       for (let i = 0; i < panel.tabs.length; ++i) {
-        panel.tabs[i] = loadTab(panel.tabs[i]);
+        let tab = loadTab(panel.tabs[i]);
+        if (tab) {
+          panel.tabs[i] = tab;
+        } else {
+          panel.tabs.splice(i--, 1);
+        }
       }
     }
     if (panel.group == null && panel.tabs.length) {
@@ -778,6 +785,66 @@ export function fixLayoutData(layout: LayoutData, groups?: {[key: string]: TabGr
   layout.maxbox.parent = null;
   clearObjectCache();
   return layout;
+}
+
+/** @ignore */
+export function updateLayoutTabs(
+  layout: LayoutData,
+  tabs: TabDefinitions,
+  previousTabs: TabDefinitions,
+  groups?: {[key: string]: TabGroup}
+): LayoutData {
+  let constraintsChanged = false;
+
+  function updatePanel(panel: PanelData): PanelData {
+    let updatedTabs: TabData[];
+    for (let i = 0; i < panel.tabs.length; ++i) {
+      let tab = panel.tabs[i];
+      let definition = tabs[tab.id];
+      if (!definition || definition === previousTabs?.[tab.id]) {
+        continue;
+      }
+      let updatedTab = Object.assign({}, tab, definition);
+      updatedTab.id = tab.id;
+      if (tab.minWidth !== updatedTab.minWidth || tab.minHeight !== updatedTab.minHeight || tab.group !== updatedTab.group) {
+        constraintsChanged = true;
+      }
+      if (!updatedTabs) updatedTabs = panel.tabs.concat();
+      updatedTabs[i] = updatedTab;
+    }
+    if (!updatedTabs) return panel;
+    let updatedPanel = {...panel, tabs: updatedTabs};
+    if (panel.group === panel.tabs[0]?.group) updatedPanel.group = updatedTabs[0]?.group;
+    for (let tab of updatedTabs) tab.parent = updatedPanel;
+    return updatedPanel;
+  }
+
+  function updateBox(box: BoxData): BoxData {
+    let children: (BoxData | PanelData)[];
+    for (let i = 0; i < box.children.length; ++i) {
+      let child = box.children[i];
+      let updatedChild = 'tabs' in child ? updatePanel(child) : updateBox(child);
+      if (updatedChild !== child) {
+        if (!children) children = box.children.concat();
+        children[i] = updatedChild;
+      }
+    }
+    if (!children) return box;
+    let updatedBox = {...box, children};
+    for (let child of children) child.parent = updatedBox;
+    return updatedBox;
+  }
+
+  if (!tabs) return layout;
+  let dockbox = updateBox(layout.dockbox);
+  let floatbox = updateBox(layout.floatbox);
+  let windowbox = updateBox(layout.windowbox);
+  let maxbox = updateBox(layout.maxbox);
+  if (dockbox === layout.dockbox && floatbox === layout.floatbox && windowbox === layout.windowbox && maxbox === layout.maxbox) {
+    return layout;
+  }
+  let updatedLayout = {...layout, dockbox, floatbox, windowbox, maxbox};
+  return constraintsChanged ? fixLayoutData(updatedLayout, groups) : updatedLayout;
 }
 
 

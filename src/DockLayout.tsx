@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
 import {
   BoxData,
+  ColumnState,
   defaultGroup,
   DockContext,
   DockContextProvider,
@@ -13,6 +14,7 @@ import {
   LayoutSize,
   PanelBase,
   PanelData,
+  SideColumns,
   placeHolderGroup,
   placeHolderStyle,
   TabBase,
@@ -21,6 +23,7 @@ import {
   TabGroup,
   TabPaneCache
 } from "./DockData";
+import * as Columns from './SideColumns';
 import {DockBox} from "./DockBox";
 import {FloatBox} from "./FloatBox";
 import {DockPanel} from "./DockPanel";
@@ -55,6 +58,9 @@ export interface LayoutProps {
    * Definitions are copied into the runtime layout; closing a tab does not remove its definition.
    */
   tabs?: TabDefinitions;
+
+  /** Collapse and accordion controls for the outer columns of a horizontal dock layout. */
+  sideColumns?: SideColumns;
 
   /**
    * Tab Groups, defines additional configuration for different groups
@@ -227,6 +233,34 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return defaultGroup;
   }
 
+  /** @ignore */
+  canDock(target: TabData | PanelData | BoxData, direction: DropDirection) {
+    return Columns.canDock(this.getLayout(), this.props.sideColumns, target, direction);
+  }
+
+  /** @ignore */
+  onColumnChange(columnId: string, state: ColumnState, tab?: TabData) {
+    let layout = this.getLayout();
+    const views = this.getColumnViews(layout);
+    const view = views && Array.from(views.values()).find((item) => item.column.id === columnId);
+    if (!view) return;
+    if (tab) {
+      tab = this.find(tab.id, Algorithm.Filter.AnyTab) as TabData;
+      if (!tab || !view.panels.includes(tab.parent)) return;
+      const panel = tab.parent;
+      if (panel.activeId !== tab.id) layout = Algorithm.replacePanel(layout, panel, {
+        ...panel, tabs: panel.tabs.map((item) => ({...item})), activeId: tab.id,
+      });
+    }
+    const columns: LayoutBase['columns'] = Object.assign(Object.create(null), layout.columns);
+    const next = {...columns[columnId], ...state};
+    if (next.collapsed || next.activePanelId) columns[columnId] = next;
+    else delete columns[columnId];
+    layout = {...layout, columns: Object.keys(columns).length ? columns : undefined};
+    Algorithm.clearObjectCache();
+    this.changeLayout(layout, tab?.id, 'collapsed' in state ? 'collapse' : 'accordion');
+  }
+
   /**
    * @inheritDoc
    * @param source @inheritDoc
@@ -240,6 +274,13 @@ export class DockLayout extends DockPortalManager implements DockContext {
     direction: DropDirection,
     floatPosition?: FloatPosition
   ) {
+    if (this.props.sideColumns && (direction === 'left' || direction === 'right' || direction === 'top' || direction === 'bottom')) {
+      const dropTarget = typeof target === 'string' ? this.find(target, Algorithm.Filter.All) : target;
+      if (!this.canDock(dropTarget, direction)) {
+        this.onDragStateChange(false);
+        return;
+      }
+    }
     let source = sourceData as TabData | PanelData;
     if ('tabs' in sourceData) {
       let panel = sourceData as PanelBase;
@@ -511,12 +552,27 @@ export class DockLayout extends DockPortalManager implements DockContext {
   }
 
   /** @ignore */
+  private columnCache: {root: BoxData, options: SideColumns, states: LayoutBase['columns'], views: Map<BoxData | PanelData, Columns.ColumnView>};
+
+  private getColumnViews(layout: LayoutData) {
+    const {sideColumns: options} = this.props;
+    if (!options) return;
+    const cache = this.columnCache;
+    if (cache?.root === layout.dockbox && cache.options === options && cache.states === layout.columns) return cache.views;
+    const views = Columns.getColumnViews(layout, options, cache?.views);
+    this.columnCache = {root: layout.dockbox, options, states: layout.columns, views};
+    return views;
+  }
+
   render(): React.ReactNode {
     // clear tempLayout
     this.tempLayout = null;
 
-    let {style, maximizeTo} = this.props;
+    let {style, maximizeTo, sideColumns} = this.props;
     let {layout, dropRect, floatAnchorRect} = this.state;
+    const columns = this.getColumnViews(layout);
+    const paddingLeft = columns?.get(layout.dockbox.children[0])?.collapsed ? 0 : sideColumns?.left?.padding;
+    const paddingRight = columns?.get(layout.dockbox.children.at(-1))?.collapsed ? 0 : sideColumns?.right?.padding;
     let dropRectStyle: React.CSSProperties = floatAnchorRect ? {...floatAnchorRect, display: 'block', transition: 'none'} : undefined;
     if (dropRect) {
       let {element, direction, ...rect} = dropRect;
@@ -550,7 +606,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return (
       <div ref={this.getRef} className="dock-layout" style={style}>
         <DockContextProvider value={this}>
-          <DockBox size={1} boxData={layout.dockbox}/>
+          <DockBox size={1} boxData={layout.dockbox} columns={columns} paddingLeft={paddingLeft} paddingRight={paddingRight}/>
           <FloatBox boxData={layout.floatbox}/>
           <WindowBox boxData={layout.windowbox}/>
           {maximize}

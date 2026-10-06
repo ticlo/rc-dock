@@ -5,6 +5,8 @@ import {DragState} from "./dragdrop/DragManager";
 export interface DividerChild {
   size: number;
   minSize?: number;
+  /** @ignore */
+  fixed?: boolean;
 }
 
 export interface DividerData {
@@ -17,6 +19,7 @@ interface DividerProps {
   idx: number;
   className?: string;
   isVertical?: boolean;
+  disabled?: boolean;
 
   getDividerData(idx: number): DividerData;
 
@@ -41,21 +44,23 @@ class BoxDataCache implements DividerData {
     this.afterDivider = data.afterDivider;
     for (let child of this.beforeDivider) {
       this.beforeSize += child.size;
-      if (child.minSize > 0) {
-        this.beforeMinSize += child.minSize;
-      }
+      this.beforeMinSize += child.fixed ? child.size : Math.max(child.minSize || 0, 0);
     }
     for (let child of this.afterDivider) {
       this.afterSize += child.size;
-      if (child.minSize > 0) {
-        this.afterMinSize += child.minSize;
-      }
+      this.afterMinSize += child.fixed ? child.size : Math.max(child.minSize || 0, 0);
     }
   }
 }
 
 // split size among children
 function spiltSize(newSize: number, oldSize: number, children: DividerChild[]): number[] {
+  if (children.some((child) => child.fixed)) {
+    const fixedSize = children.reduce((sum, child) => sum + (child.fixed ? child.size : 0), 0);
+    const sizes = spiltSize(newSize - fixedSize, oldSize - fixedSize, children.filter((child) => !child.fixed));
+    let i = 0;
+    return children.map((child) => child.fixed ? child.size : sizes[i++]);
+  }
   let reservedSize = -1;
   let sizes: number[] = [];
   let requiredMinSize = 0;
@@ -105,6 +110,7 @@ export class Divider extends React.PureComponent<DividerProps, any> {
     let d = isVertical ? dy : dx;
     let leftChild = beforeDivider.at(-1);
     let rightChild = afterDivider[0];
+    if (leftChild.fixed || rightChild.fixed) return;
 
     let leftSize = leftChild.size + d;
     let rightSize = rightChild.size - d;
@@ -153,13 +159,14 @@ export class Divider extends React.PureComponent<DividerProps, any> {
   };
 
   render(): React.ReactNode {
-    let {className} = this.props;
+    let {className, disabled} = this.props;
     if (!className) {
       className = 'dock-divider';
     }
+    if (disabled) className += ' dock-divider-disabled';
     return (
-      <DragDropDiv className={className} onDragStartT={this.startDrag} onDragMoveT={this.dragMove}
-                   onDragEndT={this.dragEnd}/>
+      <DragDropDiv className={className} onDragStartT={disabled ? null : this.startDrag} onDragMoveT={disabled ? null : this.dragMove}
+                   onDragEndT={disabled ? null : this.dragEnd}/>
     );
   }
 }

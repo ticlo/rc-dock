@@ -132,11 +132,16 @@ export function saveLayoutData(
     return {id, size, mode, children};
   }
 
+  const columnEntries = layout.columns && Object.entries(layout.columns)
+    .filter(([id]) => layout.dockbox.children.some((child) => child.id === id))
+    .map(([id, state]) => [id, {...state}]);
+
   return {
     dockbox: saveBoxData(layout.dockbox),
     floatbox: saveBoxData(layout.floatbox),
     windowbox: saveBoxData(layout.windowbox),
     maxbox: saveBoxData(layout.maxbox),
+    ...(columnEntries?.length ? {columns: Object.fromEntries(columnEntries)} : {}),
   };
 }
 
@@ -205,5 +210,6 @@ export function loadLayoutData(
     floatbox: loadBoxData(savedLayout.floatbox ?? {mode: 'float', children: [], size: 0}),
     windowbox: loadBoxData(savedLayout.windowbox ?? {mode: 'window', children: [], size: 0}),
     maxbox: loadBoxData(savedLayout.maxbox ?? {mode: 'maximize', children: [], size: 1}),
+    ...(savedLayout.columns ? {columns: Object.fromEntries(Object.entries(savedLayout.columns).map(([id, state]) => [id, {...state}]))} : {}),
   };
 }

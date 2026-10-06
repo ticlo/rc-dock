@@ -172,11 +172,31 @@ export interface BoxBase {
   children: (BoxBase | PanelBase)[];
 }
 
+export interface SideColumnOptions {
+  collapsible?: boolean;
+  accordion?: boolean;
+  /** Extra spacing in pixels at this outer dock edge, removed while its column is collapsed. */
+  padding?: number;
+}
+
+export interface SideColumns {
+  left?: SideColumnOptions;
+  right?: SideColumnOptions;
+}
+
+export interface ColumnState {
+  collapsed?: boolean;
+  /** The expanded panel while accordion mode is active. */
+  activePanelId?: string;
+}
+
 export interface LayoutBase {
   dockbox: BoxBase;
   floatbox?: BoxBase;
   windowbox?: BoxBase;
   maxbox?: BoxBase;
+  /** Side column state keyed by the id of the column's box or panel. */
+  columns?: {[id: string]: ColumnState};
 }
 
 interface BoxChild extends DockDataBase {
@@ -315,6 +335,8 @@ export type DropDirection =
   | 'move' // dockbox or float panel moved, or float panel resized
   | 'active' // become active tab
   | 'update' // tab updated with updateTab
+  | 'collapse' // side column collapsed or restored
+  | 'accordion' // expanded panel in a side column changed
   ;
 
 export interface FloatSize {
@@ -330,6 +352,12 @@ export interface FloatPosition extends FloatSize {
 export type LayoutSize = FloatSize;
 
 export interface DockContext {
+  /** @ignore */
+  canDock(target: TabData | PanelData | BoxData, direction: DropDirection): boolean;
+
+  /** @ignore */
+  onColumnChange(columnId: string, state: ColumnState, tab?: TabData): void;
+
   /** @ignore */
   getDockId(): any;
 

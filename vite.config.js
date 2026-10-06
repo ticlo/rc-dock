@@ -11,6 +11,7 @@ const exampleFiles = fs.readdirSync('./example')
   }, {});
 
 export default defineConfig({
+  appType: 'mpa',
   root: 'example',
   base: './',
   build: {

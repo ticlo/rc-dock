@@ -1,0 +1,12 @@
+@use "sass:color";
+@use "sass:math";
+
+// Round mixed RGB channels so Sass emits hex colors.
+@function mix($first, $second, $weight) {
+  $mixed: color.to-space(color.mix($first, $second, $weight), rgb);
+  @return color.change($mixed,
+    $red: math.round(color.channel($mixed, "red")),
+    $green: math.round(color.channel($mixed, "green")),
+    $blue: math.round(color.channel($mixed, "blue"))
+  );
+}

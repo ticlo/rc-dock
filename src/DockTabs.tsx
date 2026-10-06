@@ -11,6 +11,7 @@ import {getFloatPanelSize} from "./Algorithm";
 import {WindowBox} from "./WindowBox";
 import {groupClassNames} from "./Utils";
 import classNames from "classnames";
+import {ColumnView} from './SideColumns';
 
 function findParentPanel(element: HTMLElement) {
   for (let i = 0; i < 10; ++i) {
@@ -193,6 +194,7 @@ export class TabCache {
 
 interface Props {
   panelData: PanelData;
+  column?: ColumnView;
   onPanelDragStart: DragManager.DragHandler;
   onPanelDragMove: DragManager.DragHandler;
   onPanelDragEnd: DragManager.DragHandler;
@@ -318,17 +320,54 @@ export class DockTabs extends React.PureComponent<Props> {
         panelExtraContent = maxBtn;
       }
     }
+    const {column} = this.props;
+    let extra: React.ReactNode | {left: React.ReactNode, right: React.ReactNode} = panelExtraContent;
+    if (column) {
+      const collapse = column.collapsible && column.topPanel === panelData && column.panels.some((panel) => panel.tabs.length) ? <div
+        className={`dock-column-collapse-btn dock-column-collapse-${column.side}`}
+        title={`Collapse ${column.side} column`}
+        onClick={() => this.context.onColumnChange(column.column.id, {collapsed: true})}/> : null;
+      const accordion = column.accordion ? <div
+        className={`dock-column-accordion-btn${column.activePanelId === panelData.id ? ' dock-column-accordion-active' : ''}`}
+        title={column.activePanelId === panelData.id ? 'Restore panel sizes' : 'Expand panel'}
+        onClick={() => this.context.onColumnChange(column.column.id, {
+          activePanelId: column.activePanelId === panelData.id ? undefined : panelData.id,
+        })}/> : null;
+      extra = {left: column.side === 'right' ? collapse : null,
+        right: <>{accordion}{panelExtraContent}{column.side === 'left' ? collapse : null}</>};
+    }
     return (
       <DockTabBar onDragStart={onPanelDragStart} onDragMove={onPanelDragMove} onDragEnd={onPanelDragEnd}
                   TabNavList={TabNavList} isMaximized={panelData.parent.mode === 'maximize'} {...props}
-                  extra={panelExtraContent}/>
+                  onClick={column?.activePanelId ? this.onHeaderClick : undefined}
+                  extra={extra}/>
     );
   };
 
+  onHeaderClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const {column, panelData} = this.props;
+    if (!column?.activePanelId || column.activePanelId === panelData.id) return;
+    if ((event.target as HTMLElement).closest('.dock-tab, .dock-extra-content, .dock-nav-operations')) return;
+    this.context.onColumnChange(column.column.id, {activePanelId: panelData.id},
+      panelData.tabs.find((tab) => tab.id === panelData.activeId));
+  };
+
   onTabChange = (activeId: string) => {
+    const {column, panelData} = this.props;
+    if (column?.activePanelId) {
+      this.context.onColumnChange(column.column.id, {activePanelId: panelData.id}, panelData.tabs.find((tab) => tab.id === activeId));
+      return;
+    }
     this.props.panelData.activeId = activeId;
     this.context.onSilentChange(activeId, 'active');
     this.forceUpdate();
+  };
+
+  onTabClick = (activeId: string) => {
+    const {column, panelData} = this.props;
+    if (column?.activePanelId && column.activePanelId !== panelData.id && panelData.activeId === activeId) {
+      this.context.onColumnChange(column.column.id, {activePanelId: panelData.id}, panelData.tabs.find((tab) => tab.id === activeId));
+    }
   };
 
   render(): React.ReactNode {
@@ -372,6 +411,7 @@ export class DockTabs extends React.PureComponent<Props> {
             renderTabBar={this.renderTabBar}
             activeKey={activeId}
             onChange={this.onTabChange}
+            onTabClick={this.onTabClick}
             popupClassName={classNames(groupClassNames(group))}
             items={items}
       />

@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import {Divider} from '../src';
 // keep the above unused import so tools script can understand this tsx
 
-let demos = ['basic', 'dark-theme', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];
+let demos = ['basic', 'side-columns', 'dark-theme', 'panel-style', 'drop-mode', 'tab-update', 'save-layout', 'panel-extra'];
 let advance = ['new-window', 'adv-tab-update', 'adv-save-layout', 'controlled-layout', 'tab-cache', 'divider-box', 'drag-new-tab'];
 
 let defaultPage = window.location.hash.substr(1);

@@ -37,20 +37,31 @@ interface DockTabBarProps extends TabNavListProps {
   onDragStart?: DragManager.DragHandler;
   onDragMove?: DragManager.DragHandler;
   onDragEnd?: DragManager.DragHandler;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
   TabNavList: React.ComponentType<TabNavListProps>;
 }
 
 export function DockTabBar(props: DockTabBarProps) {
   const {
-    onDragStart, onDragMove, onDragEnd, TabNavList, isMaximized,
+    onDragStart, onDragMove, onDragEnd, onClick, TabNavList, isMaximized,
     ...restProps
   } = props;
 
   const layout = React.useContext(DockContextType);
 
   const ref = React.useRef<HTMLDivElement>();
+  const dragged = React.useRef(false);
   const getRef = (div: HTMLDivElement) => {
     ref.current = div;
+  };
+
+  const resetDrag = () => { dragged.current = false; };
+  const onHeaderDragStart: DragManager.DragHandler = (event) => {
+    dragged.current = true;
+    onDragStart(event);
+  };
+  const onHeaderClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    if (!dragged.current) onClick(event);
   };
 
 
@@ -65,9 +76,12 @@ export function DockTabBar(props: DockTabBarProps) {
   };
 
   return (
-    <DragDropDiv onDragStartT={onDragStart}
+    <DragDropDiv onDragStartT={onClick && onDragStart ? onHeaderDragStart : onDragStart}
                  onDragMoveT={onDragMove}
                  onDragEndT={onDragEnd}
+                 onMouseDownCapture={onClick ? resetDrag : undefined}
+                 onTouchStartCapture={onClick ? resetDrag : undefined}
+                 onClick={onClick ? onHeaderClick : undefined}
                  role="tablist"
                  className="dock-bar"
                  onKeyDown={onKeyDown}

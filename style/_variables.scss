@@ -1,4 +1,4 @@
-@use "sass:color";
+@use "./colors";
 
 $background-color: #fff !default;
 $text-color: rgba(#000, 0.85) !default;
@@ -6,8 +6,8 @@ $dragging-layer-shadow: 0 0 8px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 
 
 $component-background: #fff !default;
 $primary-color: #108ee9 !default;
-$primary-highlight: color.mix(#fff, $primary-color, 15%) !default;
-$drop-indicator-bg: color.mix($component-background, $primary-color, 50%) !default;
+$primary-highlight: colors.mix(#fff, $primary-color, 15%) !default;
+$drop-indicator-bg: colors.mix($component-background, $primary-color, 50%) !default;
 $drop-indicator-border-color: #fff !default;
 
 
@@ -21,7 +21,7 @@ $panel-box-shadow: 0 0 4px #aaaaaa !default;
 
 $button-text-color: #ddd !default;
 $button-text-focus-color: #666 !default;
-$button-text-middle-color: color.mix($button-text-color, $button-text-focus-color, 50%) !default;
+$button-text-middle-color: colors.mix($button-text-color, $button-text-focus-color, 50%) !default;
 
 // main window style
 $nav-color-split-main: #eee !default;

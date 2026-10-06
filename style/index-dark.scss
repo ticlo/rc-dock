@@ -1,4 +1,4 @@
-@use "sass:color";
+@use "./colors";
 
 $component-background: #141414 !default;
 $primary-color: #108ee9 !default;
@@ -12,8 +12,8 @@ $dropdown-menu-bg: $component-background !default;
   $dragging-layer-shadow: (0 0 8px rgba(255, 255, 255, 0.1), inset 0 0 8px rgba(255, 255, 255, 0.1)) !default,
   $component-background: $component-background,
   $primary-color: $primary-color,
-  $primary-highlight: color.mix(#fff, $primary-color, 20%) !default,
-  $drop-indicator-bg: color.mix($component-background, $primary-color, 40%) !default,
+  $primary-highlight: colors.mix(#fff, $primary-color, 20%) !default,
+  $drop-indicator-bg: colors.mix($component-background, $primary-color, 40%) !default,
   $panel-border-color: #434343 !default,
   $nav-color-split: #282828 !default,
   $tab-background: #141414 !default,
@@ -21,7 +21,7 @@ $dropdown-menu-bg: $component-background !default;
   $panel-box-shadow: 0 0 4px #444 !default,
   $button-text-color: $button-text-color,
   $button-text-focus-color: $button-text-focus-color,
-  $button-text-middle-color: color.mix($button-text-color, $button-text-focus-color, 50%) !default,
+  $button-text-middle-color: colors.mix($button-text-color, $button-text-focus-color, 50%) !default,
   $nav-color-split-main: #282828 !default,
   $dropdown-menu-bg: $dropdown-menu-bg,
   $item-hover-bg: #2b2b2b !default

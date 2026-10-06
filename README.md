@@ -110,6 +110,27 @@ Keep the `tabs` object and unchanged definitions stable between unrelated render
 (for example, with `useMemo`). Registry updates reuse unchanged tabs and layout branches.
 For frequent updates to one tab, `updateTab(id, definition)` changes that tab directly.
 
+## Side columns
+
+Configure the outer columns of a horizontal root with at least two children:
+
+```jsx
+<DockLayout
+  defaultLayout={defaultLayout}
+  tabs={tabs}
+  sideColumns={{
+    left: {collapsible: true, accordion: true, padding: 10},
+    right: {collapsible: true, accordion: true, padding: 10},
+  }}
+/>
+```
+
+- `collapsible`: collapse a column to tab titles; selecting a title restores it.
+- `accordion`: expand one panel and shrink the others to their headers.
+- `padding`: outer spacing in pixels, even without a column; removed while collapsed.
+
+Column state is saved with the layout. See the [side-columns example](example/side-columns.tsx).
+
 ## Styling
 
 Import `rc-dock/dist/rc-dock.css` for the light theme or `rc-dock/dist/rc-dock-dark.css` for the dark theme. To customize theme variables, use the SCSS source:

@@ -302,6 +302,8 @@ body.dock-dragging {
     &.dock-drop-deep {
       left: calc(50% - 64px);
       width: 16px;
+
+      &.dock-drop-deep-only { left: calc(50% - 32px); }
     }
 
     &::before {
@@ -316,6 +318,8 @@ body.dock-dragging {
     &.dock-drop-deep {
       left: calc(50% + 48px);
       width: 16px;
+
+      &.dock-drop-deep-only { left: calc(50% + 16px); }
     }
 
     &::before {

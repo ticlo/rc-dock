@@ -8,10 +8,12 @@ import {anchorFloatPanel, getFloatPanelSize, nextZIndex} from "./Algorithm";
 import {DockDropEdge} from "./DockDropEdge";
 import {groupClassNames} from "./Utils";
 import classNames from "classnames";
+import {ColumnRail, columnStyle, ColumnView} from './SideColumns';
 
 interface Props {
   panelData: PanelData;
   size: number;
+  column?: ColumnView;
 }
 
 interface State {
@@ -315,7 +317,12 @@ export class DockPanel extends React.PureComponent<Props, State> {
     if (flexShrink < 1) {
       flexShrink = 1;
     }
-    let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`};
+    const {column} = this.props;
+    const collapsed = column?.column === panelData && column.collapsed;
+    const minimized = column?.activePanelId && column.activePanelId !== id;
+    if (collapsed) cls += ' dock-column-collapsed';
+    if (minimized) cls += ' dock-panel-accordion-min';
+    let style: React.CSSProperties = {minWidth, minHeight, flex: `${flexGrow} ${flexShrink} ${size}px`, ...columnStyle(panelData, column)};
     if (isFloat) {
       style.left = panelData.x;
       style.top = panelData.y;
@@ -324,7 +331,7 @@ export class DockPanel extends React.PureComponent<Props, State> {
       style.zIndex = panelData.z;
     }
     let droppingLayer: React.ReactNode;
-    if (dropFromPanel) {
+    if (dropFromPanel && !minimized) {
       let dropFromGroup = this.context.getGroup(dropFromPanel.group);
       let dockId = this.context.getDockId();
       if (!dropFromGroup.tabLocked || DragState.getData('tab', dockId) == null) {
@@ -337,8 +344,9 @@ export class DockPanel extends React.PureComponent<Props, State> {
     return (
       <DragDropDiv getRef={this.getRef} className={cls} style={style} data-dockid={id}
                    onDragOverT={isFloat ? null : this.onDragOver} onClick={this.onPanelClicked}>
-        <DockTabs panelData={panelData} onPanelDragStart={onPanelHeaderDragStart}
+        <DockTabs panelData={panelData} column={column} onPanelDragStart={onPanelHeaderDragStart}
                   onPanelDragMove={this.onPanelHeaderDragMove} onPanelDragEnd={this.onPanelHeaderDragEnd}/>
+        {collapsed ? <ColumnRail view={column}/> : null}
         {isFloat ?
           [
             <DragDropDiv key="drag-size-t" className="dock-panel-drag-size dock-panel-drag-size-t"

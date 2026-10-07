@@ -8,7 +8,12 @@
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeExternals": true,
+  "validation": {"notDocumented": true},
   "readme": "README.md",
   "name": "rc-dock",
+  "highlightLanguages": [
+    "bash", "console", "css", "html", "javascript", "json", "jsonc", "json5",
+    "yaml", "tsx", "typescript", "jsx", "scss"
+  ],
   "plugin": []
 }

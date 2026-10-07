@@ -102,7 +102,7 @@ function findInPanel(panel: PanelData, id: string | ((item: PanelData | TabData 
 
 function findInBox(box: BoxData | undefined, id: string | ((item: PanelData | TabData | BoxData) => boolean), filter: Filter): PanelData | TabData | BoxData | undefined {
   let result: PanelData | TabData | BoxData | undefined;
-  if ((filter | Filter.Box) && compareFindId(box, id)) {
+  if ((filter & Filter.Box) && compareFindId(box, id)) {
     return box;
   }
   if (!box?.children) {
@@ -123,18 +123,31 @@ function findInBox(box: BoxData | undefined, id: string | ((item: PanelData | Ta
 }
 
 
+/** Search mask for `find`; combine item types and layers with bitwise OR. */
 export enum Filter {
+  /** Match tabs. */
   Tab = 1,
+  /** Match panels. */
   Panel = 1 << 1,
+  /** Match boxes. */
   Box = 1 << 2,
+  /** Search the docked layout. */
   Docked = 1 << 3,
+  /** Search floating panels. */
   Floated = 1 << 4,
+  /** Search browser-window panels. */
   Windowed = 1 << 5,
+  /** Search the maximized layer. */
   Max = 1 << 6,
+  /** Search all layout layers; combine with an item type. */
   EveryWhere = Docked | Floated | Windowed | Max,
+  /** Match tabs in any layer. */
   AnyTab = Tab | EveryWhere,
+  /** Match panels in any layer. */
   AnyPanel = Panel | EveryWhere,
+  /** Match tabs and panels in any layer; the default search filter. */
   AnyTabPanel = Tab | Panel | EveryWhere,
+  /** Match tabs, panels and boxes in any layer. */
   All = Tab | Panel | Box | EveryWhere,
 }
 

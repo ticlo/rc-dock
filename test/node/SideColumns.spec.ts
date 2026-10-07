@@ -1,4 +1,4 @@
-import {find, fixLayoutData} from '../../src/Algorithm';
+import {Filter, find, fixLayoutData} from '../../src/Algorithm';
 import {canDock, getColumnViews} from '../../src/SideColumns';
 import {createTabCache, loadLayoutData, saveLayoutData} from '../../src/Serializer';
 import type {BoxData, LayoutData, PanelData} from '../../src/DockData';
@@ -31,7 +31,7 @@ describe('side columns', () => {
     const view = getColumnViews(data, sideOptions).get(column);
     expect([...view.expanded].map((item) => item.id)).toEqual(['left-row-first', 'left-row', 'left-column']);
     expect(view.heights.get(column)).toBe(104);
-    expect(view.heights.get(find(data, 'left-row') as BoxData)).toBe(32);
+    expect(view.heights.get(find(data, 'left-row', Filter.All) as BoxData)).toBe(32);
     expect((find(data, 'left-top') as PanelData).size).toBe(180);
     data.columns['left-column'].activePanelId = 'removed-panel';
     expect(getColumnViews(data, sideOptions).get(column).activePanelId).toBeUndefined();
@@ -78,7 +78,7 @@ describe('side columns', () => {
     const data = layout();
     const options = {left: {[feature]: true}, right: {[feature]: true}};
     for (const id of ['left-top', 'left-row', 'left-bottom', 'a', 'right-top', 'right-bottom', 'g']) {
-      const target = find(data, id);
+      const target = find(data, id, Filter.All);
       for (const direction of ['left', 'right'] as const) expect(canDock(data, options, target, direction)).toBe(false);
       for (const direction of ['top', 'bottom', 'middle', 'before-tab', 'after-tab'] as const) expect(canDock(data, options, target, direction)).toBe(true);
     }
@@ -86,7 +86,7 @@ describe('side columns', () => {
       for (const id of ['left-row-first', 'left-row-last', 'c', 'd', 'e']) {
         for (const direction of ['left', 'right'] as const) expect(canDock(data, options, find(data, id), direction)).toBe(true);
       }
-      expect(canDock(data, options, find(data, 'left-row'), 'left')).toBe(false);
+      expect(canDock(data, options, find(data, 'left-row', Filter.All), 'left')).toBe(false);
       data.dockbox.children.reverse();
     }
     for (const direction of ['left', 'right'] as const) {

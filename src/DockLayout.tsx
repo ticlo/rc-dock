@@ -1,3 +1,7 @@
+/**
+ * DockLayout component and its configuration callbacks.
+ * @module
+ */
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import debounce from 'lodash/debounce';
@@ -33,22 +37,21 @@ import * as DragManager from "./dragdrop/DragManager";
 import {MaxBox} from "./MaxBox";
 import {WindowBox} from "./WindowBox";
 
+/** DockLayout configuration, tab definitions and persistence callbacks. */
 export interface LayoutProps {
   /**
-   * when there are multiple DockLayout, by default, you can't drag panel between them
-   * but if you assign same dockId, it will allow panels to be dragged from one layout to another
+   * Shared drag scope. Layouts with the same id allow tabs and panels to move between them.
    */
   dockId?: string;
 
   /**
-   * Initial layout. Tabs can be {id} references resolved by [[LayoutProps.tabs]] or
-   * [[LayoutProps.loadTab]], or full inline [[TabData]] definitions.
+   * Initial uncontrolled layout. Tabs may be `{id}` references resolved by
+   * {@link tabs} or {@link loadTab}, or full inline {@link TabData} definitions.
    */
   defaultLayout?: LayoutBase;
 
   /**
-   * set layout only when you want to use DockLayout as a fully controlled react component
-   * when using controlled layout, [[LayoutProps.onLayoutChange]] must be set to enable any layout change
+   * Controlled layout. Accept changes by supplying {@link onLayoutChange} and updating this prop.
    */
   layout?: LayoutBase;
 
@@ -63,53 +66,59 @@ export interface LayoutProps {
   sideColumns?: SideColumns;
 
   /**
-   * Tab Groups, defines additional configuration for different groups
+   * Tab style and behavior options keyed by group name.
    */
   groups?: {[key: string]: TabGroup};
 
   /**
-   * @param newLayout layout data can be set to [[LayoutProps.layout]] directly when used as controlled component
-   * @param currentTabId id of current tab
-   * @param direction direction of the dock change
+   * Called after a user action or layout API change; `loadLayout` does not call it.
+   * @param newLayout Saved layout; assign to {@link layout} for controlled use.
+   * @param currentTabId Tab involved in the change, when available.
+   * @param direction Docking command or change reason.
    */
   onLayoutChange?(newLayout: LayoutBase, currentTabId?: string, direction?: DropDirection): void;
 
   /**
-   * - default mode: showing 4 to 9 squares to help picking drop areas
-   * - edge mode: using the distance between mouse and panel border to pick drop area
-   *   - in edge mode, dragging float panel's header won't bring panel back to dock layer
+   * Drop targeting: `default` shows direction buttons; `edge` uses pointer distance from panel edges.
+   * Edge mode does not dock floating panels by their headers. Defaults to `default`.
    */
   dropMode?: 'default' | 'edge';
 
   /**
-   * override the default saveTab behavior
-   * @return must at least have an unique id
+   * Serialize a tab. The default result is `{id: tab.id}`.
+   * @param tab Runtime tab definition.
+   * @returns Serializable reference containing a unique id.
    */
   saveTab?(tab: TabData): TabBase;
 
   /**
-   * Load tabs whose ids are not in [[LayoutProps.tabs]]. Return null to skip an unavailable tab.
-   * Without this callback, full inline definitions and tabs from [[LayoutProps.defaultLayout]] are used.
+   * Resolve tabs missing from {@link tabs}. Without a loader, inline definitions
+   * and definitions in {@link defaultLayout} are used.
+   * @param tab Saved tab reference, including fields returned by {@link saveTab}.
+   * @returns Full tab definition, or null to skip an unavailable tab.
    */
   loadTab?(tab: TabBase): TabData | null;
 
   /**
-   * modify the savedPanel, you can add additional data into the savedPanel
+   * Add application data to a saved panel by mutating it.
+   * @param savedPanel Serialized panel to modify.
+   * @param panel Original runtime panel.
    */
   afterPanelSaved?(savedPanel: PanelBase, panel: PanelData): void;
 
   /**
-   * modify the loadedPanel, you can retrieve additional data into the panel
-   * - modifying panel tabs is allowed, make sure to add or replace full TabData with title and content, because loadTab won't be called after this
-   * - if tabs is empty, but still remaining in layout because of panelLock, make sure also set the group if it's not null
+   * Restore application data by mutating the loaded panel.
+   * Added tabs must be full definitions; `loadTab` is not called again.
+   * @param savedPanel Serialized panel containing application data.
+   * @param loadedPanel Resolved panel to modify; set its group explicitly if it has no tabs.
    */
   afterPanelLoaded?(savedPanel: PanelBase, loadedPanel: PanelData): void;
 
+  /** CSS styles for the layout container, including its position and size. */
   style?: React.CSSProperties;
 
   /**
-   * when specified, docklayout will create a react portal for the maximized panel
-   * use dom element as the value, or use the element's id
+   * Render maximized panels in this DOM element or element id instead of the layout container.
    */
   maximizeTo?: string | HTMLElement;
 }
@@ -128,10 +137,13 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
   /** @ignore */
   _caches = new Map<string, TabPaneCache>();
 
+  /** @ignore */
   _pendingDestroy: any;
 
+  /** @ignore */
   _isMounted = false;
 
+  /** @ignore */
   destroyRemovedPane = () => {
     this._pendingDestroy = null;
     let cacheRemoved = false;
@@ -184,6 +196,7 @@ class DockPortalManager extends React.PureComponent<LayoutProps, LayoutState> {
   }
 }
 
+/** Docking layout component. Use a ref for tab moves, updates and layout persistence. */
 export class DockLayout extends DockPortalManager implements DockContext {
   /** @ignore */
   _ref: HTMLDivElement;
@@ -261,13 +274,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     this.changeLayout(layout, tab?.id, 'collapsed' in state ? 'collapse' : 'accordion');
   }
 
-  /**
-   * @inheritDoc
-   * @param source @inheritDoc
-   * @param target @inheritDoc
-   * @param direction @inheritDoc
-   * @param floatPosition @inheritDoc
-   */
+  /** @inheritDoc */
   dockMove(
     sourceData: TabBase | PanelBase,
     target: string | TabData | PanelData | BoxData | null,
@@ -440,6 +447,10 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
   }
 
+  /**
+   * Create a layout with either `defaultLayout` or `layout`.
+   * @param props Layout configuration.
+   */
   constructor(props: LayoutProps) {
     super(props);
     let {layout, defaultLayout, tabs} = props;
@@ -564,6 +575,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return views;
   }
 
+  /** @ignore */
   render(): React.ReactNode {
     // clear tempLayout
     this.tempLayout = null;
@@ -617,6 +629,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     );
   }
 
+  /** @ignore */
   _onWindowResize: any = debounce(() => {
     let layout = this.getLayout();
 
@@ -629,6 +642,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     }
   }, 200);
 
+  /** @ignore */
   _resizeObserver: ResizeObserver;
 
 
@@ -673,11 +687,17 @@ export class DockLayout extends DockPortalManager implements DockContext {
    */
   tempLayout: LayoutData;
 
+  /**
+   * Replace the runtime layout without calling `onLayoutChange`.
+   * Use {@link loadLayout} for saved layouts.
+   * @param layout Resolved runtime layout with parent links and tab definitions.
+   */
   setLayout(layout: LayoutData) {
     this.tempLayout = layout;
     this.setState({layout});
   }
 
+  /** Return the current runtime layout, including tab content and parent links. */
   getLayout() {
     return this.tempLayout || this.state.layout;
   }
@@ -717,13 +737,18 @@ export class DockLayout extends DockPortalManager implements DockContext {
 
   // public api
 
+  /**
+   * Save layout positions and column state, with tabs serialized by {@link LayoutProps.saveTab}.
+   * @returns Layout data suitable for `loadLayout` or the controlled `layout` prop.
+   */
   saveLayout(): LayoutBase {
     return Serializer.saveLayoutData(this.getLayout(), this.props.saveTab, this.props.afterPanelSaved);
   }
 
   /**
-   * load layout
-   * calling this api won't trigger the [[LayoutProps.onLayoutChange]] callback
+   * Restore a saved layout, resolving tabs through `tabs`, `loadTab` or `defaultLayout`.
+   * Does not call {@link LayoutProps.onLayoutChange}.
+   * @param savedLayout Previously saved or application-provided layout.
    */
   loadLayout(savedLayout: LayoutBase) {
     this.setLayout(DockLayout.loadLayoutData(savedLayout, this.props, this._ref.offsetWidth, this._ref.offsetHeight, this.state.tabDefinitions));
@@ -751,6 +776,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     return layout;
   }
 
+  /** @ignore */
   static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
     let {layout: layoutToLoad} = props;
     let {layout: currentLayout} = state;

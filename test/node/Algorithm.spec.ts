@@ -1,5 +1,5 @@
 import * as Algorithm from '../../src/Algorithm';
-import {maximePlaceHolderId} from '../../src/DockData';
+import {Filter, maximePlaceHolderId} from '../../src/DockData';
 import type {PanelData, TabData} from '../../src/DockData';
 import {layout, tab} from '../fixtures';
 
@@ -13,6 +13,19 @@ describe('layout operations (basic, tab-min-size and panel-extra examples)', () 
     expect(data.floatbox.children).toEqual([]);
     expect(data.windowbox.children).toEqual([]);
     expect(data.maxbox.children).toEqual([]);
+  });
+
+  it('honors item type filters for both ids and predicates', () => {
+    const data = layout();
+    expect(Filter).toBe(Algorithm.Filter);
+    expect(Algorithm.find(data, 'root')).toBeUndefined();
+    expect(Algorithm.find(data, 'root', Filter.AnyTab)).toBeUndefined();
+    expect(Algorithm.find(data, 'root', Filter.AnyPanel)).toBeUndefined();
+    expect(Algorithm.find(data, () => true, Filter.AnyTab)).toBe((data.dockbox.children[0] as PanelData).tabs[0]);
+    expect(Algorithm.find(data, () => true, Filter.AnyPanel)).toBe(data.dockbox.children[0]);
+    expect(Algorithm.find(data, 'root', Filter.Box | Filter.Docked)).toBe(data.dockbox);
+    expect(Algorithm.find(data, 'root', Filter.Box | Filter.Floated)).toBeUndefined();
+    expect(Algorithm.find(data, 'root', Filter.All)).toBe(data.dockbox);
   });
 
   it('honors tab and panel minimum sizes', () => {

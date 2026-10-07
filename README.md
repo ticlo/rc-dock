@@ -77,9 +77,9 @@ render() {
 
 ```
 - use as **uncontrolled layout**
-  - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#defaultlayout)**
+  - set layout object in **[DockLayout.defaultLayout](https://ticlo.github.io/rc-dock/interfaces/DockLayout.LayoutProps.html#defaultlayout)**
 - use as **controlled layout**
-  - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html#layout)** 
+  - set layout object in **[DockLayout.layout](https://ticlo.github.io/rc-dock/interfaces/DockLayout.LayoutProps.html#layout)**
 
 `tabs` holds tab definitions keyed by id. Layouts can contain only `{id}` references,
 while titles, content and tab options live in `tabs`. The registry key supplies the id.
@@ -147,13 +147,13 @@ Use `rc-dock/style/index-dark` for a custom dark theme. Run `pnpm build-scss` to
 ## types
 
 
-### LayoutData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.layoutdata.html)
+### LayoutData [🗎](https://ticlo.github.io/rc-dock/interfaces/DockData.LayoutData.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
-| dockbox | BoxData | main dock box | empty BoxData |
+| dockbox | BoxData | main dock box | **required** |
 | floatbox | BoxData | main float box, children can only be PanelData  | empty BoxData |
 
-### BoxData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.boxdata.html)
+### BoxData [🗎](https://ticlo.github.io/rc-dock/interfaces/DockData.BoxData.html)
 a box is the layout element that contains other boxes or panels
 
 | Property | Type | Comments | Default |
@@ -161,60 +161,60 @@ a box is the layout element that contains other boxes or panels
 | mode | 'horizontal' &#x7c; 'vertical' &#x7c; 'float' | layout mode of the box | |
 | children | (BoxData &#x7c; PanelData)[] | children boxes or panels | **required** |
 
-### PanelData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.paneldata.html)
-a panel is a visiaul container with tabs button in the title bar
+### PanelData [🗎](https://ticlo.github.io/rc-dock/interfaces/DockData.PanelData.html)
+A panel contains tabs and their content.
 
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
 | tabs | TabData[] | children tabs | **required** |
-| panelLock | PanelLock | addition information of a panel, this prevents the panel from being removed when there is no tab inside, a locked panel can not be moved to float layer either | |
+| panelLock | PanelLock | Keeps empty panels and prevents dragging the whole panel into the floating layer; also provides sizing and header overrides. | |
 
 
-### TabData [🗎](https://ticlo.github.io/rc-dock/interfaces/dockdata.tabdata.html)
+### TabData [🗎](https://ticlo.github.io/rc-dock/interfaces/DockData.TabData.html)
 | Property | Type | Comments | Default |
 | :---: | :---: | :---: | :---: |
 | id | string | unique id | **required** |
-| title | string &#x7c; ReactElement | tab title | **required** |
+| title | React.ReactChild | tab title | **required** |
 | content | ReactElement &#x7c; (tab: TabData) => ReactElement | tab content | **required** |
 | closable | bool | whether tab can be closed | false |
-| group | string | tabs with different tab group can not be put in same panel, more options for the group can be defined as TabGroup in DefaultLayout.groups | |
+| group | string | Tabs with different groups cannot share a panel through drag and drop. Configure groups with LayoutProps.groups. | |
 
 ## DockLayout API
 
 get the `ref` of the DockLayout component to use the following API
 
-### saveLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html)
+### saveLayout [🗎](https://ticlo.github.io/rc-dock/classes/DockLayout.DockLayout.html#savelayout)
 save layout
 
 ```typescript
-saveLayout(): SavedLayout 
+saveLayout(): LayoutBase
 ```
 
-### loadLayout [🗎](https://ticlo.github.io/rc-dock/interfaces/docklayout.layoutprops.html)
+### loadLayout [🗎](https://ticlo.github.io/rc-dock/classes/DockLayout.DockLayout.html#loadlayout)
 load layout
 
 ```typescript
- loadLayout(savedLayout: SavedLayout): void
+loadLayout(savedLayout: LayoutBase): void
 ```
 
-### dockMove [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#dockmove)
+### dockMove [🗎](https://ticlo.github.io/rc-dock/classes/DockLayout.DockLayout.html#dockmove)
 move a tab or a panel, if source is already in the layout, you can use the find method to get it with id first
 
 ```typescript
-dockMove(source: TabBase | PanelBase, target: string | TabData | PanelData | BoxData | null, direction: DropDirection): void;
+dockMove(source: TabBase | PanelBase, target: string | TabData | PanelData | BoxData | null, direction: DropDirection, floatPosition?: FloatPosition): void;
 ```
 
-### find [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#find)
-find PanelData or TabData by id
+### find [🗎](https://ticlo.github.io/rc-dock/classes/DockLayout.DockLayout.html#find)
+Find a tab, panel or box by id or predicate. The default filter searches tabs and panels; use `Filter.All` to include boxes.
 
 ```typescript
 find(id: string | ((item: PanelData | TabData | BoxData) => boolean), filter?: Filter): PanelData | TabData | BoxData | undefined;
 ```
 
-### updateTab [🗎](https://ticlo.github.io/rc-dock/classes/docklayout.docklayout-1.html#updatetab)
+### updateTab [🗎](https://ticlo.github.io/rc-dock/classes/DockLayout.DockLayout.html#updatetab)
 update a tab with new TabData
 
-returns false if the tab is not found
+Returns false if the tab is missing or its replacement cannot be resolved.
 
 ```typescript
 updateTab(id: string, newTab: TabBase | null, makeActive?: boolean): boolean;

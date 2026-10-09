@@ -500,7 +500,7 @@ export class DockLayout extends DockPortalManager implements DockContext {
     if (dropRect) {
       if (direction === 'remove') {
         this.setState((oldStates) => {
-          if (oldStates.dropRect.source === source) {
+          if (oldStates.dropRect && oldStates.dropRect.source === source) {
             return {dropRect: null};
           }
           return {};

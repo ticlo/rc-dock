@@ -1,0 +1,56 @@
+$css-var-prefix: ant !default;
+
+@forward "./index" with (
+  $background-color: var(--#{$css-var-prefix}-color-bg-layout, #f5f5f5) !default,
+  $text-color: var(--#{$css-var-prefix}-color-text, rgba(0, 0, 0, 0.88)) !default,
+  $dragging-layer-shadow: var(--#{$css-var-prefix}-box-shadow-secondary, 0 0 8px rgba(0, 0, 0, 0.1)) !default,
+  $component-background: var(--#{$css-var-prefix}-color-bg-container, #fff) !default,
+  $primary-color: var(--#{$css-var-prefix}-color-primary, #1677ff) !default,
+  $primary-highlight: var(--#{$css-var-prefix}-color-primary-hover, #4096ff) !default,
+  $drop-indicator-bg: var(--dock-drop-indicator-bg, var(--#{$css-var-prefix}-color-primary, #1677ff)) !default,
+  $drop-indicator-border-color: var(--#{$css-var-prefix}-color-primary-border, #91caff) !default,
+  $disabled-color: var(--#{$css-var-prefix}-color-text-disabled, rgba(0, 0, 0, 0.25)) !default,
+  $panel-border-color: var(--#{$css-var-prefix}-color-border, #d9d9d9) !default,
+  $nav-color-split: var(--#{$css-var-prefix}-color-border-secondary, #f0f0f0) !default,
+  $nav-more-shadow: var(--#{$css-var-prefix}-box-shadow-tabs-overflow-right, inset -10px 0 8px -8px rgba(0, 0, 0, 0.08)) !default,
+  $tab-background: var(--#{$css-var-prefix}-color-bg-container, #fff) !default,
+  $panel-corner-color: transparent !default,
+  $panel-box-shadow: var(--#{$css-var-prefix}-box-shadow-secondary, 0 0 4px rgba(0, 0, 0, 0.2)) !default,
+  $button-text-color: var(--#{$css-var-prefix}-color-text-tertiary, rgba(0, 0, 0, 0.45)) !default,
+  $button-text-focus-color: var(--#{$css-var-prefix}-color-text, rgba(0, 0, 0, 0.88)) !default,
+  $button-text-middle-color: var(--#{$css-var-prefix}-color-text-secondary, rgba(0, 0, 0, 0.65)) !default,
+  $nav-color-split-main: var(--#{$css-var-prefix}-color-border-secondary, #f0f0f0) !default,
+  $dropdown-menu-bg: var(--#{$css-var-prefix}-color-bg-elevated, #fff) !default,
+  $item-hover-bg: var(--#{$css-var-prefix}-control-item-bg-hover, rgba(0, 0, 0, 0.04)) !default,
+  $box-shadow-base: var(--#{$css-var-prefix}-box-shadow-secondary, 0 6px 16px rgba(0, 0, 0, 0.08)) !default
+);
+
+// CSS variables cannot resolve inside a data URL. Keep the full resize hit area.
+.dock-panel-drag-size-b-r {
+  background-image: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    background: var(--#{$css-var-prefix}-color-border, #d9d9d9);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.dock-panel-min-btn::before {
+  color: var(--#{$css-var-prefix}-color-text-tertiary, rgba(0, 0, 0, 0.45));
+}
+
+.dock-panel-min-btn:hover::before,
+.dock-panel-min-btn:focus::before {
+  color: var(--#{$css-var-prefix}-color-text, rgba(0, 0, 0, 0.88));
+}
+
+.dock-drop-layer .dock-drop-square-dropping {
+  color: var(--#{$css-var-prefix}-color-text-light-solid, #fff);
+}

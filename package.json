@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "5.0.0-alpha",
+  "version": "5.0.0-alpha.2",
   "description": "dock layout for react component",
   "keywords": [
     "dock",
@@ -41,7 +41,7 @@
     "prepack": "npm run build-lib && npm run build-es && npm run build-scss",
     "dev": "vite",
     "build-examples": "vite build",
-    "build-scss": "sass --no-source-map style/index-light.scss:dist/rc-dock.css style/index-dark.scss:dist/rc-dock-dark.css",
+    "build-scss": "sass --no-source-map style/index-light.scss:dist/rc-dock.css style/index-dark.scss:dist/rc-dock-dark.css style/index-antd.scss:dist/rc-dock-antd.css",
     "build-doc": "typedoc",
     "build-www": "ts-node tool/build-www",
     "build-es": "tsc --module es2020 --outDir ./es",

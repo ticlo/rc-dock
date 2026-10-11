@@ -25,3 +25,4 @@ build
 /nul
 /test/**/__screenshots__/
 /.vitest/
+/rc-dock-*.tgz

@@ -4,6 +4,9 @@ import {GestureState} from "./GestureManager";
 
 export type AbstractPointerEvent = MouseEvent | TouchEvent;
 
+/** Initialize drag layers for descendant DragDropDivs, including dock tabs and panels. */
+export const DragLayerContext = React.createContext<DragManager.DragLayerInitializer>(null);
+
 interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
   getRef?: React.ForwardedRef<HTMLDivElement>;
   onDragStartT?: DragManager.DragHandler;
@@ -32,6 +35,13 @@ interface DragDropDivProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export class DragDropDiv extends React.PureComponent<DragDropDivProps, any> {
+
+  static contextType = DragLayerContext;
+  declare context: React.ContextType<typeof DragLayerContext>;
+
+  get onCreateDragLayer() {
+    return this.context;
+  }
 
   element: HTMLElement;
   ownerDocument: Document;

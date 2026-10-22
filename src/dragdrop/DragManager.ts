@@ -3,6 +3,9 @@ import {groupClassNames} from "../Utils";
 
 export type DragType = 'left' | 'right' | 'touch';
 
+/** Customize a new layer before it is attached to body and the preview is measured. */
+export type DragLayerInitializer = (layer: HTMLDivElement, state: DragState) => void;
+
 export interface DragOptions {
   /** Opacity of the entire dragging layer, from 0 to 1. Defaults to the stylesheet value. */
   opacity?: number;
@@ -16,6 +19,7 @@ interface DragDropComponent {
   baseY: number;
   scaleX: number;
   scaleY: number;
+  onCreateDragLayer?: DragLayerInitializer;
 }
 
 export class DragState {
@@ -265,6 +269,7 @@ function createDraggingElement(state: DragState, refElement: HTMLElement, draggi
     _refElement = refElement;
   }
   _createDraggingDiv(state.component.ownerDocument, state.dragType);
+  state.component.onCreateDragLayer?.(_draggingDiv, state);
   if (options?.opacity !== undefined) {
     _draggingDiv.style.opacity = String(options.opacity);
   }

@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "5.0.0-alpha.2",
+  "version": "5.0.0-alpha.3",
   "description": "dock layout for react component",
   "keywords": [
     "dock",

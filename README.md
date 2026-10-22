@@ -143,20 +143,13 @@ Import `rc-dock/dist/rc-dock.css` for the light theme or `rc-dock/dist/rc-dock-d
 
 Use `rc-dock/style/index-dark` for a custom dark theme. Run `pnpm build-scss` to regenerate the distributed CSS files.
 
-For Ant Design, import `rc-dock/dist/rc-dock-antd.css` instead. This theme reads Ant Design's CSS variables, so it follows light, dark and custom tokens without an Ant Design dependency in rc-dock:
+Use `DragLayerContext.Provider` to initialize drag layers for a subtree, including dock tabs, panels and custom `DragDropDiv` sources. Its callback receives `(layer, state)` before the layer is attached to `body` and the preview is measured. Add classes, styles or attributes as needed; the nearest provider applies.
 
 ```jsx
-<ConfigProvider theme={{cssVar: {key: 'app-theme'}, algorithm: theme.darkAlgorithm}}>
-  <div className="app-theme">
-    <DockLayout {...props} />
-  </div>
-</ConfigProvider>
+<DragLayerContext.Provider value={(layer) => layer.classList.add(themeClass)}>
+  <DockLayout {...layoutProps} />
+</DragLayerContext.Provider>
 ```
-
-The CSS variable scope must contain the layout. Put the scope class on `body` when using body-mounted dropdowns or drag previews. Separate browser windows need the same theme variables. Without variables, the stylesheet falls back to Ant Design's default light colors.
-
-For a custom CSS variable prefix, use `rc-dock/style/index-antd` with `$css-var-prefix: your-prefix`. Override `--dock-drop-indicator-bg` in the theme scope to customize the docking highlight independently of Ant Design's `colorPrimary`.
-
 
 ## types
 

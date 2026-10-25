@@ -1,6 +1,6 @@
 {
   "name": "rc-dock",
-  "version": "5.0.0-alpha.3",
+  "version": "5.0.0-alpha.4",
   "description": "dock layout for react component",
   "keywords": [
     "dock",
@@ -35,7 +35,8 @@
     "es/**/*.d.ts",
     "dist/*.css",
     "style/**/*.scss",
-    "HISTORY.md"
+    "HISTORY.md",
+    "MIGRATION.md"
   ],
   "scripts": {
     "prepack": "npm run build-lib && npm run build-es && npm run build-scss",

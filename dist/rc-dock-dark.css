@@ -177,13 +177,11 @@ body > .dragging-layer.dragging-layer-touch > div:last-child {
   right: -3px;
   font-size: 12px;
   width: 16px;
+  height: 1.5em;
   text-align: center;
   top: 6px;
   outline: none;
   transition: all 0.25s ease-in-out;
-}
-.dock-tab-close-btn:before {
-  content: "X";
 }
 .dock-tab-close-btn:hover, .dock-tab-close-btn:focus {
   color: #fff;
@@ -591,14 +589,6 @@ body.dock-dragging iframe {
   width: 100%;
   height: 100%;
 }
-.dock-drop-layer .dock-drop-square::before {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: block;
-  line-height: 30px;
-  text-align: center;
-}
 .dock-drop-layer .dock-drop-float {
   z-index: 100;
   left: 0;
@@ -618,10 +608,6 @@ body.dock-dragging iframe {
 .dock-drop-layer .dock-drop-left.dock-drop-deep.dock-drop-deep-only {
   left: calc(50% - 32px);
 }
-.dock-drop-layer .dock-drop-left::before {
-  content: ">";
-  transform: rotate(180deg);
-}
 .dock-drop-layer .dock-drop-right {
   left: calc(50% + 16px);
 }
@@ -632,9 +618,6 @@ body.dock-dragging iframe {
 .dock-drop-layer .dock-drop-right.dock-drop-deep.dock-drop-deep-only {
   left: calc(50% + 16px);
 }
-.dock-drop-layer .dock-drop-right::before {
-  content: ">";
-}
 .dock-drop-layer .dock-drop-top {
   top: calc(50% - 48px);
 }
@@ -642,26 +625,12 @@ body.dock-dragging iframe {
   top: calc(50% - 64px);
   height: 16px;
 }
-.dock-drop-layer .dock-drop-top.dock-drop-deep::before {
-  line-height: 14px;
-}
-.dock-drop-layer .dock-drop-top::before {
-  content: ">";
-  transform: rotate(270deg);
-}
 .dock-drop-layer .dock-drop-bottom {
   top: calc(50% + 16px);
 }
 .dock-drop-layer .dock-drop-bottom.dock-drop-deep {
   top: calc(50% + 48px);
   height: 16px;
-}
-.dock-drop-layer .dock-drop-bottom.dock-drop-deep::before {
-  line-height: 14px;
-}
-.dock-drop-layer .dock-drop-bottom::before {
-  content: ">";
-  transform: rotate(90deg);
 }
 .dock-drop-layer .dock-drop-square-dropping {
   background: #125d94;
@@ -673,9 +642,11 @@ body.dock-dragging iframe {
 }
 
 .dock-panel-max-btn, .dock-panel-min-btn {
+  position: relative;
   height: 25px;
   width: 21px;
   font-family: "Fredoka One", sans-serif;
+  color: #444;
   margin: 2px 2px 2px 0;
   padding: 6px 4px 4px 2px;
   cursor: pointer;
@@ -684,41 +655,22 @@ body.dock-dragging iframe {
   user-select: none;
   box-sizing: border-box;
 }
-.dock-panel-max-btn:before, .dock-panel-min-btn:before {
-  position: absolute;
-  content: " ";
-  border: 2px solid #444;
-  border-radius: 1px;
-  width: 13px;
-  height: 13px;
-  box-sizing: border-box;
-}
 .dock-panel-max-btn:hover, .dock-panel-max-btn:focus, .dock-panel-min-btn:hover, .dock-panel-min-btn:focus {
   color: #a2a2a2;
-}
-.dock-panel-max-btn:hover:before, .dock-panel-max-btn:focus:before, .dock-panel-min-btn:hover:before, .dock-panel-min-btn:focus:before {
-  border-color: #a2a2a2;
 }
 .dock-panel-max-btn:hover, .dock-panel-min-btn:hover {
   transform: scale(1.1);
 }
 
-.dock-panel-min-btn:before {
-  position: absolute;
-  border-radius: 1px;
-  width: 9px;
-  height: 9px;
-  border: none;
-  content: "-";
+.dock-panel-min-btn {
   color: #666;
-  font-size: 20px;
-  line-height: 4px;
 }
-.dock-panel-min-btn:hover:before, .dock-panel-min-btn:focus:before {
+.dock-panel-min-btn:hover, .dock-panel-min-btn:focus {
   color: #999;
 }
 
 .dock-column-collapse-btn, .dock-column-accordion-btn {
+  position: relative;
   flex: 0 0 21px;
   height: 25px;
   margin: 2px 2px 2px 0;
@@ -730,18 +682,6 @@ body.dock-dragging iframe {
 }
 .dock-column-collapse-btn:hover, .dock-column-accordion-btn:hover {
   color: #40a5ed;
-}
-
-.dock-column-collapse-left:before {
-  content: "«";
-}
-
-.dock-column-collapse-right:before {
-  content: "»";
-}
-
-.dock-column-accordion-btn:before {
-  content: "^";
 }
 
 .dock-column-accordion-active {
@@ -803,6 +743,65 @@ body.dock-dragging iframe {
 
 .dock-box > .dock-divider-disabled {
   cursor: default;
+}
+
+.dock-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dock-icon-close::before {
+  content: "X";
+}
+
+.dock-icon-maximize::before {
+  content: "";
+  border: 2px solid currentColor;
+  border-radius: 1px;
+  width: 13px;
+  height: 13px;
+  box-sizing: border-box;
+}
+
+.dock-icon-restore::before {
+  content: "-";
+  font-size: 20px;
+  line-height: 1;
+}
+
+.dock-icon-collapse-left::before {
+  content: "«";
+}
+
+.dock-icon-collapse-right::before {
+  content: "»";
+}
+
+.dock-icon-accordion::before {
+  content: "^";
+}
+
+.dock-icon-left::before,
+.dock-icon-right::before,
+.dock-icon-top::before,
+.dock-icon-bottom::before {
+  content: ">";
+}
+
+.dock-icon-left::before {
+  transform: rotate(180deg);
+}
+
+.dock-icon-top::before {
+  transform: rotate(270deg);
+}
+
+.dock-icon-bottom::before {
+  transform: rotate(90deg);
 }
 
 .dock-panel.dock-style-place-holder {

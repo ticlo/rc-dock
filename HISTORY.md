@@ -1,3 +1,17 @@
+## 5.0.0 (unreleased)
+
+- Add an optional `tabs` registry for resolving `{id}` references and updating tab definitions without moving tabs or resetting cached component state. `dockMove` and `updateTab` accept tab references, and `loadTab` can return `null` to skip unavailable tabs.
+- Add `sideColumns` with collapsible tab-title rails, accordion panels, outer padding and saved column state.
+- Anchor floating panels near the right and bottom edges, preview anchors during dragging and resizing, and preserve edge gaps when the layout container resizes. Anchors are saved with the layout.
+- Replace Less theme sources with configurable SCSS modules. Existing compiled light and dark CSS import paths remain available.
+- Add `rc-dock/dist/rc-dock-antd.css`, a theme that follows Ant Design CSS variables and responds to theme changes.
+- Add `DragLayerContext` for applying classes, styles or attributes to drag previews before they are attached and measured.
+- Separate icon artwork from control hit areas and expose semantic CSS classes for font, image and CSS mask customization.
+- Fix `updateTab` to preserve tab order and selection and recalculate changed sizing constraints.
+- Fix `find` item-type filtering and prevent crashes when drop-indicator removals are batched.
+
+Most applications need no migration. Custom Less themes, icon artwork and certain advanced integrations need updates; see the [v5 migration guide](MIGRATION.md).
+
 ## 4.0.3
 
 - Move accept and reject icons above the finger during touch dragging while preserving drag preview and drop target positions.

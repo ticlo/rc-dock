@@ -1,0 +1,38 @@
+.dock-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dock-icon-close::before { content: 'X'; }
+
+.dock-icon-maximize::before {
+  content: '';
+  border: 2px solid currentColor;
+  border-radius: 1px;
+  width: 13px;
+  height: 13px;
+  box-sizing: border-box;
+}
+
+.dock-icon-restore::before {
+  content: '-';
+  font-size: 20px;
+  line-height: 1;
+}
+
+.dock-icon-collapse-left::before { content: '«'; }
+.dock-icon-collapse-right::before { content: '»'; }
+.dock-icon-accordion::before { content: '^'; }
+
+.dock-icon-left::before,
+.dock-icon-right::before,
+.dock-icon-top::before,
+.dock-icon-bottom::before { content: '>'; }
+
+.dock-icon-left::before { transform: rotate(180deg); }
+.dock-icon-top::before { transform: rotate(270deg); }
+.dock-icon-bottom::before { transform: rotate(90deg); }

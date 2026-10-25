@@ -1,6 +1,7 @@
 @use "./variables" as *;
 
 .dock-column-collapse-btn, .dock-column-accordion-btn {
+  position: relative;
   flex: 0 0 21px;
   height: 25px;
   margin: 2px 2px 2px 0;
@@ -13,9 +14,6 @@
   &:hover { color: $primary-highlight; }
 }
 
-.dock-column-collapse-left:before { content: '«'; }
-.dock-column-collapse-right:before { content: '»'; }
-.dock-column-accordion-btn:before { content: '^'; }
 .dock-column-accordion-active { color: $primary-color; }
 
 .dock-column-collapsed {

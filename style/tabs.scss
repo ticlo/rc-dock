@@ -164,14 +164,11 @@
     right: -3px;
     font-size: 12px;
     width: 16px;
+    height: 1.5em;
     text-align: center;
     top: 6px;
     outline: none;
     transition: all 0.25s ease-in-out;
-
-    &:before {
-      content: "X";
-    }
   }
 
   &-tab-close-btn:hover,

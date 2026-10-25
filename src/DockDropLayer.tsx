@@ -97,6 +97,7 @@ export class DockDropSquare extends React.PureComponent<DockDropSquareProps, Doc
       <DragDropDiv className={classes.join(' ')}
                    onDragOverT={this.onDragOver} onDragLeaveT={this.onDragLeave} onDropT={this.onDrop}>
         <div className="dock-drop-square-box"/>
+        {direction !== 'float' ? <span className={`dock-icon dock-icon-${direction}`}/> : null}
       </DragDropDiv>
     );
   }

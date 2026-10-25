@@ -42,12 +42,12 @@ $css-var-prefix: ant !default;
   }
 }
 
-.dock-panel-min-btn::before {
+.dock-panel-min-btn {
   color: var(--#{$css-var-prefix}-color-text-tertiary, rgba(0, 0, 0, 0.45));
 }
 
-.dock-panel-min-btn:hover::before,
-.dock-panel-min-btn:focus::before {
+.dock-panel-min-btn:hover,
+.dock-panel-min-btn:focus {
   color: var(--#{$css-var-prefix}-color-text, rgba(0, 0, 0, 0.88));
 }
 

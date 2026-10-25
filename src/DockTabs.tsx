@@ -168,7 +168,9 @@ export class TabCache {
                    onDragOverT={onDragOver} onDropT={onDrop} onDragLeaveT={onDragLeave}>
         {title}
         {closable ?
-          <div className="dock-tab-close-btn" onClick={this.onCloseClick}/>
+          <div className="dock-tab-close-btn" onClick={this.onCloseClick}>
+            <span className="dock-icon dock-icon-close"/>
+          </div>
           : null
         }
         <div className="dock-tab-hit-area" ref={this.getHitAreaRef}/>
@@ -306,7 +308,9 @@ export class DockTabs extends React.PureComponent<Props> {
       let maxBtn = <div
         className={panelData.parent.mode === 'maximize' ? "dock-panel-min-btn" : "dock-panel-max-btn"}
         onClick={maximizable ? this.onMaximizeClick : null}
-      />;
+      >
+        <span className={`dock-icon dock-icon-${panelData.parent.mode === 'maximize' ? 'restore' : 'maximize'}`}/>
+      </div>;
       if (showNewWindowButton) {
         maxBtn = this.addNewWindowMenu(maxBtn, !maximizable);
       }
@@ -314,7 +318,9 @@ export class DockTabs extends React.PureComponent<Props> {
         panelExtraContent =
         <>
           {maxBtn}
-          <div className="dock-tab-close-btn" onClick={this.onCloseAll}/>
+          <div className="dock-tab-close-btn" onClick={this.onCloseAll}>
+            <span className="dock-icon dock-icon-close"/>
+          </div>
         </>;
       } else {
         panelExtraContent = maxBtn;
@@ -326,13 +332,17 @@ export class DockTabs extends React.PureComponent<Props> {
       const collapse = column.collapsible && column.topPanel === panelData && column.panels.some((panel) => panel.tabs.length) ? <div
         className={`dock-column-collapse-btn dock-column-collapse-${column.side}`}
         title={`Collapse ${column.side} column`}
-        onClick={() => this.context.onColumnChange(column.column.id, {collapsed: true})}/> : null;
+        onClick={() => this.context.onColumnChange(column.column.id, {collapsed: true})}>
+          <span className={`dock-icon dock-icon-collapse-${column.side}`}/>
+        </div> : null;
       const accordion = column.accordion ? <div
         className={`dock-column-accordion-btn${column.activePanelId === panelData.id ? ' dock-column-accordion-active' : ''}`}
         title={column.activePanelId === panelData.id ? 'Restore panel sizes' : 'Expand panel'}
         onClick={() => this.context.onColumnChange(column.column.id, {
           activePanelId: column.activePanelId === panelData.id ? undefined : panelData.id,
-        })}/> : null;
+        })}>
+          <span className="dock-icon dock-icon-accordion"/>
+        </div> : null;
       extra = {left: column.side === 'right' ? collapse : null,
         right: <>{accordion}{panelExtraContent}{column.side === 'left' ? collapse : null}</>};
     }

@@ -143,6 +143,28 @@ Import `rc-dock/dist/rc-dock.css` for the light theme or `rc-dock/dist/rc-dock-d
 
 Use `rc-dock/style/index-dark` for a custom dark theme. Run `pnpm build-scss` to regenerate the distributed CSS files.
 
+Control artwork uses separate `.dock-icon` elements with semantic classes. They
+inherit the control's color and font, and do not handle pointer events. Customize
+them with a font, background image or CSS mask without changing the control's
+layout or hit area. Load overrides after rc-dock's styles.
+
+```css
+.my-app .dock-icon { font-family: 'Noto Sans', sans-serif; }
+
+.my-app .dock-icon-close::before { content: none; }
+.my-app .dock-icon-close {
+  background: currentColor;
+  mask: url('/close.svg') center / 12px 12px no-repeat;
+}
+```
+
+Semantic classes are `dock-icon-close`, `dock-icon-maximize`, `dock-icon-restore`,
+`dock-icon-collapse-left`, `dock-icon-collapse-right`, `dock-icon-accordion`, and
+`dock-icon-left`, `dock-icon-right`, `dock-icon-top`, `dock-icon-bottom`,
+`dock-icon-middle` for drop targets. The close class covers tabs and floating
+panels. Existing control classes still handle layout and interaction. See the
+[v5 migration guide](MIGRATION.md) for custom CSS changes.
+
 Use `DragLayerContext.Provider` to initialize drag layers for a subtree, including dock tabs, panels and custom `DragDropDiv` sources. Its callback receives `(layer, state)` before the layer is attached to `body` and the preview is measured. Add classes, styles or attributes as needed; the nearest provider applies.
 
 ```jsx

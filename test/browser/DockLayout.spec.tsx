@@ -122,7 +122,7 @@ describe('DockLayout examples', () => {
       expect(dock.updateTab('b', tab('b', {content: <strong>Updated content</strong>}))).toBe(true);
     });
     expect((dock.find('left') as PanelData).activeId).toBe('b');
-    expect(container.querySelector('#b').textContent).toBe('Updated content');
+    expect(container.querySelector('#rc-tabs-test-panel-b').textContent).toBe('Updated content');
     expect(dock.updateTab('missing', tab('missing'))).toBe(false);
   });
 
@@ -171,9 +171,9 @@ describe('DockLayout examples', () => {
         style={style}
       />
     );
-    await act(async () => page.elementLocator(container.querySelector('#a button')).click());
+    await act(async () => page.elementLocator(container.querySelector('#rc-tabs-test-panel-a button')).click());
     await act(async () => dock.dockMove(dock.find('a') as TabData, 'right', 'middle'));
-    expect(container.querySelector('#a button').textContent).toBe('Count 1');
+    expect(container.querySelector('#rc-tabs-test-panel-a button').textContent).toBe('Count 1');
     expect((dock.find('a') as TabData).parent.id).toBe('right');
   });
 });

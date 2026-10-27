@@ -244,7 +244,9 @@ export function dockPanelToPanel(layout: LayoutData, newPanel: PanelData, panel:
         ++pos;
       }
       // HINT: The size remains the same, preventing flex-grow less than 1
-      newPanel.size = panel.size;
+      // Only inherit the target panel's size when the new panel has none of its own,
+      // so an explicitly set size (e.g. restored from a saved layout) is not overwritten.
+      newPanel.size ??= panel.size;
       newBox.children.splice(pos, 0, newPanel);
     } else {
       let newChildBox: BoxData = {mode: dockMode, children: []};

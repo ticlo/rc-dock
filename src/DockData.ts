@@ -288,9 +288,10 @@ export interface PanelLock {
   /**
    * Override {@link TabGroup.panelExtra} for this panel.
    * @param panel Current panel data.
+   * @param context Layout API.
    * @returns Header content, or null to render nothing.
    */
-  panelExtra?: (panel: PanelData) => React.ReactElement;
+  panelExtra?: (panel: PanelData, context: DockContext) => React.ReactElement;
 
   /**
    * Override the panel's width growth and shrinkage multiplier.

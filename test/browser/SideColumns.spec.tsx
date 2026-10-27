@@ -134,13 +134,13 @@ describe('side column controls', () => {
     }
     const container = await render(<DockLayout defaultLayout={columnLayout()} sideColumns={sideOptions}
       tabs={{...columnTabs, a: {...columnTabs.a, cached, content: <Counter/>}}} style={style}/>);
-    await click(container.querySelector('#a button'));
+    await click(container.querySelector('#rc-tabs-test-panel-a button'));
     await click(container.querySelector('.dock-column-collapse-left'));
     await click(container.querySelector('.dock-column-tab[data-tabid="a"]'));
-    expect(container.querySelector('#a button').textContent).toBe('Count 1');
+    expect(container.querySelector('#rc-tabs-test-panel-a button').textContent).toBe('Count 1');
     await click(panel(container, 'left-bottom').querySelector('.dock-column-accordion-btn'));
     await click(panel(container, 'left-top').querySelector('.dock-tab-active > .dock-tab-btn'));
-    expect(container.querySelector('#a button').textContent).toBe('Count 1');
+    expect(container.querySelector('#rc-tabs-test-panel-a button').textContent).toBe('Count 1');
     expect(mounts).toBe(1);
   });
 

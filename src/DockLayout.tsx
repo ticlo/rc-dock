@@ -393,9 +393,6 @@ export class DockLayout extends DockPortalManager implements DockContext {
         if (!makeActive && activeId === id && resolvedTab.id !== id) activeId = tabs[0].id;
         layout = Algorithm.replacePanel(layout, panelData, {...panelData, tabs, activeId});
         constraintsChanged = tab.minWidth !== resolvedTab.minWidth || tab.minHeight !== resolvedTab.minHeight || tab.group !== resolvedTab.group;
-        if (!makeActive) {
-          this.panelToFocus = panelData.id;
-        }
       } else if (makeActive && panelData.activeId !== id) {
         layout = Algorithm.replacePanel(layout, panelData, {...panelData, activeId: id});
       }

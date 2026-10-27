@@ -43,7 +43,6 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
 
   render() {
     const {
-      cacheId,
       cached,
       prefixCls,
       forceRender,
@@ -78,7 +77,7 @@ export default class DockTabPane extends React.PureComponent<DockTabPaneProps, a
     let getRef = cached ? this.getRef : null;
     return (
       <div ref={getRef}
-           id={cacheId}
+           id={id && `${id}-panel-${tabKey}`}
            role="tabpanel"
            aria-labelledby={id && `${id}-tab-${tabKey}`}
            aria-hidden={!active}

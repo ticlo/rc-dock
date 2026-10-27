@@ -29,7 +29,7 @@ describe('separate tab definitions', () => {
     const container = await render(
       <DockLayout ref={(ref) => { dock = ref; }} defaultLayout={initial} tabs={tabs} style={style} />
     );
-    expect(container.querySelector('#a').textContent).toBe('Content A');
+    expect(container.querySelector('#rc-tabs-test-panel-a').textContent).toBe('Content A');
     const saved = dock.saveLayout();
     expect(JSON.stringify(saved)).not.toContain('Content A');
     await act(async () => dock.dockMove({id: 'a'}, null, 'remove'));
@@ -73,12 +73,12 @@ describe('separate tab definitions', () => {
       );
     }
     const container = await render(<Owner />);
-    await act(async () => page.elementLocator(container.querySelector('#a button')).click());
+    await act(async () => page.elementLocator(container.querySelector('#rc-tabs-test-panel-a button')).click());
     await act(async () => dock.dockMove({id: 'a'}, 'right', 'middle'));
     const saved = dock.saveLayout();
     changed.mockClear();
     await act(async () => update(1));
-    expect(container.querySelector('#a button').textContent).toBe('Version 1, count 1');
+    expect(container.querySelector('#rc-tabs-test-panel-a button').textContent).toBe('Version 1, count 1');
     expect(container.querySelector('.dock-tab[data-node-key="a"] .dock-tab-btn').textContent).toBe('A 1');
     expect(dock.saveLayout()).toEqual(saved);
     expect(changed).not.toHaveBeenCalled();
@@ -98,9 +98,9 @@ describe('separate tab definitions', () => {
     expect(dock.find('missing')).toBeUndefined();
     expect((dock.find('dynamic') as TabData).value).toBe(42);
     await act(async () => dock.dockMove({id: 'dynamic-new', value: 5}, 'right', 'middle'));
-    expect(container.querySelector('#dynamic-new').textContent).toBe('Value 5');
+    expect(container.querySelector('#rc-tabs-test-panel-dynamic-new').textContent).toBe('Value 5');
     await act(async () => expect(dock.updateTab('dynamic-new', {id: 'dynamic-new', value: 6})).toBe(true));
-    expect(container.querySelector('#dynamic-new').textContent).toBe('Value 6');
+    expect(container.querySelector('#rc-tabs-test-panel-dynamic-new').textContent).toBe('Value 6');
     await act(async () => expect(dock.updateTab('dynamic-new', {id: 'missing'})).toBe(false));
     expect(dock.find('dynamic-new')).toBeDefined();
     await act(async () => dock.dockMove({id: 'missing'}, 'right', 'middle'));
@@ -121,7 +121,7 @@ describe('separate tab definitions', () => {
     expect((dock.find('new-panel') as PanelData).tabs.map(({id}) => id)).toEqual(['b']);
     await act(async () => update({...tabs, b: {...tabs.b, title: 'Updated B', content: <div>Updated content</div>}}));
     await act(async () => expect(dock.updateTab('b', {id: 'b'})).toBe(true));
-    expect(container.querySelector('#b').textContent).toBe('Updated content');
+    expect(container.querySelector('#rc-tabs-test-panel-b').textContent).toBe('Updated content');
   });
 
   it('retains fallback tabs when registry definitions change', async () => {
@@ -176,5 +176,17 @@ describe('separate tab definitions', () => {
     expect((dock.find('left') as PanelData).activeId).toBe('b');
     await act(async () => dock.updateTab('b', {...tabs.b, id: 'b', minWidth: 450}));
     expect((dock.find('left') as PanelData).minWidth).toBe(450);
+  });
+
+  it('points each tab aria-controls at an existing panel (#210)', async () => {
+    const container = await render(<DockLayout defaultLayout={layout()} tabs={tabs} style={style} />);
+    for (const tab of container.querySelectorAll('[role="tab"][aria-controls]')) {
+      const controls = tab.getAttribute('aria-controls');
+      expect(controls).toBeTruthy();
+      const panel = container.querySelector(`#${controls}`);
+      expect(panel).not.toBeNull();
+      expect(panel.getAttribute('role')).toBe('tabpanel');
+      expect(panel.getAttribute('aria-labelledby')).toBe(tab.id);
+    }
   });
 });
